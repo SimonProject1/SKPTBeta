@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools Beta 2.0.3.2-Beta.2."""
+"""Browser smoke test for SK PLT Tools Beta 2.0.3.3-Beta.1."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -29,13 +29,17 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.2-Beta.2"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.3-Beta.1"
+    assert_text(desktop, "h1", "Siemens Rohwert")
     assert desktop.locator("#signalType option").count() == 4
     assert desktop.locator("#inputKind option").count() == 2
     assert desktop.locator("#valueSlider").count() == 1
     assert "physikalisch" not in desktop.locator("body").inner_text().lower()
     assert_text(desktop, "#rawResult", "13.824")
     assert_text(desktop, "#signalResult", "12,000 mA")
+    assert desktop.locator("#valueSlider").get_attribute("min") == "-32768"
+    assert desktop.locator("#valueSlider").get_attribute("max") == "32767"
+    assert desktop.locator("#sliderScale span").all_inner_texts() == ["−32.768", "−4.864", "0", "27.648", "32.511", "32.767"]
 
     cases = [
         ("-4865", "Unterlauf"),
@@ -51,10 +55,24 @@ with sync_playwright() as p:
 
     desktop.locator("#signalType").select_option("0-10V")
     desktop.locator("#inputKind").select_option("signal")
+    assert desktop.locator("#valueSlider").get_attribute("min") == "0"
+    assert desktop.locator("#valueSlider").get_attribute("max") == "10"
+    assert desktop.locator("#sliderScale span").all_inner_texts() == ["0 V", "2,5 V", "5 V", "7,5 V", "10 V"]
     set_input(desktop, "#inputValue", "2.5")
     assert_text(desktop, "#rawResult", "6.912")
     assert_text(desktop, "#signalResult", "2,500 V")
     assert_text(desktop, "#rangeStatus", "Nennbereich")
+    signal_scales = {
+        "4-20mA": ["4 mA", "8 mA", "12 mA", "16 mA", "20 mA"],
+        "0-20mA": ["0 mA", "5 mA", "10 mA", "15 mA", "20 mA"],
+        "0-10V": ["0 V", "2,5 V", "5 V", "7,5 V", "10 V"],
+        "2-10V": ["2 V", "4 V", "6 V", "8 V", "10 V"],
+    }
+    for signal_type, expected_scale in signal_scales.items():
+        desktop.locator("#signalType").select_option(signal_type)
+        assert desktop.locator("#sliderScale span").all_inner_texts() == expected_scale
+    desktop.locator("#inputKind").select_option("raw")
+    assert desktop.locator("#sliderScale span").all_inner_texts() == ["−32.768", "−4.864", "0", "27.648", "32.511", "32.767"]
     desktop.screenshot(path=str(OUT / "siemens-desktop.png"), full_page=True)
 
     desktop.goto(f"{BASE}/")

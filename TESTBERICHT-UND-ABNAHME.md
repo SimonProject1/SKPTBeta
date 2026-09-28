@@ -1,4 +1,4 @@
-# Testcheckliste und Abnahme – SK PLT Tools 2.0.3.2-Beta.2
+# Testcheckliste und Abnahme – SK PLT Tools 2.0.3.3-Beta.1
 
 ## Automatisierte Prüfung
 
@@ -9,7 +9,7 @@ python tools/validate_release.py
 node tools/functional-smoke-test.js
 ```
 
-Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionierung, Beta-Cache-Isolation, lokale Referenzen, JavaScript-Syntax, neun Startseitenkacheln, Suche, Navigation, Favoriten, vier Wissenskacheln, zehn Werkstoffdatensätze, Vorlagen-Hashes und bestehende Rechner-Sollwerte.
+Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionierung, Beta-Cache-Isolation, lokale Referenzen, JavaScript-Syntax, neun Startseitenkacheln, Suche, Navigation, Favoriten, vier Wissenskacheln, zehn Werkstoffdatensätze, Vorlagen-Hashes, die richtungsabhängige Siemens-Reglerskala und bestehende Rechner-Sollwerte.
 
 ## Siemens-Rechner-Sollwerte
 
@@ -37,11 +37,11 @@ Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionier
 
 | Nr. | Prüfung | Soll | PC | Mobil |
 |---:|---|---|:---:|:---:|
-| 1 | Startseite direkt öffnen | Clean Design; Version 2.0.3.2-Beta.2 unter Logo und im Footer; Kachel heißt „Siemens Rohwert“ | ☐ | ☐ |
-| 2 | Siemens-Rechner öffnen | Nur Signalbereich, Eingaberichtung und Signal-/Rohwerteingabe vorhanden | ☐ | ☐ |
-| 3 | Alle vier Signalbereiche wählen | Richtige Einheit und Nennspanne werden angezeigt | ☐ | ☐ |
-| 4 | Eingaberichtung wechseln | Aktueller Wert bleibt rechnerisch erhalten | ☐ | ☐ |
-| 5 | Regler ziehen | Rohwert, Signal und Status aktualisieren sich live; Track und Reglerfarbe gehen flüssig und ohne harte Farbblöcke über | ☐ | ☐ |
+| 1 | Startseite direkt öffnen | Clean Design; Version 2.0.3.3-Beta.1 unter Logo und im Footer; Kachel heißt „Siemens Rohwert“ | ☐ | ☐ |
+| 2 | Siemens-Rechner öffnen | Große Seitenüberschrift heißt exakt „Siemens Rohwert“; kein transparentes INT/TNT-Hintergrundelement sichtbar | ☐ | ☐ |
+| 3 | „Signal → Siemens-Rohwert“ und alle vier Signalbereiche wählen | Reglergrenzen und Skalenwerte wechseln passend auf 4–20 mA, 0–20 mA, 0–10 V oder 2–10 V; jeder Skalenwert zeigt die Einheit | ☐ | ☐ |
+| 4 | Auf „Siemens-Rohwert → Signal“ wechseln | Rohwertskala −32.768, −4.864, 0, 27.648, 32.511 und 32.767 ist sichtbar; aktueller Wert bleibt rechnerisch erhalten | ☐ | ☐ |
+| 5 | Regler in beiden Eingaberichtungen ziehen | Rohwert, Signal und Status aktualisieren sich live; Track und Reglerfarbe gehen flüssig und ohne harte Farbblöcke über | ☐ | ☐ |
 | 6 | Regler per Pfeiltasten bedienen | Feinverstellung funktioniert | ☐ | ☐ |
 | 7 | Schnellwerte wählen | Alle fünf Zustände werden korrekt und deutlich markiert | ☐ | ☐ |
 | 8 | Werte außerhalb INT16 manuell eingeben | Unterlauf bzw. Überlauf bleiben eindeutig | ☐ | ☐ |

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.3.2-Beta.2."""
+"""Static release validation for SK PLT Tools Beta 2.0.3.3-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.3.2-Beta.2'
+VERSION='2.0.3.3-Beta.1'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -157,19 +157,21 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.2' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.2': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.3-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.3-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
-for selector in ('#signalType','#inputKind','#inputValue','#valueSlider','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail'):
+for selector in ('#signalType','#inputKind','#inputValue','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail'):
     if not siemens_page.select_one(selector): errors.append(f'Siemens-Rechner: Element fehlt: {selector}')
+if siemens_page.select_one('h1') is None or siemens_page.select_one('h1').get_text(strip=True)!='Siemens Rohwert': errors.append('Siemens-Rechner: große Seitenüberschrift heißt nicht exakt Siemens Rohwert')
 for state in ('underflow','underrange','nominal','overrange','overflow'):
     if not siemens_page.select_one(f'[data-state-key="{state}"]'): errors.append(f'Siemens-Rechner: Statusanzeige fehlt: {state}')
 for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult','Physikalischer Wert','physikalischen Wert'):
     if forbidden in siemens_html: errors.append(f'Siemens-Rechner: entfernte physikalische Konfiguration noch vorhanden: {forbidden}')
 siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text(encoding='utf-8')
 if '#a93d4a 0 42.58%' in siemens_css or '--analog-slider-thumb-color' not in siemens_css: errors.append('Siemens-Rechner: kontinuierlicher Slider-Farbverlauf fehlt')
+if '.analog-workbench::after' in siemens_css or "content:'INT'" in siemens_css or "content:'TNT'" in siemens_css: errors.append('Siemens-Rechner: transparentes Hintergrundelement im Konfigurationsbereich nicht vollständig entfernt')
 siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
-for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_NOMINAL_MAX=27648','RAW_UNDERRANGE_MIN=-4864','RAW_OVERRANGE_MAX=32511',"inputKind==='raw'","inputKind!=='signal'",'statusForRaw','sliderColorForRaw',"byId('valueSlider')"):
+for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_NOMINAL_MAX=27648','RAW_UNDERRANGE_MIN=-4864','RAW_OVERRANGE_MAX=32511',"inputKind==='raw'","inputKind!=='signal'",'statusForRaw','sliderColorForRaw','signalScaleForType','updateSliderMode',"byId('valueSlider')","byId('sliderScale')"):
     if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungsmerkmal fehlt: {required}')
 for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult',"inputKind==='percent'","inputKind==='physical'"):
     if forbidden in siemens_js: errors.append(f'Siemens-Rechner: entfernte Berechnungsart noch vorhanden: {forbidden}')

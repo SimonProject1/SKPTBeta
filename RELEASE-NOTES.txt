@@ -1,36 +1,28 @@
-SK PLT Tools Beta V2.0.3.2-Beta.2
+SK PLT Tools Beta V2.0.3.3-Beta.1
 
-FORTSCHREIBUNG DER VOLLSTÄNDIGEN VERSION 2.0.3.2-BETA.1 AUF UNVERÄNDERTER STABILER BASIS 2.0.2.0
+FORTSCHREIBUNG DER ZULETZT ERSTELLTEN VOLLSTÄNDIGEN VERSION V2.0.3.2-BETA.2
+AUF UNVERÄNDERTER STABILER BASIS V2.0.2.0
 
-Neu
-- Startseitenkachel in „Siemens Rohwert“ umbenannt.
-- Schieberegler mit kontinuierlichem Farbverlauf und stufenlos interpolierter Reglerfarbe umgesetzt.
-- Ausschließlich die Signalbereiche 4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
-- Bidirektionale Umrechnung zwischen Signal und Siemens-Rohwert.
-- Frei definierbare Messbereiche und technische Einheiten vollständig aus dem Siemens-Rechner entfernt.
-- Stufenloser Live-Schieberegler von −32.768 bis 32.767.
-- Klare Zustandsanzeige für Unterlauf, Unterbereich, Nennbereich, Überbereich und Überlauf.
-- Bereichs-Schnellwerte und Nennbereichsanteil als Diagnosehilfe.
-- Integration in bestehendes Design, Favoriten, Navigation, Suche, Mobilansicht und Offline-Betrieb.
-
-Bereichsmodell
-- Unterlauf: bis −4.865
-- Unterbereich: −4.864 bis −1
-- Nennbereich: 0 bis 27.648
-- Überbereich: 27.649 bis 32.511
-- Überlauf: ab 32.512
-
-Beta-Isolation
-- Sichtbarer App-Name `SK PLT Tools Beta` und BETA-Kennzeichnung auf jeder Seite.
-- PWA-ID und start_url: `./?app=sk-plt-tools-beta-2.0.3.2-beta.2`.
-- Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.2-Beta.2`.
-- Der Beta-Service-Worker entfernt nur ältere Caches mit dem Präfix `sk-plt-tools-beta-`.
-- Die stabile Version 2.0.2.0 und ihr Originalpaket wurden nicht verändert.
+Geändert
+- Große Seitenüberschrift des Siemens-Rechners exakt auf „Siemens Rohwert“ geändert.
+- Bei „Signal → Siemens-Rohwert“ schaltet der Regler auf den gewählten Signalbereich um.
+- Die Signalskala zeigt für 4–20 mA, 0–20 mA, 0–10 V oder 2–10 V fünf passende Skalenwerte einschließlich Einheit.
+- Bei „Siemens-Rohwert → Signal“ bleibt die vollständige Siemens-Rohwertskala −32.768…32.767 sichtbar.
+- Das große transparente INT/TNT-Hintergrundelement im Konfigurationsbereich wurde vollständig entfernt.
+- Versionsangaben, Ressourcenkennungen, PWA-ID, start_url und separater Beta-Cache wurden auf 2.0.3.3-Beta.1 fortgeschrieben.
 
 Unverändert übernommen
-- Bestehendes Clean Design, Header-/Footer-Struktur und mobile Darstellung.
-- Alle bisherigen Rechner- und Dokumentationsfunktionen.
-- Favoriten, Filter, Sortierung, Suche, Wissensdatenbank und Navigationsbaum.
-- Wissensdatenbank-Vorlagen bytegenau.
+- Berechnungsmodell und fünf Bereichszustände Unterlauf, Unterbereich, Nennbereich, Überbereich und Überlauf.
+- Signalbereiche 4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
+- Bestehendes Clean Design, Header, Footer, Navigation und mobile Darstellung.
+- Favoriten mit bestehendem Local-Storage-Schlüssel, Filter, Sortierung und Suche.
+- Wissensdatenbank, Vorlagen und alle übrigen Rechner- und Dokumentationsfunktionen.
+- Stabile Version V2.0.2.0 und ihr Originalpaket bleiben unverändert.
+
+Beta-Isolation
+- Sichtbarer App-Name: `SK PLT Tools Beta` mit BETA-Kennzeichnung auf jeder Seite.
+- PWA-ID und start_url: `./?app=sk-plt-tools-beta-2.0.3.3-beta.1`.
+- Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.3-Beta.1`.
+- Der Beta-Service-Worker entfernt nur ältere Caches mit dem Präfix `sk-plt-tools-beta-`.
 
 Datenstand: 28.09.2026.

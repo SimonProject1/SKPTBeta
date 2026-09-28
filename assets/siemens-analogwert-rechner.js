@@ -34,6 +34,11 @@ function rawFromSignal(type,value){
  if(!signal)throw new Error('Unbekannter Signalbereich.');
  return (Number(value)-signal.min)/(signal.max-signal.min)*RAW_NOMINAL_MAX;
 }
+function signalScaleForType(type){
+ const signal=TYPES[type];
+ if(!signal)throw new Error('Unbekannter Signalbereich.');
+ return Object.freeze(Array.from({length:5},(_,index)=>signal.min+(signal.max-signal.min)*(index/4)));
+}
 function calculate(type,inputKind,value){
  const input=Number(value);
  if(!Number.isFinite(input))throw new Error('Bitte einen gültigen Zahlenwert eingeben.');
@@ -64,14 +69,14 @@ function sliderColorForRaw(raw){
  const channel=(start,end)=>Math.round(start+(end-start)*mix);
  return `rgb(${channel(left.r,right.r)}, ${channel(left.g,right.g)}, ${channel(left.b,right.b)})`;
 }
-const api=Object.freeze({RAW_NOMINAL_MAX,RAW_UNDERRANGE_MIN,RAW_OVERRANGE_MAX,RAW_INT_MIN,RAW_INT_MAX,TYPES,STATES,SLIDER_COLOR_STOPS,statusForRaw,signalFromRaw,rawFromSignal,calculate,sliderColorForRaw});
+const api=Object.freeze({RAW_NOMINAL_MAX,RAW_UNDERRANGE_MIN,RAW_OVERRANGE_MAX,RAW_INT_MIN,RAW_INT_MAX,TYPES,STATES,SLIDER_COLOR_STOPS,statusForRaw,signalFromRaw,rawFromSignal,signalScaleForType,calculate,sliderColorForRaw});
 if(typeof globalThis!=='undefined')globalThis.SK_SIEMENS_ANALOG=api;
 if(typeof document==='undefined')return;
 
 const byId=id=>document.getElementById(id);
 const elements={
  signalType:byId('signalType'),inputKind:byId('inputKind'),inputValue:byId('inputValue'),inputValueLabel:byId('inputValueLabel'),inputSuffix:byId('inputSuffix'),
- slider:byId('valueSlider'),sliderReadout:byId('sliderReadout'),rawResult:byId('rawResult'),rawExact:byId('rawExact'),signalResult:byId('signalResult'),
+ slider:byId('valueSlider'),sliderLabel:byId('sliderLabel'),sliderScale:byId('sliderScale'),sliderHelp:byId('sliderHelp'),sliderReadout:byId('sliderReadout'),rawResult:byId('rawResult'),rawExact:byId('rawExact'),signalResult:byId('signalResult'),
  signalResultLabel:byId('signalResultLabel'),signalRange:byId('signalRange'),percentResult:byId('percentResult'),rangeStatus:byId('rangeStatus'),statusDetail:byId('statusDetail'),error:byId('calculationError')
 };
 if(Object.values(elements).some(element=>!element))return;
@@ -79,6 +84,7 @@ let currentRaw=13824;
 const parse=value=>Number.parseFloat(String(value).replace(',','.'));
 const format=(value,digits=3)=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:digits,maximumFractionDigits:digits}):'–';
 const formatRaw=value=>Number.isFinite(value)?Math.round(value).toLocaleString('de-DE'):'–';
+const formatScale=value=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:3}):'–';
 const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
 function updateInputMode(){
  const type=TYPES[elements.signalType.value];
@@ -86,6 +92,34 @@ function updateInputMode(){
  elements.inputValueLabel.textContent=isRaw?'Siemens-Rohwert':`Signalwert (${type.unit})`;
  elements.inputSuffix.textContent=isRaw?'INT':type.unit;
  elements.inputValue.step=isRaw?'1':'0.001';
+}
+function renderScale(labels){
+ elements.sliderScale.textContent='';
+ labels.forEach(label=>{const item=document.createElement('span');item.textContent=label;elements.sliderScale.appendChild(item)});
+ elements.sliderScale.style.setProperty('--analog-scale-count',String(labels.length));
+}
+function updateSliderMode(result){
+ const type=TYPES[elements.signalType.value];
+ const isRaw=elements.inputKind.value==='raw';
+ if(isRaw){
+  elements.sliderScale.dataset.mode='raw';
+  elements.slider.min=String(RAW_INT_MIN);elements.slider.max=String(RAW_INT_MAX);elements.slider.step='1';elements.slider.value=String(clamp(result.raw,RAW_INT_MIN,RAW_INT_MAX));
+  elements.sliderLabel.textContent='Stufenloser Rohwertregler';
+  elements.sliderHelp.textContent='Der Regler zeigt den Siemens-Rohwertbereich −32.768…32.767 und aktualisiert Rohwert, Signal sowie Bereichszustand unmittelbar.';
+  elements.sliderReadout.textContent=`${formatRaw(result.raw)} · ${format(result.signal,3)} ${result.signalUnit}`;
+  elements.slider.setAttribute('aria-label','Siemens-Rohwertregler −32.768 bis 32.767');
+  renderScale(['−32.768','−4.864','0','27.648','32.511','32.767']);
+ }else{
+  elements.sliderScale.dataset.mode='signal';
+  elements.slider.min=String(type.min);elements.slider.max=String(type.max);elements.slider.step='0.001';elements.slider.value=String(clamp(result.signal,type.min,type.max));
+  elements.sliderLabel.textContent=`Stufenloser Signalregler · ${type.label}`;
+  elements.sliderHelp.textContent=`Der Regler zeigt den gewählten Signalbereich ${type.label} und aktualisiert Signal, Siemens-Rohwert sowie Bereichszustand unmittelbar.`;
+  elements.sliderReadout.textContent=`${format(result.signal,3)} ${result.signalUnit} · ${formatRaw(result.raw)}`;
+  elements.slider.setAttribute('aria-label',`Signalregler ${type.label}`);
+  renderScale(signalScaleForType(elements.signalType.value).map(value=>`${formatScale(value)} ${type.unit}`));
+ }
+ elements.slider.style.setProperty('--analog-slider-thumb-color',sliderColorForRaw(result.raw));
+ elements.slider.setAttribute('aria-valuetext',elements.sliderReadout.textContent);
 }
 function syncInputToRaw(){
  const type=elements.signalType.value;
@@ -105,10 +139,7 @@ function renderResult(result){
  elements.rangeStatus.dataset.state=result.status;
  elements.statusDetail.textContent=`${state.label} · ${state.detail}`;
  document.querySelectorAll('[data-state-key]').forEach(item=>item.classList.toggle('active',item.dataset.stateKey===result.status));
- elements.slider.value=String(clamp(result.raw,RAW_INT_MIN,RAW_INT_MAX));
- elements.slider.style.setProperty('--analog-slider-thumb-color',sliderColorForRaw(result.raw));
- elements.sliderReadout.textContent=`${formatRaw(result.raw)} · ${format(result.signal,3)} ${result.signalUnit}`;
- elements.slider.setAttribute('aria-valuetext',elements.sliderReadout.textContent);
+ updateSliderMode(result);
 }
 function renderFromInput(){
  updateInputMode();
@@ -127,7 +158,10 @@ function applyRaw(raw){
 }
 elements.inputValue.addEventListener('input',renderFromInput);
 elements.inputValue.addEventListener('change',renderFromInput);
-elements.slider.addEventListener('input',()=>applyRaw(elements.slider.value));
+elements.slider.addEventListener('input',()=>{
+ if(elements.inputKind.value==='raw')applyRaw(elements.slider.value);
+ else{elements.inputValue.value=elements.slider.value;renderFromInput()}
+});
 elements.inputKind.addEventListener('change',()=>{syncInputToRaw();updateInputMode();renderFromInput()});
 elements.signalType.addEventListener('change',()=>{syncInputToRaw();updateInputMode();renderFromInput()});
 document.querySelectorAll('[data-raw]').forEach(button=>button.addEventListener('click',()=>applyRaw(button.dataset.raw)));

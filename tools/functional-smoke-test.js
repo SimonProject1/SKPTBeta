@@ -85,10 +85,53 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   assertEqual(result.raw,6912,'Siemens 0–10 V Signal zu Rohwert');assertEqual(result.signal,2.5,'Siemens 0–10 V Rückrechnung');
   result=calc('2-10V','raw',20736);
   assertEqual(result.raw,20736,'Siemens 2–10 V Rohwert');assertEqual(result.signal,8,'Siemens 2–10 V Signal');
+  assertEqual(api.signalScaleForType('4-20mA').join(','),'4,8,12,16,20','Siemens Signalskala 4–20 mA');
+  assertEqual(api.signalScaleForType('0-20mA').join(','),'0,5,10,15,20','Siemens Signalskala 0–20 mA');
+  assertEqual(api.signalScaleForType('0-10V').join(','),'0,2.5,5,7.5,10','Siemens Signalskala 0–10 V');
+  assertEqual(api.signalScaleForType('2-10V').join(','),'2,4,6,8,10','Siemens Signalskala 2–10 V');
   assertEqual(api.statusForRaw(-4865),'underflow','Siemens Status Unterlauf');assertEqual(api.statusForRaw(-4864),'underrange','Siemens Status Unterbereich');
   assertEqual(api.statusForRaw(0),'nominal','Siemens Status Nennbereich Untergrenze');assertEqual(api.statusForRaw(27648),'nominal','Siemens Status Nennbereich Obergrenze');
   assertEqual(api.statusForRaw(27649),'overrange','Siemens Status Überbereich');assertEqual(api.statusForRaw(32512),'overflow','Siemens Status Überlauf');
   const colorStart=api.sliderColorForRaw(-4864),colorMiddle=api.sliderColorForRaw(-2432),colorEnd=api.sliderColorForRaw(0);
   assertEqual(colorStart!==colorMiddle&&colorMiddle!==colorEnd,true,'Siemens Slider-Farbe wird zwischen Zustandsankern kontinuierlich interpoliert');
+}
+{
+  class MockElement{
+    constructor(id=''){this.id=id;this.value='';this._textContent='';this.hidden=false;this.dataset={};this.children=[];this.attributes={};this.listeners={};this.style={values:{},setProperty:(name,value)=>{this.style.values[name]=String(value)}};Object.defineProperty(this,'textContent',{get:()=>this._textContent,set:value=>{this._textContent=String(value);if(value==='')this.children=[]}})}
+    addEventListener(type,handler){this.listeners[type]=handler}
+    dispatch(type){if(this.listeners[type])this.listeners[type]({type,target:this})}
+    setAttribute(name,value){this.attributes[name]=String(value)}
+    appendChild(child){this.children.push(child);return child}
+  }
+  const ids=['signalType','inputKind','inputValue','inputValueLabel','inputSuffix','valueSlider','sliderLabel','sliderScale','sliderHelp','sliderReadout','rawResult','rawExact','signalResult','signalResultLabel','signalRange','percentResult','rangeStatus','statusDetail','calculationError'];
+  const elements=Object.fromEntries(ids.map(id=>[id,new MockElement(id)]));
+  elements.signalType.value='4-20mA';elements.inputKind.value='raw';elements.inputValue.value='13824';
+  const states=['underflow','underrange','nominal','overrange','overflow'].map(key=>{const item=new MockElement();item.dataset.stateKey=key;item.classList={toggle:()=>{},remove:()=>{}};return item});
+  const quickValues=['-4865','-4864','0','13824','27648','27649','32512'].map(raw=>{const item=new MockElement();item.dataset.raw=raw;return item});
+  const document={
+    getElementById:id=>elements[id]||null,
+    querySelectorAll:selector=>selector==='[data-state-key]'?states:selector==='[data-raw]'?quickValues:[],
+    createElement:()=>new MockElement()
+  };
+  const context={console,Math,Number,Object,Array,String,Intl,Error,document,globalThis:null};context.globalThis=context;vm.createContext(context);
+  vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8'),context,{filename:'siemens-analogwert-rechner-ui.js'});
+  const scale=()=>elements.sliderScale.children.map(item=>item.textContent).join('|');
+  assertEqual(elements.valueSlider.min,'-32768','Siemens UI Rohwertregler Minimum');
+  assertEqual(elements.valueSlider.max,'32767','Siemens UI Rohwertregler Maximum');
+  assertEqual(scale(),'−32.768|−4.864|0|27.648|32.511|32.767','Siemens UI Rohwertskala');
+  elements.inputKind.value='signal';elements.inputKind.dispatch('change');
+  for(const [type,expected] of [
+    ['4-20mA','4 mA|8 mA|12 mA|16 mA|20 mA'],
+    ['0-20mA','0 mA|5 mA|10 mA|15 mA|20 mA'],
+    ['0-10V','0 V|2,5 V|5 V|7,5 V|10 V'],
+    ['2-10V','2 V|4 V|6 V|8 V|10 V']
+  ]){
+    elements.signalType.value=type;elements.signalType.dispatch('change');
+    assertEqual(scale(),expected,`Siemens UI Signalskala ${type}`);
+  }
+  elements.signalType.value='0-10V';elements.signalType.dispatch('change');elements.valueSlider.value='7.5';elements.valueSlider.dispatch('input');
+  assertEqual(elements.rawResult.textContent,'20.736','Siemens UI Signalregler aktualisiert Rohwert');
+  elements.inputKind.value='raw';elements.inputKind.dispatch('change');
+  assertEqual(scale(),'−32.768|−4.864|0|27.648|32.511|32.767','Siemens UI Rückkehr zur Rohwertskala');
 }
 console.log('OK: Bestehende Funktionen sowie bidirektionaler Siemens-SPS-Analogwert-Rechner mit fünf Bereichszuständen geprüft.');
