@@ -1,4 +1,4 @@
-const RELEASE='2.0.1.2';
+const RELEASE='2.0.2.0';
 const CACHE=`sk-plt-tools-v${RELEASE}-clean`;
 const CORE=[
   './','./index.html','./manifest.webmanifest',
@@ -8,7 +8,7 @@ const CORE=[
   './assets/sort-tools.css','./assets/sort-tools.js',
   './assets/navigation-tree.css','./assets/navigation-tree.js','./assets/navigation-tree.json',
   './assets/search-index.json','./assets/materials.css','./assets/materials.js','./assets/materials.json',
-  './assets/airttorque-wissen.css','./assets/logo-layout.css','./assets/siemens-sitrans-wissen.css','./assets/vde0100-600-rules.json',
+  './assets/airttorque-wissen.css','./assets/logo-layout.css','./assets/siemens-sitrans-wissen.css','./assets/vacon-wissen.css','./assets/vde0100-600-rules.json',
   './assets/icon-192.png','./assets/icon-512.png','./assets/logo.png','./assets/logo-horizontal.png','./assets/apple-touch-icon.png','./assets/favicon.png',
   './analogsignal/','./analogsignal/index.html',
   './einheitenrechner/','./einheitenrechner/index.html',
@@ -21,6 +21,7 @@ const CORE=[
   './wissensdatenbank/','./wissensdatenbank/index.html',
   './wissensdatenbank/air-torque-antrieb-drehrichtung/','./wissensdatenbank/air-torque-antrieb-drehrichtung/index.html',
   './wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/','./wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/index.html',
+  './wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html',
   './wissensdatenbank/werkstoff-nachschlagewerk/','./wissensdatenbank/werkstoff-nachschlagewerk/index.html',
   './wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf'
 ];

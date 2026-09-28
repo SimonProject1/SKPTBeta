@@ -76,5 +76,30 @@
       "PIN"
     ],
     "url": "wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Vacon",
+    "device": "Frequenzumrichter",
+    "topic": "Ist-/Sollwert-Abweichung im PLS",
+    "title": "Vacon Frequenzumrichter",
+    "description": "Bei abweichendem Ist- und Sollwert im PLS Parameter 2.2.3.7 und die Einstellung auf maximale Frequenz prüfen.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Vacon",
+      "Frequenzumrichter"
+    ],
+    "keywords": [
+      "Vacon",
+      "Frequenzumrichter",
+      "Istwert",
+      "Sollwert",
+      "Ist-/Sollwert-Abweichung",
+      "PLS",
+      "Parameter 2.2.3.7",
+      "maximale Frequenz"
+    ],
+    "url": "wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/"
   }
 ]

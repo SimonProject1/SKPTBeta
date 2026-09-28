@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const RELEASE='2.0.1.2';
+const RELEASE='2.0.2.0';
 const scriptUrl=document.currentScript?.src||'';
 const root=scriptUrl?new URL('../',scriptUrl):new URL('./',location.href);
 window.SK_PLT=Object.freeze({version:RELEASE,root});

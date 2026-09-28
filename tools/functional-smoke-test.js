@@ -50,8 +50,8 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
 {
   const html=fs.readFileSync(path.join(ROOT,'wissensdatenbank/index.html'),'utf8');
   const tiles=[...html.matchAll(/<a class="([^"]*\bknowledge-entry\b[^"]*)"[^>]*href="([^"]+)"/g)].map(match=>({classes:match[1].split(/\s+/),href:match[2]}));
-  assertEqual(tiles.length,3,'Wissensdatenbank Anzahl Wissenskacheln');
-  const expected=['air-torque-antrieb-drehrichtung/','siemens-sitrans-p320-sil-verriegelung/','werkstoff-nachschlagewerk/'];
+  assertEqual(tiles.length,4,'Wissensdatenbank Anzahl Wissenskacheln');
+  const expected=['air-torque-antrieb-drehrichtung/','siemens-sitrans-p320-sil-verriegelung/','vacon-frequenzumrichter-ist-sollwert-abweichung/','werkstoff-nachschlagewerk/'];
   assertEqual(tiles.map(tile=>tile.href).sort().join(','),expected.join(','),'Wissensdatenbank erwartete Kachelziele');
   assertEqual(tiles.every(tile=>tile.classes.includes('tool-card')),true,'Wissensdatenbank alle Kacheln favoritenfähig');
   const favorites=fs.readFileSync(path.join(ROOT,'assets/favorites.js'),'utf8');
@@ -68,4 +68,9 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   const labels=breadcrumb[1].replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
   assertEqual(labels,'Startseite › Wissensdatenbank › Werkstoff-Nachschlagewerk','Werkstoffseite Breadcrumb-Beschriftung');
 }
-console.log('OK: Rechner-, Werkstoff-, Breadcrumb- und Wissenskachel-Favoriten-Smoke-Tests abgeschlossen.');
+{
+  const vacon=fs.readFileSync(path.join(ROOT,'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'),'utf8');
+  assertEqual(vacon.includes('Parameter 2.2.3.7'),true,'Vacon Parameterhinweis vorhanden');
+  assertEqual(vacon.includes('maximale Frequenz'),true,'Vacon Soll-Einstellung vorhanden');
+}
+console.log('OK: Rechner-, Werkstoff-, Breadcrumb-, Vacon- und Wissenskachel-Favoriten-Smoke-Tests abgeschlossen.');

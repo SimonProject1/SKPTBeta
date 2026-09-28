@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.0.1.2."""
+"""Static release validation for SK PLT Tools 2.0.2.0."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.1.2'
+VERSION='2.0.2.0'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
  'spannungsfall-rechner/index.html','plausibilitaetspruefung-vde0100-600/index.html',
  'wissensdatenbank/index.html','wissensdatenbank/air-torque-antrieb-drehrichtung/index.html',
  'wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/index.html',
+ 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html',
  'wissensdatenbank/werkstoff-nachschlagewerk/index.html'
 }
 EXPECTED_MATERIAL_IDS={'1-4301','1-4401','1-4404','1-4408','1-4409','1-4435','1-4539','1-4571','2-4602','2-4605'}
@@ -68,12 +69,14 @@ knowledge_tiles=knowledge.select('#knowledgeGrid > a.knowledge-entry')
 expected_knowledge_hrefs={
     'werkstoff-nachschlagewerk/',
     'air-torque-antrieb-drehrichtung/',
-    'siemens-sitrans-p320-sil-verriegelung/'
+    'siemens-sitrans-p320-sil-verriegelung/',
+    'vacon-frequenzumrichter-ist-sollwert-abweichung/'
 }
 actual_knowledge_hrefs={tile.get('href') for tile in knowledge_tiles}
 if actual_knowledge_hrefs!=expected_knowledge_hrefs: errors.append(f'Wissensdatenbank: Wissenskacheln abweichend: {sorted(actual_knowledge_hrefs)}')
 for tile in knowledge_tiles:
     if 'tool-card' not in tile.get('class',[]): errors.append(f'Wissensdatenbank: Kachel nicht in Favoriten integriert: {tile.get("href","?")}')
+if '.knowledge-entry[hidden]{display:none}' not in (ROOT/'wissensdatenbank/index.html').read_text(encoding='utf-8'): errors.append('Wissensdatenbank: hidden-Kacheln werden durch das Karten-CSS nicht zuverlässig ausgeblendet')
 favorites=(ROOT/'assets/favorites.js').read_text(encoding='utf-8')
 for required in ("const KEY='skPltToolsFavoritesV2'",'localStorage.getItem(KEY)','localStorage.setItem(KEY','event.preventDefault()','event.stopPropagation()','render()'):
     if required not in favorites: errors.append(f'Favoritensystem: erforderliche Persistenz-/Klicklogik fehlt: {required}')
@@ -131,13 +134,18 @@ if not any(item.get('url')=='wissensdatenbank/werkstoff-nachschlagewerk/' and it
 if 'assets/materials.json' not in (ROOT/'assets/start-filter.js').read_text(encoding='utf-8'): errors.append('Startseitensuche: zentrale Werkstoffdatei wird nicht geladen')
 nav=json.loads((ROOT/'assets/navigation-tree.json').read_text(encoding='utf-8'))
 if 'wissensdatenbank/werkstoff-nachschlagewerk/' not in json.dumps(nav): errors.append('Navigationsbaum: Werkstoffbereich fehlt')
+if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
+if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
+vacon_page=(ROOT/'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html').read_text(encoding='utf-8')
+for required in ('Vacon','Frequenzumrichter','Ist-/Sollwert-Abweichung im PLS','2.2.3.7','maximale Frequenz','vacon-wissen.css'):
+    if required not in vacon_page: errors.append(f'Vacon-Wissensbeitrag: Inhalt/Integration fehlt: {required}')
 
 sw=(ROOT/'service-worker.js').read_text(encoding='utf-8')
 for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'</body>\''):
     if forbidden in sw: errors.append(f'Service Worker enthält verbotene Laufzeit-Patchlogik: {forbidden}')
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
 if "const CACHE=`sk-plt-tools-v${RELEASE}-clean`" not in sw: errors.append('Service Worker verwendet nicht den vorgesehenen versionsabhängigen Cache-Namen')
-for required in ('./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html'):
+for required in ('./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
 
 for rel,expected in TEMPLATE_HASHES.items():
@@ -153,4 +161,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 8 Startseitenkacheln, 3 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 8 Startseitenkacheln, 4 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')
