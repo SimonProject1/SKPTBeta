@@ -1,0 +1,25 @@
+SK PLT Tools V2.0.1.2
+
+BROTKRÜMELNAVIGATION IM WERKSTOFF-NACHSCHLAGEWERK AUF BASIS VON V2.0.1.1
+
+Neu
+- Die Seite Werkstoff-Nachschlagewerk besitzt jetzt die vollständige Brotkrümelnavigation „Startseite › Wissensdatenbank › Werkstoff-Nachschlagewerk“.
+- „Startseite“ führt zum Projekt-Webroot; „Wissensdatenbank“ führt zur Übersicht der Wissensbeiträge.
+- Darstellung, Abstände, Farben, Hover-Verhalten und responsive Umbrüche entsprechen den vorhandenen Wissensbeiträgen Air Torque und Siemens Sitrans P320.
+
+Technische Umsetzung
+- Die Brotkrümelnavigation ist statisch und semantisch als `nav` mit `aria-label="Brotkrümelnavigation"` in `wissensdatenbank/werkstoff-nachschlagewerk/index.html` eingebunden.
+- Die vorhandene Werkstoff-Stylesheet-Datei enthält ausschließlich die ergänzenden Breadcrumb-Regeln; es wurde keine neue Infrastruktur oder Laufzeit-Patchlogik eingeführt.
+- Die statische Release-Prüfung und der funktionale Smoke-Test prüfen Struktur, Beschriftung und Linkziele der neuen Navigation.
+- Service-Worker-Release und Cache-Name wurden auf `2.0.1.2` beziehungsweise `sk-plt-tools-v2.0.1.2-clean` angehoben.
+
+Unverändert
+- Sämtliche Funktionen, Fachinhalte und zehn Werkstoffdatensätze.
+- Favoriten-Fix mit dem bestehenden Local-Storage-Schlüssel `skPltToolsFavoritesV2`.
+- Clean Design, Header, Footer, Kachelgestaltung und eingefrorene Infrastruktur.
+- Rechner, Dokumentationsfunktionen, Gerätewissen, Filter, Sortierung, Navigation und Suchübergaben.
+- Service Worker weiterhin ohne Response-Rewriting; nur Precache, Network-first-Navigation und Cache-Fallback.
+- Editierbare Wissensdatenbank-PDF und die übrigen Vorlagendateien bleiben bytegenau unverändert.
+- Migrationssichere No-op-Dateien bleiben erhalten.
+
+Datenstand des Werkstoffbestands: 27.09.2026.

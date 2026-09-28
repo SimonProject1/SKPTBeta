@@ -1,0 +1,80 @@
+[
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Herstellerunabhängig",
+    "device": "Werkstoff-Nachschlagewerk",
+    "topic": "Werkstoffnummern und Bezeichnungen",
+    "title": "Werkstoff-Nachschlagewerk",
+    "description": "Werkstoffnummern, alternative Bezeichnungen, Werkstoffgruppen und Direktvergleiche nachschlagen.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Werkstoffe"
+    ],
+    "keywords": [
+      "Werkstoff",
+      "Material",
+      "Werkstoffnummer",
+      "Kurzname",
+      "UNS",
+      "Edelstahl",
+      "Stahlguss",
+      "Nickellegierung",
+      "Werkstoffvergleich"
+    ],
+    "url": "wissensdatenbank/werkstoff-nachschlagewerk/",
+    "passthroughQuery": true,
+    "catalog": "materials"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Air Torque",
+    "device": "Antrieb",
+    "topic": "Drehrichtung",
+    "title": "Air Torque Antrieb",
+    "description": "Bedeutung der Kennzeichnungen SCO und SCC.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Air Torque",
+      "Antrieb"
+    ],
+    "keywords": [
+      "AirTorque",
+      "Air Torque",
+      "Antrieb",
+      "Drehrichtung",
+      "SCO",
+      "SCC",
+      "Uhrzeigersinn",
+      "Federkraft"
+    ],
+    "url": "wissensdatenbank/air-torque-antrieb-drehrichtung/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Siemens",
+    "device": "Sitrans P320",
+    "topic": "SIL-Verriegelung",
+    "title": "Siemens Sitrans P320",
+    "description": "SIL-Funktion mit SIMATIC PDM aktivieren; Schreibschutz und Initial-PIN beachten.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Siemens",
+      "Sitrans P320"
+    ],
+    "keywords": [
+      "Siemens",
+      "Sitrans",
+      "P320",
+      "SIL",
+      "Verriegelung",
+      "SIMATIC PDM",
+      "Schreibschutz",
+      "2457",
+      "PIN"
+    ],
+    "url": "wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/"
+  }
+]
