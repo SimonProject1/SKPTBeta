@@ -76,14 +76,17 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
 {
   const context={console,Math,Number,Object,globalThis:null};context.globalThis=context;vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8'),context,{filename:'siemens-analogwert-rechner.js'});
-  const calc=context.SK_SIEMENS_ANALOG.calculate;
-  let result=calc('4-20mA','raw',13824,0,100);
-  assertEqual(result.raw,13824,'Siemens 4–20 mA Rohwert');assertEqual(result.signal,12,'Siemens 4–20 mA Signal');assertEqual(result.percent,50,'Siemens 4–20 mA Prozent');assertEqual(result.physical,50,'Siemens 4–20 mA physikalisch');
-  result=calc('0-20mA','signal',20,-50,150);
-  assertEqual(result.raw,27648,'Siemens 0–20 mA Signal zu Rohwert');assertEqual(result.percent,100,'Siemens 0–20 mA Signal zu Prozent');assertEqual(result.physical,150,'Siemens 0–20 mA Signal zu physikalisch');
-  result=calc('0-10V','percent',25,0,400);
-  assertEqual(result.raw,6912,'Siemens 0–10 V Prozent zu Rohwert');assertEqual(result.signal,2.5,'Siemens 0–10 V Prozent zu Signal');assertEqual(result.physical,100,'Siemens 0–10 V Prozent zu physikalisch');
-  result=calc('2-10V','physical',75,0,100);
-  assertEqual(result.raw,20736,'Siemens 2–10 V physikalisch zu Rohwert');assertEqual(result.signal,8,'Siemens 2–10 V physikalisch zu Signal');assertEqual(result.percent,75,'Siemens 2–10 V physikalisch zu Prozent');
+  const api=context.SK_SIEMENS_ANALOG,calc=api.calculate;
+  let result=calc('4-20mA','raw',13824);
+  assertEqual(result.raw,13824,'Siemens 4–20 mA Rohwert');assertEqual(result.signal,12,'Siemens 4–20 mA Signal');assertEqual(result.percent,50,'Siemens 4–20 mA Nennbereichsanteil');assertEqual(result.status,'nominal','Siemens Nennbereich');
+  result=calc('0-20mA','signal',20);
+  assertEqual(result.raw,27648,'Siemens 0–20 mA Signal zu Rohwert');assertEqual(result.signal,20,'Siemens 0–20 mA Rückrechnung');assertEqual(result.status,'nominal','Siemens Nennbereich Obergrenze');
+  result=calc('0-10V','signal',2.5);
+  assertEqual(result.raw,6912,'Siemens 0–10 V Signal zu Rohwert');assertEqual(result.signal,2.5,'Siemens 0–10 V Rückrechnung');
+  result=calc('2-10V','raw',20736);
+  assertEqual(result.raw,20736,'Siemens 2–10 V Rohwert');assertEqual(result.signal,8,'Siemens 2–10 V Signal');
+  assertEqual(api.statusForRaw(-4865),'underflow','Siemens Status Unterlauf');assertEqual(api.statusForRaw(-4864),'underrange','Siemens Status Unterbereich');
+  assertEqual(api.statusForRaw(0),'nominal','Siemens Status Nennbereich Untergrenze');assertEqual(api.statusForRaw(27648),'nominal','Siemens Status Nennbereich Obergrenze');
+  assertEqual(api.statusForRaw(27649),'overrange','Siemens Status Überbereich');assertEqual(api.statusForRaw(32512),'overflow','Siemens Status Überlauf');
 }
-console.log('OK: Bestehende Funktionen und Siemens-SPS-Analogwert-Rechner in allen Richtungen geprüft.');
+console.log('OK: Bestehende Funktionen sowie bidirektionaler Siemens-SPS-Analogwert-Rechner mit fünf Bereichszuständen geprüft.');

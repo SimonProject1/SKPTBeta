@@ -1,19 +1,27 @@
-SK PLT Tools Beta V2.0.3.0-Beta.1
+SK PLT Tools Beta V2.0.3.2-Beta.1
 
-SIEMENS-SPS-ANALOGWERT-RECHNER AUF BASIS DER STABILEN VERSION 2.0.2.0
+SIEMENS-SPS-ANALOGWERT-RECHNER AUF BASIS DER UNVERÄNDERTEN STABILEN VERSION 2.0.2.0
 
 Neu
-- Signalarten 4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
-- Umrechnung aus jeder der vier Größen: Siemens-Rohwert, Signalwert, Prozentwert und physikalischer Wert.
-- Frei definierbarer physikalischer Messbereich und frei definierbare Einheit.
-- Rohwert-Nennbereich 0…27.648 für 0…100 %.
-- Lineare Weiterrechnung und klare Kennzeichnung von Unter- und Überbereich.
-- Integration in Startseite, Startseitensuche, Favoriten, Navigation und Offline-Betrieb.
+- Ausschließlich die Signalbereiche 4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
+- Bidirektionale Umrechnung zwischen Signal und Siemens-Rohwert.
+- Frei definierbare Messbereiche und technische Einheiten vollständig aus dem Siemens-Rechner entfernt.
+- Stufenloser Live-Schieberegler von −32.768 bis 32.767.
+- Klare Zustandsanzeige für Unterlauf, Unterbereich, Nennbereich, Überbereich und Überlauf.
+- Bereichs-Schnellwerte und Nennbereichsanteil als Diagnosehilfe.
+- Integration in bestehendes Design, Favoriten, Navigation, Suche, Mobilansicht und Offline-Betrieb.
+
+Bereichsmodell
+- Unterlauf: bis −4.865
+- Unterbereich: −4.864 bis −1
+- Nennbereich: 0 bis 27.648
+- Überbereich: 27.649 bis 32.511
+- Überlauf: ab 32.512
 
 Beta-Isolation
 - Sichtbarer App-Name `SK PLT Tools Beta` und BETA-Kennzeichnung auf jeder Seite.
-- PWA-ID und start_url: `./?app=sk-plt-tools-beta-2.0.3.0-beta.1`.
-- Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.0-Beta.1`.
+- PWA-ID und start_url: `./?app=sk-plt-tools-beta-2.0.3.2-beta.1`.
+- Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.2-Beta.1`.
 - Der Beta-Service-Worker entfernt nur ältere Caches mit dem Präfix `sk-plt-tools-beta-`.
 - Die stabile Version 2.0.2.0 und ihr Originalpaket wurden nicht verändert.
 

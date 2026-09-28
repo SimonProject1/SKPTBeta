@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.3.0-Beta.1."""
+"""Static release validation for SK PLT Tools Beta 2.0.3.2-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.3.0-Beta.1'
+VERSION='2.0.3.2-Beta.1'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -155,13 +155,20 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.0-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.0-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
-siemens_page=BeautifulSoup((ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8'),'html.parser')
-for selector in ('#signalType','#inputKind','#physicalMin','#physicalMax','#physicalUnit','#inputValue','#rawResult','#signalResult','#percentResult','#physicalResult'):
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
+siemens_page=BeautifulSoup(siemens_html,'html.parser')
+for selector in ('#signalType','#inputKind','#inputValue','#valueSlider','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail'):
     if not siemens_page.select_one(selector): errors.append(f'Siemens-Rechner: Element fehlt: {selector}')
+for state in ('underflow','underrange','nominal','overrange','overflow'):
+    if not siemens_page.select_one(f'[data-state-key="{state}"]'): errors.append(f'Siemens-Rechner: Statusanzeige fehlt: {state}')
+for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult','Physikalischer Wert','physikalischen Wert'):
+    if forbidden in siemens_html: errors.append(f'Siemens-Rechner: entfernte physikalische Konfiguration noch vorhanden: {forbidden}')
 siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
-for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_MAX=27648',"inputKind==='raw'","inputKind==='signal'","inputKind==='percent'","inputKind==='physical'"):
+for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_NOMINAL_MAX=27648','RAW_UNDERRANGE_MIN=-4864','RAW_OVERRANGE_MAX=32511',"inputKind==='raw'","inputKind!=='signal'",'statusForRaw',"byId('valueSlider')"):
     if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungsmerkmal fehlt: {required}')
+for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult',"inputKind==='percent'","inputKind==='physical'"):
+    if forbidden in siemens_js: errors.append(f'Siemens-Rechner: entfernte Berechnungsart noch vorhanden: {forbidden}')
 
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel

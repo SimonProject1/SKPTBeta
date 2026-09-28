@@ -1,4 +1,4 @@
-# Testcheckliste und Abnahme – SK PLT Tools 2.0.3.0-Beta.1
+# Testcheckliste und Abnahme – SK PLT Tools 2.0.3.2-Beta.1
 
 ## Automatisierte Prüfung
 
@@ -9,62 +9,52 @@ python tools/validate_release.py
 node tools/functional-smoke-test.js
 ```
 
-Die automatisierte Prüfung kontrolliert unter anderem:
-
-- 15 erwartete HTML-Seiten
-- genau einen statischen Header und Footer je Seite
-- Version 2.0.3.0-Beta.1 in HTML, Skripten, Manifest und Service Worker
-- Cache-Namen `sk-plt-tools-v2.0.3.0-Beta.1-clean`
-- genau vier erwartete, favoritenfähige Wissenskacheln und eine neue favoritenfähige Rechnerkachel
-- Vacon-Seite mit Hersteller, Gerät, Thema, Parameter `2.2.3.7`, maximaler Frequenz und Stylesheet
-- Vacon-Einträge im Suchindex, Navigationsbaum und Offline-Precache
-- vollständige Brotkrümelnavigation auf der Werkstoffseite
-- neun Startseiten-Werkzeugkacheln, davon acht unverändert
-- vorhandenen Local-Storage-Schlüssel sowie Klickschutz- und Renderlogik des Favoritensystems
-- vollständige lokale Referenzen und JavaScript-Syntax
-- zehn Werkstoffdatensätze mit Pflichtfeldern, Quellen und gültigen Gruppen
-- Suchtreffer `14404` → `1.4404`
-- Mehrfachtreffer `316L` → `1.4404`, `1.4409` und `1.4435`
-- Gruppenfilter `316L` + Stahlguss → `1.4409`
-- Vergleiche `316 gegen 316L` und `1.4404 gegen 1.4408`
-- unveränderte Hashes der drei Vorlagendateien unter `wissensdatenbank/vorlagen/`
-- bestehende Rechner-Sollwerte
+Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionierung, Beta-Cache-Isolation, lokale Referenzen, JavaScript-Syntax, neun Startseitenkacheln, Suche, Navigation, Favoriten, vier Wissenskacheln, zehn Werkstoffdatensätze, Vorlagen-Hashes und bestehende Rechner-Sollwerte.
 
 ## Siemens-Rechner-Sollwerte
 
-- 4–20 mA, 0…100 bar, Rohwert 13.824 → **12,000 mA; 50,00 %; 50,000 bar**.
-- 0–20 mA, −50…150 °C, Signal 20 mA → **27.648; 100,00 %; 150,000 °C**.
-- 0–10 V, 0…400 l/h, 25 % → **6.912; 2,500 V; 100,000 l/h**.
-- 2–10 V, 0…100 %, physikalischer Wert 75 → **20.736; 8,000 V; 75,00 %**.
+| Signalbereich | Eingabe | Erwartetes Ergebnis |
+|---|---:|---:|
+| 4–20 mA | Rohwert 13.824 | 12,000 mA · Nennbereich |
+| 0–20 mA | 20 mA | Rohwert 27.648 · Nennbereich |
+| 0–10 V | 2,5 V | Rohwert 6.912 · Nennbereich |
+| 2–10 V | Rohwert 20.736 | 8,000 V · Nennbereich |
+
+## Bereichszustände
+
+| Rohwert | Erwarteter Zustand |
+|---:|---|
+| −4.865 | Unterlauf |
+| −4.864 | Unterbereich |
+| −1 | Unterbereich |
+| 0 | Nennbereich |
+| 27.648 | Nennbereich |
+| 27.649 | Überbereich |
+| 32.511 | Überbereich |
+| 32.512 | Überlauf |
 
 ## Browser-Abnahme
 
-| Nr. | Prüfung | Soll | PC | iPhone |
+| Nr. | Prüfung | Soll | PC | Mobil |
 |---:|---|---|:---:|:---:|
-| 1 | Startseite direkt öffnen | Finales Clean Design; Version 2.0.3.0-Beta.1 unter Logo und im Footer | ☐ | ☐ |
-| 2 | Wissensdatenbank öffnen | Vier Wissenskacheln sichtbar; jede zeigt einen Favoritenstern | ☐ | ☐ |
-| 3 | Vacon-Kachel öffnen | Seite „Ist-/Sollwert-Abweichung im PLS“ öffnet | ☐ | ☐ |
-| 4 | Vacon-Breadcrumb „Startseite“ wählen | Startseite öffnet korrekt | ☐ | ☐ |
-| 5 | Vacon-Breadcrumb „Wissensdatenbank“ wählen | Wissensübersicht öffnet korrekt | ☐ | ☐ |
-| 6 | Vacon-Inhalt prüfen | Vacon, Frequenzumrichter, Parameter 2.2.3.7 und maximale Frequenz korrekt sichtbar | ☐ | ☐ |
-| 7 | Vacon-Seite auf schmalem Display prüfen | Überschrift, Parameterkarte und Hinweis vollständig lesbar | ☐ | ☐ |
-| 8 | Vacon als Favorit setzen | Stern aktiv; Eintrag im linken Favoritenmenü | ☐ | ☐ |
-| 9 | Werkstoff, Air Torque und Siemens als Favoriten setzen | Alle vier Wissensfavoriten vorhanden | ☐ | ☐ |
-| 10 | Mit gesetzten Favoriten Seite wechseln und neu laden | Favoriten und Zähler bleiben erhalten | ☐ | ☐ |
-| 11 | Stern erneut wählen | Nur Favorit wird entfernt; keine Seitennavigation | ☐ | ☐ |
-| 12 | Kachel außerhalb des Sterns wählen | Zugehörige Wissensseite öffnet | ☐ | ☐ |
-| 13 | Wissenssuche `Vacon`, `PLS`, `2.2.3.7` | Vacon-Kachel bleibt jeweils sichtbar | ☐ | ☐ |
-| 14 | Startseitensuche `Vacon`, `2.2.3.7`, `maximale Frequenz` | Vacon-Wissensbeitrag wird jeweils angeboten | ☐ | ☐ |
-| 15 | Navigationsbaum öffnen | Vacon unter Wissensdatenbank erreichbar | ☐ | ☐ |
-| 16 | Werkstoff-Nachschlagewerk öffnen | Breadcrumb vollständig sichtbar | ☐ | ☐ |
-| 17 | Werkstoffsuche `1.4404`, `14404`, `316L`, `CF8M`, `Alloy 59` | Erwartete Einzel- und Mehrfachtreffer | ☐ | ☐ |
-| 18 | Gruppenfilter und Vergleiche | Filter sowie beide Direktvergleiche funktionieren | ☐ | ☐ |
-| 19 | Externe Quellenlinks | Öffnen in neuem Tab; Anwendungsnavigation bleibt erhalten | ☐ | ☐ |
-| 20 | Offline-Test nach Online-Aufruf | Startseite, Wissensseiten einschließlich Vacon, CSS/JS/JSON und Kernseiten laden aus Cache | ☐ | ☐ |
-| 21 | PDF-Vorlage herunterladen | Datei funktioniert und ist bytegenau unverändert | ☐ | ☐ |
-| 22 | Bestehende Rechner | Alle bisherigen Sollwerte unverändert | ☐ | ☐ |
+| 1 | Startseite direkt öffnen | Clean Design; Version 2.0.3.2-Beta.1 unter Logo und im Footer | ☐ | ☐ |
+| 2 | Siemens-Rechner öffnen | Nur Signalbereich, Eingaberichtung und Signal-/Rohwerteingabe vorhanden | ☐ | ☐ |
+| 3 | Alle vier Signalbereiche wählen | Richtige Einheit und Nennspanne werden angezeigt | ☐ | ☐ |
+| 4 | Eingaberichtung wechseln | Aktueller Wert bleibt rechnerisch erhalten | ☐ | ☐ |
+| 5 | Regler ziehen | Rohwert, Signal und Status aktualisieren sich live | ☐ | ☐ |
+| 6 | Regler per Pfeiltasten bedienen | Feinverstellung funktioniert | ☐ | ☐ |
+| 7 | Schnellwerte wählen | Alle fünf Zustände werden korrekt und deutlich markiert | ☐ | ☐ |
+| 8 | Werte außerhalb INT16 manuell eingeben | Unterlauf bzw. Überlauf bleiben eindeutig | ☐ | ☐ |
+| 9 | Siemens-Rechner als Favorit setzen | Eintrag erscheint im Favoritenmenü und bleibt nach Neuladen erhalten | ☐ | ☐ |
+| 10 | Startseitensuche `Siemens`, `4–20`, `Rohwert` | Rechnerkachel wird gefunden | ☐ | ☐ |
+| 11 | Navigationsbaum öffnen | Siemens-Rechner ist unter Rechner erreichbar | ☐ | ☐ |
+| 12 | Offline-Test nach Online-Aufruf | Rechner, CSS und JavaScript laden aus dem Beta-Cache | ☐ | ☐ |
+| 13 | Wissensdatenbank öffnen und durchsuchen | Bestehende Wissensfunktionen unverändert | ☐ | ☐ |
+| 14 | Bestehende Favoriten prüfen | Bestehender Local-Storage-Schlüssel und Inhalte bleiben erhalten | ☐ | ☐ |
+| 15 | Schmale Ansicht 320–390 px | Keine horizontale Überlagerung; Statusliste und Eingaben lesbar | ☐ | ☐ |
+| 16 | Stabile Installation 2.0.2.0 öffnen | Unverändert und unabhängig von der Beta | ☐ | ☐ |
 
-## Rechner-Sollwerte
+## Bestehende Rechner-Sollwerte
 
 - Analogsignal: 0…100 auf 4…20 mA, Eingabe 50 → **12,000 mA / 50,0 %**.
 - P+F: X1=0, Y1=4, X2=100, Y2=20 → **K=0,160000; Nullpunkt=4,000000**.
@@ -73,12 +63,3 @@ Die automatisierte Prüfung kontrolliert unter anderem:
 - Spannungsfall: Drehstrom, 400 V, 16 A, 35 m, 2,5 mm² Cu, cos φ 1,00, Grenzwert 6 % → **6,93 V; 1,73 %; Lastspannung 393,07 V; Reserve +17,07 V**.
 
 Prüfer: ____________________  Datum: ____________________  Ergebnis: ☐ bestanden ☐ nicht bestanden
-
-## Zusätzliche Beta-Abnahme
-
-- [ ] Auf jeder Seite sind `SK PLT Tools Beta`, `BETA` und Version `2.0.3.0-Beta.1` sichtbar.
-- [ ] Die installierte PWA wird getrennt von der stabilen App angeboten.
-- [ ] Der neue Rechner ist auf PC und iPhone vollständig bedienbar.
-- [ ] Alle vier Eingaberichtungen und alle vier Signalarten liefern konsistente Ergebnisse.
-- [ ] Favorit, Startseitensuche, Navigation und Offline-Aufruf des neuen Rechners funktionieren.
-- [ ] Der stabile Cache `sk-plt-tools-v2.0.2.0-clean` bleibt unberührt.

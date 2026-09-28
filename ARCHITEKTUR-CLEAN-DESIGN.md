@@ -1,49 +1,50 @@
-# Clean-Design-Architektur 2.0.3.0-Beta.1
+# Clean-Design-Architektur 2.0.3.2-Beta.1
 
 ## Unveränderte Grundlage
 
-Version 2.0.3.0-Beta.1 baut auf Version 2.0.1.2 und dem Clean-Design-Safepoint 2.0.0.0 auf. Die Grundprinzipien bleiben unverändert:
+Version 2.0.3.2-Beta.1 führt die vorhandene Beta-Linie auf Basis der unveränderten stabilen Version 2.0.2.0 fort. Die Grundprinzipien bleiben erhalten:
 
 - finale Headerstruktur direkt in jeder HTML-Datei
 - Version direkt unter dem Logo in jeder HTML-Datei
 - einheitlicher Footer direkt in jeder HTML-Datei
-- finale Startseitenkacheln sowie Filter- und Sortieroberfläche direkt in `index.html`
+- statische Startseitenkacheln sowie Filter- und Sortieroberfläche in `index.html`
 - verbindliche Gestaltung in `assets/styles.css` und `assets/design.css`
-- JavaScript nur für echte Interaktionen und Berechnungen
-- Service Worker ohne Response-Rewriting; nur Precache, Network-first für Navigation und Cache-Fallback
-- alte Patch-Dateinamen ausschließlich als wirkungslose No-op-Kompatibilitätsdateien
+- JavaScript nur für Interaktion und Berechnung
+- Service Worker ohne Response-Rewriting; Precache, Network-first für Navigation und Cache-Fallback
+- alte Patch-Dateien ausschließlich als wirkungslose No-op-Kompatibilitätsdateien
 
-## Vacon-Wissensbeitrag in 2.0.3.0-Beta.1
+## Siemens-SPS-Analogwert-Rechner
 
-Der neue Beitrag wird wie die vorhandenen Wissensseiten statisch integriert:
+Der Rechner bleibt als reguläres Werkzeug vollständig in die Anwendung eingebunden:
 
-- Seitenziel `wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html`
-- responsives Beitragslayout in `assets/vacon-wissen.css`
-- statische Brotkrümelnavigation zu Startseite und Wissensdatenbank
-- Wissenskachel als `knowledge-entry tool-card` für das bestehende Favoritensystem
-- Eintrag in `assets/search-index.json` für Startseitensuche und Suchbegriffe
-- Eintrag in `assets/navigation-tree.json`
-- Seite und Stylesheet im Service-Worker-Precache
-- keine neue Laufzeit-Patchlogik und kein neuer Persistenzmechanismus
+- Seite `siemens-analogwert-rechner/index.html`
+- Gestaltung `assets/siemens-analogwert-rechner.css`
+- Berechnung `assets/siemens-analogwert-rechner.js`
+- Startseitenkachel, Favoritenfähigkeit und Navigationsbaumeintrag bleiben bestehen
+- Seite und Assets verbleiben im Service-Worker-Precache
+- keine eigene Persistenz und keine Laufzeit-Patchlogik
 
-## Favoriten
+Die Fachlogik ist bewusst auf zwei Größen begrenzt: Siemens-Rohwert und ausgewähltes mA-/V-Signal. Die vier Signalbereiche sind als unveränderliche Konfigurationen hinterlegt. Die Statusfunktion ordnet jeden Rohwert genau einem der fünf Zustände Unterlauf, Unterbereich, Nennbereich, Überbereich oder Überlauf zu.
 
-- Alle vier Links im Raster `#knowledgeGrid` sind als `knowledge-entry tool-card` gekennzeichnet.
-- `assets/favorites.js` bleibt die einzige Favoritenlogik und verwendet unverändert `skPltToolsFavoritesV2` im Local Storage.
-- Favoriten werden weiterhin zentral im linken Drawer gerendert und sind dadurch auf allen Seiten verfügbar.
-- `preventDefault()` und `stopPropagation()` gelten nur für den Stern-Button; die umgebende Kachel bleibt ein normaler Link.
+Der Schieberegler arbeitet über den vollständigen INT16-Bereich und ist bidirektional an Eingabefeld und Ergebnisdarstellung gekoppelt. Manuelle Eingaben außerhalb des Reglerbereichs bleiben möglich und werden als Unterlauf beziehungsweise Überlauf gekennzeichnet.
 
-## Werkstoff-Nachschlagewerk
+## Beta-Konfiguration
 
-Das Werkstoff-Nachschlagewerk bleibt unverändert als reguläre Wissensseite integriert:
+- Kanal: `beta`
+- PWA-ID/start_url: `./?app=sk-plt-tools-beta-2.0.3.2-beta.1`
+- Cache-Präfix: `sk-plt-tools-beta-`
+- Release-Cache: `sk-plt-tools-beta-v2.0.3.2-Beta.1`
+- Cache-Bereinigung greift ausschließlich innerhalb des Beta-Präfixes
 
-- statisches Seitenziel `wissensdatenbank/werkstoff-nachschlagewerk/index.html`
-- Darstellung in `assets/materials.css`
-- Interaktion in `assets/materials.js`
-- zentrale Fachdaten, Filtergruppen, Quellen und Vergleiche in `assets/materials.json`
-- Einbindung über Startseitensuche, Wissenskacheln, Favoritenlogik und Navigationsbaum
-- statische Ressourcen im vorhandenen Service-Worker-Precache
+## Erhaltene Systeme
+
+- Favoriten mit dem bestehenden Local-Storage-Schlüssel `skPltToolsFavoritesV2`
+- Startseitenfilter und Sortierung
+- zentrale Suche und Werkstoffkatalog
+- Navigationsbaum
+- Wissensdatenbank einschließlich Vorlagen
+- responsive Layoutregeln und mobile Drawer
 
 ## Sicherheitsprinzip
 
-Der Vacon-Beitrag ist als praktischer Prüfhinweis formuliert. Vor Parameteränderungen sind Herstellerdokumentation, Gerätestand sowie Motor-, Anlagen- und Inbetriebnahmevorgaben zu prüfen. Das Werkstoff-Nachschlagewerk erteilt weiterhin keine automatische Werkstofffreigabe und keine pauschale Medienbeständigkeitsbewertung.
+Die dargestellten Bereichsgrenzen sind ein Rechen- und Diagnosemodell. Baugruppenabhängige Mess-, Diagnose- und NE43-Grenzen werden nicht ersetzt; die Dokumentation und Parametrierung des eingesetzten Siemens-Moduls bleibt maßgeblich.
