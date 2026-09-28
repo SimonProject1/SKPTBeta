@@ -1,8 +1,8 @@
-# Clean-Design-Architektur 2.0.2.0
+# Clean-Design-Architektur 2.0.3.0-Beta.1
 
 ## Unveränderte Grundlage
 
-Version 2.0.2.0 baut auf Version 2.0.1.2 und dem Clean-Design-Safepoint 2.0.0.0 auf. Die Grundprinzipien bleiben unverändert:
+Version 2.0.3.0-Beta.1 baut auf Version 2.0.1.2 und dem Clean-Design-Safepoint 2.0.0.0 auf. Die Grundprinzipien bleiben unverändert:
 
 - finale Headerstruktur direkt in jeder HTML-Datei
 - Version direkt unter dem Logo in jeder HTML-Datei
@@ -13,7 +13,7 @@ Version 2.0.2.0 baut auf Version 2.0.1.2 und dem Clean-Design-Safepoint 2.0.0.0 
 - Service Worker ohne Response-Rewriting; nur Precache, Network-first für Navigation und Cache-Fallback
 - alte Patch-Dateinamen ausschließlich als wirkungslose No-op-Kompatibilitätsdateien
 
-## Vacon-Wissensbeitrag in 2.0.2.0
+## Vacon-Wissensbeitrag in 2.0.3.0-Beta.1
 
 Der neue Beitrag wird wie die vorhandenen Wissensseiten statisch integriert:
 

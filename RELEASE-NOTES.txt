@@ -1,31 +1,26 @@
-SK PLT Tools V2.0.2.0
+SK PLT Tools Beta V2.0.3.0-Beta.1
 
-VACON-WISSENSBEITRAG AUF BASIS VON V2.0.1.2
+SIEMENS-SPS-ANALOGWERT-RECHNER AUF BASIS DER STABILEN VERSION 2.0.2.0
 
 Neu
-- Neuer Wissensbeitrag „Vacon · Frequenzumrichter · Ist-/Sollwert-Abweichung im PLS“.
-- Bei abweichendem Ist- und Sollwert wird die Kontrolle von Parameter 2.2.3.7 beschrieben.
-- Als Regelfall ist die Einstellung auf die maximale Frequenz dokumentiert.
-- Der Beitrag besitzt eine statische Brotkrümelnavigation, responsives Clean Design und einen fachlichen Prüfhinweis vor Parameteränderungen.
-- Neue Wissenskachel mit Favoritenintegration.
-- Die Wissenssuche blendet nicht passende Kacheln jetzt zuverlässig über das `hidden`-Attribut aus.
-- Einbindung in den zentralen Suchindex und den Navigationsbaum.
-- Offline-Precache für die Vacon-Seite und `assets/vacon-wissen.css`.
+- Signalarten 4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
+- Umrechnung aus jeder der vier Größen: Siemens-Rohwert, Signalwert, Prozentwert und physikalischer Wert.
+- Frei definierbarer physikalischer Messbereich und frei definierbare Einheit.
+- Rohwert-Nennbereich 0…27.648 für 0…100 %.
+- Lineare Weiterrechnung und klare Kennzeichnung von Unter- und Überbereich.
+- Integration in Startseite, Startseitensuche, Favoriten, Navigation und Offline-Betrieb.
 
-Technische Umsetzung
-- Neue statische Seite `wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html`.
-- Neues Stylesheet `assets/vacon-wissen.css` ohne Laufzeit-Patchlogik.
-- Statische Release-Prüfung und funktionaler Smoke-Test prüfen Seite, Parameter, Suchindex, Navigation, Favoriten und Offline-Precache.
-- Service-Worker-Release und Cache-Name wurden auf `2.0.2.0` beziehungsweise `sk-plt-tools-v2.0.2.0-clean` angehoben.
+Beta-Isolation
+- Sichtbarer App-Name `SK PLT Tools Beta` und BETA-Kennzeichnung auf jeder Seite.
+- PWA-ID und start_url: `./?app=sk-plt-tools-beta-2.0.3.0-beta.1`.
+- Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.0-Beta.1`.
+- Der Beta-Service-Worker entfernt nur ältere Caches mit dem Präfix `sk-plt-tools-beta-`.
+- Die stabile Version 2.0.2.0 und ihr Originalpaket wurden nicht verändert.
 
-Unverändert
-- Sämtliche Rechnerfunktionen und Sollwerte.
-- Bestehende Wissensbeiträge Air Torque und Siemens Sitrans P320.
-- Werkstoff-Nachschlagewerk mit zehn Datensätzen, Filtern, Vergleichen, Quellen und Breadcrumb.
-- Favoritensystem mit `skPltToolsFavoritesV2`.
-- Clean Design, Header, Footer, Kachelgestaltung und eingefrorene Infrastruktur.
-- Service Worker ohne Response-Rewriting.
-- Editierbare Wissensdatenbank-PDF und die übrigen Vorlagendateien bleiben bytegenau unverändert.
-- Migrationssichere No-op-Dateien bleiben erhalten.
+Unverändert übernommen
+- Bestehendes Clean Design, Header-/Footer-Struktur und mobile Darstellung.
+- Alle bisherigen Rechner- und Dokumentationsfunktionen.
+- Favoriten, Filter, Sortierung, Suche, Wissensdatenbank und Navigationsbaum.
+- Wissensdatenbank-Vorlagen bytegenau.
 
 Datenstand: 28.09.2026.

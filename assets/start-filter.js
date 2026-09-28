@@ -1,7 +1,7 @@
 (()=>{'use strict';
 let searchIndex=[];
 let materialCatalog=[];
-const RELEASE='2.0.2.0';
+const RELEASE='2.0.3.0-Beta.1';
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9+]+/g,' ').trim();
 const isStartPage=()=>document.body?.dataset.skPage==='start';
 const root=()=>window.SK_PLT?.root||new URL('./',location.href);

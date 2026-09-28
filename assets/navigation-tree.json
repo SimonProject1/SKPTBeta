@@ -1,5 +1,5 @@
 {
-  "version": "2.0.2.0",
+  "version": "2.0.3.0-Beta.1",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -9,6 +9,10 @@
         {
           "title": "Analogsignal-Rechner",
           "url": "analogsignal/"
+        },
+        {
+          "title": "Siemens-SPS-Analogwert-Rechner",
+          "url": "siemens-analogwert-rechner/"
         },
         {
           "title": "P+F Rechner",

@@ -73,4 +73,17 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   assertEqual(vacon.includes('Parameter 2.2.3.7'),true,'Vacon Parameterhinweis vorhanden');
   assertEqual(vacon.includes('maximale Frequenz'),true,'Vacon Soll-Einstellung vorhanden');
 }
-console.log('OK: Rechner-, Werkstoff-, Breadcrumb-, Vacon- und Wissenskachel-Favoriten-Smoke-Tests abgeschlossen.');
+{
+  const context={console,Math,Number,Object,globalThis:null};context.globalThis=context;vm.createContext(context);
+  vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8'),context,{filename:'siemens-analogwert-rechner.js'});
+  const calc=context.SK_SIEMENS_ANALOG.calculate;
+  let result=calc('4-20mA','raw',13824,0,100);
+  assertEqual(result.raw,13824,'Siemens 4–20 mA Rohwert');assertEqual(result.signal,12,'Siemens 4–20 mA Signal');assertEqual(result.percent,50,'Siemens 4–20 mA Prozent');assertEqual(result.physical,50,'Siemens 4–20 mA physikalisch');
+  result=calc('0-20mA','signal',20,-50,150);
+  assertEqual(result.raw,27648,'Siemens 0–20 mA Signal zu Rohwert');assertEqual(result.percent,100,'Siemens 0–20 mA Signal zu Prozent');assertEqual(result.physical,150,'Siemens 0–20 mA Signal zu physikalisch');
+  result=calc('0-10V','percent',25,0,400);
+  assertEqual(result.raw,6912,'Siemens 0–10 V Prozent zu Rohwert');assertEqual(result.signal,2.5,'Siemens 0–10 V Prozent zu Signal');assertEqual(result.physical,100,'Siemens 0–10 V Prozent zu physikalisch');
+  result=calc('2-10V','physical',75,0,100);
+  assertEqual(result.raw,20736,'Siemens 2–10 V physikalisch zu Rohwert');assertEqual(result.signal,8,'Siemens 2–10 V physikalisch zu Signal');assertEqual(result.percent,75,'Siemens 2–10 V physikalisch zu Prozent');
+}
+console.log('OK: Bestehende Funktionen und Siemens-SPS-Analogwert-Rechner in allen Richtungen geprüft.');

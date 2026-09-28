@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.0.2.0."""
+"""Static release validation for SK PLT Tools Beta 2.0.3.0-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.2.0'
+VERSION='2.0.3.0-Beta.1'
 EXPECTED_PAGES={
- 'index.html','analogsignal/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
+ 'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
  'spannungsfall-rechner/index.html','plausibilitaetspruefung-vde0100-600/index.html',
  'wissensdatenbank/index.html','wissensdatenbank/air-torque-antrieb-drehrichtung/index.html',
@@ -45,6 +45,7 @@ for rel,page in pages.items():
     if len(soup.select('footer.sk-footer'))!=1: errors.append(f'{rel}: genau ein statischer Footer erwartet')
     if len(soup.select('.sk-logo-version'))!=1 or soup.select_one('.sk-logo-version').get_text(strip=True)!=f'Version {VERSION}': errors.append(f'{rel}: Header-Version falsch')
     if f'Version {VERSION}' not in soup.select_one('footer.sk-footer').get_text(' ',strip=True): errors.append(f'{rel}: Footer-Version falsch')
+    if 'SK PLT Tools Beta' not in soup.get_text(' ',strip=True) or len(soup.select('.sk-beta-label'))!=1: errors.append(f'{rel}: sichtbare Beta-Kennzeichnung fehlt')
     styles=[tag.get('href','') for tag in soup.find_all('link',rel=lambda value:value and 'stylesheet' in value)]
     if not any('assets/styles.css' in value for value in styles): errors.append(f'{rel}: styles.css fehlt')
     if not any('assets/design.css' in value for value in styles): errors.append(f'{rel}: design.css fehlt')
@@ -60,7 +61,8 @@ for rel,page in pages.items():
         if target is not None and not target.exists(): errors.append(f'{rel}: fehlende lokale Referenz {ref}')
 
 start=BeautifulSoup((ROOT/'index.html').read_text(encoding='utf-8'),'html.parser')
-if len(start.select('.tools > a.card'))!=8: errors.append('Startseite: genau 8 sichtbare Werkzeugkacheln erwartet')
+if len(start.select('.tools > a.card'))!=9: errors.append('Startseite: genau 9 sichtbare Werkzeugkacheln erwartet')
+if not start.select_one('a[href="siemens-analogwert-rechner/"]'): errors.append('Startseite: Siemens-SPS-Analogwert-Rechner fehlt')
 if start.select('a[href*="servicewerte"]'): errors.append('Startseite: entfernte Service-Kachel ist noch verlinkt')
 if not start.select_one('#skToolFilter #skToolSort'): errors.append('Startseite: Filter/Sortierung nicht statisch vorhanden')
 
@@ -134,6 +136,7 @@ if not any(item.get('url')=='wissensdatenbank/werkstoff-nachschlagewerk/' and it
 if 'assets/materials.json' not in (ROOT/'assets/start-filter.js').read_text(encoding='utf-8'): errors.append('Startseitensuche: zentrale Werkstoffdatei wird nicht geladen')
 nav=json.loads((ROOT/'assets/navigation-tree.json').read_text(encoding='utf-8'))
 if 'wissensdatenbank/werkstoff-nachschlagewerk/' not in json.dumps(nav): errors.append('Navigationsbaum: Werkstoffbereich fehlt')
+if 'siemens-analogwert-rechner/' not in json.dumps(nav): errors.append('Navigationsbaum: Siemens-SPS-Analogwert-Rechner fehlt')
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
 vacon_page=(ROOT/'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html').read_text(encoding='utf-8')
@@ -144,9 +147,21 @@ sw=(ROOT/'service-worker.js').read_text(encoding='utf-8')
 for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'</body>\''):
     if forbidden in sw: errors.append(f'Service Worker enthält verbotene Laufzeit-Patchlogik: {forbidden}')
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
-if "const CACHE=`sk-plt-tools-v${RELEASE}-clean`" not in sw: errors.append('Service Worker verwendet nicht den vorgesehenen versionsabhängigen Cache-Namen')
-for required in ('./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
+if "const CACHE_PREFIX='sk-plt-tools-beta-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den getrennten Beta-Cache')
+if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt Caches nicht beta-isoliert')
+for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
+
+
+manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
+if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.0-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.0-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+siemens_page=BeautifulSoup((ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8'),'html.parser')
+for selector in ('#signalType','#inputKind','#physicalMin','#physicalMax','#physicalUnit','#inputValue','#rawResult','#signalResult','#percentResult','#physicalResult'):
+    if not siemens_page.select_one(selector): errors.append(f'Siemens-Rechner: Element fehlt: {selector}')
+siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
+for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_MAX=27648',"inputKind==='raw'","inputKind==='signal'","inputKind==='percent'","inputKind==='physical'"):
+    if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungsmerkmal fehlt: {required}')
 
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel
@@ -161,4 +176,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 8 Startseitenkacheln, 4 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 9 Startseitenkacheln, Beta-Isolation, Siemens-Analogwert-Rechner, 4 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')

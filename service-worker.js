@@ -1,5 +1,6 @@
-const RELEASE='2.0.2.0';
-const CACHE=`sk-plt-tools-v${RELEASE}-clean`;
+const RELEASE='2.0.3.0-Beta.1';
+const CACHE_PREFIX='sk-plt-tools-beta-';
+const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
   './','./index.html','./manifest.webmanifest',
   './assets/styles.css','./assets/design.css','./assets/app.js',
@@ -9,8 +10,10 @@ const CORE=[
   './assets/navigation-tree.css','./assets/navigation-tree.js','./assets/navigation-tree.json',
   './assets/search-index.json','./assets/materials.css','./assets/materials.js','./assets/materials.json',
   './assets/airttorque-wissen.css','./assets/logo-layout.css','./assets/siemens-sitrans-wissen.css','./assets/vacon-wissen.css','./assets/vde0100-600-rules.json',
+  './assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js',
   './assets/icon-192.png','./assets/icon-512.png','./assets/logo.png','./assets/logo-horizontal.png','./assets/apple-touch-icon.png','./assets/favicon.png',
   './analogsignal/','./analogsignal/index.html',
+  './siemens-analogwert-rechner/','./siemens-analogwert-rechner/index.html',
   './einheitenrechner/','./einheitenrechner/index.html',
   './messstellen-doku/','./messstellen-doku/index.html',
   './pf-rechner/','./pf-rechner/index.html',
@@ -26,7 +29,7 @@ const CORE=[
   './wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf'
 ];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE);await Promise.all(CORE.map(async url=>{const request=new Request(url,{cache:'reload'});const response=await fetch(request);if(!response.ok)throw new Error(`Precache failed: ${url} (${response.status})`);await cache.put(request,response)}));await self.skipWaiting()})())});
-self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)));await self.clients.claim()})())});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE).map(key=>caches.delete(key)));await self.clients.claim()})())});
 async function navigation(request){const cache=await caches.open(CACHE);try{const response=await fetch(request,{cache:'no-store'});if(response.ok)await cache.put(request,response.clone());return response}catch{const exact=await cache.match(request);if(exact)return exact;const url=new URL(request.url);const indexRequest=new Request(url.pathname.endsWith('/')?new URL('index.html',url).href:url.href);return await cache.match(indexRequest)||await cache.match('./index.html')}}
-async function asset(request){const cached=await caches.match(request,{ignoreSearch:true});if(cached)return cached;const response=await fetch(request);if(response.ok){const cache=await caches.open(CACHE);await cache.put(request,response.clone())}return response}
+async function asset(request){const cache=await caches.open(CACHE);const cached=await cache.match(request,{ignoreSearch:true});if(cached)return cached;const response=await fetch(request);if(response.ok)await cache.put(request,response.clone());return response}
 self.addEventListener('fetch',event=>{const request=event.request;if(request.method!=='GET')return;if(new URL(request.url).origin!==self.location.origin)return;event.respondWith(request.mode==='navigate'?navigation(request):asset(request))});

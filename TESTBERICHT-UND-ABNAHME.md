@@ -1,4 +1,4 @@
-# Testcheckliste und Abnahme – SK PLT Tools 2.0.2.0
+# Testcheckliste und Abnahme – SK PLT Tools 2.0.3.0-Beta.1
 
 ## Automatisierte Prüfung
 
@@ -11,15 +11,15 @@ node tools/functional-smoke-test.js
 
 Die automatisierte Prüfung kontrolliert unter anderem:
 
-- 14 erwartete HTML-Seiten
+- 15 erwartete HTML-Seiten
 - genau einen statischen Header und Footer je Seite
-- Version 2.0.2.0 in HTML, Skripten, Manifest und Service Worker
-- Cache-Namen `sk-plt-tools-v2.0.2.0-clean`
-- genau vier erwartete, favoritenfähige Wissenskacheln
+- Version 2.0.3.0-Beta.1 in HTML, Skripten, Manifest und Service Worker
+- Cache-Namen `sk-plt-tools-v2.0.3.0-Beta.1-clean`
+- genau vier erwartete, favoritenfähige Wissenskacheln und eine neue favoritenfähige Rechnerkachel
 - Vacon-Seite mit Hersteller, Gerät, Thema, Parameter `2.2.3.7`, maximaler Frequenz und Stylesheet
 - Vacon-Einträge im Suchindex, Navigationsbaum und Offline-Precache
 - vollständige Brotkrümelnavigation auf der Werkstoffseite
-- acht unveränderte Startseiten-Werkzeugkacheln
+- neun Startseiten-Werkzeugkacheln, davon acht unverändert
 - vorhandenen Local-Storage-Schlüssel sowie Klickschutz- und Renderlogik des Favoritensystems
 - vollständige lokale Referenzen und JavaScript-Syntax
 - zehn Werkstoffdatensätze mit Pflichtfeldern, Quellen und gültigen Gruppen
@@ -30,11 +30,18 @@ Die automatisierte Prüfung kontrolliert unter anderem:
 - unveränderte Hashes der drei Vorlagendateien unter `wissensdatenbank/vorlagen/`
 - bestehende Rechner-Sollwerte
 
+## Siemens-Rechner-Sollwerte
+
+- 4–20 mA, 0…100 bar, Rohwert 13.824 → **12,000 mA; 50,00 %; 50,000 bar**.
+- 0–20 mA, −50…150 °C, Signal 20 mA → **27.648; 100,00 %; 150,000 °C**.
+- 0–10 V, 0…400 l/h, 25 % → **6.912; 2,500 V; 100,000 l/h**.
+- 2–10 V, 0…100 %, physikalischer Wert 75 → **20.736; 8,000 V; 75,00 %**.
+
 ## Browser-Abnahme
 
 | Nr. | Prüfung | Soll | PC | iPhone |
 |---:|---|---|:---:|:---:|
-| 1 | Startseite direkt öffnen | Finales Clean Design; Version 2.0.2.0 unter Logo und im Footer | ☐ | ☐ |
+| 1 | Startseite direkt öffnen | Finales Clean Design; Version 2.0.3.0-Beta.1 unter Logo und im Footer | ☐ | ☐ |
 | 2 | Wissensdatenbank öffnen | Vier Wissenskacheln sichtbar; jede zeigt einen Favoritenstern | ☐ | ☐ |
 | 3 | Vacon-Kachel öffnen | Seite „Ist-/Sollwert-Abweichung im PLS“ öffnet | ☐ | ☐ |
 | 4 | Vacon-Breadcrumb „Startseite“ wählen | Startseite öffnet korrekt | ☐ | ☐ |
@@ -66,3 +73,12 @@ Die automatisierte Prüfung kontrolliert unter anderem:
 - Spannungsfall: Drehstrom, 400 V, 16 A, 35 m, 2,5 mm² Cu, cos φ 1,00, Grenzwert 6 % → **6,93 V; 1,73 %; Lastspannung 393,07 V; Reserve +17,07 V**.
 
 Prüfer: ____________________  Datum: ____________________  Ergebnis: ☐ bestanden ☐ nicht bestanden
+
+## Zusätzliche Beta-Abnahme
+
+- [ ] Auf jeder Seite sind `SK PLT Tools Beta`, `BETA` und Version `2.0.3.0-Beta.1` sichtbar.
+- [ ] Die installierte PWA wird getrennt von der stabilen App angeboten.
+- [ ] Der neue Rechner ist auf PC und iPhone vollständig bedienbar.
+- [ ] Alle vier Eingaberichtungen und alle vier Signalarten liefern konsistente Ergebnisse.
+- [ ] Favorit, Startseitensuche, Navigation und Offline-Aufruf des neuen Rechners funktionieren.
+- [ ] Der stabile Cache `sk-plt-tools-v2.0.2.0-clean` bleibt unberührt.

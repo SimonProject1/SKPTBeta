@@ -1,4 +1,4 @@
-/* SK PLT Tools 2.0.2.0 – clean, directly rendered design */
+/* SK PLT Tools 2.0.3.0-Beta.1 – clean, directly rendered design */
 
 /* Unified application header */
 .sk-global-header{box-sizing:border-box;width:100%;min-height:112px;padding:0!important}
@@ -34,3 +34,7 @@ footer.footer .stb-version,footer.sk-footer .stb-version{color:inherit}
   .tools .card h2,.tools .card h3,.start-tools .tool-card h2,.start-tools .tool-card h3{font-size:25px!important}
   footer.footer,footer.sk-footer{width:min(100% - 22px,1100px);padding-bottom:22px;font-size:12px}
 }
+
+/* Visible beta identity */
+.sk-beta-label{display:inline-flex;align-items:center;margin-left:9px;padding:3px 7px;border:1px solid #f5b942;border-radius:999px;color:#f5b942;background:rgba(245,185,66,.09);font-size:9px;font-weight:950;line-height:1;letter-spacing:1.1px;vertical-align:middle}
+@media(max-width:760px){.sk-beta-label{margin-left:6px;padding:3px 5px;font-size:8px}}
