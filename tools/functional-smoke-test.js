@@ -88,5 +88,7 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   assertEqual(api.statusForRaw(-4865),'underflow','Siemens Status Unterlauf');assertEqual(api.statusForRaw(-4864),'underrange','Siemens Status Unterbereich');
   assertEqual(api.statusForRaw(0),'nominal','Siemens Status Nennbereich Untergrenze');assertEqual(api.statusForRaw(27648),'nominal','Siemens Status Nennbereich Obergrenze');
   assertEqual(api.statusForRaw(27649),'overrange','Siemens Status Überbereich');assertEqual(api.statusForRaw(32512),'overflow','Siemens Status Überlauf');
+  const colorStart=api.sliderColorForRaw(-4864),colorMiddle=api.sliderColorForRaw(-2432),colorEnd=api.sliderColorForRaw(0);
+  assertEqual(colorStart!==colorMiddle&&colorMiddle!==colorEnd,true,'Siemens Slider-Farbe wird zwischen Zustandsankern kontinuierlich interpoliert');
 }
 console.log('OK: Bestehende Funktionen sowie bidirektionaler Siemens-SPS-Analogwert-Rechner mit fünf Bereichszuständen geprüft.');

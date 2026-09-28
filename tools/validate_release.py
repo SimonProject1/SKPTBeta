@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.3.2-Beta.1."""
+"""Static release validation for SK PLT Tools Beta 2.0.3.2-Beta.2."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.3.2-Beta.1'
+VERSION='2.0.3.2-Beta.2'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -62,7 +62,9 @@ for rel,page in pages.items():
 
 start=BeautifulSoup((ROOT/'index.html').read_text(encoding='utf-8'),'html.parser')
 if len(start.select('.tools > a.card'))!=9: errors.append('Startseite: genau 9 sichtbare Werkzeugkacheln erwartet')
-if not start.select_one('a[href="siemens-analogwert-rechner/"]'): errors.append('Startseite: Siemens-SPS-Analogwert-Rechner fehlt')
+siemens_tile=start.select_one('a[href="siemens-analogwert-rechner/"]')
+if not siemens_tile: errors.append('Startseite: Siemens-Rechner fehlt')
+elif siemens_tile.select_one('h2') is None or siemens_tile.select_one('h2').get_text(strip=True)!='Siemens Rohwert': errors.append('Startseite: Siemens-Kachel heißt nicht exakt Siemens Rohwert')
 if start.select('a[href*="servicewerte"]'): errors.append('Startseite: entfernte Service-Kachel ist noch verlinkt')
 if not start.select_one('#skToolFilter #skToolSort'): errors.append('Startseite: Filter/Sortierung nicht statisch vorhanden')
 
@@ -155,7 +157,7 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.2' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.2-beta.2': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#signalType','#inputKind','#inputValue','#valueSlider','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail'):
@@ -164,8 +166,10 @@ for state in ('underflow','underrange','nominal','overrange','overflow'):
     if not siemens_page.select_one(f'[data-state-key="{state}"]'): errors.append(f'Siemens-Rechner: Statusanzeige fehlt: {state}')
 for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult','Physikalischer Wert','physikalischen Wert'):
     if forbidden in siemens_html: errors.append(f'Siemens-Rechner: entfernte physikalische Konfiguration noch vorhanden: {forbidden}')
+siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text(encoding='utf-8')
+if '#a93d4a 0 42.58%' in siemens_css or '--analog-slider-thumb-color' not in siemens_css: errors.append('Siemens-Rechner: kontinuierlicher Slider-Farbverlauf fehlt')
 siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
-for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_NOMINAL_MAX=27648','RAW_UNDERRANGE_MIN=-4864','RAW_OVERRANGE_MAX=32511',"inputKind==='raw'","inputKind!=='signal'",'statusForRaw',"byId('valueSlider')"):
+for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_NOMINAL_MAX=27648','RAW_UNDERRANGE_MIN=-4864','RAW_OVERRANGE_MAX=32511',"inputKind==='raw'","inputKind!=='signal'",'statusForRaw','sliderColorForRaw',"byId('valueSlider')"):
     if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungsmerkmal fehlt: {required}')
 for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult',"inputKind==='percent'","inputKind==='physical'"):
     if forbidden in siemens_js: errors.append(f'Siemens-Rechner: entfernte Berechnungsart noch vorhanden: {forbidden}')

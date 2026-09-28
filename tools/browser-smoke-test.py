@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools Beta 2.0.3.2-Beta.1."""
+"""Browser smoke test for SK PLT Tools Beta 2.0.3.2-Beta.2."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -29,7 +29,7 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.2-Beta.1"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.2-Beta.2"
     assert desktop.locator("#signalType option").count() == 4
     assert desktop.locator("#inputKind option").count() == 2
     assert desktop.locator("#valueSlider").count() == 1
@@ -61,6 +61,7 @@ with sync_playwright() as p:
     desktop.wait_for_load_state("networkidle")
     set_input(desktop, "#skToolSearch", "Rohwert")
     card = desktop.locator('a[href="siemens-analogwert-rechner/"]')
+    assert_text(desktop, 'a[href="siemens-analogwert-rechner/"] h2', 'Siemens Rohwert')
     assert card.is_visible(), "Siemens-Rechner wird in der Startseitensuche nicht gefunden"
     card.locator(".sk-favorite-button").click()
     assert card.locator(".sk-favorite-button").get_attribute("data-active") == "true"

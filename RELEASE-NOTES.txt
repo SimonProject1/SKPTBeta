@@ -1,8 +1,10 @@
-SK PLT Tools Beta V2.0.3.2-Beta.1
+SK PLT Tools Beta V2.0.3.2-Beta.2
 
-SIEMENS-SPS-ANALOGWERT-RECHNER AUF BASIS DER UNVERÄNDERTEN STABILEN VERSION 2.0.2.0
+FORTSCHREIBUNG DER VOLLSTÄNDIGEN VERSION 2.0.3.2-BETA.1 AUF UNVERÄNDERTER STABILER BASIS 2.0.2.0
 
 Neu
+- Startseitenkachel in „Siemens Rohwert“ umbenannt.
+- Schieberegler mit kontinuierlichem Farbverlauf und stufenlos interpolierter Reglerfarbe umgesetzt.
 - Ausschließlich die Signalbereiche 4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
 - Bidirektionale Umrechnung zwischen Signal und Siemens-Rohwert.
 - Frei definierbare Messbereiche und technische Einheiten vollständig aus dem Siemens-Rechner entfernt.
@@ -20,8 +22,8 @@ Bereichsmodell
 
 Beta-Isolation
 - Sichtbarer App-Name `SK PLT Tools Beta` und BETA-Kennzeichnung auf jeder Seite.
-- PWA-ID und start_url: `./?app=sk-plt-tools-beta-2.0.3.2-beta.1`.
-- Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.2-Beta.1`.
+- PWA-ID und start_url: `./?app=sk-plt-tools-beta-2.0.3.2-beta.2`.
+- Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.2-Beta.2`.
 - Der Beta-Service-Worker entfernt nur ältere Caches mit dem Präfix `sk-plt-tools-beta-`.
 - Die stabile Version 2.0.2.0 und ihr Originalpaket wurden nicht verändert.
 

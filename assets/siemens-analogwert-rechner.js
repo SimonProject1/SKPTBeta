@@ -44,7 +44,27 @@ function calculate(type,inputKind,value){
  const config=TYPES[type];
  return Object.freeze({raw,rawExact,signal,signalUnit:config.unit,signalLabel:config.label,percent:raw/RAW_NOMINAL_MAX*100,status:statusForRaw(raw)});
 }
-const api=Object.freeze({RAW_NOMINAL_MAX,RAW_UNDERRANGE_MIN,RAW_OVERRANGE_MAX,RAW_INT_MIN,RAW_INT_MAX,TYPES,STATES,statusForRaw,signalFromRaw,rawFromSignal,calculate});
+const SLIDER_COLOR_STOPS=Object.freeze([
+ Object.freeze({raw:RAW_INT_MIN,r:184,g:63,b:81}),
+ Object.freeze({raw:-4864,r:239,g:170,b:58}),
+ Object.freeze({raw:0,r:166,g:207,b:58}),
+ Object.freeze({raw:13824,r:95,g:189,b:71}),
+ Object.freeze({raw:27648,r:202,g:208,b:68}),
+ Object.freeze({raw:32511,r:225,g:109,b:69}),
+ Object.freeze({raw:RAW_INT_MAX,r:184,g:63,b:81})
+]);
+function sliderColorForRaw(raw){
+ const value=Math.min(RAW_INT_MAX,Math.max(RAW_INT_MIN,Number(raw)));
+ let left=SLIDER_COLOR_STOPS[0],right=SLIDER_COLOR_STOPS[SLIDER_COLOR_STOPS.length-1];
+ for(let index=1;index<SLIDER_COLOR_STOPS.length;index+=1){
+  if(value<=SLIDER_COLOR_STOPS[index].raw){left=SLIDER_COLOR_STOPS[index-1];right=SLIDER_COLOR_STOPS[index];break}
+ }
+ const span=right.raw-left.raw||1;
+ const mix=Math.min(1,Math.max(0,(value-left.raw)/span));
+ const channel=(start,end)=>Math.round(start+(end-start)*mix);
+ return `rgb(${channel(left.r,right.r)}, ${channel(left.g,right.g)}, ${channel(left.b,right.b)})`;
+}
+const api=Object.freeze({RAW_NOMINAL_MAX,RAW_UNDERRANGE_MIN,RAW_OVERRANGE_MAX,RAW_INT_MIN,RAW_INT_MAX,TYPES,STATES,SLIDER_COLOR_STOPS,statusForRaw,signalFromRaw,rawFromSignal,calculate,sliderColorForRaw});
 if(typeof globalThis!=='undefined')globalThis.SK_SIEMENS_ANALOG=api;
 if(typeof document==='undefined')return;
 
@@ -86,7 +106,9 @@ function renderResult(result){
  elements.statusDetail.textContent=`${state.label} · ${state.detail}`;
  document.querySelectorAll('[data-state-key]').forEach(item=>item.classList.toggle('active',item.dataset.stateKey===result.status));
  elements.slider.value=String(clamp(result.raw,RAW_INT_MIN,RAW_INT_MAX));
+ elements.slider.style.setProperty('--analog-slider-thumb-color',sliderColorForRaw(result.raw));
  elements.sliderReadout.textContent=`${formatRaw(result.raw)} · ${format(result.signal,3)} ${result.signalUnit}`;
+ elements.slider.setAttribute('aria-valuetext',elements.sliderReadout.textContent);
 }
 function renderFromInput(){
  updateInputMode();
