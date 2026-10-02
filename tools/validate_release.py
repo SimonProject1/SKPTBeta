@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.3.5-Beta.1."""
+"""Static release validation for SK PLT Tools Beta 2.0.3.5-Beta.2."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.3.5-Beta.1'
+VERSION='2.0.3.5-Beta.2'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -171,11 +171,13 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.2' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.2': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail','#calculationError'):
     if not siemens_page.select_one(selector): errors.append(f'Siemens-Rechner: Element fehlt: {selector}')
+card_info=siemens_page.select_one('details.analog-card-info > summary')
+if card_info is None or card_info.get_text(' ',strip=True)!='Karteninformationen': errors.append('Siemens-Rechner: einklappbare Karteninformationen fehlen')
 if siemens_page.select_one('h1') is None or siemens_page.select_one('h1').get_text(strip=True)!='Siemens Rohwert': errors.append('Siemens-Rechner: große Seitenüberschrift heißt nicht exakt Siemens Rohwert')
 for state in ('underflow','underrange','nominal','overrange','overflow'):
     if not siemens_page.select_one(f'[data-state-key="{state}"]'): errors.append(f'Siemens-Rechner: Statusanzeige fehlt: {state}')
@@ -185,11 +187,27 @@ siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text(encoding='u
 for required in ('linear-gradient(90deg,#d74c57 0 var(--b1)', '#f5b942 var(--b1) var(--b2)', '#69c93d var(--b2) var(--b3)', '--thumb-color'):
     if required not in siemens_css: errors.append(f'Siemens-Rechner: feste Bereichsfarbgebung fehlt: {required}')
 if '.analog-workbench::after' in siemens_css or "content:'INT'" in siemens_css or "content:'TNT'" in siemens_css: errors.append('Siemens-Rechner: transparentes Hintergrundelement im Konfigurationsbereich nicht vollständig entfernt')
+for required in ('.analog-input-shell{display:grid!important','padding:5px 7px','.analog-card-info summary'):
+    if required not in siemens_css: errors.append(f'Siemens-Rechner: Kompaktierungsmerkmal fehlt: {required}')
 siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
 for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'et200sp_st:Object.freeze','et200spha_off:Object.freeze','et200spha_on:Object.freeze','s71500_fai_scale:Object.freeze','generic_scale:Object.freeze','statusForRaw','signalScaleForType','profileScale','boundaries',"$('cardProfile')","$('valueSlider')","$('sliderScale')"):
     if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungs-/Profilmerkmal fehlt: {required}')
 for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult',"inputKind==='percent'","inputKind==='physical'"):
     if forbidden in siemens_js: errors.append(f'Siemens-Rechner: entfernte Berechnungsart noch vorhanden: {forbidden}')
+for required in ("elements.inputValue.inputMode=mode==='raw'?'numeric':'decimal'","event.currentTarget.select()"):
+    if required not in siemens_js: errors.append(f'Siemens-Rechner: optimierte Rohwert-Eingabe fehlt: {required}')
+
+design_css=(ROOT/'assets/design.css').read_text(encoding='utf-8')
+favorites_css=(ROOT/'assets/favorites.css').read_text(encoding='utf-8')
+tree_css=(ROOT/'assets/navigation-tree.css').read_text(encoding='utf-8')
+styles_css=(ROOT/'assets/styles.css').read_text(encoding='utf-8')
+for required in ('min-height:86px','min-height:74px'):
+    if required not in design_css: errors.append(f'Kompakter Header: Merkmal fehlt: {required}')
+for label,content in (('Favoriten',favorites_css),('Navigation',tree_css)):
+    for required in ('width:48px;height:48px','width:42px;height:42px'):
+        if required not in content: errors.append(f'{label}: kompakte Schaltflächengröße fehlt: {required}')
+for required in ('grid-template-columns:1fr 38px','.sign{font-size:16px;min-width:38px}'):
+    if required not in styles_css: errors.append(f'Vorzeichen-Schaltfläche: Kompaktierungsmerkmal fehlt: {required}')
 
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel

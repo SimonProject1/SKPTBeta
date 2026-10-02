@@ -1,4 +1,4 @@
-# Testbericht und Abnahme – SK PLT Tools 2.0.3.5-Beta.1
+# Testbericht und Abnahme – SK PLT Tools 2.0.3.5-Beta.2
 
 ## Automatisierte Prüfung
 
@@ -11,9 +11,9 @@ python -m http.server 4173
 PLAYWRIGHT_CHROMIUM_EXECUTABLE=/pfad/zu/chromium python tools/browser-smoke-test.py
 ```
 
-Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionierung, Beta-Cache-Isolation, lokale Referenzen, JavaScript-Syntax, zehn Startseitenkacheln, Suche, Filterung, Navigation, Favoriten, den sicheren E+H-Externlink, fünf Wissenskacheln, zehn Werkstoffdatensätze, Vorlagen-Hashes, Siemens-Kartenprofile, bestätigte Grenzwerte, Regler-/Eingabesynchronisierung und bestehende Rechner-Sollwerte.
+Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionierung, Beta-Cache-Isolation, lokale Referenzen, JavaScript-Syntax, zehn Startseitenkacheln, Suche, Filterung, Navigation, Favoriten, den sicheren E+H-Externlink, fünf Wissenskacheln, zehn Werkstoffdatensätze, Vorlagen-Hashes, Siemens-Kartenprofile, bestätigte Grenzwerte, Regler-/Eingabesynchronisierung, kompakte Bedienelemente, einklappbare Karteninformationen und bestehende Rechner-Sollwerte.
 
-**Build-Verifikation vom 02.10.2026:** statische Release-Prüfung bestanden; funktionale Regression bestanden; Browser-Smoke-Test bei 1440 × 1050 px und mobiler Ansicht 390 × 844 px bestanden; keine Browser-Konsolenfehler. Die manuelle Abnahme auf realem PC und iPhone/iPad bleibt offen.
+**Build-Verifikation vom 02.10.2026:** statische Release-Prüfung bestanden; funktionale Regression bestanden; alle 15 Seiten im Browser auf iPad-Breite 820 × 1180 px und iPhone-Breite 390 × 844 px ohne horizontales Überlaufen geprüft; Desktop-Ansicht 1440 × 1050 px bestanden; Größen der kompakten Schaltflächen geprüft; keine Browser-Konsolenfehler. Die manuelle Abnahme auf realem PC und iPhone/iPad bleibt offen.
 
 ## Siemens Rohwert – automatisiert geprüfte Grenzen
 
@@ -58,5 +58,7 @@ Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionier
 | 6 | Offline-Start bereits geladener Kernseiten prüfen | ☐ | ☐ | |
 | 7 | Keine horizontale Seitenüberlagerung bei 320–390 px | ☐ | ☐ | |
 | 8 | Quellen- und Grenzwertdokument öffnen | ☐ | ☐ | |
+| 9 | Karteninformationen auf- und zuklappen | ☐ | ☐ | |
+| 10 | Kompakte Header-, Favoriten-, Navigations- und Vorzeichen-Schaltflächen prüfen | ☐ | ☐ | |
 
 Prüfer: ____________________  Datum: ____________________  Ergebnis: ☐ bestanden ☐ nicht bestanden

@@ -1,34 +1,25 @@
-SK PLT Tools Beta V2.0.3.5-Beta.1
+SK PLT Tools Beta V2.0.3.5-Beta.2
 
-VOLLSTÄNDIGE FORTSCHREIBUNG VON V2.0.3.4-BETA.1
+VOLLSTÄNDIGE FORTSCHREIBUNG DES PROJEKTPAKETS V2.0.3.5-BETA.1
 STABILE REFERENZ V2.0.2.0 UNVERÄNDERT
 
-Siemens Rohwert – Kollegenfeedback umgesetzt
-- Ergebniswerte kompakt oberhalb der Bedienung angeordnet.
-- Rohwert, Signalwert, Eingabefeld und Regler vollständig synchronisiert.
-- Feste Rot-/Gelb-/Grün-Bereiche statt eines weichen Farbverlaufs.
-- Responsive PC- und Mobilansicht.
+Kompaktere Oberfläche bei unverändertem Grunddesign
+- Headerhöhe, Logoabmessungen und Abstände auf Desktop, iPhone und iPad reduziert.
+- Ergebnisfelder, Formulare, Dropdowns, Panels und allgemeine Vertikalabstände verdichtet.
+- Fixer Favoriten-Button und rechter Navigations-/Baum-Button um rund 22 % verkleinert; Funktion unverändert.
+- Favoritensterne auf Kacheln um 20 % verkleinert.
+- Dynamische Vorzeichen-Schaltfläche (±) von 48 px auf 38 px und damit um rund 21 % verkleinert.
 
-Quellengeprüfte Karten-/Diagnoseprofile
-- ET 200SP AI 4xI 2-/4-wire ST, 6ES7134-6GD01-0BA1.
-- ET 200SP HA AI 16xI 2-wire HART HA, 6DL1134-6TH00-0PH1, getrennt für „Ausfallüberwachung nach NE43“ aus/ein.
-- Bei NE43 ein: Unterlauf/ungültig ab 3,6 mA bzw. Rohwert −691; Überlauf/ungültig ab 21,0 mA bzw. Rohwert 29.376; Hysterese 3,8 mA und 20,5 mA.
-- S7-1500/ET 200MP F-AI 8xI, 6ES7536-1MF00-0AB0: nur bestätigte Nennskalierung; keine unbestätigten Diagnosegrenzen.
-- Generische Spannungs-/Stromumrechnung bleibt verfügbar, ist aber ausdrücklich keine Kartenfreigabe.
-
-Wissensdatenbank
-- Neue Kachel: Hersteller Siemens · Gerät SPS · Thema Rohwert.
-- Direkte Verlinkung zum Siemens-Rohwert-Rechner.
-- Integration in Suche und Navigationsbaum.
-
-Dokumentation
-- Neue Datei SIEMENS-QUELLEN-UND-GRENZWERTE.md mit offiziellen Siemens-Quellen, Grenzwerttabellen und Parametrierungsabweichungen.
-- Quellenhinweis zur NE 43 (2021): Bei ET 200SP/HA ist die modulintern so bezeichnete Funktion auf die alte NE 43 (2003) bezogen; aktuelle Siemens-Empfehlung beachten.
-- PWA-ID, start_url, Service-Worker-Cache und alle sichtbaren Versionsstände auf 2.0.3.5-Beta.1 fortgeschrieben.
+Siemens Rohwert
+- Rohwert-Eingabe bleibt einzeilig mit fester INT-/Einheitenanzeige; mobile Tastatur wird je Eingaberichtung optimiert.
+- Beim Fokus wird der vorhandene Eingabewert zur schnellen Überschreibung markiert.
+- Ergebnisfelder und Reglerbereich sind kompakter.
+- Status-Chips sind flacher und platzsparender.
+- Karteninformationen sind über ein natives Details-Element ein- und ausklappbar und standardmäßig geschlossen.
 
 Unverändert übernommen
-- E+H Device Viewer mit sicherer Externkennzeichnung.
-- Übrige Rechner, Messstellen-Dokumentation, VDE-Plausibilitätsprüfung und bestehende Wissensbeiträge.
-- Suche, Sortierung, Favoriten, Navigation und Offline-Betrieb.
+- Sämtliche 15 Seiten, Rechnerfunktionen, Messstellen-Dokumentation und VDE-Plausibilitätsprüfung.
+- Suche, Sortierung, Favoriten-Persistenz, Navigation, Wissensdatenbank, Werkstoffdaten und Offline-Betrieb.
+- Siemens-Kartenprofile, Grenzwerte, Quellen und Berechnungslogik.
 
 Datenstand: 02.10.2026.

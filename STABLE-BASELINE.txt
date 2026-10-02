@@ -3,4 +3,4 @@ STABLE-BASIS – NICHT VERÄNDERT
 Datei: SK-PLT-Tools-V2.0.2.0.zip
 SHA-256: fea43dcfa89a1adc438fbae1b3cf66e3367f533e1a2d7b6a589bce7a8d8ece99
 
-Die Version 2.0.3.5-Beta.1 wurde als vollständige Fortschreibung der Version 2.0.3.4-Beta.1 in einem separaten Projektordner erstellt. Das stabile Originalarchiv 2.0.2.0 wurde weder überschrieben noch inhaltlich verändert.
+Die Version 2.0.3.5-Beta.2 wurde als vollständige Fortschreibung der Version 2.0.3.4-Beta.1 in einem separaten Projektordner erstellt. Das stabile Originalarchiv 2.0.2.0 wurde weder überschrieben noch inhaltlich verändert.

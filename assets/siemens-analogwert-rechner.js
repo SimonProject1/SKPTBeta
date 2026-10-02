@@ -117,7 +117,7 @@ function renderScale(mode,p,t){
 function syncInput(){
  const mode=elements.inputKind.value,t=type(elements.signalType.value),p=profile(elements.profile.value),limits=limitsFor(p,elements.signalType.value);
  const min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;
- elements.inputLabel.textContent=mode==='raw'?'Rohwert':`Signalwert (${t.unit})`;elements.inputSuffix.textContent=mode==='raw'?'INT':t.unit;elements.inputValue.step=mode==='raw'?'1':'0.001';
+ elements.inputLabel.textContent=mode==='raw'?'Rohwert':`Signalwert (${t.unit})`;elements.inputSuffix.textContent=mode==='raw'?'INT':t.unit;elements.inputValue.step=mode==='raw'?'1':'0.001';elements.inputValue.inputMode=mode==='raw'?'numeric':'decimal';elements.inputValue.setAttribute('aria-label',mode==='raw'?'Rohwert eingeben':`Signalwert in ${t.unit} eingeben`);
  elements.inputValue.min=mode==='raw'?String(min):String(signalFromRaw(elements.signalType.value,min,p));elements.inputValue.max=mode==='raw'?String(max):String(signalFromRaw(elements.signalType.value,max,p));
  elements.inputValue.value=mode==='raw'?String(currentRaw):String(Number(signalFromRaw(elements.signalType.value,currentRaw,p).toFixed(6)));
 }
@@ -131,7 +131,7 @@ function renderFromRaw(){
  setTrack(p,elements.signalType.value);renderScale(mode,p,t);document.querySelectorAll('[data-state-key]').forEach(item=>item.classList.toggle('active',item.dataset.stateKey===result.status));
 }
 function renderFromInput(){try{const result=calculate(elements.signalType.value,elements.inputKind.value,parse(elements.inputValue.value),elements.profile.value);currentRaw=result.raw;renderFromRaw()}catch(error){elements.error.textContent=error.message;elements.error.hidden=false;elements.rangeStatus.textContent='Eingabe prüfen';elements.rangeStatus.dataset.state='error'}}
-elements.inputValue.addEventListener('input',renderFromInput);elements.inputValue.addEventListener('change',renderFromInput);
+elements.inputValue.addEventListener('input',renderFromInput);elements.inputValue.addEventListener('change',renderFromInput);elements.inputValue.addEventListener('focus',event=>event.currentTarget.select());
 elements.slider.addEventListener('input',()=>{const mode=elements.inputKind.value;currentRaw=mode==='raw'?Math.round(Number(elements.slider.value)):Math.round(rawFromSignal(elements.signalType.value,elements.slider.value,elements.profile.value));syncInput();renderFromRaw()});
 elements.inputKind.addEventListener('change',()=>{syncInput();renderFromRaw()});elements.signalType.addEventListener('change',()=>{syncInput();renderFromRaw()});elements.profile.addEventListener('change',()=>{syncSupportedTypes();const p=profile(elements.profile.value),limits=limitsFor(p,elements.signalType.value),min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;currentRaw=clamp(currentRaw,min,max);syncInput();renderFromRaw()});
 syncSupportedTypes();syncInput();renderFromRaw();

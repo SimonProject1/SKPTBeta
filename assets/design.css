@@ -1,38 +1,38 @@
-/* SK PLT Tools 2.0.3.5-Beta.1 – clean, directly rendered design */
+/* SK PLT Tools 2.0.3.5-Beta.2 – clean, directly rendered design */
 
 /* Unified application header */
-.sk-global-header{box-sizing:border-box;width:100%;min-height:112px;padding:0!important}
-.sk-global-header>.sk-header-inner{box-sizing:border-box;width:min(1100px,calc(100% - 34px));max-width:1100px;margin-inline:auto;display:flex;align-items:center;gap:18px;min-height:112px}
-.sk-logo-version-stack{display:flex;flex:0 0 auto;flex-direction:column;align-items:center;justify-content:center;gap:5px}
-.sk-logo-version-stack .sk-header-logo{display:block;width:64px;height:64px;min-width:64px;max-width:64px;max-height:64px;margin:0;object-fit:contain;object-position:center;border-radius:14px}
-.sk-logo-version{color:#89d329;font-size:11px;font-weight:900;line-height:1;letter-spacing:.35px;white-space:nowrap;text-align:center}
+.sk-global-header{box-sizing:border-box;width:100%;min-height:86px;padding:0!important}
+.sk-global-header>.sk-header-inner{box-sizing:border-box;width:min(1100px,calc(100% - 34px));max-width:1100px;margin-inline:auto;display:flex;align-items:center;gap:14px;min-height:86px}
+.sk-logo-version-stack{display:flex;flex:0 0 auto;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.sk-logo-version-stack .sk-header-logo{display:block;width:50px;height:50px;min-width:50px;max-width:50px;max-height:50px;margin:0;object-fit:contain;object-position:center;border-radius:12px}
+.sk-logo-version{color:#89d329;font-size:10px;font-weight:900;line-height:1;letter-spacing:.35px;white-space:nowrap;text-align:center}
 .sk-global-header .brand{min-width:0}
-.sk-global-header .brand small{display:block;margin-top:5px}
+.sk-global-header .brand small{display:block;margin-top:3px}
 .sk-global-header .sk-header-home{margin-left:auto;flex:0 0 auto;white-space:nowrap}
 
 /* Current clean tile design, now part of the initial render */
 .tools{align-items:stretch}
-.tools .card,.start-tools .tool-card{position:relative!important;overflow:hidden!important;min-height:0!important;height:auto!important;padding-top:24px!important;padding-bottom:24px!important;border-color:#24485d!important;background:linear-gradient(145deg,#0a2639,#071d2d)!important;transition:border-color .18s ease,transform .18s ease,background .18s ease!important}
+.tools .card,.start-tools .tool-card{position:relative!important;overflow:hidden!important;min-height:0!important;height:auto!important;padding-top:20px!important;padding-bottom:20px!important;border-color:#24485d!important;background:linear-gradient(145deg,#0a2639,#071d2d)!important;transition:border-color .18s ease,transform .18s ease,background .18s ease!important}
 .tools .card::before,.start-tools .tool-card::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#00b7e8 0%,#42d8bf 52%,#89d329 100%);opacity:.88}
 .tools .card:hover,.start-tools .tool-card:hover{border-color:#00b7e8!important;background:linear-gradient(145deg,#0d2c42,#082131)!important;transform:translateY(-2px)}
 .tools .card .icon,.start-tools .tool-card .icon,.tools>a.card .open,.start-tools>a.tool-card .open,.tools>a.card .card-action,.start-tools>a.tool-card .tool-action{display:none!important}
-.sk-card-category{display:block;margin:0 0 18px;color:#89d329;font-size:11px;line-height:1;font-weight:900;letter-spacing:1.6px;text-transform:uppercase}
+.sk-card-category{display:block;margin:0 0 14px;color:#89d329;font-size:11px;line-height:1;font-weight:900;letter-spacing:1.6px;text-transform:uppercase}
 .tools .card h2,.tools .card h3,.start-tools .tool-card h2,.start-tools .tool-card h3{margin-top:0!important;font-size:clamp(24px,2vw,31px)!important;line-height:1.15!important}
-.tools .card p,.start-tools .tool-card p{margin-top:20px!important;margin-bottom:0!important}
+.tools .card p,.start-tools .tool-card p{margin-top:14px!important;margin-bottom:0!important}
 
 /* Unified footer */
-footer.footer,footer.sk-footer{box-sizing:border-box;width:min(1100px,calc(100% - 34px));margin:30px auto 0;padding:18px 0 24px;color:#9fb8c5;text-align:center;font-size:13px;line-height:1.4}
+footer.footer,footer.sk-footer{box-sizing:border-box;width:min(1100px,calc(100% - 34px));margin:20px auto 0;padding:14px 0 18px;color:#9fb8c5;text-align:center;font-size:13px;line-height:1.4}
 footer.footer .stb-version,footer.sk-footer .stb-version{color:inherit}
 
 @media(max-width:760px){
-  .sk-global-header{min-height:92px}
-  .sk-global-header>.sk-header-inner{width:min(100% - 22px,1100px);gap:11px;min-height:92px}
-  .sk-logo-version-stack .sk-header-logo{width:52px;height:52px;min-width:52px;max-width:52px;max-height:52px;border-radius:12px}
-  .sk-logo-version{font-size:9px}
-  .tools .card,.start-tools .tool-card{padding-top:21px!important;padding-bottom:20px!important}
-  .sk-card-category{margin-bottom:15px;font-size:10px}
+  .sk-global-header{min-height:74px}
+  .sk-global-header>.sk-header-inner{width:min(100% - 22px,1100px);gap:9px;min-height:74px}
+  .sk-logo-version-stack .sk-header-logo{width:42px;height:42px;min-width:42px;max-width:42px;max-height:42px;border-radius:10px}
+  .sk-logo-version{font-size:8px}
+  .tools .card,.start-tools .tool-card{padding-top:17px!important;padding-bottom:16px!important}
+  .sk-card-category{margin-bottom:11px;font-size:10px}
   .tools .card h2,.tools .card h3,.start-tools .tool-card h2,.start-tools .tool-card h3{font-size:25px!important}
-  footer.footer,footer.sk-footer{width:min(100% - 22px,1100px);padding-bottom:22px;font-size:12px}
+  footer.footer,footer.sk-footer{width:min(100% - 22px,1100px);padding-bottom:16px;font-size:12px}
 }
 
 /* Visible beta identity */
@@ -40,3 +40,6 @@ footer.footer .stb-version,footer.sk-footer .stb-version{color:inherit}
 @media(max-width:760px){.sk-beta-label{margin-left:6px;padding:3px 5px;font-size:8px}}
 
 .sk-external-card{border-color:#3d6475!important}.sk-external-card::before{background:linear-gradient(90deg,#f3c64f 0%,#00b7e8 100%)!important}.sk-external-link-meta{display:inline-flex;align-items:center;margin-top:18px;color:#f3c64f;font-size:12px;font-weight:900;letter-spacing:.35px}.sk-external-card:focus-visible{outline:3px solid rgba(243,198,79,.42);outline-offset:3px}
+
+.sk-global-header .sk-header-home{padding:8px 10px;border-radius:9px;font-size:14px}
+@media(max-width:760px){.sk-global-header .brand{font-size:17px}.sk-global-header .brand small{font-size:9px;letter-spacing:1.25px}.sk-global-header .sk-header-home{padding:7px 8px;font-size:12px}}
