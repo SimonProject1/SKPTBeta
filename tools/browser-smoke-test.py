@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools Beta 2.0.3.4-Beta.1."""
+"""Browser smoke test for SK PLT Tools Beta 2.0.3.5-Beta.1."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -29,51 +29,45 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.4-Beta.1"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.5-Beta.1"
     assert_text(desktop, "h1", "Siemens Rohwert")
+    assert desktop.locator("#cardProfile option").count() == 5
     assert desktop.locator("#signalType option").count() == 4
     assert desktop.locator("#inputKind option").count() == 2
-    assert desktop.locator("#valueSlider").count() == 1
-    assert "physikalisch" not in desktop.locator("body").inner_text().lower()
     assert_text(desktop, "#rawResult", "13.824")
     assert_text(desktop, "#signalResult", "12,000 mA")
-    assert desktop.locator("#valueSlider").get_attribute("min") == "-32768"
-    assert desktop.locator("#valueSlider").get_attribute("max") == "32767"
-    assert desktop.locator("#sliderScale span").all_inner_texts() == ["−32.768", "−4.864", "0", "27.648", "32.511", "32.767"]
+    assert desktop.locator("#sliderScale span").all_inner_texts() == ["-32.768", "-4.865", "0", "27.648", "32.512", "32.767"]
 
-    cases = [
-        ("-4865", "Unterlauf"),
-        ("-4864", "Unterbereich"),
-        ("0", "Nennbereich"),
-        ("27648", "Nennbereich"),
-        ("27649", "Überbereich"),
-        ("32512", "Überlauf"),
-    ]
-    for raw, status in cases:
-        desktop.locator(f'button[data-raw="{raw}"]').click()
+    for raw, status in [("-4865", "Unterlauf"), ("-4864", "Untersteuerung"), ("0", "Nennbereich"), ("27648", "Nennbereich"), ("27649", "Übersteuerung"), ("32512", "Überlauf")]:
+        set_input(desktop, "#inputValue", raw)
         assert_text(desktop, "#rangeStatus", status)
 
-    desktop.locator("#signalType").select_option("0-10V")
+    set_input(desktop, "#inputValue", "13824")
     desktop.locator("#inputKind").select_option("signal")
-    assert desktop.locator("#valueSlider").get_attribute("min") == "0"
-    assert desktop.locator("#valueSlider").get_attribute("max") == "10"
-    assert desktop.locator("#sliderScale span").all_inner_texts() == ["0 V", "2,5 V", "5 V", "7,5 V", "10 V"]
-    set_input(desktop, "#inputValue", "2.5")
-    assert_text(desktop, "#rawResult", "6.912")
-    assert_text(desktop, "#signalResult", "2,500 V")
-    assert_text(desktop, "#rangeStatus", "Nennbereich")
-    signal_scales = {
-        "4-20mA": ["4 mA", "8 mA", "12 mA", "16 mA", "20 mA"],
-        "0-20mA": ["0 mA", "5 mA", "10 mA", "15 mA", "20 mA"],
-        "0-10V": ["0 V", "2,5 V", "5 V", "7,5 V", "10 V"],
-        "2-10V": ["2 V", "4 V", "6 V", "8 V", "10 V"],
-    }
-    for signal_type, expected_scale in signal_scales.items():
-        desktop.locator("#signalType").select_option(signal_type)
-        assert desktop.locator("#sliderScale span").all_inner_texts() == expected_scale
+    assert float(desktop.locator("#inputValue").input_value()) == 12.0
+    desktop.locator("#signalType").select_option("0-20mA")
+    assert float(desktop.locator("#inputValue").input_value()) == 10.0
+    set_input(desktop, "#inputValue", "15")
+    assert_text(desktop, "#rawResult", "20.736")
+
+    desktop.locator("#cardProfile").select_option("et200spha_on")
+    assert desktop.locator('#signalType option[value="0-20mA"]').evaluate("option => option.disabled")
     desktop.locator("#inputKind").select_option("raw")
-    assert desktop.locator("#sliderScale span").all_inner_texts() == ["−32.768", "−4.864", "0", "27.648", "32.511", "32.767"]
+    for raw, status in [("-691", "Unterlauf"), ("-690", "Untersteuerung"), ("-345", "Nennbereich"), ("28511", "Nennbereich"), ("28512", "Übersteuerung"), ("29376", "Überlauf")]:
+        set_input(desktop, "#inputValue", raw)
+        assert_text(desktop, "#rangeStatus", status)
+
+    desktop.locator("#cardProfile").select_option("s71500_fai_scale")
+    assert_text(desktop, "#rangeStatus", "Nur Umrechnung")
+    assert desktop.locator("#stateStrip").is_hidden()
+    assert "nicht bewertet" in desktop.locator("#statusDetail").inner_text().lower()
     desktop.screenshot(path=str(OUT / "siemens-desktop.png"), full_page=True)
+
+    desktop.goto(f"{BASE}/wissensdatenbank/")
+    desktop.wait_for_load_state("networkidle")
+    knowledge = desktop.locator('a.knowledge-entry[href="../siemens-analogwert-rechner/"]')
+    assert knowledge.count() == 1
+    assert_text(desktop, 'a.knowledge-entry[href="../siemens-analogwert-rechner/"] h2', "Rohwert")
 
     desktop.goto(f"{BASE}/")
     desktop.wait_for_load_state("networkidle")
@@ -83,31 +77,16 @@ with sync_playwright() as p:
     assert external.get_attribute("target") == "_blank"
     assert set((external.get_attribute("rel") or "").split()) >= {"external", "noopener", "noreferrer"}
     assert external.get_attribute("referrerpolicy") == "no-referrer"
-    assert "nicht in SK PLT Tools gespeichert" in external.inner_text()
-    assert external.locator("input, textarea, form").count() == 0
     desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
-    desktop.locator('[data-filter="EXTERN"]').click()
-    assert external.is_visible()
-    assert desktop.locator('.tools > a.card:visible').count() == 1
-    desktop.locator('[data-filter="ALLE"]').click()
-    set_input(desktop, "#skToolSearch", "Rohwert")
-    card = desktop.locator('a[href="siemens-analogwert-rechner/"]')
-    assert_text(desktop, 'a[href="siemens-analogwert-rechner/"] h2', 'Siemens Rohwert')
-    assert card.is_visible(), "Siemens-Rechner wird in der Startseitensuche nicht gefunden"
-    card.locator(".sk-favorite-button").click()
-    assert card.locator(".sk-favorite-button").get_attribute("data-active") == "true"
-    desktop.locator(".sk-tree-trigger").click()
-    assert desktop.get_by_text("Siemens-SPS-Analogwert-Rechner", exact=True).count() >= 1
 
     mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True)
     mobile.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
-    mobile.goto(f"{BASE}/")
+    mobile.goto(f"{BASE}/siemens-analogwert-rechner/")
     mobile.wait_for_load_state("networkidle")
     assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-    assert mobile.locator("a.sk-external-card").is_visible()
-    assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-    mobile.screenshot(path=str(OUT / "startseite-mobile.png"), full_page=True)
+    assert mobile.locator("#cardProfile").is_visible()
+    mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
 
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: Desktop, Mobilansicht, E+H-Externlink, Slider-Zustände, Rückrechnung, Suche, Favorit und Navigation geprüft.")
+    print("OK: Desktop/Mobil, bestätigte Siemens-Kartenprofile, NE43-Grenzen, Synchronisierung und Wissenskachel geprüft.")

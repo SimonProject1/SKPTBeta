@@ -1,9 +1,26 @@
 (()=>{'use strict';
-const RAW_NOMINAL_MAX=27648;
-const RAW_UNDERRANGE_MIN=-4864;
-const RAW_OVERRANGE_MAX=32511;
-const RAW_INT_MIN=-32768;
-const RAW_INT_MAX=32767;
+const PROFILES=Object.freeze({
+ et200sp_st:Object.freeze({
+  label:'ET 200SP · AI 4xI ST',partNumber:'6ES7134-6GD01-0BA1',supported:['4-20mA','0-20mA'],mode:'standard',rawMin:-32768,rawMax:32767,nomMax:27648,
+  note:'Bestätigte S7-Grenzen des Gerätehandbuchs. Bei 0–20 mA mit 2-Draht-Messumformer sind negative Werte und damit Untersteuerung/Unterlauf nicht möglich.'
+ }),
+ et200spha_off:Object.freeze({
+  label:'ET 200SP HA · AI 16xI HART · NE43 aus',partNumber:'6DL1134-6TH00-0PH1',supported:['4-20mA','0-20mA'],mode:'standard',rawMin:-32768,rawMax:32767,nomMax:27648,
+  note:'Ausfallüberwachung nach NE43 deaktiviert: systemische S7-Grenzen laut Gerätehandbuch.'
+ }),
+ et200spha_on:Object.freeze({
+  label:'ET 200SP HA · AI 16xI HART · NE43 ein',partNumber:'6DL1134-6TH00-0PH1',supported:['4-20mA'],mode:'ne43',rawMin:-32768,rawMax:32767,nomMax:27648,
+  note:'Alte NE43-Ausfallüberwachung des Moduls: ungültig ab 3,6 mA bzw. 21 mA; Wiedergültigwerden erst oberhalb 3,8 mA bzw. unterhalb 20,5 mA.'
+ }),
+ s71500_fai_scale:Object.freeze({
+  label:'S7-1500/ET 200MP · F-AI 8xI · nur Skalierung',partNumber:'6ES7536-1MF00-0AB0',supported:['4-20mA','0-20mA'],mode:'scale-only',rawMin:0,rawMax:27648,nomMax:27648,
+  note:'Nur bestätigte Nennskalierung. Diagnosegrenzen werden bewusst nicht bewertet; maßgeblich sind Gerätehandbuch, Firmware und Kanalparametrierung.'
+ }),
+ generic_scale:Object.freeze({
+  label:'Generische Umrechnung · ohne Kartenfreigabe',partNumber:'–',supported:['4-20mA','0-20mA','0-10V','2-10V'],mode:'scale-only',rawMin:0,rawMax:27648,nomMax:27648,
+  note:'Nur lineare Umrechnung 0…27.648. Keine kartenspezifische Aussage zu Unterlauf, Überlauf oder Diagnose.'
+ })
+});
 const TYPES=Object.freeze({
  '4-20mA':Object.freeze({min:4,max:20,unit:'mA',label:'4–20 mA'}),
  '0-20mA':Object.freeze({min:0,max:20,unit:'mA',label:'0–20 mA'}),
@@ -11,159 +28,111 @@ const TYPES=Object.freeze({
  '2-10V':Object.freeze({min:2,max:10,unit:'V',label:'2–10 V'})
 });
 const STATES=Object.freeze({
- underflow:Object.freeze({label:'Unterlauf',detail:'≤ −4.865'}),
- underrange:Object.freeze({label:'Unterbereich',detail:'−4.864…−1'}),
- nominal:Object.freeze({label:'Nennbereich',detail:'0…27.648'}),
- overrange:Object.freeze({label:'Überbereich',detail:'27.649…32.511'}),
- overflow:Object.freeze({label:'Überlauf',detail:'≥ 32.512'})
+ underflow:Object.freeze({label:'Unterlauf',color:'#ff7b83'}),
+ underrange:Object.freeze({label:'Untersteuerung',color:'#f5b942'}),
+ nominal:Object.freeze({label:'Nennbereich',color:'#89d329'}),
+ overrange:Object.freeze({label:'Übersteuerung',color:'#f5b942'}),
+ overflow:Object.freeze({label:'Überlauf',color:'#ff7b83'}),
+ scaleOnly:Object.freeze({label:'Nur Umrechnung',color:'#00b7e8'})
 });
-function statusForRaw(raw){
- if(raw<RAW_UNDERRANGE_MIN)return 'underflow';
- if(raw<0)return 'underrange';
- if(raw<=RAW_NOMINAL_MAX)return 'nominal';
- if(raw<=RAW_OVERRANGE_MAX)return 'overrange';
- return 'overflow';
+const profile=value=>typeof value==='object'&&value?value:(PROFILES[value]||PROFILES.et200sp_st);
+const type=value=>TYPES[value]||TYPES['4-20mA'];
+const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
+function limitsFor(profileId='et200sp_st',typeId='4-20mA'){
+ const p=profile(profileId);
+ if(p.mode==='scale-only')return null;
+ if(typeId==='0-20mA')return Object.freeze({rawMin:0,underEnd:null,nomStart:0,nomEnd:27648,overflowStart:32512,rawMax:32767,lowerPossible:false});
+ if(p.mode==='ne43')return Object.freeze({rawMin:-32768,underEnd:-691,nomStart:-345,nomEnd:28511,overflowStart:29376,rawMax:32767,lowerPossible:true,hysteresis:true});
+ return Object.freeze({rawMin:-32768,underEnd:-4865,nomStart:0,nomEnd:27648,overflowStart:32512,rawMax:32767,lowerPossible:true});
 }
-function signalFromRaw(type,raw){
- const signal=TYPES[type];
- if(!signal)throw new Error('Unbekannter Signalbereich.');
- return signal.min+(Number(raw)/RAW_NOMINAL_MAX)*(signal.max-signal.min);
+function statusForRaw(raw,profileId='et200sp_st',typeId='4-20mA'){
+ const p=profile(profileId),limits=limitsFor(p,typeId),value=Number(raw);
+ if(!limits)return'scaleOnly';
+ if(!limits.lowerPossible&&value<0)throw new Error('Bei 0–20 mA mit 2-Draht-Messumformer sind negative Prozesswerte laut Siemens nicht möglich.');
+ if(limits.underEnd!==null&&value<=limits.underEnd)return'underflow';
+ if(value<limits.nomStart)return'underrange';
+ if(value<=limits.nomEnd)return'nominal';
+ if(value<limits.overflowStart)return'overrange';
+ return'overflow';
 }
-function rawFromSignal(type,value){
- const signal=TYPES[type];
- if(!signal)throw new Error('Unbekannter Signalbereich.');
- return (Number(value)-signal.min)/(signal.max-signal.min)*RAW_NOMINAL_MAX;
+function signalFromRaw(typeId,raw,profileId='et200sp_st'){
+ const t=type(typeId),p=profile(profileId);
+ return t.min+(Number(raw)/p.nomMax)*(t.max-t.min);
 }
-function signalScaleForType(type){
- const signal=TYPES[type];
- if(!signal)throw new Error('Unbekannter Signalbereich.');
- return Object.freeze(Array.from({length:5},(_,index)=>signal.min+(signal.max-signal.min)*(index/4)));
+function rawFromSignal(typeId,value,profileId='et200sp_st'){
+ const t=type(typeId),p=profile(profileId);
+ return (Number(value)-t.min)/(t.max-t.min)*p.nomMax;
 }
-function calculate(type,inputKind,value){
- const input=Number(value);
+function calculate(typeId,inputKind,value,profileId='et200sp_st'){
+ const input=Number(value),p=profile(profileId),t=type(typeId),limits=limitsFor(p,typeId);
  if(!Number.isFinite(input))throw new Error('Bitte einen gültigen Zahlenwert eingeben.');
+ if(!p.supported.includes(typeId))throw new Error(`${t.label} ist für dieses Profil nicht freigegeben.`);
  if(inputKind!=='raw'&&inputKind!=='signal')throw new Error('Unbekannte Eingaberichtung.');
- const rawExact=inputKind==='raw'?input:rawFromSignal(type,input);
+ const rawExact=inputKind==='raw'?input:rawFromSignal(typeId,input,p);
  const raw=Math.round(rawExact);
- const signal=signalFromRaw(type,raw);
- const config=TYPES[type];
- return Object.freeze({raw,rawExact,signal,signalUnit:config.unit,signalLabel:config.label,percent:raw/RAW_NOMINAL_MAX*100,status:statusForRaw(raw)});
+ const min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;
+ if(raw<min||raw>max)throw new Error(`Wert außerhalb des bestätigten Bereichs ${min}…${max}.`);
+ const signal=signalFromRaw(typeId,raw,p);
+ return Object.freeze({raw,rawExact,signal,percent:raw/p.nomMax*100,status:statusForRaw(raw,p,typeId),profile:p,type:t,limits});
 }
-const SLIDER_COLOR_STOPS=Object.freeze([
- Object.freeze({raw:RAW_INT_MIN,r:184,g:63,b:81}),
- Object.freeze({raw:-4864,r:239,g:170,b:58}),
- Object.freeze({raw:0,r:166,g:207,b:58}),
- Object.freeze({raw:13824,r:95,g:189,b:71}),
- Object.freeze({raw:27648,r:202,g:208,b:68}),
- Object.freeze({raw:32511,r:225,g:109,b:69}),
- Object.freeze({raw:RAW_INT_MAX,r:184,g:63,b:81})
-]);
-function sliderColorForRaw(raw){
- const value=Math.min(RAW_INT_MAX,Math.max(RAW_INT_MIN,Number(raw)));
- let left=SLIDER_COLOR_STOPS[0],right=SLIDER_COLOR_STOPS[SLIDER_COLOR_STOPS.length-1];
- for(let index=1;index<SLIDER_COLOR_STOPS.length;index+=1){
-  if(value<=SLIDER_COLOR_STOPS[index].raw){left=SLIDER_COLOR_STOPS[index-1];right=SLIDER_COLOR_STOPS[index];break}
- }
- const span=right.raw-left.raw||1;
- const mix=Math.min(1,Math.max(0,(value-left.raw)/span));
- const channel=(start,end)=>Math.round(start+(end-start)*mix);
- return `rgb(${channel(left.r,right.r)}, ${channel(left.g,right.g)}, ${channel(left.b,right.b)})`;
+function boundaries(profileId='et200sp_st',typeId='4-20mA'){
+ const limits=limitsFor(profileId,typeId);if(!limits)return null;
+ const span=limits.rawMax-limits.rawMin,position=value=>((value-limits.rawMin)/span*100);
+ return Object.freeze({under:limits.underEnd===null?0:position(limits.underEnd+.5),nomStart:position(limits.nomStart),nomEnd:position(limits.nomEnd+.5),overflow:position(limits.overflowStart-.5)});
 }
-const api=Object.freeze({RAW_NOMINAL_MAX,RAW_UNDERRANGE_MIN,RAW_OVERRANGE_MAX,RAW_INT_MIN,RAW_INT_MAX,TYPES,STATES,SLIDER_COLOR_STOPS,statusForRaw,signalFromRaw,rawFromSignal,signalScaleForType,calculate,sliderColorForRaw});
+function signalScaleForType(typeId){const t=type(typeId);return Object.freeze(Array.from({length:5},(_,index)=>t.min+(t.max-t.min)*(index/4)));}
+function profileScale(typeId,profileId='et200sp_st',mode='raw'){
+ const p=profile(profileId),limits=limitsFor(p,typeId);
+ if(!limits){const raw=[p.rawMin,p.nomMax];return Object.freeze(mode==='signal'?raw.map(value=>signalFromRaw(typeId,value,p)):raw)}
+ const raw=limits.lowerPossible?[limits.rawMin,limits.underEnd,limits.nomStart,limits.nomEnd,limits.overflowStart,limits.rawMax]:[limits.nomStart,limits.nomEnd,limits.overflowStart,limits.rawMax];
+ return Object.freeze(mode==='signal'?raw.map(value=>signalFromRaw(typeId,value,p)):raw);
+}
+const api=Object.freeze({PROFILES,TYPES,STATES,limitsFor,statusForRaw,signalFromRaw,rawFromSignal,calculate,boundaries,signalScaleForType,profileScale});
 if(typeof globalThis!=='undefined')globalThis.SK_SIEMENS_ANALOG=api;
 if(typeof document==='undefined')return;
 
-const byId=id=>document.getElementById(id);
-const elements={
- signalType:byId('signalType'),inputKind:byId('inputKind'),inputValue:byId('inputValue'),inputValueLabel:byId('inputValueLabel'),inputSuffix:byId('inputSuffix'),
- slider:byId('valueSlider'),sliderLabel:byId('sliderLabel'),sliderScale:byId('sliderScale'),sliderHelp:byId('sliderHelp'),sliderReadout:byId('sliderReadout'),rawResult:byId('rawResult'),rawExact:byId('rawExact'),signalResult:byId('signalResult'),
- signalResultLabel:byId('signalResultLabel'),signalRange:byId('signalRange'),percentResult:byId('percentResult'),rangeStatus:byId('rangeStatus'),statusDetail:byId('statusDetail'),error:byId('calculationError')
-};
+const $=id=>document.getElementById(id);
+const elements={profile:$('cardProfile'),signalType:$('signalType'),inputKind:$('inputKind'),inputValue:$('inputValue'),inputLabel:$('inputValueLabel'),inputSuffix:$('inputSuffix'),slider:$('valueSlider'),sliderLabel:$('sliderLabel'),sliderScale:$('sliderScale'),sliderReadout:$('sliderReadout'),rawResult:$('rawResult'),signalResult:$('signalResult'),percentResult:$('percentResult'),rangeStatus:$('rangeStatus'),statusDetail:$('statusDetail'),stateStrip:$('stateStrip'),sourceLink:$('profileSourceLink'),error:$('calculationError')};
 if(Object.values(elements).some(element=>!element))return;
 let currentRaw=13824;
 const parse=value=>Number.parseFloat(String(value).replace(',','.'));
 const format=(value,digits=3)=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:digits,maximumFractionDigits:digits}):'–';
 const formatRaw=value=>Number.isFinite(value)?Math.round(value).toLocaleString('de-DE'):'–';
-const formatScale=value=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:3}):'–';
-const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
-function updateInputMode(){
- const type=TYPES[elements.signalType.value];
- const isRaw=elements.inputKind.value==='raw';
- elements.inputValueLabel.textContent=isRaw?'Siemens-Rohwert':`Signalwert (${type.unit})`;
- elements.inputSuffix.textContent=isRaw?'INT':type.unit;
- elements.inputValue.step=isRaw?'1':'0.001';
+const formatScale=(value,mode,unit)=>mode==='raw'?formatRaw(value):`${format(value,3)} ${unit}`;
+function syncSupportedTypes(){
+ const p=profile(elements.profile.value);
+ [...elements.signalType.options].forEach(option=>{option.disabled=!p.supported.includes(option.value)});
+ if(!p.supported.includes(elements.signalType.value))elements.signalType.value=p.supported[0];
 }
-function renderScale(labels){
- elements.sliderScale.textContent='';
- labels.forEach(label=>{const item=document.createElement('span');item.textContent=label;elements.sliderScale.appendChild(item)});
- elements.sliderScale.style.setProperty('--analog-scale-count',String(labels.length));
+function setTrack(profileId,typeId){
+ const b=boundaries(profileId,typeId),diagnostic=Boolean(b);elements.slider.dataset.diagnostic=diagnostic?'on':'off';elements.stateStrip.hidden=!diagnostic;
+ if(!b)return;
+ elements.slider.style.setProperty('--b1',`${b.under.toFixed(4)}%`);elements.slider.style.setProperty('--b2',`${b.nomStart.toFixed(4)}%`);elements.slider.style.setProperty('--b3',`${b.nomEnd.toFixed(4)}%`);elements.slider.style.setProperty('--b4',`${b.overflow.toFixed(4)}%`);
 }
-function updateSliderMode(result){
- const type=TYPES[elements.signalType.value];
- const isRaw=elements.inputKind.value==='raw';
- if(isRaw){
-  elements.sliderScale.dataset.mode='raw';
-  elements.slider.min=String(RAW_INT_MIN);elements.slider.max=String(RAW_INT_MAX);elements.slider.step='1';elements.slider.value=String(clamp(result.raw,RAW_INT_MIN,RAW_INT_MAX));
-  elements.sliderLabel.textContent='Stufenloser Rohwertregler';
-  elements.sliderHelp.textContent='Der Regler zeigt den Siemens-Rohwertbereich −32.768…32.767 und aktualisiert Rohwert, Signal sowie Bereichszustand unmittelbar.';
-  elements.sliderReadout.textContent=`${formatRaw(result.raw)} · ${format(result.signal,3)} ${result.signalUnit}`;
-  elements.slider.setAttribute('aria-label','Siemens-Rohwertregler −32.768 bis 32.767');
-  renderScale(['−32.768','−4.864','0','27.648','32.511','32.767']);
- }else{
-  elements.sliderScale.dataset.mode='signal';
-  elements.slider.min=String(type.min);elements.slider.max=String(type.max);elements.slider.step='0.001';elements.slider.value=String(clamp(result.signal,type.min,type.max));
-  elements.sliderLabel.textContent=`Stufenloser Signalregler · ${type.label}`;
-  elements.sliderHelp.textContent=`Der Regler zeigt den gewählten Signalbereich ${type.label} und aktualisiert Signal, Siemens-Rohwert sowie Bereichszustand unmittelbar.`;
-  elements.sliderReadout.textContent=`${format(result.signal,3)} ${result.signalUnit} · ${formatRaw(result.raw)}`;
-  elements.slider.setAttribute('aria-label',`Signalregler ${type.label}`);
-  renderScale(signalScaleForType(elements.signalType.value).map(value=>`${formatScale(value)} ${type.unit}`));
- }
- elements.slider.style.setProperty('--analog-slider-thumb-color',sliderColorForRaw(result.raw));
- elements.slider.setAttribute('aria-valuetext',elements.sliderReadout.textContent);
+function renderScale(mode,p,t){
+ elements.sliderScale.replaceChildren();
+ profileScale(elements.signalType.value,p,mode).forEach(value=>{const item=document.createElement('span');item.textContent=formatScale(value,mode,t.unit);elements.sliderScale.append(item)});
+ elements.sliderScale.dataset.mode=mode;elements.sliderScale.style.setProperty('--analog-scale-count',String(elements.sliderScale.children.length));
 }
-function syncInputToRaw(){
- const type=elements.signalType.value;
- elements.inputValue.value=elements.inputKind.value==='raw'?String(Math.round(currentRaw)):String(Number(signalFromRaw(type,currentRaw).toFixed(6)));
+function syncInput(){
+ const mode=elements.inputKind.value,t=type(elements.signalType.value),p=profile(elements.profile.value),limits=limitsFor(p,elements.signalType.value);
+ const min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;
+ elements.inputLabel.textContent=mode==='raw'?'Rohwert':`Signalwert (${t.unit})`;elements.inputSuffix.textContent=mode==='raw'?'INT':t.unit;elements.inputValue.step=mode==='raw'?'1':'0.001';
+ elements.inputValue.min=mode==='raw'?String(min):String(signalFromRaw(elements.signalType.value,min,p));elements.inputValue.max=mode==='raw'?String(max):String(signalFromRaw(elements.signalType.value,max,p));
+ elements.inputValue.value=mode==='raw'?String(currentRaw):String(Number(signalFromRaw(elements.signalType.value,currentRaw,p).toFixed(6)));
 }
-function renderResult(result){
- currentRaw=result.raw;
- const state=STATES[result.status];
- elements.error.hidden=true;
- elements.rawResult.textContent=formatRaw(result.raw);
- elements.rawExact.textContent=Math.abs(result.rawExact-result.raw)>0.0001?`rechnerisch ${format(result.rawExact,3)} · gerundet auf INT`:'Ganzzahliger SPS-Wert';
- elements.signalResult.textContent=`${format(result.signal,3)} ${result.signalUnit}`;
- elements.signalResultLabel.textContent=`Signalwert (${result.signalUnit})`;
- elements.signalRange.textContent=`Nennbereich ${result.signalLabel}`;
- elements.percentResult.textContent=`${format(result.percent,2)} %`;
- elements.rangeStatus.textContent=state.label;
- elements.rangeStatus.dataset.state=result.status;
- elements.statusDetail.textContent=`${state.label} · ${state.detail}`;
- document.querySelectorAll('[data-state-key]').forEach(item=>item.classList.toggle('active',item.dataset.stateKey===result.status));
- updateSliderMode(result);
+function renderFromRaw(){
+ const p=profile(elements.profile.value),t=type(elements.signalType.value),mode=elements.inputKind.value,result=calculate(elements.signalType.value,'raw',currentRaw,p),state=STATES[result.status],limits=result.limits;
+ elements.error.hidden=true;elements.rawResult.textContent=formatRaw(result.raw);elements.signalResult.textContent=`${format(result.signal,3)} ${t.unit}`;elements.percentResult.textContent=`${format(result.percent,1)} %`;elements.rangeStatus.textContent=state.label;elements.rangeStatus.dataset.state=result.status;
+ elements.statusDetail.textContent=`${p.label} (${p.partNumber}): ${p.note}`;elements.sourceLink.href='../SIEMENS-QUELLEN-UND-GRENZWERTE.md';
+ const min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;
+ elements.slider.min=mode==='raw'?String(min):String(signalFromRaw(elements.signalType.value,min,p));elements.slider.max=mode==='raw'?String(max):String(signalFromRaw(elements.signalType.value,max,p));elements.slider.step=mode==='raw'?'1':'0.001';elements.slider.value=mode==='raw'?String(result.raw):String(result.signal);
+ elements.sliderLabel.textContent=mode==='raw'?'Rohwert stufenlos einstellen':`${t.label} stufenlos einstellen`;elements.sliderReadout.textContent=mode==='raw'?`${formatRaw(result.raw)} · ${format(result.signal,3)} ${t.unit}`:`${format(result.signal,3)} ${t.unit} · ${formatRaw(result.raw)}`;elements.slider.setAttribute('aria-valuetext',elements.sliderReadout.textContent);elements.slider.setAttribute('aria-label',elements.sliderLabel.textContent);elements.slider.style.setProperty('--thumb-color',state.color);
+ setTrack(p,elements.signalType.value);renderScale(mode,p,t);document.querySelectorAll('[data-state-key]').forEach(item=>item.classList.toggle('active',item.dataset.stateKey===result.status));
 }
-function renderFromInput(){
- updateInputMode();
- try{renderResult(calculate(elements.signalType.value,elements.inputKind.value,parse(elements.inputValue.value)))}
- catch(error){
-  elements.error.textContent=error.message;elements.error.hidden=false;elements.rangeStatus.textContent='Eingabe prüfen';elements.rangeStatus.dataset.state='error';
-  [elements.rawResult,elements.signalResult,elements.percentResult].forEach(element=>element.textContent='–');
-  [elements.rawExact,elements.signalRange,elements.statusDetail,elements.sliderReadout].forEach(element=>element.textContent='–');
-  document.querySelectorAll('[data-state-key]').forEach(item=>item.classList.remove('active'));
- }
-}
-function applyRaw(raw){
- currentRaw=Math.round(Number(raw));
- syncInputToRaw();
- renderFromInput();
-}
-elements.inputValue.addEventListener('input',renderFromInput);
-elements.inputValue.addEventListener('change',renderFromInput);
-elements.slider.addEventListener('input',()=>{
- if(elements.inputKind.value==='raw')applyRaw(elements.slider.value);
- else{elements.inputValue.value=elements.slider.value;renderFromInput()}
-});
-elements.inputKind.addEventListener('change',()=>{syncInputToRaw();updateInputMode();renderFromInput()});
-elements.signalType.addEventListener('change',()=>{syncInputToRaw();updateInputMode();renderFromInput()});
-document.querySelectorAll('[data-raw]').forEach(button=>button.addEventListener('click',()=>applyRaw(button.dataset.raw)));
-updateInputMode();renderFromInput();
+function renderFromInput(){try{const result=calculate(elements.signalType.value,elements.inputKind.value,parse(elements.inputValue.value),elements.profile.value);currentRaw=result.raw;renderFromRaw()}catch(error){elements.error.textContent=error.message;elements.error.hidden=false;elements.rangeStatus.textContent='Eingabe prüfen';elements.rangeStatus.dataset.state='error'}}
+elements.inputValue.addEventListener('input',renderFromInput);elements.inputValue.addEventListener('change',renderFromInput);
+elements.slider.addEventListener('input',()=>{const mode=elements.inputKind.value;currentRaw=mode==='raw'?Math.round(Number(elements.slider.value)):Math.round(rawFromSignal(elements.signalType.value,elements.slider.value,elements.profile.value));syncInput();renderFromRaw()});
+elements.inputKind.addEventListener('change',()=>{syncInput();renderFromRaw()});elements.signalType.addEventListener('change',()=>{syncInput();renderFromRaw()});elements.profile.addEventListener('change',()=>{syncSupportedTypes();const p=profile(elements.profile.value),limits=limitsFor(p,elements.signalType.value),min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;currentRaw=clamp(currentRaw,min,max);syncInput();renderFromRaw()});
+syncSupportedTypes();syncInput();renderFromRaw();
 })();

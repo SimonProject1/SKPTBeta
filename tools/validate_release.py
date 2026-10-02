@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.3.4-Beta.1."""
+"""Static release validation for SK PLT Tools Beta 2.0.3.5-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.3.4-Beta.1'
+VERSION='2.0.3.5-Beta.1'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -84,7 +84,8 @@ expected_knowledge_hrefs={
     'werkstoff-nachschlagewerk/',
     'air-torque-antrieb-drehrichtung/',
     'siemens-sitrans-p320-sil-verriegelung/',
-    'vacon-frequenzumrichter-ist-sollwert-abweichung/'
+    'vacon-frequenzumrichter-ist-sollwert-abweichung/',
+    '../siemens-analogwert-rechner/'
 }
 actual_knowledge_hrefs={tile.get('href') for tile in knowledge_tiles}
 if actual_knowledge_hrefs!=expected_knowledge_hrefs: errors.append(f'Wissensdatenbank: Wissenskacheln abweichend: {sorted(actual_knowledge_hrefs)}')
@@ -145,10 +146,12 @@ if not {'316-vs-316l','14404-vs-14408'}<=comparison_ids: errors.append('Pflichtv
 
 search_index=json.loads((ROOT/'assets/search-index.json').read_text(encoding='utf-8'))
 if not any(item.get('url')=='wissensdatenbank/werkstoff-nachschlagewerk/' and item.get('passthroughQuery') and item.get('catalog')=='materials' for item in search_index): errors.append('Startseitensuche: zentral angebundener Werkstoffbereich mit Suchübergabe fehlt')
+if not any(item.get('manufacturer')=='Siemens' and item.get('device')=='SPS' and item.get('topic')=='Rohwert' and item.get('url')=='siemens-analogwert-rechner/' for item in search_index): errors.append('Suche: Wissenseintrag Siemens / SPS / Rohwert fehlt')
 if 'assets/materials.json' not in (ROOT/'assets/start-filter.js').read_text(encoding='utf-8'): errors.append('Startseitensuche: zentrale Werkstoffdatei wird nicht geladen')
 nav=json.loads((ROOT/'assets/navigation-tree.json').read_text(encoding='utf-8'))
 if 'wissensdatenbank/werkstoff-nachschlagewerk/' not in json.dumps(nav): errors.append('Navigationsbaum: Werkstoffbereich fehlt')
 if 'siemens-analogwert-rechner/' not in json.dumps(nav): errors.append('Navigationsbaum: Siemens-SPS-Analogwert-Rechner fehlt')
+if not any(grandchild.get('title')=='SPS – Rohwert' and grandchild.get('url')=='siemens-analogwert-rechner/' for group in nav.get('groups',[]) for item in group.get('items',[]) for child in item.get('children',[]) for grandchild in child.get('children',[]) if item.get('title')=='Wissensdatenbank' and child.get('title')=='Siemens'): errors.append('Navigationsbaum: Wissenseintrag Siemens / SPS / Rohwert fehlt')
 if not any(group.get('id')=='external-services' and any(item.get('url')=='https://netilion.endress.com/app/library/device_viewer' and item.get('type')=='external' for item in group.get('items',[])) for group in nav.get('groups',[])): errors.append('Navigationsbaum: E+H Device Viewer fehlt oder ist nicht extern gekennzeichnet')
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
@@ -168,10 +171,10 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.4-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.4-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
-for selector in ('#signalType','#inputKind','#inputValue','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail'):
+for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail','#calculationError'):
     if not siemens_page.select_one(selector): errors.append(f'Siemens-Rechner: Element fehlt: {selector}')
 if siemens_page.select_one('h1') is None or siemens_page.select_one('h1').get_text(strip=True)!='Siemens Rohwert': errors.append('Siemens-Rechner: große Seitenüberschrift heißt nicht exakt Siemens Rohwert')
 for state in ('underflow','underrange','nominal','overrange','overflow'):
@@ -179,11 +182,12 @@ for state in ('underflow','underrange','nominal','overrange','overflow'):
 for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult','Physikalischer Wert','physikalischen Wert'):
     if forbidden in siemens_html: errors.append(f'Siemens-Rechner: entfernte physikalische Konfiguration noch vorhanden: {forbidden}')
 siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text(encoding='utf-8')
-if '#a93d4a 0 42.58%' in siemens_css or '--analog-slider-thumb-color' not in siemens_css: errors.append('Siemens-Rechner: kontinuierlicher Slider-Farbverlauf fehlt')
+for required in ('linear-gradient(90deg,#d74c57 0 var(--b1)', '#f5b942 var(--b1) var(--b2)', '#69c93d var(--b2) var(--b3)', '--thumb-color'):
+    if required not in siemens_css: errors.append(f'Siemens-Rechner: feste Bereichsfarbgebung fehlt: {required}')
 if '.analog-workbench::after' in siemens_css or "content:'INT'" in siemens_css or "content:'TNT'" in siemens_css: errors.append('Siemens-Rechner: transparentes Hintergrundelement im Konfigurationsbereich nicht vollständig entfernt')
 siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
-for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'RAW_NOMINAL_MAX=27648','RAW_UNDERRANGE_MIN=-4864','RAW_OVERRANGE_MAX=32511',"inputKind==='raw'","inputKind!=='signal'",'statusForRaw','sliderColorForRaw','signalScaleForType','updateSliderMode',"byId('valueSlider')","byId('sliderScale')"):
-    if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungsmerkmal fehlt: {required}')
+for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'et200sp_st:Object.freeze','et200spha_off:Object.freeze','et200spha_on:Object.freeze','s71500_fai_scale:Object.freeze','generic_scale:Object.freeze','statusForRaw','signalScaleForType','profileScale','boundaries',"$('cardProfile')","$('valueSlider')","$('sliderScale')"):
+    if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungs-/Profilmerkmal fehlt: {required}')
 for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult',"inputKind==='percent'","inputKind==='physical'"):
     if forbidden in siemens_js: errors.append(f'Siemens-Rechner: entfernte Berechnungsart noch vorhanden: {forbidden}')
 
@@ -200,4 +204,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Analogwert-Rechner, 4 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Kartenprofile und Rohwert-Wissenseintrag, 5 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')

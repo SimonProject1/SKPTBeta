@@ -101,5 +101,37 @@
       "maximale Frequenz"
     ],
     "url": "wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Siemens",
+    "device": "SPS",
+    "topic": "Rohwert",
+    "title": "Siemens SPS Rohwert",
+    "description": "Bestätigte Karten- und Parametrierungsgrenzen; direkter Einstieg in den Siemens-Rohwert-Rechner.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Siemens",
+      "SPS",
+      "Rohwert"
+    ],
+    "keywords": [
+      "Siemens",
+      "SPS",
+      "Rohwert",
+      "Analogwert",
+      "ET 200SP",
+      "ET 200SP HA",
+      "S7-1500",
+      "ET 200MP",
+      "F-AI",
+      "NE43",
+      "Unterlauf",
+      "Überlauf",
+      "4-20 mA",
+      "0-20 mA"
+    ],
+    "url": "siemens-analogwert-rechner/"
   }
 ]

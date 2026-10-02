@@ -1,34 +1,34 @@
-SK PLT Tools Beta V2.0.3.4-Beta.1
+SK PLT Tools Beta V2.0.3.5-Beta.1
 
-FORTSCHREIBUNG DER VOLLSTÄNDIGEN VERSION V2.0.3.3-BETA.1
-AUF UNVERÄNDERTER STABILER BASIS V2.0.2.0
+VOLLSTÄNDIGE FORTSCHREIBUNG VON V2.0.3.4-BETA.1
+STABILE REFERENZ V2.0.2.0 UNVERÄNDERT
 
-Geändert
-- E+H Device Viewer als neue Startseitenkachel ergänzt.
-- Offizielles Ziel: https://netilion.endress.com/app/library/device_viewer
-- Externer Herstellerdienst wird sichtbar gekennzeichnet und in neuem Tab geöffnet.
-- Linkschutz ergänzt: external, noopener, noreferrer und no-referrer.
-- Neue Filterkategorie „Externe Dienste“ ergänzt.
-- E+H Device Viewer in den Navigationsbaum aufgenommen.
-- Externe Favoriten behalten das Öffnen in neuem Tab und speichern nur Linkmetadaten, keine Seriennummern oder Eingaben.
-- Startseitenanzahl und automatische Prüfungen auf zehn Kacheln fortgeschrieben.
-- Versionsangaben, Ressourcenkennungen, PWA-ID, start_url und separater Beta-Cache auf 2.0.3.4-Beta.1 fortgeschrieben.
+Siemens Rohwert – Kollegenfeedback umgesetzt
+- Ergebniswerte kompakt oberhalb der Bedienung angeordnet.
+- Rohwert, Signalwert, Eingabefeld und Regler vollständig synchronisiert.
+- Feste Rot-/Gelb-/Grün-Bereiche statt eines weichen Farbverlaufs.
+- Responsive PC- und Mobilansicht.
+
+Quellengeprüfte Karten-/Diagnoseprofile
+- ET 200SP AI 4xI 2-/4-wire ST, 6ES7134-6GD01-0BA1.
+- ET 200SP HA AI 16xI 2-wire HART HA, 6DL1134-6TH00-0PH1, getrennt für „Ausfallüberwachung nach NE43“ aus/ein.
+- Bei NE43 ein: Unterlauf/ungültig ab 3,6 mA bzw. Rohwert −691; Überlauf/ungültig ab 21,0 mA bzw. Rohwert 29.376; Hysterese 3,8 mA und 20,5 mA.
+- S7-1500/ET 200MP F-AI 8xI, 6ES7536-1MF00-0AB0: nur bestätigte Nennskalierung; keine unbestätigten Diagnosegrenzen.
+- Generische Spannungs-/Stromumrechnung bleibt verfügbar, ist aber ausdrücklich keine Kartenfreigabe.
+
+Wissensdatenbank
+- Neue Kachel: Hersteller Siemens · Gerät SPS · Thema Rohwert.
+- Direkte Verlinkung zum Siemens-Rohwert-Rechner.
+- Integration in Suche und Navigationsbaum.
+
+Dokumentation
+- Neue Datei SIEMENS-QUELLEN-UND-GRENZWERTE.md mit offiziellen Siemens-Quellen, Grenzwerttabellen und Parametrierungsabweichungen.
+- Quellenhinweis zur NE 43 (2021): Bei ET 200SP/HA ist die modulintern so bezeichnete Funktion auf die alte NE 43 (2003) bezogen; aktuelle Siemens-Empfehlung beachten.
+- PWA-ID, start_url, Service-Worker-Cache und alle sichtbaren Versionsstände auf 2.0.3.5-Beta.1 fortgeschrieben.
 
 Unverändert übernommen
-- Siemens Rohwert mit vier Signalbereichen, zwei Richtungen und fünf Bereichszuständen.
-- Bestehendes Clean Design, Header, Footer, Suche, Sortierung, Favoriten und Navigation.
-- Wissensdatenbank, Vorlagen und alle übrigen Rechner- und Dokumentationsfunktionen.
-- Stabile Version V2.0.2.0 und ihr Originalpaket bleiben unverändert.
-
-Datenschutz / externe Abhängigkeit
-- SK PLT Tools stellt für den E+H Device Viewer kein Seriennummern- oder Eingabefeld bereit.
-- Seriennummern und weitere Eingaben werden nicht in SK PLT Tools gespeichert.
-- Inhalt, Verfügbarkeit, Datenschutz und Nutzungsbedingungen des externen Herstellerdienstes liegen beim Betreiber.
-
-Beta-Isolation
-- Sichtbarer App-Name: SK PLT Tools Beta mit BETA-Kennzeichnung auf jeder Seite.
-- PWA-ID und start_url: ./?app=sk-plt-tools-beta-2.0.3.4-beta.1
-- Service-Worker-Cache: sk-plt-tools-beta-v2.0.3.4-Beta.1
-- Der Beta-Service-Worker entfernt nur ältere Caches mit dem Präfix sk-plt-tools-beta-.
+- E+H Device Viewer mit sicherer Externkennzeichnung.
+- Übrige Rechner, Messstellen-Dokumentation, VDE-Plausibilitätsprüfung und bestehende Wissensbeiträge.
+- Suche, Sortierung, Favoriten, Navigation und Offline-Betrieb.
 
 Datenstand: 02.10.2026.

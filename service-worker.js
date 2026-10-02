@@ -1,8 +1,8 @@
-const RELEASE='2.0.3.4-Beta.1';
+const RELEASE='2.0.3.5-Beta.1';
 const CACHE_PREFIX='sk-plt-tools-beta-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
-  './','./index.html','./manifest.webmanifest',
+  './','./index.html','./manifest.webmanifest','./SIEMENS-QUELLEN-UND-GRENZWERTE.md',
   './assets/styles.css','./assets/design.css','./assets/app.js',
   './assets/favorites.css','./assets/favorites.js',
   './assets/start-filter.css','./assets/start-filter.js',

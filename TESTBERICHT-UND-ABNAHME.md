@@ -1,4 +1,4 @@
-# Testbericht und Abnahme – SK PLT Tools 2.0.3.4-Beta.1
+# Testbericht und Abnahme – SK PLT Tools 2.0.3.5-Beta.1
 
 ## Automatisierte Prüfung
 
@@ -8,36 +8,35 @@ Aus dem Projektordner ausführen:
 python tools/validate_release.py
 node tools/functional-smoke-test.js
 python -m http.server 4173
-python tools/browser-smoke-test.py
+PLAYWRIGHT_CHROMIUM_EXECUTABLE=/pfad/zu/chromium python tools/browser-smoke-test.py
 ```
 
-Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionierung, Beta-Cache-Isolation, lokale Referenzen, JavaScript-Syntax, zehn Startseitenkacheln, Suche, Filterung, Navigation, Favoriten, den sicheren E+H-Externlink, vier Wissenskacheln, zehn Werkstoffdatensätze, Vorlagen-Hashes, die Siemens-Reglerskala und bestehende Rechner-Sollwerte.
+Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionierung, Beta-Cache-Isolation, lokale Referenzen, JavaScript-Syntax, zehn Startseitenkacheln, Suche, Filterung, Navigation, Favoriten, den sicheren E+H-Externlink, fünf Wissenskacheln, zehn Werkstoffdatensätze, Vorlagen-Hashes, Siemens-Kartenprofile, bestätigte Grenzwerte, Regler-/Eingabesynchronisierung und bestehende Rechner-Sollwerte.
 
 **Build-Verifikation vom 02.10.2026:** statische Release-Prüfung bestanden; funktionale Regression bestanden; Browser-Smoke-Test bei 1440 × 1050 px und mobiler Ansicht 390 × 844 px bestanden; keine Browser-Konsolenfehler. Die manuelle Abnahme auf realem PC und iPhone/iPad bleibt offen.
 
-## E+H Device Viewer – Abnahmekriterien
+## Siemens Rohwert – automatisiert geprüfte Grenzen
 
-| Nr. | Prüfung | Soll | PC | iPhone/iPad |
-|---:|---|---|:---:|:---:|
-| 1 | Startseite öffnen | Kachel `E+H Device Viewer` sichtbar; Kategorie `EXTERN`; Version 2.0.3.4-Beta.1 | ☐ | ☐ |
-| 2 | Kachel prüfen | Hinweis auf externen Herstellerdienst und Nicht-Speicherung sichtbar | ☐ | ☐ |
-| 3 | Kachel öffnen | `https://netilion.endress.com/app/library/device_viewer` öffnet in neuem Tab | ☐ | ☐ |
-| 4 | Datenschutz | Kein Seriennummern-, Such- oder anderes Eingabefeld für E+H in SK PLT Tools | ☐ | ☐ |
-| 5 | Filter `Externe Dienste` | Nur die E+H-Kachel bleibt sichtbar | ☐ | ☐ |
-| 6 | Suche `E+H`, `Device Viewer`, `Endress`, `Seriennummer` | E+H-Kachel wird gefunden | ☐ | ☐ |
-| 7 | Favorit setzen und öffnen | Favorit bleibt erhalten; externer Link öffnet weiterhin in neuem Tab | ☐ | ☐ |
-| 8 | Navigationsbaum | Gruppe `Externe Dienste` enthält `E+H Device Viewer ↗` | ☐ | ☐ |
-| 9 | Offline-Modus | E+H wird nicht als offline verfügbar dargestellt; bestehende Kernfunktionen bleiben erreichbar | ☐ | ☐ |
-| 10 | Schmale Ansicht 320–390 px | Keine horizontale Überlagerung; Kachel und Hinweis vollständig lesbar | ☐ | ☐ |
+| Profil / Parametrierung | Prüfung | Erwartung |
+|---|---:|---|
+| ET 200SP AI 4xI ST · 4–20 mA | −4.865 | Unterlauf |
+| ET 200SP AI 4xI ST · 4–20 mA | −4.864 | Untersteuerung |
+| ET 200SP AI 4xI ST · 4–20 mA | 27.648 | Nennbereich |
+| ET 200SP AI 4xI ST · 4–20 mA | 27.649 | Übersteuerung |
+| ET 200SP AI 4xI ST · 4–20 mA | 32.512 | Überlauf |
+| ET 200SP HA AI 16xI · NE43 ein | −691 | Unterlauf / ungültig ab 3,6 mA |
+| ET 200SP HA AI 16xI · NE43 ein | −690…−346 | untere Hysterese |
+| ET 200SP HA AI 16xI · NE43 ein | 28.512…29.375 | obere Hysterese |
+| ET 200SP HA AI 16xI · NE43 ein | 29.376 | Überlauf / ungültig ab 21,0 mA |
+| S7-1500/ET 200MP F-AI 8xI | 0…27.648 | nur Nennskalierung; keine Diagnosebewertung |
 
-## Regression – Siemens Rohwert
+## Synchronisierung und Bedienung
 
-| Signalbereich | Eingabe | Erwartetes Ergebnis |
-|---|---:|---:|
-| 4–20 mA | Rohwert 13.824 | 12,000 mA · Nennbereich |
-| 0–20 mA | 20 mA | Rohwert 27.648 · Nennbereich |
-| 0–10 V | 2,5 V | Rohwert 6.912 · Nennbereich |
-| 2–10 V | Rohwert 20.736 | 8,000 V · Nennbereich |
+- Profil-, Signalbereichs- und Eingaberichtungswechsel erhalten den aktuellen Rohwert, soweit er im bestätigten Bereich des Zielprofils liegt.
+- Wechsel Rohwert → Signal rechnet das Eingabefeld um; Reglerbewegungen aktualisieren Eingabe und Ergebnis sofort.
+- Nicht unterstützte Signalbereiche werden im jeweiligen Kartenprofil deaktiviert.
+- Bei Profilen ohne bestätigte Diagnosegrenzen werden Farbbereiche und Zustandsstreifen ausgeblendet.
+- Wissensdatenbank-Kachel `Siemens · SPS · Rohwert` öffnet den Rohwert-Rechner.
 
 ## Regression – bestehende Rechner
 
@@ -47,14 +46,17 @@ Die Prüfungen kontrollieren 15 HTML-Seiten, statische Header/Footer, Versionier
 - Einheiten: 1 bar → **1.000,000 mbar**.
 - Spannungsfall: Drehstrom, 400 V, 16 A, 35 m, 2,5 mm² Cu, cos φ 1,00, Grenzwert 6 % → **6,93 V; 1,73 %; Lastspannung 393,07 V; Reserve +17,07 V**.
 
-## Paket- und Freigabeprüfung
+## Manuelle Geräteabnahme
 
-| Prüfung | Soll | Ergebnis |
-|---|---|---|
-| Vollständige Struktur | Alle bisherigen Seiten, Assets, Vorlagen und Werkzeuge enthalten | ☐ |
-| Versionskonsistenz | Überall 2.0.3.4-Beta.1 | ☐ |
-| Paketintegrität | `sha256sum -c SHA256SUMS.txt` ohne Fehler | ☐ |
-| Stable-Schutz | 2.0.2.0 unverändert und getrennt | ☐ |
-| Manuelle Geräteabnahme | PC und iPhone/iPad ohne kritischen Fehler | ☐ |
+| Nr. | Prüfung | PC | iPhone/iPad | Bemerkung |
+|---:|---|:---:|:---:|---|
+| 1 | Startseite und alle Kacheln öffnen | ☐ | ☐ | |
+| 2 | Siemens-Kartenprofile und deaktivierte Signalbereiche prüfen | ☐ | ☐ | |
+| 3 | Rohwert-/Signaleingabe und Regler synchron prüfen | ☐ | ☐ | |
+| 4 | Feste Rot-/Gelb-/Grün-Bereiche gegen Profildokumentation prüfen | ☐ | ☐ | |
+| 5 | Wissenskachel Siemens · SPS · Rohwert öffnen | ☐ | ☐ | |
+| 6 | Offline-Start bereits geladener Kernseiten prüfen | ☐ | ☐ | |
+| 7 | Keine horizontale Seitenüberlagerung bei 320–390 px | ☐ | ☐ | |
+| 8 | Quellen- und Grenzwertdokument öffnen | ☐ | ☐ | |
 
 Prüfer: ____________________  Datum: ____________________  Ergebnis: ☐ bestanden ☐ nicht bestanden
