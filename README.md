@@ -1,20 +1,19 @@
-# SK PLT Tools Beta 2.0.3.5-Beta.2
+## SK PLT Tools Beta 2.0.3.6-Beta.1
 
 Vollständige Beta auf Basis des vollständigen Projektpakets 2.0.3.5-Beta.1. Die stabile Referenz 2.0.2.0 bleibt unverändert.
 
-## Neu in 2.0.3.5-Beta.2
-
-- Siemens-Rohwert, Signalwert, Eingabefeld und Regler bleiben beim Wechsel von Signalbereich, Eingaberichtung und Kartenprofil synchron.
-- Feste, klar abgegrenzte Rot-/Gelb-/Grün-Zonen ersetzen den weichen Farbverlauf des Reglers.
-- Bestätigte Kartenprofile für **ET 200SP AI 4xI ST** und **ET 200SP HA AI 16xI HART** mit getrennter Parametrierung „NE43 aus/ein“.
-- Das Profil **S7-1500/ET 200MP F-AI 8xI** ist auf die bestätigte Nennskalierung begrenzt; unbestätigte Diagnosegrenzen werden nicht angezeigt.
-- Profilabhängige Grenzwerte, Statusanzeige und Skalenbeschriftung für Rohwert- und Signalansicht.
-- Kompakte Ergebnisdarstellung oberhalb der Bedienelemente.
-- Kompakter Header, kompaktere Ergebnisfelder, Dropdowns und Abstände bei unverändertem Grunddesign.
-- Favoriten-, Navigations- und Vorzeichen-Schaltflächen sind rund 20–25 % kleiner; ihre Funktion bleibt unverändert.
-- Optimierte Rohwert-Eingabe, flachere Status-Chips und einklappbare Karteninformationen.
-- Responsive Darstellung mit reduziertem vertikalem Platzbedarf für PC, iPhone und iPad.
-- Versionsangaben, Ressourcenkennungen, PWA-ID, `start_url` und separater Beta-Cache wurden auf 2.0.3.5-Beta.2 fortgeschrieben.
+### Neu in 2.0.3.6-Beta.1
+ 
+- Neuer Wissensbeitrag „Siemens SPS Rohwert Grundlagen“
+- Erklärung von Rohwerten, Analogwerten und A/D-Wandlern
+- Erläuterung des Siemens-Standardbereichs 0…27648
+- Erklärung der Rohwerte bei 4…20 mA
+- Übersicht der Diagnosebereiche (Unterlauf, Untersteuerung, Übersteuerung, Überlauf)
+- Vergleich S7-300, S7-400, S7-1200 und S7-1500
+- Kartenübersicht ET200SP, ET200SP HA und F-AI
+- Praxisbeispiel zur Rohwertskalierung
+- Neuer Suchindex-Eintrag für den Wissensbeitrag
+- Neue Verknüpfung zwischen Wissensdatenbank und Rohwert-Rechner
 
 ## Fachlicher Hinweis
 
