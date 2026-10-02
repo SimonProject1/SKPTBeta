@@ -1,44 +1,39 @@
-# SK PLT Tools Beta 2.0.3.3-Beta.1
+# SK PLT Tools Beta 2.0.3.4-Beta.1
 
-Vollständige Beta auf Basis der zuletzt erstellten vollständigen Version 2.0.3.2-Beta.2; die stabile Basis 2.0.2.0 bleibt unverändert.
+Vollständige Beta auf Basis von 2.0.3.3-Beta.1. Die stabile Referenz 2.0.2.0 bleibt unverändert.
 
-## Neu in 2.0.3.3-Beta.1
+## Neu in 2.0.3.4-Beta.1
 
-- Große Seitenüberschrift des Siemens-Rechners exakt auf `Siemens Rohwert` geändert.
-- Richtungsabhängige Reglerskala: Bei `Signal → Siemens-Rohwert` zeigt der Regler den gewählten Bereich 4–20 mA, 0–20 mA, 0–10 V oder 2–10 V einschließlich Einheit.
-- Bei `Siemens-Rohwert → Signal` bleibt die vollständige Rohwertskala −32.768…32.767 sichtbar.
-- Das große transparente INT/TNT-Hintergrundelement im Konfigurationsbereich wurde vollständig entfernt.
-- Die bisherige bidirektionale Umrechnung, Diagnosezustände, Schnellwerte und kontinuierliche Reglerfarbe bleiben erhalten.
-- Responsive Bedienung für PC und Mobilgeräte sowie Tastaturbedienung des Reglers bleiben erhalten.
+- Neue Startseitenkachel **E+H Device Viewer**.
+- Ziel: `https://netilion.endress.com/app/library/device_viewer`.
+- Der offizielle Endress+Hauser-Dienst wird klar als extern gekennzeichnet und in einem neuen Tab geöffnet.
+- `noopener`, `noreferrer`, `external` und `referrerpolicy="no-referrer"` begrenzen die Kopplung zur SK-PLT-Tools-Seite.
+- SK PLT Tools enthält kein Seriennummernfeld und speichert keine Seriennummern oder Eingaben für diesen Dienst.
+- Neuer Startseitenfilter **Externe Dienste**.
+- Der Eintrag ist im Navigationsbaum verfügbar; als Favorit behält er das Öffnen in einem neuen Tab bei.
+- Versionsangaben, Ressourcenkennungen, PWA-ID, `start_url` und separater Beta-Cache wurden auf 2.0.3.4-Beta.1 fortgeschrieben.
 
-## Beta-Isolation
+## Unverändert übernommen
 
-- Sichtbarer App-Name `SK PLT Tools Beta` und BETA-Kennzeichnung auf jeder Seite.
-- Eigene PWA-ID und `start_url`: `./?app=sk-plt-tools-beta-2.0.3.3-beta.1`.
-- Getrennter Service-Worker-Cache: `sk-plt-tools-beta-v2.0.3.3-Beta.1`.
-- Die Aktivierung entfernt ausschließlich ältere Caches mit dem Präfix `sk-plt-tools-beta-`.
-- Das stabile Paket `SK-PLT-Tools-V2.0.2.0.zip` bleibt unverändert.
-
-## Erhalten
-
-Design, Header, Footer, Startseite, Navigation, Favoriten, Suche, Sortierung, Wissensdatenbank, Mobilansicht, Offline-Betrieb, bestehende Rechner und Dokumentationsfunktionen wurden aus der vorhandenen Beta-Linie übernommen.
+Siemens Rohwert, alle weiteren Rechner, Messstellen-Dokumentation, VDE-Plausibilitätsprüfung, Wissensdatenbank, Suche, Sortierung, Favoriten, Navigation, responsive Darstellung und Offline-Betrieb wurden aus 2.0.3.3-Beta.1 übernommen.
 
 ## Installation und Test
 
-1. Das Paket in einen **eigenen Beta-Webroot bzw. Unterordner** entpacken; die stabile Installation 2.0.2.0 nicht überschreiben.
-2. Den vollständigen Inhalt des Ordners `SK-PLT-Tools-V2.0.3.3-Beta.1` bereitstellen.
+1. Das Paket in einen eigenen Beta-Webroot bzw. Unterordner entpacken; die stabile Installation 2.0.2.0 nicht überschreiben.
+2. Den vollständigen Inhalt des Ordners `SK-PLT-Tools-V2.0.3.4-Beta.1` bereitstellen.
 3. Automatische Prüfungen im Projektordner starten:
 
 ```bash
 python tools/validate_release.py
 node tools/functional-smoke-test.js
-python -m http.server 8080
+python -m http.server 4173
+python tools/browser-smoke-test.py
 ```
 
-4. Danach die Browser-Abnahme aus `TESTBERICHT-UND-ABNAHME.md` durchführen.
+4. Danach die manuelle Abnahme aus `TESTBERICHT-UND-ABNAHME.md` auf PC und iPhone/iPad durchführen.
 
-## Fachlicher Hinweis
+## Datenschutz und externer Dienst
 
-Die Bereichsgrenzen bilden die im Rechner dokumentierte Siemens-Skalierung ab. Je nach Baugruppe, Kanalparametrierung und Diagnosekonfiguration können Diagnosegrenzen abweichen; für den Einsatz ist die jeweilige Siemens-Moduldokumentation maßgeblich.
+SK PLT Tools übergibt an den E+H Device Viewer keine in SK PLT Tools erfassten Seriennummern oder Formulardaten. Eingaben erfolgen ausschließlich auf der externen Herstellerseite. Für Inhalt, Verfügbarkeit, Datenschutz und Nutzungsbedingungen des externen Dienstes ist dessen Betreiber verantwortlich.
 
-2.0.3.3-Beta.1 · Beta · Entwickelt von Simon Kiesler
+2.0.3.4-Beta.1 · Beta · Entwickelt von Simon Kiesler

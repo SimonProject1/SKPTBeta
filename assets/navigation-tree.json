@@ -1,5 +1,5 @@
 {
-  "version": "2.0.3.3-Beta.1",
+  "version": "2.0.3.4-Beta.1",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -97,6 +97,17 @@
               "type": "file"
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "external-services",
+      "title": "Externe Dienste",
+      "items": [
+        {
+          "title": "E+H Device Viewer",
+          "url": "https://netilion.endress.com/app/library/device_viewer",
+          "type": "external"
         }
       ]
     }

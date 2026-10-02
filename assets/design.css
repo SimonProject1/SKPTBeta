@@ -1,4 +1,4 @@
-/* SK PLT Tools 2.0.3.3-Beta.1 – clean, directly rendered design */
+/* SK PLT Tools 2.0.3.4-Beta.1 – clean, directly rendered design */
 
 /* Unified application header */
 .sk-global-header{box-sizing:border-box;width:100%;min-height:112px;padding:0!important}
@@ -38,3 +38,5 @@ footer.footer .stb-version,footer.sk-footer .stb-version{color:inherit}
 /* Visible beta identity */
 .sk-beta-label{display:inline-flex;align-items:center;margin-left:9px;padding:3px 7px;border:1px solid #f5b942;border-radius:999px;color:#f5b942;background:rgba(245,185,66,.09);font-size:9px;font-weight:950;line-height:1;letter-spacing:1.1px;vertical-align:middle}
 @media(max-width:760px){.sk-beta-label{margin-left:6px;padding:3px 5px;font-size:8px}}
+
+.sk-external-card{border-color:#3d6475!important}.sk-external-card::before{background:linear-gradient(90deg,#f3c64f 0%,#00b7e8 100%)!important}.sk-external-link-meta{display:inline-flex;align-items:center;margin-top:18px;color:#f3c64f;font-size:12px;font-weight:900;letter-spacing:.35px}.sk-external-card:focus-visible{outline:3px solid rgba(243,198,79,.42);outline-offset:3px}

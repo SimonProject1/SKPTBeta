@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.3.3-Beta.1."""
+"""Static release validation for SK PLT Tools Beta 2.0.3.4-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.3.3-Beta.1'
+VERSION='2.0.3.4-Beta.1'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -61,11 +61,21 @@ for rel,page in pages.items():
         if target is not None and not target.exists(): errors.append(f'{rel}: fehlende lokale Referenz {ref}')
 
 start=BeautifulSoup((ROOT/'index.html').read_text(encoding='utf-8'),'html.parser')
-if len(start.select('.tools > a.card'))!=9: errors.append('Startseite: genau 9 sichtbare Werkzeugkacheln erwartet')
+if len(start.select('.tools > a.card'))!=10: errors.append('Startseite: genau 10 sichtbare Werkzeugkacheln erwartet')
 siemens_tile=start.select_one('a[href="siemens-analogwert-rechner/"]')
 if not siemens_tile: errors.append('Startseite: Siemens-Rechner fehlt')
 elif siemens_tile.select_one('h2') is None or siemens_tile.select_one('h2').get_text(strip=True)!='Siemens Rohwert': errors.append('Startseite: Siemens-Kachel heißt nicht exakt Siemens Rohwert')
 if start.select('a[href*="servicewerte"]'): errors.append('Startseite: entfernte Service-Kachel ist noch verlinkt')
+external=start.select_one('a.sk-external-card[href="https://netilion.endress.com/app/library/device_viewer"]')
+if external is None: errors.append('Startseite: E+H Device Viewer fehlt oder URL ist falsch')
+else:
+    if external.get('target')!='_blank': errors.append('E+H Device Viewer: öffnet nicht in neuem Tab')
+    rel=set(external.get('rel') or [])
+    if not {'external','noopener','noreferrer'}<=rel: errors.append('E+H Device Viewer: Linkschutz/Kennzeichnung unvollständig')
+    if external.get('referrerpolicy')!='no-referrer': errors.append('E+H Device Viewer: Referrer-Schutz fehlt')
+    if external.select_one('form,input,textarea'): errors.append('E+H Device Viewer: SK PLT Tools darf keine Seriennummerneingabe enthalten')
+    if 'nicht in SK PLT Tools gespeichert' not in external.get_text(' ',strip=True): errors.append('E+H Device Viewer: Datenschutzhinweis fehlt')
+if not start.select_one('[data-filter="EXTERN"]'): errors.append('Startseite: Filter für externe Dienste fehlt')
 if not start.select_one('#skToolFilter #skToolSort'): errors.append('Startseite: Filter/Sortierung nicht statisch vorhanden')
 
 knowledge=BeautifulSoup((ROOT/'wissensdatenbank/index.html').read_text(encoding='utf-8'),'html.parser')
@@ -139,6 +149,7 @@ if 'assets/materials.json' not in (ROOT/'assets/start-filter.js').read_text(enco
 nav=json.loads((ROOT/'assets/navigation-tree.json').read_text(encoding='utf-8'))
 if 'wissensdatenbank/werkstoff-nachschlagewerk/' not in json.dumps(nav): errors.append('Navigationsbaum: Werkstoffbereich fehlt')
 if 'siemens-analogwert-rechner/' not in json.dumps(nav): errors.append('Navigationsbaum: Siemens-SPS-Analogwert-Rechner fehlt')
+if not any(group.get('id')=='external-services' and any(item.get('url')=='https://netilion.endress.com/app/library/device_viewer' and item.get('type')=='external' for item in group.get('items',[])) for group in nav.get('groups',[])): errors.append('Navigationsbaum: E+H Device Viewer fehlt oder ist nicht extern gekennzeichnet')
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
 vacon_page=(ROOT/'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html').read_text(encoding='utf-8')
@@ -157,7 +168,7 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.3-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.3-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.4-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.4-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#signalType','#inputKind','#inputValue','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail'):
@@ -189,4 +200,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 9 Startseitenkacheln, Beta-Isolation, Siemens-Analogwert-Rechner, 4 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Analogwert-Rechner, 4 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')

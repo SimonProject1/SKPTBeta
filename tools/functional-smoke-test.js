@@ -134,4 +134,15 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   elements.inputKind.value='raw';elements.inputKind.dispatch('change');
   assertEqual(scale(),'−32.768|−4.864|0|27.648|32.511|32.767','Siemens UI Rückkehr zur Rohwertskala');
 }
-console.log('OK: Bestehende Funktionen sowie bidirektionaler Siemens-SPS-Analogwert-Rechner mit fünf Bereichszuständen geprüft.');
+
+{
+  const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+  const external=html.match(/<a[^>]*class="[^"]*sk-external-card[^"]*"[^>]*href="([^"]+)"[^>]*>/i);
+  assertEqual(Boolean(external),true,'E+H Device Viewer Kachel vorhanden');
+  assertEqual(external[1],'https://netilion.endress.com/app/library/device_viewer','E+H Device Viewer Zieladresse');
+  assertEqual(/target="_blank"/.test(external[0]),true,'E+H Device Viewer neuer Tab');
+  assertEqual(/rel="external noopener noreferrer"/.test(external[0]),true,'E+H Device Viewer sichere Externkennzeichnung');
+  assertEqual(/referrerpolicy="no-referrer"/.test(external[0]),true,'E+H Device Viewer ohne Referrer');
+  assertEqual(/data-filter="EXTERN"/.test(html),true,'Filter Externe Dienste vorhanden');
+}
+console.log('OK: Bestehende Funktionen, E+H-Externlink sowie bidirektionaler Siemens-SPS-Analogwert-Rechner mit fünf Bereichszuständen geprüft.');

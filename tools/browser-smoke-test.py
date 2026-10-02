@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools Beta 2.0.3.3-Beta.1."""
+"""Browser smoke test for SK PLT Tools Beta 2.0.3.4-Beta.1."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -29,7 +29,7 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.3-Beta.1"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.3.4-Beta.1"
     assert_text(desktop, "h1", "Siemens Rohwert")
     assert desktop.locator("#signalType option").count() == 4
     assert desktop.locator("#inputKind option").count() == 2
@@ -77,6 +77,19 @@ with sync_playwright() as p:
 
     desktop.goto(f"{BASE}/")
     desktop.wait_for_load_state("networkidle")
+    external = desktop.locator('a.sk-external-card')
+    assert external.count() == 1
+    assert external.get_attribute("href") == "https://netilion.endress.com/app/library/device_viewer"
+    assert external.get_attribute("target") == "_blank"
+    assert set((external.get_attribute("rel") or "").split()) >= {"external", "noopener", "noreferrer"}
+    assert external.get_attribute("referrerpolicy") == "no-referrer"
+    assert "nicht in SK PLT Tools gespeichert" in external.inner_text()
+    assert external.locator("input, textarea, form").count() == 0
+    desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
+    desktop.locator('[data-filter="EXTERN"]').click()
+    assert external.is_visible()
+    assert desktop.locator('.tools > a.card:visible').count() == 1
+    desktop.locator('[data-filter="ALLE"]').click()
     set_input(desktop, "#skToolSearch", "Rohwert")
     card = desktop.locator('a[href="siemens-analogwert-rechner/"]')
     assert_text(desktop, 'a[href="siemens-analogwert-rechner/"] h2', 'Siemens Rohwert')
@@ -88,13 +101,13 @@ with sync_playwright() as p:
 
     mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True)
     mobile.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
-    mobile.goto(f"{BASE}/siemens-analogwert-rechner/")
+    mobile.goto(f"{BASE}/")
     mobile.wait_for_load_state("networkidle")
     assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-    mobile.locator('button[data-raw="27649"]').click()
-    assert_text(mobile, "#rangeStatus", "Überbereich")
-    mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
+    assert mobile.locator("a.sk-external-card").is_visible()
+    assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+    mobile.screenshot(path=str(OUT / "startseite-mobile.png"), full_page=True)
 
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: Desktop, Mobilansicht, Slider-Zustände, Rückrechnung, Suche, Favorit und Navigation geprüft.")
+    print("OK: Desktop, Mobilansicht, E+H-Externlink, Slider-Zustände, Rückrechnung, Suche, Favorit und Navigation geprüft.")
