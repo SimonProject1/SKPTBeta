@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Grundlagen zu Siemens SPS Rohwerten, Analogwerten, Skalierung und Diagnosebereichen." name="description"/>
+<title>Siemens SPS Rohwert Grundlagen | SK PLT Tools Beta</title>
+
+<link href="../../manifest.webmanifest" rel="manifest"/>
+<link href="../../assets/favicon.png?v=2.0.3.6-Beta.1" rel="icon" type="image/png"/>
+<link href="../../assets/apple-touch-icon.png?v=2.0.3.6-Beta.1" rel="apple-touch-icon"/>
+<link href="../../assets/styles.css?v=2.0.3.6-Beta.1" rel="stylesheet"/>
+<link href="../../assets/design.css?v=2.0.3.6-Beta.1" rel="stylesheet"/>
+<link href="../../assets/navigation-tree.css?v=2.0.3.6-Beta.1" rel="stylesheet"/>
+
+<style>
+.article{
+    width:min(1100px,calc(100% - 34px));
+    margin:0 auto;
+    padding:40px 0 70px;
+}
+.section{
+    margin-bottom:24px;
+    padding:24px;
+    border:1px solid #24485d;
+    border-radius:18px;
+    background:#0a2639;
+}
+.section h2{
+    margin-top:0;
+}
+.code{
+    background:#041522;
+    border:1px solid #24485d;
+    border-radius:10px;
+    padding:12px;
+    font-family:Consolas,monospace;
+    white-space:pre-wrap;
+}
+.cta{
+    display:inline-block;
+    margin-top:12px;
+    padding:12px 18px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#00b7e8,#89d329);
+    color:#061827;
+    text-decoration:none;
+    font-weight:900;
+}
+</style>
+
+</head>
+
+<body data-sk-module="Wissensdatenbank" data-sk-version="2.0.3.6-Beta.1">
+
+<header class="topbar sk-global-header sk-header-normalized">
+<div class="sk-header-inner">
+
+<div class="sk-logo-version-stack">
+<img class="logo sk-global-logo sk-header-logo"
+src="../../assets/icon-512.png"
+alt="SK PLT Tools Beta">
+
+<div class="sk-logo-version">
+Version 2.0.3.6-Beta.1
+</div>
+</div>
+
+<div class="brand">
+SK PLT Tools Beta
+<span class="sk-beta-label">BETA</span>
+<small>Siemens SPS Rohwert Grundlagen</small>
+</div>
+
+<a class="home sk-header-home" href="../">
+← Wissensdatenbank
+</a>
+
+</div>
+</header>
+
+<main class="article">
+
+<div class="section">
+<div class="sk-card-category">SIEMENS · SPS</div>
+<h1>Rohwert Grundlagen</h1>
+
+<p>
+Der Rohwert ist die interne Sprache der Analogkarte.
+Er beschreibt den digitalisierten Messwert bevor die SPS ihn in eine physikalische Größe wie Druck, Temperatur oder Durchfluss umrechnet.
+</p>
+
+<a class="cta" href="../../siemens-analogwert-rechner/">
+➡ Siemens Rohwert-Rechner öffnen
+</a>
+
+</div>
+
+<div class="section">
+<h2>Was ist ein Rohwert?</h2>
+
+<p>
+Eine SPS verarbeitet intern keine Ströme oder Spannungen.
+Ein Analog-Eingang wandelt das Eingangssignal über einen A/D-Wandler in einen Zahlenwert um.
+Dieser Zahlenwert wird als Rohwert bezeichnet.
+</p>
+
+<div class="code">
+Messumformer
+0 ... 100 °C
+
+Signal
+4 ... 20 mA
+
+SPS
+5530 ... 27648
+</div>
+
+</div>
+
+<div class="section">
+<h2>Warum verwendet Siemens Rohwerte?</h2>
+
+<ul>
+<li>Einheitliche Verarbeitung aller Analogsignale</li>
+<li>Hohe Auflösung</li>
+<li>Einfache Skalierung</li>
+<li>Diagnosemöglichkeiten</li>
+<li>Herstellerübergreifende Auswertung möglich</li>
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>Siemens Standardbereich 0 ... 27648</h2>
+
+<div class="code">
+0 %   =     0
+25 %  =  6912
+50 %  = 13824
+75 %  = 20736
+100 % = 27648
+</div>
+
+<p>
+Dieser Bereich wird von vielen Siemens Analogkarten als Nennbereich verwendet.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Besonderheit bei 4 ... 20 mA</h2>
+
+<div class="code">
+4 mA  = 5530
+8 mA  = 11059
+12 mA = 16589
+16 mA = 22118
+20 mA = 27648
+</div>
+
+<p>
+Da das Nutzsignal erst bei 4 mA beginnt, startet auch der gültige Rohwert nicht bei 0.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Diagnosebereiche</h2>
+
+<p>
+Viele Siemens Analogkarten unterscheiden zwischen:
+</p>
+
+<ul>
+<li>Unterlauf</li>
+<li>Untersteuerung</li>
+<li>Nennbereich</li>
+<li>Übersteuerung</li>
+<li>Überlauf</li>
+</ul>
+
+<p>
+Dadurch können Drahtbruch, Sensorfehler oder Übersteuerungen erkannt werden.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Unterschiede verschiedener SPS-Generationen</h2>
+
+<h3>S7-300</h3>
+<p>Klassische Rohwertdarstellung mit 0 ... 27648.</p>
+
+<h3>S7-400</h3>
+<p>Sehr ähnliche Struktur wie S7-300.</p>
+
+<h3>S7-1200</h3>
+<p>Stärkere Integration in TIA Portal und Technologieobjekte.</p>
+
+<h3>S7-1500</h3>
+<p>Zusätzliche Diagnose- und Qualitätsinformationen verfügbar.</p>
+
+</div>
+
+<div class="section">
+
+<h2>Kartenabhängige Unterschiede</h2>
+
+<ul>
+<li>ET 200SP AI 4xI ST</li>
+<li>ET 200SP HA AI 16xI</li>
+<li>S7-1500 / ET 200MP F-AI Karten</li>
+<li>Generische Analogkarten</li>
+</ul>
+
+<p>
+Die tatsächlichen Grenzen sind immer anhand des Gerätehandbuchs und der Parametrierung zu prüfen.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Praxisbeispiel</h2>
+
+<div class="code">
+Messbereich:
+0 ... 10 bar
+
+Signal:
+4 ... 20 mA
+
+Rohwert:
+16589
+
+Ergebnis:
+5,0 bar
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Merksatz</h2>
+
+<div class="code">
+Der Rohwert ist die Sprache der Analogkarte.
+Erst durch Skalierung wird daraus ein Prozesswert.
+</div>
+
+</div>
+
+</main>
+
+<footer class="footer sk-footer">
+SK PLT Tools Beta · Version 2.0.3.6-Beta.1 · Entwickelt von Simon Kiesler
+</footer>
+
+<script src="../../assets/app.js?v=2.0.3.6-Beta.1"></script>
+<script defer src="../../assets/navigation-tree.js?v=2.0.3.6-Beta.1"></script>
+
+</body>
+</html>
