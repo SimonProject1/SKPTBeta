@@ -1,25 +1,28 @@
-SK PLT Tools Beta V2.0.3.5-Beta.2
+SK PLT Tools Beta V2.0.3.7-Beta.1
+BASIS V2.0.3.6-BETA.1
+STABILE REFERENZ V2.0.2.0 UNVERAENDERT
 
-VOLLSTÄNDIGE FORTSCHREIBUNG DES PROJEKTPAKETS V2.0.3.5-BETA.1
-STABILE REFERENZ V2.0.2.0 UNVERÄNDERT
+SICHTBARE VERSIONSANZEIGEN
+- Die Versionsnummer wird nur noch einmal sichtbar im Hero-Bereich der Startseite angezeigt.
+- Die kleine Versionsnummer unter dem Logo der Startseite wurde entfernt.
+- Die Versionsnummern unter den Logos aller Unterseiten wurden entfernt.
+- Die Versionsnummern in den Footern wurden entfernt.
+- Der Footer wurde vereinheitlicht auf: SK PLT Tools Beta · Entwickelt von Simon Kiesler.
 
-Kompaktere Oberfläche bei unverändertem Grunddesign
-- Headerhöhe, Logoabmessungen und Abstände auf Desktop, iPhone und iPad reduziert.
-- Ergebnisfelder, Formulare, Dropdowns, Panels und allgemeine Vertikalabstände verdichtet.
-- Fixer Favoriten-Button und rechter Navigations-/Baum-Button um rund 22 % verkleinert; Funktion unverändert.
-- Favoritensterne auf Kacheln um 20 % verkleinert.
-- Dynamische Vorzeichen-Schaltfläche (±) von 48 px auf 38 px und damit um rund 21 % verkleinert.
+TECHNISCHE VERSIONIERUNG
+- Die technische Version wurde auf 2.0.3.7-Beta.1 angehoben.
+- Technische Versionsangaben in VERSION, assets/app.js, service-worker.js und manifest.webmanifest bleiben fuer Release, Cache, Offline-Betrieb und PWA erhalten.
+- Technische Cache-Parameter und data-sk-version bleiben in den HTML-Dateien erhalten.
 
-Siemens Rohwert
-- Rohwert-Eingabe bleibt einzeilig mit fester INT-/Einheitenanzeige; mobile Tastatur wird je Eingaberichtung optimiert.
-- Beim Fokus wird der vorhandene Eingabewert zur schnellen Überschreibung markiert.
-- Ergebnisfelder und Reglerbereich sind kompakter.
-- Status-Chips sind flacher und platzsparender.
-- Karteninformationen sind über ein natives Details-Element ein- und ausklappbar und standardmäßig geschlossen.
+AUS V2.0.3.6-BETA.1 UEBERNOMMEN
+- Wissensbeitrag „Siemens SPS Rohwert Grundlagen“.
+- Getrennte Darstellung der Skalierungsmodelle fuer 4 ... 20 mA und 0 ... 20 mA.
+- Verknuepfung zwischen Wissensdatenbank und Siemens-Rohwert-Rechner.
+- Suchindex- und Navigationsbaum-Eintraege fuer den Wissensbeitrag.
 
-Unverändert übernommen
-- Sämtliche 15 Seiten, Rechnerfunktionen, Messstellen-Dokumentation und VDE-Plausibilitätsprüfung.
+UNVERAENDERT UEBERNOMMEN
+- Rechnerfunktionen, Messstellen-Dokumentation und VDE-Plausibilitaetspruefung.
 - Suche, Sortierung, Favoriten-Persistenz, Navigation, Wissensdatenbank, Werkstoffdaten und Offline-Betrieb.
 - Siemens-Kartenprofile, Grenzwerte, Quellen und Berechnungslogik.
 
-Datenstand: 02.10.2026.
+Datenstand: 03.10.2026

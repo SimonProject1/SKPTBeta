@@ -1,41 +1,47 @@
-## SK PLT Tools Beta 2.0.3.6-Beta.1
+### SK PLT Tools Beta 2.0.3.7-Beta.1
 
-Vollständige Beta auf Basis des vollständigen Projektpakets 2.0.3.5-Beta.1. Die stabile Referenz 2.0.2.0 bleibt unverändert.
+Vollstaendige Beta auf Basis von 2.0.3.6-Beta.1. Die stabile Referenz 2.0.2.0 bleibt unveraendert.
 
-### Neu in 2.0.3.6-Beta.1
- 
-- Neuer Wissensbeitrag „Siemens SPS Rohwert Grundlagen“
-- Erklärung von Rohwerten, Analogwerten und A/D-Wandlern
-- Erläuterung des Siemens-Standardbereichs 0…27648
-- Erklärung der Rohwerte bei 4…20 mA
-- Übersicht der Diagnosebereiche (Unterlauf, Untersteuerung, Übersteuerung, Überlauf)
-- Vergleich S7-300, S7-400, S7-1200 und S7-1500
-- Kartenübersicht ET200SP, ET200SP HA und F-AI
-- Praxisbeispiel zur Rohwertskalierung
-- Neuer Suchindex-Eintrag für den Wissensbeitrag
-- Neue Verknüpfung zwischen Wissensdatenbank und Rohwert-Rechner
+#### Neu in 2.0.3.7-Beta.1
+- Sichtbare Versionsanzeigen im gesamten Projekt vereinheitlicht.
+- Die Versionsnummer wird nur noch einmal gross im Hero-Bereich der Startseite angezeigt.
+- Die kleine Versionsnummer unter dem Logo wurde entfernt.
+- Die Versionsnummern in den Footern wurden entfernt.
+- Einheitlicher Footer: „SK PLT Tools Beta · Entwickelt von Simon Kiesler“.
+- Technische Versionsangaben fuer Release, Cache und PWA bleiben erhalten.
 
-## Fachlicher Hinweis
+#### Aus 2.0.3.6-Beta.1 uebernommen
+- Neuer Wissensbeitrag „Siemens SPS Rohwert Grundlagen“.
+- Erklaerung von Rohwerten, Analogwerten und A/D-Wandlern.
+- Erlaeuterung des Siemens-Standardbereichs 0 ... 27648.
+- Getrennte Darstellung der Skalierungsmodelle fuer 4 ... 20 mA und 0 ... 20 mA.
+- Uebersicht der Diagnosebereiche: Unterlauf, Untersteuerung, Nennbereich, Uebersteuerung und Ueberlauf.
+- Vergleich von S7-300, S7-400, S7-1200 und S7-1500.
+- Kartenuebersicht fuer ET 200SP, ET 200SP HA und F-AI.
+- Praxisbeispiel zur Rohwertskalierung.
+- Suchindex-Eintrag fuer den Wissensbeitrag.
+- Verknuepfung zwischen Wissensdatenbank und Siemens-Rohwert-Rechner.
 
-Für **ET 200SP HA AI 16xI HART** sind die Parametrierungen „NE43 aus“ und „NE43 ein“ getrennt. Bei aktivierter Ausfallüberwachung beginnt der ungültige Bereich laut Siemens bei **3,6 mA / Rohwert −691** und **21,0 mA / Rohwert 29.376**; die Hysteresegrenzen liegen bei 3,8 mA und 20,5 mA. Das **S7-1500/ET 200MP F-AI-8xI-Profil** bewertet bewusst keine unbestätigten Diagnosegrenzen. Details und offizielle Quellen stehen in `SIEMENS-QUELLEN-UND-GRENZWERTE.md`.
+### Fachlicher Hinweis
 
-## Unverändert übernommen
+Fuer ET 200SP HA AI 16xI HART sind die Parametrierungen „NE43 aus“ und „NE43 ein“ getrennt. Bei aktivierter Ausfallueberwachung beginnt der ungueltige Bereich laut der bestehenden Projektdokumentation bei 3,6 mA / Rohwert -691 und 21,0 mA / Rohwert 29376; die Hysteresegrenzen liegen bei 3,8 mA und 20,5 mA. Das S7-1500/ET 200MP F-AI-8xI-Profil bewertet bewusst keine unbestaetigten Diagnosegrenzen. Details und Quellen stehen in SIEMENS-QUELLEN-UND-GRENZWERTE.md.
 
-E+H Device Viewer, alle weiteren Rechner, Messstellen-Dokumentation, VDE-Plausibilitätsprüfung, Wissensdatenbank, Suche, Sortierung, Favoriten, Navigation und Offline-Betrieb wurden aus 2.0.3.5-Beta.1 übernommen.
+### Unveraendert uebernommen
 
-## Installation und Test
+E+H Device Viewer, Rechner, Messstellen-Dokumentation, VDE-Plausibilitaetspruefung, Wissensdatenbank, Suche, Sortierung, Favoriten, Navigation und Offline-Betrieb wurden aus dem vorherigen Beta-Stand uebernommen.
 
-1. Das Paket in einen eigenen Beta-Webroot bzw. Unterordner entpacken; die stabile Installation 2.0.2.0 nicht überschreiben.
-2. Den vollständigen Inhalt des Ordners `SK-PLT-Tools-V2.0.3.5-Beta.2` bereitstellen.
-3. Automatische Prüfungen im Projektordner starten:
+### Installation und Test
+- Das Paket in einen eigenen Beta-Webroot beziehungsweise Unterordner bereitstellen; die stabile Installation 2.0.2.0 nicht ueberschreiben.
+- Den vollstaendigen Projektinhalt bereitstellen.
+- Automatische Pruefungen im Projektordner starten:
 
-```bash
+```text
 python tools/validate_release.py
 node tools/functional-smoke-test.js
 python -m http.server 4173
 python tools/browser-smoke-test.py
 ```
 
-4. Danach die manuelle Abnahme aus `TESTBERICHT-UND-ABNAHME.md` auf PC und iPhone/iPad durchführen.
+- Danach die manuelle Abnahme aus TESTBERICHT-UND-ABNAHME.md auf PC, iPhone und iPad durchfuehren.
 
-2.0.3.5-Beta.2 · Beta · Entwickelt von Simon Kiesler
+2.0.3.7-Beta.1 · Beta · Entwickelt von Simon Kiesler
