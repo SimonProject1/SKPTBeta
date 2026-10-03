@@ -15,8 +15,8 @@
     .knowledge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px}.knowledge-entry{position:relative;display:block;min-height:190px;padding:30px;border:1px solid #24485d;border-radius:20px;background:#0a2639;color:#f7fbff;text-decoration:none}.knowledge-entry[hidden]{display:none}.knowledge-entry:hover{border-color:#00b7e8;transform:translateY(-2px)}.knowledge-entry h2{margin:20px 0 14px;font-size:32px}.knowledge-entry p{margin:0;color:#b9ced8;font-size:18px;line-height:1.5}.sk-card-category{color:#89d329;font-size:12px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.knowledge-empty{display:none;margin-top:20px;padding:20px;border:1px solid #24485d;border-radius:14px;color:#b9ced8}.knowledge-empty.show{display:block}
     @media(max-width:760px){.knowledge-overview{width:min(100% - 22px,1100px);padding-top:26px}.knowledge-panel{padding:18px}.knowledge-grid{grid-template-columns:1fr}.proposal-card,.knowledge-entry{padding:23px}.knowledge-entry{min-height:0}}
   </style>
-<link href="../manifest.webmanifest" rel="manifest"/><link href="../assets/favicon.png?v=2.0.4.2-Beta.1" rel="icon" sizes="64x64" type="image/png"/><link href="../assets/apple-touch-icon.png?v=2.0.4.2-Beta.1" rel="apple-touch-icon"/><link href="../assets/styles.css?v=2.0.4.2-Beta.1" rel="stylesheet"/><link href="../assets/design.css?v=2.0.4.2-Beta.1" rel="stylesheet"/><link href="../assets/favorites.css?v=2.0.4.2-Beta.1" rel="stylesheet"/><link href="../assets/start-filter.css?v=2.0.4.2-Beta.1" rel="stylesheet"/><link href="../assets/sort-tools.css?v=2.0.4.2-Beta.1" rel="stylesheet"/><link href="../assets/navigation-tree.css?v=2.0.4.2-Beta.1" rel="stylesheet"/></head>
-<body data-sk-module="Wissensdatenbank" data-sk-page="module" data-sk-version="2.0.4.2-Beta.1"><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools Beta" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.0.4.2-Beta.1"/></div><div class="brand">SK PLT Tools Beta<span class="sk-beta-label">BETA</span><small>Wissensdatenbank</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header>
+<link href="../manifest.webmanifest" rel="manifest"/><link href="../assets/favicon.png?v=2.0.5.1-Beta.1" rel="icon" sizes="64x64" type="image/png"/><link href="../assets/apple-touch-icon.png?v=2.0.5.1-Beta.1" rel="apple-touch-icon"/><link href="../assets/core.css?v=2.0.5.1-Beta.1" rel="stylesheet"/></head>
+<body data-sk-module="Wissensdatenbank" data-sk-page="module" data-sk-version="2.0.5.1-Beta.1"><!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools Beta" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.0.5.1-Beta.1"/></div><div class="brand">SK PLT Tools Beta<span class="sk-beta-label">BETA</span><small>Wissensdatenbank</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header><!-- sk:header:end -->
 <main class="knowledge-overview">
 <section class="knowledge-hero">
 <div class="knowledge-kicker">GERÄTEWISSEN</div>
@@ -60,8 +60,8 @@
 </div>
 <div class="knowledge-empty" id="knowledgeEmpty">Keine passenden Wissensbeiträge gefunden.</div>
 </section>
-</main><footer class="footer sk-footer">SK PLT Tools Beta · Entwickelt von Simon Kiesler</footer>
-<script src="../assets/app.js?v=2.0.4.2-Beta.1"></script><script>
+</main><!-- sk:footer:start --><footer class="footer sk-footer">SK PLT Tools Beta · Entwickelt von Simon Kiesler</footer><!-- sk:footer:end -->
+<script src="../assets/app.js?v=2.0.5.1-Beta.1"></script><script>
     (()=>{'use strict';
       const input=document.getElementById('knowledgeSearch');
       const cards=[...document.querySelectorAll('#knowledgeGrid .knowledge-entry')];
@@ -72,8 +72,8 @@
         empty.classList.toggle('show',visible===0);
       }
       input.addEventListener('input',filter);
-      document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-index',version:'2.0.4.2-Beta.1'}}));
+      document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-index',version:'2.0.5.1-Beta.1'}}));
     })();
   </script>
-<button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewbox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden="">0</span></button><button aria-label="Seitennavigation öffnen" class="sk-tree-trigger" type="button"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-6h4v4h-4v-4zM8 6h5v6h3v2h-5V8H8V6zm0 12h5v-5h3v-2h-5v5H8v2z"></path></svg></button><script defer="" src="../assets/favorites.js?v=2.0.4.2-Beta.1"></script><script defer="" src="../assets/start-filter.js?v=2.0.4.2-Beta.1"></script><script defer="" src="../assets/sort-tools.js?v=2.0.4.2-Beta.1"></script><script defer="" src="../assets/navigation-tree.js?v=2.0.4.2-Beta.1"></script></body>
+<!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><button aria-label="Seitennavigation öffnen" class="sk-tree-trigger" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-6h4v4h-4v-4zM8 6h5v6h3v2h-5V8H8V6zm0 12h5v-5h3v-2h-5v5H8v2z"></path></svg></button><!-- sk:controls:end --></body>
 </html>

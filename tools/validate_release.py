@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.4.2-Beta.1."""
+"""Static release validation for SK PLT Tools Beta 2.0.5.1-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.4.2-Beta.1'
+VERSION='2.0.5.1-Beta.1'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -18,11 +18,24 @@ EXPECTED_PAGES={
 EXPECTED_MATERIAL_IDS={'1-4301','1-4401','1-4404','1-4408','1-4409','1-4435','1-4539','1-4571','2-4602','2-4605'}
 TEMPLATE_HASHES={
  'wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf':'6fb4b02aa6033a628f426c7bb9e6bf7f21f132ca191a77c1eb012d9999cb04db',
- 'wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf.pdf':'65e3897a145099645fc7001aa328b81b1e86365b5613d18f559b04df43e1778d',
  'wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.docx':'95d130036ad3e2c9e5aa799ff696114bd8dadd0b9e326d66263f742d93079e98'
 }
 errors=[]
 pages={p.relative_to(ROOT).as_posix():p for p in ROOT.rglob('index.html')}
+
+OBSOLETE_FILES={
+ 'assets/styles.css','assets/design.css','assets/favorites.css','assets/favorites.js','assets/start-filter.css','assets/start-filter.js',
+ 'assets/sort-tools.css','assets/sort-tools.js','assets/navigation-tree.css','assets/navigation-tree.js','assets/card-cleanup.css',
+ 'assets/card-cleanup.js','assets/disable-support.js','assets/header-alignment-fix.css','assets/header-alignment-fix.js',
+ 'assets/header-version-footer-fix.css','assets/header-version-footer-fix.js','assets/knowledge-template-pdf.js',
+ 'assets/search-service-cleanup.js','assets/siemens-sitrans-integration.js','assets/sk-shell.css','assets/sk-shell.js',
+ 'assets/start-vde-integration.js','assets/start-voltage-drop-integration.js','assets/version-1.9.8.5.js',
+ 'plausibilitaetspruefung-vde0100-600/logo-fallback.js','wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf.pdf'
+}
+for rel in sorted(OBSOLETE_FILES):
+    if (ROOT/rel).exists(): errors.append(f'Nachweislich ersetzte Altdatei noch vorhanden: {rel}')
+for required in ('release-config.json','shared/header.html','shared/footer.html','shared/controls.html','shared/pages.json','tools/sync_shared.py','tools/release.py'):
+    if not (ROOT/required).is_file(): errors.append(f'Zentrale Build-/Shell-Datei fehlt: {required}')
 if set(pages)!=EXPECTED_PAGES:
     errors.append(f'HTML-Seiten abweichend: erwartet {sorted(EXPECTED_PAGES)}, gefunden {sorted(pages)}')
 
@@ -48,14 +61,15 @@ for rel,page in pages.items():
     if soup.select_one('footer.sk-footer').get_text(' ',strip=True)!='SK PLT Tools Beta · Entwickelt von Simon Kiesler': errors.append(f'{rel}: Footer-Standard falsch')
     if 'SK PLT Tools Beta' not in soup.get_text(' ',strip=True) or len(soup.select('.sk-beta-label'))!=1: errors.append(f'{rel}: sichtbare Beta-Kennzeichnung fehlt')
     styles=[tag.get('href','') for tag in soup.find_all('link',rel=lambda value:value and 'stylesheet' in value)]
-    if not any('assets/styles.css' in value for value in styles): errors.append(f'{rel}: styles.css fehlt')
-    if not any('assets/design.css' in value for value in styles): errors.append(f'{rel}: design.css fehlt')
+    core_styles=[value for value in styles if 'assets/core.css' in value]
+    if len(core_styles)!=1: errors.append(f'{rel}: genau eine zentrale core.css erwartet')
     scripts=[tag.get('src','') for tag in soup.find_all('script',src=True)]
-    for required in ('app.js','favorites.js','start-filter.js','sort-tools.js','navigation-tree.js'):
-        if not any(required in value for value in scripts): errors.append(f'{rel}: direkt eingebundenes Modul fehlt: {required}')
-    for forbidden in ('sk-shell.js','header-alignment-fix.js','header-version-footer-fix.js','card-cleanup.js','start-vde-integration.js','start-voltage-drop-integration.js','version-1.9.8.5.js'):
+    if sum('assets/app.js' in value for value in scripts)!=1: errors.append(f'{rel}: genau eine zentrale app.js erwartet')
+    for forbidden in ('favorites.js','start-filter.js','sort-tools.js','navigation-tree.js','sk-shell.js','header-alignment-fix.js','header-version-footer-fix.js','card-cleanup.js','start-vde-integration.js','start-voltage-drop-integration.js','version-1.9.8.5.js'):
         if any(forbidden in value for value in scripts): errors.append(f'{rel}: alte Patchdatei noch eingebunden: {forbidden}')
     if len(soup.select('.sk-favorites-trigger'))!=1 or len(soup.select('.sk-tree-trigger'))!=1: errors.append(f'{rel}: statische Seitentrigger fehlen')
+    for marker in ('header','footer','controls'):
+        if text.count(f'<!-- sk:{marker}:start -->')!=1 or text.count(f'<!-- sk:{marker}:end -->')!=1: errors.append(f'{rel}: zentraler {marker}-Marker fehlt oder ist doppelt')
     for tag in soup.find_all(src=True)+soup.find_all(href=True):
         ref=tag.get('src') or tag.get('href')
         target=resolve_local(page,ref)
@@ -96,7 +110,7 @@ if actual_knowledge_hrefs!=expected_knowledge_hrefs: errors.append(f'Wissensdate
 for tile in knowledge_tiles:
     if 'tool-card' not in tile.get('class',[]): errors.append(f'Wissensdatenbank: Kachel nicht in Favoriten integriert: {tile.get("href","?")}')
 if '.knowledge-entry[hidden]{display:none}' not in (ROOT/'wissensdatenbank/index.html').read_text(encoding='utf-8'): errors.append('Wissensdatenbank: hidden-Kacheln werden durch das Karten-CSS nicht zuverlässig ausgeblendet')
-favorites=(ROOT/'assets/favorites.js').read_text(encoding='utf-8')
+favorites=(ROOT/'assets/app.js').read_text(encoding='utf-8')
 for required in ("const KEY='skPltToolsFavoritesV2'",'localStorage.getItem(KEY)','localStorage.setItem(KEY','event.preventDefault()','event.stopPropagation()','render()'):
     if required not in favorites: errors.append(f'Favoritensystem: erforderliche Persistenz-/Klicklogik fehlt: {required}')
 
@@ -152,8 +166,21 @@ search_index=json.loads((ROOT/'assets/search-index.json').read_text(encoding='ut
 if not any(item.get('url')=='wissensdatenbank/werkstoff-nachschlagewerk/' and item.get('passthroughQuery') and item.get('catalog')=='materials' for item in search_index): errors.append('Startseitensuche: zentral angebundener Werkstoffbereich mit Suchübergabe fehlt')
 if not any(item.get('manufacturer')=='Siemens' and item.get('device')=='SPS' and item.get('topic')=='Rohwert' and item.get('url')=='siemens-analogwert-rechner/' for item in search_index): errors.append('Suche: Siemens-Rohwert-Rechner fehlt')
 if not any(item.get('manufacturer')=='Siemens' and item.get('device')=='SPS' and item.get('topic')=='Rohwert Grundlagen' and item.get('url')=='wissensdatenbank/siemens-sps-rohwert/' for item in search_index): errors.append('Suche: Rohwert-Grundlagenartikel fehlt')
-if 'assets/materials.json' not in (ROOT/'assets/start-filter.js').read_text(encoding='utf-8'): errors.append('Startseitensuche: zentrale Werkstoffdatei wird nicht geladen')
+if 'assets/materials.json' not in (ROOT/'assets/app.js').read_text(encoding='utf-8'): errors.append('Startseitensuche: zentrale Werkstoffdatei wird nicht geladen')
 nav=json.loads((ROOT/'assets/navigation-tree.json').read_text(encoding='utf-8'))
+if nav.get('version')!=VERSION: errors.append('Navigationsbaum: Version inkonsistent')
+def walk_nav(items):
+    for item in items:
+        yield item
+        yield from walk_nav(item.get('children',[]))
+nav_items=[item for group in nav.get('groups',[]) for item in walk_nav(group.get('items',[]))]
+for item in nav_items:
+    url=item.get('url','')
+    if not url or url.startswith(('http://','https://')): continue
+    target=ROOT/url
+    if url.endswith('/'): target=target/'index.html'
+    if not target.exists(): errors.append(f'Navigationsbaum: lokales Ziel fehlt: {url}')
+if len([item for item in nav_items if item.get('url')])!=len({item.get('url') for item in nav_items if item.get('url')}): errors.append('Navigationsbaum: doppelte Ziel-URL')
 if 'wissensdatenbank/werkstoff-nachschlagewerk/' not in json.dumps(nav): errors.append('Navigationsbaum: Werkstoffbereich fehlt')
 if 'siemens-analogwert-rechner/' not in json.dumps(nav): errors.append('Navigationsbaum: Siemens-SPS-Analogwert-Rechner fehlt')
 sps_nodes=[sps for group in nav.get('groups',[]) for item in group.get('items',[]) for child in item.get('children',[]) for sps in child.get('children',[]) if item.get('title')=='Wissensdatenbank' and child.get('title')=='Siemens' and sps.get('title')=='SPS']
@@ -164,8 +191,8 @@ if not any(group.get('id')=='external-services' and any(item.get('url')=='https:
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
 
-nav_js=(ROOT/'assets/navigation-tree.js').read_text(encoding='utf-8')
-nav_css=(ROOT/'assets/navigation-tree.css').read_text(encoding='utf-8')
+nav_js=(ROOT/'assets/app.js').read_text(encoding='utf-8')
+nav_css=(ROOT/'assets/core.css').read_text(encoding='utf-8')
 for required in ('sk-tree-node-row','aria-controls','aria-label="${label} einklappen"'):
     if required not in nav_js: errors.append(f'Navigationsbaum: valide Knotenstruktur unvollständig: {required}')
 if '<button class="sk-tree-node-toggle" type="button" data-node="${id}" aria-expanded="true"><span class="sk-tree-chevron">⌄</span>${row}</button>' in nav_js:
@@ -176,7 +203,7 @@ for required in ('.sk-tree-node-row{display:flex;align-items:stretch', 'backgrou
 article_html=(ROOT/'wissensdatenbank/siemens-sps-rohwert/index.html').read_text(encoding='utf-8')
 for required in ('4 mA  =     0','12 mA = 13824','4 mA  =  5530','12 mA = 16589','Rohwert = 13824','../../siemens-analogwert-rechner/'):
     if required not in article_html: errors.append(f'Rohwert-Grundlagenartikel: Inhalt/Verknüpfung fehlt: {required}')
-if article_html.count('Version 2.0.4.2-Beta.1')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
+if article_html.count('Version 2.0.5.1-Beta.1')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
 article_page=BeautifulSoup(article_html,'html.parser')
 article_breadcrumb=article_page.select_one('nav.knowledge-breadcrumb[aria-label="Brotkrümelnavigation"]')
 if article_breadcrumb is None: errors.append('Rohwert-Grundlagenartikel: Breadcrumb fehlt')
@@ -195,13 +222,13 @@ for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'<
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
 if "const CACHE_PREFIX='sk-plt-tools-beta-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den getrennten Beta-Cache')
 if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt Caches nicht beta-isoliert')
-for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
+for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
 
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.4.2-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.4.2-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.5.1-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.5.1-beta.1' or manifest.get('version')!=VERSION: errors.append('Manifest: Beta-ID/start_url/version nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail','#calculationError'):
@@ -227,10 +254,8 @@ for forbidden in ('physicalMin','physicalMax','physicalUnit','physicalResult',"i
 for required in ("elements.inputValue.inputMode=mode==='raw'?'numeric':'decimal'","event.currentTarget.select()"):
     if required not in siemens_js: errors.append(f'Siemens-Rechner: optimierte Rohwert-Eingabe fehlt: {required}')
 
-design_css=(ROOT/'assets/design.css').read_text(encoding='utf-8')
-favorites_css=(ROOT/'assets/favorites.css').read_text(encoding='utf-8')
-tree_css=(ROOT/'assets/navigation-tree.css').read_text(encoding='utf-8')
-styles_css=(ROOT/'assets/styles.css').read_text(encoding='utf-8')
+core_css=(ROOT/'assets/core.css').read_text(encoding='utf-8')
+design_css=favorites_css=tree_css=styles_css=core_css
 for required in ('min-height:86px','min-height:74px'):
     if required not in design_css: errors.append(f'Kompakter Header: Merkmal fehlt: {required}')
 for label,content in (('Favoriten',favorites_css),('Navigation',tree_css)):
@@ -251,7 +276,7 @@ try:
         if not line.strip(): continue
         digest,rel=line.split(None,1)
         listed[rel.removeprefix('./')]=digest
-    actual_files={p.relative_to(ROOT).as_posix() for p in ROOT.rglob('*') if p.is_file() and p!=sums_path}
+    actual_files={p.relative_to(ROOT).as_posix() for p in ROOT.rglob('*') if p.is_file() and p!=sums_path and '__pycache__' not in p.parts and p.name!='.DS_Store'}
     if set(listed)!=actual_files:
         errors.append(f'Prüfsummen-Dateiliste abweichend: fehlend={sorted(actual_files-set(listed))}, zusätzlich={sorted(set(listed)-actual_files)}')
     for rel,digest in listed.items():

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools Beta 2.0.4.2-Beta.1."""
+"""Browser smoke test for SK PLT Tools Beta 2.0.5.1-Beta.1."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -47,7 +47,7 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.4.2-Beta.1"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.5.1-Beta.1"
     assert desktop.locator("header.sk-global-header").bounding_box()["height"] <= 88
     assert_box(desktop, ".sk-favorites-trigger", 48, 48)
     assert_box(desktop, ".sk-tree-trigger", 48, 48)
@@ -114,8 +114,42 @@ with sync_playwright() as p:
     assert external.get_attribute("target") == "_blank"
     assert set((external.get_attribute("rel") or "").split()) >= {"external", "noopener", "noreferrer"}
     assert external.get_attribute("referrerpolicy") == "no-referrer"
-    assert_text(desktop, '.hero .badge', 'Version 2.0.4.2-Beta.1')
-    assert desktop.locator('text=Version 2.0.4.2-Beta.1').count() == 1
+    assert_text(desktop, '.hero .badge', 'Version 2.0.5.1-Beta.1')
+    assert desktop.locator('text=Version 2.0.5.1-Beta.1').count() == 1
+
+    # Suche und Suchübergabe in das getrennte Werkstoffmodul.
+    desktop.locator('#skToolSearch').fill('316L')
+    desktop.wait_for_function("document.querySelectorAll('#skKnowledgeResultList > a').length > 0")
+    material_hit = desktop.locator('#skKnowledgeResultList a[href*="werkstoff-nachschlagewerk"]')
+    assert material_hit.count() == 1
+    assert 'q=316L' in material_hit.get_attribute('href')
+    assert '1 Beitrag' in desktop.locator('#skFilterResult').inner_text()
+    desktop.locator('#skFilterReset').click()
+    assert desktop.locator('.tools > a.card:visible').count() == 10
+
+    # Kategorie und Sortierung.
+    desktop.locator('.sk-filter-button[data-filter="RECHNER"]').click()
+    assert desktop.locator('.tools > a.card:visible').count() == 6
+    desktop.locator('#skFilterReset').click()
+    desktop.locator('#skToolSort').select_option('title-asc')
+    sorted_titles = desktop.locator('.tools > a.card h2').all_inner_texts()
+    assert sorted_titles == sorted(sorted_titles, key=lambda value: value.casefold())
+    desktop.locator('#skToolSort').select_option('default')
+
+    # Favoriten per UI hinzufügen, nach Reload wiederfinden und entfernen.
+    analog_card = desktop.locator('.tools > a.card[href="analogsignal/"]')
+    analog_card.locator('.sk-favorite-button').click()
+    desktop.locator('.sk-favorites-trigger').click()
+    assert_text(desktop, '.sk-favorites-list strong', 'Analogsignal-Rechner')
+    desktop.locator('.sk-favorites-close').click()
+    desktop.reload()
+    desktop.wait_for_load_state('networkidle')
+    desktop.locator('.sk-favorites-trigger').click()
+    assert_text(desktop, '.sk-favorites-list strong', 'Analogsignal-Rechner')
+    desktop.locator('.sk-favorite-remove').click()
+    assert_text(desktop, '.sk-favorites-empty strong', 'Noch keine Favoriten')
+    desktop.locator('.sk-favorites-close').click()
+
     desktop.locator('.sk-tree-trigger').click()
     desktop.wait_for_timeout(300)
     knowledge_group = desktop.locator('.sk-tree-group-toggle[data-group="knowledge"]')
@@ -139,6 +173,7 @@ with sync_playwright() as p:
     assert desktop.get_by_text('Rohwert-Rechner', exact=True).count() == 0
     desktop.screenshot(path=str(OUT / "navigation-wissen-desktop.png"), full_page=True)
     desktop.locator('.sk-tree-close').click()
+    desktop.wait_for_function("document.querySelector('.sk-tree-drawer').getBoundingClientRect().left >= window.innerWidth")
     desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
 
     tablet = browser.new_page(viewport={"width": 820, "height": 1180}, device_scale_factor=2, is_mobile=True)
@@ -147,7 +182,7 @@ with sync_playwright() as p:
         tablet.goto(f"{BASE}{route}")
         tablet.wait_for_load_state("networkidle")
         assert tablet.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
-        assert tablet.locator("body").get_attribute("data-sk-version") == "2.0.4.2-Beta.1"
+        assert tablet.locator("body").get_attribute("data-sk-version") == "2.0.5.1-Beta.1"
         assert tablet.locator("header.sk-global-header").bounding_box()["height"] <= 88
         assert_box(tablet, ".sk-favorites-trigger", 48, 48)
         assert_box(tablet, ".sk-tree-trigger", 48, 48)
@@ -197,6 +232,39 @@ with sync_playwright() as p:
     mobile.wait_for_load_state("networkidle")
     assert abs(mobile.locator("button.sign").first.bounding_box()["width"] - 38) <= 1
 
+    # PWA-Metadaten, Service Worker und echter Offline-Aufruf aus dem Cache.
+    pwa = browser.new_page(viewport={"width": 1280, "height": 900})
+    pwa.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
+    pwa.goto(f"{BASE}/")
+    pwa.wait_for_load_state("networkidle")
+    manifest = pwa.evaluate("fetch('manifest.webmanifest').then(response => response.json())")
+    assert manifest["version"] == "2.0.5.1-Beta.1"
+    assert manifest["id"] == "./?app=sk-plt-tools-beta-2.0.5.1-beta.1"
+    pwa.evaluate("navigator.serviceWorker.ready.then(() => true)")
+    if not pwa.evaluate("Boolean(navigator.serviceWorker.controller)"):
+        pwa.reload()
+        pwa.wait_for_load_state("networkidle")
+    assert pwa.evaluate("Boolean(navigator.serviceWorker.controller)")
+    cache_keys = pwa.evaluate("caches.keys()")
+    assert "sk-plt-tools-beta-v2.0.5.1-Beta.1" in cache_keys
+    cached_urls = pwa.evaluate("caches.open('sk-plt-tools-beta-v2.0.5.1-Beta.1').then(cache => cache.keys()).then(keys => keys.map(key => new URL(key.url).pathname))")
+    for required in ('/index.html','/assets/core.css','/assets/app.js','/assets/navigation-tree.json','/siemens-analogwert-rechner/index.html','/wissensdatenbank/werkstoff-nachschlagewerk/index.html'):
+        assert required in cached_urls, f"Offline-Cache fehlt: {required}"
+    pwa.context.set_offline(True)
+    pwa.goto(f"{BASE}/siemens-analogwert-rechner/")
+    pwa.wait_for_load_state("domcontentloaded")
+    assert_text(pwa, 'h1', 'Siemens Rohwert')
+    assert_text(pwa, '#rawResult', '13.824')
+    pwa.goto(f"{BASE}/wissensdatenbank/werkstoff-nachschlagewerk/")
+    pwa.wait_for_load_state("domcontentloaded")
+    assert pwa.locator('#materialSearch').is_visible()
+    pwa.goto(f"{BASE}/")
+    pwa.wait_for_load_state("domcontentloaded")
+    pwa.locator('#skToolSearch').fill('Vacon')
+    pwa.wait_for_function("document.querySelectorAll('#skKnowledgeResultList > a').length === 1")
+    assert_text(pwa, '#skKnowledgeResultList h3', 'Vacon Frequenzumrichter')
+    pwa.context.set_offline(False)
+
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: 16 Seiten auf iPad-Breite, Desktop/Mobil, kompakte Bedienelemente, einklappbare Karteninformationen, Siemens-Kartenprofile, NE43-Grenzen, Breadcrumb-Farben, valide und bündige Wissen-Baumnavigation, Synchronisierung und Wissenskachel geprüft.")
+    print("OK: 16 Direktseiten, Desktop/Tablet/Mobil, Rechner, Suche, Filter, Sortierung, Favoriten, Navigation sowie PWA- und Offline-Verhalten geprüft.")

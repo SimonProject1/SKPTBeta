@@ -1,60 +1,56 @@
-# Clean-Design-Architektur 2.0.4.2-Beta.1
+# Architektur – SK PLT Tools Beta 2.0.5.1-Beta.1
 
-## Unveränderte Grundlage
+## Leitprinzipien
 
-Version 2.0.4.2-Beta.1 führt die vorhandene Beta-Linie auf Basis der unveränderten stabilen Version 2.0.2.0 fort. Die Grundprinzipien bleiben erhalten:
+1. Fachfunktionen bleiben als eigenständige Rechner- bzw. Wissensmodule erhalten.
+2. Seitenübergreifende Darstellung und Laufzeitlogik werden zentral gepflegt.
+3. Jede HTML-Seite bleibt ein direkter, statischer Einstiegspunkt.
+4. Navigation, PWA und Offline-Betrieb funktionieren ohne Build-Server im produktiven Webroot.
+5. Entfernt werden nur nachweislich unreferenzierte oder vollständig übernommene Altdateien.
 
-- finale Headerstruktur direkt in jeder HTML-Datei
-- sichtbare Versionsanzeige ausschließlich im Hero der Startseite
-- einheitlicher Footer direkt in jeder HTML-Datei
-- statische Startseitenkacheln sowie Filter- und Sortieroberfläche in `index.html`
-- verbindliche Gestaltung in `assets/styles.css` und `assets/design.css`
-- JavaScript nur für Interaktion und Berechnung
-- Service Worker ohne Response-Rewriting; Precache, Network-first für Navigation und Cache-Fallback
-- alte Patch-Dateien ausschließlich als wirkungslose No-op-Kompatibilitätsdateien
+## Zentrale Laufzeitdateien
 
-## Navigationsbaum
+- `assets/core.css` enthält die zuvor auf sechs Dateien verteilten gemeinsamen Styles für Grundlayout, Design, Favoriten, Suche/Filter, Sortierung und Seitenbaum.
+- `assets/app.js` enthält Basisfunktionen, Service-Worker-Registrierung, Favoriten, Startseitensuche, Sortierung und Navigationsbaum.
+- `assets/navigation-tree.json` ist die zentrale Inhaltsquelle für den Navigationsbaum. `assets/app.js` erzeugt daraus Gruppen, Knoten, Datei- und Externlinks.
+- `assets/search-index.json` und `assets/materials.json` bleiben getrennte fachliche Datenquellen für Suche und Werkstoffe.
 
-Die Navigation wird aus `assets/navigation-tree.json` durch `assets/navigation-tree.js` erzeugt und durch `assets/navigation-tree.css` gestaltet.
+## Fachmodule
 
-Knoten mit Untereinträgen verwenden eine semantisch gültige Struktur:
+Eigene Dateien bleiben dort bestehen, wo sie fachliche Logik oder stark modulspezifische Darstellung kapseln:
 
-- `.sk-tree-node-row` bildet die gemeinsame dunkelblaue, abgerundete Kachel.
-- `.sk-tree-node-toggle` ist eine eigenständige 42-px-Pfeilschaltfläche mit `aria-expanded` und `aria-controls`.
-- `.sk-tree-link` liegt als Geschwisterelement neben der Schaltfläche und bleibt vollständig innerhalb der Kachel.
-- Links werden nie in Buttons verschachtelt. Dadurch kann der HTML-Parser den Link nicht aus der vorgesehenen Knoten-Kachel verschieben.
-- Der Pfeil wird per Grid-Zentrierung optisch mittig ausgerichtet; Hover, Fokus und Aktivzustand gelten für die vollständige Knoten-Zeile.
+- `assets/siemens-analogwert-rechner.{css,js}`
+- `spannungsfall-rechner/calculator.{css,js}`
+- `plausibilitaetspruefung-vde0100-600/checker.{css,js}`
+- `assets/materials.{css,js,json}`
+- Wissensbeitrags-Styles für Air Torque, Siemens Sitrans und Vacon
 
-## Siemens-SPS-Analogwert-Rechner
+Damit bleiben Rechner und Wissensbeiträge klar getrennt, während globale Funktionen nicht mehrfach gepflegt werden.
 
-Der Rechner bleibt als reguläres Werkzeug vollständig in die Anwendung eingebunden:
+## Gemeinsame Seitenelemente
 
-- Seite `siemens-analogwert-rechner/index.html`
-- Gestaltung `assets/siemens-analogwert-rechner.css`
-- Berechnung `assets/siemens-analogwert-rechner.js`
-- Startseitenkachel, Favoritenfähigkeit und Navigationsbaumeintrag bleiben bestehen
-- Seite und Assets verbleiben im Service-Worker-Precache
-- keine eigene Persistenz und keine Laufzeit-Patchlogik
+`shared/header.html`, `shared/footer.html` und `shared/controls.html` sind die Vorlagen für die statisch ausgelieferten gemeinsamen Elemente. `shared/pages.json` enthält nur die seitenabhängigen Bezeichnungen und Rücksprungziele. `tools/sync_shared.py` synchronisiert die markierten Bereiche in allen 16 HTML-Seiten. Die ausgelieferten Seiten enthalten die Elemente weiterhin direkt, sodass Header, Footer und Schaltflächen bereits vor JavaScript sichtbar sind.
 
-Die Fachlogik ist bewusst auf zwei Größen begrenzt: Siemens-Rohwert und ausgewähltes mA-/V-Signal. Die vier Signalbereiche sind als unveränderliche Konfigurationen hinterlegt. Die Statusfunktion ordnet jeden Rohwert genau einem der fünf Zustände Unterlauf, Unterbereich, Nennbereich, Überbereich oder Überlauf zu.
+## PWA und Offline
 
-## Beta-Konfiguration
+- PWA-ID und Start-URL: `./?app=sk-plt-tools-beta-2.0.5.1-beta.1`
+- Cache: `sk-plt-tools-beta-v2.0.5.1-Beta.1`
+- `tools/release.py` erzeugt den Precache-Bestand automatisch aus den tatsächlich auslieferbaren Webdateien und direkten Seitenrouten.
+- Navigationen nutzen Network-first mit Cache-Fallback; statische Assets nutzen Cache-first.
+- Alte Beta-Caches mit gleichem Präfix werden bei Aktivierung entfernt; andere Anwendungen/Caches werden nicht berührt.
 
-- Kanal: `beta`
-- PWA-ID/start_url: `./?app=sk-plt-tools-beta-2.0.4.2-beta.1`
-- Cache-Präfix: `sk-plt-tools-beta-`
-- Release-Cache: `sk-plt-tools-beta-v2.0.4.2-Beta.1`
-- Cache-Bereinigung greift ausschließlich innerhalb des Beta-Präfixes
+## Nachweislich entfernte Altdateien
 
-## Erhaltene Systeme
+Entfernt wurden 27 Dateien:
 
-- Favoriten mit dem bestehenden Local-Storage-Schlüssel `skPltToolsFavoritesV2`
-- Startseitenfilter und Sortierung
-- zentrale Suche und Werkstoffkatalog
-- Navigationsbaum
-- Wissensdatenbank einschließlich Vorlagen
-- responsive Layoutregeln und mobile Drawer
+- 6 frühere gemeinsame CSS-Dateien, vollständig übernommen in `assets/core.css`
+- 4 frühere gemeinsame JavaScript-Dateien, vollständig übernommen in `assets/app.js`
+- 15 leere, unreferenzierte Kompatibilitäts-/Korrektur-Shims
+- 1 unreferenziertes Logo-Fallback-Skript
+- 1 unreferenzierte alte PDF-Dublette mit Doppelendung
 
-## Sicherheitsprinzip
+Die aktive PDF-Beitragsvorlage und die DOCX-Quelldatei bleiben erhalten.
 
-Die dargestellten Bereichsgrenzen sind ein Rechen- und Diagnosemodell. Baugruppenabhängige Mess-, Diagnose- und NE43-Grenzen werden nicht ersetzt; die Dokumentation und Parametrierung des eingesetzten Siemens-Moduls bleibt maßgeblich.
+## Release-Automatisierung
+
+`release-config.json` ist die zentrale Release-Konfiguration. `tools/release.py` aktualisiert Versionen in HTML, Manifest, App, Navigation und Service Worker, synchronisiert gemeinsame Seitenelemente, generiert die Offline-Liste, erstellt vollständige SHA-256-Prüfsummen und baut das komplette ZIP-Paket.

@@ -1,6 +1,6 @@
 # Siemens-Quellen und kartenspezifische Rohwertgrenzen
 
-Stand: 02.10.2026 · Bestandteil von SK PLT Tools Beta 2.0.4.2-Beta.1
+Stand: 02.10.2026 · Bestandteil von SK PLT Tools Beta 2.0.5.1-Beta.1
 
 ## Grundsatz
 

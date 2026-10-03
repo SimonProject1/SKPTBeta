@@ -1,42 +1,51 @@
-# Deployment – SK PLT Tools Beta 2.0.4.2-Beta.1
+# Deployment – SK PLT Tools Beta 2.0.5.1-Beta.1
 
-> Diese Beta parallel zur stabilen Version 2.0.2.0 in einem eigenen Webroot oder Unterordner bereitstellen. Den stabilen Webroot nicht ersetzen. PWA-ID, Start-URL und Cache sind separat.
+## Voraussetzungen
 
-## Upload
+- Statischer Webserver mit HTTPS für Produktion; `localhost` ist für lokale PWA-Tests zulässig
+- Alle Dateien und Ordner des ZIP-Pakets unverändert gemeinsam bereitstellen
+- Beta in einen eigenen Webroot entpacken und die stabile Version 2.0.2.0 nicht überschreiben
 
-1. `SK-PLT-Tools-V2.0.4.2-Beta.1.zip` vollständig entpacken.
-2. Den vollständigen Inhalt des Ordners `SK-PLT-Tools-V2.0.4.2-Beta.1` in einen eigenen Beta-Webroot kopieren.
-3. `service-worker.js` muss neben `index.html` liegen.
-4. Die Anwendung einmal online öffnen und neu laden. Dadurch wird `sk-plt-tools-beta-v2.0.4.2-Beta.1` aktiviert; ausschließlich ältere Beta-Caches werden entfernt.
-5. Prüfen, dass jede Seite `SK PLT Tools Beta` und `BETA` zeigt; `Version 2.0.4.2-Beta.1` darf sichtbar ausschließlich einmal im Hero der Startseite stehen.
-6. Baummenü öffnen und **Wissen** aufklappen. **Wissensdatenbank** muss einschließlich grünem, mittig ausgerichtetem Pfeil vollständig in einer dunkelblauen, abgerundeten Kachel stehen.
-7. **Wissensdatenbank** öffnen und anschließend die verschachtelten Knoten per Pfeilschaltfläche auf- und zuklappen.
-8. Im Pfad **Wissen → Siemens → SPS** prüfen, dass nur **Rohwert Grundlagen** erscheint.
-9. Im Rohwert-Grundlagenartikel prüfen, dass die Breadcrumb-Links **Startseite** und **Wissensdatenbank** cyan und nicht lila dargestellt werden.
-10. Auf der Startseite die Kachel **E+H Device Viewer**, die sichtbare Externkennzeichnung und das Öffnen in einem neuen Tab prüfen.
-11. Startseitensuche, Filter, Sortierung, Favoriten und Navigationsbaum prüfen.
-12. Regressionstest für Rechner, Wissensdatenbank und mobile Ansicht gemäß `TESTBERICHT-UND-ABNAHME.md` durchführen.
-13. Paketintegrität mit `SHA256SUMS.txt` prüfen.
+## Installation
 
-## Automatische Prüfung
+1. `SK-PLT-Tools-V2.0.5.1-Beta.1.zip` entpacken.
+2. Den enthaltenen Ordner vollständig auf den Ziel-Webserver kopieren.
+3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/` und alle Modulordner unter demselben Webroot liegen.
+4. Startseite und mindestens einen direkten Unterseitenlink ohne vorherigen Startseitenbesuch öffnen.
+5. Bestehende Installation einmal online laden, bis der neue Service Worker aktiviert ist; anschließend Offline-Prüfung durchführen.
+
+## Integritätsprüfung
+
+Im Projektordner:
 
 ```bash
-python tools/validate_release.py
+sha256sum -c SHA256SUMS.txt
+```
+
+Alle Einträge müssen `OK` melden.
+
+## Technische Abnahme
+
+```bash
 node tools/functional-smoke-test.js
+python tools/validate_release.py
 python -m http.server 4173
+# in einem zweiten Terminal:
 python tools/browser-smoke-test.py
 ```
 
-## Externe Abhängigkeit
+Der Browser-Test prüft Desktop, Tablet, Mobilansicht, Direktlinks, Navigation, Suche, Sortierung, Favoriten, Rechnerinteraktionen, PWA-Registrierung und Offline-Aufrufe.
 
-Der E+H Device Viewer benötigt eine Netzwerkverbindung und wird nicht in den Offline-Cache aufgenommen. Ausfall, Änderungen und Inhalte des externen Dienstes liegen außerhalb von SK PLT Tools. Alle übrigen bereits lokal geladenen Kernfunktionen bleiben offlinefähig.
+## Update- und Rollback-Hinweise
 
-## Stabile Version schützen
+- Der neue Cache heißt `sk-plt-tools-beta-v2.0.5.1-Beta.1`.
+- Der Service Worker löscht nur ältere Caches mit dem Präfix `sk-plt-tools-beta-`.
+- Ein Rollback erfolgt durch vollständiges Wiederherstellen des vorherigen Webroots. Danach die vorherige Version einmal online öffnen, damit deren Service Worker wieder aktiv wird.
 
-- `SK-PLT-Tools-V2.0.2.0.zip` nicht ändern oder überschreiben.
-- Kein Deployment in den produktiven 2.0.2.0-Webroot.
-- Beta und Stable verwenden getrennte PWA-IDs und Cache-Präfixe.
+## Neues Release erzeugen
 
-## Rückfall
+```bash
+python tools/release.py --version X.Y.Z.W-Beta.N --all
+```
 
-Bei einem Abbruch der Abnahme nur den separaten Beta-Webroot zurücksetzen. Die stabile Installation 2.0.2.0 bleibt davon unberührt.
+Vor der Weitergabe immer die drei Tests erneut ausführen und anschließend `SHA256SUMS.txt` sowie das ZIP neu erzeugen.

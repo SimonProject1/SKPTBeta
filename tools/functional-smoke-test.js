@@ -58,7 +58,7 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
    assertEqual(article.includes('4 mA  =     0')&&article.includes('12 mA = 13824'),true,'Rohwertartikel 4–20-mA-Parametrierung');
    assertEqual(article.includes('4 mA  =  5530')&&article.includes('12 mA = 16589'),true,'Rohwertartikel 0–20-mA-Bezugsweise getrennt');
    assertEqual(article.includes('Rohwert = 13824'),true,'Rohwertartikel Praxisbeispiel konsistent');
-  const favorites=fs.readFileSync(path.join(ROOT,'assets/favorites.js'),'utf8');
+  const favorites=fs.readFileSync(path.join(ROOT,'assets/app.js'),'utf8');
   assertEqual(favorites.includes("const KEY='skPltToolsFavoritesV2'"),true,'Favoriten bestehender Speicherschlüssel');
   assertEqual(favorites.includes('localStorage.setItem(KEY'),true,'Favoriten persistente Speicherung');
   assertEqual(favorites.includes('event.preventDefault()')&&favorites.includes('event.stopPropagation()'),true,'Favoriten Sternklick ohne Kachelnavigation');

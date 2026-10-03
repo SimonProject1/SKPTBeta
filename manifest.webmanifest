@@ -1,9 +1,9 @@
 {
-  "id": "./?app=sk-plt-tools-beta-2.0.4.2-beta.1",
+  "id": "./?app=sk-plt-tools-beta-2.0.5.1-beta.1",
   "name": "SK PLT Tools Beta",
   "short_name": "SK PLT Beta",
-  "description": "Beta der praktischen Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.0.4.2-Beta.1",
-  "start_url": "./?app=sk-plt-tools-beta-2.0.4.2-beta.1",
+  "description": "Beta der praktischen Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.0.5.1-Beta.1",
+  "start_url": "./?app=sk-plt-tools-beta-2.0.5.1-beta.1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#061827",
@@ -21,5 +21,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "version": "2.0.5.1-Beta.1"
 }

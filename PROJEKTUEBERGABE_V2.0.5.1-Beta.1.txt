@@ -1,0 +1,27 @@
+PROJEKTÜBERGABE – SK PLT Tools V2.0.5.1-Beta.1
+Datum: 03.10.2026
+
+PAKETSTATUS
+- Vollständiges Projekt, keine Patch-Sammlung.
+- 16 direkt aufrufbare HTML-Seiten.
+- Rechner und Wissensbeiträge bleiben fachlich getrennte Module.
+- Gemeinsame Styles und Laufzeitfunktionen sind in assets/core.css und assets/app.js konsolidiert.
+- Navigation wird vollständig aus assets/navigation-tree.json erzeugt.
+- PWA- und Offline-Bestand wird durch tools/release.py synchronisiert.
+
+WARTUNG
+1. Seitennavigation ausschließlich in assets/navigation-tree.json pflegen.
+2. Gemeinsame Header-/Footer-/Trigger-Vorlagen in shared/ pflegen und danach `python tools/sync_shared.py` ausführen.
+3. Technische Versionsänderungen mit `python tools/release.py --version X.Y.Z.W-Beta.N --all` durchführen.
+4. Fachlogik in den jeweiligen Rechner- oder Wissensmodulen belassen.
+5. Vor Auslieferung alle Tests aus README.md ausführen.
+
+INTEGRITÄT
+- SHA256SUMS.txt enthält jede Datei des Projektordners außer sich selbst.
+- Das Release-ZIP enthält den vollständigen Projektordner als oberste Ebene.
+- Die aktive PDF- und DOCX-Beitragsvorlage sind enthalten.
+
+WICHTIG
+- servicewerte/ bleibt aus Gründen bestehender Direktlinks enthalten, ist jedoch nicht auf der Startseite verlinkt.
+- Die stabile Referenz V2.0.2.0 wird nicht überschrieben.
+- PWA-Funktionen benötigen HTTP(S); file:// ist nur für einfache statische Sichtprüfung geeignet.
