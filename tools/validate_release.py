@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.4.1-Beta.1."""
+"""Static release validation for SK PLT Tools Beta 2.0.4.2-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.4.1-Beta.1'
+VERSION='2.0.4.2-Beta.1'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -164,10 +164,19 @@ if not any(group.get('id')=='external-services' and any(item.get('url')=='https:
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
 
+nav_js=(ROOT/'assets/navigation-tree.js').read_text(encoding='utf-8')
+nav_css=(ROOT/'assets/navigation-tree.css').read_text(encoding='utf-8')
+for required in ('sk-tree-node-row','aria-controls','aria-label="${label} einklappen"'):
+    if required not in nav_js: errors.append(f'Navigationsbaum: valide Knotenstruktur unvollständig: {required}')
+if '<button class="sk-tree-node-toggle" type="button" data-node="${id}" aria-expanded="true"><span class="sk-tree-chevron">⌄</span>${row}</button>' in nav_js:
+    errors.append('Navigationsbaum: interaktiver Link ist weiterhin unzulässig in eine Schaltfläche verschachtelt')
+for required in ('.sk-tree-node-row{display:flex;align-items:stretch', 'background:#0a2639', '.sk-tree-node-toggle{display:grid;place-items:center', 'color:#89d329'):
+    if required not in nav_css: errors.append(f'Navigationsbaum: Kachel-/Pfeilausrichtung unvollständig: {required}')
+
 article_html=(ROOT/'wissensdatenbank/siemens-sps-rohwert/index.html').read_text(encoding='utf-8')
 for required in ('4 mA  =     0','12 mA = 13824','4 mA  =  5530','12 mA = 16589','Rohwert = 13824','../../siemens-analogwert-rechner/'):
     if required not in article_html: errors.append(f'Rohwert-Grundlagenartikel: Inhalt/Verknüpfung fehlt: {required}')
-if article_html.count('Version 2.0.4.1-Beta.1')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
+if article_html.count('Version 2.0.4.2-Beta.1')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
 article_page=BeautifulSoup(article_html,'html.parser')
 article_breadcrumb=article_page.select_one('nav.knowledge-breadcrumb[aria-label="Brotkrümelnavigation"]')
 if article_breadcrumb is None: errors.append('Rohwert-Grundlagenartikel: Breadcrumb fehlt')
@@ -192,7 +201,7 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.4.1-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.4.1-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.4.2-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.4.2-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail','#calculationError'):
@@ -259,4 +268,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Breadcrumb-Darstellung, bereinigter Pfad Wissen > Siemens > SPS, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Kartenprofile, Rohwert-Grundlagenartikel und Rechner, 5 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Breadcrumb-Darstellung, valider und bündiger Wissen-Knoten, bereinigter Pfad Wissen > Siemens > SPS, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Kartenprofile, Rohwert-Grundlagenartikel und Rechner, 5 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')

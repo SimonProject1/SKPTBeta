@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const RELEASE='2.0.4.1-Beta.1';
+const RELEASE='2.0.4.2-Beta.1';
 const scriptUrl=document.currentScript?.src||'';
 const root=scriptUrl?new URL('../',scriptUrl):new URL('./',location.href);
 window.SK_PLT=Object.freeze({version:RELEASE,channel:'beta',name:'SK PLT Tools Beta',root});

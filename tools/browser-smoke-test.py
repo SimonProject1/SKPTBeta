@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools Beta 2.0.4.1-Beta.1."""
+"""Browser smoke test for SK PLT Tools Beta 2.0.4.2-Beta.1."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -47,7 +47,7 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.4.1-Beta.1"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.4.2-Beta.1"
     assert desktop.locator("header.sk-global-header").bounding_box()["height"] <= 88
     assert_box(desktop, ".sk-favorites-trigger", 48, 48)
     assert_box(desktop, ".sk-tree-trigger", 48, 48)
@@ -114,11 +114,30 @@ with sync_playwright() as p:
     assert external.get_attribute("target") == "_blank"
     assert set((external.get_attribute("rel") or "").split()) >= {"external", "noopener", "noreferrer"}
     assert external.get_attribute("referrerpolicy") == "no-referrer"
-    assert_text(desktop, '.hero .badge', 'Version 2.0.4.1-Beta.1')
-    assert desktop.locator('text=Version 2.0.4.1-Beta.1').count() == 1
+    assert_text(desktop, '.hero .badge', 'Version 2.0.4.2-Beta.1')
+    assert desktop.locator('text=Version 2.0.4.2-Beta.1').count() == 1
     desktop.locator('.sk-tree-trigger').click()
+    desktop.wait_for_timeout(300)
+    knowledge_group = desktop.locator('.sk-tree-group-toggle[data-group="knowledge"]')
+    assert knowledge_group.get_attribute('aria-expanded') == 'true'
+    knowledge_row = desktop.locator('.sk-tree-group-toggle[data-group="knowledge"] + .sk-tree-list > .sk-tree-item.has-children > .sk-tree-node-row')
+    assert knowledge_row.count() == 1
+    assert_text(desktop, '.sk-tree-group-toggle[data-group="knowledge"] + .sk-tree-list > .sk-tree-item.has-children > .sk-tree-node-row > .sk-tree-link', 'Wissensdatenbank')
+    assert desktop.locator('.sk-tree-node-toggle a').count() == 0
+    assert knowledge_row.evaluate("row => getComputedStyle(row).backgroundColor") == 'rgb(10, 38, 57)'
+    assert knowledge_group.evaluate("button => getComputedStyle(button).backgroundColor") == 'rgb(10, 38, 57)'
+    assert knowledge_row.locator('.sk-tree-chevron').inner_text() == '⌄'
+    assert knowledge_row.locator('.sk-tree-node-toggle').evaluate("button => getComputedStyle(button).color") == 'rgb(137, 211, 41)'
+    row_box = knowledge_row.bounding_box()
+    toggle_box = knowledge_row.locator('.sk-tree-node-toggle').bounding_box()
+    link_box = knowledge_row.locator('.sk-tree-link').bounding_box()
+    assert row_box and toggle_box and link_box
+    assert row_box['x'] <= toggle_box['x'] and toggle_box['x'] + toggle_box['width'] <= row_box['x'] + row_box['width']
+    assert row_box['x'] <= link_box['x'] and link_box['x'] + link_box['width'] <= row_box['x'] + row_box['width']
+    assert abs((toggle_box['y'] + toggle_box['height'] / 2) - (row_box['y'] + row_box['height'] / 2)) <= 1
     assert desktop.get_by_text('Rohwert Grundlagen', exact=True).count() == 1
     assert desktop.get_by_text('Rohwert-Rechner', exact=True).count() == 0
+    desktop.screenshot(path=str(OUT / "navigation-wissen-desktop.png"), full_page=True)
     desktop.locator('.sk-tree-close').click()
     desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
 
@@ -128,7 +147,7 @@ with sync_playwright() as p:
         tablet.goto(f"{BASE}{route}")
         tablet.wait_for_load_state("networkidle")
         assert tablet.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
-        assert tablet.locator("body").get_attribute("data-sk-version") == "2.0.4.1-Beta.1"
+        assert tablet.locator("body").get_attribute("data-sk-version") == "2.0.4.2-Beta.1"
         assert tablet.locator("header.sk-global-header").bounding_box()["height"] <= 88
         assert_box(tablet, ".sk-favorites-trigger", 48, 48)
         assert_box(tablet, ".sk-tree-trigger", 48, 48)
@@ -160,10 +179,24 @@ with sync_playwright() as p:
         assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Mobiles Überlaufen: {route}"
         assert_box(mobile, ".sk-favorites-trigger", 42, 42)
         assert_box(mobile, ".sk-tree-trigger", 42, 42)
+    mobile.goto(f"{BASE}/")
+    mobile.wait_for_load_state("networkidle")
+    mobile.locator('.sk-tree-trigger').click()
+    mobile.wait_for_timeout(300)
+    mobile_row = mobile.locator('.sk-tree-group-toggle[data-group="knowledge"] + .sk-tree-list > .sk-tree-item.has-children > .sk-tree-node-row')
+    mobile_row_box = mobile_row.bounding_box()
+    mobile_toggle_box = mobile_row.locator('.sk-tree-node-toggle').bounding_box()
+    mobile_link_box = mobile_row.locator('.sk-tree-link').bounding_box()
+    assert mobile_row_box and mobile_toggle_box and mobile_link_box
+    assert mobile_row_box['x'] <= mobile_toggle_box['x'] and mobile_toggle_box['x'] + mobile_toggle_box['width'] <= mobile_row_box['x'] + mobile_row_box['width']
+    assert mobile_row_box['x'] <= mobile_link_box['x'] and mobile_link_box['x'] + mobile_link_box['width'] <= mobile_row_box['x'] + mobile_row_box['width']
+    assert abs((mobile_toggle_box['y'] + mobile_toggle_box['height'] / 2) - (mobile_row_box['y'] + mobile_row_box['height'] / 2)) <= 1
+    mobile.screenshot(path=str(OUT / "navigation-wissen-mobile.png"))
+    mobile.locator('.sk-tree-close').click()
     mobile.goto(f"{BASE}/analogsignal/")
     mobile.wait_for_load_state("networkidle")
     assert abs(mobile.locator("button.sign").first.bounding_box()["width"] - 38) <= 1
 
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: 16 Seiten auf iPad-Breite, Desktop/Mobil, kompakte Bedienelemente, einklappbare Karteninformationen, Siemens-Kartenprofile, NE43-Grenzen, Breadcrumb-Farben, bereinigter Wissensbaum, Synchronisierung und Wissenskachel geprüft.")
+    print("OK: 16 Seiten auf iPad-Breite, Desktop/Mobil, kompakte Bedienelemente, einklappbare Karteninformationen, Siemens-Kartenprofile, NE43-Grenzen, Breadcrumb-Farben, valide und bündige Wissen-Baumnavigation, Synchronisierung und Wissenskachel geprüft.")

@@ -1,17 +1,29 @@
-# Clean-Design-Architektur 2.0.4.1-Beta.1
+# Clean-Design-Architektur 2.0.4.2-Beta.1
 
 ## Unveränderte Grundlage
 
-Version 2.0.4.1-Beta.1 führt die vorhandene Beta-Linie auf Basis der unveränderten stabilen Version 2.0.2.0 fort. Die Grundprinzipien bleiben erhalten:
+Version 2.0.4.2-Beta.1 führt die vorhandene Beta-Linie auf Basis der unveränderten stabilen Version 2.0.2.0 fort. Die Grundprinzipien bleiben erhalten:
 
 - finale Headerstruktur direkt in jeder HTML-Datei
-- Version direkt unter dem Logo in jeder HTML-Datei
+- sichtbare Versionsanzeige ausschließlich im Hero der Startseite
 - einheitlicher Footer direkt in jeder HTML-Datei
 - statische Startseitenkacheln sowie Filter- und Sortieroberfläche in `index.html`
 - verbindliche Gestaltung in `assets/styles.css` und `assets/design.css`
 - JavaScript nur für Interaktion und Berechnung
 - Service Worker ohne Response-Rewriting; Precache, Network-first für Navigation und Cache-Fallback
 - alte Patch-Dateien ausschließlich als wirkungslose No-op-Kompatibilitätsdateien
+
+## Navigationsbaum
+
+Die Navigation wird aus `assets/navigation-tree.json` durch `assets/navigation-tree.js` erzeugt und durch `assets/navigation-tree.css` gestaltet.
+
+Knoten mit Untereinträgen verwenden eine semantisch gültige Struktur:
+
+- `.sk-tree-node-row` bildet die gemeinsame dunkelblaue, abgerundete Kachel.
+- `.sk-tree-node-toggle` ist eine eigenständige 42-px-Pfeilschaltfläche mit `aria-expanded` und `aria-controls`.
+- `.sk-tree-link` liegt als Geschwisterelement neben der Schaltfläche und bleibt vollständig innerhalb der Kachel.
+- Links werden nie in Buttons verschachtelt. Dadurch kann der HTML-Parser den Link nicht aus der vorgesehenen Knoten-Kachel verschieben.
+- Der Pfeil wird per Grid-Zentrierung optisch mittig ausgerichtet; Hover, Fokus und Aktivzustand gelten für die vollständige Knoten-Zeile.
 
 ## Siemens-SPS-Analogwert-Rechner
 
@@ -26,14 +38,12 @@ Der Rechner bleibt als reguläres Werkzeug vollständig in die Anwendung eingebu
 
 Die Fachlogik ist bewusst auf zwei Größen begrenzt: Siemens-Rohwert und ausgewähltes mA-/V-Signal. Die vier Signalbereiche sind als unveränderliche Konfigurationen hinterlegt. Die Statusfunktion ordnet jeden Rohwert genau einem der fünf Zustände Unterlauf, Unterbereich, Nennbereich, Überbereich oder Überlauf zu.
 
-Der Schieberegler arbeitet über den vollständigen INT16-Bereich und ist bidirektional an Eingabefeld und Ergebnisdarstellung gekoppelt. Manuelle Eingaben außerhalb des Reglerbereichs bleiben möglich und werden als Unterlauf beziehungsweise Überlauf gekennzeichnet.
-
 ## Beta-Konfiguration
 
 - Kanal: `beta`
-- PWA-ID/start_url: `./?app=sk-plt-tools-beta-2.0.3.5-beta.2`
+- PWA-ID/start_url: `./?app=sk-plt-tools-beta-2.0.4.2-beta.1`
 - Cache-Präfix: `sk-plt-tools-beta-`
-- Release-Cache: `sk-plt-tools-beta-v2.0.4.1-Beta.1`
+- Release-Cache: `sk-plt-tools-beta-v2.0.4.2-Beta.1`
 - Cache-Bereinigung greift ausschließlich innerhalb des Beta-Präfixes
 
 ## Erhaltene Systeme
@@ -48,7 +58,3 @@ Der Schieberegler arbeitet über den vollständigen INT16-Bereich und ist bidire
 ## Sicherheitsprinzip
 
 Die dargestellten Bereichsgrenzen sind ein Rechen- und Diagnosemodell. Baugruppenabhängige Mess-, Diagnose- und NE43-Grenzen werden nicht ersetzt; die Dokumentation und Parametrierung des eingesetzten Siemens-Moduls bleibt maßgeblich.
-
-## Kompaktierungsrelease Beta.2
-
-Die bestehende Farb-, Typografie-, Karten- und Navigationssprache bleibt unverändert. Beta.2 reduziert ausschließlich Größen und vertikale Abstände in den bestehenden Stylesheets. Karteninformationen des Siemens-Rechners verwenden ein natives `details`/`summary`-Element; Berechnungs- und Persistenzlogik bleiben unverändert.

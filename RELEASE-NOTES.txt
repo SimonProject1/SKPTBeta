@@ -1,30 +1,31 @@
-SK PLT Tools Beta V2.0.4.1-Beta.1
+SK PLT Tools Beta V2.0.4.2-Beta.1
 
 VOLLSTÄNDIGER BETA-PATCHSTAND
-BASIS: V2.0.4.0-Beta.1
+BASIS: V2.0.4.1-Beta.1
 STABILE REFERENZ V2.0.2.0 UNVERÄNDERT
 
-BEHOBENE FEHLER
-- Baummenü bereinigt: Unter Wissen > Siemens > SPS wird nur noch „Rohwert Grundlagen“ angezeigt.
-- Der dort fälschlich aufgeführte Eintrag „Rohwert-Rechner“ wurde entfernt. Der Rechner bleibt als eigenständiges Werkzeug und über den Link im Grundlagenartikel vollständig verfügbar.
-- Breadcrumb-Darstellung korrigiert: Auf der Seite „Siemens SPS Rohwert Grundlagen“ erscheinen die Links „Startseite“ und „Wissensdatenbank“ nun wie auf den anderen Wissensdatenbankseiten in Cyan statt im lila Browser-Standardstil.
+BEHOBENER FEHLER
+- Im geöffneten Baummenü wird „Wissensdatenbank“ nun vollständig innerhalb einer dunkelblauen, abgerundeten Knoten-Kachel unter „Wissen“ dargestellt.
+- Der Auf-/Zuklapp-Pfeil ist in einer 42 px breiten Schaltfläche optisch mittig ausgerichtet und verwendet das grüne Navigations-Akzentfarbschema.
+- Link und Pfeilschaltfläche liegen als getrennte, semantisch gültige Elemente in einer gemeinsamen Knoten-Zeile. Die vorherige ungültige Link-in-Button-Struktur, durch die Browser den Link außerhalb der Kachel anordneten, wurde entfernt.
+- Hover-, Fokus- und Aktivzustände umfassen die Knoten-Kachel konsistent; die Unterstruktur bleibt per Maus und Tastatur bedienbar.
 
 VERSIONIERUNG
-- Sichtbare Hero-Version auf 2.0.4.1-Beta.1 angehoben.
-- Technische Version in VERSION, HTML, JavaScript, CSS-Kommentaren, Manifest und Service Worker vereinheitlicht.
-- Cache-Buster, Manifest-ID, PWA-Start-URL und isolierter Beta-Cache auf 2.0.4.1-Beta.1 aktualisiert.
-- Projektordner, ZIP-Name und Übergabedokument auf V2.0.4.1-Beta.1 umbenannt.
+- Sichtbare Hero-Version auf 2.0.4.2-Beta.1 angehoben.
+- Technische Version in VERSION, HTML, JavaScript, CSS-Kommentaren, JSON, Manifest und Service Worker vereinheitlicht.
+- Cache-Buster, Manifest-ID, PWA-Start-URL und isolierter Beta-Cache auf 2.0.4.2-Beta.1 aktualisiert.
+- Projektordner, ZIP-Name und Übergabedokument auf V2.0.4.2-Beta.1 umbenannt.
 
 QUALITÄTSSICHERUNG
-- Statische Release-Prüfung kontrolliert den exakten Inhalt des Pfads Wissen > Siemens > SPS.
-- Statische und browserbasierte Prüfung kontrollieren die Breadcrumb-Linkziele und die berechnete cyanfarbene Darstellung.
+- Statische Prüfung kontrolliert die semantisch gültige Knotenstruktur und die erforderlichen Layoutregeln.
+- Browserprüfung kontrolliert Kachelhintergrund, Pfeilfarbe, vertikale Zentrierung sowie die vollständige Lage von Pfeilschaltfläche und Link innerhalb der Kachel.
+- Zusätzliche visuelle Nachweise liegen als test-artifacts/navigation-wissen-desktop.png und test-artifacts/navigation-wissen-mobile.png bei.
 - Prüfsummenprüfung deckt alle Paketdateien außer SHA256SUMS.txt selbst ab.
 - Bestehende Funktions-, Layout-, Offline- und Versionsprüfungen bleiben enthalten.
 
 UNVERÄNDERT ENTHALTEN
-- Alle 16 HTML-Seiten aus V2.0.4.0-Beta.1.
-- Analogsignal-, P+F-, Pt-, Einheiten-, Spannungsfall- und Siemens-Rohwert-Rechner.
-- Messstellen-Dokumentation und VDE-0100-600-Plausibilitätsprüfung.
+- Alle 16 HTML-Seiten aus V2.0.4.1-Beta.1.
+- Sämtliche Rechner, Dokumentations- und Prüfseiten.
 - Favoriten, Suche, Sortierung, Navigation, Wissensdatenbank und Offline-Betrieb.
 - Werkstoffdaten, Siemens-Kartenprofile, bestätigte Grenzwerte und Dokumentvorlagen.
 

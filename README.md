@@ -1,25 +1,28 @@
-# SK PLT Tools Beta 2.0.4.1-Beta.1
+# SK PLT Tools Beta 2.0.4.2-Beta.1
 
-Vollständiger Beta-Patchstand auf Basis von 2.0.4.0-Beta.1. Die stabile Referenz 2.0.2.0 bleibt unverändert.
+Vollständiger Beta-Patchstand auf Basis von 2.0.4.1-Beta.1. Die stabile Referenz 2.0.2.0 bleibt unverändert.
 
 ## Ziel dieses Stands
 
-2.0.4.1-Beta.1 behebt zwei klar abgegrenzte Darstellungs- und Navigationsfehler, ohne die vorhandenen Rechner- oder Wissensinhalte funktional zu verändern.
+2.0.4.2-Beta.1 korrigiert die Darstellung des geöffneten Eintrags **Wissen → Wissensdatenbank** im seitlichen Navigationsbaum. Rechner-, Wissens- und Prüfinhalte bleiben funktional unverändert.
 
-## Änderungen gegenüber 2.0.4.0-Beta.1
+## Änderungen gegenüber 2.0.4.1-Beta.1
 
-- Im Baummenü enthält **Wissen → Siemens → SPS** ausschließlich den Wissensbeitrag **Rohwert Grundlagen**. Der dort irrtümlich zusätzlich aufgeführte **Rohwert-Rechner** wurde entfernt.
-- Auf **Wissensdatenbank → Siemens SPS Rohwert Grundlagen** verwenden die Breadcrumb-Links **Startseite** und **Wissensdatenbank** nun dieselbe cyanfarbene Darstellung wie auf den übrigen Wissensdatenbankseiten; der lila Browser-Standardstil wird nicht mehr wirksam.
-- Sichtbare und technische Versionsangaben, Cache-Buster, Manifest-ID, PWA-Start-URL und Beta-Cache wurden konsistent auf `2.0.4.1-Beta.1` angehoben.
-- Release-, Funktions- und Browserprüfungen wurden um explizite Regressionstests für beide Fehler ergänzt.
+- **Wissensdatenbank** wird innerhalb einer dunkelblauen, abgerundeten Knoten-Kachel dargestellt.
+- Der Auf-/Zuklapp-Pfeil sitzt in einer festen, vertikal und horizontal zentrierten Schaltfläche und verwendet das grüne Navigations-Akzentfarbschema.
+- Die vorher ungültige Verschachtelung eines Links in einer Schaltfläche wurde durch eine semantisch gültige Knoten-Zeile aus separater Schaltfläche und Link ersetzt. Dadurch verschiebt der Browser den Link nicht mehr aus der Kachel.
+- Hover-, Fokus- und Aktivzustände wirken auf die vollständige Knoten-Kachel; Tastaturbedienung und ARIA-Zuordnung zum Unterbaum bleiben erhalten.
+- Sichtbare und technische Versionsangaben, Cache-Buster, Manifest-ID, PWA-Start-URL und Beta-Cache wurden konsistent auf `2.0.4.2-Beta.1` angehoben.
+- Release-, statische und browserbasierte Prüfungen enthalten explizite Regressionstests für Knotenstruktur, Kachelhintergrund, Pfeilfarbe, Ausrichtung und Elementgrenzen.
 - `SHA256SUMS.txt` enthält die Prüfsummen des vollständigen Projektstands.
 
 ## Vollständig enthalten
 
-- Alle 16 HTML-Seiten und alle Werkzeuge aus 2.0.4.0-Beta.1.
-- Der Wissensbeitrag „Siemens SPS Rohwert Grundlagen“ und der separate Siemens-Rohwert-Rechner.
+- Alle 16 HTML-Seiten und alle Werkzeuge aus 2.0.4.1-Beta.1.
+- Analogsignal-, Siemens-Rohwert-, P+F-, Pt-, Einheiten- und Spannungsfall-Rechner.
+- Messstellen-Dokumentation und VDE-0100-600-Plausibilitätsprüfung.
 - Suche, Filter, Sortierung, Favoriten, Baumnavigation und Offline-Cache.
-- Werkstoffdaten, Vorlagen, Projektdokumentation, Testskripte und visuelle Testnachweise.
+- Wissensdatenbank, Werkstoffdaten, Vorlagen, Projektdokumentation, Testskripte und visuelle Testnachweise.
 - Sichtbare Versionsanzeige ausschließlich im Hero der Startseite.
 - Einheitlicher Footer: „SK PLT Tools Beta · Entwickelt von Simon Kiesler“.
 

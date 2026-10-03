@@ -1,6 +1,7 @@
 SK PLT Tools – stabile Rückfallebene
 
 Stabile Referenz: V2.0.2.0
-Aktuelle Beta: V2.0.4.1-Beta.1
+Aktuelle Beta: V2.0.4.2-Beta.1
+Direkte Beta-Basis: V2.0.4.1-Beta.1
 
-Die stabile Referenz V2.0.2.0 bleibt unverändert und wird durch dieses Paket nicht überschrieben. V2.0.4.1-Beta.1 ist ein separates, vollständig konsolidiertes Beta-Paket.
+Die stabile Referenz V2.0.2.0 bleibt unverändert und wird durch dieses Paket nicht überschrieben. V2.0.4.2-Beta.1 ist ein separates, vollständig konsolidiertes Beta-Paket.
