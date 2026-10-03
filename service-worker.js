@@ -1,4 +1,4 @@
-const RELEASE='2.0.3.6-Beta.1';
+const RELEASE='2.0.3.7-Beta.1';
 const CACHE_PREFIX='sk-plt-tools-beta-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
