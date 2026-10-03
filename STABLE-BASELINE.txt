@@ -1,6 +1,6 @@
-STABLE-BASIS – NICHT VERÄNDERT
+SK PLT Tools – stabile Rückfallebene
 
-Datei: SK-PLT-Tools-V2.0.2.0.zip
-SHA-256: fea43dcfa89a1adc438fbae1b3cf66e3367f533e1a2d7b6a589bce7a8d8ece99
+Stabile Referenz: V2.0.2.0
+Aktuelle Beta: V2.0.4.0-Beta.1
 
-Die Version 2.0.3.5-Beta.2 wurde als vollständige Fortschreibung der Version 2.0.3.4-Beta.1 in einem separaten Projektordner erstellt. Das stabile Originalarchiv 2.0.2.0 wurde weder überschrieben noch inhaltlich verändert.
+Die stabile Referenz V2.0.2.0 bleibt unverändert und wird durch dieses Paket nicht überschrieben. V2.0.4.0-Beta.1 ist ein separates, vollständig konsolidiertes Beta-Paket.

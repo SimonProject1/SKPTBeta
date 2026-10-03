@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.3.5-Beta.2."""
+"""Static release validation for SK PLT Tools Beta 2.0.4.0-Beta.1."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.3.5-Beta.2'
+VERSION='2.0.4.0-Beta.1'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
  'spannungsfall-rechner/index.html','plausibilitaetspruefung-vde0100-600/index.html',
  'wissensdatenbank/index.html','wissensdatenbank/air-torque-antrieb-drehrichtung/index.html',
- 'wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/index.html',
+ 'wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/index.html','wissensdatenbank/siemens-sps-rohwert/index.html',
  'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html',
  'wissensdatenbank/werkstoff-nachschlagewerk/index.html'
 }
@@ -43,8 +43,9 @@ for rel,page in pages.items():
     if soup.body.get('data-sk-version')!=VERSION: errors.append(f'{rel}: data-sk-version fehlt/falsch')
     if len(soup.select('header.sk-header-normalized'))!=1: errors.append(f'{rel}: genau ein statischer Header erwartet')
     if len(soup.select('footer.sk-footer'))!=1: errors.append(f'{rel}: genau ein statischer Footer erwartet')
-    if len(soup.select('.sk-logo-version'))!=1 or soup.select_one('.sk-logo-version').get_text(strip=True)!=f'Version {VERSION}': errors.append(f'{rel}: Header-Version falsch')
-    if f'Version {VERSION}' not in soup.select_one('footer.sk-footer').get_text(' ',strip=True): errors.append(f'{rel}: Footer-Version falsch')
+    if soup.select('.sk-logo-version'): errors.append(f'{rel}: sichtbare Header-Version muss entfernt sein')
+    if 'Version ' in soup.select_one('footer.sk-footer').get_text(' ',strip=True): errors.append(f'{rel}: sichtbare Footer-Version muss entfernt sein')
+    if soup.select_one('footer.sk-footer').get_text(' ',strip=True)!='SK PLT Tools Beta · Entwickelt von Simon Kiesler': errors.append(f'{rel}: Footer-Standard falsch')
     if 'SK PLT Tools Beta' not in soup.get_text(' ',strip=True) or len(soup.select('.sk-beta-label'))!=1: errors.append(f'{rel}: sichtbare Beta-Kennzeichnung fehlt')
     styles=[tag.get('href','') for tag in soup.find_all('link',rel=lambda value:value and 'stylesheet' in value)]
     if not any('assets/styles.css' in value for value in styles): errors.append(f'{rel}: styles.css fehlt')
@@ -62,6 +63,9 @@ for rel,page in pages.items():
 
 start=BeautifulSoup((ROOT/'index.html').read_text(encoding='utf-8'),'html.parser')
 if len(start.select('.tools > a.card'))!=10: errors.append('Startseite: genau 10 sichtbare Werkzeugkacheln erwartet')
+if len(start.select('.badge'))!=1 or start.select_one('.badge').get_text(strip=True)!=f'Version {VERSION}': errors.append('Startseite: Hero-Version fehlt oder ist nicht eindeutig')
+for rel,page in pages.items():
+    if rel!='index.html' and BeautifulSoup(page.read_text(encoding='utf-8'),'html.parser').select('.badge'): errors.append(f'{rel}: Unterseite darf keine sichtbare Versionsbadge enthalten')
 siemens_tile=start.select_one('a[href="siemens-analogwert-rechner/"]')
 if not siemens_tile: errors.append('Startseite: Siemens-Rechner fehlt')
 elif siemens_tile.select_one('h2') is None or siemens_tile.select_one('h2').get_text(strip=True)!='Siemens Rohwert': errors.append('Startseite: Siemens-Kachel heißt nicht exakt Siemens Rohwert')
@@ -85,7 +89,7 @@ expected_knowledge_hrefs={
     'air-torque-antrieb-drehrichtung/',
     'siemens-sitrans-p320-sil-verriegelung/',
     'vacon-frequenzumrichter-ist-sollwert-abweichung/',
-    '../siemens-analogwert-rechner/'
+    'siemens-sps-rohwert/'
 }
 actual_knowledge_hrefs={tile.get('href') for tile in knowledge_tiles}
 if actual_knowledge_hrefs!=expected_knowledge_hrefs: errors.append(f'Wissensdatenbank: Wissenskacheln abweichend: {sorted(actual_knowledge_hrefs)}')
@@ -146,15 +150,23 @@ if not {'316-vs-316l','14404-vs-14408'}<=comparison_ids: errors.append('Pflichtv
 
 search_index=json.loads((ROOT/'assets/search-index.json').read_text(encoding='utf-8'))
 if not any(item.get('url')=='wissensdatenbank/werkstoff-nachschlagewerk/' and item.get('passthroughQuery') and item.get('catalog')=='materials' for item in search_index): errors.append('Startseitensuche: zentral angebundener Werkstoffbereich mit Suchübergabe fehlt')
-if not any(item.get('manufacturer')=='Siemens' and item.get('device')=='SPS' and item.get('topic')=='Rohwert' and item.get('url')=='siemens-analogwert-rechner/' for item in search_index): errors.append('Suche: Wissenseintrag Siemens / SPS / Rohwert fehlt')
+if not any(item.get('manufacturer')=='Siemens' and item.get('device')=='SPS' and item.get('topic')=='Rohwert' and item.get('url')=='siemens-analogwert-rechner/' for item in search_index): errors.append('Suche: Siemens-Rohwert-Rechner fehlt')
+if not any(item.get('manufacturer')=='Siemens' and item.get('device')=='SPS' and item.get('topic')=='Rohwert Grundlagen' and item.get('url')=='wissensdatenbank/siemens-sps-rohwert/' for item in search_index): errors.append('Suche: Rohwert-Grundlagenartikel fehlt')
 if 'assets/materials.json' not in (ROOT/'assets/start-filter.js').read_text(encoding='utf-8'): errors.append('Startseitensuche: zentrale Werkstoffdatei wird nicht geladen')
 nav=json.loads((ROOT/'assets/navigation-tree.json').read_text(encoding='utf-8'))
 if 'wissensdatenbank/werkstoff-nachschlagewerk/' not in json.dumps(nav): errors.append('Navigationsbaum: Werkstoffbereich fehlt')
 if 'siemens-analogwert-rechner/' not in json.dumps(nav): errors.append('Navigationsbaum: Siemens-SPS-Analogwert-Rechner fehlt')
-if not any(grandchild.get('title')=='SPS – Rohwert' and grandchild.get('url')=='siemens-analogwert-rechner/' for group in nav.get('groups',[]) for item in group.get('items',[]) for child in item.get('children',[]) for grandchild in child.get('children',[]) if item.get('title')=='Wissensdatenbank' and child.get('title')=='Siemens'): errors.append('Navigationsbaum: Wissenseintrag Siemens / SPS / Rohwert fehlt')
+if not any(grandchild.get('title')=='Rohwert Grundlagen' and grandchild.get('url')=='wissensdatenbank/siemens-sps-rohwert/' for group in nav.get('groups',[]) for item in group.get('items',[]) for child in item.get('children',[]) for sps in child.get('children',[]) for grandchild in sps.get('children',[]) if item.get('title')=='Wissensdatenbank' and child.get('title')=='Siemens' and sps.get('title')=='SPS'): errors.append('Navigationsbaum: Rohwert-Grundlagenartikel fehlt')
+if not any(grandchild.get('title')=='Rohwert-Rechner' and grandchild.get('url')=='siemens-analogwert-rechner/' for group in nav.get('groups',[]) for item in group.get('items',[]) for child in item.get('children',[]) for sps in child.get('children',[]) for grandchild in sps.get('children',[]) if item.get('title')=='Wissensdatenbank' and child.get('title')=='Siemens' and sps.get('title')=='SPS'): errors.append('Navigationsbaum: Rohwert-Rechner fehlt')
 if not any(group.get('id')=='external-services' and any(item.get('url')=='https://netilion.endress.com/app/library/device_viewer' and item.get('type')=='external' for item in group.get('items',[])) for group in nav.get('groups',[])): errors.append('Navigationsbaum: E+H Device Viewer fehlt oder ist nicht extern gekennzeichnet')
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
+
+article_html=(ROOT/'wissensdatenbank/siemens-sps-rohwert/index.html').read_text(encoding='utf-8')
+for required in ('4 mA  =     0','12 mA = 13824','4 mA  =  5530','12 mA = 16589','Rohwert = 13824','../../siemens-analogwert-rechner/'):
+    if required not in article_html: errors.append(f'Rohwert-Grundlagenartikel: Inhalt/Verknüpfung fehlt: {required}')
+if article_html.count('Version 2.0.4.0-Beta.1')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
+
 vacon_page=(ROOT/'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html').read_text(encoding='utf-8')
 for required in ('Vacon','Frequenzumrichter','Ist-/Sollwert-Abweichung im PLS','2.2.3.7','maximale Frequenz','vacon-wissen.css'):
     if required not in vacon_page: errors.append(f'Vacon-Wissensbeitrag: Inhalt/Integration fehlt: {required}')
@@ -171,7 +183,7 @@ for required in ('./assets/siemens-analogwert-rechner.css','./assets/siemens-ana
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.2' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.3.5-beta.2': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
+if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.4.0-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.4.0-beta.1': errors.append('Manifest: Beta-ID/start_url nicht eindeutig')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail','#calculationError'):
@@ -222,4 +234,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, Werkstoff-Breadcrumb, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Kartenprofile und Rohwert-Wissenseintrag, 5 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Werkstoff-Breadcrumb, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Kartenprofile, Rohwert-Grundlagenartikel und Rechner, 5 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, Vorlagen-Hashes, lokale Referenzen und JavaScript geprüft.')

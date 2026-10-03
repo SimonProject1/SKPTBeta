@@ -1,4 +1,4 @@
-const RELEASE='2.0.3.7-Beta.1';
+const RELEASE='2.0.4.0-Beta.1';
 const CACHE_PREFIX='sk-plt-tools-beta-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
@@ -24,11 +24,10 @@ const CORE=[
   './wissensdatenbank/','./wissensdatenbank/index.html',
   './wissensdatenbank/air-torque-antrieb-drehrichtung/','./wissensdatenbank/air-torque-antrieb-drehrichtung/index.html',
   './wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/','./wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/index.html',
+  './wissensdatenbank/siemens-sps-rohwert/','./wissensdatenbank/siemens-sps-rohwert/index.html',
   './wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html',
   './wissensdatenbank/werkstoff-nachschlagewerk/','./wissensdatenbank/werkstoff-nachschlagewerk/index.html',
   './wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf'
-  './wissensdatenbank/siemens-sps-rohwert/',
-  './wissensdatenbank/siemens-sps-rohwert/index.html',
 ];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE);await Promise.all(CORE.map(async url=>{const request=new Request(url,{cache:'reload'});const response=await fetch(request);if(!response.ok)throw new Error(`Precache failed: ${url} (${response.status})`);await cache.put(request,response)}));await self.skipWaiting()})())});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE).map(key=>caches.delete(key)));await self.clients.claim()})())});

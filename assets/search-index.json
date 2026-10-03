@@ -133,5 +133,43 @@
       "0-20 mA"
     ],
     "url": "siemens-analogwert-rechner/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Siemens",
+    "device": "SPS",
+    "topic": "Rohwert Grundlagen",
+    "title": "Siemens SPS Rohwert Grundlagen",
+    "description": "Grundlagen zu Rohwerten, A/D-Wandler, Skalierungsmodellen und Diagnosebereichen mit Link zum Rechner.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Siemens",
+      "SPS",
+      "Rohwert Grundlagen"
+    ],
+    "keywords": [
+      "Siemens",
+      "SPS",
+      "Rohwert",
+      "Analogwert",
+      "A/D-Wandler",
+      "27648",
+      "5530",
+      "S7-300",
+      "S7-400",
+      "S7-1200",
+      "S7-1500",
+      "ET 200SP",
+      "NE43",
+      "Unterlauf",
+      "Untersteuerung",
+      "Nennbereich",
+      "Übersteuerung",
+      "Überlauf",
+      "4-20 mA",
+      "0-20 mA"
+    ],
+    "url": "wissensdatenbank/siemens-sps-rohwert/"
   }
 ]

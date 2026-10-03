@@ -1,5 +1,5 @@
 {
-  "version": "2.0.3.5-Beta.2",
+  "version": "2.0.4.0-Beta.1",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -81,8 +81,17 @@
                   "url": "wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/"
                 },
                 {
-                  "title": "SPS – Rohwert",
-                  "url": "siemens-analogwert-rechner/"
+                  "title": "SPS",
+                  "children": [
+                    {
+                      "title": "Rohwert Grundlagen",
+                      "url": "wissensdatenbank/siemens-sps-rohwert/"
+                    },
+                    {
+                      "title": "Rohwert-Rechner",
+                      "url": "siemens-analogwert-rechner/"
+                    }
+                  ]
                 }
               ]
             },

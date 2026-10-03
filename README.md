@@ -1,47 +1,31 @@
-### SK PLT Tools Beta 2.0.3.7-Beta.1
+# SK PLT Tools Beta 2.0.4.0-Beta.1
 
-Vollstaendige Beta auf Basis von 2.0.3.6-Beta.1. Die stabile Referenz 2.0.2.0 bleibt unveraendert.
+Vollständiger, konsolidierter Beta-Safepoint. Die stabile Referenz 2.0.2.0 bleibt unverändert.
 
-#### Neu in 2.0.3.7-Beta.1
-- Sichtbare Versionsanzeigen im gesamten Projekt vereinheitlicht.
-- Die Versionsnummer wird nur noch einmal gross im Hero-Bereich der Startseite angezeigt.
-- Die kleine Versionsnummer unter dem Logo wurde entfernt.
-- Die Versionsnummern in den Footern wurden entfernt.
+## Ziel dieses Stands
+
+2.0.4.0-Beta.1 führt die zuletzt vorhandenen Teilstände wieder zu einem vollständigen, prüfbaren Projektpaket zusammen. Es wird bewusst keine neue Großfunktion begonnen.
+
+## Enthalten
+
+- Vollständige Funktionsbasis aus 2.0.3.5-Beta.2.
+- Wissensbeitrag „Siemens SPS Rohwert Grundlagen“ aus 2.0.3.6-Beta.1.
+- Bereinigte sichtbare Versionsanzeige aus 2.0.3.7-Beta.1: nur im Hero der Startseite sichtbar.
 - Einheitlicher Footer: „SK PLT Tools Beta · Entwickelt von Simon Kiesler“.
-- Technische Versionsangaben fuer Release, Cache und PWA bleiben erhalten.
+- Getrennte und fachlich konsistente Darstellung der Skalierungsmodelle 4–20 mA und 0–20 mA.
+- Vollständige Integration des Grundlagenartikels in Wissensdatenbank, Suche, Navigation und Offline-Cache.
+- Einheitliche technische Version in `VERSION`, HTML, App, Manifest und Service Worker.
 
-#### Aus 2.0.3.6-Beta.1 uebernommen
-- Neuer Wissensbeitrag „Siemens SPS Rohwert Grundlagen“.
-- Erklaerung von Rohwerten, Analogwerten und A/D-Wandlern.
-- Erlaeuterung des Siemens-Standardbereichs 0 ... 27648.
-- Getrennte Darstellung der Skalierungsmodelle fuer 4 ... 20 mA und 0 ... 20 mA.
-- Uebersicht der Diagnosebereiche: Unterlauf, Untersteuerung, Nennbereich, Uebersteuerung und Ueberlauf.
-- Vergleich von S7-300, S7-400, S7-1200 und S7-1500.
-- Kartenuebersicht fuer ET 200SP, ET 200SP HA und F-AI.
-- Praxisbeispiel zur Rohwertskalierung.
-- Suchindex-Eintrag fuer den Wissensbeitrag.
-- Verknuepfung zwischen Wissensdatenbank und Siemens-Rohwert-Rechner.
+## Installation und Test
 
-### Fachlicher Hinweis
+1. Das Paket in einen eigenen Beta-Webroot entpacken; die stabile Version 2.0.2.0 nicht überschreiben.
+2. Im Projektordner ausführen:
 
-Fuer ET 200SP HA AI 16xI HART sind die Parametrierungen „NE43 aus“ und „NE43 ein“ getrennt. Bei aktivierter Ausfallueberwachung beginnt der ungueltige Bereich laut der bestehenden Projektdokumentation bei 3,6 mA / Rohwert -691 und 21,0 mA / Rohwert 29376; die Hysteresegrenzen liegen bei 3,8 mA und 20,5 mA. Das S7-1500/ET 200MP F-AI-8xI-Profil bewertet bewusst keine unbestaetigten Diagnosegrenzen. Details und Quellen stehen in SIEMENS-QUELLEN-UND-GRENZWERTE.md.
-
-### Unveraendert uebernommen
-
-E+H Device Viewer, Rechner, Messstellen-Dokumentation, VDE-Plausibilitaetspruefung, Wissensdatenbank, Suche, Sortierung, Favoriten, Navigation und Offline-Betrieb wurden aus dem vorherigen Beta-Stand uebernommen.
-
-### Installation und Test
-- Das Paket in einen eigenen Beta-Webroot beziehungsweise Unterordner bereitstellen; die stabile Installation 2.0.2.0 nicht ueberschreiben.
-- Den vollstaendigen Projektinhalt bereitstellen.
-- Automatische Pruefungen im Projektordner starten:
-
-```text
+```bash
 python tools/validate_release.py
 node tools/functional-smoke-test.js
 python -m http.server 4173
 python tools/browser-smoke-test.py
 ```
 
-- Danach die manuelle Abnahme aus TESTBERICHT-UND-ABNAHME.md auf PC, iPhone und iPad durchfuehren.
-
-2.0.3.7-Beta.1 · Beta · Entwickelt von Simon Kiesler
+3. Danach die manuelle Geräteabnahme gemäß `TESTBERICHT-UND-ABNAHME.md` durchführen.
