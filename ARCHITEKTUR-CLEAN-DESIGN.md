@@ -1,8 +1,8 @@
-# Clean-Design-Architektur 2.0.4.0-Beta.1
+# Clean-Design-Architektur 2.0.4.1-Beta.1
 
 ## Unveränderte Grundlage
 
-Version 2.0.4.0-Beta.1 führt die vorhandene Beta-Linie auf Basis der unveränderten stabilen Version 2.0.2.0 fort. Die Grundprinzipien bleiben erhalten:
+Version 2.0.4.1-Beta.1 führt die vorhandene Beta-Linie auf Basis der unveränderten stabilen Version 2.0.2.0 fort. Die Grundprinzipien bleiben erhalten:
 
 - finale Headerstruktur direkt in jeder HTML-Datei
 - Version direkt unter dem Logo in jeder HTML-Datei
@@ -33,7 +33,7 @@ Der Schieberegler arbeitet über den vollständigen INT16-Bereich und ist bidire
 - Kanal: `beta`
 - PWA-ID/start_url: `./?app=sk-plt-tools-beta-2.0.3.5-beta.2`
 - Cache-Präfix: `sk-plt-tools-beta-`
-- Release-Cache: `sk-plt-tools-beta-v2.0.4.0-Beta.1`
+- Release-Cache: `sk-plt-tools-beta-v2.0.4.1-Beta.1`
 - Cache-Bereinigung greift ausschließlich innerhalb des Beta-Präfixes
 
 ## Erhaltene Systeme

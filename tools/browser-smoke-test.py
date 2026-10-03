@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools Beta 2.0.4.0-Beta.1."""
+"""Browser smoke test for SK PLT Tools Beta 2.0.4.1-Beta.1."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -47,7 +47,7 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.4.0-Beta.1"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.0.4.1-Beta.1"
     assert desktop.locator("header.sk-global-header").bounding_box()["height"] <= 88
     assert_box(desktop, ".sk-favorites-trigger", 48, 48)
     assert_box(desktop, ".sk-tree-trigger", 48, 48)
@@ -100,6 +100,11 @@ with sync_playwright() as p:
     assert '12 mA = 13824' in desktop.locator('main').inner_text()
     assert desktop.locator('.sk-logo-version').count() == 0
     assert 'Version ' not in desktop.locator('footer.sk-footer').inner_text()
+    breadcrumb_links = desktop.locator('.knowledge-breadcrumb a')
+    assert breadcrumb_links.count() == 2
+    assert breadcrumb_links.all_inner_texts() == ['Startseite', 'Wissensdatenbank']
+    assert breadcrumb_links.evaluate_all("links => links.map(link => getComputedStyle(link).color)") == ['rgb(0, 183, 232)', 'rgb(0, 183, 232)']
+    desktop.screenshot(path=str(OUT / "rohwert-grundlagen-desktop.png"), full_page=True)
 
     desktop.goto(f"{BASE}/")
     desktop.wait_for_load_state("networkidle")
@@ -109,8 +114,12 @@ with sync_playwright() as p:
     assert external.get_attribute("target") == "_blank"
     assert set((external.get_attribute("rel") or "").split()) >= {"external", "noopener", "noreferrer"}
     assert external.get_attribute("referrerpolicy") == "no-referrer"
-    assert_text(desktop, '.hero .badge', 'Version 2.0.4.0-Beta.1')
-    assert desktop.locator('text=Version 2.0.4.0-Beta.1').count() == 1
+    assert_text(desktop, '.hero .badge', 'Version 2.0.4.1-Beta.1')
+    assert desktop.locator('text=Version 2.0.4.1-Beta.1').count() == 1
+    desktop.locator('.sk-tree-trigger').click()
+    assert desktop.get_by_text('Rohwert Grundlagen', exact=True).count() == 1
+    assert desktop.get_by_text('Rohwert-Rechner', exact=True).count() == 0
+    desktop.locator('.sk-tree-close').click()
     desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
 
     tablet = browser.new_page(viewport={"width": 820, "height": 1180}, device_scale_factor=2, is_mobile=True)
@@ -119,7 +128,7 @@ with sync_playwright() as p:
         tablet.goto(f"{BASE}{route}")
         tablet.wait_for_load_state("networkidle")
         assert tablet.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
-        assert tablet.locator("body").get_attribute("data-sk-version") == "2.0.4.0-Beta.1"
+        assert tablet.locator("body").get_attribute("data-sk-version") == "2.0.4.1-Beta.1"
         assert tablet.locator("header.sk-global-header").bounding_box()["height"] <= 88
         assert_box(tablet, ".sk-favorites-trigger", 48, 48)
         assert_box(tablet, ".sk-tree-trigger", 48, 48)
@@ -157,4 +166,4 @@ with sync_playwright() as p:
 
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: 16 Seiten auf iPad-Breite, Desktop/Mobil, kompakte Bedienelemente, einklappbare Karteninformationen, Siemens-Kartenprofile, NE43-Grenzen, Synchronisierung und Wissenskachel geprüft.")
+    print("OK: 16 Seiten auf iPad-Breite, Desktop/Mobil, kompakte Bedienelemente, einklappbare Karteninformationen, Siemens-Kartenprofile, NE43-Grenzen, Breadcrumb-Farben, bereinigter Wissensbaum, Synchronisierung und Wissenskachel geprüft.")

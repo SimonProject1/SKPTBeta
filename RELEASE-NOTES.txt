@@ -1,26 +1,31 @@
-SK PLT Tools Beta V2.0.4.0-Beta.1
+SK PLT Tools Beta V2.0.4.1-Beta.1
 
-KONSOLIDIERTER BETA-SAFEPOINT
+VOLLSTÄNDIGER BETA-PATCHSTAND
+BASIS: V2.0.4.0-Beta.1
 STABILE REFERENZ V2.0.2.0 UNVERÄNDERT
 
-ZUSAMMENGEFÜHRTER STAND
-- Vollständige Basis aus V2.0.3.5-Beta.2 übernommen.
-- Rohwert-Grundlagenartikel aus V2.0.3.6-Beta.1 vollständig integriert.
-- Bereinigung der sichtbaren Versionsanzeigen aus V2.0.3.7-Beta.1 übernommen.
+BEHOBENE FEHLER
+- Baummenü bereinigt: Unter Wissen > Siemens > SPS wird nur noch „Rohwert Grundlagen“ angezeigt.
+- Der dort fälschlich aufgeführte Eintrag „Rohwert-Rechner“ wurde entfernt. Der Rechner bleibt als eigenständiges Werkzeug und über den Link im Grundlagenartikel vollständig verfügbar.
+- Breadcrumb-Darstellung korrigiert: Auf der Seite „Siemens SPS Rohwert Grundlagen“ erscheinen die Links „Startseite“ und „Wissensdatenbank“ nun wie auf den anderen Wissensdatenbankseiten in Cyan statt im lila Browser-Standardstil.
 
-BEREINIGUNGEN
-- Version nur noch einmal sichtbar: im Hero der Startseite.
-- Versionszeilen unter Logos und in Footern entfernt.
-- Einheitlicher Footer auf allen Seiten.
-- Technische Versionsangaben, Cache-Buster, Manifest-ID und Beta-Cache auf 2.0.4.0-Beta.1 vereinheitlicht.
-- Navigation, Suche und Wissensdatenbank auf den Grundlagenartikel und den separaten Rechner abgestimmt.
-- Rohwertartikel korrigiert: 4–20-mA-Parametrierung und 0–20-mA-Bezugsweise sind eindeutig getrennt.
-- Offline-Cache um den Grundlagenartikel ergänzt.
+VERSIONIERUNG
+- Sichtbare Hero-Version auf 2.0.4.1-Beta.1 angehoben.
+- Technische Version in VERSION, HTML, JavaScript, CSS-Kommentaren, Manifest und Service Worker vereinheitlicht.
+- Cache-Buster, Manifest-ID, PWA-Start-URL und isolierter Beta-Cache auf 2.0.4.1-Beta.1 aktualisiert.
+- Projektordner, ZIP-Name und Übergabedokument auf V2.0.4.1-Beta.1 umbenannt.
+
+QUALITÄTSSICHERUNG
+- Statische Release-Prüfung kontrolliert den exakten Inhalt des Pfads Wissen > Siemens > SPS.
+- Statische und browserbasierte Prüfung kontrollieren die Breadcrumb-Linkziele und die berechnete cyanfarbene Darstellung.
+- Prüfsummenprüfung deckt alle Paketdateien außer SHA256SUMS.txt selbst ab.
+- Bestehende Funktions-, Layout-, Offline- und Versionsprüfungen bleiben enthalten.
 
 UNVERÄNDERT ENTHALTEN
+- Alle 16 HTML-Seiten aus V2.0.4.0-Beta.1.
 - Analogsignal-, P+F-, Pt-, Einheiten-, Spannungsfall- und Siemens-Rohwert-Rechner.
 - Messstellen-Dokumentation und VDE-0100-600-Plausibilitätsprüfung.
 - Favoriten, Suche, Sortierung, Navigation, Wissensdatenbank und Offline-Betrieb.
-- Werkstoffdaten sowie vorhandene Siemens-Kartenprofile und bestätigte Grenzwerte.
+- Werkstoffdaten, Siemens-Kartenprofile, bestätigte Grenzwerte und Dokumentvorlagen.
 
 Datenstand: 03.10.2026

@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const RELEASE='2.0.4.0-Beta.1';
+const RELEASE='2.0.4.1-Beta.1';
 const normalize=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'');
 const searchable=material=>[material.materialNumber,material.shortName,material.uns,...(material.internationalDesignations||[]),...(material.searchTerms||[])].map(normalize).join(' ');
 const matches=(material,query)=>{const terms=String(query||'').trim().split(/\s+/).map(normalize).filter(Boolean);if(!terms.length)return true;const haystack=searchable(material);return terms.every(term=>haystack.includes(term))};
