@@ -1,5 +1,5 @@
-const RELEASE='2.0.5.1-Beta.1';
-const CACHE_PREFIX='sk-plt-tools-beta-';
+const RELEASE='2.1.0.1-Beta';
+const CACHE_PREFIX='sk-plt-tools-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
   // precache:start
@@ -26,7 +26,9 @@ const CORE=[
   "./assets/siemens-analogwert-rechner.js",
   "./assets/siemens-sitrans-wissen.css",
   "./assets/vacon-wissen.css",
+  "./assets/vde0100-600-engine.js",
   "./assets/vde0100-600-rules.json",
+  "./assets/vde0100-600-template.json",
   "./einheitenrechner/",
   "./einheitenrechner/index.html",
   "./index.html",
@@ -49,6 +51,10 @@ const CORE=[
   "./spannungsfall-rechner/calculator.css",
   "./spannungsfall-rechner/calculator.js",
   "./spannungsfall-rechner/index.html",
+  "./test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf",
+  "./vendor/pdfjs/LICENSE",
+  "./vendor/pdfjs/pdf.min.mjs",
+  "./vendor/pdfjs/pdf.worker.min.mjs",
   "./wissensdatenbank/",
   "./wissensdatenbank/air-torque-antrieb-drehrichtung/",
   "./wissensdatenbank/air-torque-antrieb-drehrichtung/index.html",

@@ -1,7 +1,7 @@
 SK PLT Tools – Versionsabgrenzung
 
-Stabile Referenz: V2.0.2.0
-Aktuelle Beta: V2.0.5.1-Beta.1
-Vollständige funktionale Ausgangsbasis: V2.0.4.2-Beta.1
+Aktuelle Beta-Version: V2.1.0.1-Beta
+Stabile Referenzbasis: V2.1.0.0
+Freigabestatus: Beta zur fachlichen Erprobung
 
-Die stabile Referenz V2.0.2.0 bleibt unverändert. V2.0.5.1-Beta.1 ist ein separates, vollständiges und strukturell optimiertes Beta-Paket.
+V2.1.0.1-Beta enthält den vollständigen Bestand von V2.1.0.0. Die stabile Basis bleibt unverändert referenziert; neu sind die lokale Foto-/PDF-Analyse der VDE-0100-600-Prüfung, das geführte Klärungsmenü, das Musterformular, die erweiterte Validierung sowie die dafür erforderlichen PWA-Ressourcen.

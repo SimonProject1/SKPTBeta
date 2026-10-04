@@ -1,23 +1,26 @@
 {
-  "schemaVersion": "1.0",
-  "moduleVersion": "1.8.2",
-  "status": "Entwurf zur fachlichen Erprobung",
-  "scope": "Formale Plausibilitaetspruefung ohne Inbetriebnahmefreigabe",
-  "supportedProtocol": "Pruefbericht Einzelpruefer - VDE 0100-600",
+  "schemaVersion": "2.0",
+  "moduleVersion": "2.1.0.1-Beta",
+  "status": "Beta – fachliche Vorprüfung",
+  "scope": "Vollständigkeits- und Plausibilitätskontrolle ohne Inbetriebnahmefreigabe",
+  "supportedProtocol": "Prüfbericht Einzelprüfer nach VDE 0100-600 / VDE 0105-100, Formular 4-920-030 V4",
+  "defaults": {
+    "phaseVoltage": 230,
+    "insulationMinMOhm": 1,
+    "continuityWarningOhm": 1,
+    "voltageDropLimitPercent": 5,
+    "rcdTripTimeLimitMs": 300
+  },
   "rules": [
-    {"id":"DOC-001","section":"Dokument","field":"photos","condition":"missing","severity":"block","message":"Mindestens ein Foto des Protokolls fehlt."},
-    {"id":"DOC-002","section":"Dokument","field":"protocolConfirmed","condition":"false","severity":"block","message":"Der unterstuetzte Protokolltyp wurde nicht bestaetigt."},
-    {"id":"BASE-001","section":"Stammdaten","field":"testReason","condition":"missing","severity":"warning","message":"Der Pruefgrund fehlt."},
-    {"id":"BASE-002","section":"Stammdaten","field":"testDate","condition":"missing","severity":"warning","message":"Das Pruefdatum fehlt."},
-    {"id":"BASE-003","section":"Stammdaten","field":"tester","condition":"missing","severity":"warning","message":"Der Pruefername fehlt."},
-    {"id":"DEV-001","section":"Messgeraet","field":"deviceName","condition":"missing","severity":"warning","message":"Fabrikat oder Bezeichnung des Messgeraets fehlt."},
-    {"id":"DEV-002","section":"Messgeraet","field":"deviceNumber","condition":"missing","severity":"warning","message":"Typ oder Geraetenummer des Messgeraets fehlt."},
-    {"id":"DEV-003","section":"Messgeraet","field":"calibrationDate","condition":"missing","severity":"warning","message":"Das Kalibrierdatum fehlt oder wurde nicht uebertragen."},
-    {"id":"VIS-001","section":"Besichtigen","field":"visualStatus","condition":"missing","severity":"warning","message":"Die Bewertung Besichtigen fehlt."},
-    {"id":"MEAS-001","section":"Messen","field":"measurementStatus","condition":"missing","severity":"warning","message":"Die Bewertung Messen fehlt."},
-    {"id":"TEST-001","section":"Erproben","field":"functionalStatus","condition":"missing","severity":"warning","message":"Die Bewertung Erproben fehlt."},
-    {"id":"CONS-001","section":"Widerspruch","field":"overallStatus","condition":"io_with_nio","severity":"error","message":"Gesamtbewertung i.O. widerspricht mindestens einer Einzelbewertung n.i.O."},
-    {"id":"CONS-002","section":"Widerspruch","field":"remarks","condition":"nio_without_remarks","severity":"error","message":"Mindestens eine Bewertung ist n.i.O., aber eine Bemerkung oder Massnahme fehlt."},
-    {"id":"SIGN-001","section":"Bestaetigung","field":"signatureConfirmed","condition":"false","severity":"warning","message":"Unterschrift beziehungsweise Prueferbestaetigung fehlt."}
+    {"id":"DOC-REQUIRED","section":"Dokument","severity":"open","message":"Pflichtfelder ohne sicheren Erkennungswert werden nacheinander zur Klärung angeboten."},
+    {"id":"DOC-TYPE","section":"Dokument","severity":"error","message":"Ein abweichender Protokolltyp wird als nicht plausibel bewertet."},
+    {"id":"MEAS-INS","section":"Messwerte","severity":"error","message":"Isolationswerte werden gegen den konfigurierten Mindestprüfwert verglichen."},
+    {"id":"MEAS-ZS","section":"Messwerte","severity":"error","message":"Zs wird mit U0/(Kennlinienfaktor × In) verglichen; B=5, C=10, D=20."},
+    {"id":"CIRCUIT-IB-IN","section":"Stromkreis","severity":"error","message":"Der erfasste Belastungsstrom Ib darf den Nennstrom In nicht überschreiten."},
+    {"id":"MEAS-DU","section":"Messwerte","severity":"error","message":"Der Spannungsfall wird gegen das konfigurierbare Prüfziels verglichen."},
+    {"id":"RCD-I","section":"RCD","severity":"error","message":"Der erfasste Auslösestrom wird gegen IΔn verglichen."},
+    {"id":"RCD-T","section":"RCD","severity":"error","message":"Die Auslösezeit wird gegen den konfigurierten Standard-Prüfwert verglichen."},
+    {"id":"STATUS-NIO","section":"Bewertung","severity":"error","message":"Eine bestätigte n.i.O.-Einzelbewertung führt zum roten Gesamtergebnis."},
+    {"id":"SIGN-MISSING","section":"Abschluss","severity":"error","message":"Eine fehlende Prüferbestätigung wird als nicht plausibel bewertet."}
   ]
 }

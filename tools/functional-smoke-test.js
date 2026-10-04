@@ -136,4 +136,29 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   assertEqual(/referrerpolicy="no-referrer"/.test(external[0]),true,'E+H Device Viewer ohne Referrer');
   assertEqual(/data-filter="EXTERN"/.test(html),true,'Filter Externe Dienste vorhanden');
 }
-console.log('OK: Bestehende Funktionen, E+H-Externlink sowie profilabhängiger Siemens-Rohwert-Rechner mit bestätigten Grenzwerten geprüft.');
+{
+  const context={console,Math,Number,Object,Array,String,RegExp,Set,Intl,Error,globalThis:null};context.globalThis=context;vm.createContext(context);
+  vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-engine.js'),'utf8'),context,{filename:'vde0100-600-engine.js'});
+  const engine=context.SK_VDE_ENGINE;
+  const schema=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-template.json'),'utf8'));
+  const profile=schema.knownDocuments[schema.referenceForm.sha256];
+  assertEqual(Boolean(profile),true,'VDE-Musterprofil per SHA-256 vorhanden');
+  const data={...profile.data,_confidence:{...profile.confidence},_notRelevant:[]};
+  let checks=engine.checkData(data,schema.config);
+  assertEqual(checks.some(item=>item.id==='DEV-CAL-OPEN'&&item.status==='open'),true,'VDE-Muster meldet unsicheren Kalibrierstatus offen');
+  assertEqual(checks.some(item=>item.status==='fail'),false,'VDE-Mustermesswerte ohne harte Abweichung');
+  data.calibrationState='valid';data._confidence.calibrationState=1;
+  let issues=engine.buildIssues(data,schema.config);
+  assertEqual(issues.length,0,'VDE-Muster nach Kalibrierklärung ohne offene Punkte');
+  assertEqual(engine.finalState(data,issues,schema.config).plausible,true,'VDE-Muster ergibt grünes Plausibilitätsurteil');
+  data.loopImpedance=2;
+  checks=engine.checkData(data,schema.config);
+  assertEqual(checks.some(item=>item.id==='MEAS-ZS'&&item.status==='fail'),true,'VDE-Zs-Überschreitung wird erkannt');
+  data.loopImpedance=.27;data.rcdTripCurrent=45;
+  checks=engine.checkData(data,schema.config);
+  assertEqual(checks.some(item=>item.id==='RCD-I'&&item.status==='fail'),true,'VDE-RCD-Auslösestrom wird gegen IΔn geprüft');
+  const parsed=engine.parseText('Prüfbericht nach VDE 0100-600 Erstprüfung C 25A Nennspannung 400 V Zs 0,27 Ω Spannungsfall 0,39 % Auslösezeit 17 ms');
+  assertEqual(parsed.protocolType,'supported','VDE-Digitaltext erkennt Protokolltyp');
+  assertEqual(parsed.nominalCurrent,25,'VDE-Digitaltext erkennt Nennstrom');
+}
+console.log('OK: Bestehende Funktionen, VDE-Dokumentenengine, E+H-Externlink sowie profilabhängiger Siemens-Rohwert-Rechner mit bestätigten Grenzwerten geprüft.');

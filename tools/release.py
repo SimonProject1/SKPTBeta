@@ -13,7 +13,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / "release-config.json"
-VERSION_RE = re.compile(r"^\d+\.\d+\.\d+\.\d+-Beta\.\d+$")
+VERSION_RE = re.compile(r"^\d+\.\d+\.\d+\.\d+(?:-Beta(?:\.\d+)?)?$")
 
 
 def load_config() -> dict:
@@ -26,10 +26,18 @@ def save_json(path: Path, data: object) -> None:
 
 def update_version(version: str) -> None:
     if not VERSION_RE.fullmatch(version):
-        raise ValueError("Version muss dem Muster 2.0.5.1-Beta.1 entsprechen.")
+        raise ValueError("Version muss dem Muster X.Y.Z.W oder X.Y.Z.W-Beta[.N] entsprechen.")
     config = load_config()
     previous = config["version"]
+    product_name = "SK PLT Tools"
+    short_name = "SK PLT Tools"
+    app_slug = f"sk-plt-tools-{version.lower()}"
+    cache_prefix = "sk-plt-tools-"
     config["version"] = version
+    config["productName"] = product_name
+    config["shortName"] = short_name
+    if "-Beta" not in version:
+        config["stableBaseline"] = version
     config["archiveName"] = f"SK-PLT-Tools-V{version}.zip"
     save_json(CONFIG_PATH, config)
     (ROOT / "VERSION").write_text(version + "\n", encoding="utf-8")
@@ -41,11 +49,12 @@ def update_version(version: str) -> None:
 
     manifest_path = ROOT / "manifest.webmanifest"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    slug = version.lower()
-    manifest["id"] = f"./?app=sk-plt-tools-beta-{slug}"
-    manifest["start_url"] = f"./?app=sk-plt-tools-beta-{slug}"
+    manifest["id"] = f"./?app={app_slug}"
+    manifest["name"] = product_name
+    manifest["short_name"] = short_name
+    manifest["start_url"] = f"./?app={app_slug}"
     manifest["version"] = version
-    manifest["description"] = f"Beta der praktischen Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version {version}"
+    manifest["description"] = f"Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version {version}"
     save_json(manifest_path, manifest)
 
     for relative in ("assets/app.js", "service-worker.js"):
@@ -54,6 +63,14 @@ def update_version(version: str) -> None:
         text, count = re.subn(r"const RELEASE='[^']+';", f"const RELEASE='{version}';", text)
         if count < 1:
             raise ValueError(f"{relative}: RELEASE-Konstante fehlt")
+        if relative == "service-worker.js":
+            text, count = re.subn(r"const CACHE_PREFIX='[^']+';", f"const CACHE_PREFIX='{cache_prefix}';", text)
+            if count != 1:
+                raise ValueError("service-worker.js: CACHE_PREFIX-Konstante fehlt oder ist nicht eindeutig")
+        else:
+            channel = 'beta' if '-Beta' in version else 'release'
+            text = re.sub(r"channel:'[^']+'", f"channel:'{channel}'", text)
+            text = re.sub(r"name:'[^']+'", f"name:'{product_name}'", text, count=1)
         path.write_text(text, encoding="utf-8")
 
     for page in ROOT.rglob("index.html"):
@@ -61,8 +78,18 @@ def update_version(version: str) -> None:
         text = re.sub(r'data-sk-version="[^"]+"', f'data-sk-version="{version}"', text)
         text = re.sub(r'([?&]v=)[^"&]+', lambda m: m.group(1) + version, text)
         if page == ROOT / "index.html":
-            text = re.sub(r'(<span class="badge">Version )[^<]+(</span>)', rf'\g<1>{version}\2', text)
+            text = re.sub(r'(<span class="badge">Version )[^<]+(</span>)', rf'\g<1>{version}\2', text)
         page.write_text(text, encoding="utf-8")
+
+    # Versionierte Laufzeitquellen und Datenkataloge dürfen keine alte
+    # technische Version in Kommentaren, Fetch-URLs oder Metadaten behalten.
+    if previous != version:
+        for path in ROOT.rglob("*"):
+            if not path.is_file() or path == CONFIG_PATH or path.suffix.lower() not in {".js", ".css", ".json", ".html"}:
+                continue
+            text = path.read_text(encoding="utf-8")
+            if previous in text:
+                path.write_text(text.replace(previous, version), encoding="utf-8")
 
     # Tests carry technical assertions and should move with the release automatically.
     for path in (ROOT / "tools").glob("*.*"):

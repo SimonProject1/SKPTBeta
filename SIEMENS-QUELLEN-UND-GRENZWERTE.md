@@ -1,6 +1,6 @@
 # Siemens-Quellen und kartenspezifische Rohwertgrenzen
 
-Stand: 02.10.2026 · Bestandteil von SK PLT Tools Beta 2.0.5.1-Beta.1
+Stand: 04.10.2026 · Bestandteil von SK PLT Tools 2.1.0.1-Beta
 
 ## Grundsatz
 
@@ -50,7 +50,7 @@ Quelle: Siemens, *AI 16xI 2-wire HART HA, 6DL1134-6TH00-0PH1*, Gerätehandbuch 0
 
 - Artikelnummer: **6ES7536-1MF00-0AB0**.
 - Das offizielle Gerätehandbuch bestätigt die Messbereiche **0…20 mA** und **4…20 mA**, jeweils 16 Bit inklusive Vorzeichen, und verweist für Überlauf/Unterlauf auf den Anhang „Representation of analog values“.
-- In dieser Beta ist dieses Profil deshalb bewusst auf die bestätigte Nennskalierung **0…27.648** begrenzt. Es werden **keine** kartenspezifischen Unterlauf-/Überlaufgrenzen behauptet oder farblich bewertet.
+- In dieser Release-Version ist dieses Profil deshalb bewusst auf die bestätigte Nennskalierung **0…27.648** begrenzt. Es werden **keine** kartenspezifischen Unterlauf-/Überlaufgrenzen behauptet oder farblich bewertet.
 - Quelle: Siemens, *Analog Input Module F-AI 8xI 0(4)..20mA (6ES7536-1MF00-0AB0)*, Gerätehandbuch 09/2024, A5E51970360-AC, Dokument-ID 109823702: https://support.industry.siemens.com/cs/document/109823702/
 
 ## Wichtige Abweichung: NE 43 (Ausgabe 2021)

@@ -1,36 +1,30 @@
-SK PLT Tools Beta 2.0.5.1-Beta.1
-Release-Datum: 03.10.2026
+SK PLT Tools 2.1.0.1-Beta
+Release-Datum: 04.10.2026
+Stabile Basis: 2.1.0.0
 
 ZIEL
-- Vollständiger, funktionsgleicher Nachfolger von 2.0.4.2-Beta.1 mit vorsichtig optimierter Struktur.
-- Keine Entfernung von Rechnern, Wissensbeiträgen, Direktlinks, mobilen Funktionen oder PWA-/Offline-Fähigkeiten.
+- Vollständige Beta-Version auf Basis des unveränderten Funktionsumfangs von 2.1.0.0.
+- Automatische, lokale Vorprüfung eines fotografierten oder als PDF vorliegenden Prüfprotokolls.
+- Geführte Klärung sämtlicher fehlender, unsicherer oder nicht plausibler Angaben.
 
-STRUKTUR UND WARTUNG
-- Sechs globale Stylesheets wurden ohne Änderung ihrer Kaskadenreihenfolge in assets/core.css zusammengeführt.
-- Basis, Favoriten, Suche, Sortierung und Navigation wurden in assets/app.js zusammengeführt.
-- Fachmodule der Rechner und Wissensseiten bleiben getrennt.
-- Gemeinsame Header-, Footer- und Trigger-Bereiche werden aus shared/ mit tools/sync_shared.py synchronisiert und weiterhin statisch ausgeliefert.
-- assets/navigation-tree.json bleibt die zentrale Quelle des Navigationsbaums.
+VDE-0100-600-DOKUMENTENPRÜFUNG
+- Eingabe für PDF, JPEG, PNG und WebP sowie Mehrfachauswahl ergänzt.
+- Lokales PDF-Rendering mit eingebettetem PDF.js 5.4.296; keine Dateiübertragung.
+- Automatische Auswertung von eingebettetem PDF-Text, optionaler Browser-TextDetector-Schnittstelle, Formularlayout und SHA-256-Dokumentfingerabdruck.
+- Ausgefülltes Prüfprotokoll 228_SR4_K06_E07.1.pdf als unveränderte Test-Fixture, Layoutreferenz und kalibriertes Musterprofil eingebunden.
+- Automatische Vollständigkeitskontrolle der Stammdaten, Messgeräteangaben, Stromkreisdaten, Prüfabschnitte, Messwerte und Bestätigung.
+- Plausibilitätsregeln für Wertebereiche, Isolationswiderstand, Schleifenimpedanz, Ib/In, Spannungsfall, RCD-Auslösestrom und RCD-Auslösezeit ergänzt.
+- Nacheinander geführtes Klärungsmenü mit Korrektur/Auswahl, „nicht relevant“ und „als n.i.O. bestätigen“.
+- Abschlussergebnis mit grünem Haken „Plausibel“ oder rotem X „Nicht plausibel“ einschließlich Prüf- und Klärungsnachweis.
+- Responsive, barrierearme Industrieoberfläche für Desktop, Tablet und Mobilgerät.
 
-RELEASE-AUTOMATISIERUNG
-- release-config.json als zentrale technische Release-Konfiguration ergänzt.
-- tools/release.py synchronisiert Versionen, Manifest, Seiten, Navigationsdaten und Service Worker.
-- Die Offline-Precache-Liste wird aus dem tatsächlichen Webbestand erzeugt.
-- SHA256SUMS.txt und das vollständige ZIP-Paket werden automatisiert erstellt.
+RELEASE-/PWA-UMSTELLUNG
+- Technische und sichtbare Version auf 2.1.0.1-Beta synchronisiert.
+- PWA-ID und Start-URL auf ./?app=sk-plt-tools-2.1.0.1-beta gesetzt.
+- Release-Cache auf sk-plt-tools-v2.1.0.1-Beta gesetzt.
+- Neue Engine-, Schema-, PDF.js- und Musterdateien in den Offline-Precache aufgenommen.
+- Release-Automatisierung für X.Y.Z.W-Beta[.N] erweitert; stabile Basis bleibt 2.1.0.0.
+- Prüfsummen und vollständiges ZIP werden nach erfolgreicher Validierung neu erzeugt.
 
-BEREINIGUNG
-- 27 nachweislich ersetzte oder unreferenzierte Altdateien entfernt.
-- Darunter leere Kompatibilitäts-Shims, frühere globale Einzeldateien, ein ungenutztes Logo-Fallback und die alte unreferenzierte PDF-Dublette.
-- Die aktive PDF-Vorlage und ihre DOCX-Quelldatei bleiben enthalten.
-
-VERSION UND PWA
-- Sichtbare und technische Version: 2.0.5.1-Beta.1
-- PWA-ID/start_url: ./?app=sk-plt-tools-beta-2.0.5.1-beta.1
-- Cache: sk-plt-tools-beta-v2.0.5.1-Beta.1
-
-PRÜFUNG
-- Funktionsprüfung aller Rechner und fachlichen Suchfunktionen
-- Statische Prüfung aller 16 Seiten, lokalen Referenzen, Navigationsziele und Prüfsummen
-- Browserprüfung auf Desktop-, Tablet- und Mobilbreite
-- Interaktionstests für Suche, Filter, Sortierung, Favoriten und Navigation
-- PWA-Installation sowie Offline-Aufruf von Startseite, Rechner, Wissensseite und zentralen JSON-/CSS-/JS-Ressourcen
+SICHERHEITSGRENZE
+- Die Anwendung ist eine dokumentbezogene Zweitkontrolle. Sie ersetzt weder Messung, Bewertung noch Freigabe durch eine verantwortliche Elektrofachkraft.

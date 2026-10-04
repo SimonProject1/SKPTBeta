@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools Beta 2.0.5.1-Beta.1."""
+"""Static release validation for SK PLT Tools 2.1.0.1-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.0.5.1-Beta.1'
+VERSION='2.1.0.1-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -29,12 +29,14 @@ OBSOLETE_FILES={
  'assets/card-cleanup.js','assets/disable-support.js','assets/header-alignment-fix.css','assets/header-alignment-fix.js',
  'assets/header-version-footer-fix.css','assets/header-version-footer-fix.js','assets/knowledge-template-pdf.js',
  'assets/search-service-cleanup.js','assets/siemens-sitrans-integration.js','assets/sk-shell.css','assets/sk-shell.js',
- 'assets/start-vde-integration.js','assets/start-voltage-drop-integration.js','assets/version-1.9.8.5.js',
+ 'assets/start-vde-integration.js','assets/start-voltage-drop-integration.js',
  'plausibilitaetspruefung-vde0100-600/logo-fallback.js','wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf.pdf'
 }
 for rel in sorted(OBSOLETE_FILES):
     if (ROOT/rel).exists(): errors.append(f'Nachweislich ersetzte Altdatei noch vorhanden: {rel}')
-for required in ('release-config.json','shared/header.html','shared/footer.html','shared/controls.html','shared/pages.json','tools/sync_shared.py','tools/release.py'):
+for path in (ROOT/'assets').glob('version-*.js'):
+    errors.append(f'Nachweislich ersetzte Versions-Patchdatei noch vorhanden: {path.relative_to(ROOT)}')
+for required in ('release-config.json','shared/header.html','shared/footer.html','shared/controls.html','shared/pages.json','tools/sync_shared.py','tools/release.py','assets/vde0100-600-engine.js','assets/vde0100-600-template.json','vendor/pdfjs/pdf.min.mjs','vendor/pdfjs/pdf.worker.min.mjs','vendor/pdfjs/LICENSE','test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf','VDE0100-600-AUTOMATIK.md'):
     if not (ROOT/required).is_file(): errors.append(f'Zentrale Build-/Shell-Datei fehlt: {required}')
 if set(pages)!=EXPECTED_PAGES:
     errors.append(f'HTML-Seiten abweichend: erwartet {sorted(EXPECTED_PAGES)}, gefunden {sorted(pages)}')
@@ -58,8 +60,8 @@ for rel,page in pages.items():
     if len(soup.select('footer.sk-footer'))!=1: errors.append(f'{rel}: genau ein statischer Footer erwartet')
     if soup.select('.sk-logo-version'): errors.append(f'{rel}: sichtbare Header-Version muss entfernt sein')
     if 'Version ' in soup.select_one('footer.sk-footer').get_text(' ',strip=True): errors.append(f'{rel}: sichtbare Footer-Version muss entfernt sein')
-    if soup.select_one('footer.sk-footer').get_text(' ',strip=True)!='SK PLT Tools Beta · Entwickelt von Simon Kiesler': errors.append(f'{rel}: Footer-Standard falsch')
-    if 'SK PLT Tools Beta' not in soup.get_text(' ',strip=True) or len(soup.select('.sk-beta-label'))!=1: errors.append(f'{rel}: sichtbare Beta-Kennzeichnung fehlt')
+    if soup.select_one('footer.sk-footer').get_text(' ',strip=True)!='SK PLT Tools · Entwickelt von Simon Kiesler': errors.append(f'{rel}: Footer-Standard falsch')
+    if 'SK PLT Tools' not in soup.get_text(' ',strip=True): errors.append(f'{rel}: Produktkennzeichnung fehlt')
     styles=[tag.get('href','') for tag in soup.find_all('link',rel=lambda value:value and 'stylesheet' in value)]
     core_styles=[value for value in styles if 'assets/core.css' in value]
     if len(core_styles)!=1: errors.append(f'{rel}: genau eine zentrale core.css erwartet')
@@ -191,6 +193,28 @@ if not any(group.get('id')=='external-services' and any(item.get('url')=='https:
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
 
+vde_path=ROOT/'plausibilitaetspruefung-vde0100-600/index.html'
+vde_html=vde_path.read_text(encoding='utf-8')
+vde_page=BeautifulSoup(vde_html,'html.parser')
+for selector in ('#documentInput','#loadSample','#analysisPanel','#reviewPanel','#previewFrame','#issuePanel','#issueCard','#notRelevant','#confirmFail','#applyCorrection','#resultPanel','#verdictIcon','#verdictTitle'):
+    if not vde_page.select_one(selector): errors.append(f'VDE-Prüfung: Element fehlt: {selector}')
+for asset in ('assets/vde0100-600-engine.js','assets/vde0100-600-template.json','vendor/pdfjs/pdf.min.mjs','vendor/pdfjs/pdf.worker.min.mjs'):
+    if not (ROOT/asset).is_file(): errors.append(f'VDE-Prüfung: Laufzeitdatei fehlt: {asset}')
+try:
+    vde_schema=json.loads((ROOT/'assets/vde0100-600-template.json').read_text(encoding='utf-8'))
+    if vde_schema.get('moduleVersion')!=VERSION: errors.append('VDE-Schema: Modulversion inkonsistent')
+    sample=ROOT/'test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf'
+    sample_hash=hashlib.sha256(sample.read_bytes()).hexdigest()
+    if sample_hash!=vde_schema.get('referenceForm',{}).get('sha256'): errors.append('VDE-Schema: Musterfingerabdruck stimmt nicht')
+    if sample_hash not in vde_schema.get('knownDocuments',{}): errors.append('VDE-Schema: Musterprofil fehlt')
+    for rule in ('MEAS-INS','MEAS-ZS','CIRCUIT-IB-IN','MEAS-DU','RCD-I','RCD-T'):
+        if rule not in {item.get('id') for item in vde_schema.get('plausibilityRules',[])}: errors.append(f'VDE-Schema: Regel fehlt: {rule}')
+except Exception as exc:
+    errors.append(f'VDE-Schema ungültig: {exc}')
+vde_engine=(ROOT/'assets/vde0100-600-engine.js').read_text(encoding='utf-8')
+for required in ('buildIssues','finalState','curveFactor','parseText','_notRelevant'):
+    if required not in vde_engine: errors.append(f'VDE-Engine: Merkmal fehlt: {required}')
+
 nav_js=(ROOT/'assets/app.js').read_text(encoding='utf-8')
 nav_css=(ROOT/'assets/core.css').read_text(encoding='utf-8')
 for required in ('sk-tree-node-row','aria-controls','aria-label="${label} einklappen"'):
@@ -203,7 +227,7 @@ for required in ('.sk-tree-node-row{display:flex;align-items:stretch', 'backgrou
 article_html=(ROOT/'wissensdatenbank/siemens-sps-rohwert/index.html').read_text(encoding='utf-8')
 for required in ('4 mA  =     0','12 mA = 13824','4 mA  =  5530','12 mA = 16589','Rohwert = 13824','../../siemens-analogwert-rechner/'):
     if required not in article_html: errors.append(f'Rohwert-Grundlagenartikel: Inhalt/Verknüpfung fehlt: {required}')
-if article_html.count('Version 2.0.5.1-Beta.1')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
+if article_html.count('Version 2.1.0.1-Beta')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
 article_page=BeautifulSoup(article_html,'html.parser')
 article_breadcrumb=article_page.select_one('nav.knowledge-breadcrumb[aria-label="Brotkrümelnavigation"]')
 if article_breadcrumb is None: errors.append('Rohwert-Grundlagenartikel: Breadcrumb fehlt')
@@ -220,15 +244,18 @@ sw=(ROOT/'service-worker.js').read_text(encoding='utf-8')
 for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'</body>\''):
     if forbidden in sw: errors.append(f'Service Worker enthält verbotene Laufzeit-Patchlogik: {forbidden}')
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
-if "const CACHE_PREFIX='sk-plt-tools-beta-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den getrennten Beta-Cache')
-if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt Caches nicht beta-isoliert')
-for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
+if "const CACHE_PREFIX='sk-plt-tools-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den Release-Cache')
+if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt ältere SK-PLT-Tools-Caches nicht')
+for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html','./assets/vde0100-600-engine.js','./assets/vde0100-600-template.json','./vendor/pdfjs/pdf.min.mjs','./vendor/pdfjs/pdf.worker.min.mjs','./test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
 
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
-if manifest.get('name')!='SK PLT Tools Beta' or manifest.get('short_name')!='SK PLT Beta': errors.append('Manifest: eigener Beta-App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-beta-2.0.5.1-beta.1' or manifest.get('start_url')!='./?app=sk-plt-tools-beta-2.0.5.1-beta.1' or manifest.get('version')!=VERSION: errors.append('Manifest: Beta-ID/start_url/version nicht eindeutig')
+if manifest.get('name')!='SK PLT Tools' or manifest.get('short_name')!='SK PLT Tools': errors.append('Manifest: offizieller App-Name fehlt')
+if manifest.get('id')!='./?app=sk-plt-tools-2.1.0.1-beta' or manifest.get('start_url')!='./?app=sk-plt-tools-2.1.0.1-beta' or manifest.get('version')!=VERSION: errors.append('Manifest: Release-ID/start_url/version nicht eindeutig')
+if manifest.get('description')!='Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.1.0.1-Beta': errors.append('Manifest: Release-Beschreibung inkonsistent')
+release_config=json.loads((ROOT/'release-config.json').read_text(encoding='utf-8'))
+if release_config.get('version')!=VERSION or release_config.get('stableBaseline')!='2.1.0.0' or release_config.get('archiveName')!='SK-PLT-Tools-V2.1.0.1-Beta.zip': errors.append('Release-Konfiguration: Beta-Version, stabile Basis oder Archivname inkonsistent')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail','#calculationError'):
@@ -293,4 +320,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Breadcrumb-Darstellung, valider und bündiger Wissen-Knoten, bereinigter Pfad Wissen > Siemens > SPS, 10 Startseitenkacheln einschließlich sicherem E+H-Externlink, Beta-Isolation, Siemens-Kartenprofile, Rohwert-Grundlagenartikel und Rechner, 5 favoritenfähige Wissenskacheln, 10 Werkstoffe, Integrationen, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, VDE-Dokumentenengine, Musterhash und PDF.js, geführte Klärungsoberfläche, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Navigation, 10 Startseitenkacheln, Release-Cache-Isolation, Rechner, 5 Wissenskacheln, 10 Werkstoffe, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')

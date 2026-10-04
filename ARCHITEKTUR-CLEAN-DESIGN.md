@@ -1,56 +1,47 @@
-# Architektur – SK PLT Tools Beta 2.0.5.1-Beta.1
+# Architektur – SK PLT Tools 2.1.0.1-Beta
 
 ## Leitprinzipien
 
-1. Fachfunktionen bleiben als eigenständige Rechner- bzw. Wissensmodule erhalten.
-2. Seitenübergreifende Darstellung und Laufzeitlogik werden zentral gepflegt.
+1. Der vollständige Funktionsumfang der stabilen Basis 2.1.0.0 bleibt erhalten.
+2. Fachfunktionen bleiben als eigenständige Rechner-, Prüf- oder Wissensmodule gekapselt.
 3. Jede HTML-Seite bleibt ein direkter, statischer Einstiegspunkt.
 4. Navigation, PWA und Offline-Betrieb funktionieren ohne Build-Server im produktiven Webroot.
-5. Entfernt werden nur nachweislich unreferenzierte oder vollständig übernommene Altdateien.
+5. Dokumente der VDE-Prüfung werden ausschließlich lokal im Browser verarbeitet.
 
 ## Zentrale Laufzeitdateien
 
-- `assets/core.css` enthält die zuvor auf sechs Dateien verteilten gemeinsamen Styles für Grundlayout, Design, Favoriten, Suche/Filter, Sortierung und Seitenbaum.
-- `assets/app.js` enthält Basisfunktionen, Service-Worker-Registrierung, Favoriten, Startseitensuche, Sortierung und Navigationsbaum.
-- `assets/navigation-tree.json` ist die zentrale Inhaltsquelle für den Navigationsbaum. `assets/app.js` erzeugt daraus Gruppen, Knoten, Datei- und Externlinks.
-- `assets/search-index.json` und `assets/materials.json` bleiben getrennte fachliche Datenquellen für Suche und Werkstoffe.
+- `assets/core.css`: Grundlayout, Design, Favoriten, Suche/Filter, Sortierung und Seitenbaum
+- `assets/app.js`: Basisfunktionen, Service Worker, Favoriten, Suche, Sortierung und Navigation
+- `assets/navigation-tree.json`: zentrale Inhaltsquelle der Navigation
+- `assets/search-index.json` und `assets/materials.json`: fachliche Datenquellen für Suche und Werkstoffe
+
+## VDE-Dokumentenpipeline
+
+- `plausibilitaetspruefung-vde0100-600/checker.js`: Eingabe, SHA-256, PDF-/Bildaufbereitung, Erkennungsorchestrierung, Vorschau, Klärungsworkflow und Ergebnis
+- `plausibilitaetspruefung-vde0100-600/checker.css`: eigenständige responsive Oberfläche
+- `assets/vde0100-600-engine.js`: DOM-unabhängige Vollständigkeits- und Messwertlogik
+- `assets/vde0100-600-template.json`: Formulartyp, Layoutzonen, Musterfingerabdruck, Prüfeinstellungen und Referenzwerte
+- `vendor/pdfjs/`: lokal eingebettete PDF.js-Laufzeit 5.4.296 und Lizenz
+- `test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf`: unveränderter Muster-Testfall
+
+Erkennungsreihenfolge: bekannter Dokumentfingerabdruck → eingebetteter PDF-Text → optionale lokale Browser-TextDetector-Schnittstelle → formularbezogene visuelle Layoutanalyse. Nicht sicher erkannte Werte bleiben offen und werden nicht erfunden.
 
 ## Fachmodule
 
-Eigene Dateien bleiben dort bestehen, wo sie fachliche Logik oder stark modulspezifische Darstellung kapseln:
-
-- `assets/siemens-analogwert-rechner.{css,js}`
-- `spannungsfall-rechner/calculator.{css,js}`
-- `plausibilitaetspruefung-vde0100-600/checker.{css,js}`
-- `assets/materials.{css,js,json}`
-- Wissensbeitrags-Styles für Air Torque, Siemens Sitrans und Vacon
-
-Damit bleiben Rechner und Wissensbeiträge klar getrennt, während globale Funktionen nicht mehrfach gepflegt werden.
+Eigene Dateien bleiben dort bestehen, wo sie Fachlogik oder modulspezifische Darstellung kapseln, darunter Siemens-Rohwert, Spannungsfall, VDE-Prüfung, Werkstoffe und Wissensbeiträge.
 
 ## Gemeinsame Seitenelemente
 
-`shared/header.html`, `shared/footer.html` und `shared/controls.html` sind die Vorlagen für die statisch ausgelieferten gemeinsamen Elemente. `shared/pages.json` enthält nur die seitenabhängigen Bezeichnungen und Rücksprungziele. `tools/sync_shared.py` synchronisiert die markierten Bereiche in allen 16 HTML-Seiten. Die ausgelieferten Seiten enthalten die Elemente weiterhin direkt, sodass Header, Footer und Schaltflächen bereits vor JavaScript sichtbar sind.
+`shared/header.html`, `shared/footer.html` und `shared/controls.html` sind Vorlagen der statisch ausgelieferten Elemente. `shared/pages.json` enthält seitenabhängige Bezeichnungen und Rücksprungziele. `tools/sync_shared.py` synchronisiert die markierten Bereiche in allen 16 HTML-Seiten.
 
 ## PWA und Offline
 
-- PWA-ID und Start-URL: `./?app=sk-plt-tools-beta-2.0.5.1-beta.1`
-- Cache: `sk-plt-tools-beta-v2.0.5.1-Beta.1`
-- `tools/release.py` erzeugt den Precache-Bestand automatisch aus den tatsächlich auslieferbaren Webdateien und direkten Seitenrouten.
-- Navigationen nutzen Network-first mit Cache-Fallback; statische Assets nutzen Cache-first.
-- Alte Beta-Caches mit gleichem Präfix werden bei Aktivierung entfernt; andere Anwendungen/Caches werden nicht berührt.
-
-## Nachweislich entfernte Altdateien
-
-Entfernt wurden 27 Dateien:
-
-- 6 frühere gemeinsame CSS-Dateien, vollständig übernommen in `assets/core.css`
-- 4 frühere gemeinsame JavaScript-Dateien, vollständig übernommen in `assets/app.js`
-- 15 leere, unreferenzierte Kompatibilitäts-/Korrektur-Shims
-- 1 unreferenziertes Logo-Fallback-Skript
-- 1 unreferenzierte alte PDF-Dublette mit Doppelendung
-
-Die aktive PDF-Beitragsvorlage und die DOCX-Quelldatei bleiben erhalten.
+- PWA-ID und Start-URL: `./?app=sk-plt-tools-2.1.0.1-beta`
+- Cache: `sk-plt-tools-v2.1.0.1-Beta`
+- Das Release-Skript erzeugt den Precache aus dem tatsächlichen Webbestand einschließlich PDF-Renderer und Musterformular.
+- Navigationen verwenden Network-first mit Cache-Fallback; statische Assets Cache-first.
+- Ältere SK-PLT-Tools-Caches werden versionsbezogen entfernt.
 
 ## Release-Automatisierung
 
-`release-config.json` ist die zentrale Release-Konfiguration. `tools/release.py` aktualisiert Versionen in HTML, Manifest, App, Navigation und Service Worker, synchronisiert gemeinsame Seitenelemente, generiert die Offline-Liste, erstellt vollständige SHA-256-Prüfsummen und baut das komplette ZIP-Paket.
+`release-config.json` hält Beta-Version und stabile Basis getrennt. `tools/release.py` akzeptiert `X.Y.Z.W` und `X.Y.Z.W-Beta[.N]`, synchronisiert technische Laufzeitquellen, HTML, Manifest, App, Navigation und Service Worker, erzeugt Offline-Liste sowie vollständige SHA-256-Prüfsummen und baut das ZIP-Paket.
