@@ -1,10 +1,11 @@
-const RELEASE='2.1.0.1-Beta';
+const RELEASE='2.1.0.2-Beta';
 const CACHE_PREFIX='sk-plt-tools-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
   // precache:start
   "./",
   "./SIEMENS-QUELLEN-UND-GRENZWERTE.md",
+  "./VDE0100-600-AUTOMATIK.md",
   "./analogsignal/",
   "./analogsignal/index.html",
   "./assets/airttorque-wissen.css",

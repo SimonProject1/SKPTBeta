@@ -1,30 +1,29 @@
-SK PLT Tools 2.1.0.1-Beta
-Release-Datum: 04.10.2026
+SK PLT Tools 2.1.0.2-Beta
+Release-Datum: 06.10.2026
+Direkte Basis: 2.1.0.1-Beta
 Stabile Basis: 2.1.0.0
 
 ZIEL
-- Vollständige Beta-Version auf Basis des unveränderten Funktionsumfangs von 2.1.0.0.
-- Automatische, lokale Vorprüfung eines fotografierten oder als PDF vorliegenden Prüfprotokolls.
-- Geführte Klärung sämtlicher fehlender, unsicherer oder nicht plausibler Angaben.
+- Vollständige Nachfolge-Beta mit unverändertem Bestand der Version 2.1.0.1-Beta.
+- Verbindliche Ausrichtung der Plausibilitätsprüfung an der neu bereitgestellten leeren Vorlage VDEProtokoll.pdf.
 
 VDE-0100-600-DOKUMENTENPRÜFUNG
-- Eingabe für PDF, JPEG, PNG und WebP sowie Mehrfachauswahl ergänzt.
-- Lokales PDF-Rendering mit eingebettetem PDF.js 5.4.296; keine Dateiübertragung.
-- Automatische Auswertung von eingebettetem PDF-Text, optionaler Browser-TextDetector-Schnittstelle, Formularlayout und SHA-256-Dokumentfingerabdruck.
-- Ausgefülltes Prüfprotokoll 228_SR4_K06_E07.1.pdf als unveränderte Test-Fixture, Layoutreferenz und kalibriertes Musterprofil eingebunden.
-- Automatische Vollständigkeitskontrolle der Stammdaten, Messgeräteangaben, Stromkreisdaten, Prüfabschnitte, Messwerte und Bestätigung.
-- Plausibilitätsregeln für Wertebereiche, Isolationswiderstand, Schleifenimpedanz, Ib/In, Spannungsfall, RCD-Auslösestrom und RCD-Auslösezeit ergänzt.
-- Nacheinander geführtes Klärungsmenü mit Korrektur/Auswahl, „nicht relevant“ und „als n.i.O. bestätigen“.
-- Abschlussergebnis mit grünem Haken „Plausibel“ oder rotem X „Nicht plausibel“ einschließlich Prüf- und Klärungsnachweis.
-- Responsive, barrierearme Industrieoberfläche für Desktop, Tablet und Mobilgerät.
+- Formularprofil auf den Prüfbericht Lfd. Nr. 12782 nach VDE 0100-600 / IEC 60364-6 und VDE 0105-100 / EN 50110 umgestellt.
+- 33 Linienanker und 93 formularbezogene Feldzuordnungen für Stammdaten, Messgeräte, Objektangaben, Prüfpunkte 3.1–3.20, Messungen 4.1–4.4, Isolation, Abschaltung 6.1/6.2, Erproben 7.1–7.6 und Abschluss hinterlegt.
+- Automatische Hoch-/Querformat-Ausrichtung, Layoutpassung, Checkbox-Erkennung, Feldzonen-OCR und visuelle Eintragserkennung ergänzt.
+- Vollständigkeitsprüfung an die konkreten Formularfelder und Einzelprüfpunkte angepasst.
+- Messwertprüfung um Durchgängigkeitswerte, konsistente Spannungsfallangaben und formularbezogene Abschaltwege erweitert.
+- Geführte Klärung zeigt für jeden offenen Punkt einen markierten Ausschnitt ausschließlich aus dem hochgeladenen Protokoll.
+- Auswahl/Korrektur, „nicht relevant“, „als n.i.O. bestätigen“ sowie grüner Haken oder rotes X bleiben erhalten.
+- Bisherige UI-Musterladefunktion entfernt.
+- Die leere Mustervorlage selbst ist nicht Bestandteil der Webanwendung, nicht sichtbar und nicht als Download verfügbar; enthalten sind nur abgeleitete Strukturmerkmale.
 
 RELEASE-/PWA-UMSTELLUNG
-- Technische und sichtbare Version auf 2.1.0.1-Beta synchronisiert.
-- PWA-ID und Start-URL auf ./?app=sk-plt-tools-2.1.0.1-beta gesetzt.
-- Release-Cache auf sk-plt-tools-v2.1.0.1-Beta gesetzt.
-- Neue Engine-, Schema-, PDF.js- und Musterdateien in den Offline-Precache aufgenommen.
-- Release-Automatisierung für X.Y.Z.W-Beta[.N] erweitert; stabile Basis bleibt 2.1.0.0.
-- Prüfsummen und vollständiges ZIP werden nach erfolgreicher Validierung neu erzeugt.
+- Technische und sichtbare Version auf 2.1.0.2-Beta synchronisiert.
+- PWA-ID und Start-URL auf ./?app=sk-plt-tools-2.1.0.2-beta gesetzt.
+- Release-Cache auf sk-plt-tools-v2.1.0.2-Beta gesetzt.
+- Manifest, Navigation, HTML-Cacheparameter, Tests, Release-Konfiguration und Dokumentation aktualisiert.
+- Offline-Precache und vollständige SHA-256-Prüfsummen neu erzeugt.
 
 SICHERHEITSGRENZE
-- Die Anwendung ist eine dokumentbezogene Zweitkontrolle. Sie ersetzt weder Messung, Bewertung noch Freigabe durch eine verantwortliche Elektrofachkraft.
+- Die Anwendung ist eine dokumentbezogene Zweitkontrolle. Sie ersetzt weder Messung, fachliche Bewertung noch Freigabe durch eine verantwortliche Elektrofachkraft.

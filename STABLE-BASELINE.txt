@@ -1,7 +1,6 @@
-SK PLT Tools – Versionsabgrenzung
+STABILE BASIS
+V2.1.0.0
+Aktuelle Beta-Version: V2.1.0.2-Beta
+Direkte Vorgängerversion: V2.1.0.1-Beta
 
-Aktuelle Beta-Version: V2.1.0.1-Beta
-Stabile Referenzbasis: V2.1.0.0
-Freigabestatus: Beta zur fachlichen Erprobung
-
-V2.1.0.1-Beta enthält den vollständigen Bestand von V2.1.0.0. Die stabile Basis bleibt unverändert referenziert; neu sind die lokale Foto-/PDF-Analyse der VDE-0100-600-Prüfung, das geführte Klärungsmenü, das Musterformular, die erweiterte Validierung sowie die dafür erforderlichen PWA-Ressourcen.
+Die stabile Basis V2.1.0.0 bleibt unverändert referenziert. V2.1.0.2-Beta enthält den vollständigen Bestand von V2.1.0.1-Beta und ersetzt innerhalb der VDE-0100-600-Prüfung das frühere Musterprofil durch die aus VDEProtokoll.pdf abgeleitete, formulargebundene Struktur. Die leere Referenz-PDF selbst ist nicht Bestandteil der Anwendung. Neu sind A4-/Linienrasterprüfung, 93 Feldzuordnungen, Checkbox-Auswertung, Originalausschnitte im Klärungsdialog, erweiterte Vollständigkeits- und Messwertprüfungen sowie die aktualisierten PWA-, Release-, Dokumentations- und Prüfsummeneinträge.

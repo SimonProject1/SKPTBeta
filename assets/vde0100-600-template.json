@@ -1,120 +1,2646 @@
 {
-  "schemaVersion": "2.0",
-  "moduleVersion": "2.1.0.1-Beta",
-  "status": "Beta – lokale automatische Vorprüfung",
+  "schemaVersion": "2.1",
+  "moduleVersion": "2.1.0.2-Beta",
+  "status": "Beta – formulargebundene lokale Vorprüfung",
   "scope": "Vollständigkeits- und Plausibilitätskontrolle; keine Inbetriebnahmefreigabe",
-  "supportedProtocol": "Prüfbericht Einzelprüfer nach VDE 0100-600 / VDE 0105-100, Formular 4-920-030 V4",
+  "supportedProtocol": "Prüfbericht nach VDE 0100-600 / IEC 60364-6 und VDE 0105-100 / EN 50110, Lfd. Nr. 12782, Standort Wuppertal",
   "referenceForm": {
-    "fileName": "228_SR4_K06_E07.1.pdf",
-    "sha256": "744f24436071c5c9f36d91fc82fa2a6a16f20ec8662bd81f68e3f53321792772",
+    "fileName": "VDEProtokoll.pdf",
+    "sha256": "019b2918bbfa0b7bef71c6b95f1a4813630505397f5ff05ba63495473b625693",
     "pageCount": 1,
     "pageFormat": "A4 portrait",
-    "note": "Ausgefülltes Musterprotokoll zur Kalibrierung der Layoutzonen und als automatisierter End-to-End-Testfall."
+    "embedded": false,
+    "downloadable": false,
+    "note": "Nur abgeleitete Geometrie, Feldzuordnung und Strukturmerkmale sind enthalten; die PDF-Mustervorlage ist nicht Bestandteil der Webanwendung."
   },
   "config": {
     "phaseVoltage": 230,
     "insulationMinMOhm": 1,
     "continuityWarningOhm": 1,
     "voltageDropLimitPercent": 5,
-    "rcdTripTimeLimitMs": 300
+    "rcdTripTimeLimitMs": 300,
+    "layoutScoreMin": 0.58,
+    "fieldInkThreshold": 0.018,
+    "checkboxInkThreshold": 0.055
   },
-  "knownDocuments": {
-    "744f24436071c5c9f36d91fc82fa2a6a16f20ec8662bd81f68e3f53321792772": {
-      "profile": "228_SR4_K06_E07.1",
-      "data": {
-        "protocolType": "supported",
-        "testReason": "Erstprüfung",
-        "building": "228",
-        "room": "SR4",
-        "cabinet": "K06",
-        "feeder": "E07.1",
-        "deviceName": "C.A 6115 / Metrawatt",
-        "deviceNumber": "C.A 6115 / Metrawatt",
-        "calibrationState": "unknown",
-        "cableType": "NYM",
-        "conductors": 5,
-        "crossSection": 6,
-        "length": 40,
-        "protectiveDevice": "C25",
-        "nominalCurrent": 25,
-        "nominalVoltage": 400,
-        "loadCurrent": 25,
-        "visualStatus": "io",
-        "measurementStatus": "io",
-        "functionalStatus": "io",
-        "continuity": 0.18,
-        "insulationValues": ">300; >300; >300; >300; >300; >300; >300; >300",
-        "loopImpedance": 0.27,
-        "voltageDrop": 1.55,
-        "voltageDropPercent": 0.39,
-        "rcdType": "A",
-        "rcdRatedCurrent": 25,
-        "rcdNominalResidual": 30,
-        "rcdTripCurrent": 17.7,
-        "rcdTripTime": 17,
-        "signatureState": "present",
-        "testDate": "2024-06-14",
-        "tester": "Daniel Hoff",
-        "remarks": ""
-      },
-      "confidence": {
-        "protocolType": 1,
-        "testReason": 0.98,
-        "building": 0.98,
-        "room": 0.93,
-        "cabinet": 0.93,
-        "feeder": 0.95,
-        "deviceName": 0.74,
-        "deviceNumber": 0.72,
-        "calibrationState": 0.48,
-        "cableType": 0.9,
-        "conductors": 0.96,
-        "crossSection": 0.95,
-        "length": 0.95,
-        "protectiveDevice": 0.96,
-        "nominalCurrent": 0.97,
-        "nominalVoltage": 0.98,
-        "loadCurrent": 0.97,
-        "visualStatus": 0.92,
-        "measurementStatus": 0.92,
-        "functionalStatus": 0.92,
-        "continuity": 0.96,
-        "insulationValues": 0.91,
-        "loopImpedance": 0.96,
-        "voltageDrop": 0.95,
-        "voltageDropPercent": 0.95,
-        "rcdType": 0.95,
-        "rcdRatedCurrent": 0.95,
-        "rcdNominalResidual": 0.96,
-        "rcdTripCurrent": 0.96,
-        "rcdTripTime": 0.96,
-        "signatureState": 0.96,
-        "testDate": 0.88,
-        "tester": 0.74
-      }
+  "formBounds": [
+    0.079832,
+    0.017221,
+    0.890756,
+    0.94715
+  ],
+  "layoutAnchorsY": [
+    0.017815,
+    0.067696,
+    0.083135,
+    0.127672,
+    0.17696,
+    0.200713,
+    0.246437,
+    0.26247,
+    0.274941,
+    0.286817,
+    0.323634,
+    0.337886,
+    0.446556,
+    0.45962,
+    0.513658,
+    0.529097,
+    0.539192,
+    0.564727,
+    0.592043,
+    0.606295,
+    0.62114,
+    0.63361,
+    0.660926,
+    0.688836,
+    0.701306,
+    0.744062,
+    0.756532,
+    0.789786,
+    0.808789,
+    0.858076,
+    0.874703,
+    0.891924,
+    0.963777
+  ],
+  "layoutAnchorsX": [
+    0.080672,
+    0.970588
+  ],
+  "fieldMap": {
+    "protocolType": {
+      "label": "Formularidentität",
+      "region": [
+        0.079832,
+        0.016627,
+        0.890756,
+        0.066508
+      ],
+      "parser": "form",
+      "context": [
+        0.079832,
+        0.016627,
+        0.890756,
+        0.066508
+      ]
+    },
+    "orderNumber": {
+      "label": "Auftrags-Nr.",
+      "region": [
+        0.084034,
+        0.03266,
+        0.306723,
+        0.03266
+      ],
+      "parser": "text",
+      "context": [
+        0.079832,
+        0.016627,
+        0.310924,
+        0.066508
+      ]
+    },
+    "testReason": {
+      "label": "Prüfgrund",
+      "region": [
+        0.710084,
+        0.083135,
+        0.252101,
+        0.042755
+      ],
+      "parser": "choice",
+      "context": [
+        0.701681,
+        0.067102,
+        0.268908,
+        0.061164
+      ],
+      "checkboxes": [
+        {
+          "value": "Erstprüfung",
+          "box": [
+            0.923529,
+            0.087886,
+            0.010924,
+            0.008314
+          ]
+        },
+        {
+          "value": "Wiederholungsprüfung",
+          "box": [
+            0.92437,
+            0.096793,
+            0.010084,
+            0.008907
+          ]
+        },
+        {
+          "value": "Änderung",
+          "box": [
+            0.92437,
+            0.106295,
+            0.010084,
+            0.008314
+          ]
+        },
+        {
+          "value": "Ex-Bereich",
+          "box": [
+            0.92437,
+            0.115202,
+            0.010084,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "work": {
+      "label": "Werk",
+      "region": [
+        0.084034,
+        0.0962,
+        0.094118,
+        0.028504
+      ],
+      "parser": "text",
+      "context": [
+        0.080672,
+        0.083135,
+        0.10084,
+        0.042755
+      ]
+    },
+    "building": {
+      "label": "Gebäude",
+      "region": [
+        0.183193,
+        0.0962,
+        0.094118,
+        0.028504
+      ],
+      "parser": "text",
+      "context": [
+        0.179832,
+        0.083135,
+        0.10084,
+        0.042755
+      ]
+    },
+    "plantComplex": {
+      "label": "Anlagenkomplex",
+      "region": [
+        0.283193,
+        0.0962,
+        0.094958,
+        0.028504
+      ],
+      "parser": "text",
+      "context": [
+        0.279832,
+        0.083135,
+        0.101681,
+        0.042755
+      ]
+    },
+    "plant": {
+      "label": "Anlage",
+      "region": [
+        0.383193,
+        0.0962,
+        0.094958,
+        0.028504
+      ],
+      "parser": "text",
+      "context": [
+        0.379832,
+        0.083135,
+        0.101681,
+        0.042755
+      ]
+    },
+    "partialPlant": {
+      "label": "Teilanlage",
+      "region": [
+        0.483193,
+        0.0962,
+        0.093277,
+        0.028504
+      ],
+      "parser": "text",
+      "context": [
+        0.479832,
+        0.083135,
+        0.1,
+        0.042755
+      ]
+    },
+    "pltPosition": {
+      "label": "PLT-Stelle",
+      "region": [
+        0.580672,
+        0.0962,
+        0.12521,
+        0.028504
+      ],
+      "parser": "text",
+      "context": [
+        0.577311,
+        0.083135,
+        0.131933,
+        0.042755
+      ]
+    },
+    "pltRoom": {
+      "label": "PLT-Raum",
+      "region": [
+        0.084034,
+        0.140143,
+        0.094118,
+        0.03266
+      ],
+      "parser": "text",
+      "context": [
+        0.080672,
+        0.127078,
+        0.10084,
+        0.046912
+      ]
+    },
+    "distribution": {
+      "label": "Verteilung",
+      "region": [
+        0.183193,
+        0.140143,
+        0.094118,
+        0.03266
+      ],
+      "parser": "text",
+      "context": [
+        0.179832,
+        0.127078,
+        0.10084,
+        0.046912
+      ]
+    },
+    "feeder": {
+      "label": "Abgang",
+      "region": [
+        0.283193,
+        0.140143,
+        0.094958,
+        0.03266
+      ],
+      "parser": "text",
+      "context": [
+        0.279832,
+        0.127078,
+        0.101681,
+        0.046912
+      ]
+    },
+    "subDistribution": {
+      "label": "Unterverteilung",
+      "region": [
+        0.383193,
+        0.140143,
+        0.094958,
+        0.03266
+      ],
+      "parser": "text",
+      "context": [
+        0.379832,
+        0.127078,
+        0.101681,
+        0.046912
+      ]
+    },
+    "outgoing": {
+      "label": "Abgang (UV)",
+      "region": [
+        0.483193,
+        0.140143,
+        0.093277,
+        0.03266
+      ],
+      "parser": "text",
+      "context": [
+        0.479832,
+        0.127078,
+        0.1,
+        0.046912
+      ]
+    },
+    "consumer": {
+      "label": "Verbraucher",
+      "region": [
+        0.580672,
+        0.140143,
+        0.12521,
+        0.03266
+      ],
+      "parser": "text",
+      "context": [
+        0.577311,
+        0.127078,
+        0.131933,
+        0.046912
+      ]
+    },
+    "networkSystem": {
+      "label": "Netzsystem",
+      "region": [
+        0.710084,
+        0.13658,
+        0.252101,
+        0.036817
+      ],
+      "parser": "choice",
+      "context": [
+        0.707563,
+        0.127672,
+        0.263025,
+        0.048694
+      ],
+      "checkboxes": [
+        {
+          "value": "TN",
+          "box": [
+            0.879832,
+            0.146081,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "IT",
+          "box": [
+            0.879832,
+            0.160333,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "installationCategory": {
+      "label": "Anlagenart",
+      "region": [
+        0.084034,
+        0.180523,
+        0.878151,
+        0.016627
+      ],
+      "parser": "multi",
+      "context": [
+        0.079832,
+        0.17696,
+        0.890756,
+        0.023159
+      ],
+      "checkboxes": [
+        {
+          "value": "Gebäudeinstallation",
+          "box": [
+            0.092437,
+            0.185867,
+            0.010924,
+            0.007126
+          ]
+        },
+        {
+          "value": "Maschine",
+          "box": [
+            0.309244,
+            0.185867,
+            0.010924,
+            0.007126
+          ]
+        },
+        {
+          "value": "Beleuchtung",
+          "box": [
+            0.457143,
+            0.185867,
+            0.010924,
+            0.007126
+          ]
+        },
+        {
+          "value": "Steckdose",
+          "box": [
+            0.571429,
+            0.185273,
+            0.010924,
+            0.007126
+          ]
+        },
+        {
+          "value": "Motor",
+          "box": [
+            0.696639,
+            0.184679,
+            0.010924,
+            0.007126
+          ]
+        },
+        {
+          "value": "Sonstiges",
+          "box": [
+            0.810924,
+            0.184679,
+            0.010924,
+            0.007126
+          ]
+        }
+      ]
+    },
+    "device1Name": {
+      "label": "Messgerät 1 – Fabrikat",
+      "region": [
+        0.183193,
+        0.207838,
+        0.190756,
+        0.016033
+      ],
+      "parser": "text",
+      "context": [
+        0.082353,
+        0.201306,
+        0.298319,
+        0.06057
+      ]
+    },
+    "device1Number": {
+      "label": "Messgerät 1 – Typ / Nr.",
+      "region": [
+        0.183193,
+        0.224466,
+        0.190756,
+        0.016033
+      ],
+      "parser": "text",
+      "context": [
+        0.082353,
+        0.201306,
+        0.298319,
+        0.06057
+      ]
+    },
+    "device1Calibration": {
+      "label": "Messgerät 1 – Kalibrierdatum",
+      "region": [
+        0.183193,
+        0.241093,
+        0.190756,
+        0.016033
+      ],
+      "parser": "date",
+      "context": [
+        0.082353,
+        0.201306,
+        0.298319,
+        0.06057
+      ]
+    },
+    "device2Name": {
+      "label": "Messgerät 2 – Fabrikat",
+      "region": [
+        0.483193,
+        0.207838,
+        0.190756,
+        0.016033
+      ],
+      "parser": "text",
+      "context": [
+        0.382353,
+        0.201306,
+        0.298319,
+        0.06057
+      ]
+    },
+    "device2Number": {
+      "label": "Messgerät 2 – Typ / Nr.",
+      "region": [
+        0.483193,
+        0.224466,
+        0.190756,
+        0.016033
+      ],
+      "parser": "text",
+      "context": [
+        0.382353,
+        0.201306,
+        0.298319,
+        0.06057
+      ]
+    },
+    "device2Calibration": {
+      "label": "Messgerät 2 – Kalibrierdatum",
+      "region": [
+        0.483193,
+        0.241093,
+        0.190756,
+        0.016033
+      ],
+      "parser": "date",
+      "context": [
+        0.382353,
+        0.201306,
+        0.298319,
+        0.06057
+      ]
+    },
+    "device3Name": {
+      "label": "Messgerät 3 – Fabrikat",
+      "region": [
+        0.777311,
+        0.207838,
+        0.185714,
+        0.016033
+      ],
+      "parser": "text",
+      "context": [
+        0.676471,
+        0.201306,
+        0.293277,
+        0.06057
+      ]
+    },
+    "device3Number": {
+      "label": "Messgerät 3 – Typ / Nr.",
+      "region": [
+        0.777311,
+        0.224466,
+        0.185714,
+        0.016033
+      ],
+      "parser": "text",
+      "context": [
+        0.676471,
+        0.201306,
+        0.293277,
+        0.06057
+      ]
+    },
+    "device3Calibration": {
+      "label": "Messgerät 3 – Kalibrierdatum",
+      "region": [
+        0.777311,
+        0.241093,
+        0.185714,
+        0.016033
+      ],
+      "parser": "date",
+      "context": [
+        0.676471,
+        0.201306,
+        0.293277,
+        0.06057
+      ]
+    },
+    "cableType": {
+      "label": "Kabel-/Leitungstyp",
+      "region": [
+        0.083193,
+        0.296912,
+        0.092437,
+        0.023159
+      ],
+      "parser": "text",
+      "context": [
+        0.080672,
+        0.286223,
+        0.097479,
+        0.036817
+      ]
+    },
+    "crossSection": {
+      "label": "Querschnitt",
+      "region": [
+        0.177311,
+        0.296912,
+        0.102521,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.17479,
+        0.286223,
+        0.107563,
+        0.036817
+      ]
+    },
+    "conductors": {
+      "label": "Aderzahl",
+      "region": [
+        0.281513,
+        0.296912,
+        0.1,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.278992,
+        0.286223,
+        0.105042,
+        0.036817
+      ]
+    },
+    "length": {
+      "label": "Länge",
+      "region": [
+        0.384034,
+        0.296912,
+        0.093277,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.381513,
+        0.286223,
+        0.098319,
+        0.036817
+      ]
+    },
+    "protectiveDevice": {
+      "label": "Überstromschutz – Typ",
+      "region": [
+        0.479832,
+        0.296912,
+        0.09916,
+        0.023159
+      ],
+      "parser": "text",
+      "context": [
+        0.477311,
+        0.286223,
+        0.104202,
+        0.036817
+      ]
+    },
+    "nominalCurrent": {
+      "label": "Überstromschutz – In",
+      "region": [
+        0.580672,
+        0.296912,
+        0.065546,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.578151,
+        0.286223,
+        0.070588,
+        0.036817
+      ]
+    },
+    "nominalVoltage": {
+      "label": "Verbraucher – Un",
+      "region": [
+        0.648739,
+        0.296912,
+        0.060504,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.646218,
+        0.286223,
+        0.065546,
+        0.036817
+      ]
+    },
+    "loadCurrent": {
+      "label": "Verbraucher – Ib",
+      "region": [
+        0.710924,
+        0.296912,
+        0.052941,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.708403,
+        0.286223,
+        0.057983,
+        0.036817
+      ]
+    },
+    "voltageDrop": {
+      "label": "Spannungsfall ΔU",
+      "region": [
+        0.823529,
+        0.296912,
+        0.076471,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.821008,
+        0.286223,
+        0.081513,
+        0.036817
+      ]
+    },
+    "voltageDropPercent": {
+      "label": "Spannungsfall ε",
+      "region": [
+        0.902521,
+        0.296912,
+        0.064706,
+        0.023159
+      ],
+      "parser": "number",
+      "context": [
+        0.9,
+        0.286223,
+        0.069748,
+        0.036817
+      ]
+    },
+    "inspection31": {
+      "label": "3.1 Auswahl der Betriebsmittel gemäß Umgebungsbedingungen",
+      "region": [
+        0.082353,
+        0.337292,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.337292,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.343824,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.343824,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.343824,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection32": {
+      "label": "3.2 Montage gemäß Herstellerangaben",
+      "region": [
+        0.082353,
+        0.347387,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.347387,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.353919,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.353919,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.353919,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection33": {
+      "label": "3.3 Anschluss und Zugänglichkeit",
+      "region": [
+        0.082353,
+        0.356888,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.356888,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.36342,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.36342,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.36342,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection34": {
+      "label": "3.4 Kennzeichnung und Dokumentation",
+      "region": [
+        0.082353,
+        0.366983,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.366983,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.373515,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.373515,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.373515,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection35": {
+      "label": "3.5 Betriebsmittel ohne erkennbare Schäden",
+      "region": [
+        0.082353,
+        0.376485,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.376485,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.383017,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.383017,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.383017,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection36": {
+      "label": "3.6 Schutz gegen direktes Berühren",
+      "region": [
+        0.082353,
+        0.38658,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.38658,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.393112,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.393112,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.393112,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection37": {
+      "label": "3.7 Leitungsauswahl / Strombelastbarkeit",
+      "region": [
+        0.082353,
+        0.396675,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.396675,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.403207,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.403207,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.403207,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection38": {
+      "label": "3.8 Zuordnung Schutzeinrichtung / Querschnitt",
+      "region": [
+        0.082353,
+        0.406176,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.406176,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.412708,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.412708,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.412708,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection39": {
+      "label": "3.9 Einstellung Überstromschutz",
+      "region": [
+        0.082353,
+        0.416271,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.416271,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.422803,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.422803,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.422803,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection40": {
+      "label": "3.10 Anordnung von Trenn- und Schaltgeräten",
+      "region": [
+        0.082353,
+        0.425772,
+        0.478992,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.425772,
+        0.478992,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.480672,
+            0.432304,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515126,
+            0.432304,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.432304,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection41": {
+      "label": "3.11 Einpolige Schaltgeräte im Außenleiter",
+      "region": [
+        0.482353,
+        0.337292,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.337292,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.343824,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.343824,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.343824,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection42": {
+      "label": "3.12 Leitungsverlegung und Befestigung",
+      "region": [
+        0.482353,
+        0.347387,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.347387,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.353919,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.353919,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.353919,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection43": {
+      "label": "3.13 Schottung von Leitungsdurchführungen",
+      "region": [
+        0.482353,
+        0.356888,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.356888,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.36342,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.36342,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.36342,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection44": {
+      "label": "3.14 Schaltungsunterlagen und Hinweisschilder",
+      "region": [
+        0.482353,
+        0.366983,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.366983,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.373515,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.373515,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.373515,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection45": {
+      "label": "3.15 Kennzeichnung Stromkreise / Abgänge",
+      "region": [
+        0.482353,
+        0.376485,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.376485,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.383017,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.383017,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.383017,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection46": {
+      "label": "3.16 Richtige Verwendung von Schutzleitern",
+      "region": [
+        0.482353,
+        0.38658,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.38658,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.393112,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.393112,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.393112,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection47": {
+      "label": "3.17 Kennzeichnung Schutz- und PEN-Leiter",
+      "region": [
+        0.482353,
+        0.396675,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.396675,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.403207,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.403207,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.403207,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection48": {
+      "label": "3.18 Anschlussstellen Schutz- und PEN-Leiter",
+      "region": [
+        0.482353,
+        0.406176,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.406176,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.412708,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.412708,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.412708,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection49": {
+      "label": "3.19 Schutzpotenzialausgleich",
+      "region": [
+        0.482353,
+        0.416271,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.416271,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.422803,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.422803,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.422803,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "inspection50": {
+      "label": "3.20 Zusätzlicher Schutzpotenzialausgleich",
+      "region": [
+        0.482353,
+        0.425772,
+        0.487395,
+        0.016033
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.425772,
+        0.487395,
+        0.016033
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.432304,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.432304,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.432304,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "bondingMain": {
+      "label": "4.1 Schutzpotenzialausgleich über Haupterdungsschiene",
+      "region": [
+        0.714286,
+        0.463777,
+        0.155462,
+        0.010689
+      ],
+      "parser": "number",
+      "context": [
+        0.082353,
+        0.461995,
+        0.887395,
+        0.014252
+      ]
+    },
+    "bondingMainStatus": {
+      "label": "4.1 Schutzpotenzialausgleich über Haupterdungsschiene – Bewertung",
+      "region": [
+        0.872269,
+        0.463777,
+        0.095798,
+        0.010689
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.461995,
+        0.887395,
+        0.014252
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.463777,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.463777,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.463777,
+            0.010924,
+            0.010689
+          ]
+        }
+      ]
+    },
+    "bondingAdditional": {
+      "label": "4.2 Zusätzlicher Schutzpotenzialausgleich",
+      "region": [
+        0.714286,
+        0.475059,
+        0.155462,
+        0.010689
+      ],
+      "parser": "number",
+      "context": [
+        0.082353,
+        0.473278,
+        0.887395,
+        0.014252
+      ]
+    },
+    "bondingAdditionalStatus": {
+      "label": "4.2 Zusätzlicher Schutzpotenzialausgleich – Bewertung",
+      "region": [
+        0.872269,
+        0.475059,
+        0.095798,
+        0.010689
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.473278,
+        0.887395,
+        0.014252
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.475059,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.475059,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.475059,
+            0.010924,
+            0.010689
+          ]
+        }
+      ]
+    },
+    "continuity": {
+      "label": "4.3 Schutzleiter / Niederohmmessung",
+      "region": [
+        0.714286,
+        0.486936,
+        0.155462,
+        0.010689
+      ],
+      "parser": "number",
+      "context": [
+        0.082353,
+        0.485154,
+        0.887395,
+        0.014252
+      ]
+    },
+    "continuityStatus": {
+      "label": "4.3 Schutzleiter / Niederohmmessung – Bewertung",
+      "region": [
+        0.872269,
+        0.486936,
+        0.095798,
+        0.010689
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.485154,
+        0.887395,
+        0.014252
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.486936,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.486936,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.486936,
+            0.010924,
+            0.010689
+          ]
+        }
+      ]
+    },
+    "networkImpedance": {
+      "label": "4.4 Aktive Leiter / Netzinnenimpedanz",
+      "region": [
+        0.714286,
+        0.498219,
+        0.155462,
+        0.010689
+      ],
+      "parser": "number",
+      "context": [
+        0.082353,
+        0.496437,
+        0.887395,
+        0.014252
+      ]
+    },
+    "networkImpedanceStatus": {
+      "label": "4.4 Aktive Leiter / Netzinnenimpedanz – Bewertung",
+      "region": [
+        0.872269,
+        0.498219,
+        0.095798,
+        0.010689
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.496437,
+        0.887395,
+        0.014252
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.498219,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.498219,
+            0.010924,
+            0.010689
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.498219,
+            0.010924,
+            0.010689
+          ]
+        }
+      ]
+    },
+    "insulationValues": {
+      "label": "5. Isolationswiderstände L-L, L-PE/PEN, N-PE, SELV/PELV/Schutztrennung",
+      "region": [
+        0.082353,
+        0.565914,
+        0.887395,
+        0.024941
+      ],
+      "parser": "list",
+      "context": [
+        0.079832,
+        0.528504,
+        0.890756,
+        0.063539
+      ]
+    },
+    "shutdownDeviceType": {
+      "label": "6.1 Überstromschutz – Typ",
+      "region": [
+        0.083193,
+        0.634798,
+        0.082353,
+        0.050475
+      ],
+      "parser": "text",
+      "context": [
+        0.080672,
+        0.62114,
+        0.087395,
+        0.065914
+      ]
+    },
+    "shutdownNominalCurrent": {
+      "label": "6.1 Überstromschutz – In",
+      "region": [
+        0.167227,
+        0.634798,
+        0.09916,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.164706,
+        0.62114,
+        0.104202,
+        0.065914
+      ]
+    },
+    "loopImpedance": {
+      "label": "6.1 Schleifenimpedanz Zs",
+      "region": [
+        0.268067,
+        0.634798,
+        0.052101,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.265546,
+        0.62114,
+        0.057143,
+        0.065914
+      ]
+    },
+    "shortCircuitCurrent": {
+      "label": "6.1 Kurzschlussstrom Ik",
+      "region": [
+        0.321849,
+        0.634798,
+        0.051261,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.319328,
+        0.62114,
+        0.056303,
+        0.065914
+      ]
+    },
+    "protectiveResistance": {
+      "label": "6.1 RPE + RA",
+      "region": [
+        0.37479,
+        0.634798,
+        0.095798,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.372269,
+        0.62114,
+        0.10084,
+        0.065914
+      ]
+    },
+    "rcdType": {
+      "label": "6.2 RCD – Typ",
+      "region": [
+        0.472269,
+        0.634798,
+        0.072269,
+        0.050475
+      ],
+      "parser": "text",
+      "context": [
+        0.469748,
+        0.62114,
+        0.077311,
+        0.065914
+      ]
+    },
+    "rcdRatedCurrent": {
+      "label": "6.2 RCD – In",
+      "region": [
+        0.546218,
+        0.634798,
+        0.063025,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.543697,
+        0.62114,
+        0.068067,
+        0.065914
+      ]
+    },
+    "rcdNominalResidual": {
+      "label": "6.2 RCD – IΔn",
+      "region": [
+        0.610924,
+        0.634798,
+        0.07395,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.608403,
+        0.62114,
+        0.078992,
+        0.065914
+      ]
+    },
+    "rcdTripCurrent": {
+      "label": "6.2 RCD – Auslösestrom",
+      "region": [
+        0.760504,
+        0.634798,
+        0.082353,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.757983,
+        0.62114,
+        0.087395,
+        0.065914
+      ]
+    },
+    "rcdTripTime": {
+      "label": "6.2 RCD – Auslösezeit",
+      "region": [
+        0.844538,
+        0.634798,
+        0.081513,
+        0.050475
+      ],
+      "parser": "number",
+      "context": [
+        0.842017,
+        0.62114,
+        0.086555,
+        0.065914
+      ]
+    },
+    "touchVoltageState": {
+      "label": "6.2 Berührungsspannung UB < UL",
+      "region": [
+        0.927731,
+        0.634798,
+        0.042017,
+        0.050475
+      ],
+      "parser": "choice",
+      "context": [
+        0.92521,
+        0.62114,
+        0.047059,
+        0.065914
+      ]
+    },
+    "test71": {
+      "label": "7.1 Funktion Isolationsüberwachung im IT-System",
+      "region": [
+        0.082353,
+        0.699525,
+        0.478992,
+        0.017221
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.699525,
+        0.478992,
+        0.017221
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.481513,
+            0.706057,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515966,
+            0.706057,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.706057,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "test72": {
+      "label": "7.2 Prüfung RCD",
+      "region": [
+        0.082353,
+        0.712589,
+        0.478992,
+        0.017221
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.712589,
+        0.478992,
+        0.017221
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.481513,
+            0.719121,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515966,
+            0.719121,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.719121,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "test73": {
+      "label": "7.3 Spannungspolarität",
+      "region": [
+        0.082353,
+        0.725653,
+        0.478992,
+        0.017221
+      ],
+      "parser": "choice",
+      "context": [
+        0.082353,
+        0.725653,
+        0.478992,
+        0.017221
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.481513,
+            0.732185,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.515966,
+            0.732185,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.54958,
+            0.732185,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "test74": {
+      "label": "7.4 Drehrichtung bei Motoren",
+      "region": [
+        0.482353,
+        0.699525,
+        0.487395,
+        0.017221
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.699525,
+        0.487395,
+        0.017221
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.706057,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.706057,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.706057,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "test75": {
+      "label": "7.5 Rechtsdrehfeld bei Steckdosen",
+      "region": [
+        0.482353,
+        0.712589,
+        0.487395,
+        0.017221
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.712589,
+        0.487395,
+        0.017221
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.719121,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.719121,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.719121,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "test76": {
+      "label": "7.6 Funktionsprüfung der Gerätekombination",
+      "region": [
+        0.482353,
+        0.725653,
+        0.487395,
+        0.017221
+      ],
+      "parser": "choice",
+      "context": [
+        0.482353,
+        0.725653,
+        0.487395,
+        0.017221
+      ],
+      "checkboxes": [
+        {
+          "value": "io",
+          "box": [
+            0.879832,
+            0.732185,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nio",
+          "box": [
+            0.914286,
+            0.732185,
+            0.010924,
+            0.008907
+          ]
+        },
+        {
+          "value": "nrel",
+          "box": [
+            0.948739,
+            0.732185,
+            0.010924,
+            0.008907
+          ]
+        }
+      ]
+    },
+    "testerPoints": {
+      "label": "Prüfergebnis – bestätigte Prüfpunkte",
+      "region": [
+        0.084034,
+        0.760095,
+        0.420168,
+        0.026722
+      ],
+      "parser": "multi",
+      "context": [
+        0.079832,
+        0.744062,
+        0.890756,
+        0.045131
+      ],
+      "checkboxes": [
+        {
+          "value": "2",
+          "box": [
+            0.094118,
+            0.767815,
+            0.010924,
+            0.008314
+          ]
+        },
+        {
+          "value": "3",
+          "box": [
+            0.128571,
+            0.767815,
+            0.010924,
+            0.008314
+          ]
+        },
+        {
+          "value": "4",
+          "box": [
+            0.163025,
+            0.767815,
+            0.010924,
+            0.008314
+          ]
+        },
+        {
+          "value": "5",
+          "box": [
+            0.197479,
+            0.767815,
+            0.010924,
+            0.008314
+          ]
+        },
+        {
+          "value": "6",
+          "box": [
+            0.231933,
+            0.767815,
+            0.010924,
+            0.008314
+          ]
+        }
+      ]
+    },
+    "testerName": {
+      "label": "Prüfer – Name",
+      "region": [
+        0.294118,
+        0.792162,
+        0.147059,
+        0.014846
+      ],
+      "parser": "text",
+      "context": [
+        0.079832,
+        0.789786,
+        0.890756,
+        0.025534
+      ]
+    },
+    "testerCompany": {
+      "label": "Prüfer – Firma",
+      "region": [
+        0.470588,
+        0.792162,
+        0.147059,
+        0.014846
+      ],
+      "parser": "text",
+      "context": [
+        0.079832,
+        0.789786,
+        0.890756,
+        0.025534
+      ]
+    },
+    "testDate": {
+      "label": "Prüfer – Datum",
+      "region": [
+        0.621849,
+        0.792162,
+        0.12605,
+        0.014846
+      ],
+      "parser": "date",
+      "context": [
+        0.079832,
+        0.789786,
+        0.890756,
+        0.025534
+      ]
+    },
+    "signatureState": {
+      "label": "Prüfer – Unterschrift",
+      "region": [
+        0.756303,
+        0.790974,
+        0.197479,
+        0.016627
+      ],
+      "parser": "signature",
+      "context": [
+        0.079832,
+        0.789786,
+        0.890756,
+        0.025534
+      ]
+    },
+    "commissioningPoints": {
+      "label": "Inbetriebnehmer – bestätigte Prüfpunkte",
+      "region": [
+        0.084034,
+        0.820665,
+        0.159664,
+        0.020784
+      ],
+      "parser": "multi",
+      "context": [
+        0.079832,
+        0.808789,
+        0.890756,
+        0.049881
+      ],
+      "checkboxes": [
+        {
+          "value": "6",
+          "box": [
+            0.094118,
+            0.828979,
+            0.010924,
+            0.00772
+          ]
+        },
+        {
+          "value": "7",
+          "box": [
+            0.128571,
+            0.828979,
+            0.010924,
+            0.00772
+          ]
+        }
+      ]
+    },
+    "commissioningName": {
+      "label": "Inbetriebnehmer – Name",
+      "region": [
+        0.294118,
+        0.859264,
+        0.147059,
+        0.013064
+      ],
+      "parser": "text",
+      "context": [
+        0.079832,
+        0.858076,
+        0.890756,
+        0.016033
+      ]
+    },
+    "commissioningCompany": {
+      "label": "Inbetriebnehmer – Firma",
+      "region": [
+        0.470588,
+        0.859264,
+        0.147059,
+        0.013064
+      ],
+      "parser": "text",
+      "context": [
+        0.079832,
+        0.858076,
+        0.890756,
+        0.016033
+      ]
+    },
+    "commissioningDate": {
+      "label": "Inbetriebnehmer – Datum",
+      "region": [
+        0.621849,
+        0.859264,
+        0.12605,
+        0.013064
+      ],
+      "parser": "date",
+      "context": [
+        0.079832,
+        0.858076,
+        0.890756,
+        0.016033
+      ]
+    },
+    "commissioningSignature": {
+      "label": "Inbetriebnehmer – Unterschrift",
+      "region": [
+        0.756303,
+        0.859264,
+        0.197479,
+        0.013064
+      ],
+      "parser": "signature",
+      "context": [
+        0.079832,
+        0.858076,
+        0.890756,
+        0.016033
+      ]
+    },
+    "remarks": {
+      "label": "Bemerkung",
+      "region": [
+        0.083193,
+        0.902613,
+        0.884034,
+        0.059382
+      ],
+      "parser": "text",
+      "context": [
+        0.079832,
+        0.891924,
+        0.890756,
+        0.072447
+      ]
     }
   },
-  "layoutRegions": [
-    {"id":"reason","label":"Prüfgrund","x":0.74,"y":0.035,"w":0.245,"h":0.07,"required":true},
-    {"id":"location","label":"Stammdaten Anlage","x":0.05,"y":0.105,"w":0.93,"h":0.10,"required":true},
-    {"id":"device","label":"Messgerät","x":0.05,"y":0.205,"w":0.93,"h":0.055,"required":true},
-    {"id":"circuit","label":"Stromkreisdaten","x":0.05,"y":0.26,"w":0.93,"h":0.065,"required":true},
-    {"id":"visual","label":"Besichtigen","x":0.05,"y":0.325,"w":0.93,"h":0.17,"required":true},
-    {"id":"continuity","label":"Niederohmmessung","x":0.05,"y":0.505,"w":0.93,"h":0.04,"required":true},
-    {"id":"insulation","label":"Isolationswiderstand","x":0.05,"y":0.545,"w":0.93,"h":0.075,"required":true},
-    {"id":"loop","label":"Schleifenimpedanz","x":0.05,"y":0.62,"w":0.47,"h":0.08,"required":true},
-    {"id":"rcd","label":"Fehlerstrom-Schutzeinrichtung","x":0.52,"y":0.62,"w":0.46,"h":0.13,"required":false},
-    {"id":"drop","label":"Spannungsfall","x":0.05,"y":0.70,"w":0.47,"h":0.055,"required":true},
-    {"id":"functional","label":"Erproben","x":0.05,"y":0.765,"w":0.93,"h":0.085,"required":true},
-    {"id":"remarks","label":"Bemerkungen","x":0.05,"y":0.85,"w":0.93,"h":0.055,"required":false},
-    {"id":"signatures","label":"Bewertung und Unterschriften","x":0.05,"y":0.905,"w":0.93,"h":0.075,"required":true}
-  ],
   "plausibilityRules": [
-    {"id":"MEAS-INS","description":"Isolationswiderstand gegen den konfigurierten Mindestprüfwert vergleichen."},
-    {"id":"MEAS-ZS","description":"Zs rechnerisch aus U0/(Kennlinienfaktor × In) vergleichen; B=5, C=10, D=20."},
-    {"id":"CIRCUIT-IB-IN","description":"Belastungsstrom darf den erfassten Nennstrom nicht überschreiten."},
-    {"id":"MEAS-DU","description":"Spannungsfall gegen das hinterlegte Prüfziel vergleichen."},
-    {"id":"RCD-I","description":"Erfasster RCD-Auslösestrom gegen IΔn vergleichen."},
-    {"id":"RCD-T","description":"Erfasste RCD-Auslösezeit gegen den hinterlegten Standard-Prüfwert vergleichen."}
+    {
+      "id": "FORM-LAYOUT",
+      "description": "Seitenformat und Linienraster werden mit der verbindlichen Mustervorlage abgeglichen."
+    },
+    {
+      "id": "DOC-COMPLETE",
+      "description": "Pflichtfelder, Prüfpunkte 3.1–3.20, 4.1–4.4 und 7.1–7.6 werden vollständig geprüft."
+    },
+    {
+      "id": "MEAS-INS",
+      "description": "Isolationswiderstände werden gegen den konfigurierten Mindestprüfwert geprüft."
+    },
+    {
+      "id": "MEAS-ZS",
+      "description": "Zs wird rechnerisch aus U0/(Kennlinienfaktor × In) verglichen; B=5, C=10, D=20."
+    },
+    {
+      "id": "CIRCUIT-IB-IN",
+      "description": "Verbraucherstrom Ib darf den Nennstrom In nicht überschreiten."
+    },
+    {
+      "id": "MEAS-DU",
+      "description": "Spannungsfall wird gegen das hinterlegte Prüfziel geprüft."
+    },
+    {
+      "id": "RCD-I",
+      "description": "RCD-Auslösestrom wird gegen IΔn geprüft."
+    },
+    {
+      "id": "RCD-T",
+      "description": "RCD-Auslösezeit wird gegen den hinterlegten Standard-Prüfwert geprüft."
+    }
   ]
 }

@@ -1,55 +1,57 @@
-# Testbericht und Abnahme – 2.1.0.1-Beta
+# Testbericht und Abnahme – 2.1.0.2-Beta
 
-Prüfdatum: 04.10.2026  
+Prüfdatum: 06.10.2026  
+Direkte Basis: 2.1.0.1-Beta  
 Stabile Basis: 2.1.0.0
 
 ## Prüfumfang
 
 - vollständiger Bestand mit 16 HTML-Seiten und allen direkten Seitenrouten
-- sechs Rechner, Messstellen-Dokumentation und überarbeitete VDE-0100-600-Prüfung
-- Foto-/PDF-Eingabe, lokales PDF.js-Rendering und Musterfingerabdruck
-- Formularprofil `228_SR4_K06_E07.1.pdf` mit erkanntem offenem Kalibrierstatus
-- geführte Korrektur des offenen Punkts bis zum grünen Abschlussurteil
-- Engine-Regeln für Pflichtangaben, Wertebereiche, Isolationswiderstand, Zs, Ib/In, Spannungsfall und RCD
-- fünf Wissensbeiträge und Werkstoff-Nachschlagewerk
-- Suche, Filter, Sortierung, Favoriten, Navigationsbaum und mobile Darstellung
-- Desktop 1440 × 1050, Tablet 820 × 1180 und Mobil 390 × 844
-- Manifest, Service Worker, Cache-Name, Precache und Offline-Aufrufe
-- lokale Referenzen, JavaScript-/Python-/JSON-Syntax, Vorlagen und SHA-256-Integrität
+- sechs Rechner, Messstellen-Dokumentation und formulargebundene VDE-0100-600-Prüfung
+- Foto-/PDF-Eingabe und lokales PDF.js-Rendering
+- abgeleitetes Profil der leeren Vorlage `VDEProtokoll.pdf` mit SHA-256-Herkunftsnachweis, ohne Auslieferung der PDF
+- A4-/Ausrichtungskontrolle, 33 Linienanker, 93 Feldzuordnungen und Checkbox-Raster
+- Vollständigkeit der Prüfpunkte 3.1–3.20, 4.1–4.4, Abschnitte 6.1/6.2 und 7.1–7.6
+- geführte Auswahl/Korrektur, „nicht relevant“, Bestätigung n.i.O. und grünes/rotes Abschlussurteil
+- Regeln für Wertebereiche, Isolationswiderstand, Durchgängigkeit, Zs, Ib/In, Spannungsfall und RCD
+- fünf Wissensbeiträge, Werkstoff-Nachschlagewerk, Suche, Filter, Sortierung, Favoriten und Navigationsbaum
+- Manifest, Service Worker, Cache-Name, Precache, lokale Referenzen, JavaScript-/Python-/JSON-Syntax und SHA-256-Integrität
 
-## Automatisierte Prüfungen
+## Ausgeführte automatisierte Prüfungen
 
-| Prüfung | Befehl | Ergebnis |
+| Prüfung | Befehl / Verfahren | Ergebnis |
 |---|---|---|
-| Fachliche Funktions-Smoke-Tests | `node tools/functional-smoke-test.js` | Bestanden; bestehende Rechner und neue VDE-Engine einschließlich Positiv-/Negativfällen |
-| Statische Release-Validierung | `python tools/validate_release.py` | Bestanden; 16 Seiten, VDE-Schema, Musterhash, lokale Referenzen, Manifest, Precache, Syntax und Integrität |
-| Browser-/Responsive-/PWA-/Offline-Test | `python tools/browser-smoke-test.py` bei lokalem Server | Bestanden; Desktop, Tablet, Mobil, Muster-PDF, Klärungsablauf, PWA und Offline-Aufrufe |
+| Fachliche Funktions-Smoke-Tests | `node tools/functional-smoke-test.js` | Bestanden; Bestandsrechner, 93 VDE-Feldzuordnungen, positiver Abschlussfall sowie Zs-, RCD- und n.i.O.-Negativfälle |
+| Statische Release-Validierung | `python tools/validate_release.py` | Bestanden; 16 Seiten, lokale Referenzen, Formulargeometrie, UI-Pflichtelemente, Vorlagenschutz, Manifest, Precache und Syntax |
+| Referenzgeometrie | deterministischer Bildvergleich der externen `VDEProtokoll.pdf` gegen die ausgelieferten Linienanker | Bestanden; Layoutscore 100 %, keine falsch erkannten Markierungen im leeren Checkbox-Raster |
 | Prüfsummen | `sha256sum -c SHA256SUMS.txt` | Bestanden |
-| ZIP-Struktur und Dekompression | `unzip -t` sowie Dateibestandsvergleich | Bestanden nach finalem Paketbau |
+| ZIP-Struktur und Dekompression | `unzip -t` und Bestandsvergleich | Bestanden; 79 Dateien unter genau einem Projektstamm, keine Referenz-PDF enthalten |
 
-## VDE-Musterfall
+## Browser-Teststatus
 
-1. Die unveränderte PDF wird lokal geladen und mit PDF.js gerendert.
-2. SHA-256 `744f24436071c5c9f36d91fc82fa2a6a16f20ec8662bd81f68e3f53321792772` ordnet das kalibrierte Musterprofil eindeutig zu.
-3. Mindestens 25 Protokollwerte werden übernommen.
-4. Der im Scan nicht sicher feststellbare Kalibrierstatus bleibt als genau ein offener Punkt bestehen.
-5. Nach Auswahl „Gültig / im Protokoll nachgewiesen“ werden alle Regeln erneut ausgeführt.
-6. Isolationswerte, Niederohmwert, Zs, Ib/In, Spannungsfall sowie RCD-Auslösestrom und -zeit bestehen die hinterlegten Plausibilitätsregeln; das UI zeigt den grünen Haken „Plausibel“.
-7. Separate Engine-Tests weisen nach, dass eine zu hohe Zs und ein RCD-Auslösestrom über IΔn zum Fehler führen.
+`tools/browser-smoke-test.py` wurde auf die neue Oberfläche, den reinen Nutzerupload, das Fehlen einer Musterladefunktion, Formularpassung, Originalvorschau und Originalausschnitt im Klärungsdialog aktualisiert. Die Ausführung war im Build-Container nicht möglich, weil kein Chromium-Binary vorhanden war, der Browser-Download durch die Sandbox mit HTTP 403 blockiert wurde und keine DesktopBrowser-CDP-Adresse bereitgestellt war. Die statische DOM-Prüfung, die JavaScript-Syntaxprüfung, die fachliche Engine-Prüfung und der deterministische Referenzbildtest wurden davon unabhängig erfolgreich ausgeführt.
+
+## Sicherheits- und Sichtbarkeitsprüfung
+
+1. `VDEProtokoll.pdf` ist nicht im Projektbestand vorhanden.
+2. Es gibt weder `#loadSample` noch einen Link oder Download auf die Mustervorlage.
+3. `referenceForm.embedded` und `referenceForm.downloadable` sind `false`.
+4. Vorschau und Feldkontext werden ausschließlich aus `state.pages` des aktuellen Nutzeruploads erzeugt.
+5. Die frühere Regressionstest-Fixture bleibt ohne UI-Verknüpfung ausschließlich im Testbereich erhalten.
 
 ## Abnahmekriterien
 
 1. Kein Bestandsmodul und keine bestehende Direktseite fehlt.
 2. PDF und Bildformate sind auswählbar; die Dokumentenverarbeitung erfolgt lokal.
 3. Unsichere oder fehlende Angaben werden nicht erfunden, sondern als offene Punkte angeboten.
-4. Jeder offene Punkt kann korrigiert, ausgewählt, als nicht relevant oder als n.i.O. bestätigt werden.
+4. Jeder offene Punkt kann korrigiert, ausgewählt oder als nicht relevant behandelt werden; bestätigte Abweichungen bleiben n.i.O.
 5. Ein Abschlussurteil erscheint erst nach vollständiger Klärung.
 6. Bestätigte Abweichungen oder verletzte Regeln führen zum roten X; andernfalls erscheint der grüne Haken.
-7. Der Service Worker aktiviert `sk-plt-tools-v2.1.0.1-Beta` und enthält Engine, Schema, PDF.js sowie Musterdatei im Offline-Precache.
+7. Der Service Worker aktiviert `sk-plt-tools-v2.1.0.2-Beta` und enthält Engine, Schema, Regeln und PDF.js im Offline-Precache.
 8. Alle lokalen Referenzen und Navigationsziele existieren.
 9. `SHA256SUMS.txt` stimmt vollständig mit dem Paketinhalt überein.
 10. Das ZIP enthält den vollständigen Projektordner als einzige oberste Ebene.
 
 ## Ergebnis
 
-**Bestanden.** Die automatisierten Prüfungen wurden am 04.10.2026 für 2.1.0.1-Beta erfolgreich ausgeführt. Der vollständige Vorgängerbestand bleibt funktionsfähig. Die neue VDE-Dokumentenprüfung verarbeitet das Musterformular, führt durch offene Punkte und erzeugt das geforderte grüne beziehungsweise rote Abschlussurteil. Die fachliche Sicherheitsgrenze bleibt sichtbar dokumentiert.
+**Freigabefähig mit dokumentiertem Browser-Infrastrukturhinweis.** Statische, fachliche, geometrische und Integritätsprüfungen sind bestanden. Der vollständige Browser-Smoke-Test ist im Zielsystem mit installiertem Chromium nachzuholen; das entsprechende Testskript ist Bestandteil des Pakets.

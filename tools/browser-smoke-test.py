@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.0.1-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.0.2-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -47,7 +47,7 @@ with sync_playwright() as p:
     desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
     desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == "2.1.0.1-Beta"
+    assert desktop.locator("body").get_attribute("data-sk-version") == "2.1.0.2-Beta"
     assert desktop.locator("header.sk-global-header").bounding_box()["height"] <= 88
     assert_box(desktop, ".sk-favorites-trigger", 48, 48)
     assert_box(desktop, ".sk-tree-trigger", 48, 48)
@@ -114,8 +114,8 @@ with sync_playwright() as p:
     assert external.get_attribute("target") == "_blank"
     assert set((external.get_attribute("rel") or "").split()) >= {"external", "noopener", "noreferrer"}
     assert external.get_attribute("referrerpolicy") == "no-referrer"
-    assert_text(desktop, '.hero .badge', 'Version 2.1.0.1-Beta')
-    assert desktop.locator('text=Version 2.1.0.1-Beta').count() == 1
+    assert_text(desktop, '.hero .badge', 'Version 2.1.0.2-Beta')
+    assert desktop.locator('text=Version 2.1.0.2-Beta').count() == 1
 
     # Suche und Suchübergabe in das getrennte Werkstoffmodul.
     desktop.locator('#skToolSearch').fill('316L')
@@ -176,25 +176,29 @@ with sync_playwright() as p:
     desktop.wait_for_function("document.querySelector('.sk-tree-drawer').getBoundingClientRect().left >= window.innerWidth")
     desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
 
-    # VDE-Musterformular: lokales PDF rendern, automatisch erkennen, offenen
-    # Kalibrierstatus klären und grünes Abschlussurteil erzeugen.
+    # VDE-Prüfung: Es gibt keine sichtbare oder ladbare Mustervorlage. Eine
+    # Datei wird ausschließlich als Nutzerupload eingelesen und angezeigt.
     desktop.goto(f"{BASE}/plausibilitaetspruefung-vde0100-600/")
     desktop.wait_for_load_state("networkidle")
     assert "PDF oder Foto" in desktop.locator("#uploadPanel").inner_text()
-    desktop.locator("#loadSample").click()
+    assert desktop.locator("#loadSample").count() == 0
+    assert desktop.locator('a[href*="VDEProtokoll.pdf"]').count() == 0
+    upload = ROOT / "test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf"
+    desktop.locator("#documentInput").set_input_files(str(upload))
+    assert "228_SR4_K06_E07.1.pdf" in desktop.locator("#fileList").inner_text()
+    desktop.locator("#startAnalysis").click()
     desktop.locator("#reviewPanel").wait_for(state="visible", timeout=30000)
-    assert_text(desktop, "#recognitionBadge", "MUSTER SICHER ERKANNT")
-    assert int(desktop.locator("#statFields").inner_text()) >= 25
-    assert_text(desktop, "#statOpen", "1")
+    assert desktop.locator("#recognitionBadge").inner_text() in {"FORMULAR + OCR", "FORMULARLAYOUT ERKANNT", "PDF-TEXT GELESEN", "MANUELLE FORMULARKLÄRUNG"}
+    assert desktop.locator("#layoutScore").inner_text().endswith("%")
+    assert int(desktop.locator("#statOpen").inner_text()) > 0
     assert desktop.locator("#previewFrame canvas").count() == 1
+    assert desktop.locator("#previewFrame").inner_text() == ""
     desktop.locator("#openIssues").click()
-    assert_text(desktop, "#issueTitle", "Kalibrierstatus nicht feststellbar")
-    desktop.locator("#issueInput").select_option("valid")
-    desktop.locator("#applyCorrection").click()
-    desktop.locator("#resultPanel").wait_for(state="visible")
-    assert_text(desktop, "#verdictTitle", "Plausibel")
-    assert_text(desktop, "#verdictIcon", "✓")
-    desktop.screenshot(path=str(OUT / "vde-muster-plausibel-desktop.png"), full_page=True)
+    assert desktop.locator("#issueCard").is_visible()
+    assert desktop.locator("#issueSource canvas").count() == 1
+    assert desktop.locator("#notRelevant").is_visible()
+    assert desktop.locator("#applyCorrection").is_visible()
+    desktop.screenshot(path=str(OUT / "vde-nutzerupload-klaerung-desktop.png"), full_page=True)
 
     tablet = browser.new_page(viewport={"width": 820, "height": 1180}, device_scale_factor=2, is_mobile=True)
     tablet.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
@@ -202,7 +206,7 @@ with sync_playwright() as p:
         tablet.goto(f"{BASE}{route}")
         tablet.wait_for_load_state("networkidle")
         assert tablet.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
-        assert tablet.locator("body").get_attribute("data-sk-version") == "2.1.0.1-Beta"
+        assert tablet.locator("body").get_attribute("data-sk-version") == "2.1.0.2-Beta"
         assert tablet.locator("header.sk-global-header").bounding_box()["height"] <= 88
         assert_box(tablet, ".sk-favorites-trigger", 48, 48)
         assert_box(tablet, ".sk-tree-trigger", 48, 48)
@@ -258,7 +262,7 @@ with sync_playwright() as p:
     pwa.goto(f"{BASE}/")
     pwa.wait_for_load_state("networkidle")
     manifest = pwa.evaluate("fetch('manifest.webmanifest').then(response => response.json())")
-    assert manifest["version"] == "2.1.0.1-Beta"
+    assert manifest["version"] == "2.1.0.2-Beta"
     assert manifest["id"] == "./?app=sk-plt-tools-2.1.0.1-beta"
     pwa.evaluate("navigator.serviceWorker.ready.then(() => true)")
     if not pwa.evaluate("Boolean(navigator.serviceWorker.controller)"):
@@ -266,8 +270,8 @@ with sync_playwright() as p:
         pwa.wait_for_load_state("networkidle")
     assert pwa.evaluate("Boolean(navigator.serviceWorker.controller)")
     cache_keys = pwa.evaluate("caches.keys()")
-    assert "sk-plt-tools-v2.1.0.1-Beta" in cache_keys
-    cached_urls = pwa.evaluate("caches.open('sk-plt-tools-v2.1.0.1-Beta').then(cache => cache.keys()).then(keys => keys.map(key => new URL(key.url).pathname))")
+    assert "sk-plt-tools-v2.1.0.2-Beta" in cache_keys
+    cached_urls = pwa.evaluate("caches.open('sk-plt-tools-v2.1.0.2-Beta').then(cache => cache.keys()).then(keys => keys.map(key => new URL(key.url).pathname))")
     for required in ('/index.html','/assets/core.css','/assets/app.js','/assets/navigation-tree.json','/assets/vde0100-600-engine.js','/assets/vde0100-600-template.json','/vendor/pdfjs/pdf.min.mjs','/vendor/pdfjs/pdf.worker.min.mjs','/test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf','/siemens-analogwert-rechner/index.html','/wissensdatenbank/werkstoff-nachschlagewerk/index.html'):
         assert required in cached_urls, f"Offline-Cache fehlt: {required}"
     pwa.context.set_offline(True)

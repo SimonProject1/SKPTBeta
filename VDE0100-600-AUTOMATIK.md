@@ -1,50 +1,67 @@
 # Automatische Plausibilitätsprüfung VDE 0100-600
 
-Stand: 2.1.0.1-Beta · Musterformular: `228_SR4_K06_E07.1.pdf`
+Stand: **2.1.0.2-Beta** · verbindliche Formularbasis: Prüfbericht Lfd. Nr. 12782
 
 ## Zweck und Grenze
 
-Das Modul kontrolliert die dokumentierte Vollständigkeit und rechnerische Plausibilität. Es führt keine Messung durch, bestätigt keine normgerechte Errichtung und erteilt keine Inbetriebnahmefreigabe. Unsichere Erkennung wird als offener Punkt angezeigt, niemals stillschweigend ergänzt.
+Das Modul kontrolliert die dokumentierte Vollständigkeit und rechnerische Plausibilität. Es führt keine Messung durch, bestätigt keine normgerechte Errichtung und erteilt keine Inbetriebnahmefreigabe. Unsichere Erkennung wird als offener Punkt angezeigt und niemals stillschweigend ergänzt.
 
-## Eingabe und Datenschutz
+## Mustervorlage und Datenschutz
 
-- PDF, JPEG, PNG und WebP; bis zu acht Dateien in einem Prüflauf
-- PDF-Seiten werden durch die mitgelieferte PDF.js-Laufzeit lokal in Canvas-Flächen gerendert.
-- SHA-256, Textextraktion, Layoutanalyse, Korrekturen und Ergebnis verbleiben im Browser.
-- Es wird kein externer OCR-, Cloud- oder Analysedienst aufgerufen.
+- Die hochgeladene leere Datei `VDEProtokoll.pdf` diente ausschließlich zur Ableitung von Seitengeometrie, Linienankern, Feldzonen und Checkbox-Koordinaten.
+- Die PDF-Mustervorlage ist **nicht** Bestandteil der Webanwendung, wird nicht angezeigt, nicht vorab geladen und nicht zum Download angeboten.
+- In Vorschau und Klärungsdialog erscheinen ausschließlich Seiten beziehungsweise Ausschnitte des vom Nutzer hochgeladenen Protokolls.
+- PDF, JPEG, PNG und WebP werden lokal verarbeitet; PDF.js ist im Projekt enthalten.
+- SHA-256, Textextraktion, Layoutanalyse, Korrekturen und Ergebnis verbleiben im Browser. Externe OCR-, Cloud- oder Analysedienste werden nicht verwendet.
 
-## Erkennungsstufen
+## Erkennungspipeline
 
-1. **Kalibriertes Muster:** Exakter SHA-256-Treffer des bereitgestellten Musterprotokolls übernimmt die verifizierten Referenzwerte und zugehörigen Konfidenzen.
-2. **Digitale PDF:** Eingebetteter Text wird automatisch extrahiert und feldbezogen ausgewertet.
-3. **Lokale Browsererkennung:** Falls der Browser `TextDetector` bereitstellt, wird dessen lokale Erkennung verwendet.
-4. **Visuelles Formularschema:** Layoutzonen und handschriftliche/markierte Bereiche werden bildbasiert erkannt. Werte, die nicht sicher gelesen werden können, werden zur Klärung vorgelegt.
+1. PDF-/Bilddatei lokal einlesen und SHA-256 bilden.
+2. PDF-Seiten lokal rendern beziehungsweise Bilddateien in eine Canvas-Fläche übernehmen.
+3. Hoch- oder Querformat automatisch ausrichten.
+4. A4-Seitenverhältnis, Außenkanten und 33 horizontale Linienanker mit dem Formularprofil abgleichen.
+5. 93 Feldzuordnungen auswerten: Stammdaten, drei Messgeräteblöcke, Objekt-/Stromkreisdaten, Prüfpunkte 3.1–3.20, Messungen 4.1–4.4, Isolation, Abschaltung 6.1/6.2, Erproben 7.1–7.6 und Abschluss.
+6. Checkboxen anhand innerer Markierungsdichte auslesen. Eingebetteter PDF-Text und eine optionale lokale Browser-`TextDetector`-Schnittstelle liefern zusätzliche Werte.
+7. Visuell vorhandene, aber nicht sicher gelesene Einträge als Bestätigungspunkt mit markiertem Originalausschnitt ausgeben.
+8. Nach jeder manuellen Klärung die vollständige Regelmenge neu ausführen.
 
-## Hinterlegte Prüfungen
+## Vollständigkeitsprüfung
 
-- Pflichtangaben und erkennbare Wertebereiche
-- negative Einzelbewertungen und fehlende Bemerkung
-- Isolationswiderstand gegen konfigurierten Mindestprüfwert
+Geprüft werden insbesondere:
+
+- Formularidentität und Prüfgrund
+- ausreichende Bezeichnung des technischen Platzes
+- Netzsystem und Anlagenart
+- Messgerät 1 mit Fabrikat, Typ/Nummer und Kalibrierdatum
+- Leitung, Querschnitt, Aderzahl, Länge, Schutzorgan und Nennwerte
+- jede Bewertung der Prüfpunkte 3.1–3.20
+- Bewertungen und gegebenenfalls Werte der Prüfpunkte 4.1–4.4
+- Isolationswerte
+- mindestens ein nachvollziehbarer Messweg aus Abschnitt 6.1 oder 6.2
+- jede Bewertung der Prüfpunkte 7.1–7.6
+- Prüfpunkte 2–6, Prüfername, Datum und Unterschrift
+
+## Messwert-Plausibilität
+
+- numerische Wertebereiche je Formularfeld
+- Durchgängigkeit/Niederohmwerte gegen einen internen Hinweiswert; dieser ist ausdrücklich kein allgemeiner Normgrenzwert
+- Isolationswiderstände gegen den konfigurierten Mindestprüfwert
 - Schleifenimpedanz mit `Zs ≤ U0 / (Kennlinienfaktor × In)` für B/C/D
-- Belastungsstrom `Ib ≤ In`
-- Spannungsfall gegen konfiguriertes Prüfziel
+- Verbraucherstrom `Ib ≤ In`
+- Spannungsfall gegen das Prüfziel sowie Konsistenz von ΔU, Un und Prozentwert
 - RCD-Auslösestrom gegen `IΔn`
-- RCD-Auslösezeit gegen konfigurierten Standard-Prüfwert
-- Prüferbestätigung und Kalibrierstatus
+- RCD-Auslösezeit gegen den konfigurierten Standard-Prüfwert
+- n.i.O.-Markierungen und fehlende Prüferunterschrift als nicht plausible Abweichung
 
-Die Werte in `assets/vde0100-600-template.json` sind Prüfeinstellungen und müssen für abweichende Anlagen-, Schutz- oder Prüfbedingungen fachlich geprüft werden.
+Die Werte in `assets/vde0100-600-template.json` sind Prüfeinstellungen und müssen bei abweichenden Anlagen-, Schutz- oder Prüfbedingungen fachlich bewertet werden.
 
-## Geführte Klärung
+## Geführte Klärung und Ergebnis
 
-Jeder offene Punkt wird einzeln angezeigt. Zulässige Bearbeitungen:
+Jeder offene Punkt wird einzeln mit einem markierten Ausschnitt des hochgeladenen Originals angezeigt. Mögliche Aktionen:
 
 - erkannte Auswahl bestätigen oder ändern,
 - Text, Datum oder Messwert korrigieren,
 - Punkt als „nicht relevant“ kennzeichnen,
 - erkannte Abweichung als „n.i.O.“ bestätigen.
 
-Nach jeder Bearbeitung wird die vollständige Regelmenge erneut ausgeführt. Erst wenn keine offenen Punkte mehr bestehen, wird das Abschlussurteil erzeugt. Bestätigte Abweichungen oder weiterhin verletzte Messwertregeln führen zu einem roten X; andernfalls erscheint ein grüner Haken.
-
-## Musterwerte im Testfall
-
-Das Muster enthält unter anderem C25, 25 A, 400 V, 0,18 Ω Niederohmwert, >300 MΩ Isolationswerte, 0,27 Ω Schleifenimpedanz, 0,39 % Spannungsfall sowie RCD-Werte 30 mA / 17,7 mA / 17 ms. Der Kalibrierstatus ist im Scan nicht sicher feststellbar und wird bewusst als offener Punkt behandelt.
+Erst nach vollständiger Klärung wird das Abschlussurteil erzeugt. Bestätigte Abweichungen oder verletzte Messwertregeln führen zum roten X „Nicht plausibel“; andernfalls erscheint der grüne Haken „Plausibel“.
