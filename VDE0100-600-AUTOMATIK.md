@@ -1,55 +1,74 @@
 # Automatische Plausibilitätsprüfung VDE 0100-600
 
-Stand: **2.1.0.3-Beta** · direkte Basis: **2.1.0.2-Beta** · verbindliche Formularbasis: Prüfbericht Lfd. Nr. 12782
+Stand: **2.1.0.4-Beta** · direkte Basis: **2.1.0.3-Beta** · verbindliche Formularbasis: Prüfbericht Lfd. Nr. 12782
 
 ## Zweck und Grenze
 
-Das Modul kontrolliert lokal die dokumentierte Vollständigkeit und rechnerische Plausibilität. Es führt keine Messung durch, bestätigt keine normgerechte Errichtung und erteilt keine Inbetriebnahmefreigabe. Unsichere Erkennung wird als offener Punkt angezeigt und niemals stillschweigend ergänzt.
+Das Modul kontrolliert lokal die dokumentierte Vollständigkeit und rechnerische Plausibilität. Es führt keine Messung durch, bestätigt keine normgerechte Errichtung und erteilt keine Inbetriebnahmefreigabe. Unsichere Erkennung bleibt ein offener Punkt und wird niemals stillschweigend als i.O. oder n.i.O. gewertet.
 
-## Referenz und Datenschutz
+## Referenz und Testeingaben
 
-- `VDEProtokoll.pdf` ist die autorisierte leere Referenz.
-- Im Projekt werden nur der korrekte SHA-256, normalisierte Strukturmerkmale, Linienanker, Feldzonen und Blank-Baselines gespeichert.
-- Die Referenz-PDF selbst wird nicht eingebettet oder zum Download angeboten.
-- Die reale ausgefüllte Test-PDF ist kein Release-Bestandteil und wird nicht offline gecacht.
+- `VDEProtokoll.pdf` ist die verbindliche leere Referenz.
+- Im Release werden ausschließlich Referenz-Hash, normalisierte Strukturmerkmale, Linienanker, Feldzonen und Blank-Baselines gespeichert.
+- Die Referenz-PDF selbst ist nicht eingebettet oder downloadbar.
+- Ausgefüllte reale Protokolle sind ausschließlich externe Testeingaben und werden weder gepackt noch vorgecacht.
 - PDF, JPEG, PNG und WebP werden lokal im Browser verarbeitet.
+
+## Entscheidungsmodell
+
+### 1. Formularidentität
+
+Die Strukturpassung ist ein technischer Qualitätsindikator, kein fachliches Prüfergebnis.
+
+- Ab 90 % oder bei exaktem Referenz-Hash: eindeutige Referenzidentität.
+- Von 68 % bis unter 90 %: abweichende/unsichere Identität; Referenzmapping ist technisch möglich.
+- Unter 68 %: stark unsichere Identität; kein automatisches positionsgebundenes Mapping, aber manuelle Zuordnung bleibt möglich.
+- In keinem Fall erzeugt die Formularidentität allein n.i.O. oder ein rotes X.
+
+Bei unsicherer Identität werden angeboten:
+
+1. **Formular trotzdem verwenden** – erkannte Zuordnungen übernehmen; alle unsicheren oder fehlenden Angaben bleiben offen.
+2. **Zuordnung manuell prüfen** – erkannte Werte einzeln am Original bestätigen oder korrigieren; fehlende Werte danach ergänzen.
+3. **Andere Datei hochladen** – aktuelle Auswahl verwerfen und zum Upload zurückkehren.
+
+### 2. Kreuze
+
+Für jeden erforderlichen Auswahlpunkt gilt:
+
+- genau ein zulässiger Wert wird akzeptiert;
+- kein Kreuz, mehrere Kreuze, ein nicht zulässiger Wert oder ein unsicherer Kandidat erzeugt einen offenen Einzelpunkt;
+- der Originalausschnitt und die zulässigen Werte werden zur Bestätigung angezeigt;
+- eine bestätigte n.i.O.-Markierung bleibt ein sicherheitsrelevanter Mangel;
+- der Formularwert „nicht relevant“ ist nur dort zulässig, wo das Feldschema ihn fachlich vorsieht.
+
+### 3. Pflichtangaben und Messwerte
+
+- Pflichtangaben ohne sicheren Wert werden nacheinander geklärt.
+- Für 4.1 bis 4.4 ist bei bestätigtem i.O. der zugehörige Messwert erforderlich.
+- Für die automatische Abschaltung muss mindestens ein vollständiger Messweg aus 6.1 oder 6.2 vorliegen.
+- Isolationswerte, Schleifenimpedanz, RCD-Werte, Stromrelation und Spannungsfall werden auf Wertebereich und rechnerische Plausibilität geprüft.
+- Pflichtfelder und sicherheitsrelevante Abweichungen sind nicht über „nicht relevant“ überspringbar.
+
+### 4. Ergebnis
+
+- Offene Punkte sperren die Ergebnisansicht.
+- **Grüner Haken:** alle erforderlichen Kreuze sind eindeutig, alle Pflichtangaben und Messwerte liegen vor und keine Plausibilitätsregel schlägt fehl.
+- **Rotes X:** mindestens ein Mangel, eine fehlende Pflichtangabe oder ein rechnerisch unplausibler Messwert wurde bestätigt.
+- Ein unsicheres oder abweichendes Formular allein kann nie ein rotes Ergebnis erzeugen.
 
 ## Erkennungspipeline
 
 1. Datei lokal einlesen und SHA-256 bilden.
-2. PDFs mit lokalem PDF.js bis zu einer stabilen Analyseauflösung rendern; Fotos hochwertig skalieren.
-3. Helligkeitsverteilung robust normalisieren.
-4. Alle vier Seitenorientierungen vergleichen; anschließend ±1°/±2° Feinausrichtung bewerten.
-5. Formularidentität als Ensemble bestimmen:
-   - 18 × 24 Zellraster,
-   - 96 horizontale und 64 vertikale Dichteprojektionen,
-   - 33 horizontale und zwei vertikale Linienanker,
-   - A4-Seitenverhältnis,
-   - bei der unveränderten Referenz zusätzlich exakter SHA-256.
-6. Formulare ab 90 % Strukturpassung akzeptieren, 84–90 % manuell klären und unter 84 % hart ablehnen.
-7. Positionsgebundene Felder nur bei akzeptierter oder klärbarer Formularidentität auslesen. Hart abgelehnte Fremdformulare erzeugen keine falschen Feldwerte.
-8. 93 Feldzuordnungen mit der leeren Referenz baseline-bereinigen.
-9. Checkboxen anhand von Blauanteil, zusätzlicher Dunkeldichte und Strichwechseln im Boxeninneren bewerten.
-10. Handschriftliche Einträge als visuelle Evidenz kennzeichnen und – sofern lokale Texterkennung verfügbar ist – mit dem gelesenen Wert zusammenführen.
-11. Unterschriften in der eigentlichen Schreibzone gegen den Blank-Zustand bewerten; Drucklinien und Beschriftungen gelten nicht als Unterschrift.
-12. Typabhängige Konfidenz anwenden und unsichere Werte in die Klärungswarteschlange stellen.
-13. Nach jeder manuellen Entscheidung die vollständige Regelmenge erneut berechnen.
+2. PDF mit lokalem PDF.js rendern oder Foto skalieren.
+3. Kontrast normalisieren und vier Orientierungen sowie ±1°/±2° Feinausrichtung vergleichen.
+4. Struktur-Ensemble aus 18 × 24 Raster, 96 horizontalen und 64 vertikalen Projektionen, Linienankern und A4-Seitenverhältnis bilden.
+5. Sofern technisch möglich, 93 Referenzfeldzonen auswerten.
+6. Checkboxen über Blank-Differenz, Blauanteil, Dunkeldichte und Strichwechsel klassifizieren; sichere und unsichere Kandidaten getrennt protokollieren.
+7. Handschrift, Zahlen, Datumswerte und Unterschriften mit feldbezogener Konfidenz übernehmen.
+8. Vollständigkeits- und Plausibilitätsregeln berechnen.
+9. Offene Punkte einzeln klären und nach jeder Entscheidung alle Regeln erneut ausführen.
 
-## Konfidenz und Klärung
-
-- Choice-, Checkbox-, Zahlen- und Datumswerte benötigen grundsätzlich mindestens 80 %.
-- Freitext benötigt mindestens 74 %.
-- Niedrigere Werte bleiben offen, auch wenn ein Kandidat erkannt wurde.
-- Jeder offene Punkt erscheint einzeln mit Originalausschnitt.
-- Der technische Platz ist ein gemeinsamer Mehrfeld-Punkt; mindestens zwei Ortsfelder müssen bestätigt werden.
-- Pflichtfelder, harte Formularabweichungen, fehlende Prüferunterschrift und sicherheitsrelevante Messwert-/Statusabweichungen können nicht als „nicht relevant“ entfernt werden.
-- Fachlich bedingte Statusfelder können den expliziten Formularwert „nicht relevant“ erhalten; optionale Metadaten können als optional nicht relevant dokumentiert werden.
-
-## Vollständigkeitsprüfung
-
-Geprüft werden insbesondere Formularidentität, Prüfgrund, mindestens zwei Ortsangaben, Netzsystem, Anlagenart, Messgerät 1 einschließlich Kalibrierdatum, Leitungs- und Schutzdaten, Prüfpunkte 3.1–3.20, Bewertungen 4.1–4.4, Isolationswerte, mindestens ein Messweg aus 6.1/6.2, Prüfpunkte 7.1–7.6 sowie Prüferangaben einschließlich Unterschrift.
-
-## Messwert-Plausibilität
+## Fachliche Plausibilitätsregeln
 
 - numerische Feldbereiche,
 - Durchgängigkeit/Niederohmwerte gegen einen dokumentierten internen Hinweiswert,
@@ -59,11 +78,4 @@ Geprüft werden insbesondere Formularidentität, Prüfgrund, mindestens zwei Ort
 - Spannungsfall gegen Prüfziel und rechnerische Konsistenz von ΔU, Un und Prozent,
 - RCD-Auslösestrom gegen `IΔn`,
 - RCD-Auslösezeit gegen den konfigurierten Standard-Prüfwert,
-- bestätigte n.i.O.-Markierungen und fehlende Prüferunterschrift als rotes Ergebnis.
-
-## Abschluss
-
-Nach vollständiger Klärung erscheint unverändert:
-
-- **grüner Haken – Plausibel**, wenn keine offene oder bestätigte Abweichung verbleibt;
-- **rotes X – Nicht plausibel**, wenn mindestens eine Sicherheits-, Vollständigkeits- oder Messwertregel fehlschlägt.
+- bestätigte n.i.O.-Markierungen und fehlende Prüferunterschrift.

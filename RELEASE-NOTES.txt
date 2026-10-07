@@ -1,31 +1,35 @@
-SK PLT Tools 2.1.0.3-Beta
-Direkte Basis: 2.1.0.2-Beta
+SK PLT Tools 2.1.0.4-Beta
+Direkte Basis: 2.1.0.3-Beta
 Stabile Referenz: 2.1.0.0
-Datum: 06.10.2026
+Datum: 07.10.2026
 
-VDE-0100-600-Erkennung
-- Mehrstufige lokale, KI-ähnliche Erkennung aus Struktur-Fingerabdruck, Projektionen, Linienankern, A4-Geometrie und Konfidenzen.
-- PDF- und Foto-Vorverarbeitung mit Kontrastnormalisierung, Vierfach-Orientierung, Feinausrichtung und hochwertiger Skalierung.
-- Verbindliche leere Referenz VDEProtokoll.pdf mit korrigiertem SHA-256 019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2.
-- 93 Feldzonen mit Blank-Baselines; robuste Checkbox-, Handschrift-/Tinten- und Unterschriftsevidenz.
-- Harte Ablehnung eindeutiger Fremd-/Altformulare ohne positionsgebundenes Feldmapping.
-- Typabhängige Konfidenzschwellen; unsichere Kandidaten werden als offene Punkte geführt.
+VDE-0100-600 – korrigiertes Bewertungsmodell
+- Formularidentität und fachliches Prüfergebnis vollständig getrennt.
+- Teilweise oder abweichende Strukturpassung, einschließlich 78 %, ist nur ein technischer Hinweis.
+- Keine automatische n.i.O.-Bewertung und kein rotes X aufgrund der Formularidentität.
+- Referenzmapping ab 68 % technisch möglich; darunter manuelle Zuordnung statt Blockade.
+- Neue Optionen für unsichere Formulare: „Formular trotzdem verwenden“, „Zuordnung manuell prüfen“ und „Andere Datei hochladen“.
+- Genau-ein-Kreuz-Regel für erforderliche Auswahlpunkte; fehlende, mehrfache, ungültige und unsichere Kreuze werden einzeln geklärt.
+- Fehlende und unsichere Pflichtwerte werden nacheinander bearbeitet.
+- Endergebnis bleibt gesperrt, solange offene Punkte vorhanden sind.
+- Rotes X nur bei bestätigtem Mangel, bestätigter fehlender Pflichtangabe oder rechnerisch unplausiblem Messwert.
+- Grüner Haken nur bei vollständigen eindeutigen Kreuzen, Pflichtangaben und plausiblen Messwerten.
+- Pflichtfelder und sicherheitsrelevante Abweichungen bleiben nicht als „nicht relevant“ überspringbar.
 
-Klärung und Sicherheit
-- Ortsangaben-Deadlock durch gemeinsamen Mehrfeld-Dialog für den technischen Platz behoben.
-- Manuelle Klärung bleibt sequentiell und zeigt den Originalausschnitt.
-- „Nicht relevant“ ist nur für fachlich zugelassene Statusfelder oder optionale Metadaten verfügbar.
-- Pflichtfelder, harte Formularabweichungen, fehlende Unterschriften und sicherheitsrelevante n.i.O.-/Messwertabweichungen sind nicht überspringbar.
-- Grüner Haken für plausibel und rotes X für nicht plausibel bleiben erhalten.
+Referenz und Datenschutz
+- Verbindliche externe Referenz: VDEProtokoll.pdf.
+- Die ausgefüllte reale Test-PDF wird ausschließlich extern getestet und ist nicht im Release enthalten.
+- Keine aus der realen Test-PDF abgeleitete Vorschau im Release.
+- Datenschutz-Gates in Builder und Validator bleiben aktiv.
 
-Datenschutz und Integrität
-- Reale ausgefüllte Test-PDF, ihr Precache-Eintrag und die daraus abgeleitete alte Bildschirmkopie aus dem Release entfernt.
-- Datenschutz-Gates in Release-Builder und Validator verhindern die erneute Aufnahme der bekannten Testdatei.
-- Referenz-PDF bleibt extern; nur Hash, Strukturmerkmale und Blank-Baselines werden ausgeliefert.
+Tests
+- Funktions-Smoke einschließlich 78-%-Formidentität, Mehrfachkreuz, ungültigem Kreuz, grünem Positivfall und rotem bestätigtem Pflichtmangel.
+- End-to-End mit leerer Referenz-PDF, PNG, JPEG, ausgefüllter externer Test-PDF und Smartphone-Foto.
+- Responsive Browser-Smoke für Desktop, Tablet und Mobil sowie PWA-/Offline-Prüfung.
+- Statische Release-, Manifest-, Cache-, Datenschutz- und Prüfsummenvalidierung.
 
-PWA, Version und Tests
-- Version, Manifest, PWA-ID/Start-URL, Cache, Precache, Query-Versionen, Release-Konfiguration, Dokumentation und Prüfsummen auf 2.1.0.3-Beta synchronisiert.
-- PWA-ID/Start-URL: ./?app=sk-plt-tools-2.1.0.3-beta
-- Cache: sk-plt-tools-v2.1.0.3-Beta
-- Browser-Smoke-Test leitet den Sollwert aus VERSION ab; der veraltete harte PWA-Sollwert ist entfernt.
-- Externe End-to-End-Suite prüft leere Referenz als PDF/PNG/JPEG und die reale ausgefüllte PDF ausschließlich als Testeingabe.
+Technische Identität
+- Version: 2.1.0.4-Beta
+- PWA-ID/Start-URL: ./?app=sk-plt-tools-2.1.0.4-beta
+- Cache: sk-plt-tools-v2.1.0.4-Beta
+- Archiv: SK-PLT-Tools-V2.1.0.4-Beta.zip

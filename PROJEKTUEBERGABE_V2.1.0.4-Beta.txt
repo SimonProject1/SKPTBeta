@@ -1,0 +1,35 @@
+PROJEKTÜBERGABE – SK PLT Tools V2.1.0.4-Beta
+
+Direkte Basis: V2.1.0.3-Beta
+Stabile Referenz: V2.1.0.0
+Stand: 07.10.2026
+
+Übergeben wird der vollständige statische Projektbestand mit 16 Direktseiten, Offline-PWA, Rechnern, Wissensdatenbank, Werkstoffmodul und überarbeiteter VDE-0100-600-Plausibilitätsprüfung.
+
+Wesentliche Änderungen:
+- Formularidentität ist nur noch technischer Hinweis und niemals automatischer n.i.O.-Grund.
+- Eine teilweise oder abweichende Identität, beispielsweise 78 %, blockiert die fachliche Prüfung nicht.
+- Unsichere Formulare bieten „Formular trotzdem verwenden“, „Zuordnung manuell prüfen“ und „Andere Datei hochladen“.
+- Referenzmapping wird ab 68 % Strukturpassung versucht; darunter folgt manuelle Zuordnung ohne Negativurteil.
+- Jeder erforderliche Auswahlpunkt akzeptiert genau ein zulässiges Kreuz.
+- Kein, mehrere, ungültige oder unsichere Kreuze werden einzeln geklärt.
+- Fehlende oder unsichere Pflichtwerte und Messwerte werden sequenziell geklärt.
+- Kein Endergebnis bei offenen Punkten.
+- Rotes X nur bei bestätigten Mängeln, bestätigten fehlenden Pflichtangaben oder rechnerisch unplausiblen Messwerten.
+- Grüner Haken bei vollständigen eindeutigen Kreuzen, Pflichtangaben und plausiblen Messwerten.
+- Pflichtfelder und sicherheitsrelevante Abweichungen bleiben nicht als „nicht relevant“ überspringbar.
+- Responsive Schrittanzeige korrigiert: Übersicht und Offenpunktdialog bleiben im Schritt „Klärung“, erst das Resultat aktiviert „Ergebnis“.
+
+Technische Identität:
+- Version: 2.1.0.4-Beta
+- PWA-ID: ./?app=sk-plt-tools-2.1.0.4-beta
+- Cache: sk-plt-tools-v2.1.0.4-Beta
+- Archiv: SK-PLT-Tools-V2.1.0.4-Beta.zip
+
+Externe Testeingaben:
+- autorisierte leere Referenz-PDF VDEProtokoll.pdf,
+- ausgefülltes historisches Protokoll ausschließlich außerhalb des Releases,
+- Smartphone-Foto wird im Testlauf temporär aus der externen Testeingabe erzeugt.
+
+Fachliche Grenze:
+Die Anwendung ist eine dokumentierte Zweitkontrolle, keine Messung, Zertifizierung oder Inbetriebnahmefreigabe.

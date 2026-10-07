@@ -1,4 +1,4 @@
-/* SK PLT Tools · VDE 0100-600 Plausibilitäts-Engine · 2.1.0.3-Beta */
+/* SK PLT Tools · VDE 0100-600 Plausibilitäts-Engine · 2.1.0.4-Beta */
 (function(root,factory){
   const api=factory();
   if(typeof module==='object'&&module.exports)module.exports=api;
@@ -6,13 +6,13 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
 
-  const VERSION='2.1.0.3-Beta';
+  const VERSION='2.1.0.4-Beta';
   const statusOptions=[['io','i.O.'],['nio','n.i.O.'],['nrel','nicht relevant']];
   const optional=(definition={})=>({required:false,allowSkip:true,...definition});
   const conditionalStatus=definition=>({required:true,allowSemanticNotRelevant:true,safetyCritical:true,...definition,options:statusOptions});
 
   const FIELD_DEFS={
-    protocolType:{label:'Formularidentität',section:'Dokument',type:'choice',required:true,safetyCritical:true,options:[['supported','VDEProtokoll · Lfd. Nr. 12782'],['other','Anderes oder nicht sicher erkanntes Formular']]},
+    protocolType:{label:'Formularidentität',section:'Dokument',type:'choice',required:true,safetyCritical:false,options:[['supported','VDEProtokoll · Lfd. Nr. 12782'],['other','Abweichendes oder nicht sicher erkanntes Formular']]},
     orderNumber:optional({label:'Auftrags-Nr.',section:'Stammdaten',type:'text'}),
     testReason:{label:'Prüfgrund',section:'Stammdaten',type:'choice',required:true,safetyCritical:true,options:[['Erstprüfung','Erstprüfung'],['Wiederholungsprüfung','Wiederholungsprüfung'],['Änderung','Prüfung nach Instandsetzung'],['Ex-Bereich','Prüfung im Ex-Bereich'],['other','Sonstiger Prüfgrund']]},
     work:optional({label:'Werk',section:'Stammdaten',type:'text'}),building:optional({label:'Gebäude',section:'Stammdaten',type:'text'}),plantComplex:optional({label:'Anlagenkomplex',section:'Stammdaten',type:'text'}),plant:optional({label:'Anlage',section:'Stammdaten',type:'text'}),partialPlant:optional({label:'Teilanlage',section:'Stammdaten',type:'text'}),pltPosition:optional({label:'PLT-Stelle',section:'Stammdaten',type:'text'}),
@@ -51,24 +51,32 @@
   function canIgnoreMissing(key,data){const def=FIELD_DEFS[key];return Boolean(def?.allowSkip&&!def.required&&(data._notRelevant||[]).includes(key))}
 
   function checkData(input,config={}){
-    const data=normalize(input),checks=[],visual=data._visualPresence||{};
+    const data=normalize(input),checks=[],visual=data._visualPresence||{},choiceMarks=data._choiceMarks||{};
     const add=(id,section,status,title,detail,fields=[],severity='error',limit=null,meta={})=>checks.push({id,section,status,title,detail,fields,severity,limit,...meta});
-    const score=Number(data._layoutScore||0),reject=Number(config.layoutScoreReject??.84);
-    const formRejected=data._formStatus==='rejected'||(data._formStatus&&score<reject);
-    if(formRejected){
-      add('FORM-LAYOUT','Dokument','fail','Nicht unterstütztes Formular',`Die Strukturpassung beträgt ${Math.round(score*100)} %. Die Feldzuordnung für Lfd. Nr. 12782 wird nicht angewendet.`,['protocolType'],'error',null,{safetyCritical:true});
-      return checks;
+    const score=Number(data._layoutScore||0),formDecision=data._formIdentityDecision||'';
+    if(data._formStatus&&data._formStatus!=='accepted'&&!formDecision){
+      add('FORM-IDENTITY','Dokument','open','Formularidentität technisch unsicher',`Die Strukturpassung beträgt ${Math.round(score*100)} %. Dieser Wert ist nur ein technischer Hinweis und keine n.i.O.-Bewertung. Die fachliche Prüfung kann fortgesetzt werden, sofern Prüfbereiche, Kreuze und Messwerte zugeordnet oder manuell bestätigt werden.`,['protocolType'],'warning',null,{groupControl:'formIdentity',safetyCritical:false,technicalOnly:true});
     }
-    if(data._formStatus==='ambiguous'&&data.protocolType!=='supported')add('FORM-IDENTITY','Dokument','open','Formularidentität manuell bestätigen',`Die Strukturpassung beträgt ${Math.round(score*100)} %. Bitte nur bestätigen, wenn das Original tatsächlich dem Prüfbericht Lfd. Nr. 12782 entspricht.`,['protocolType'],'warning',null,{safetyCritical:true});
-    else if(data.protocolType&&data.protocolType!=='supported')add('FORM-LAYOUT','Dokument','fail','Formular nicht der verbindlichen Mustervorlage zugeordnet',`Ermittelter Layoutwert: ${Math.round(score*100)} %. Erwartet wird der einseitige Prüfbericht Lfd. Nr. 12782.`,['protocolType'],'error',null,{safetyCritical:true});
 
     Object.entries(FIELD_DEFS).forEach(([key,def])=>{
-      if(def.required&&!present(data[key]))add(`REQ-${key}`,def.section,'open',visual[key]?`${def.label}: Eintrag bestätigen`:`${def.label} ist offen`,visual[key]?'Im zugeordneten Formularfeld wurde ein Eintrag erkannt, aber nicht sicher gelesen. Bitte den Wert am eingeblendeten Originalausschnitt bestätigen oder korrigieren.':'Im verbindlichen Formularfeld wurde kein sicherer Wert erkannt. Bitte Original prüfen und den Pflichtwert ergänzen.',[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical)});
+      const mark=choiceMarks[key],confidentCount=Number(mark?.confidentCount||0),allowed=new Set((def.options||[]).map(option=>option[0]));
+      const choiceConflict=def.type==='choice'&&confidentCount>1;
+      if(choiceConflict)add(`CHOICE-MULTIPLE-${key}`,def.section,'open',`${def.label}: mehrere Kreuze erkannt`,'Für diesen Prüfpunkt ist genau ein zulässiges Kreuz erforderlich. Bitte die eindeutige Bewertung am Original auswählen.',[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical),missingRequired:Boolean(def.required),kind:'multiple-choice'});
+      if(present(data[key])&&def.type==='choice'&&!allowed.has(data[key]))add(`CHOICE-INVALID-${key}`,def.section,'open',`${def.label}: Kreuz nicht eindeutig zuordenbar`,'Der erkannte Wert entspricht keiner zulässigen Auswahl. Bitte genau eine zulässige Bewertung bestätigen.',[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical),missingRequired:Boolean(def.required),kind:'uncertain-choice'});
+      if(def.required&&!present(data[key])&&!choiceConflict){
+        const choice=def.type==='choice'&&key!=='protocolType';
+        add(`REQ-${key}`,def.section,'open',choice?`${def.label}: kein eindeutiges Kreuz erkannt`:visual[key]?`${def.label}: Eintrag bestätigen`:`${def.label} ist offen`,choice?'Zu diesem erforderlichen Prüfpunkt muss genau ein zulässiges Kreuz bestätigt werden.':visual[key]?'Im zugeordneten Formularfeld wurde ein Eintrag erkannt, aber nicht sicher gelesen. Bitte den Wert am eingeblendeten Originalausschnitt bestätigen oder korrigieren.':'Im verbindlichen Formularfeld wurde kein sicherer Wert erkannt. Bitte Original prüfen und den Pflichtwert ergänzen.',[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical),missingRequired:true,kind:choice?'missing-choice':'missing-value'});
+      }
       if(present(data[key])&&def.type==='number'){
         const value=number(data[key]);if(value===null||value<def.min||value>def.max)add(`RANGE-${key}`,def.section,'fail',`${def.label} liegt außerhalb des Erfassungsbereichs`,`Erkannt: ${data[key]} ${def.unit||''}. Zulässiger Bereich: ${def.min} bis ${def.max} ${def.unit||''}.`,[key],'error',null,{safetyCritical:true});
       }
       if(present(data[key])&&def.type==='date'&&!validDate(data[key]))add(`DATE-${key}`,def.section,'open',`${def.label} ist nicht eindeutig`,'Datum bitte im Format TT.MM.JJJJ beziehungsweise über die Datumsauswahl bestätigen.',[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical)});
     });
+
+    if(formDecision==='manual'){
+      const reviewed=new Set(data._manualReviewed||[]),manualFields=Array.isArray(data._manualReviewFields)?data._manualReviewFields:Object.keys(FIELD_DEFS).filter(key=>present(data[key]));
+      manualFields.forEach(key=>{const def=FIELD_DEFS[key];if(def&&key!=='protocolType'&&present(data[key])&&!reviewed.has(key)&&!checks.some(item=>item.fields.includes(key)&&item.status!=='pass'))add(`REVIEW-${key}`,def.section,'open',`${def.label}: Zuordnung manuell prüfen`,'Die Formularidentität ist technisch unsicher. Bitte den zugeordneten Wert am Original bestätigen oder korrigieren.',[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical),manualReview:true})});
+    }
 
     const locationKeys=['work','building','plantComplex','plant','partialPlant','pltPosition','pltRoom','distribution','feeder','subDistribution','outgoing','consumer'];
     const locationCount=locationKeys.filter(key=>present(data[key])).length;
@@ -112,8 +120,9 @@
 
     const confidence=data._confidence||{};
     Object.entries(confidence).forEach(([key,value])=>{
+      if(key==='protocolType')return;
       const def=FIELD_DEFS[key],threshold=confidenceThreshold(def);
-      if(def&&present(data[key])&&Number(value)<threshold&&!canIgnoreMissing(key,data)&&!checks.some(item=>item.fields.includes(key)&&item.status!=='pass'))add(`CONF-${key}`,def.section,'open',`${def.label} unsicher erkannt`,`Erkennungsqualität ${Math.round(Number(value)*100)} %; erforderlich sind ${Math.round(threshold*100)} %. Bitte Wert am Original bestätigen oder korrigieren.`,[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical)});
+       if(def&&present(data[key])&&Number(value)<threshold&&!canIgnoreMissing(key,data)&&!checks.some(item=>item.fields.includes(key)&&item.status!=='pass'))add(`CONF-${key}`,def.section,'open',`${def.label} unsicher erkannt`,`Erkennungsqualität ${Math.round(Number(value)*100)} %; erforderlich sind ${Math.round(threshold*100)} %. Bitte Wert am Original bestätigen oder korrigieren.`,[key],'warning',null,{safetyCritical:Boolean(def.safetyCritical),missingRequired:Boolean(def.required),kind:def.type==='choice'?'uncertain-choice':'uncertain-value'});
     });
     return checks;
   }
@@ -122,10 +131,10 @@
     const field=check.fields[0],def=FIELD_DEFS[field]||{label:field,type:'text',section:check.section};
     const semantic=check.status==='open'&&check.fields.length===1&&Boolean(def.allowSemanticNotRelevant);
     const skippable=check.status==='open'&&check.fields.length===1&&Boolean(def.allowSkip)&&!def.required&&!check.safetyCritical;
-    return{id:check.id,title:check.title,message:check.detail,section:check.section,severity:check.severity,field,fields:check.fields,definition:def,detected:data[field],status:check.status,resolution:null,groupControl:check.groupControl||null,safetyCritical:Boolean(check.safetyCritical||def.safetyCritical),allowNotRelevant:semantic||skippable,notRelevantMode:semantic?'value':skippable?'skip':null};
+    return{id:check.id,title:check.title,message:check.detail,section:check.section,severity:check.severity,field,fields:check.fields,definition:def,detected:data[field],status:check.status,resolution:null,groupControl:check.groupControl||null,safetyCritical:Boolean(check.safetyCritical||def.safetyCritical),technicalOnly:Boolean(check.technicalOnly),missingRequired:Boolean(check.missingRequired),kind:check.kind||null,manualReview:Boolean(check.manualReview),allowNotRelevant:semantic||skippable,notRelevantMode:semantic?'value':skippable?'skip':null};
   }
   function buildIssues(data,config){const seen=new Set();return checkData(data,config).filter(item=>item.status==='open'||item.status==='fail').map(item=>issueFromCheck(item,data)).filter(item=>!seen.has(item.id)&&seen.add(item.id))}
-  function finalState(data,issues=[],config){const unresolved=issues.filter(item=>!item.resolution),checks=checkData(data,config),failed=checks.filter(item=>item.status==='fail');return{complete:unresolved.length===0,plausible:unresolved.length===0&&failed.length===0,unresolved,failed,checks}}
+  function finalState(data,issues=[],config,confirmedDefects=[]){const unresolved=issues.filter(item=>!item.resolution),checks=checkData(data,config),failed=checks.filter(item=>item.status==='fail'),confirmed=[...confirmedDefects];return{complete:unresolved.length===0,plausible:unresolved.length===0&&failed.length===0&&confirmed.length===0,unresolved,failed,confirmedDefects:confirmed,checks}}
   function parseDate(value){const text=String(value||'').trim(),m=text.match(/(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{2,4})/);if(!m)return'';const year=m[3].length===2?`20${m[3]}`:m[3];return `${year}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`}
   function parseText(text){
     const raw=String(text||''),compact=raw.replace(/\s+/g,' '),data={_confidence:{},_confidenceReason:{}};

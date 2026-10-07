@@ -1,7 +1,7 @@
-# Testbericht und Abnahme – 2.1.0.3-Beta
+# Testbericht und Abnahme – 2.1.0.4-Beta
 
-**Prüfdatum:** 06.10.2026  
-**Direkte Basis:** 2.1.0.2-Beta  
+**Prüfdatum:** 07.10.2026  
+**Direkte Basis:** 2.1.0.3-Beta  
 **Stabile Referenz:** 2.1.0.0  
 **Gesamturteil:** Release-fähige Beta für die dokumentierte Zweitkontrolle; keine elektrotechnische Zertifizierung oder Inbetriebnahmefreigabe.
 
@@ -9,86 +9,108 @@
 
 - vollständiger Projektbestand mit 16 Direktseiten,
 - VDE-Domänenengine und sequentielle Klärungsoberfläche,
+- technische Formularidentität ohne automatische fachliche Negativbewertung,
 - autorisierte leere Referenz als PDF sowie daraus erzeugte PNG-/JPEG-Fotopfade,
 - reale ausgefüllte historische PDF ausschließlich als externe Testeingabe,
+- daraus ausschließlich temporär erzeugtes Smartphone-Foto,
 - Formularabgleich, Feldmapping, Konfidenz, Checkboxen und Unterschriften,
+- Genau-ein-Kreuz-Regel und sequenzielle Klärung fehlender, mehrfacher, ungültiger oder unsicherer Kreuze,
 - Pflicht-/Sicherheits-Governance und Ortsangaben-Mehrfeldklärung,
 - Messwert-Plausibilität einschließlich Positiv-, Grenz- und Negativfällen,
-- Desktop, Tablet, Mobil, Manifest, Service Worker, Offline-Aufrufe,
+- Desktop, Tablet, Mobil, Manifest, Service Worker und Offline-Aufrufe,
 - Release-Struktur, Datenschutz-Gate, lokale Referenzen, Syntax und SHA-256.
 
-## Fehler aus 2.1.0.2-Beta
+## Fehlerbild aus 2.1.0.3-Beta und Korrektur
 
 | Fehler | Korrektur | Retest |
 |---|---|---:|
-| Klärungs-Deadlock Ortsangabe | `MASTER-IDENT` enthält alle zwölf Ortsfelder; gemeinsamer Dialog verlangt mindestens zwei Angaben und ist nicht überspringbar. | PASS |
-| Personenbezogene Testdatei im Release | Reale ausgefüllte PDF, Precache-Eintrag und alte VDE-Vorschau entfernt; Builder und Validator besitzen ein Inhalts-/Dateinamen-Gate. | PASS |
-| Falsche Formularerkennung | Struktur-Ensemble mit harter Ablehnung unter 84 %; abgelehnte Formulare erhalten kein Feldmapping. | PASS |
-| Falsche Unterschriften im leeren Formular | Referenzbereinigte Schreibzonen mit Tinten-, Dichte- und Strichwechsel-Evidenz. Beide leeren Signaturfelder werden als „Fehlt“ erkannt. | PASS |
-| Instabile Fotoerkennung / falsche Checkboxen | Kontrastnormalisierung, Vierfach-Orientierung, Feinausrichtung, Innenmasken und Blank-Baselines. PDF/PNG/JPEG liefern null falsche Checkboxwerte. | PASS |
-| Falscher Referenz-Hash | Autorisierter SHA-256 auf `019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2` korrigiert und validiert. | PASS |
-| Überspringbare Pflichtabweichungen | Feldbezogene Auflösungsrichtlinie; Pflicht-, Formular-, Signatur-, n.i.O.- und Messwertfehler sind nicht als „nicht relevant“ auflösbar. | PASS |
-| Veralteter PWA-Sollwert | Browser-Test leitet App-ID und Cache aus `VERSION` ab; Sollwert 2.1.0.3-Beta. | PASS |
+| Strukturpassung unter 84 % führte automatisch zu `FORM-LAYOUT = fail`. | Formularidentität liefert nur noch `FORM-IDENTITY = open` mit `technicalOnly`; kein automatisches n.i.O. | PASS |
+| Abweichendes Formular blockierte das Feldmapping vollständig. | Technisches Mapping ab 68 %; darunter manuelle Pflichtfeldzuordnung ohne Negativurteil. | PASS |
+| Für ein unsicheres Formular war nur die Bestätigung als n.i.O. vorgesehen. | Drei eindeutige Optionen: „Formular trotzdem verwenden“, „Zuordnung manuell prüfen“, „Andere Datei hochladen“. | PASS |
+| Mehrere oder unsichere Kreuze waren nicht als eigener Regeltyp dokumentiert. | `CHOICE-MULTIPLE-*`, `CHOICE-INVALID-*`, Kandidatenkonfidenz und Genau-ein-Kreuz-Regel. | PASS |
+| Ein Endergebnis durfte logisch nicht von einer offenen Formularfrage abhängen. | Ergebnisansicht bleibt bei jeder offenen Pflicht-, Kreuz-, Messwert- oder Formularentscheidung gesperrt. | PASS |
+| Formularabweichung konnte ein rotes X verursachen. | Rot nur bei bestätigtem Mangel, bestätigter fehlender Pflichtangabe oder rechnerischem Messwertfehler. | PASS |
+| Schrittanzeige markierte im Offenpunktdialog bereits „Ergebnis“. | Übersicht und Offenpunktdialog bleiben im Schritt „Klärung“; „Ergebnis“ wird erst am Ende aktiv. | PASS |
 
 ## Automatisierte Ergebnisse
 
 | ID | Prüfung | Ergebnis |
 |---|---|---:|
-| T01 | JavaScript-Funktions-Smoke einschließlich VDE-Regeln | PASS · 90 Assertions |
-| T02 | VDE-End-to-End: leere Referenz-PDF | PASS · Struktur 99,12 % |
-| T03 | VDE-End-to-End: Referenz als PNG | PASS · Struktur 97,96 % |
-| T04 | VDE-End-to-End: komprimiertes JPEG | PASS · Struktur 95,67 % |
-| T05 | VDE-End-to-End: historisches Fremdformular | PASS · 81,97 %, hart abgelehnt, 0 positionsgebundene Felder |
-| T06 | Leere Signaturfelder | PASS · beide „Fehlt“, keine Falsch-Positiven |
-| T07 | Leere Checkboxen | PASS · 0 Falsch-Positive in 3.x/4.x/7.x |
-| T08 | Pflicht-/Sicherheitsabweichungen nicht überspringbar | PASS |
-| T09 | Grüner Positivfall / roter Negativfall in der Engine | PASS |
-| T10 | Vollständiger Browser-Smoke | PASS · 16 Direktseiten, Desktop/Tablet/Mobil, PWA und Offline |
-| T11 | Statische Release-Validierung | PASS · 16 Seiten, 93 Feldzonen, Referenzprofil, Datenschutz und lokale Assets |
-| T12 | Interne SHA-256-Liste | PASS · 78 Einträge |
+| T01 | JavaScript-Funktions-Smoke einschließlich VDE-Regeln | PASS · 98 Assertions |
+| T02 | Referenz-PDF, exakter Hash | PASS · Struktur 99,12 % |
+| T03 | Referenz als PNG | PASS · Struktur 97,96 % |
+| T04 | Referenz als komprimiertes JPEG | PASS · Struktur 95,67 % |
+| T05 | Ausgefüllte externe Test-PDF | PASS · Struktur 81,97 % · Formularhinweis, kein automatischer Fehler |
+| T06 | Smartphone-Foto aus externer Testeingabe | PASS · Struktur 82,75 % · Formularhinweis, kein automatischer Fehler |
+| T07 | Drei Optionen für unsichere Formularidentität | PASS · exakte Beschriftung und Funktion geprüft |
+| T08 | 78-%-Regressionsfall in der Domänenengine | PASS · technisch offen, kein `fail` |
+| T09 | Kein Endergebnis bei offenen Punkten | PASS · PDF und Smartphone |
+| T10 | Genau-ein-Kreuz-Regel | PASS · fehlend, mehrfach, ungültig und unsicher offen |
+| T11 | Pflicht-/Sicherheitsabweichungen nicht überspringbar | PASS |
+| T12 | Grüner Positivfall | PASS |
+| T13 | Roter Fall durch bestätigte fehlende Pflichtangabe | PASS |
+| T14 | Messwertregeln für Zs, RCD, Isolation, Ib/In und Spannungsfall | PASS |
+| T15 | Vollständiger Browser-Smoke | PASS · 16 Direktseiten, Desktop/Tablet/Mobil, PWA und Offline |
+| T16 | Statische Release-Validierung | PASS · Struktur, Versionen, Datenschutz, lokale Assets und Syntax |
+| T17 | Interne SHA-256-Liste | PASS · vollständige Dateiliste |
 
 ## Kernergebnisse der Protokolltests
 
 ### Leere verbindliche Referenz
 
-- Exakter Referenz-Hash wird erkannt.
-- Strukturpassung: 99,12 %.
+- SHA-256: `019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2`.
+- PDF-Strukturpassung: 99,12 %.
+- PNG-Strukturpassung: 97,96 %.
+- JPEG-Strukturpassung: 95,67 %.
 - Keine leere Checkbox wird als i.O., n.i.O. oder n.rel. klassifiziert.
-- Prüfer- und Inbetriebnehmer-Unterschrift werden nicht als vorhanden gemeldet.
+- Prüfer- und Inbetriebnehmer-Unterschrift werden als fehlend erkannt.
 - Fehlende Pflichtwerte erscheinen einzeln als offene Punkte.
 
-### Foto-/Rasterpfad
+### Externe ausgefüllte Test-PDF
 
-- PNG: 97,96 %, JPEG: 95,67 %.
-- Beide Varianten bleiben sicher oberhalb der Annahmeschwelle von 90 %.
-- Trotz Skalierung und JPEG-Kompression entstehen keine falschen Checkbox- oder Signatur-Positiven.
+- Strukturpassung: 81,97 %.
+- Status: abweichende/unsichere Formularidentität, nicht n.i.O.
+- `FORM-IDENTITY` ist offen und technisch; `FORM-LAYOUT` existiert nicht mehr als Fehlerpfad.
+- Die drei geforderten Formularoptionen sind sichtbar.
+- Nach „Formular trotzdem verwenden“ bleibt die fachliche Offenpunktliste erhalten.
+- Vor Klärung aller Punkte ist die Ergebnisansicht nicht erreichbar.
 
-### Externes ausgefülltes historisches Formular
+### Smartphone-Foto
 
-- Strukturpassung: 81,97 % und damit unter der harten Ablehnungsschwelle von 84 %.
-- Das Dokument wird als „NICHT UNTERSTÜTZT“ geführt.
-- Es werden keine positionsgebundenen Formularwerte extrahiert.
-- Die Formularabweichung kann weder als „nicht relevant“ markiert noch manuell auf „unterstützt“ umgestellt werden.
-- Nach Bestätigung der Abweichung erscheint das rote X „Nicht plausibel“.
+- Temporär aus der externen Test-PDF erzeugte JPEG-Aufnahme mit 1170 Pixel Breite, JPEG-Qualität 68 und angepasstem Kontrast.
+- Strukturpassung: 82,75 %.
+- Dieselbe nicht blockierende Formularlogik wie im PDF-Pfad.
+- Mobile Darstellung bei 390 × 844 Pixel geprüft.
+- „Zuordnung manuell prüfen“ aktiviert die feldweise Klärung; kein Endergebnis erscheint vor Abschluss.
 
-## Messwert- und Governance-Nachweise
+### 78-%-Fehlbewertung
 
-Bestanden wurden unter anderem Zs-Grenzen für B/C/D, `Ib ≤ In`, Spannungsfallgrenze und Konsistenz, Isolation, Durchgängigkeitshinweis, RCD-Auslösestrom/-zeit, ungültige Datums-/Bereichswerte, fehlende Prüferunterschrift, n.i.O.-Einzelbewertungen, harter Fremdformularschutz sowie manipulierte `_notRelevant`-Zustände. Ein vollständiger positiver Datensatz ergibt weiterhin den grünen Haken.
+Ein synthetischer Engine-Regressionsfall mit exakt 78 % Strukturpassung erzeugt ausschließlich den technischen offenen Punkt `FORM-IDENTITY`. Es entsteht kein `fail`, kein automatisches n.i.O. und kein rotes X. Nach „Formular trotzdem verwenden“ wird die fachliche Prüfung fortgesetzt.
+
+## Ergebnis-Governance
+
+- Offene Punkte werden in der Ergebnislogik nicht als abgeschlossen behandelt.
+- Automatisch erkannte n.i.O.-Kreuze und rechnerische Grenzwertverletzungen werden vor dem roten Ergebnis bestätigt.
+- Fehlende Pflichtangaben können als Mangel bestätigt werden; dadurch wird das Endergebnis rot.
+- Nicht sicher erkannte Werte werden bestätigt oder korrigiert.
+- Der grüne Positivfall verlangt vollständige Pflichtdaten, eindeutige zulässige Kreuze und plausible Messwerte.
+- Pflichtfelder und sicherheitsrelevante Abweichungen können nicht als „nicht relevant“ übersprungen werden.
 
 ## Datenschutz- und Release-Nachweis
 
-- Keine reale ausgefüllte Protokoll-PDF im Projekt.
-- Kein bekannter Dateiinhalt und kein Precache-Eintrag der externen Testdatei.
-- Die leere Referenz-PDF ist ebenfalls nicht eingebettet; ausgeliefert werden nur ihr korrekter Hash und abgeleitete, nicht personenbezogene Struktur-/Blank-Merkmale.
-- Externe Protokolle werden den Tests ausschließlich per Umgebungsvariable übergeben.
+- Die ausgefüllte Test-PDF ist nicht im Projekt, ZIP oder Precache enthalten.
+- Ihr bekannter Dateiname und SHA-256 werden vom Release-Builder und Validator als Release-Inhalt blockiert.
+- Das Smartphone-Testfoto und der mobile Test-Screenshot werden nur außerhalb des Projektstamms erzeugt.
+- Die leere Referenz-PDF ist ebenfalls nicht eingebettet; ausgeliefert werden nur Hash, Strukturmerkmale und Blank-Baselines.
+- Externe Protokolle werden Tests ausschließlich über Umgebungsvariablen übergeben.
 
 ## Restrisiken
 
 - Die Erkennung ist ein lokales heuristisches Ensemble und kein trainiertes, selbstlernendes KI-Modell.
-- Stark perspektivische, abgeschnittene, beschädigte oder fachlich abweichende Aufnahmen können eine manuelle Formular- oder Feldklärung erfordern.
-- Lokale Browser-Texterkennung ist nicht in jeder Laufzeit verfügbar; dann werden visuell vorhandene Einträge zur manuellen Bestätigung angeboten.
-- Grenzwerte und Ergebnisse bleiben durch eine verantwortliche Elektrofachkraft zu bewerten.
+- Stark perspektivische, abgeschnittene, beschädigte oder fachlich anders strukturierte Aufnahmen können eine vollständige manuelle Zuordnung erfordern.
+- Lokale Browser-Texterkennung ist nicht in jeder Laufzeit verfügbar; visuell vorhandene Einträge bleiben dann zur manuellen Bestätigung offen.
+- Grenzwerte und Ergebnisse müssen durch eine verantwortliche Elektrofachkraft bewertet werden.
 
 ## Abnahme
 
-Die im Testbericht der Vorgängerversion festgestellten kritischen, hohen und mittleren Fehler sind im geprüften Stand behoben. Die Beta ist für weitere kontrollierte Anwender- und Feldtests freigabefähig. Eine produktive elektrotechnische Freigabe wird ausdrücklich nicht erteilt.
+Die beschriebene Fehlbewertung ist im geprüften Stand behoben. Die Version 2.1.0.4-Beta ist für kontrollierte Anwender- und Feldtests freigabefähig. Eine produktive elektrotechnische Freigabe wird ausdrücklich nicht erteilt.

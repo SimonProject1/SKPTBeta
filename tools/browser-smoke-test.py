@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.0.3-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.0.4-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -9,7 +9,7 @@ REFERENCE_PDF = Path(os.environ.get("SK_VDE_REFERENCE_PDF", ""))
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.0.3-Beta"
+VERSION = "2.1.0.4-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 

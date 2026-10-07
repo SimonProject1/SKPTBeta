@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.1",
-  "moduleVersion": "2.1.0.3-Beta",
+  "moduleVersion": "2.1.0.4-Beta",
   "status": "Beta – formulargebundene lokale Vorprüfung",
   "scope": "Vollständigkeits- und Plausibilitätskontrolle; keine Inbetriebnahmefreigabe",
   "supportedProtocol": "Prüfbericht nach VDE 0100-600 / IEC 60364-6 und VDE 0105-100 / EN 50110, Lfd. Nr. 12782, Standort Wuppertal",
@@ -21,11 +21,12 @@
     "voltageDropLimitPercent": 5,
     "rcdTripTimeLimitMs": 300,
     "layoutScoreMin": 0.9,
-    "layoutScoreReject": 0.84,
     "fieldDarkDeltaMin": 0.006,
     "fieldBlueDeltaMin": 0.002,
     "checkboxMarkScoreMin": 0.58,
-    "signatureMarkScoreMin": 0.55
+    "signatureMarkScoreMin": 0.55,
+    "layoutScoreMappingMin": 0.68,
+    "checkboxCandidateScoreMin": 0.34
   },
   "formBounds": [
     0.079832,
@@ -2615,8 +2616,8 @@
   },
   "plausibilityRules": [
     {
-      "id": "FORM-LAYOUT",
-      "description": "Seitenformat und Linienraster werden mit der verbindlichen Mustervorlage abgeglichen."
+      "id": "FORM-IDENTITY",
+      "description": "Die Strukturpassung ist ein technischer Hinweis. Abweichungen werden vor der fachlichen Prüfung geklärt und erzeugen allein kein n.i.O."
     },
     {
       "id": "DOC-COMPLETE",

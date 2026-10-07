@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.0.3-Beta."""
+"""Static release validation for SK PLT Tools 2.1.0.4-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.0.3-Beta'
+VERSION='2.1.0.4-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -196,7 +196,7 @@ if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwe
 vde_path=ROOT/'plausibilitaetspruefung-vde0100-600/index.html'
 vde_html=vde_path.read_text(encoding='utf-8')
 vde_page=BeautifulSoup(vde_html,'html.parser')
-for selector in ('#documentInput','#analysisPanel','#reviewPanel','#previewFrame','#layoutScore','#recognitionDetail','#issuePanel','#issueCard','#issueSource','#resolutionPolicy','#notRelevant','#confirmFail','#applyCorrection','#resultPanel','#verdictIcon','#verdictTitle'):
+for selector in ('#documentInput','#analysisPanel','#reviewPanel','#previewFrame','#layoutScore','#recognitionDetail','#issuePanel','#issueCard','#issueSource','#resolutionPolicy','#formIdentityActions','#useForm','#manualFormReview','#replaceFile','#normalIssueActions','#notRelevant','#confirmFail','#applyCorrection','#resultPanel','#verdictIcon','#verdictTitle'):
     if not vde_page.select_one(selector): errors.append(f'VDE-Prüfung: Element fehlt: {selector}')
 if vde_page.select_one('#loadSample') or 'Muster laden' in vde_html: errors.append('VDE-Prüfung: sichtbare Musterladefunktion darf nicht vorhanden sein')
 if 'VDEProtokoll.pdf' in vde_html: errors.append('VDE-Prüfung: Mustervorlage darf nicht in der Oberfläche genannt oder verlinkt sein')
@@ -214,20 +214,22 @@ try:
     if descriptor.get('version')!='structure-v2' or len(descriptor.get('grid',[]))!=432 or len(descriptor.get('x',[]))!=64 or len(descriptor.get('y',[]))!=96: errors.append('VDE-Schema: mehrstufiger Referenz-Fingerabdruck unvollständig')
     evidence=vde_schema.get('referenceEvidence',{})
     if len(evidence.get('fields',{}))!=93 or not evidence.get('checkboxes',{}): errors.append('VDE-Schema: Referenz-Baselines für Felder/Checkboxen unvollständig')
-    if vde_schema.get('config',{}).get('layoutScoreMin',0)<0.85: errors.append('VDE-Schema: Formularschwelle ist zu niedrig')
+    if vde_schema.get('config',{}).get('layoutScoreMin',0)<0.85: errors.append('VDE-Schema: Schwelle für eindeutige Formularidentität ist zu niedrig')
+    mapping_min=vde_schema.get('config',{}).get('layoutScoreMappingMin',0)
+    if not 0.60<=mapping_min<=0.80: errors.append('VDE-Schema: technische Mapping-Schwelle muss abweichende Formulare ohne automatische n.i.O.-Bewertung zulassen')
     field_map=vde_schema.get('fieldMap',{})
     if len(field_map)!=93: errors.append(f'VDE-Schema: erwartet werden 93 Feldzuordnungen, gefunden {len(field_map)}')
     for field in ('testReason','networkSystem','inspection31','inspection50','bondingMainStatus','insulationValues','loopImpedance','rcdTripTime','test71','test76','signatureState'):
         if field not in field_map: errors.append(f'VDE-Schema: Formularfeld fehlt: {field}')
-    for rule in ('FORM-LAYOUT','DOC-COMPLETE','MEAS-INS','MEAS-ZS','CIRCUIT-IB-IN','MEAS-DU','RCD-I','RCD-T'):
+    for rule in ('FORM-IDENTITY','DOC-COMPLETE','MEAS-INS','MEAS-ZS','CIRCUIT-IB-IN','MEAS-DU','RCD-I','RCD-T'):
         if rule not in {item.get('id') for item in vde_schema.get('plausibilityRules',[])}: errors.append(f'VDE-Schema: Regel fehlt: {rule}')
 except Exception as exc:
     errors.append(f'VDE-Schema ungültig: {exc}')
 vde_engine=(ROOT/'assets/vde0100-600-engine.js').read_text(encoding='utf-8')
-for required in ('buildIssues','finalState','curveFactor','parseText','_notRelevant','inspectionLabels','MEAS-DU-CONSISTENCY','allowSemanticNotRelevant','safetyCritical','layoutScoreReject'):
+for required in ('buildIssues','finalState','curveFactor','parseText','_notRelevant','_choiceMarks','inspectionLabels','MEAS-DU-CONSISTENCY','allowSemanticNotRelevant','safetyCritical','technicalOnly','confirmedDefects','CHOICE-MULTIPLE'):
     if required not in vde_engine: errors.append(f'VDE-Engine: Merkmal fehlt: {required}')
 checker=(ROOT/'plausibilitaetspruefung-vde0100-600/checker.js').read_text(encoding='utf-8')
-for required in ('layoutScore','orientAndNormalize','normalizeContrast','structureDescriptor','extractTemplateFields','checkboxMarked','signatureState','renderIssueContext','_visualPresence','allowNotRelevant','groupControl'):
+for required in ('layoutScore','layoutScoreMappingMin','orientAndNormalize','normalizeContrast','structureDescriptor','extractTemplateFields','checkboxMarked','checkboxCandidateScoreMin','signatureState','renderIssueContext','_visualPresence','_choiceMarks','allowNotRelevant','groupControl','resolveFormIdentity','formIdentityActions'):
     if required not in checker: errors.append(f'VDE-Erkennung: Merkmal fehlt: {required}')
 if 'loadSample' in checker: errors.append('VDE-Erkennung: alte Musterladefunktion noch vorhanden')
 
