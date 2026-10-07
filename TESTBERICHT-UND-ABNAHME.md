@@ -1,57 +1,94 @@
-# Testbericht und Abnahme – 2.1.0.2-Beta
+# Testbericht und Abnahme – 2.1.0.3-Beta
 
-Prüfdatum: 06.10.2026  
-Direkte Basis: 2.1.0.1-Beta  
-Stabile Basis: 2.1.0.0
+**Prüfdatum:** 06.10.2026  
+**Direkte Basis:** 2.1.0.2-Beta  
+**Stabile Referenz:** 2.1.0.0  
+**Gesamturteil:** Release-fähige Beta für die dokumentierte Zweitkontrolle; keine elektrotechnische Zertifizierung oder Inbetriebnahmefreigabe.
 
 ## Prüfumfang
 
-- vollständiger Bestand mit 16 HTML-Seiten und allen direkten Seitenrouten
-- sechs Rechner, Messstellen-Dokumentation und formulargebundene VDE-0100-600-Prüfung
-- Foto-/PDF-Eingabe und lokales PDF.js-Rendering
-- abgeleitetes Profil der leeren Vorlage `VDEProtokoll.pdf` mit SHA-256-Herkunftsnachweis, ohne Auslieferung der PDF
-- A4-/Ausrichtungskontrolle, 33 Linienanker, 93 Feldzuordnungen und Checkbox-Raster
-- Vollständigkeit der Prüfpunkte 3.1–3.20, 4.1–4.4, Abschnitte 6.1/6.2 und 7.1–7.6
-- geführte Auswahl/Korrektur, „nicht relevant“, Bestätigung n.i.O. und grünes/rotes Abschlussurteil
-- Regeln für Wertebereiche, Isolationswiderstand, Durchgängigkeit, Zs, Ib/In, Spannungsfall und RCD
-- fünf Wissensbeiträge, Werkstoff-Nachschlagewerk, Suche, Filter, Sortierung, Favoriten und Navigationsbaum
-- Manifest, Service Worker, Cache-Name, Precache, lokale Referenzen, JavaScript-/Python-/JSON-Syntax und SHA-256-Integrität
+- vollständiger Projektbestand mit 16 Direktseiten,
+- VDE-Domänenengine und sequentielle Klärungsoberfläche,
+- autorisierte leere Referenz als PDF sowie daraus erzeugte PNG-/JPEG-Fotopfade,
+- reale ausgefüllte historische PDF ausschließlich als externe Testeingabe,
+- Formularabgleich, Feldmapping, Konfidenz, Checkboxen und Unterschriften,
+- Pflicht-/Sicherheits-Governance und Ortsangaben-Mehrfeldklärung,
+- Messwert-Plausibilität einschließlich Positiv-, Grenz- und Negativfällen,
+- Desktop, Tablet, Mobil, Manifest, Service Worker, Offline-Aufrufe,
+- Release-Struktur, Datenschutz-Gate, lokale Referenzen, Syntax und SHA-256.
 
-## Ausgeführte automatisierte Prüfungen
+## Fehler aus 2.1.0.2-Beta
 
-| Prüfung | Befehl / Verfahren | Ergebnis |
-|---|---|---|
-| Fachliche Funktions-Smoke-Tests | `node tools/functional-smoke-test.js` | Bestanden; Bestandsrechner, 93 VDE-Feldzuordnungen, positiver Abschlussfall sowie Zs-, RCD- und n.i.O.-Negativfälle |
-| Statische Release-Validierung | `python tools/validate_release.py` | Bestanden; 16 Seiten, lokale Referenzen, Formulargeometrie, UI-Pflichtelemente, Vorlagenschutz, Manifest, Precache und Syntax |
-| Referenzgeometrie | deterministischer Bildvergleich der externen `VDEProtokoll.pdf` gegen die ausgelieferten Linienanker | Bestanden; Layoutscore 100 %, keine falsch erkannten Markierungen im leeren Checkbox-Raster |
-| Prüfsummen | `sha256sum -c SHA256SUMS.txt` | Bestanden |
-| ZIP-Struktur und Dekompression | `unzip -t` und Bestandsvergleich | Bestanden; 79 Dateien unter genau einem Projektstamm, keine Referenz-PDF enthalten |
+| Fehler | Korrektur | Retest |
+|---|---|---:|
+| Klärungs-Deadlock Ortsangabe | `MASTER-IDENT` enthält alle zwölf Ortsfelder; gemeinsamer Dialog verlangt mindestens zwei Angaben und ist nicht überspringbar. | PASS |
+| Personenbezogene Testdatei im Release | Reale ausgefüllte PDF, Precache-Eintrag und alte VDE-Vorschau entfernt; Builder und Validator besitzen ein Inhalts-/Dateinamen-Gate. | PASS |
+| Falsche Formularerkennung | Struktur-Ensemble mit harter Ablehnung unter 84 %; abgelehnte Formulare erhalten kein Feldmapping. | PASS |
+| Falsche Unterschriften im leeren Formular | Referenzbereinigte Schreibzonen mit Tinten-, Dichte- und Strichwechsel-Evidenz. Beide leeren Signaturfelder werden als „Fehlt“ erkannt. | PASS |
+| Instabile Fotoerkennung / falsche Checkboxen | Kontrastnormalisierung, Vierfach-Orientierung, Feinausrichtung, Innenmasken und Blank-Baselines. PDF/PNG/JPEG liefern null falsche Checkboxwerte. | PASS |
+| Falscher Referenz-Hash | Autorisierter SHA-256 auf `019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2` korrigiert und validiert. | PASS |
+| Überspringbare Pflichtabweichungen | Feldbezogene Auflösungsrichtlinie; Pflicht-, Formular-, Signatur-, n.i.O.- und Messwertfehler sind nicht als „nicht relevant“ auflösbar. | PASS |
+| Veralteter PWA-Sollwert | Browser-Test leitet App-ID und Cache aus `VERSION` ab; Sollwert 2.1.0.3-Beta. | PASS |
 
-## Browser-Teststatus
+## Automatisierte Ergebnisse
 
-`tools/browser-smoke-test.py` wurde auf die neue Oberfläche, den reinen Nutzerupload, das Fehlen einer Musterladefunktion, Formularpassung, Originalvorschau und Originalausschnitt im Klärungsdialog aktualisiert. Die Ausführung war im Build-Container nicht möglich, weil kein Chromium-Binary vorhanden war, der Browser-Download durch die Sandbox mit HTTP 403 blockiert wurde und keine DesktopBrowser-CDP-Adresse bereitgestellt war. Die statische DOM-Prüfung, die JavaScript-Syntaxprüfung, die fachliche Engine-Prüfung und der deterministische Referenzbildtest wurden davon unabhängig erfolgreich ausgeführt.
+| ID | Prüfung | Ergebnis |
+|---|---|---:|
+| T01 | JavaScript-Funktions-Smoke einschließlich VDE-Regeln | PASS · 90 Assertions |
+| T02 | VDE-End-to-End: leere Referenz-PDF | PASS · Struktur 99,12 % |
+| T03 | VDE-End-to-End: Referenz als PNG | PASS · Struktur 97,96 % |
+| T04 | VDE-End-to-End: komprimiertes JPEG | PASS · Struktur 95,67 % |
+| T05 | VDE-End-to-End: historisches Fremdformular | PASS · 81,97 %, hart abgelehnt, 0 positionsgebundene Felder |
+| T06 | Leere Signaturfelder | PASS · beide „Fehlt“, keine Falsch-Positiven |
+| T07 | Leere Checkboxen | PASS · 0 Falsch-Positive in 3.x/4.x/7.x |
+| T08 | Pflicht-/Sicherheitsabweichungen nicht überspringbar | PASS |
+| T09 | Grüner Positivfall / roter Negativfall in der Engine | PASS |
+| T10 | Vollständiger Browser-Smoke | PASS · 16 Direktseiten, Desktop/Tablet/Mobil, PWA und Offline |
+| T11 | Statische Release-Validierung | PASS · 16 Seiten, 93 Feldzonen, Referenzprofil, Datenschutz und lokale Assets |
+| T12 | Interne SHA-256-Liste | PASS · 78 Einträge |
 
-## Sicherheits- und Sichtbarkeitsprüfung
+## Kernergebnisse der Protokolltests
 
-1. `VDEProtokoll.pdf` ist nicht im Projektbestand vorhanden.
-2. Es gibt weder `#loadSample` noch einen Link oder Download auf die Mustervorlage.
-3. `referenceForm.embedded` und `referenceForm.downloadable` sind `false`.
-4. Vorschau und Feldkontext werden ausschließlich aus `state.pages` des aktuellen Nutzeruploads erzeugt.
-5. Die frühere Regressionstest-Fixture bleibt ohne UI-Verknüpfung ausschließlich im Testbereich erhalten.
+### Leere verbindliche Referenz
 
-## Abnahmekriterien
+- Exakter Referenz-Hash wird erkannt.
+- Strukturpassung: 99,12 %.
+- Keine leere Checkbox wird als i.O., n.i.O. oder n.rel. klassifiziert.
+- Prüfer- und Inbetriebnehmer-Unterschrift werden nicht als vorhanden gemeldet.
+- Fehlende Pflichtwerte erscheinen einzeln als offene Punkte.
 
-1. Kein Bestandsmodul und keine bestehende Direktseite fehlt.
-2. PDF und Bildformate sind auswählbar; die Dokumentenverarbeitung erfolgt lokal.
-3. Unsichere oder fehlende Angaben werden nicht erfunden, sondern als offene Punkte angeboten.
-4. Jeder offene Punkt kann korrigiert, ausgewählt oder als nicht relevant behandelt werden; bestätigte Abweichungen bleiben n.i.O.
-5. Ein Abschlussurteil erscheint erst nach vollständiger Klärung.
-6. Bestätigte Abweichungen oder verletzte Regeln führen zum roten X; andernfalls erscheint der grüne Haken.
-7. Der Service Worker aktiviert `sk-plt-tools-v2.1.0.2-Beta` und enthält Engine, Schema, Regeln und PDF.js im Offline-Precache.
-8. Alle lokalen Referenzen und Navigationsziele existieren.
-9. `SHA256SUMS.txt` stimmt vollständig mit dem Paketinhalt überein.
-10. Das ZIP enthält den vollständigen Projektordner als einzige oberste Ebene.
+### Foto-/Rasterpfad
 
-## Ergebnis
+- PNG: 97,96 %, JPEG: 95,67 %.
+- Beide Varianten bleiben sicher oberhalb der Annahmeschwelle von 90 %.
+- Trotz Skalierung und JPEG-Kompression entstehen keine falschen Checkbox- oder Signatur-Positiven.
 
-**Freigabefähig mit dokumentiertem Browser-Infrastrukturhinweis.** Statische, fachliche, geometrische und Integritätsprüfungen sind bestanden. Der vollständige Browser-Smoke-Test ist im Zielsystem mit installiertem Chromium nachzuholen; das entsprechende Testskript ist Bestandteil des Pakets.
+### Externes ausgefülltes historisches Formular
+
+- Strukturpassung: 81,97 % und damit unter der harten Ablehnungsschwelle von 84 %.
+- Das Dokument wird als „NICHT UNTERSTÜTZT“ geführt.
+- Es werden keine positionsgebundenen Formularwerte extrahiert.
+- Die Formularabweichung kann weder als „nicht relevant“ markiert noch manuell auf „unterstützt“ umgestellt werden.
+- Nach Bestätigung der Abweichung erscheint das rote X „Nicht plausibel“.
+
+## Messwert- und Governance-Nachweise
+
+Bestanden wurden unter anderem Zs-Grenzen für B/C/D, `Ib ≤ In`, Spannungsfallgrenze und Konsistenz, Isolation, Durchgängigkeitshinweis, RCD-Auslösestrom/-zeit, ungültige Datums-/Bereichswerte, fehlende Prüferunterschrift, n.i.O.-Einzelbewertungen, harter Fremdformularschutz sowie manipulierte `_notRelevant`-Zustände. Ein vollständiger positiver Datensatz ergibt weiterhin den grünen Haken.
+
+## Datenschutz- und Release-Nachweis
+
+- Keine reale ausgefüllte Protokoll-PDF im Projekt.
+- Kein bekannter Dateiinhalt und kein Precache-Eintrag der externen Testdatei.
+- Die leere Referenz-PDF ist ebenfalls nicht eingebettet; ausgeliefert werden nur ihr korrekter Hash und abgeleitete, nicht personenbezogene Struktur-/Blank-Merkmale.
+- Externe Protokolle werden den Tests ausschließlich per Umgebungsvariable übergeben.
+
+## Restrisiken
+
+- Die Erkennung ist ein lokales heuristisches Ensemble und kein trainiertes, selbstlernendes KI-Modell.
+- Stark perspektivische, abgeschnittene, beschädigte oder fachlich abweichende Aufnahmen können eine manuelle Formular- oder Feldklärung erfordern.
+- Lokale Browser-Texterkennung ist nicht in jeder Laufzeit verfügbar; dann werden visuell vorhandene Einträge zur manuellen Bestätigung angeboten.
+- Grenzwerte und Ergebnisse bleiben durch eine verantwortliche Elektrofachkraft zu bewerten.
+
+## Abnahme
+
+Die im Testbericht der Vorgängerversion festgestellten kritischen, hohen und mittleren Fehler sind im geprüften Stand behoben. Die Beta ist für weitere kontrollierte Anwender- und Feldtests freigabefähig. Eine produktive elektrotechnische Freigabe wird ausdrücklich nicht erteilt.

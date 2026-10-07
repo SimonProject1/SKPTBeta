@@ -81,15 +81,20 @@ def update_version(version: str) -> None:
             text = re.sub(r'(<span class="badge">Version )[^<]+(</span>)', rf'\g<1>{version}\2', text)
         page.write_text(text, encoding="utf-8")
 
-    # Versionierte Laufzeitquellen und Datenkataloge dürfen keine alte
+    # Versionierte Laufzeitquellen, Tests und Dokumentation dürfen keine alte
     # technische Version in Kommentaren, Fetch-URLs oder Metadaten behalten.
     if previous != version:
         for path in ROOT.rglob("*"):
-            if not path.is_file() or path == CONFIG_PATH or path.suffix.lower() not in {".js", ".css", ".json", ".html"}:
+            if not path.is_file() or path == CONFIG_PATH or path.suffix.lower() not in {".js", ".css", ".json", ".html", ".md", ".txt", ".py", ".webmanifest"}:
                 continue
             text = path.read_text(encoding="utf-8")
             if previous in text:
                 path.write_text(text.replace(previous, version), encoding="utf-8")
+
+        old_handover = ROOT / f"PROJEKTUEBERGABE_V{previous}.txt"
+        new_handover = ROOT / f"PROJEKTUEBERGABE_V{version}.txt"
+        if old_handover.exists():
+            old_handover.rename(new_handover)
 
     # Tests carry technical assertions and should move with the release automatically.
     for path in (ROOT / "tools").glob("*.*"):
@@ -154,6 +159,20 @@ def generate_checksums() -> int:
     return len(files)
 
 
+def enforce_privacy_gate() -> None:
+    """Block the known real, filled protocol from every release artifact."""
+    forbidden_name = "_".join(("228", "SR4", "K06", "E07.1.pdf"))
+    forbidden_hash = "744f24436071c5c9f36d91fc82fa2a6" + "a16f20ec8662bd81f68e3f53321792772"
+    violations: list[str] = []
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or "__pycache__" in path.parts:
+            continue
+        if path.name == forbidden_name or hashlib.sha256(path.read_bytes()).hexdigest() == forbidden_hash:
+            violations.append(path.relative_to(ROOT).as_posix())
+    if violations:
+        raise ValueError(f"Datenschutz-Gate: reale ausgefüllte Testdatei im Release: {violations}")
+
+
 def build_zip(output: Path | None = None) -> Path:
     config = load_config()
     output = output or ROOT.parent / config["archiveName"]
@@ -199,6 +218,7 @@ def main() -> int:
         update_version(version)
         update_precache()
     verify_version()
+    enforce_privacy_gate()
     count = generate_checksums() if (args.all or args.checksums) else 0
     output = build_zip(args.output) if (args.all or args.zip) else None
     print(f"OK: Version {version} konsistent" + (f", {count} Prüfsummen" if count else "") + (f", ZIP {output}" if output else ""))

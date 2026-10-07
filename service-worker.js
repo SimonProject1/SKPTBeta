@@ -1,4 +1,4 @@
-const RELEASE='2.1.0.2-Beta';
+const RELEASE='2.1.0.3-Beta';
 const CACHE_PREFIX='sk-plt-tools-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
@@ -52,7 +52,6 @@ const CORE=[
   "./spannungsfall-rechner/calculator.css",
   "./spannungsfall-rechner/calculator.js",
   "./spannungsfall-rechner/index.html",
-  "./test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf",
   "./vendor/pdfjs/LICENSE",
   "./vendor/pdfjs/pdf.min.mjs",
   "./vendor/pdfjs/pdf.worker.min.mjs",

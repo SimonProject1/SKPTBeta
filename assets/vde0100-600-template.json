@@ -1,17 +1,18 @@
 {
   "schemaVersion": "2.1",
-  "moduleVersion": "2.1.0.2-Beta",
+  "moduleVersion": "2.1.0.3-Beta",
   "status": "Beta – formulargebundene lokale Vorprüfung",
   "scope": "Vollständigkeits- und Plausibilitätskontrolle; keine Inbetriebnahmefreigabe",
   "supportedProtocol": "Prüfbericht nach VDE 0100-600 / IEC 60364-6 und VDE 0105-100 / EN 50110, Lfd. Nr. 12782, Standort Wuppertal",
   "referenceForm": {
     "fileName": "VDEProtokoll.pdf",
-    "sha256": "019b2918bbfa0b7bef71c6b95f1a4813630505397f5ff05ba63495473b625693",
+    "sha256": "019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2",
     "pageCount": 1,
     "pageFormat": "A4 portrait",
     "embedded": false,
     "downloadable": false,
-    "note": "Nur abgeleitete Geometrie, Feldzuordnung und Strukturmerkmale sind enthalten; die PDF-Mustervorlage ist nicht Bestandteil der Webanwendung."
+    "note": "Die autorisierte leere PDF ist nicht eingebettet. Enthalten sind nur der korrekte SHA-256, normalisierte Strukturmerkmale und referenzbereinigte Feldzonen.",
+    "fingerprintVersion": "structure-v2"
   },
   "config": {
     "phaseVoltage": 230,
@@ -19,9 +20,12 @@
     "continuityWarningOhm": 1,
     "voltageDropLimitPercent": 5,
     "rcdTripTimeLimitMs": 300,
-    "layoutScoreMin": 0.58,
-    "fieldInkThreshold": 0.018,
-    "checkboxInkThreshold": 0.055
+    "layoutScoreMin": 0.9,
+    "layoutScoreReject": 0.84,
+    "fieldDarkDeltaMin": 0.006,
+    "fieldBlueDeltaMin": 0.002,
+    "checkboxMarkScoreMin": 0.58,
+    "signatureMarkScoreMin": 0.55
   },
   "formBounds": [
     0.079832,
@@ -2642,5 +2646,1697 @@
       "id": "RCD-T",
       "description": "RCD-Auslösezeit wird gegen den hinterlegten Standard-Prüfwert geprüft."
     }
-  ]
+  ],
+  "referenceDescriptor": {
+    "version": "structure-v2",
+    "threshold": 185,
+    "gridColumns": 18,
+    "gridRows": 24,
+    "grid": [
+      0.0,
+      0.071795,
+      0.051282,
+      0.134615,
+      0.12967,
+      0.051282,
+      0.083333,
+      0.051282,
+      0.086447,
+      0.192308,
+      0.192674,
+      0.082784,
+      0.025641,
+      0.060541,
+      0.092308,
+      0.168498,
+      0.094729,
+      0.084249,
+      0.0,
+      0.204511,
+      0.157895,
+      0.118421,
+      0.079699,
+      0.064662,
+      0.09576,
+      0.084962,
+      0.119549,
+      0.106725,
+      0.123308,
+      0.166917,
+      0.121053,
+      0.192982,
+      0.193233,
+      0.189474,
+      0.111111,
+      0.106015,
+      0.0,
+      0.111278,
+      0.052632,
+      0.102339,
+      0.056391,
+      0.089474,
+      0.078216,
+      0.05188,
+      0.059398,
+      0.061404,
+      0.029323,
+      0.077444,
+      0.044361,
+      0.090643,
+      0.209774,
+      0.205263,
+      0.091374,
+      0.109023,
+      0.0,
+      0.085714,
+      0.002256,
+      0.067251,
+      0.045113,
+      0.045865,
+      0.024123,
+      0.054887,
+      0.04812,
+      0.026316,
+      0.0,
+      0.037594,
+      0.034586,
+      0.048246,
+      0.033835,
+      0.048872,
+      0.016813,
+      0.057143,
+      0.0,
+      0.178022,
+      0.153114,
+      0.09188,
+      0.09011,
+      0.147253,
+      0.097578,
+      0.068864,
+      0.123077,
+      0.104701,
+      0.115751,
+      0.077656,
+      0.084249,
+      0.112536,
+      0.105495,
+      0.136996,
+      0.064815,
+      0.085714,
+      0.0,
+      0.230075,
+      0.214286,
+      0.134503,
+      0.118045,
+      0.121053,
+      0.05848,
+      0.089474,
+      0.082707,
+      0.109649,
+      0.039098,
+      0.078195,
+      0.075188,
+      0.10307,
+      0.075188,
+      0.067669,
+      0.085526,
+      0.115038,
+      0.0,
+      0.183459,
+      0.170677,
+      0.174708,
+      0.163158,
+      0.15188,
+      0.131579,
+      0.093233,
+      0.1,
+      0.168129,
+      0.190977,
+      0.170677,
+      0.203008,
+      0.157895,
+      0.190226,
+      0.162406,
+      0.154971,
+      0.157895,
+      0.0,
+      0.169925,
+      0.130827,
+      0.13962,
+      0.058647,
+      0.036842,
+      0.068713,
+      0.049624,
+      0.109774,
+      0.111111,
+      0.094737,
+      0.062406,
+      0.066165,
+      0.128655,
+      0.128571,
+      0.109774,
+      0.24269,
+      0.203008,
+      0.001462,
+      0.160902,
+      0.207519,
+      0.228801,
+      0.221053,
+      0.207519,
+      0.065058,
+      0.026316,
+      0.120301,
+      0.157164,
+      0.174436,
+      0.209023,
+      0.256391,
+      0.268275,
+      0.144361,
+      0.063158,
+      0.197368,
+      0.177444,
+      0.0,
+      0.153114,
+      0.255678,
+      0.25641,
+      0.252747,
+      0.172161,
+      0.0,
+      0.0,
+      0.133333,
+      0.160256,
+      0.142857,
+      0.206593,
+      0.240293,
+      0.225783,
+      0.168498,
+      0.038828,
+      0.185185,
+      0.171429,
+      0.0,
+      0.225564,
+      0.257895,
+      0.267544,
+      0.264662,
+      0.066917,
+      0.091374,
+      0.08797,
+      0.177444,
+      0.214181,
+      0.207519,
+      0.21203,
+      0.209023,
+      0.150585,
+      0.095489,
+      0.115038,
+      0.225146,
+      0.202256,
+      0.0,
+      0.145865,
+      0.238346,
+      0.211257,
+      0.203008,
+      0.203759,
+      0.042398,
+      0.026316,
+      0.026316,
+      0.026316,
+      0.01203,
+      0.0,
+      0.0,
+      0.07383,
+      0.077444,
+      0.115789,
+      0.173246,
+      0.157143,
+      0.0,
+      0.209774,
+      0.22782,
+      0.259503,
+      0.23609,
+      0.203759,
+      0.140351,
+      0.130827,
+      0.132331,
+      0.133041,
+      0.140602,
+      0.13985,
+      0.111278,
+      0.157895,
+      0.16391,
+      0.136842,
+      0.127924,
+      0.147368,
+      0.0,
+      0.096992,
+      0.061654,
+      0.053363,
+      0.064662,
+      0.089474,
+      0.074561,
+      0.073684,
+      0.068421,
+      0.049708,
+      0.066165,
+      0.069925,
+      0.080451,
+      0.083333,
+      0.05188,
+      0.071429,
+      0.060673,
+      0.109774,
+      0.0,
+      0.262271,
+      0.258608,
+      0.25,
+      0.192674,
+      0.178755,
+      0.147436,
+      0.127473,
+      0.180952,
+      0.217949,
+      0.244689,
+      0.210989,
+      0.14359,
+      0.113248,
+      0.145055,
+      0.156044,
+      0.106838,
+      0.128938,
+      0.0,
+      0.096241,
+      0.054135,
+      0.035088,
+      0.041353,
+      0.061654,
+      0.118421,
+      0.057895,
+      0.042857,
+      0.07383,
+      0.070677,
+      0.083459,
+      0.149624,
+      0.138158,
+      0.145113,
+      0.123308,
+      0.073099,
+      0.105263,
+      0.0,
+      0.197744,
+      0.13609,
+      0.082602,
+      0.086466,
+      0.077444,
+      0.098684,
+      0.060902,
+      0.105263,
+      0.159357,
+      0.15188,
+      0.12406,
+      0.145113,
+      0.097953,
+      0.112782,
+      0.08797,
+      0.109649,
+      0.130075,
+      0.0,
+      0.136842,
+      0.190977,
+      0.105263,
+      0.07594,
+      0.062406,
+      0.026316,
+      0.026316,
+      0.105263,
+      0.220029,
+      0.135338,
+      0.15188,
+      0.203008,
+      0.149123,
+      0.057895,
+      0.053383,
+      0.243421,
+      0.182707,
+      0.0,
+      0.165414,
+      0.149624,
+      0.115497,
+      0.114286,
+      0.135338,
+      0.062135,
+      0.069925,
+      0.073684,
+      0.055556,
+      0.068421,
+      0.069925,
+      0.05188,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.057143,
+      0.0,
+      0.194139,
+      0.131868,
+      0.153846,
+      0.132601,
+      0.112821,
+      0.175214,
+      0.139927,
+      0.112821,
+      0.071225,
+      0.076923,
+      0.115751,
+      0.083516,
+      0.076923,
+      0.131868,
+      0.104762,
+      0.076923,
+      0.099634,
+      0.0,
+      0.106015,
+      0.073684,
+      0.108187,
+      0.009774,
+      0.006767,
+      0.035088,
+      0.026316,
+      0.033835,
+      0.032164,
+      0.026316,
+      0.042857,
+      0.028571,
+      0.026316,
+      0.042857,
+      0.036842,
+      0.040936,
+      0.097744,
+      0.0,
+      0.227068,
+      0.17594,
+      0.11769,
+      0.133083,
+      0.138346,
+      0.142544,
+      0.125564,
+      0.165414,
+      0.15424,
+      0.14812,
+      0.185714,
+      0.145113,
+      0.150585,
+      0.17594,
+      0.143609,
+      0.116959,
+      0.141353,
+      0.0,
+      0.057143,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.057143,
+      0.0,
+      0.174436,
+      0.176692,
+      0.193713,
+      0.180451,
+      0.180451,
+      0.203947,
+      0.207519,
+      0.21203,
+      0.182749,
+      0.205263,
+      0.230075,
+      0.222556,
+      0.222222,
+      0.232331,
+      0.221805,
+      0.170322,
+      0.096992
+    ],
+    "xBins": 64,
+    "x": [
+      0.0,
+      0.000109,
+      0.000109,
+      0.013304,
+      0.276663,
+      0.1241,
+      0.13217,
+      0.151363,
+      0.153653,
+      0.141221,
+      0.149618,
+      0.141876,
+      0.142421,
+      0.133152,
+      0.131589,
+      0.117666,
+      0.115812,
+      0.127481,
+      0.106652,
+      0.109706,
+      0.11494,
+      0.089749,
+      0.087132,
+      0.069684,
+      0.097383,
+      0.0747,
+      0.070229,
+      0.072083,
+      0.073549,
+      0.095093,
+      0.097928,
+      0.123337,
+      0.115703,
+      0.134569,
+      0.104144,
+      0.121156,
+      0.120174,
+      0.097819,
+      0.103817,
+      0.092803,
+      0.12639,
+      0.131734,
+      0.118987,
+      0.111668,
+      0.113304,
+      0.115594,
+      0.104362,
+      0.118648,
+      0.122901,
+      0.120611,
+      0.117012,
+      0.125409,
+      0.105889,
+      0.101636,
+      0.100218,
+      0.098255,
+      0.125167,
+      0.117993,
+      0.12072,
+      0.102726,
+      0.101854,
+      0.111341,
+      0.088332,
+      0.199782
+    ],
+    "yBins": 96,
+    "y": [
+      0.140881,
+      0.083333,
+      0.083508,
+      0.058962,
+      0.058526,
+      0.131918,
+      0.164221,
+      0.138994,
+      0.1029,
+      0.057075,
+      0.051887,
+      0.132075,
+      0.092138,
+      0.023585,
+      0.016667,
+      0.013976,
+      0.115566,
+      0.139238,
+      0.112421,
+      0.044025,
+      0.105171,
+      0.09717,
+      0.033892,
+      0.156447,
+      0.211041,
+      0.163522,
+      0.091195,
+      0.138994,
+      0.046855,
+      0.049266,
+      0.160535,
+      0.168938,
+      0.172956,
+      0.159329,
+      0.161792,
+      0.145528,
+      0.152201,
+      0.137666,
+      0.154088,
+      0.167925,
+      0.129106,
+      0.138836,
+      0.155311,
+      0.252987,
+      0.106918,
+      0.086006,
+      0.105346,
+      0.088522,
+      0.088365,
+      0.170161,
+      0.227987,
+      0.134172,
+      0.061792,
+      0.064116,
+      0.115252,
+      0.026205,
+      0.065723,
+      0.258019,
+      0.191824,
+      0.166667,
+      0.111635,
+      0.119811,
+      0.025507,
+      0.066824,
+      0.02376,
+      0.024371,
+      0.171384,
+      0.213994,
+      0.116824,
+      0.084207,
+      0.070755,
+      0.206324,
+      0.089151,
+      0.097659,
+      0.06195,
+      0.012229,
+      0.092138,
+      0.049214,
+      0.215234,
+      0.095597,
+      0.04385,
+      0.006604,
+      0.0145,
+      0.104245,
+      0.252621,
+      0.086478,
+      0.207075,
+      0.026904,
+      0.006289,
+      0.006289,
+      0.006289,
+      0.006289,
+      0.006289,
+      0.222921,
+      0.449843,
+      0.046646
+    ]
+  },
+  "referenceEvidence": {
+    "fields": {
+      "protocolType": {
+        "darkRatio": 0.066161,
+        "blueRatio": 0.0,
+        "transitions": 0.067243
+      },
+      "orderNumber": {
+        "darkRatio": 0.006775,
+        "blueRatio": 0.0,
+        "transitions": 0.002997
+      },
+      "testReason": {
+        "darkRatio": 0.106111,
+        "blueRatio": 0.0,
+        "transitions": 0.157718
+      },
+      "work": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "building": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "plantComplex": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "plant": {
+        "darkRatio": 0.003134,
+        "blueRatio": 0.0,
+        "transitions": 0.003162
+      },
+      "partialPlant": {
+        "darkRatio": 0.018018,
+        "blueRatio": 0.0,
+        "transitions": 0.018182
+      },
+      "pltPosition": {
+        "darkRatio": 0.013423,
+        "blueRatio": 0.0,
+        "transitions": 0.013514
+      },
+      "pltRoom": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "distribution": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "feeder": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "subDistribution": {
+        "darkRatio": 0.00885,
+        "blueRatio": 0.0,
+        "transitions": 0.008929
+      },
+      "outgoing": {
+        "darkRatio": 0.016052,
+        "blueRatio": 0.0,
+        "transitions": 0.018182
+      },
+      "consumer": {
+        "darkRatio": 0.006833,
+        "blueRatio": 0.0,
+        "transitions": 0.013514
+      },
+      "networkSystem": {
+        "darkRatio": 0.02172,
+        "blueRatio": 0.0,
+        "transitions": 0.019204
+      },
+      "installationCategory": {
+        "darkRatio": 0.070131,
+        "blueRatio": 0.0,
+        "transitions": 0.054477
+      },
+      "device1Name": {
+        "darkRatio": 0.106543,
+        "blueRatio": 0.0,
+        "transitions": 0.106195
+      },
+      "device1Number": {
+        "darkRatio": 0.058411,
+        "blueRatio": 0.0,
+        "transitions": 0.058342
+      },
+      "device1Calibration": {
+        "darkRatio": 0.080927,
+        "blueRatio": 0.0,
+        "transitions": 0.013766
+      },
+      "device2Name": {
+        "darkRatio": 0.045521,
+        "blueRatio": 0.0,
+        "transitions": 0.038512
+      },
+      "device2Number": {
+        "darkRatio": 0.052537,
+        "blueRatio": 0.0,
+        "transitions": 0.043101
+      },
+      "device2Calibration": {
+        "darkRatio": 0.048948,
+        "blueRatio": 0.0,
+        "transitions": 0.000492
+      },
+      "device3Name": {
+        "darkRatio": 0.016759,
+        "blueRatio": 0.0,
+        "transitions": 0.005724
+      },
+      "device3Number": {
+        "darkRatio": 0.029663,
+        "blueRatio": 0.0,
+        "transitions": 0.012121
+      },
+      "device3Calibration": {
+        "darkRatio": 0.067706,
+        "blueRatio": 0.0,
+        "transitions": 0.005387
+      },
+      "cableType": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "crossSection": {
+        "darkRatio": 0.016393,
+        "blueRatio": 0.0,
+        "transitions": 0.016529
+      },
+      "conductors": {
+        "darkRatio": 0.008403,
+        "blueRatio": 0.0,
+        "transitions": 0.008475
+      },
+      "length": {
+        "darkRatio": 0.009009,
+        "blueRatio": 0.0,
+        "transitions": 0.009091
+      },
+      "protectiveDevice": {
+        "darkRatio": 0.030204,
+        "blueRatio": 0.0,
+        "transitions": 0.034188
+      },
+      "nominalCurrent": {
+        "darkRatio": 0.014135,
+        "blueRatio": 0.0,
+        "transitions": 0.025974
+      },
+      "nominalVoltage": {
+        "darkRatio": 0.016026,
+        "blueRatio": 0.0,
+        "transitions": 0.028169
+      },
+      "loadCurrent": {
+        "darkRatio": 0.03256,
+        "blueRatio": 0.0,
+        "transitions": 0.043838
+      },
+      "voltageDrop": {
+        "darkRatio": 0.08284,
+        "blueRatio": 0.0,
+        "transitions": 0.08661
+      },
+      "voltageDropPercent": {
+        "darkRatio": 0.146853,
+        "blueRatio": 0.0,
+        "transitions": 0.126181
+      },
+      "inspection31": {
+        "darkRatio": 0.15705,
+        "blueRatio": 0.0,
+        "transitions": 0.094838
+      },
+      "inspection32": {
+        "darkRatio": 0.14178,
+        "blueRatio": 0.0,
+        "transitions": 0.13858
+      },
+      "inspection33": {
+        "darkRatio": 0.128265,
+        "blueRatio": 0.0,
+        "transitions": 0.134284
+      },
+      "inspection34": {
+        "darkRatio": 0.130149,
+        "blueRatio": 0.0,
+        "transitions": 0.134804
+      },
+      "inspection35": {
+        "darkRatio": 0.125796,
+        "blueRatio": 0.0,
+        "transitions": 0.128295
+      },
+      "inspection36": {
+        "darkRatio": 0.121702,
+        "blueRatio": 0.0,
+        "transitions": 0.125822
+      },
+      "inspection37": {
+        "darkRatio": 0.124561,
+        "blueRatio": 0.0,
+        "transitions": 0.127514
+      },
+      "inspection38": {
+        "darkRatio": 0.12898,
+        "blueRatio": 0.0,
+        "transitions": 0.135195
+      },
+      "inspection39": {
+        "darkRatio": 0.116569,
+        "blueRatio": 0.0,
+        "transitions": 0.119964
+      },
+      "inspection40": {
+        "darkRatio": 0.107732,
+        "blueRatio": 0.0,
+        "transitions": 0.115928
+      },
+      "inspection41": {
+        "darkRatio": 0.120434,
+        "blueRatio": 0.0,
+        "transitions": 0.10126
+      },
+      "inspection42": {
+        "darkRatio": 0.133142,
+        "blueRatio": 0.0,
+        "transitions": 0.12883
+      },
+      "inspection43": {
+        "darkRatio": 0.12765,
+        "blueRatio": 0.0,
+        "transitions": 0.123585
+      },
+      "inspection44": {
+        "darkRatio": 0.127778,
+        "blueRatio": 0.0,
+        "transitions": 0.128958
+      },
+      "inspection45": {
+        "darkRatio": 0.133333,
+        "blueRatio": 0.0,
+        "transitions": 0.130493
+      },
+      "inspection46": {
+        "darkRatio": 0.126373,
+        "blueRatio": 0.0,
+        "transitions": 0.124608
+      },
+      "inspection47": {
+        "darkRatio": 0.123819,
+        "blueRatio": 0.0,
+        "transitions": 0.120898
+      },
+      "inspection48": {
+        "darkRatio": 0.130651,
+        "blueRatio": 0.0,
+        "transitions": 0.129214
+      },
+      "inspection49": {
+        "darkRatio": 0.110536,
+        "blueRatio": 0.0,
+        "transitions": 0.106697
+      },
+      "inspection50": {
+        "darkRatio": 0.118902,
+        "blueRatio": 0.0,
+        "transitions": 0.114373
+      },
+      "bondingMain": {
+        "darkRatio": 0.010811,
+        "blueRatio": 0.0,
+        "transitions": 0.011473
+      },
+      "bondingMainStatus": {
+        "darkRatio": 0.114035,
+        "blueRatio": 0.0,
+        "transitions": 0.141593
+      },
+      "bondingAdditional": {
+        "darkRatio": 0.00991,
+        "blueRatio": 0.0,
+        "transitions": 0.010266
+      },
+      "bondingAdditionalStatus": {
+        "darkRatio": 0.11501,
+        "blueRatio": 0.0,
+        "transitions": 0.141593
+      },
+      "continuity": {
+        "darkRatio": 0.010811,
+        "blueRatio": 0.0,
+        "transitions": 0.010266
+      },
+      "continuityStatus": {
+        "darkRatio": 0.138889,
+        "blueRatio": 0.0,
+        "transitions": 0.139626
+      },
+      "networkImpedance": {
+        "darkRatio": 0.011111,
+        "blueRatio": 0.0,
+        "transitions": 0.011473
+      },
+      "networkImpedanceStatus": {
+        "darkRatio": 0.130604,
+        "blueRatio": 0.0,
+        "transitions": 0.141593
+      },
+      "insulationValues": {
+        "darkRatio": 0.020701,
+        "blueRatio": 0.0,
+        "transitions": 0.022727
+      },
+      "shutdownDeviceType": {
+        "darkRatio": 0.020408,
+        "blueRatio": 0.0,
+        "transitions": 0.041667
+      },
+      "shutdownNominalCurrent": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "loopImpedance": {
+        "darkRatio": 0.0,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "shortCircuitCurrent": {
+        "darkRatio": 0.032787,
+        "blueRatio": 0.0,
+        "transitions": 0.033333
+      },
+      "protectiveResistance": {
+        "darkRatio": 0.017544,
+        "blueRatio": 0.0,
+        "transitions": 0.035714
+      },
+      "rcdType": {
+        "darkRatio": 0.023256,
+        "blueRatio": 0.0,
+        "transitions": 0.047619
+      },
+      "rcdRatedCurrent": {
+        "darkRatio": 0.026316,
+        "blueRatio": 0.0,
+        "transitions": 0.054054
+      },
+      "rcdNominalResidual": {
+        "darkRatio": 0.05074,
+        "blueRatio": 0.0,
+        "transitions": 0.067604
+      },
+      "rcdTripCurrent": {
+        "darkRatio": 0.036545,
+        "blueRatio": 0.0,
+        "transitions": 0.045058
+      },
+      "rcdTripTime": {
+        "darkRatio": 0.043189,
+        "blueRatio": 0.0,
+        "transitions": 0.040698
+      },
+      "touchVoltageState": {
+        "darkRatio": 0.023529,
+        "blueRatio": 0.0,
+        "transitions": 0.0
+      },
+      "test71": {
+        "darkRatio": 0.133394,
+        "blueRatio": 0.0,
+        "transitions": 0.069935
+      },
+      "test72": {
+        "darkRatio": 0.039201,
+        "blueRatio": 0.0,
+        "transitions": 0.032483
+      },
+      "test73": {
+        "darkRatio": 0.048578,
+        "blueRatio": 0.0,
+        "transitions": 0.042422
+      },
+      "test74": {
+        "darkRatio": 0.142033,
+        "blueRatio": 0.0,
+        "transitions": 0.06831
+      },
+      "test75": {
+        "darkRatio": 0.084067,
+        "blueRatio": 0.0,
+        "transitions": 0.073611
+      },
+      "test76": {
+        "darkRatio": 0.09239,
+        "blueRatio": 0.0,
+        "transitions": 0.085522
+      },
+      "testerPoints": {
+        "darkRatio": 0.0504,
+        "blueRatio": 0.0,
+        "transitions": 0.032153
+      },
+      "testerName": {
+        "darkRatio": 0.042971,
+        "blueRatio": 0.0,
+        "transitions": 0.030805
+      },
+      "testerCompany": {
+        "darkRatio": 0.038857,
+        "blueRatio": 0.0,
+        "transitions": 0.028966
+      },
+      "testDate": {
+        "darkRatio": 0.056,
+        "blueRatio": 0.0,
+        "transitions": 0.041342
+      },
+      "signatureState": {
+        "darkRatio": 0.056839,
+        "blueRatio": 0.0,
+        "transitions": 0.043651
+      },
+      "commissioningPoints": {
+        "darkRatio": 0.101805,
+        "blueRatio": 0.0,
+        "transitions": 0.074981
+      },
+      "commissioningName": {
+        "darkRatio": 0.051948,
+        "blueRatio": 0.0,
+        "transitions": 0.035005
+      },
+      "commissioningCompany": {
+        "darkRatio": 0.047532,
+        "blueRatio": 0.0,
+        "transitions": 0.035528
+      },
+      "commissioningDate": {
+        "darkRatio": 0.069697,
+        "blueRatio": 0.0,
+        "transitions": 0.04698
+      },
+      "commissioningSignature": {
+        "darkRatio": 0.068472,
+        "blueRatio": 0.0,
+        "transitions": 0.05439
+      },
+      "remarks": {
+        "darkRatio": 0.000114,
+        "blueRatio": 0.0,
+        "transitions": 7.6e-05
+      }
+    },
+    "checkboxes": {
+      "testReason": {
+        "Erstprüfung": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Wiederholungsprüfung": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Änderung": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Ex-Bereich": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "networkSystem": {
+        "TN": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "IT": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "installationCategory": {
+        "Gebäudeinstallation": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Maschine": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Beleuchtung": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Steckdose": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Motor": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "Sonstiges": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection31": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection32": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection33": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection34": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection35": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection36": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection37": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection38": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection39": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection40": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection41": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection42": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection43": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection44": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection45": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection46": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection47": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection48": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection49": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "inspection50": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "bondingMainStatus": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "bondingAdditionalStatus": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "continuityStatus": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "networkImpedanceStatus": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "test71": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "test72": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "test73": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "test74": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "test75": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "test76": {
+        "io": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nio": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "nrel": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "testerPoints": {
+        "2": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "3": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "4": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "5": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "6": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      },
+      "commissioningPoints": {
+        "6": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        },
+        "7": {
+          "darkRatio": 0.0,
+          "blueRatio": 0.0,
+          "transitions": 0.0
+        }
+      }
+    }
+  }
 }

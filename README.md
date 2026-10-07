@@ -1,66 +1,75 @@
-# SK PLT Tools 2.1.0.2-Beta
+# SK PLT Tools 2.1.0.3-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. Diese Beta basiert vollständig auf **2.1.0.1-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.0.3-Beta** basiert auf dem vollständigen Bestand von **2.1.0.2-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
-## Enthaltene Module
+## Schwerpunkt dieser Beta
 
-- Rechner: Analogsignal, Siemens Rohwert, P+F, Pt100/Pt1000, Einheiten und Spannungsfall
-- Dokumentation: Messstellen-Dokumentation
-- Prüfung: Plausibilitätsprüfung VDE 0100-600 mit Foto-/PDF-Eingabe, formulargebundener Erkennung, Messwertregeln, sequentieller Klärung und grünem/rotem Abschluss
-- Wissen: Wissensdatenbank mit fünf Beiträgen, Werkstoff-Nachschlagewerk und Beitragsvorlagen
-- Gemeinsame Funktionen: Suche, Filter, Sortierung, Favoriten, Seitenbaum, responsive Darstellung, PWA und Offline-Cache
-- Direkter Bestandslink: `servicewerte/` bleibt für bestehende Direktaufrufe erhalten, ist aber nicht auf der Startseite verlinkt
+Die Plausibilitätsprüfung für VDE-0100-600-Protokolle verwendet eine mehrstufige, vollständig lokale Erkennung:
 
-## Formulargebundene VDE-Prüfung
+- hochwertige PDF-Rasterung und Bildnormalisierung mit Kontrastanpassung, Vierfach-Orientierung und Feinausrichtung,
+- verbindlicher Abgleich gegen die aus `VDEProtokoll.pdf` abgeleiteten Strukturmerkmale,
+- korrekter Referenz-SHA-256 `019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2`,
+- Ensemble aus Zellraster, horizontaler/vertikaler Projektion, Linienankern und Seitenverhältnis,
+- 93 formulargebundene Feldzonen mit referenzbereinigten Baselines,
+- robuste Checkbox-, Handschrift-/Tinten- und Unterschriftsevidenz statt einfacher Dunkeldichte,
+- typabhängige Konfidenzschwellen und nachvollziehbare Erkennungsgründe,
+- sequentielle manuelle Klärung mit markiertem Originalausschnitt,
+- Mehrfeld-Dialog für den technischen Platz ohne Ortsangaben-Deadlock,
+- „Nicht relevant“ nur bei im Feldschema fachlich zugelassenen Punkten,
+- unvermeidbare Pflichtfelder und Sicherheitsabweichungen,
+- grüner Haken für plausibel und rotes X für nicht plausibel.
 
-1. Ein oder mehrere Fotos oder PDFs des vom Nutzer bereitgestellten Prüfberichts laden.
-2. PDF-Seiten werden mit der lokal enthaltenen PDF.js-Laufzeit gerendert; es erfolgt kein Upload.
-3. Das Seitenformat und Linienraster werden mit den abgeleiteten Strukturmerkmalen des verbindlichen Prüfberichts Lfd. Nr. 12782 verglichen.
-4. Formularfelder, Checkboxen, Prüfpunkt-Raster und Messwertzonen werden positionsbezogen zugeordnet. Eingebetteter PDF-Text und eine gegebenenfalls vorhandene lokale `TextDetector`-Schnittstelle ergänzen die Bildanalyse.
-5. Vollständigkeit sowie Regeln für Isolationswiderstand, Durchgängigkeit, Schleifenimpedanz, Ib/In, Spannungsfall und RCD-Werte werden geprüft.
-6. Unsichere, fehlende oder auffällige Angaben werden mit einem markierten Ausschnitt des hochgeladenen Protokolls nacheinander angeboten. Je Punkt sind Auswahl/Korrektur, „nicht relevant“ oder bei einer Abweichung „als n.i.O. bestätigen“ möglich.
-7. Nach vollständiger Klärung erscheint ein grüner Haken für „Plausibel“ oder ein rotes X für „Nicht plausibel“.
+Die Erkennung ist bewusst **KI-ähnlich heuristisch**, aber nicht selbstlernend: Sie kombiniert mehrere unabhängige Merkmale und Konfidenzen. Es findet kein Upload und kein Aufruf eines externen KI-/OCR-Dienstes statt.
 
-Die leere Mustervorlage `VDEProtokoll.pdf` wird nicht ausgeliefert, nicht angezeigt und nicht zum Download angeboten. Im Projekt befinden sich ausschließlich abgeleitete Geometrie-, Feld- und Strukturmerkmale. In der Oberfläche wird nur das vom Nutzer hochgeladene Protokoll dargestellt.
+## Datenschutz und Referenzen
 
-Die Prüfung ist eine dokumentbezogene Zweitkontrolle und keine Inbetriebnahmefreigabe. Einzelheiten: `VDE0100-600-AUTOMATIK.md`.
+- Die leere `VDEProtokoll.pdf` ist die autorisierte Referenzquelle für Hash, Geometrie, Struktur-Fingerabdruck und Blank-Baselines.
+- Die Referenz-PDF selbst ist nicht in die Webanwendung eingebettet und nicht downloadbar.
+- Ein reales ausgefülltes Prüfprotokoll wird ausschließlich als externe Testeingabe verwendet.
+- Das Release enthält weder diese ausgefüllte PDF noch ihren Inhalt, einen Precache-Eintrag oder eine abgeleitete Vorschau.
+- `tools/release.py` und `tools/validate_release.py` enthalten ein Datenschutz-Gate gegen die bekannte reale Testdatei.
 
 ## Projektstruktur
 
-- `assets/core.css`: gemeinsame seitenübergreifende Styles
-- `assets/app.js`: Basisfunktionen, Favoriten, Suche, Sortierung und Navigation
-- `assets/vde0100-600-engine.js`: DOM-unabhängige Vollständigkeits- und Messwertlogik
-- `assets/vde0100-600-template.json`: ausschließlich abgeleitete Formulargeometrie, Feldzuordnung, Strukturmerkmale und Prüfeinstellungen
-- `assets/vde0100-600-rules.json`: dokumentierte Regeldefinitionen
-- `plausibilitaetspruefung-vde0100-600/`: Oberfläche und lokale Dokumentenpipeline
-- `vendor/pdfjs/`: lokal eingebundener PDF-Renderer einschließlich Lizenz
-- `test-fixtures/vde0100-600/`: unveränderte Regressionstest-Fixture der Vorgängerversion; keine UI-Verknüpfung und keine Mustervorlage
-- `assets/navigation-tree.json`: zentrale Inhaltsquelle des Navigationsbaums
-- `shared/`: Vorlagen für Header, Footer, Bedienelemente und Seitenmetadaten
-- `tools/`: Synchronisierung, Funktions-, Browser-, Release- und Integritätsprüfungen
+- `index.html` und 15 Direktseiten
+- `assets/`: zentrale Laufzeitdateien, Datenkataloge, VDE-Engine, Regeln und Referenzprofil
+- `plausibilitaetspruefung-vde0100-600/`: Upload-, Analyse-, Klärungs- und Ergebnisoberfläche
+- `vendor/pdfjs/`: lokale PDF.js-Laufzeit
+- `shared/`: zentrale Header-/Footer-/Bedienelement-Fragmente
+- `tools/release.py`: Version, PWA-Precache, Datenschutz-Gate, Prüfsummen und ZIP
+- `tools/validate_release.py`: statische Vollständigkeits-, Datenschutz- und Integritätsprüfung
+- `tools/functional-smoke-test.js`: Rechner-, Inhalts- und VDE-Regeltests
+- `tools/browser-smoke-test.py`: vollständiger Browser-, Responsive-, PWA- und Offline-Test
+- `tools/vde-protocol-e2e-test.py`: externe End-to-End-Tests für Referenz-PDF, Fotoformate und Fremdformular
+- `TESTBERICHT-UND-ABNAHME.md`: geprüfter Release-Nachweis
+- `SHA256SUMS.txt`: interne SHA-256-Prüfsummen
 
-## Lokaler Start und Prüfungen
+## Testen
 
 ```bash
-python -m http.server 4173
-# in weiteren Terminals:
 node tools/functional-smoke-test.js
-python tools/validate_release.py
-python tools/browser-smoke-test.py
+python3 tools/validate_release.py
 ```
 
-Für PWA-, PDF-Worker- und Service-Worker-Prüfungen ist HTTP(S) erforderlich; ein direkter `file://`-Aufruf reicht nicht.
+Für Browser- und Protokolltests werden die PDFs absichtlich außerhalb des Projekts übergeben:
+
+```bash
+export SK_VDE_REFERENCE_PDF=/sicherer/pfad/VDEProtokoll.pdf
+export SK_VDE_FILLED_PDF=/sicherer/pfad/ausgefüllte-testdatei.pdf
+python3 -m http.server 4173 --bind 127.0.0.1
+# in einem zweiten Terminal:
+python3 tools/browser-smoke-test.py
+python3 tools/vde-protocol-e2e-test.py
+```
 
 ## Release bauen
 
 ```bash
-python tools/release.py --version 2.1.0.2-Beta --all
+python3 tools/release.py --all
 ```
 
-Der Befehl synchronisiert Version, HTML, Laufzeitdaten, Manifest, Navigation und PWA-Cache, erzeugt den Offline-Precache, erstellt `SHA256SUMS.txt` und baut das vollständige ZIP. `stableBaseline` bleibt bei **2.1.0.0**.
+Der Build synchronisiert Version, Manifest, App-ID, Cache-Namen und Precache, prüft das Datenschutz-Gate, erzeugt `SHA256SUMS.txt` und baut das vollständige ZIP.
 
-## Integrität
+## Fachliche Grenze
 
-```bash
-sha256sum -c SHA256SUMS.txt
-```
+Die Anwendung unterstützt die dokumentierte Zweitkontrolle. Sie führt keine Messung durch und ersetzt weder die Bewertung noch die Freigabe durch eine verantwortliche Elektrofachkraft.

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.0.2-Beta."""
+"""Static release validation for SK PLT Tools 2.1.0.3-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.0.2-Beta'
+VERSION='2.1.0.3-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -36,7 +36,7 @@ for rel in sorted(OBSOLETE_FILES):
     if (ROOT/rel).exists(): errors.append(f'Nachweislich ersetzte Altdatei noch vorhanden: {rel}')
 for path in (ROOT/'assets').glob('version-*.js'):
     errors.append(f'Nachweislich ersetzte Versions-Patchdatei noch vorhanden: {path.relative_to(ROOT)}')
-for required in ('release-config.json','shared/header.html','shared/footer.html','shared/controls.html','shared/pages.json','tools/sync_shared.py','tools/release.py','assets/vde0100-600-engine.js','assets/vde0100-600-template.json','vendor/pdfjs/pdf.min.mjs','vendor/pdfjs/pdf.worker.min.mjs','vendor/pdfjs/LICENSE','test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf','VDE0100-600-AUTOMATIK.md'):
+for required in ('release-config.json','shared/header.html','shared/footer.html','shared/controls.html','shared/pages.json','tools/sync_shared.py','tools/release.py','assets/vde0100-600-engine.js','assets/vde0100-600-template.json','vendor/pdfjs/pdf.min.mjs','vendor/pdfjs/pdf.worker.min.mjs','vendor/pdfjs/LICENSE','tools/vde-protocol-e2e-test.py','VDE0100-600-AUTOMATIK.md'):
     if not (ROOT/required).is_file(): errors.append(f'Zentrale Build-/Shell-Datei fehlt: {required}')
 if set(pages)!=EXPECTED_PAGES:
     errors.append(f'HTML-Seiten abweichend: erwartet {sorted(EXPECTED_PAGES)}, gefunden {sorted(pages)}')
@@ -196,7 +196,7 @@ if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwe
 vde_path=ROOT/'plausibilitaetspruefung-vde0100-600/index.html'
 vde_html=vde_path.read_text(encoding='utf-8')
 vde_page=BeautifulSoup(vde_html,'html.parser')
-for selector in ('#documentInput','#analysisPanel','#reviewPanel','#previewFrame','#layoutScore','#issuePanel','#issueCard','#issueSource','#notRelevant','#confirmFail','#applyCorrection','#resultPanel','#verdictIcon','#verdictTitle'):
+for selector in ('#documentInput','#analysisPanel','#reviewPanel','#previewFrame','#layoutScore','#recognitionDetail','#issuePanel','#issueCard','#issueSource','#resolutionPolicy','#notRelevant','#confirmFail','#applyCorrection','#resultPanel','#verdictIcon','#verdictTitle'):
     if not vde_page.select_one(selector): errors.append(f'VDE-Prüfung: Element fehlt: {selector}')
 if vde_page.select_one('#loadSample') or 'Muster laden' in vde_html: errors.append('VDE-Prüfung: sichtbare Musterladefunktion darf nicht vorhanden sein')
 if 'VDEProtokoll.pdf' in vde_html: errors.append('VDE-Prüfung: Mustervorlage darf nicht in der Oberfläche genannt oder verlinkt sein')
@@ -207,9 +207,14 @@ try:
     vde_schema=json.loads((ROOT/'assets/vde0100-600-template.json').read_text(encoding='utf-8'))
     reference=vde_schema.get('referenceForm',{})
     if vde_schema.get('moduleVersion')!=VERSION: errors.append('VDE-Schema: Modulversion inkonsistent')
-    if reference.get('fileName')!='VDEProtokoll.pdf' or reference.get('sha256')!='019b2918bbfa0b7bef71c6b95f1a4813630505397f5ff05ba63495473b625693': errors.append('VDE-Schema: Herkunftsnachweis der verbindlichen Mustervorlage stimmt nicht')
+    if reference.get('fileName')!='VDEProtokoll.pdf' or reference.get('sha256')!='019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2': errors.append('VDE-Schema: Herkunftsnachweis der verbindlichen Mustervorlage stimmt nicht')
     if reference.get('embedded') is not False or reference.get('downloadable') is not False: errors.append('VDE-Schema: Mustervorlage muss ausdrücklich nicht eingebettet und nicht downloadbar sein')
     if len(vde_schema.get('layoutAnchorsY',[]))!=33: errors.append('VDE-Schema: erwartet werden 33 horizontale Linienanker')
+    descriptor=vde_schema.get('referenceDescriptor',{})
+    if descriptor.get('version')!='structure-v2' or len(descriptor.get('grid',[]))!=432 or len(descriptor.get('x',[]))!=64 or len(descriptor.get('y',[]))!=96: errors.append('VDE-Schema: mehrstufiger Referenz-Fingerabdruck unvollständig')
+    evidence=vde_schema.get('referenceEvidence',{})
+    if len(evidence.get('fields',{}))!=93 or not evidence.get('checkboxes',{}): errors.append('VDE-Schema: Referenz-Baselines für Felder/Checkboxen unvollständig')
+    if vde_schema.get('config',{}).get('layoutScoreMin',0)<0.85: errors.append('VDE-Schema: Formularschwelle ist zu niedrig')
     field_map=vde_schema.get('fieldMap',{})
     if len(field_map)!=93: errors.append(f'VDE-Schema: erwartet werden 93 Feldzuordnungen, gefunden {len(field_map)}')
     for field in ('testReason','networkSystem','inspection31','inspection50','bondingMainStatus','insulationValues','loopImpedance','rcdTripTime','test71','test76','signatureState'):
@@ -219,10 +224,10 @@ try:
 except Exception as exc:
     errors.append(f'VDE-Schema ungültig: {exc}')
 vde_engine=(ROOT/'assets/vde0100-600-engine.js').read_text(encoding='utf-8')
-for required in ('buildIssues','finalState','curveFactor','parseText','_notRelevant','inspectionLabels','MEAS-DU-CONSISTENCY'):
+for required in ('buildIssues','finalState','curveFactor','parseText','_notRelevant','inspectionLabels','MEAS-DU-CONSISTENCY','allowSemanticNotRelevant','safetyCritical','layoutScoreReject'):
     if required not in vde_engine: errors.append(f'VDE-Engine: Merkmal fehlt: {required}')
 checker=(ROOT/'plausibilitaetspruefung-vde0100-600/checker.js').read_text(encoding='utf-8')
-for required in ('layoutScore','orientPage','extractTemplateFields','renderIssueContext','_visualPresence'):
+for required in ('layoutScore','orientAndNormalize','normalizeContrast','structureDescriptor','extractTemplateFields','checkboxMarked','signatureState','renderIssueContext','_visualPresence','allowNotRelevant','groupControl'):
     if required not in checker: errors.append(f'VDE-Erkennung: Merkmal fehlt: {required}')
 if 'loadSample' in checker: errors.append('VDE-Erkennung: alte Musterladefunktion noch vorhanden')
 
@@ -238,7 +243,7 @@ for required in ('.sk-tree-node-row{display:flex;align-items:stretch', 'backgrou
 article_html=(ROOT/'wissensdatenbank/siemens-sps-rohwert/index.html').read_text(encoding='utf-8')
 for required in ('4 mA  =     0','12 mA = 13824','4 mA  =  5530','12 mA = 16589','Rohwert = 13824','../../siemens-analogwert-rechner/'):
     if required not in article_html: errors.append(f'Rohwert-Grundlagenartikel: Inhalt/Verknüpfung fehlt: {required}')
-if article_html.count('Version 2.1.0.2-Beta')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
+if article_html.count(f'Version {VERSION}')>0: errors.append('Rohwert-Grundlagenartikel: sichtbare Versionsnummer außerhalb Startseiten-Hero')
 article_page=BeautifulSoup(article_html,'html.parser')
 article_breadcrumb=article_page.select_one('nav.knowledge-breadcrumb[aria-label="Brotkrümelnavigation"]')
 if article_breadcrumb is None: errors.append('Rohwert-Grundlagenartikel: Breadcrumb fehlt')
@@ -257,16 +262,19 @@ for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'<
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
 if "const CACHE_PREFIX='sk-plt-tools-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den Release-Cache')
 if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt ältere SK-PLT-Tools-Caches nicht')
-for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html','./assets/vde0100-600-engine.js','./assets/vde0100-600-template.json','./vendor/pdfjs/pdf.min.mjs','./vendor/pdfjs/pdf.worker.min.mjs','./test-fixtures/vde0100-600/228_SR4_K06_E07.1.pdf'):
+for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html','./assets/vde0100-600-engine.js','./assets/vde0100-600-template.json','./vendor/pdfjs/pdf.min.mjs','./vendor/pdfjs/pdf.worker.min.mjs'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
+for forbidden in ('_'.join(('228','SR4','K06','E07.1.pdf')),'744f24436071c5c9f36d91fc82fa2a6'+'a16f20ec8662bd81f68e3f53321792772'):
+    if forbidden in sw: errors.append('Service Worker enthält eine personenbezogene Testreferenz')
 
 
 manifest=json.loads((ROOT/'manifest.webmanifest').read_text(encoding='utf-8'))
 if manifest.get('name')!='SK PLT Tools' or manifest.get('short_name')!='SK PLT Tools': errors.append('Manifest: offizieller App-Name fehlt')
-if manifest.get('id')!='./?app=sk-plt-tools-2.1.0.2-beta' or manifest.get('start_url')!='./?app=sk-plt-tools-2.1.0.2-beta' or manifest.get('version')!=VERSION: errors.append('Manifest: Release-ID/start_url/version nicht eindeutig')
-if manifest.get('description')!='Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.1.0.2-Beta': errors.append('Manifest: Release-Beschreibung inkonsistent')
+expected_app_id=f'./?app=sk-plt-tools-{VERSION.lower()}'
+if manifest.get('id')!=expected_app_id or manifest.get('start_url')!=expected_app_id or manifest.get('version')!=VERSION: errors.append('Manifest: Release-ID/start_url/version nicht eindeutig')
+if manifest.get('description')!=f'Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version {VERSION}': errors.append('Manifest: Release-Beschreibung inkonsistent')
 release_config=json.loads((ROOT/'release-config.json').read_text(encoding='utf-8'))
-if release_config.get('version')!=VERSION or release_config.get('stableBaseline')!='2.1.0.0' or release_config.get('archiveName')!='SK-PLT-Tools-V2.1.0.2-Beta.zip': errors.append('Release-Konfiguration: Beta-Version, stabile Basis oder Archivname inkonsistent')
+if release_config.get('version')!=VERSION or release_config.get('stableBaseline')!='2.1.0.0' or release_config.get('archiveName')!=f'SK-PLT-Tools-V{VERSION}.zip': errors.append('Release-Konfiguration: Beta-Version, stabile Basis oder Archivname inkonsistent')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
 for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#rangeStatus','#statusDetail','#calculationError'):
@@ -301,6 +309,17 @@ for label,content in (('Favoriten',favorites_css),('Navigation',tree_css)):
         if required not in content: errors.append(f'{label}: kompakte Schaltflächengröße fehlt: {required}')
 for required in ('grid-template-columns:1fr 38px','.sign{font-size:16px;min-width:38px}'):
     if required not in styles_css: errors.append(f'Vorzeichen-Schaltfläche: Kompaktierungsmerkmal fehlt: {required}')
+
+# Datenschutz-Gate: Das reale ausgefüllte Testprotokoll darf weder als Datei noch als Inhalt/Hash ausgeliefert werden.
+PII_FIXTURE_NAME='_'.join(('228','SR4','K06','E07.1.pdf'))
+PII_FIXTURE_HASH='744f24436071c5c9f36d91fc82fa2a6'+'a16f20ec8662bd81f68e3f53321792772'
+for path in ROOT.rglob('*'):
+    if not path.is_file(): continue
+    if path.name==PII_FIXTURE_NAME: errors.append(f'Datenschutz: personenbezogene Testdatei im Release: {path.relative_to(ROOT)}')
+    if hashlib.sha256(path.read_bytes()).hexdigest()==PII_FIXTURE_HASH: errors.append(f'Datenschutz: personenbezogener Testinhalt im Release: {path.relative_to(ROOT)}')
+    if path.suffix.lower() in {'.js','.json','.html','.md','.txt','.py'}:
+        text=path.read_text(encoding='utf-8',errors='ignore')
+        if PII_FIXTURE_HASH in text: errors.append(f'Datenschutz: Hash der personenbezogenen Testdatei eingebettet: {path.relative_to(ROOT)}')
 
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel

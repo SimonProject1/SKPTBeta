@@ -1,6 +1,7 @@
-STABILE BASIS
-V2.1.0.0
-Aktuelle Beta-Version: V2.1.0.2-Beta
-Direkte Vorgängerversion: V2.1.0.1-Beta
+SK PLT Tools – Baseline-Hinweis
 
-Die stabile Basis V2.1.0.0 bleibt unverändert referenziert. V2.1.0.2-Beta enthält den vollständigen Bestand von V2.1.0.1-Beta und ersetzt innerhalb der VDE-0100-600-Prüfung das frühere Musterprofil durch die aus VDEProtokoll.pdf abgeleitete, formulargebundene Struktur. Die leere Referenz-PDF selbst ist nicht Bestandteil der Anwendung. Neu sind A4-/Linienrasterprüfung, 93 Feldzuordnungen, Checkbox-Auswertung, Originalausschnitte im Klärungsdialog, erweiterte Vollständigkeits- und Messwertprüfungen sowie die aktualisierten PWA-, Release-, Dokumentations- und Prüfsummeneinträge.
+Version: V2.1.0.3-Beta
+Direkte Vorgängerversion/Basis: V2.1.0.2-Beta
+Stabile Referenz: V2.1.0.0
+
+Die vollständige Projektstruktur der direkten Basis bleibt erhalten. 2.1.0.3-Beta ersetzt innerhalb der VDE-0100-600-Prüfung die fehleranfällige Einzelmerkmal-Erkennung durch einen referenzgebundenen Struktur- und Evidenzabgleich. Die leere VDEProtokoll.pdf ist die autorisierte externe Referenz; die reale ausgefüllte Test-PDF wird ausschließlich extern getestet und nicht ausgeliefert.

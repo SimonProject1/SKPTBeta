@@ -1,0 +1,31 @@
+PROJEKTÜBERGABE – SK PLT Tools V2.1.0.3-Beta
+
+Direkte Basis: V2.1.0.2-Beta
+Stabile Referenz: V2.1.0.0
+Stand: 06.10.2026
+
+Übergeben wird der vollständige statische Projektbestand mit 16 Direktseiten, Offline-PWA, Rechnern, Wissensdatenbank, Werkstoffmodul und überarbeiteter VDE-0100-600-Plausibilitätsprüfung.
+
+Wesentliche Änderungen:
+- Ortsangaben-Deadlock durch Mehrfeld-Klärung beseitigt.
+- Reale ausgefüllte Test-PDF vollständig aus Release und Precache entfernt.
+- Datenschutz-Gates in Builder und Validator ergänzt.
+- Formularidentität über Referenz-Hash plus Struktur-Ensemble gehärtet.
+- Hart abgelehnte Fremdformulare erzeugen keine positionsgebundenen Werte.
+- Checkboxen und Unterschriften werden gegen Blank-Baselines bewertet.
+- Foto-/PDF-Pfade normalisiert und mit mehreren Formaten getestet.
+- Pflicht- und Sicherheitsabweichungen sind nicht als „nicht relevant“ überspringbar.
+- Browser-Smoke-Sollwert wird aus der Release-Version abgeleitet.
+
+Technische Identität:
+- Version: 2.1.0.3-Beta
+- PWA-ID: ./?app=sk-plt-tools-2.1.0.3-beta
+- Cache: sk-plt-tools-v2.1.0.3-Beta
+- Archiv: SK-PLT-Tools-V2.1.0.3-Beta.zip
+
+Externe Testeingaben:
+- autorisierte leere Referenz-PDF,
+- reales ausgefülltes historisches Protokoll ausschließlich außerhalb des Releases.
+
+Fachliche Grenze:
+Die Anwendung ist eine dokumentierte Zweitkontrolle, keine Messung, Zertifizierung oder Inbetriebnahmefreigabe.

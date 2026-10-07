@@ -1,51 +1,48 @@
-# Deployment – SK PLT Tools 2.1.0.2-Beta
+# Deployment – SK PLT Tools 2.1.0.3-Beta
 
 ## Voraussetzungen
 
-- Statischer Webserver mit HTTPS für Produktion; `localhost` ist für lokale PWA-Tests zulässig
-- Alle Dateien und Ordner des ZIP-Pakets unverändert gemeinsam bereitstellen
-- MIME-Typen für `.mjs` (`text/javascript`), `.json`, `.pdf` und `.wasm` zulassen
-- Vor dem Austausch des produktiven Webroots eine Sicherung der bestehenden Installation erstellen
+- statischer Webserver mit HTTPS oder localhost für Service Worker,
+- korrekte MIME-Typen für `.webmanifest`, `.mjs`, `.json`, `.pdf`, `.png`, `.jpg` und `.webp`,
+- keine serverseitige Anwendung erforderlich.
 
-## Installation
+## Bereitstellung
 
-1. `SK-PLT-Tools-V2.1.0.2-Beta.zip` entpacken.
-2. Den enthaltenen Ordner vollständig auf den Ziel-Webserver kopieren.
-3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/`, `vendor/`, `test-fixtures/` und alle Modulordner unter demselben Webroot liegen.
-4. Startseite und `plausibilitaetspruefung-vde0100-600/` direkt öffnen.
-5. In der VDE-Prüfung ein eigenes Protokoll im Zielformat hochladen und Formularerkennung, Originalvorschau sowie den Ablauf bis zur geführten Klärung prüfen.
-6. Die Anwendung einmal online laden, bis der neue Service Worker aktiviert ist; danach die Offline-Prüfung durchführen.
+1. `SK-PLT-Tools-V2.1.0.3-Beta.zip` entpacken.
+2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.0.3-Beta/` unverändert unter dem Webroot bereitstellen.
+3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/`, `vendor/` und alle Modulordner unter demselben Webroot liegen.
+4. Keine reale ausgefüllte VDE-Testdatei in den Webroot kopieren.
+5. Browserdaten einer älteren Beta bei Bedarf neu laden; der Service Worker löscht ältere `sk-plt-tools-*`-Caches automatisch.
 
-## Integritätsprüfung
+## Release-Identität
 
-```bash
-sha256sum -c SHA256SUMS.txt
-```
+- Version: `2.1.0.3-Beta`
+- Manifest-ID/Start-URL: `./?app=sk-plt-tools-2.1.0.3-beta`
+- Cache: `sk-plt-tools-v2.1.0.3-Beta`
 
-Alle Einträge müssen `OK` melden.
-
-## Technische Abnahme
+## Vor Deployment ausführen
 
 ```bash
 node tools/functional-smoke-test.js
-python tools/validate_release.py
-python -m http.server 4173
-# in einem zweiten Terminal:
-python tools/browser-smoke-test.py
+python3 tools/release.py --checksums
+python3 tools/validate_release.py
 ```
 
-Der Browser-Test prüft Desktop, Tablet, Mobilansicht, Direktlinks, Navigation, Suche, Sortierung, Favoriten, Rechnerinteraktionen, VDE-Musteranalyse, PDF-Rendering, Klärungsablauf, PWA-Registrierung und Offline-Aufrufe.
-
-## Update und Rollback
-
-- Der neue Cache heißt `sk-plt-tools-v2.1.0.2-Beta`.
-- Der Service Worker entfernt ältere Caches mit dem Präfix `sk-plt-tools-`; andere Anwendungen und Caches bleiben unberührt.
-- Ein Rollback erfolgt durch vollständiges Wiederherstellen des Webroots von 2.1.0.0. Danach die stabile Version einmal online öffnen, damit deren Service Worker wieder aktiv wird.
-
-## Neues Release erzeugen
+Browser- und VDE-End-to-End-Tests benötigen einen lokalen Server und externe Testpfade:
 
 ```bash
-python tools/release.py --version X.Y.Z.W-Beta --all
+export SK_VDE_REFERENCE_PDF=/sicherer/pfad/VDEProtokoll.pdf
+export SK_VDE_FILLED_PDF=/sicherer/pfad/ausgefüllte-testdatei.pdf
+python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-Vor der Weitergabe immer die drei Tests erneut ausführen und anschließend `SHA256SUMS.txt` sowie das ZIP neu erzeugen.
+Danach in einem zweiten Terminal:
+
+```bash
+python3 tools/browser-smoke-test.py
+python3 tools/vde-protocol-e2e-test.py
+```
+
+## Rollback
+
+Die stabile Referenz bleibt 2.1.0.0. Für einen Rollback den Webroot vollständig auf das gewünschte, separat geprüfte Paket zurücksetzen und bestehende `sk-plt-tools-*`-Caches im Browser löschen.

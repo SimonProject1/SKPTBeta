@@ -1,28 +1,36 @@
 {
-  "schemaVersion": "2.1",
-  "moduleVersion": "2.1.0.2-Beta",
+  "schemaVersion": "2.2",
+  "moduleVersion": "2.1.0.3-Beta",
   "status": "Beta – formulargebundene fachliche Vorprüfung",
   "scope": "Vollständigkeits- und Plausibilitätskontrolle ohne Inbetriebnahmefreigabe",
   "supportedProtocol": "Prüfbericht nach VDE 0100-600 / IEC 60364-6 und VDE 0105-100 / EN 50110, Lfd. Nr. 12782",
+  "resolutionGovernance": {
+    "sequentialReview": true,
+    "uncertainValues": ["bestätigen", "korrigieren", "fachlich nicht relevant, sofern im Feldschema zugelassen"],
+    "mandatoryFieldsSkippable": false,
+    "safetyDeviationsSkippable": false,
+    "hardRejectedFormCanBeOverridden": false
+  },
   "defaults": {
     "phaseVoltage": 230,
     "insulationMinMOhm": 1,
     "continuityWarningOhm": 1,
     "voltageDropLimitPercent": 5,
     "rcdTripTimeLimitMs": 300,
-    "layoutScoreMin": 0.58
+    "layoutScoreMin": 0.9,
+    "layoutScoreReject": 0.84
   },
   "rules": [
-    {"id":"FORM-LAYOUT","section":"Dokument","severity":"error","message":"A4-Ausrichtung und Linienraster werden gegen die abgeleiteten Strukturmerkmale der verbindlichen Mustervorlage geprüft."},
-    {"id":"DOC-REQUIRED","section":"Dokument","severity":"open","message":"Pflichtfelder ohne sicheren Erkennungswert werden mit einem Ausschnitt aus dem hochgeladenen Original nacheinander zur Klärung angeboten."},
-    {"id":"MASTER-IDENT","section":"Stammdaten","severity":"open","message":"Mindestens zwei Felder des technischen Platzes müssen bestätigt sein."},
-    {"id":"STATUS-NIO","section":"Bewertung","severity":"error","message":"Eine bestätigte n.i.O.-Markierung in den Prüfpunkten 3.1–3.20, 4.1–4.4, 6.2 oder 7.1–7.6 führt zum roten Gesamtergebnis."},
-    {"id":"MEAS-INS","section":"5. Isolation","severity":"error","message":"Isolationswerte werden gegen den konfigurierten Mindestprüfwert verglichen."},
-    {"id":"MEAS-ZS","section":"6. Automatische Abschaltung","severity":"error","message":"Zs wird mit U0/(Kennlinienfaktor × In) verglichen; B=5, C=10, D=20."},
-    {"id":"CIRCUIT-IB-IN","section":"2. Angaben zum Objekt","severity":"error","message":"Der erfasste Verbraucherstrom Ib darf den Nennstrom In nicht überschreiten."},
-    {"id":"MEAS-DU","section":"2. Angaben zum Objekt","severity":"error","message":"Der Spannungsfall wird gegen das konfigurierte Prüfziel und auf rechnerische Konsistenz geprüft."},
-    {"id":"RCD-I","section":"6. Automatische Abschaltung","severity":"error","message":"Der erfasste Auslösestrom wird gegen IΔn verglichen."},
-    {"id":"RCD-T","section":"6. Automatische Abschaltung","severity":"error","message":"Die Auslösezeit wird gegen den konfigurierten Standard-Prüfwert verglichen."},
-    {"id":"SIGN-MISSING","section":"Abschluss","severity":"error","message":"Eine fehlende Prüferunterschrift wird als nicht plausibel bewertet."}
+    {"id":"FORM-LAYOUT","section":"Dokument","severity":"error","skippable":false,"message":"A4-Ausrichtung, Strukturprojektionen, Zellraster und Linienanker werden gegen die abgeleiteten Merkmale der verbindlichen leeren Referenz geprüft. Eindeutige Fremdformulare werden ohne Feldmapping abgelehnt."},
+    {"id":"DOC-REQUIRED","section":"Dokument","severity":"open","skippable":false,"message":"Pflichtfelder ohne sicheren Erkennungswert werden mit einem Ausschnitt aus dem hochgeladenen Original nacheinander zur Klärung angeboten."},
+    {"id":"MASTER-IDENT","section":"Stammdaten","severity":"open","skippable":false,"message":"Mindestens zwei Felder des technischen Platzes werden in einem gemeinsamen Mehrfeld-Dialog bestätigt."},
+    {"id":"STATUS-NIO","section":"Bewertung","severity":"error","skippable":false,"message":"Eine bestätigte n.i.O.-Markierung in den Prüfpunkten 3.1–3.20, 4.1–4.4, 6.2 oder 7.1–7.6 führt zum roten Gesamtergebnis."},
+    {"id":"MEAS-INS","section":"5. Isolation","severity":"error","skippable":false,"message":"Isolationswerte werden gegen den konfigurierten Mindestprüfwert verglichen."},
+    {"id":"MEAS-ZS","section":"6. Automatische Abschaltung","severity":"error","skippable":false,"message":"Zs wird mit U0/(Kennlinienfaktor × In) verglichen; B=5, C=10, D=20."},
+    {"id":"CIRCUIT-IB-IN","section":"2. Angaben zum Objekt","severity":"error","skippable":false,"message":"Der erfasste Verbraucherstrom Ib darf den Nennstrom In nicht überschreiten."},
+    {"id":"MEAS-DU","section":"2. Angaben zum Objekt","severity":"error","skippable":false,"message":"Der Spannungsfall wird gegen das konfigurierte Prüfziel und auf rechnerische Konsistenz geprüft."},
+    {"id":"RCD-I","section":"6. Automatische Abschaltung","severity":"error","skippable":false,"message":"Der erfasste Auslösestrom wird gegen IΔn verglichen."},
+    {"id":"RCD-T","section":"6. Automatische Abschaltung","severity":"error","skippable":false,"message":"Die Auslösezeit wird gegen den konfigurierten Standard-Prüfwert verglichen."},
+    {"id":"SIGN-MISSING","section":"Abschluss","severity":"error","skippable":false,"message":"Eine fehlende Prüferunterschrift wird als nicht plausibel bewertet."}
   ]
 }

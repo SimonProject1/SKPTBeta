@@ -1,29 +1,31 @@
-SK PLT Tools 2.1.0.2-Beta
-Release-Datum: 06.10.2026
-Direkte Basis: 2.1.0.1-Beta
-Stabile Basis: 2.1.0.0
+SK PLT Tools 2.1.0.3-Beta
+Direkte Basis: 2.1.0.2-Beta
+Stabile Referenz: 2.1.0.0
+Datum: 06.10.2026
 
-ZIEL
-- Vollständige Nachfolge-Beta mit unverändertem Bestand der Version 2.1.0.1-Beta.
-- Verbindliche Ausrichtung der Plausibilitätsprüfung an der neu bereitgestellten leeren Vorlage VDEProtokoll.pdf.
+VDE-0100-600-Erkennung
+- Mehrstufige lokale, KI-ähnliche Erkennung aus Struktur-Fingerabdruck, Projektionen, Linienankern, A4-Geometrie und Konfidenzen.
+- PDF- und Foto-Vorverarbeitung mit Kontrastnormalisierung, Vierfach-Orientierung, Feinausrichtung und hochwertiger Skalierung.
+- Verbindliche leere Referenz VDEProtokoll.pdf mit korrigiertem SHA-256 019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2.
+- 93 Feldzonen mit Blank-Baselines; robuste Checkbox-, Handschrift-/Tinten- und Unterschriftsevidenz.
+- Harte Ablehnung eindeutiger Fremd-/Altformulare ohne positionsgebundenes Feldmapping.
+- Typabhängige Konfidenzschwellen; unsichere Kandidaten werden als offene Punkte geführt.
 
-VDE-0100-600-DOKUMENTENPRÜFUNG
-- Formularprofil auf den Prüfbericht Lfd. Nr. 12782 nach VDE 0100-600 / IEC 60364-6 und VDE 0105-100 / EN 50110 umgestellt.
-- 33 Linienanker und 93 formularbezogene Feldzuordnungen für Stammdaten, Messgeräte, Objektangaben, Prüfpunkte 3.1–3.20, Messungen 4.1–4.4, Isolation, Abschaltung 6.1/6.2, Erproben 7.1–7.6 und Abschluss hinterlegt.
-- Automatische Hoch-/Querformat-Ausrichtung, Layoutpassung, Checkbox-Erkennung, Feldzonen-OCR und visuelle Eintragserkennung ergänzt.
-- Vollständigkeitsprüfung an die konkreten Formularfelder und Einzelprüfpunkte angepasst.
-- Messwertprüfung um Durchgängigkeitswerte, konsistente Spannungsfallangaben und formularbezogene Abschaltwege erweitert.
-- Geführte Klärung zeigt für jeden offenen Punkt einen markierten Ausschnitt ausschließlich aus dem hochgeladenen Protokoll.
-- Auswahl/Korrektur, „nicht relevant“, „als n.i.O. bestätigen“ sowie grüner Haken oder rotes X bleiben erhalten.
-- Bisherige UI-Musterladefunktion entfernt.
-- Die leere Mustervorlage selbst ist nicht Bestandteil der Webanwendung, nicht sichtbar und nicht als Download verfügbar; enthalten sind nur abgeleitete Strukturmerkmale.
+Klärung und Sicherheit
+- Ortsangaben-Deadlock durch gemeinsamen Mehrfeld-Dialog für den technischen Platz behoben.
+- Manuelle Klärung bleibt sequentiell und zeigt den Originalausschnitt.
+- „Nicht relevant“ ist nur für fachlich zugelassene Statusfelder oder optionale Metadaten verfügbar.
+- Pflichtfelder, harte Formularabweichungen, fehlende Unterschriften und sicherheitsrelevante n.i.O.-/Messwertabweichungen sind nicht überspringbar.
+- Grüner Haken für plausibel und rotes X für nicht plausibel bleiben erhalten.
 
-RELEASE-/PWA-UMSTELLUNG
-- Technische und sichtbare Version auf 2.1.0.2-Beta synchronisiert.
-- PWA-ID und Start-URL auf ./?app=sk-plt-tools-2.1.0.2-beta gesetzt.
-- Release-Cache auf sk-plt-tools-v2.1.0.2-Beta gesetzt.
-- Manifest, Navigation, HTML-Cacheparameter, Tests, Release-Konfiguration und Dokumentation aktualisiert.
-- Offline-Precache und vollständige SHA-256-Prüfsummen neu erzeugt.
+Datenschutz und Integrität
+- Reale ausgefüllte Test-PDF, ihr Precache-Eintrag und die daraus abgeleitete alte Bildschirmkopie aus dem Release entfernt.
+- Datenschutz-Gates in Release-Builder und Validator verhindern die erneute Aufnahme der bekannten Testdatei.
+- Referenz-PDF bleibt extern; nur Hash, Strukturmerkmale und Blank-Baselines werden ausgeliefert.
 
-SICHERHEITSGRENZE
-- Die Anwendung ist eine dokumentbezogene Zweitkontrolle. Sie ersetzt weder Messung, fachliche Bewertung noch Freigabe durch eine verantwortliche Elektrofachkraft.
+PWA, Version und Tests
+- Version, Manifest, PWA-ID/Start-URL, Cache, Precache, Query-Versionen, Release-Konfiguration, Dokumentation und Prüfsummen auf 2.1.0.3-Beta synchronisiert.
+- PWA-ID/Start-URL: ./?app=sk-plt-tools-2.1.0.3-beta
+- Cache: sk-plt-tools-v2.1.0.3-Beta
+- Browser-Smoke-Test leitet den Sollwert aus VERSION ab; der veraltete harte PWA-Sollwert ist entfernt.
+- Externe End-to-End-Suite prüft leere Referenz als PDF/PNG/JPEG und die reale ausgefüllte PDF ausschließlich als Testeingabe.
