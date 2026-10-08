@@ -1,128 +1,81 @@
 'use strict';
 const ENGINE=window.SK_VDE_ENGINE,$=id=>document.getElementById(id);
-const state={files:[],pages:[],data:{_confidence:{},_confidenceReason:{},_visualPresence:{},_measurementScope:[],_scopeConfirmed:false},template:null,config:{},pending:[],history:[],confirmedFailIds:new Set(),current:0,mode:'',pdfjs:null,locatorQuality:0,locatorUsed:false};
-const formatBytes=size=>size<1024?`${size} B`:size<1048576?`${(size/1024).toFixed(1)} KB`:`${(size/1048576).toFixed(1)} MB`;
+const state={schema:null,current:'voltageDrop',values:{},results:{}};
 const escapeHtml=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[char]));
-const present=ENGINE.present;
-const clamp01=value=>Math.max(0,Math.min(1,Number(value)||0));
-const clamp255=value=>Math.max(0,Math.min(255,Number(value)||0));
-const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 
-function setStep(index){
-  const navStep=index<=1?index:index<=3?2:3;
-  document.querySelectorAll('.steps span').forEach((el,i)=>el.classList.toggle('active',i===navStep));
-  ['uploadPanel','analysisPanel','reviewPanel','issuePanel','resultPanel'].forEach(id=>$(id).hidden=true);
-  $(index===0?'uploadPanel':index===1?'analysisPanel':index===2?'reviewPanel':index===3?'issuePanel':'resultPanel').hidden=false;
-  window.scrollTo({top:0,behavior:'smooth'});
+function currentValues(){return state.values[state.current]||(state.values[state.current]={})}
+function currentDefinition(){return state.schema?.measurementTypes?.[state.current]}
+function visible(field,values){const rule=field.showWhen;if(!rule)return true;return rule.values.includes(values[rule.field])}
+function clearFeedback(){
+  $('inputAlert').hidden=true;$('inputAlertList').replaceChildren();$('resultPanel').hidden=true;
+  $('measurementForm').querySelectorAll('[aria-invalid="true"]').forEach(item=>item.removeAttribute('aria-invalid'));
 }
-async function sha256(buffer){const bytes=await crypto.subtle.digest('SHA-256',buffer);return [...new Uint8Array(bytes)].map(value=>value.toString(16).padStart(2,'0')).join('')}
-function renderFiles(){
-  const host=$('fileList');host.replaceChildren();
-  state.files.forEach((item,index)=>{const row=document.createElement('div');row.className='file-row';row.innerHTML=`<span class="type">${item.file.type==='application/pdf'?'PDF':'BILD'}</span><div><strong>${escapeHtml(item.file.name)}</strong><small>${formatBytes(item.file.size)} · ${escapeHtml(item.file.type||'Datei')}</small></div><button type="button" aria-label="${escapeHtml(item.file.name)} entfernen">×</button>`;row.querySelector('button').onclick=()=>{state.files.splice(index,1);renderFiles()};host.append(row)});
-  $('clearFiles').disabled=!state.files.length;$('startAnalysis').disabled=!state.files.length;
-}
-function addFiles(files){for(const file of files){if(!['application/pdf','image/jpeg','image/png','image/webp'].includes(file.type))continue;if(state.files.length>=8)break;state.files.push({file})}renderFiles()}
-async function loadTemplate(){const response=await fetch('../assets/vde0100-600-template.json?v=2.1.0.5-Beta',{cache:'no-store'});if(!response.ok)throw new Error(`Internes Messfeldprofil konnte nicht geladen werden (${response.status}).`);state.template=await response.json();state.config=state.template.config||{}}
-async function pdfLibrary(){if(state.pdfjs)return state.pdfjs;const pdfjs=await import('../vendor/pdfjs/pdf.min.mjs');pdfjs.GlobalWorkerOptions.workerSrc=new URL('../vendor/pdfjs/pdf.worker.min.mjs',location.href).href;state.pdfjs=pdfjs;return pdfjs}
-function canvasFor(width,height){const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(width));canvas.height=Math.max(1,Math.round(height));return canvas}
-async function renderPdf(item,buffer){
-  const pdfjs=await pdfLibrary(),pdf=await pdfjs.getDocument({data:new Uint8Array(buffer)}).promise,pages=[];let text='';
-  for(let number=1;number<=pdf.numPages;number++){
-    const page=await pdf.getPage(number),base=page.getViewport({scale:1}),scale=Math.min(2.55,2350/Math.max(base.width,base.height)),viewport=page.getViewport({scale}),canvas=canvasFor(viewport.width,viewport.height),context=canvas.getContext('2d',{alpha:false});
-    context.fillStyle='#fff';context.fillRect(0,0,canvas.width,canvas.height);await page.render({canvasContext:context,viewport}).promise;
-    try{const content=await page.getTextContent();text+='\n'+content.items.map(value=>value.str).join(' ')}catch{}
-    pages.push({canvas,label:`${item.file.name} · Seite ${number}`,source:item.file.name,page:number,fileHash:item.hash});
-  }
-  return{pages,text};
-}
-async function renderImage(item){const bitmap=await createImageBitmap(item.file),scale=Math.min(2400/Math.max(bitmap.width,bitmap.height),2.6),canvas=canvasFor(bitmap.width*scale,bitmap.height*scale),context=canvas.getContext('2d',{alpha:false});context.fillStyle='#fff';context.fillRect(0,0,canvas.width,canvas.height);context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';context.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();return{pages:[{canvas,label:item.file.name,source:item.file.name,page:1,fileHash:item.hash}],text:''}}
-function rotateCanvas(source,degrees){const normalized=((degrees%360)+360)%360;if(!normalized)return source;const rightAngle=normalized===90||normalized===270,angle=normalized*Math.PI/180,out=canvasFor(rightAngle?source.height:source.width,rightAngle?source.width:source.height),ctx=out.getContext('2d',{alpha:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,out.width,out.height);ctx.translate(out.width/2,out.height/2);ctx.rotate(angle);ctx.drawImage(source,-source.width/2,-source.height/2);return out}
-function normalizeContrast(source){
-  const out=canvasFor(source.width,source.height),ctx=out.getContext('2d',{alpha:false,willReadFrequently:true});ctx.drawImage(source,0,0);const image=ctx.getImageData(0,0,out.width,out.height),data=image.data,samples=[],step=Math.max(4,Math.floor(Math.min(out.width,out.height)/300));
-  for(let y=0;y<out.height;y+=step)for(let x=0;x<out.width;x+=step){const i=(y*out.width+x)*4;samples.push(data[i]*.299+data[i+1]*.587+data[i+2]*.114)}
-  samples.sort((a,b)=>a-b);const low=samples[Math.floor(samples.length*.03)]??0,high=samples[Math.floor(samples.length*.97)]??255,span=Math.max(45,high-low);
-  for(let i=0;i<data.length;i+=4){const value=clamp255(((data[i]*.299+data[i+1]*.587+data[i+2]*.114)-low)/span*255);data[i]=data[i+1]=data[i+2]=value;data[i+3]=255}ctx.putImageData(image,0,0);return out;
-}
-function structureDescriptor(canvas){const ctx=canvas.getContext('2d',{willReadFrequently:true}),image=ctx.getImageData(0,0,canvas.width,canvas.height),data=image.data,w=canvas.width,h=canvas.height,x0=Math.round(w*.02),x1=Math.round(w*.98),y0=Math.round(h*.01),y1=Math.round(h*.99),cols=18,rows=24,xBins=64,yBins=96,grid=new Float64Array(cols*rows),gridN=new Uint32Array(cols*rows),px=new Float64Array(xBins),pxN=new Uint32Array(xBins),py=new Float64Array(yBins),pyN=new Uint32Array(yBins),step=Math.max(1,Math.floor(Math.min(w,h)/600));for(let y=y0;y<y1;y+=step){const by=Math.min(yBins-1,Math.floor((y-y0)/(y1-y0)*yBins)),gy=Math.min(rows-1,Math.floor((y-y0)/(y1-y0)*rows));for(let x=x0;x<x1;x+=step){const bx=Math.min(xBins-1,Math.floor((x-x0)/(x1-x0)*xBins)),gx=Math.min(cols-1,Math.floor((x-x0)/(x1-x0)*cols)),i=(y*w+x)*4,dark=data[i]<185?1:0,g=gy*cols+gx;grid[g]+=dark;gridN[g]++;px[bx]+=dark;pxN[bx]++;py[by]+=dark;pyN[by]++}}return{grid:[...grid].map((v,i)=>v/Math.max(1,gridN[i])),x:[...px].map((v,i)=>v/Math.max(1,pxN[i])),y:[...py].map((v,i)=>v/Math.max(1,pyN[i]))}}
-function cosine(a,b){if(!Array.isArray(a)||a.length!==b.length)return 0;let dot=0,aa=0,bb=0;for(let i=0;i<a.length;i++){dot+=a[i]*b[i];aa+=a[i]*a[i];bb+=b[i]*b[i]}return aa&&bb?dot/Math.sqrt(aa*bb):0}
-function locatorScore(canvas){if(!state.template?.referenceDescriptor)return 0;const descriptor=structureDescriptor(canvas),reference=state.template.referenceDescriptor,structure=clamp01(cosine(descriptor.grid,reference.grid)*.55+cosine(descriptor.y,reference.y)*.3+cosine(descriptor.x,reference.x)*.15),aspect=Math.min(canvas.width/canvas.height,canvas.height/canvas.width),target=595/842;return clamp01(structure*.94+clamp01(1-Math.abs(aspect-target)/.14)*.06)}
-function orientAndNormalize(page){const orientations=[0,90,180,270].map(rotation=>{const canvas=rotateCanvas(page.canvas,rotation),analysis=normalizeContrast(canvas),score=locatorScore(analysis);return{canvas,analysis,rotation,score}}).sort((a,b)=>b.score-a.score),best=orientations[0];return{...page,canvas:best.canvas,analysisCanvas:best.analysis,rotation:best.rotation,locatorQuality:best.score}}
-function regionPixels(canvas,rect,inset=.04){const [nx,ny,nw,nh]=rect,padX=nw*inset,padY=nh*inset,x=Math.max(0,Math.round((nx+padX)*canvas.width)),y=Math.max(0,Math.round((ny+padY)*canvas.height)),w=Math.max(1,Math.round((nw-2*padX)*canvas.width)),h=Math.max(1,Math.round((nh-2*padY)*canvas.height)),ctx=canvas.getContext('2d',{willReadFrequently:true});return{x,y,w:Math.min(w,canvas.width-x),h:Math.min(h,canvas.height-y),data:ctx.getImageData(x,y,Math.min(w,canvas.width-x),Math.min(h,canvas.height-y)).data}}
-function visualEvidence(canvas,rect){const {data,w,h}=regionPixels(canvas,rect,.08),stride=Math.max(1,Math.floor(Math.min(w,h)/36));let dark=0,total=0;for(let y=0;y<h;y+=stride)for(let x=0;x<w;x+=stride){const i=(y*w+x)*4;if(data[i]*.299+data[i+1]*.587+data[i+2]*.114<155)dark++;total++}return dark/Math.max(1,total)}
-async function textBlocks(canvas){if(!('TextDetector' in window))return[];try{return await new window.TextDetector().detect(canvas)}catch{return[]}}
-function blocksIn(blocks,rect,canvas){const [x,y,w,h]=rect;return blocks.filter(block=>{const b=block.boundingBox||{},cx=(Number(b.x)||0)+(Number(b.width)||0)/2,cy=(Number(b.y)||0)+(Number(b.height)||0)/2;return cx>=x*canvas.width&&cx<=(x+w)*canvas.width&&cy>=y*canvas.height&&cy<=(y+h)*canvas.height}).map(block=>block.rawValue||'').filter(Boolean).join(' ')}
-function setDetected(key,value,confidence,reason){if(!present(value)||!ENGINE.FIELD_DEFS[key])return;const existing=Number(state.data._confidence[key]||0);if(confidence>=existing){state.data[key]=value;state.data._confidence[key]=clamp01(confidence);state.data._confidenceReason[key]=reason}}
-function parseMappedValue(key,text,parser){const clean=String(text||'').replace(/\s+/g,' ').trim(),def=ENGINE.FIELD_DEFS[key];if(!clean)return null;if(parser==='number')return ENGINE.number(clean);if(parser==='list'||parser==='text')return clean;if(def?.type==='choice'){const normalized=clean.toUpperCase(),found=def.options?.find(([value])=>new RegExp(`(^|\\W)${value}(\\W|$)`,'i').test(normalized));return found?.[0]||null}return clean}
-function extractTemplateFields(page,blocks){
-  const visual=state.data._visualPresence||(state.data._visualPresence={}),canvas=page.canvas;
-  for(const [key,map] of Object.entries(state.template?.fieldMap||{})){
-    if(!ENGINE.FIELD_DEFS[key]||!map.region)continue;
-    const text=blocksIn(blocks,map.region,canvas),value=parseMappedValue(key,text,map.parser);
-    if(present(value))setDetected(key,value,.78,'lokalisierter Bildtext');
-    const evidence=visualEvidence(canvas,map.region),baseline=Number(state.template?.referenceEvidence?.fields?.[key]?.darkRatio||0),delta=evidence-baseline;
-    if(delta>Number(state.config.fieldDarkDeltaMin||.006))visual[key]=true;
-  }
-  state.locatorUsed=true;
-}
-function mergeData(source){for(const [key,value] of Object.entries(source||{})){if(key.startsWith('_'))continue;if(!ENGINE.FIELD_DEFS[key]||!present(value))continue;setDetected(key,value,Number(source._confidence?.[key]||.7),source._confidenceReason?.[key]||'Dokumenttext')}}
-function recognitionLabel(){if(state.mode==='pdf-text')return'PDF-TEXT';if(state.mode==='local-image-text')return'LOKALE BILDTEXTERKENNUNG';if(state.mode==='mixed')return'PDF + BILDTEXT';return'MESSFELDER LOKALISIERT'}
-function setProgress(percent,title,detail,stage){$('analysisPercent').textContent=`${percent} %`;$('analysisBar').style.width=`${percent}%`;$('analysisTitle').textContent=title;$('analysisDetail').textContent=detail;[...$('analysisLog').children].forEach((item,index)=>{item.classList.toggle('done',index<stage);item.classList.toggle('active',index===stage)})}
+function invalidateCurrentResult(){if(state.results[state.current])delete state.results[state.current];renderNavigation();renderLedger();$('resultPanel').hidden=true}
 
-async function analyze(){
-  if(!state.files.length)return;setStep(1);state.pages=[];state.data={_confidence:{},_confidenceReason:{},_visualPresence:{},_measurementScope:[],_scopeConfirmed:false};state.history=[];state.confirmedFailIds.clear();state.locatorQuality=0;state.locatorUsed=false;
-  try{
-    if(!state.template)await loadTemplate();setProgress(10,'Dateien werden gelesen','Alle Inhalte bleiben lokal im Browser.',0);await pause(80);
-    let embeddedText='';
-    for(let index=0;index<state.files.length;index++){
-      const item=state.files[index],buffer=await item.file.arrayBuffer();item.hash=await sha256(buffer);const rendered=item.file.type==='application/pdf'?await renderPdf(item,buffer):await renderImage(item);embeddedText+='\n'+rendered.text;state.pages.push(...rendered.pages);setProgress(20+Math.round((index+1)/state.files.length*22),'Seiten werden vorbereitet',`${index+1} von ${state.files.length} Datei(en) verarbeitet.`,1);
-    }
-    state.pages=state.pages.map(orientAndNormalize);state.locatorQuality=Math.max(0,...state.pages.map(page=>page.locatorQuality||0));setProgress(52,'Messwertbereiche werden lokalisiert','Das interne Feldprofil dient nur zur Orientierung und fließt nicht in das Ergebnis ein.',2);
-    let visualText='';
-    for(const page of state.pages){const blocks=await textBlocks(page.analysisCanvas||page.canvas);visualText+='\n'+blocks.map(block=>block.rawValue||'').join(' ');extractTemplateFields(page,blocks)}
-    if(embeddedText.trim())mergeData(ENGINE.parseText(embeddedText,.9));if(visualText.trim())mergeData(ENGINE.parseText(visualText,.78));
-    state.mode=embeddedText.trim()&&visualText.trim()?'mixed':embeddedText.trim()?'pdf-text':visualText.trim()?'local-image-text':'field-localization';
-    state.data._suggestedScope=ENGINE.detectedMeasurementGroups(state.data);refreshPending();setProgress(82,'Messwerte werden zugeordnet','Unsichere oder fehlende Mess- und Bezugswerte werden gleich einzeln abgefragt.',3);await pause(90);setProgress(100,'Analyse abgeschlossen','Formale Angaben wurden bewusst ignoriert.',4);await pause(100);renderReview();setStep(2);
-  }catch(error){setProgress(100,'Analyse nicht abgeschlossen',error.message||String(error),4);$('analysisBar').style.background='#ff6673'}
-}
-
-function displayValue(key,value){if(!present(value))return'Nicht sicher erkannt';const def=ENGINE.FIELD_DEFS[key];if(def?.options){const option=def.options.find(item=>item[0]===value);if(option)return option[1]}return `${value}${def?.unit?` ${def.unit}`:''}`}
-function renderPreview(index=0){const frame=$('previewFrame'),tabs=$('previewTabs');frame.replaceChildren();tabs.replaceChildren();state.pages.forEach((page,pageIndex)=>{const button=document.createElement('button');button.type='button';button.textContent=String(pageIndex+1);button.classList.toggle('active',pageIndex===index);button.onclick=()=>renderPreview(pageIndex);tabs.append(button)});const source=state.pages[index]?.canvas;if(!source){frame.innerHTML='<p>Keine Vorschau verfügbar</p>';return}const preview=canvasFor(source.width,source.height),context=preview.getContext('2d');context.drawImage(source,0,0);frame.append(preview)}
-function renderReview(){
-  renderPreview();$('recognitionBadge').textContent=recognitionLabel();const detected=ENGINE.detectedMeasurementGroups(state.data);$('statGroups').textContent=String(detected.length);
-  const rows=$('extractionTable');rows.replaceChildren();let count=0;
-  for(const [key,def] of Object.entries(ENGINE.FIELD_DEFS)){if(!present(state.data[key]))continue;count++;const confidence=Number(state.data._confidence?.[key]??.7),threshold=ENGINE.confidenceThreshold(def),row=document.createElement('div');row.className='data-row';row.title=state.data._confidenceReason?.[key]||'';row.innerHTML=`<span>${escapeHtml(def.shortLabel||def.label)}</span><strong>${escapeHtml(displayValue(key,state.data[key]))}</strong><b class="confidence ${confidence<threshold?'low':''}">${Math.round(confidence*100)} %</b>`;rows.append(row)}
-  const checks=ENGINE.checkData({...state.data,_scopeConfirmed:true,_measurementScope:detected},state.config);$('statFields').textContent=String(count);$('statRules').textContent=String(checks.filter(item=>item.calculation).length);$('statOpen').textContent=String(state.pending.length);$('recognitionDetail').textContent='Bewertet werden ausschließlich Messwerte und die zu ihrer Rechnung benötigten Bezugsdaten. Formularart, Aufbau, Kreuze, Textfelder, Namen, Datum, Ort und Unterschriften sind ausgeschlossen.';$('openIssues').textContent=state.pending.length?`Messumfang und Werte klären (${state.pending.length}) →`:'Ergebnis anzeigen →';
-}
-function refreshPending(){const fresh=ENGINE.buildIssues(state.data,state.config);state.pending=fresh.filter(item=>!state.confirmedFailIds.has(item.id));if(state.current>=state.pending.length)state.current=Math.max(0,state.pending.length-1)}
-function buildInput(field,detected){const def=ENGINE.FIELD_DEFS[field]||{type:'text',label:field};let input;if(def.type==='choice'&&def.options){input=document.createElement('select');input.innerHTML='<option value="">Bitte auswählen</option>'+def.options.map(([value,text])=>`<option value="${escapeHtml(value)}">${escapeHtml(text)}</option>`).join('');if(present(detected))input.value=String(detected)}else if(def.type==='number'){input=document.createElement('input');input.type='number';input.inputMode='decimal';input.step='any';if(Number.isFinite(ENGINE.number(detected)))input.value=String(ENGINE.number(detected))}else{input=document.createElement('textarea');input.rows=3;input.placeholder=def.placeholder||'Messwert eintragen';if(present(detected))input.value=String(detected)}input.dataset.field=field;return input}
-function scopeControl(){
-  const host=$('correctionControl');host.replaceChildren();const hint=document.createElement('p');hint.className='field-group-hint';hint.textContent='Nur Messgrößen markieren, zu denen im Dokument ein Wert eingetragen ist.';host.append(hint);const grid=document.createElement('div');grid.className='scope-grid';const selected=new Set(state.data._scopeConfirmed?state.data._measurementScope:state.data._suggestedScope||[]);
-  for(const [key,group] of Object.entries(ENGINE.MEASUREMENT_GROUPS)){const label=document.createElement('label');label.className='scope-option';const input=document.createElement('input');input.type='checkbox';input.value=key;input.dataset.scope=key;input.checked=selected.has(key);label.append(input);const text=document.createElement('span');text.innerHTML=`<strong>${escapeHtml(group.label)}</strong><small>${escapeHtml(group.section)}</small>`;label.append(text);grid.append(label)}host.append(grid);
-}
-function issueControl(issue){const host=$('correctionControl');host.replaceChildren();if(issue.groupControl==='measurementScope'){scopeControl();return null}const label=document.createElement('label'),def=issue.definition||{};label.append(document.createTextNode(`${def.label||'Wert'}${def.unit?` (${def.unit})`:''}`));const input=buildInput(issue.field,issue.detected);input.id='issueInput';label.append(input);host.append(label);return input}
-function renderIssueContext(issue){const host=$('issueSource');host.replaceChildren();const source=state.pages[0]?.canvas,map=state.template?.fieldMap?.[issue.field],rect=map?.context||map?.region;if(!source||!rect){host.hidden=true;return}host.hidden=false;const [nx,ny,nw,nh]=rect,padX=nw*.03,padY=Math.max(nh*.25,.008),x=Math.max(0,(nx-padX)*source.width),y=Math.max(0,(ny-padY)*source.height),w=Math.min(source.width-x,(nw+2*padX)*source.width),h=Math.min(source.height-y,(nh+2*padY)*source.height),scale=Math.min(2,900/w),out=canvasFor(w*scale,h*scale),ctx=out.getContext('2d');ctx.drawImage(source,x,y,w,h,0,0,out.width,out.height);ctx.strokeStyle='#ffc857';ctx.lineWidth=Math.max(3,4*scale);ctx.strokeRect((nx*source.width-x)*scale,(ny*source.height-y)*scale,nw*source.width*scale,nh*source.height*scale);host.append(out);const caption=document.createElement('small');caption.textContent='Markierter Messwertbereich aus Ihrer Datei';host.append(caption)}
-function renderIssue(){
-  if(!state.pending.length){renderResult();return}const issue=state.pending[state.current],total=state.history.length+state.pending.length,position=state.history.length+state.current+1,scope=issue.groupControl==='measurementScope';$('issueCounter').textContent=`${position} / ${total}`;$('issueProgress').style.width=`${Math.round(state.history.length/Math.max(1,total)*100)}%`;$('issueSection').textContent=issue.section.toUpperCase();$('issueTitle').textContent=issue.title;$('issueMessage').textContent=issue.message;$('detectedValue').textContent=scope?`${(state.data._suggestedScope||[]).length} Messgröße(n) automatisch vorgeschlagen`:displayValue(issue.field,issue.detected);renderIssueContext(issue);issueControl(issue);$('confirmFail').hidden=issue.status!=='fail';$('applyCorrection').textContent=scope?'Messumfang bestätigen':issue.status==='fail'?'Messwert korrigieren':'Wert übernehmen';$('resolutionPolicy').textContent=scope?'Die Auswahl legt nur fest, welche eingetragenen Messwerte geprüft werden. Formale Dokumentmerkmale spielen keine Rolle.':issue.status==='fail'?'Sie können den Wert korrigieren oder den erkannten/eingegebenen Wert als tatsächlich eingetragen bestätigen. Erst die Bestätigung einer rechnerischen Abweichung führt zum roten X.':'Fehlende oder unsichere Werte erzeugen kein rotes X. Ohne den benötigten Wert bleibt die Ergebnisansicht gesperrt.';const queue=$('issueQueue');queue.replaceChildren();for(let i=0;i<Math.min(total,80);i++){const dot=document.createElement('span');dot.className=`issue-dot${i<state.history.length?' done':i===position-1?' current':''}`;queue.append(dot)}
-}
-function showControlError(message){let error=$('correctionControl').querySelector('.field-error');if(!error){error=document.createElement('p');error.className='field-error';$('correctionControl').prepend(error)}error.textContent=message}
-function resolveCurrent(kind){
-  const issue=state.pending[state.current];if(!issue)return;
-  if(issue.groupControl==='measurementScope'){
-    const scope=[...$('correctionControl').querySelectorAll('[data-scope]:checked')].map(input=>input.value);if(!scope.length){showControlError('Bitte mindestens eine tatsächlich eingetragene Messgröße auswählen.');return}state.data._measurementScope=scope;state.data._scopeConfirmed=true;state.history.push({...issue,resolution:'Messumfang bestätigt',resolvedValue:scope.map(key=>ENGINE.MEASUREMENT_GROUPS[key].label).join(', ')});
-  }else if(kind==='fail'){
-    state.confirmedFailIds.add(issue.id);state.history.push({...issue,resolution:'Eingetragenen Messwert bestätigt · rechnerische Abweichung bleibt bestehen',resolvedValue:state.data[issue.field]});
+function createField(field,required){
+  const values=currentValues(),wrapper=document.createElement('label');wrapper.className='input-field';wrapper.dataset.fieldWrap=field.id;
+  const heading=document.createElement('span');heading.className='input-label';heading.innerHTML=`${escapeHtml(field.label)}${required?'<em>erforderlich</em>':''}`;wrapper.append(heading);
+  const shell=document.createElement('div');shell.className='input-shell';let control;
+  if(field.type==='choice'){
+    control=document.createElement('select');control.innerHTML='<option value="">Bitte auswählen</option>'+field.options.map(([value,label])=>`<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`).join('');
   }else{
-    const input=$('issueInput'),raw=input?.value;if(!present(raw)){showControlError('Bitte den Mess- oder Bezugswert eintragen. Solange er fehlt, gibt es kein Endergebnis.');return}const value=issue.definition?.type==='number'?ENGINE.number(raw):raw;if(issue.definition?.type==='number'&&!Number.isFinite(value)){showControlError('Bitte einen gültigen Zahlenwert eintragen.');return}state.data[issue.field]=value;state.data._confidence[issue.field]=1;state.data._confidenceReason[issue.field]='manuell bestätigt';state.history.push({...issue,resolution:'Wert manuell bestätigt oder korrigiert',resolvedValue:value});
+    control=document.createElement('input');control.type='text';control.inputMode='decimal';control.autocomplete='off';control.placeholder='Wert eingeben';
   }
-  refreshPending();state.current=0;renderIssue();
+  control.id=field.id;control.name=field.id;control.value=values[field.id]??'';control.required=required;control.setAttribute('aria-label',field.label);
+  if(field.unit){const unit=document.createElement('span');unit.className='input-unit';unit.textContent=field.unit;shell.append(control,unit)}else shell.append(control);
+  wrapper.append(shell);
+  if(field.help){const help=document.createElement('small');help.textContent=field.help;wrapper.append(help)}
+  control.addEventListener('input',()=>{
+    values[field.id]=control.value;invalidateCurrentResult();
+    if(field.type==='choice'){renderFields();requestAnimationFrame(()=>$(field.id)?.focus())}
+  });
+  control.addEventListener('change',()=>{
+    values[field.id]=control.value;invalidateCurrentResult();
+    if(field.type==='choice')renderFields();
+  });
+  return wrapper;
 }
-function openIssues(){refreshPending();if(!state.pending.length){renderResult();return}setStep(3);renderIssue()}
-function resultRow(check){const row=document.createElement('div');row.className=`result-row ${check.status==='fail'?'fail':''}`;row.innerHTML=`<b>${check.status==='fail'?'×':'✓'}</b><div><span>${escapeHtml(check.title)}</span><small>${escapeHtml(check.detail)}</small></div>`;return row}
-function renderResult(){
-  refreshPending();if(state.pending.length){setStep(3);renderIssue();return}const result=ENGINE.finalState(state.data,state.config,[...state.confirmedFailIds]),plausible=result.plausible;setStep(4);$('verdict').classList.toggle('fail',!plausible);$('verdictIcon').textContent=plausible?'✓':'×';$('verdictTitle').textContent=plausible?'Messwerte plausibel / i. O.':'Messwert nicht plausibel / n. i. O.';$('verdictText').textContent=plausible?'Alle ausgewählten Messwerte und notwendigen Bezugsdaten liegen vor; sämtliche anwendbaren Rechenregeln sind erfüllt.':'Mindestens ein bestätigter Messwert verletzt eine anwendbare Rechen- oder Plausibilitätsregel.';const checks=$('resultChecks');checks.replaceChildren();result.checks.filter(item=>item.status==='pass'||item.status==='fail').forEach(item=>checks.append(resultRow(item)));if(!checks.children.length)checks.innerHTML='<p class="muted">Für den bestätigten Messumfang war keine Rechenregel anwendbar.</p>';const log=$('resolutionLog');log.replaceChildren();state.history.forEach(item=>{const failed=state.confirmedFailIds.has(item.id),row=document.createElement('div');row.className=`result-row ${failed?'fail':''}`;row.innerHTML=`<b>${failed?'×':'✓'}</b><div><span>${escapeHtml(item.title)}</span><small>${escapeHtml(item.resolution)}${present(item.resolvedValue)?`: ${escapeHtml(item.resolvedValue)}`:''}</small></div>`;log.append(row)});if(!state.history.length)log.innerHTML='<p class="muted">Keine manuelle Klärung erforderlich.</p>';
+
+function renderFields(){
+  const definition=currentDefinition(),values=currentValues(),host=$('inputGrid');host.replaceChildren();clearFeedback();
+  const required=new Set(ENGINE.requiredFields(state.current,values));
+  for(const field of definition.fields){if(visible(field,values))host.append(createField(field,required.has(field.id)))}
 }
-function reset(){state.files=[];state.pages=[];state.data={_confidence:{},_confidenceReason:{},_visualPresence:{},_measurementScope:[],_scopeConfirmed:false};state.pending=[];state.history=[];state.confirmedFailIds.clear();state.current=0;state.locatorQuality=0;state.locatorUsed=false;$('documentInput').value='';$('analysisBar').style.background='';renderFiles();setStep(0)}
-function bindDrop(){const drop=$('dropZone');for(const name of ['dragenter','dragover'])drop.addEventListener(name,event=>{event.preventDefault();drop.classList.add('drag')});for(const name of ['dragleave','drop'])drop.addEventListener(name,event=>{event.preventDefault();drop.classList.remove('drag')});drop.addEventListener('drop',event=>addFiles([...event.dataTransfer.files]))}
-function summary(){return{version:ENGINE.VERSION,mode:state.mode,scopeConfirmed:Boolean(state.data._scopeConfirmed),measurementScope:[...(state.data._measurementScope||[])],suggestedScope:[...(state.data._suggestedScope||[])],internalLocatorUsed:state.locatorUsed,internalLocatorQuality:state.locatorQuality,fieldCount:Object.keys(ENGINE.FIELD_DEFS).filter(key=>present(state.data[key])).length,pending:state.pending.map(item=>({id:item.id,field:item.field,status:item.status,groupControl:item.groupControl,kind:item.kind})),data:{...state.data},history:[...state.history]}}
-function init(){if(!ENGINE)throw new Error('VDE-Messwertengine fehlt.');$('documentInput').addEventListener('change',event=>{addFiles([...event.target.files]);event.target.value=''});bindDrop();$('clearFiles').onclick=()=>{state.files=[];renderFiles()};$('startAnalysis').onclick=analyze;$('backUpload').onclick=()=>setStep(0);$('openIssues').onclick=openIssues;$('backReview').onclick=()=>{renderReview();setStep(2)};$('confirmFail').onclick=()=>resolveCurrent('fail');$('applyCorrection').onclick=()=>resolveCurrent('corrected');$('printResult').onclick=()=>window.print();$('resetAll').onclick=reset;window.SK_VDE_CHECKER=Object.freeze({summary});renderFiles()}
+
+function renderNavigation(){
+  const nav=$('measurementNav');nav.replaceChildren();
+  for(const [key,definition] of Object.entries(state.schema.measurementTypes)){
+    const button=document.createElement('button'),result=state.results[key];button.type='button';button.className=`measurement-button${key===state.current?' active':''}${result?` ${result.status}`:''}`;button.dataset.measurement=key;button.setAttribute('aria-current',key===state.current?'page':'false');
+    button.innerHTML=`<span>${escapeHtml(definition.number)}</span><div><strong>${escapeHtml(definition.title)}</strong><small>${escapeHtml(definition.code)}</small></div><i>${result?(result.status==='pass'?'i. O.':'n. i. O.'):'offen'}</i>`;
+    button.onclick=()=>selectMeasurement(key);nav.append(button);
+  }
+}
+
+function renderHeader(){const definition=currentDefinition();$('measurementSection').textContent=`MESSGRÖSSE ${definition.number}`;$('measurementTitle').textContent=definition.title;$('measurementDescription').textContent=definition.description;$('measurementCode').textContent=definition.code}
+function renderLedger(){const results=Object.values(state.results),failed=results.filter(item=>item.status==='fail').length;$('sessionCount').textContent=String(results.length);$('sessionState').textContent=!results.length?'Noch kein Ergebnis':failed?`${failed} × nicht i. O.`:`${results.length} × i. O.`}
+function selectMeasurement(key){if(!state.schema.measurementTypes[key])return;state.current=key;renderNavigation();renderHeader();renderFields();const result=state.results[key];if(result)renderResult(result);window.scrollTo({top:Math.max(0,$('measurementForm').getBoundingClientRect().top+window.scrollY-130),behavior:'smooth'})}
+
+function showProblems(result){
+  const items=result.status==='incomplete'?result.missing:result.errors;$('inputAlertTitle').textContent=result.status==='incomplete'?'Berechnungsgrundlage unvollständig':'Eingabe nicht berechenbar';const list=$('inputAlertList');list.replaceChildren();
+  for(const item of items){const row=document.createElement('li');row.textContent=result.status==='incomplete'?`${item.label} fehlt.`:item.message;list.append(row);const field=$(item.field);if(field)field.setAttribute('aria-invalid','true')}
+  $('inputAlert').hidden=false;$('resultPanel').hidden=true;const first=items[0]?.field?$(items[0].field):null;if(first)first.focus();$('inputAlert').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function renderCheck(check){const row=document.createElement('article');row.className=`check-row ${check.status}`;row.innerHTML=`<b>${check.passed?'✓':'×'}</b><div><span>${escapeHtml(check.title)}</span><strong>${escapeHtml(check.resultLabel)}</strong><small>${escapeHtml(check.calculation)}</small></div>`;return row}
+function renderResult(result){
+  if(!result.complete){showProblems(result);return}$('inputAlert').hidden=true;const passed=result.status==='pass',panel=$('resultPanel'),banner=$('resultBanner');banner.classList.toggle('fail',!passed);$('resultIcon').textContent=passed?'✓':'×';$('resultTitle').textContent=passed?'i. O.':'nicht i. O.';$('resultSubtitle').textContent=passed?'Der Messwert erfüllt die vollständig angegebene Bewertungsgrundlage.':'Mindestens ein Messwert verletzt den verwendeten Grenzwert.';$('resultLimit').textContent=result.limitText;$('resultFormula').textContent=result.formula;$('resultCalculation').textContent=result.calculation;const checks=$('resultChecks');checks.replaceChildren();result.checks.forEach(item=>checks.append(renderCheck(item)));panel.hidden=false;panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function evaluateCurrent(){
+  clearFeedback();const result=ENGINE.evaluate(state.current,{...currentValues()});
+  if(!result.complete){showProblems(result);return result}
+  state.results[state.current]=result;renderNavigation();renderLedger();renderResult(result);return result;
+}
+function resetCurrent(){state.values[state.current]={};delete state.results[state.current];renderNavigation();renderLedger();renderFields();$(currentDefinition().fields[0]?.id)?.focus()}
+function setValues(values){state.values[state.current]={...currentValues(),...values};delete state.results[state.current];renderNavigation();renderLedger();renderFields()}
+function summary(){return{version:ENGINE.VERSION,mode:'manual-only',current:state.current,values:JSON.parse(JSON.stringify(state.values)),results:Object.fromEntries(Object.entries(state.results).map(([key,value])=>[key,{status:value.status,resultLabel:value.resultLabel,complete:value.complete}])),resultVisible:!$('resultPanel').hidden,automaticDocumentAnalysis:false}}
+
+async function init(){
+  if(!ENGINE)throw new Error('VDE-Messwertengine fehlt.');
+  try{const response=await fetch('../assets/vde0100-600-input-schema.json?v=2.1.1.0-Beta',{cache:'no-store'});if(!response.ok)throw new Error(`Eingabeschema nicht verfügbar (${response.status}).`);state.schema=await response.json()}catch(error){$('inputAlertTitle').textContent='Messwertprüfer nicht gestartet';$('inputAlertList').innerHTML=`<li>${escapeHtml(error.message||String(error))}</li>`;$('inputAlert').hidden=false;return}
+  $('measurementForm').addEventListener('submit',event=>{event.preventDefault();evaluateCurrent()});$('resetMeasurement').onclick=resetCurrent;renderNavigation();renderHeader();renderFields();renderLedger();window.SK_VDE_CHECKER=Object.freeze({summary,selectMeasurement,setValues,evaluate:evaluateCurrent,reset:resetCurrent});
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();

@@ -1,4 +1,4 @@
-/* SK PLT Tools · VDE 0100-600 Messwert-Plausibilitätsengine · 2.1.0.5-Beta */
+/* SK PLT Tools · manueller VDE-Messwertprüfer · 2.1.1.0-Beta */
 (function(root,factory){
   const api=factory();
   if(typeof module==='object'&&module.exports)module.exports=api;
@@ -6,192 +6,183 @@
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
   'use strict';
 
-  const VERSION='2.1.0.5-Beta';
-  const optional=definition=>({required:false,...definition});
-  const FIELD_DEFS={
-    bondingMain:optional({label:'Schutzpotenzialausgleich Haupterdungsschiene',shortLabel:'RPA Haupt',section:'Durchgängigkeit',type:'number',unit:'Ω',min:0,max:100,measurement:true}),
-    bondingAdditional:optional({label:'Zusätzlicher Schutzpotenzialausgleich',shortLabel:'RPA Zusatz',section:'Durchgängigkeit',type:'number',unit:'Ω',min:0,max:100,measurement:true}),
-    continuity:optional({label:'Schutzleiter / Niederohmmessung',shortLabel:'RPE',section:'Durchgängigkeit',type:'number',unit:'Ω',min:0,max:100,measurement:true}),
-    networkImpedance:optional({label:'Netzinnenimpedanz Zi',shortLabel:'Zi',section:'Impedanz',type:'number',unit:'Ω',min:0,max:100,measurement:true}),
-    insulationValues:optional({label:'Isolationswiderstände',shortLabel:'RISO',section:'Isolation',type:'text',unit:'MΩ',measurement:true,placeholder:'z. B. >300; >300; >300'}),
-    loopImpedance:optional({label:'Schleifenimpedanz Zs',shortLabel:'Zs',section:'Automatische Abschaltung',type:'number',unit:'Ω',min:0,max:100,measurement:true}),
-    shortCircuitCurrent:optional({label:'Kurzschlussstrom Ik',shortLabel:'Ik',section:'Automatische Abschaltung',type:'number',unit:'A',min:0,max:100000,measurement:true}),
-    protectiveResistance:optional({label:'Schutzwiderstand RPE + RA',shortLabel:'RPE + RA',section:'Automatische Abschaltung',type:'number',unit:'Ω',min:0,max:10000,measurement:true}),
-    loadCurrent:optional({label:'Verbraucherstrom Ib',shortLabel:'Ib',section:'Stromrelation',type:'number',unit:'A',min:0,max:1600,measurement:true}),
-    voltageDrop:optional({label:'Spannungsfall ΔU',shortLabel:'ΔU',section:'Spannungsfall',type:'number',unit:'V',min:0,max:1000,measurement:true}),
-    voltageDropPercent:optional({label:'Spannungsfall ε',shortLabel:'ε',section:'Spannungsfall',type:'number',unit:'%',min:0,max:100,measurement:true}),
-    rcdTripCurrent:optional({label:'RCD-Auslösestrom IΔ',shortLabel:'IΔ',section:'RCD',type:'number',unit:'mA',min:0,max:2000,measurement:true}),
-    rcdTripTime:optional({label:'RCD-Auslösezeit tA',shortLabel:'tA',section:'RCD',type:'number',unit:'ms',min:0,max:5000,measurement:true}),
+  const VERSION='2.1.1.0-Beta';
 
-    shutdownDeviceType:optional({label:'Auslösekennlinie des Überstromschutzes',shortLabel:'Kennlinie',section:'Bezugsdaten',type:'choice',options:[['B','B'],['C','C'],['D','D']]}),
-    shutdownNominalCurrent:optional({label:'Nennstrom des Überstromschutzes',shortLabel:'In',section:'Bezugsdaten',type:'number',unit:'A',min:.1,max:1600}),
-    phaseVoltage:optional({label:'Außenleiter-Erde-Spannung U0',shortLabel:'U0',section:'Bezugsdaten',type:'number',unit:'V',min:12,max:1000}),
-    nominalCurrent:optional({label:'Nennstrom In',shortLabel:'In',section:'Bezugsdaten',type:'number',unit:'A',min:.1,max:1600}),
-    nominalVoltage:optional({label:'Nennspannung Un',shortLabel:'Un',section:'Bezugsdaten',type:'number',unit:'V',min:12,max:1500}),
-    rcdNominalResidual:optional({label:'RCD-Bemessungsdifferenzstrom IΔn',shortLabel:'IΔn',section:'Bezugsdaten',type:'number',unit:'mA',min:1,max:1000})
-  };
+  const FIELD_DEFS=Object.freeze({
+    voltageDropMode:{label:'Eingabeart',type:'choice'},
+    measuredDropPercent:{label:'Gemessener Spannungsfall',unit:'%',type:'number',min:0},
+    measuredDropVolts:{label:'Gemessener Spannungsfall ΔU',unit:'V',type:'number',min:0},
+    nominalVoltage:{label:'Bezugsspannung Un',unit:'V',type:'number',exclusiveMin:0},
+    approvedMaxDropPercent:{label:'Freigegebener maximaler Spannungsfall',unit:'%',type:'number',exclusiveMin:0},
+    measuredInsulation:{label:'Kleinster gemessener Isolationswiderstand',unit:'MΩ',type:'number',min:0},
+    approvedMinInsulation:{label:'Freigegebener Mindest-Isolationswiderstand',unit:'MΩ',type:'number',min:0},
+    disconnectionMode:{label:'Bewertungsweg',type:'choice'},
+    measuredLoopImpedance:{label:'Gemessene Schleifenimpedanz Zs',unit:'Ω',type:'number',min:0},
+    approvedMaxLoopImpedance:{label:'Freigegebene maximale Schleifenimpedanz Zs,max',unit:'Ω',type:'number',exclusiveMin:0},
+    phaseVoltage:{label:'Außenleiter-Erde-Spannung U0',unit:'V',type:'number',exclusiveMin:0},
+    requiredTripCurrent:{label:'Erforderlicher Auslösestrom Ia aus freigegebener Schutzgerätebasis',unit:'A',type:'number',exclusiveMin:0},
+    measuredShortCircuitCurrent:{label:'Gemessener Kurzschlussstrom Ik',unit:'A',type:'number',min:0},
+    rcdMode:{label:'Prüfumfang',type:'choice'},
+    measuredRcdTime:{label:'Gemessene RCD-Auslösezeit',unit:'ms',type:'number',min:0},
+    approvedMaxRcdTime:{label:'Freigegebene maximale RCD-Auslösezeit',unit:'ms',type:'number',exclusiveMin:0},
+    measuredRcdCurrent:{label:'Gemessener RCD-Auslösestrom',unit:'mA',type:'number',min:0},
+    approvedMinRcdCurrent:{label:'Freigegebene untere Auslösestromgrenze',unit:'mA',type:'number',min:0},
+    approvedMaxRcdCurrent:{label:'Freigegebene obere Auslösestromgrenze',unit:'mA',type:'number',exclusiveMin:0},
+    measuredContinuity:{label:'Gemessener Niederohmigkeitswert',unit:'Ω',type:'number',min:0},
+    approvedMaxContinuity:{label:'Freigegebener maximaler Niederohmigkeitswert',unit:'Ω',type:'number',exclusiveMin:0},
+    measuredBonding:{label:'Gemessener Widerstand des Schutzpotentialausgleichs',unit:'Ω',type:'number',min:0},
+    approvedMaxBonding:{label:'Freigegebener maximaler Widerstand des Schutzpotentialausgleichs',unit:'Ω',type:'number',exclusiveMin:0}
+  });
 
-  const MEASUREMENT_GROUPS={
-    bondingMain:{label:'Schutzpotenzialausgleich Haupterdungsschiene',section:'Durchgängigkeit',measurements:['bondingMain'],references:[],rule:'continuity'},
-    bondingAdditional:{label:'Zusätzlicher Schutzpotenzialausgleich',section:'Durchgängigkeit',measurements:['bondingAdditional'],references:[],rule:'continuity'},
-    continuity:{label:'Schutzleiter / Niederohmmessung',section:'Durchgängigkeit',measurements:['continuity'],references:[],rule:'continuity'},
-    networkImpedance:{label:'Netzinnenimpedanz Zi',section:'Impedanz',measurements:['networkImpedance'],references:[],rule:'range'},
-    insulation:{label:'Isolationswiderstand',section:'Isolation',measurements:['insulationValues'],references:[],rule:'insulation'},
-    loop:{label:'Schleifenimpedanz Zs',section:'Automatische Abschaltung',measurements:['loopImpedance'],references:['shutdownDeviceType','shutdownNominalCurrent','phaseVoltage'],rule:'loop'},
-    shortCircuit:{label:'Kurzschlussstrom Ik',section:'Automatische Abschaltung',measurements:['shortCircuitCurrent'],references:['loopImpedance','phaseVoltage'],rule:'shortCircuit'},
-    protectiveResistance:{label:'Schutzwiderstand RPE + RA',section:'Automatische Abschaltung',measurements:['protectiveResistance'],references:[],rule:'range'},
-    loadCurrent:{label:'Verbraucherstrom Ib gegen Nennstrom In',section:'Stromrelation',measurements:['loadCurrent'],references:['nominalCurrent'],rule:'loadCurrent'},
-    voltageDrop:{label:'Spannungsfall',section:'Spannungsfall',measurements:['voltageDrop','voltageDropPercent'],references:[],rule:'voltageDrop',anyMeasurement:true},
-    rcdCurrent:{label:'RCD-Auslösestrom',section:'RCD',measurements:['rcdTripCurrent'],references:['rcdNominalResidual'],rule:'rcdCurrent'},
-    rcdTime:{label:'RCD-Auslösezeit',section:'RCD',measurements:['rcdTripTime'],references:[],rule:'rcdTime'}
-  };
+  const MEASUREMENT_TYPES=Object.freeze({
+    voltageDrop:{title:'Spannungsfall',code:'ΔU',section:'Leitungsbewertung'},
+    insulation:{title:'Isolationsmessung',code:'RISO',section:'Isolationswiderstand'},
+    disconnection:{title:'Schleifenimpedanz / Kurzschlussstrom',code:'Zs · Ik',section:'Automatische Abschaltung'},
+    rcd:{title:'RCD-Prüfung',code:'RCD',section:'Fehlerstrom-Schutzeinrichtung'},
+    continuity:{title:'Niederohmigkeit',code:'RPE',section:'Schutzleiter-Durchgängigkeit'},
+    bonding:{title:'Schutzpotentialausgleich',code:'RPA',section:'Potentialausgleich'}
+  });
 
   const present=value=>value!==null&&value!==undefined&&String(value).trim()!=='';
-  const number=value=>{
+  function number(value){
     if(typeof value==='number')return Number.isFinite(value)?value:null;
-    const normalized=String(value??'').trim().replace(/\s/g,'').replace(/(?<=\d)[.](?=\d{3}(?:\D|$))/g,'').replace(',','.').replace(/[^0-9+\-.]/g,'');
-    const parsed=Number.parseFloat(normalized);return Number.isFinite(parsed)?parsed:null;
-  };
-  const valuesList=value=>String(value??'').match(/[<>]?\s*\d+(?:[.,]\d+)?/g)?.map(number).filter(Number.isFinite)||[];
-  const normalize=data=>{const out={...data};for(const [key,def] of Object.entries(FIELD_DEFS))if(def.type==='number'&&present(out[key]))out[key]=number(out[key]);return out};
-  const curveFactor=value=>({B:5,C:10,D:20})[String(value||'').trim().toUpperCase()]||null;
-  const confidenceThreshold=def=>def?.type==='number'||def?.type==='choice'?0.82:0.76;
-  const selectedGroups=data=>Array.isArray(data?._measurementScope)?data._measurementScope.filter(key=>MEASUREMENT_GROUPS[key]):[];
-  const detectedMeasurementGroups=data=>Object.entries(MEASUREMENT_GROUPS).filter(([,group])=>group.measurements.some(field=>present(data?.[field]))).map(([key])=>key);
+    const source=String(value??'').trim().replace(/\s/g,'').replace(',','.');
+    if(!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(source))return null;
+    const parsed=Number(source);
+    return Number.isFinite(parsed)?parsed:null;
+  }
+  const format=(value,digits=3)=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:digits,minimumFractionDigits:0}).format(value);
+  const valueWithUnit=(value,unit,digits=3)=>`${format(value,digits)} ${unit}`;
 
-  function addCheck(checks,id,section,status,title,detail,fields=[],meta={}){
-    checks.push({id,section,status,title,detail,fields,severity:status==='fail'?'error':status==='open'?'warning':'info',...meta});
+  function requiredFields(type,input={}){
+    switch(type){
+      case 'voltageDrop':
+        return input.voltageDropMode==='volts'
+          ? ['voltageDropMode','measuredDropVolts','nominalVoltage','approvedMaxDropPercent']
+          : ['voltageDropMode','measuredDropPercent','approvedMaxDropPercent'];
+      case 'insulation': return ['measuredInsulation','approvedMinInsulation'];
+      case 'disconnection':
+        if(input.disconnectionMode==='loop-approved')return ['disconnectionMode','measuredLoopImpedance','approvedMaxLoopImpedance'];
+        if(input.disconnectionMode==='loop-formula')return ['disconnectionMode','measuredLoopImpedance','phaseVoltage','requiredTripCurrent'];
+        if(input.disconnectionMode==='short-current')return ['disconnectionMode','measuredShortCircuitCurrent','requiredTripCurrent'];
+        return ['disconnectionMode'];
+      case 'rcd':
+        if(input.rcdMode==='time')return ['rcdMode','measuredRcdTime','approvedMaxRcdTime'];
+        if(input.rcdMode==='current')return ['rcdMode','measuredRcdCurrent','approvedMinRcdCurrent','approvedMaxRcdCurrent'];
+        if(input.rcdMode==='both')return ['rcdMode','measuredRcdTime','approvedMaxRcdTime','measuredRcdCurrent','approvedMinRcdCurrent','approvedMaxRcdCurrent'];
+        return ['rcdMode'];
+      case 'continuity': return ['measuredContinuity','approvedMaxContinuity'];
+      case 'bonding': return ['measuredBonding','approvedMaxBonding'];
+      default: return [];
+    }
   }
 
-  function requiredFieldsForGroup(groupKey,data){
-    const group=MEASUREMENT_GROUPS[groupKey],required=[];
-    if(!group)return required;
-    if(group.anyMeasurement){
-      if(!group.measurements.some(field=>present(data[field])))required.push('voltageDropPercent');
-    }else required.push(...group.measurements);
-    required.push(...group.references);
-    if(groupKey==='voltageDrop'&&present(data.voltageDrop)&&!present(data.voltageDropPercent))required.push('nominalVoltage');
-    if(groupKey==='voltageDrop'&&present(data.voltageDrop)&&present(data.voltageDropPercent))required.push('nominalVoltage');
-    return [...new Set(required)];
+  function incomplete(type,missing){
+    return {
+      version:VERSION,type,status:'incomplete',complete:false,
+      title:MEASUREMENT_TYPES[type]?.title||'Unbekannte Messgröße',
+      missing:missing.map(field=>({field,label:FIELD_DEFS[field]?.label||field})),
+      errors:[],checks:[],limitText:'',formula:'',calculation:'',resultLabel:''
+    };
   }
 
-  function checkData(input,config={}){
-    const data=normalize(input),checks=[];
-    if(!data._scopeConfirmed){
-      addCheck(checks,'SCOPE-CONFIRM','Messumfang','open','Welche Messwerte sind eingetragen?','Bestätigen Sie ausschließlich die Messgrößen, die im hochgeladenen Dokument tatsächlich eingetragen sind. Form, Kreuze, Namen, Datum, Ort und Unterschriften bleiben unberücksichtigt.',[],{groupControl:'measurementScope',technicalOnly:true});
-      return checks;
+  function validate(type,input,fields){
+    const errors=[];
+    for(const field of fields){
+      const def=FIELD_DEFS[field];
+      if(!def||def.type!=='number')continue;
+      const parsed=number(input[field]);
+      if(parsed===null){errors.push({field,label:def.label,message:`${def.label}: gültige Zahl erforderlich.`});continue;}
+      if(def.min!==undefined&&parsed<def.min)errors.push({field,label:def.label,message:`${def.label}: Wert muss mindestens ${def.min} ${def.unit||''} betragen.`});
+      if(def.exclusiveMin!==undefined&&parsed<=def.exclusiveMin)errors.push({field,label:def.label,message:`${def.label}: Wert muss größer als ${def.exclusiveMin} ${def.unit||''} sein.`});
     }
-    const scope=selectedGroups(data);
-    if(!scope.length){
-      addCheck(checks,'SCOPE-EMPTY','Messumfang','open','Mindestens eine Messgröße auswählen','Ohne eine eingetragene Messgröße kann keine rechnerische Plausibilitätsprüfung durchgeführt werden.',[],{groupControl:'measurementScope',technicalOnly:true});
-      return checks;
+    if((input.rcdMode==='current'||input.rcdMode==='both')&&present(input.approvedMinRcdCurrent)&&present(input.approvedMaxRcdCurrent)){
+      const lower=number(input.approvedMinRcdCurrent),upper=number(input.approvedMaxRcdCurrent);
+      if(lower!==null&&upper!==null&&lower>upper)errors.push({field:'approvedMaxRcdCurrent',label:FIELD_DEFS.approvedMaxRcdCurrent.label,message:'Die obere Auslösestromgrenze muss mindestens so groß wie die untere Grenze sein.'});
     }
+    return errors;
+  }
 
-    const required=new Set(scope.flatMap(group=>requiredFieldsForGroup(group,data)));
-    for(const key of required){
-      const def=FIELD_DEFS[key];
-      if(!def)continue;
-      if(!present(data[key])){
-        const isMeasurement=Boolean(def.measurement);
-        addCheck(checks,`REQ-${key}`,def.section,'open',`${def.label} fehlt`,isMeasurement?'Der Messwert wurde nicht sicher erkannt. Bitte lesen Sie ihn am eingeblendeten Originalausschnitt ab und tragen Sie ihn ein.':'Diese Bezugsgröße wird für die rechnerische Bewertung benötigt. Bitte am Original prüfen und ergänzen.',[key],{kind:isMeasurement?'missing-measurement':'missing-reference'});
+  function check(id,title,passed,measuredText,limitText,formula,calculation){
+    return {id,title,status:passed?'pass':'fail',passed,measuredText,limitText,formula,calculation,resultLabel:passed?'i. O.':'nicht i. O.'};
+  }
+
+  function completeResult(type,checks){
+    const passed=checks.every(item=>item.passed);
+    const first=checks[0]||{};
+    return {
+      version:VERSION,type,title:MEASUREMENT_TYPES[type].title,status:passed?'pass':'fail',complete:true,
+      missing:[],errors:[],checks,resultLabel:passed?'i. O.':'nicht i. O.',
+      measuredText:checks.map(item=>item.measuredText).join(' · '),
+      limitText:checks.map(item=>item.limitText).join(' · '),
+      formula:checks.map(item=>item.formula).join(' | '),
+      calculation:checks.map(item=>item.calculation).join(' | ')
+    };
+  }
+
+  function evaluate(type,input={}){
+    if(!MEASUREMENT_TYPES[type])return {version:VERSION,type,status:'error',complete:false,title:'Unbekannte Messgröße',missing:[],errors:[{field:'type',label:'Messgröße',message:'Die ausgewählte Messgröße ist nicht definiert.'}],checks:[],limitText:'',formula:'',calculation:'',resultLabel:''};
+    const fields=requiredFields(type,input);
+    const missing=fields.filter(field=>!present(input[field]));
+    if(missing.length)return incomplete(type,missing);
+    const errors=validate(type,input,fields);
+    if(errors.length)return {version:VERSION,type,title:MEASUREMENT_TYPES[type].title,status:'error',complete:false,missing:[],errors,checks:[],limitText:'',formula:'',calculation:'',resultLabel:''};
+    const n=field=>number(input[field]);
+    const checks=[];
+
+    if(type==='voltageDrop'){
+      const limit=n('approvedMaxDropPercent');
+      if(input.voltageDropMode==='volts'){
+        const drop=n('measuredDropVolts'),voltage=n('nominalVoltage'),percent=drop/voltage*100;
+        checks.push(check('VD-DU','Spannungsfall',percent<=limit,valueWithUnit(percent,'%',3),`≤ ${valueWithUnit(limit,'%',3)}`,'ΔU% = ΔU / Un × 100',`${format(drop)} V / ${format(voltage)} V × 100 = ${format(percent,3)} %; ${format(percent,3)} % ${percent<=limit?'≤':'>'} ${format(limit,3)} %`));
+      }else{
+        const measured=n('measuredDropPercent');
+        checks.push(check('VD-PERCENT','Spannungsfall',measured<=limit,valueWithUnit(measured,'%',3),`≤ ${valueWithUnit(limit,'%',3)}`,'ΔU%gemessen ≤ ΔU%max',`${format(measured,3)} % ${measured<=limit?'≤':'>'} ${format(limit,3)} %`));
       }
     }
 
-    const relevantFields=new Set(scope.flatMap(group=>[...MEASUREMENT_GROUPS[group].measurements,...requiredFieldsForGroup(group,data)]));
-    for(const key of relevantFields){
-      const def=FIELD_DEFS[key];if(!def||!present(data[key]))continue;
-      if(def.type==='number'){
-        const value=number(data[key]);
-        if(value===null||value<def.min||value>def.max)addCheck(checks,`RANGE-${key}`,def.section,'fail',`${def.label} rechnerisch unplausibel`,`Eingetragen: ${data[key]} ${def.unit||''}. Der verarbeitbare Bereich liegt zwischen ${def.min} und ${def.max} ${def.unit||''}.`,[key],{kind:'range'});
-      }
-      const confidence=Number(data._confidence?.[key]??1),threshold=confidenceThreshold(def);
-      if(confidence<threshold&&!checks.some(item=>item.fields.includes(key)&&item.status==='fail'))addCheck(checks,`CONF-${key}`,def.section,'open',`${def.label} unsicher erkannt`,`Erkennungsqualität ${Math.round(confidence*100)} %. Bitte den Wert am Originalausschnitt bestätigen oder korrigieren.`,[key],{kind:def.measurement?'uncertain-measurement':'uncertain-reference'});
+    if(type==='insulation'){
+      const measured=n('measuredInsulation'),limit=n('approvedMinInsulation');
+      checks.push(check('INS-MIN','Isolationswiderstand',measured>=limit,valueWithUnit(measured,'MΩ',3),`≥ ${valueWithUnit(limit,'MΩ',3)}`,'RISO,min gemessen ≥ RISO,min freigegeben',`${format(measured,3)} MΩ ${measured>=limit?'≥':'<'} ${format(limit,3)} MΩ`));
     }
 
-    const blocked=field=>checks.some(item=>item.status!=='pass'&&item.fields.includes(field));
-    const usable=field=>present(data[field])&&!blocked(field);
-    const addRule=(id,group,status,title,detail,fields)=>addCheck(checks,id,MEASUREMENT_GROUPS[group].section,status,title,detail,fields,{calculation:true,group});
-
-    for(const groupKey of scope){
-      const group=MEASUREMENT_GROUPS[groupKey];
-      if(requiredFieldsForGroup(groupKey,data).some(field=>!usable(field)))continue;
-      if(group.rule==='continuity'){
-        const field=group.measurements[0],value=number(data[field]),limit=number(config.continuityMaxOhm)??number(config.continuityWarningOhm)??1,ok=value<=limit;
-        addRule(`MEAS-${field}`,groupKey,ok?'pass':'fail',ok?`${FIELD_DEFS[field].label} i. O.`:`${FIELD_DEFS[field].label} nicht i. O.`,`${value} Ω ${ok?'≤':'>'} ${limit} Ω hinterlegter Rechen-/Prüfwert.`,[field]);
-      }else if(group.rule==='range'){
-        const field=group.measurements[0],value=number(data[field]);
-        if(Number.isFinite(value))addRule(`MEAS-${field}`,groupKey,'pass',`${FIELD_DEFS[field].label} numerisch plausibel`,`${value} ${FIELD_DEFS[field].unit} ist als nichtnegativer Messwert verarbeitbar; ohne zusätzlichen dokumentierten Grenzwert erfolgt keine weitergehende Normbewertung.`,[field]);
-      }else if(group.rule==='insulation'){
-        const values=valuesList(data.insulationValues),limit=number(config.insulationMinMOhm)??1;
-        if(!values.length)addRule('MEAS-INS-FORMAT',groupKey,'fail','Isolationswerte nicht numerisch auswertbar','Mindestens ein numerischer Wert in MΩ ist erforderlich.',['insulationValues']);
-        else{const min=Math.min(...values),ok=min>=limit;addRule('MEAS-INS',groupKey,ok?'pass':'fail',ok?'Isolationswiderstände i. O.':'Isolationswiderstand nicht i. O.',`${values.length} Wert(e), kleinster Wert ${min} MΩ ${ok?'≥':'<'} ${limit} MΩ.`,['insulationValues']);}
-      }else if(group.rule==='loop'){
-        const zs=number(data.loopImpedance),current=number(data.shutdownNominalCurrent),u0=number(data.phaseVoltage),factor=curveFactor(data.shutdownDeviceType),max=u0/(factor*current),ok=zs<=max;
-        addRule('MEAS-ZS',groupKey,ok?'pass':'fail',ok?'Schleifenimpedanz i. O.':'Schleifenimpedanz nicht i. O.',`Zs ${zs} Ω ${ok?'≤':'>'} ${max.toFixed(3)} Ω = U0 ${u0} V / (${factor} × In ${current} A).`,['loopImpedance','shutdownDeviceType','shutdownNominalCurrent','phaseVoltage']);
-      }else if(group.rule==='shortCircuit'){
-        const ik=number(data.shortCircuitCurrent),zs=number(data.loopImpedance),u0=number(data.phaseVoltage),calculated=u0/zs,tolerance=number(config.shortCircuitTolerancePercent)??30,diff=Math.abs(ik-calculated)/calculated*100,ok=diff<=tolerance;
-        addRule('MEAS-IK-CONSISTENCY',groupKey,ok?'pass':'fail',ok?'Kurzschlussstrom rechnerisch plausibel':'Kurzschlussstrom rechnerisch unplausibel',`Ik eingetragen ${ik} A; aus U0/Zs ergeben sich ${calculated.toFixed(1)} A. Abweichung ${diff.toFixed(1)} % ${ok?'≤':'>'} ${tolerance} %.`,['shortCircuitCurrent','loopImpedance','phaseVoltage']);
-      }else if(group.rule==='loadCurrent'){
-        const ib=number(data.loadCurrent),rated=number(data.nominalCurrent),ok=ib<=rated;
-        addRule('CIRCUIT-IB-IN',groupKey,ok?'pass':'fail',ok?'Stromrelation i. O.':'Stromrelation nicht i. O.',`Ib ${ib} A ${ok?'≤':'>'} In ${rated} A.`,['loadCurrent','nominalCurrent']);
-      }else if(group.rule==='voltageDrop'){
-        const percent=number(data.voltageDropPercent),drop=number(data.voltageDrop),voltage=number(data.nominalVoltage),limit=number(config.voltageDropLimitPercent)??5;
-        let evaluated=percent;
-        if(!Number.isFinite(evaluated)&&Number.isFinite(drop)&&Number.isFinite(voltage))evaluated=drop/voltage*100;
-        if(Number.isFinite(evaluated)){
-          const ok=evaluated<=limit;addRule('MEAS-DU',groupKey,ok?'pass':'fail',ok?'Spannungsfall i. O.':'Spannungsfall nicht i. O.',`${evaluated.toFixed(2)} % ${ok?'≤':'>'} ${limit} % hinterlegtes Prüfziel.`,Number.isFinite(percent)?['voltageDropPercent']:['voltageDrop','nominalVoltage']);
-          if(Number.isFinite(percent)&&Number.isFinite(drop)&&Number.isFinite(voltage)){
-            const calculated=drop/voltage*100,diff=Math.abs(calculated-percent),consistent=diff<=(number(config.voltageDropConsistencyTolerancePercent)??.3);
-            addRule('MEAS-DU-CONSISTENCY',groupKey,consistent?'pass':'fail',consistent?'Spannungsfallangaben konsistent':'Spannungsfallangaben widersprüchlich',`Aus ΔU ${drop} V und Un ${voltage} V ergeben sich ${calculated.toFixed(2)} %, eingetragen sind ${percent} %.`,['voltageDrop','nominalVoltage','voltageDropPercent']);
-          }
-        }
-      }else if(group.rule==='rcdCurrent'){
-        const trip=number(data.rcdTripCurrent),rated=number(data.rcdNominalResidual),ok=trip<=rated;
-        addRule('RCD-I',groupKey,ok?'pass':'fail',ok?'RCD-Auslösestrom i. O.':'RCD-Auslösestrom nicht i. O.',`IΔ ${trip} mA ${ok?'≤':'>'} IΔn ${rated} mA.`,['rcdTripCurrent','rcdNominalResidual']);
-      }else if(group.rule==='rcdTime'){
-        const time=number(data.rcdTripTime),limit=number(config.rcdTripTimeLimitMs)??300,ok=time<=limit;
-        addRule('RCD-T',groupKey,ok?'pass':'fail',ok?'RCD-Auslösezeit i. O.':'RCD-Auslösezeit nicht i. O.',`tA ${time} ms ${ok?'≤':'>'} ${limit} ms hinterlegter Standard-Prüfwert.`,['rcdTripTime']);
+    if(type==='disconnection'){
+      const mode=input.disconnectionMode;
+      if(mode==='loop-approved'){
+        const measured=n('measuredLoopImpedance'),limit=n('approvedMaxLoopImpedance');
+        checks.push(check('DISC-ZS-APPROVED','Schleifenimpedanz',measured<=limit,valueWithUnit(measured,'Ω',3),`≤ ${valueWithUnit(limit,'Ω',3)}`,'Zs,gemessen ≤ Zs,max freigegeben',`${format(measured,3)} Ω ${measured<=limit?'≤':'>'} ${format(limit,3)} Ω`));
+      }else if(mode==='loop-formula'){
+        const measured=n('measuredLoopImpedance'),u0=n('phaseVoltage'),ia=n('requiredTripCurrent'),limit=u0/ia;
+        checks.push(check('DISC-ZS-FORMULA','Schleifenimpedanz',measured<=limit,valueWithUnit(measured,'Ω',3),`≤ ${valueWithUnit(limit,'Ω',3)}`,'Zs,max = U0 / Ia',`${format(u0,3)} V / ${format(ia,3)} A = ${format(limit,3)} Ω; ${format(measured,3)} Ω ${measured<=limit?'≤':'>'} ${format(limit,3)} Ω`));
+      }else if(mode==='short-current'){
+        const measured=n('measuredShortCircuitCurrent'),ia=n('requiredTripCurrent');
+        checks.push(check('DISC-IK','Kurzschlussstrom',measured>=ia,valueWithUnit(measured,'A',3),`≥ ${valueWithUnit(ia,'A',3)}`,'Ik,gemessen ≥ Ia,erforderlich',`${format(measured,3)} A ${measured>=ia?'≥':'<'} ${format(ia,3)} A`));
       }
     }
-    return checks;
+
+    if(type==='rcd'){
+      if(input.rcdMode==='time'||input.rcdMode==='both'){
+        const measured=n('measuredRcdTime'),limit=n('approvedMaxRcdTime');
+        checks.push(check('RCD-TIME','RCD-Auslösezeit',measured<=limit,valueWithUnit(measured,'ms',3),`≤ ${valueWithUnit(limit,'ms',3)}`,'tA,gemessen ≤ tA,max freigegeben',`${format(measured,3)} ms ${measured<=limit?'≤':'>'} ${format(limit,3)} ms`));
+      }
+      if(input.rcdMode==='current'||input.rcdMode==='both'){
+        const measured=n('measuredRcdCurrent'),lower=n('approvedMinRcdCurrent'),upper=n('approvedMaxRcdCurrent'),passed=measured>=lower&&measured<=upper;
+        checks.push(check('RCD-CURRENT','RCD-Auslösestrom',passed,valueWithUnit(measured,'mA',3),`${valueWithUnit(lower,'mA',3)} bis ${valueWithUnit(upper,'mA',3)}`,'IΔ,min freigegeben ≤ IΔ,gemessen ≤ IΔ,max freigegeben',`${format(lower,3)} mA ≤ ${format(measured,3)} mA ≤ ${format(upper,3)} mA`));
+      }
+    }
+
+    if(type==='continuity'){
+      const measured=n('measuredContinuity'),limit=n('approvedMaxContinuity');
+      checks.push(check('CONT-MAX','Niederohmigkeit',measured<=limit,valueWithUnit(measured,'Ω',3),`≤ ${valueWithUnit(limit,'Ω',3)}`,'RPE,gemessen ≤ RPE,max freigegeben',`${format(measured,3)} Ω ${measured<=limit?'≤':'>'} ${format(limit,3)} Ω`));
+    }
+
+    if(type==='bonding'){
+      const measured=n('measuredBonding'),limit=n('approvedMaxBonding');
+      checks.push(check('BOND-MAX','Schutzpotentialausgleich',measured<=limit,valueWithUnit(measured,'Ω',3),`≤ ${valueWithUnit(limit,'Ω',3)}`,'RPA,gemessen ≤ RPA,max freigegeben',`${format(measured,3)} Ω ${measured<=limit?'≤':'>'} ${format(limit,3)} Ω`));
+    }
+
+    return completeResult(type,checks);
   }
 
-  function issueFromCheck(check,data){
-    const field=check.fields?.[0]||'',definition=FIELD_DEFS[field]||{label:'Messumfang',section:check.section,type:'text'};
-    return{id:check.id,title:check.title,message:check.detail,section:check.section,field,fields:check.fields||[],definition,detected:data[field],status:check.status,groupControl:check.groupControl||null,kind:check.kind||null,technicalOnly:Boolean(check.technicalOnly),calculation:Boolean(check.calculation)};
-  }
-  function buildIssues(data,config){const seen=new Set();return checkData(data,config).filter(item=>item.status==='open'||item.status==='fail').map(item=>issueFromCheck(item,data)).filter(item=>!seen.has(item.id)&&seen.add(item.id))}
-  function finalState(data,config={},confirmedDefects=[]){
-    const checks=checkData(data,config),open=checks.filter(item=>item.status==='open'),failed=checks.filter(item=>item.status==='fail');
-    return{complete:Boolean(data._scopeConfirmed)&&open.length===0,plausible:Boolean(data._scopeConfirmed)&&open.length===0&&failed.length===0&&confirmedDefects.length===0,open,failed,confirmedDefects:[...confirmedDefects],checks};
-  }
-
-  function parseText(text,baseConfidence=.88){
-    const raw=String(text||''),compact=raw.replace(/\s+/g,' '),data={_confidence:{},_confidenceReason:{}};
-    const set=(key,value,confidence=baseConfidence,reason='Dokumenttext')=>{if(present(value)&&FIELD_DEFS[key]&&confidence>=Number(data._confidence[key]||0)){data[key]=typeof value==='number'?value:String(value).trim();data._confidence[key]=confidence;data._confidenceReason[key]=reason}};
-    const match=(key,re,confidence=baseConfidence)=>{const found=compact.match(re);if(found)set(key,number(found[1]),confidence)};
-    match('bondingMain',/(?:Haupterdungsschiene|RPA\s*Haupt)\D{0,35}(\d+(?:[.,]\d+)?)\s*(?:Ω|Ohm)/i);
-    match('bondingAdditional',/(?:zus[aä]tzlicher\s+Schutzpotenzialausgleich|RPA\s*Zusatz)\D{0,35}(\d+(?:[.,]\d+)?)\s*(?:Ω|Ohm)/i);
-    match('continuity',/(?:Niederohm\w*|Schutzleiter\w*|RPE\b)\D{0,35}(\d+(?:[.,]\d+)?)\s*(?:Ω|Ohm)/i);
-    match('networkImpedance',/(?:Netzinnenimpedanz|\bZi\b)\D{0,30}(\d+(?:[.,]\d+)?)\s*(?:Ω|Ohm)/i);
-    match('loopImpedance',/(?:Schleifenimpedanz|\bZs\b)\D{0,30}(\d+(?:[.,]\d+)?)\s*(?:Ω|Ohm)/i);
-    match('shortCircuitCurrent',/(?:Kurzschlussstrom|\bIk\b)\D{0,30}(\d+(?:[.,]\d+)?)\s*A/i);
-    match('protectiveResistance',/(?:RPE\s*\+\s*RA|Schutzwiderstand)\D{0,30}(\d+(?:[.,]\d+)?)\s*(?:Ω|Ohm)/i);
-    match('loadCurrent',/(?:Verbraucherstrom|\bIb\b)\D{0,24}(\d+(?:[.,]\d+)?)\s*A/i);
-    match('nominalCurrent',/(?:Nennstrom|\bIn\b)\D{0,24}(\d+(?:[.,]\d+)?)\s*A/i);
-    match('nominalVoltage',/(?:Nennspannung|\bUn\b)\D{0,24}(\d+(?:[.,]\d+)?)\s*V/i);
-    match('phaseVoltage',/(?:Außenleiter.Erde.Spannung|\bU0\b)\D{0,24}(\d+(?:[.,]\d+)?)\s*V/i);
-    match('voltageDropPercent',/(?:Spannungsfall|\bepsilon\b|\bε\b)\D{0,35}(\d+(?:[.,]\d+)?)\s*%/i);
-    match('voltageDrop',/(?:Spannungsfall|\bΔU\b|\bdU\b)\D{0,35}(\d+(?:[.,]\d+)?)\s*V/i);
-    match('rcdNominalResidual',/(?:I\s*[ΔA]?\s*n|Bemessungsdifferenzstrom)\D{0,24}(\d+(?:[.,]\d+)?)\s*mA/i);
-    match('rcdTripCurrent',/(?:Ausl[öo]sestrom|I\s*[ΔA](?!\s*n))\D{0,24}(\d+(?:[.,]\d+)?)\s*mA/i);
-    match('rcdTripTime',/(?:Ausl[öo]sezeit|\btA\b)\D{0,24}(\d+(?:[.,]\d+)?)\s*ms/i);
-    const breaker=compact.match(/(?:Kennlinie|LS|Überstromschutz)?\s*\b([BCD])\s*(\d{1,3}(?:[.,]\d+)?)\s*A?\b/i);
-    if(breaker){set('shutdownDeviceType',breaker[1].toUpperCase(),baseConfidence);set('shutdownNominalCurrent',number(breaker[2]),baseConfidence)}
-    const isolationSegment=compact.match(/(?:Isolationswiderst[aä]nd\w*|Isolation|RISO)\D{0,24}((?:[<>]?\s*\d+(?:[.,]\d+)?(?:\s*(?:MΩ|MOhm|MΩ)?)[;\s,/|]*){1,8})/i);
-    if(isolationSegment){const values=isolationSegment[1].match(/[<>]?\s*\d+(?:[.,]\d+)?/g);if(values?.length)set('insulationValues',values.join('; '),baseConfidence)}
-    return data;
-  }
-
-  return{VERSION,FIELD_DEFS,MEASUREMENT_GROUPS,present,number,valuesList,normalize,curveFactor,confidenceThreshold,selectedGroups,detectedMeasurementGroups,requiredFieldsForGroup,checkData,buildIssues,finalState,parseText};
+  return {VERSION,FIELD_DEFS,MEASUREMENT_TYPES,present,number,format,requiredFields,validate,evaluate};
 });

@@ -1,112 +1,109 @@
-# Testbericht und Abnahme – 2.1.0.5-Beta
+# Testbericht und Abnahme – 2.1.1.0-Beta
 
-**Prüfdatum:** 07.10.2026  
-**Direkte Basis:** 2.1.0.4-Beta  
+**Prüfdatum:** 08.10.2026  
+**Direkte Basis:** 2.1.0.5-Beta  
 **Stabile Referenz:** 2.1.0.0  
-**Gesamturteil:** **PASS – release-fähige Beta für die dokumentierte rechnerische Messwert-Zweitkontrolle.** Keine elektrotechnische Zertifizierung oder Inbetriebnahmefreigabe.
+**Gesamturteil:** **PASS – release-fähige Beta für die dokumentierte manuelle Messwert-Zweitkontrolle.** Keine elektrotechnische Zertifizierung oder Inbetriebnahmefreigabe.
 
 ## 1. Abnahmekriterien
 
 | ID | Kriterium | Ergebnis |
 |---|---|---:|
-| A01 | Nur eingetragene Messwerte und rechnerisch notwendige Bezugsdaten beeinflussen die Bewertung. | PASS |
-| A02 | Formularidentität, Strukturpassung, Unterschriften, Namen, Datum, Orte, Kreuze, Textfelder und formale Angaben sind irrelevant. | PASS |
-| A03 | Fehlende oder unsichere Mess-/Bezugswerte werden einzeln abgefragt und erzeugen kein rotes X. | PASS |
-| A04 | Solange ein notwendiger Wert fehlt, bleibt das Endergebnis gesperrt. | PASS |
-| A05 | Vollständige plausible Werte erzeugen einen grünen Haken. | PASS |
-| A06 | Ein bestätigter rechnerisch unplausibler Messwert erzeugt ein rotes X. | PASS |
-| A07 | Das interne Vorlagenprofil dient nur zur Messfeldlokalisierung und ist kein sichtbarer Download oder Bewertungsparameter. | PASS |
-| A08 | Vollständige Projektstruktur, Versionierung, PWA, Cache, Manifest, Release, Dokumentation, Tests und Prüfsummen sind konsistent. | PASS |
+| A01 | Die automatische Foto-, PDF-, OCR- und Protokollanalyse ist aus der VDE-Laufzeit entfernt. | PASS |
+| A02 | Formularidentität, Protokollaufbau, Unterschriften, Namen, Datum, Orte, Kreuze und sonstige formale Angaben beeinflussen die Bewertung nicht. | PASS |
+| A03 | Sechs manuelle Masken decken Spannungsfall, Isolation, Schleifenimpedanz/Kurzschlussstrom, RCD, Niederohmigkeit und Schutzpotentialausgleich ab. | PASS |
+| A04 | Bedingte Masken zeigen nur Eingaben, die für den gewählten Rechenweg erforderlich sind. | PASS |
+| A05 | Keine Messgröße enthält einen numerisch vorbelegten Grenzwert. | PASS |
+| A06 | Kontextabhängige Grenzwerte werden über Zusatzangaben oder einen freigegebenen Sollwert bereitgestellt. | PASS |
+| A07 | Fehlende Angaben werden feldgenau benannt. | PASS |
+| A08 | Ungültige Zahlen, negative Messwerte und mathematisch ungültige Grundlagen werden gezielt abgewiesen. | PASS |
+| A09 | Bei fehlender oder ungültiger Berechnungsgrundlage bleibt die Ergebnisansicht gesperrt. | PASS |
+| A10 | Vollständige Ergebnisse zeigen Grenzwert, Formel, eingesetzte Zahlen und `i. O.`/`nicht i. O.`. | PASS |
+| A11 | Die Sicherheitsgrenze „digitale Zweitkontrolle, keine Inbetriebnahmefreigabe, kein Ersatz für die verantwortliche Elektrofachkraft“ bleibt sichtbar. | PASS |
+| A12 | Alle übrigen Module, Projektstruktur, PWA, Navigation, Suche, Favoriten und Offline-Funktion bleiben erhalten. | PASS |
 
-## 2. Implementierte Prüfgrenze
+## 2. Implementierter Prüfbereich
 
-Die VDE-Engine enthält **19 zugelassene Felder**: 13 Messwertfelder und 6 rechnerisch notwendige Bezugsfelder. Sie enthält keine Felder für Formularidentität, Prüfgrund, Stammdaten, Namen, Datum, Orte, Unterschriften, Kreuze oder Freitext.
+Die manuelle Engine stellt genau sechs Messgrößengruppen bereit:
 
-Der Nutzer bestätigt aus **12 Messgrößengruppen** nur die im Dokument tatsächlich eingetragenen Größen. Daraus ermittelt die Engine die jeweils erforderlichen Bezugswerte. Fehlende und unsichere Werte bleiben neutral offen. Rechenabweichungen bleiben ebenfalls offen, bis der Nutzer entweder korrigiert oder den Wert als tatsächlich eingetragen bestätigt.
+1. Spannungsfall – direkter Prozentvergleich oder Berechnung aus `ΔU / Un × 100`.
+2. Isolationsmessung – kleinster Messwert gegen freigegebenen Mindestwert.
+3. Schleifenimpedanz/Kurzschlussstrom – direkter `Zs,max`, Berechnung `Zs,max = U0 / Ia` oder `Ik ≥ Ia`.
+4. RCD-Prüfung – Auslösezeit, Auslösestrom oder beide Größen gegen freigegebene Grenzen.
+5. Niederohmigkeit – Messwert gegen freigegebenen Maximalwert.
+6. Schutzpotentialausgleich – Messwert gegen freigegebenen Maximalwert.
 
-Das interne Profil wurde auf **18 Mess-/Bezugsfeldzonen** reduziert. Sein Struktur-Fingerabdruck wird ausschließlich für Seitenausrichtung und Lokalisierung verwendet. Der interne Lokalisierungswert wird weder angezeigt noch an die Ergebnislogik übergeben. Die Mustervorlage selbst ist nicht eingebettet, nicht im PWA-Cache und nicht downloadbar.
+Das Eingabeschema enthält keine Defaultwerte. Die Engine besitzt keine Texterkennung, Dokumentklassifikation, Bildverarbeitung, Feldlokalisierung oder formale Protokollfelder.
 
 ## 3. Automatisierte Testergebnisse
 
 | ID | Prüfung | Ergebnis |
 |---|---|---:|
-| T01 | JavaScript-Funktions-Smoke aller bestehenden Rechner/Inhalte und VDE-Messwertregeln | PASS · 97 Assertions |
-| T02 | VDE-Engine: formale Felder vollständig ausgeschlossen | PASS |
-| T03 | VDE-Engine: unbestätigter Messumfang ist neutral offen | PASS |
-| T04 | VDE-Engine: fehlende Bezugsgröße ist offen, niemals automatisch rot | PASS |
-| T05 | VDE-Engine: vollständiger positiver Messwertsatz | PASS · grüner Zustand |
-| T06 | VDE-Engine: Zs-Überschreitung und Bestätigungs-Governance | PASS · roter Zustand nach Bestätigung |
-| T07 | VDE-Engine: formale Stördaten ändern ein identisches Messwertergebnis nicht | PASS |
-| T08 | E2E-PDF mit vollständigen plausiblen Messwerten | PASS · grüner Haken |
-| T09 | E2E-PDF ohne U0 | PASS · Einzelabfrage, kein Endergebnis, kein rotes X |
-| T10 | E2E-PDF mit Zs = 4,00 Ω bei B16/U0 = 230 V | PASS · rotes X erst nach Wertbestätigung |
-| T11 | E2E-Smartphone-Foto 1170 × 1650, JPEG 68, 1,4° Drehung | PASS · lokale Bildtextschnittstelle, Einzelbestätigung, grüner Haken |
-| T12 | Browser-Smoke auf 16 Direktseiten | PASS |
-| T13 | Responsive Desktop 1440 × 1050, Tablet 820 × 1180, Mobil 390 × 844 | PASS · kein horizontales Überlaufen |
-| T14 | Manifest, App-ID, Service Worker, versionsisolierter Cache und Offline-Aufruf | PASS |
-| T15 | Statische Release-Validierung: Struktur, lokale Referenzen, Syntax, Datenschutz und Ausschlusslogik | PASS |
-| T16 | Vollständige interne SHA-256-Dateiliste | PASS |
+| T01 | JavaScript-Funktions-Smoke aller bestehenden Rechner/Inhalte und der manuellen VDE-Engine | PASS · 94 Assertions |
+| T02 | VDE-Regelmenge und sechs Messgrößen vollständig vorhanden | PASS |
+| T03 | Automatische Eingänge Foto/PDF/OCR/Protokoll in Regeln und Laufzeit deaktiviert | PASS |
+| T04 | Fehlende Eingabe erzeugt Zustand `incomplete`, gezielte Feldmeldung und kein Ergebnis | PASS |
+| T05 | Ungültige Eingabe erzeugt Zustand `error` und kein Ergebnis | PASS |
+| T06 | Grenzgleichheit aller Vergleiche wird inklusiv als `i. O.` bewertet | PASS |
+| T07 | Über- beziehungsweise Unterschreitung aller Grenztypen wird als `nicht i. O.` bewertet | PASS |
+| T08 | RCD-Kombiprüfung zeigt zwei Einzelrechnungen und korrekten Gesamtstatus | PASS |
+| T09 | Formale Stördaten ändern ein identisches Messwertergebnis nicht | PASS |
+| T10 | Manueller Browser-E2E: Fehlwertsperre, Positiv-, Negativ- und Kombifall | PASS |
+| T11 | Browser-Smoke auf 16 Direktseiten | PASS |
+| T12 | Responsive Desktop 1440 × 1050, Tablet 820 × 1180, Mobil 390 × 844 | PASS · kein horizontales Überlaufen |
+| T13 | Manifest, App-ID, Service Worker, versionsisolierter Cache und Offline-Aufruf | PASS |
+| T14 | Statische Release-Validierung: Struktur, lokale Referenzen, Syntax, Ausschlüsse und Governance | PASS |
+| T15 | Vollständige interne SHA-256-Dateiliste | PASS |
 
-## 4. Nachweis der Ergebnis-Governance
+## 4. Rechenweg- und Grenzfallmatrix
 
-### 4.1 Fehlende Bezugsgröße
+| Messgröße / Weg | Grenzfall i. O. | Abweichung erkannt | Fehler-/Fehlwertfall |
+|---|---|---|---|
+| Spannungsfall direkt | `3,00 % ≤ 3,00 %` | `3,01 % > 3,00 %` | fehlender Messwert → kein Ergebnis |
+| Spannungsfall aus Volt | `8 V / 400 V × 100 = 2 %` bei Limit `2 %` | rechnerischer Prozentwert oberhalb Limit | `Un = 0 V` → Fehler, kein Ergebnis |
+| Isolation | `1 MΩ ≥ 1 MΩ` | `0,99 MΩ < 1 MΩ` | fehlender Wert → kein Ergebnis |
+| Zs gegen Sollwert | `2,5 Ω ≤ 2,5 Ω` | `2,51 Ω > 2,5 Ω` | fehlendes `Zs,max` → kein Ergebnis |
+| Zs aus `U0 / Ia` | `230 V / 80 A = 2,875 Ω`; Messwert `2,875 Ω` | Messwert `2,876 Ω` | fehlendes/ungültiges `Ia` → kein Ergebnis |
+| Kurzschlussstrom | `80 A ≥ 80 A` | `79,9 A < 80 A` | fehlendes `Ia` → kein Ergebnis |
+| RCD-Auslösezeit | `300 ms ≤ 300 ms` | `301 ms > 300 ms` | fehlende Maximalzeit → kein Ergebnis |
+| RCD-Auslösestrom | `15 mA` und `30 mA` liegen inklusiv in `15…30 mA` | `14,9 mA` bzw. `31 mA` außerhalb | Untergrenze größer Obergrenze → Fehler |
+| Niederohmigkeit | `0,5 Ω ≤ 0,5 Ω` | `0,51 Ω > 0,5 Ω` | negativer Messwert → Fehler |
+| Schutzpotentialausgleich | `0,2 Ω ≤ 0,2 Ω` | `0,21 Ω > 0,2 Ω` | nichtnumerische Eingabe → Fehler |
 
-Im PDF-Test wurde `U0` entfernt, während `Zs`, Kennlinie und Nennstrom vorhanden blieben.
+## 5. Browser-E2E-Nachweis
 
-- Die Anwendung öffnete `REQ-phaseVoltage` als einzelne Rückfrage.
-- Die Schaltfläche zur Bestätigung eines n.-i.-O.-Befunds war nicht verfügbar.
-- Die Ergebnisansicht blieb verborgen.
-- Nach manueller Eingabe von `230 V` wurde neu gerechnet und der grüne Haken ausgegeben.
+Der manuelle E2E-Test verwendet keine Dateien. Er prüft ausschließlich sichtbare Bedienelemente und Eingaben:
 
-### 4.2 Bestätigte Rechenabweichung
+- exakt sechs Messgrößen im Prüfstand,
+- kein `input[type=file]`, kein Upload-, Analyse- oder Vorschaupanel,
+- feldgenaue Meldung bei fehlendem Spannungsfall,
+- gesperrtes Ergebnis vor Vervollständigung,
+- sichtbarer Grenzwert, Formel und Rechenweg im bestandenen Grenzfall,
+- sichtbarer `nicht i. O.`-Status bei vollständiger Isolationsabweichung,
+- gezielte `Ia`-Abfrage und danach berechnetes `Zs,max = 2,875 Ω`,
+- RCD-Kombiprüfung mit einem bestandenen und einem nicht bestandenen Einzelcheck,
+- mobile Bedienung und kein horizontales Überlaufen.
 
-Im Negativtest wurden `Zs = 4,00 Ω`, `B16` und `U0 = 230 V` verwendet. Der Rechenwert beträgt `230 / (5 × 16) = 2,875 Ω`.
-
-- Vor Bestätigung blieb die Ergebnisansicht gesperrt.
-- Der Nutzer konnte den Wert korrigieren oder als tatsächlich eingetragen bestätigen.
-- Erst nach Bestätigung erschien das rote X.
-
-### 4.3 Smartphone-Foto
-
-Das Foto wurde reproduzierbar als 1170 × 1650 Pixel großes JPEG mit Qualität 68, Kontrastanpassung und 1,4° Drehung erzeugt.
-
-- Der echte Bilddateipfad, Canvas-Rendering, lokale Ausrichtung, interner Messfeld-Lokator und die browserseitige `TextDetector`-Schnittstelle wurden durchlaufen.
-- Da `TextDetector` nicht in jeder Chromium-Laufzeit nativ verfügbar ist, verwendete der Test einen deterministischen Browseradapter für genau die im Testfoto sichtbaren Textzeilen.
-- Bildtextwerte wurden absichtlich mit 78 % Konfidenz übernommen und deshalb einzeln bestätigt.
-- Vor Abschluss aller Wertbestätigungen blieb das Endergebnis gesperrt und es gab kein rotes X.
-- Nach Abschluss erschien der grüne Haken; die mobile Ansicht blieb ohne horizontales Überlaufen.
-
-## 5. Rechenregeln im Positivtest
-
-| Messgröße | Eingabe | Auswertung |
-|---|---:|---|
-| Niederohmmessung | 0,20 Ω | ≤ 1 Ω · PASS |
-| Isolation | >300; >300; >300 MΩ | kleinster Wert ≥ 1 MΩ · PASS |
-| Schleifenimpedanz | 0,50 Ω, B16, U0 230 V | Grenzwert 2,875 Ω · PASS |
-| Kurzschlussstrom | 460 A | U0/Zs = 460 A · 0 % Abweichung · PASS |
-| Stromrelation | Ib 10 A, In 16 A | 10 ≤ 16 · PASS |
-| Spannungsfall | ΔU 4 V, Un 400 V, 1,0 % | 1,0 % ≤ 5 % und rechnerisch konsistent · PASS |
-| RCD-Auslösestrom | IΔ 18 mA, IΔn 30 mA | 18 ≤ 30 · PASS |
-| RCD-Auslösezeit | 17 ms | ≤ 300 ms · PASS |
+Die finalen Ansichten sind in `test-artifacts/vde-messwertpruefer-desktop.png` und `test-artifacts/vde-messwertpruefer-mobile.png` dokumentiert.
 
 ## 6. Vollständigkeit und Release-Integrität
 
 - 16 HTML-Direktseiten wurden geprüft.
 - Alle bestehenden Rechner, Wissensseiten, Navigation, Suche, Favoriten und externen Integrationen blieben erhalten.
-- Version `2.1.0.5-Beta` ist in `VERSION`, HTML-Attributen, App-Laufzeit, Manifest, Navigation, Service Worker, VDE-Modulen, Tests, Dokumentation und Release-Konfiguration konsistent.
-- PWA-App-ID und Start-URL lauten versionsspezifisch `sk-plt-tools-2.1.0.5-beta`.
-- Der Cache lautet `sk-plt-tools-v2.1.0.5-Beta`; ältere SK-PLT-Tools-Caches werden bei Aktivierung entfernt.
+- Version `2.1.1.0-Beta` ist in `VERSION`, HTML-Attributen, App-Laufzeit, Manifest, Navigation, Service Worker, VDE-Modulen, Tests, Dokumentation und Release-Konfiguration konsistent.
+- PWA-App-ID und Start-URL lauten `./?app=sk-plt-tools-2.1.1.0-beta`.
+- Der Cache lautet `sk-plt-tools-v2.1.1.0-Beta`; ältere SK-PLT-Tools-Caches werden bei Aktivierung entfernt.
+- Das neue Eingabeschema und die VDE-Regeln sind im Offline-Precache enthalten.
+- Das entfernte VDE-Lokalisierungsprofil und die alte Automatikdokumentation sind nicht mehr Bestandteil des Releases.
 - Die vollständige Prüfsummenliste wird unmittelbar vor dem finalen ZIP-Build neu erzeugt und danach erneut validiert.
-- Die Mustervorlage und reale personenbezogene Prüfprotokolle sind nicht im Projekt, ZIP oder Precache enthalten.
 
-## 7. Restrisiken und Grenzen
+## 7. Restrisiken und fachliche Grenzen
 
-- Die Bildtexterkennung hängt von der lokalen Browserunterstützung für `TextDetector` ab. Ohne diese Funktion oder bei schlechter Aufnahme führt die Anwendung konsequent in die manuelle Messwertauswahl und Einzelergänzung.
-- Stark abgeschnittene oder verzerrte Fotos können keinen verlässlichen automatischen Messumfang liefern.
-- Die hinterlegten Standardparameter bilden keine vollständige Abdeckung aller normativen Sonderfälle, RCD-Typen, Netzformen oder Prüfbedingungen.
-- Numerisch plausible Werte sind keine Bestätigung einer normgerechten Anlage.
-- Prüfung, fachliche Bewertung und Freigabe verbleiben bei der verantwortlichen Elektrofachkraft.
+- Die Anwendung kann nicht prüfen, ob ein manuell eingegebener Sollwert fachlich korrekt freigegeben wurde.
+- Netzform, Abschaltzeit, RCD-Typ, Prüfstromfaktor, Prüfspannung, Stromkreisart und Schutzmaßnahme werden nicht automatisch interpretiert.
+- Ein rechnerisch bestandenes Einzelergebnis bestätigt weder die vollständige Prüfung noch den ordnungsgemäßen Zustand der Anlage.
+- Messdurchführung, Auswahl des anwendbaren Grenzwerts, Gesamtbewertung und Freigabe verbleiben bei der verantwortlichen Elektrofachkraft.
 
 ## 8. Abnahme
 
-Die geforderten Änderungen sind im geprüften Stand umgesetzt. **SK PLT Tools 2.1.0.5-Beta** ist als release-fähige Beta für kontrollierte Anwender- und Feldtests der dokumentierten rechnerischen Messwert-Zweitkontrolle freigegeben. Eine produktive elektrotechnische Freigabe wird ausdrücklich nicht erteilt.
+Die geforderten Änderungen sind im geprüften Stand umgesetzt. **SK PLT Tools 2.1.1.0-Beta** ist als release-fähige Beta für kontrollierte Anwender- und Feldtests des manuellen VDE-Messwertprüfers freigegeben. Eine produktive elektrotechnische Freigabe wird ausdrücklich nicht erteilt.

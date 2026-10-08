@@ -1,187 +1,133 @@
 #!/usr/bin/env python3
-"""End-to-end tests for the measurement-only VDE 0100-600 workflow."""
+"""End-to-end tests for the manual VDE measurement checker.
+
+The historical filename is retained for project-structure compatibility. No protocol,
+PDF, photograph or OCR input is used.
+"""
 from __future__ import annotations
 
 import json
 import os
 from pathlib import Path
 import tempfile
-from PIL import Image, ImageDraw, ImageEnhance, ImageFont
 from playwright.sync_api import sync_playwright
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
 
 BASE = os.environ.get("SK_TEST_BASE_URL", "http://127.0.0.1:4173")
 ARTIFACT_DIR = Path(os.environ.get("SK_TEST_ARTIFACT_DIR", tempfile.gettempdir()))
-POSITIVE_TEXT = (
-    "Messwerte VDE 0100-600 | Niederohmmessung 0,20 Ohm | Isolation >300 MOhm; >300 MOhm; >300 MOhm | "
-    "Schleifenimpedanz Zs 0,50 Ohm | Kennlinie B 16 A | U0 230 V | Kurzschlussstrom Ik 460 A | "
-    "Verbraucherstrom Ib 10 A | Nennstrom In 16 A | Spannungsfall DeltaU 4 V | Nennspannung Un 400 V | Spannungsfall 1,0 % | "
-    "RCD Bemessungsdifferenzstrom IΔn 30 mA | Auslösestrom IΔ 18 mA | Auslösezeit tA 17 ms"
-)
 
 
-def make_pdf(path: Path, text: str) -> None:
-    doc = canvas.Canvas(str(path), pagesize=A4)
-    width, height = A4
-    doc.setFont("Helvetica-Bold", 18)
-    doc.drawString(48, height - 52, "MESSWERTPROTOKOLL")
-    doc.setFont("Helvetica", 11)
-    y = height - 90
-    parts = [part.strip() for part in text.split("|")]
-    for part in parts:
-        doc.drawString(52, y, part.replace("Δ", "Delta"))
-        y -= 28
-    doc.rect(42, y - 20, width - 84, height - y - 40)
-    doc.save()
+def choose(page, measurement: str) -> None:
+    page.locator(f'[data-measurement="{measurement}"]').click()
 
 
-def make_phone_photo(path: Path, text: str) -> None:
-    image = Image.new("RGB", (1170, 1650), "#f3f0e8")
-    draw = ImageDraw.Draw(image)
-    try:
-        title_font = ImageFont.truetype("DejaVuSans-Bold.ttf", 46)
-        body_font = ImageFont.truetype("DejaVuSans.ttf", 27)
-    except OSError:
-        title_font = body_font = ImageFont.load_default()
-    draw.rounded_rectangle((70, 70, 1100, 1510), radius=18, fill="white", outline="#28333a", width=3)
-    draw.text((110, 110), "MESSWERTPROTOKOLL", fill="#071820", font=title_font)
-    y = 205
-    for part in [part.strip() for part in text.split("|")]:
-        draw.text((115, y), part, fill="#15252d", font=body_font)
-        y += 82
-    image = ImageEnhance.Contrast(image).enhance(0.94)
-    image = image.rotate(1.4, resample=Image.Resampling.BICUBIC, expand=False, fillcolor="#d7d4cd")
-    image.save(path, quality=68, optimize=True, progressive=True, dpi=(72, 72))
+def fill(page, values: dict[str, str]) -> None:
+    for field, value in values.items():
+        control = page.locator(f"#{field}")
+        if control.evaluate("el => el.tagName") == "SELECT":
+            control.select_option(value)
+        else:
+            control.fill(value)
 
 
-def analyze(page, file_path: Path) -> dict:
-    page.goto(f"{BASE}/plausibilitaetspruefung-vde0100-600/")
-    page.wait_for_load_state("networkidle")
-    page.locator("#documentInput").set_input_files(str(file_path))
-    page.locator("#startAnalysis").click()
-    page.locator("#reviewPanel").wait_for(state="visible", timeout=45_000)
-    return page.evaluate("window.SK_VDE_CHECKER.summary()")
-
-
-def confirm_scope(page) -> None:
-    page.locator("#openIssues").click()
-    page.locator("#issuePanel").wait_for(state="visible")
-    assert page.locator("[data-scope]:checked").count() > 0, "Automatisch vorgeschlagener Messumfang fehlt"
-    assert page.locator("#resultPanel").is_hidden(), "Endergebnis vor Bestätigung des Messumfangs"
-    page.locator("#applyCorrection").click()
-
-
-def resolve_uncertain_values(page) -> None:
-    for _ in range(40):
-        if page.locator("#resultPanel").is_visible():
-            return
-        summary = page.evaluate("window.SK_VDE_CHECKER.summary()")
-        assert summary["pending"], "Weder Ergebnis noch offener Wert vorhanden"
-        current = summary["pending"][0]
-        assert current["status"] == "open", f"Unerwartete Rechenabweichung im Positivfall: {current}"
-        assert page.locator("#issueInput").is_visible(), f"Eingabefeld fehlt für {current}"
-        assert page.locator("#issueInput").input_value().strip(), f"Erkannter Wert fehlt für {current}"
-        page.locator("#applyCorrection").click()
-    raise AssertionError("Klärungsfolge endet nicht")
+def evaluate(page) -> None:
+    page.locator("#evaluateMeasurement").click()
 
 
 def main() -> int:
     ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="sk-vde-measurements-") as temp_name:
-        temp = Path(temp_name)
-        positive_pdf = temp / "measurement-positive.pdf"
-        missing_pdf = temp / "measurement-missing-reference.pdf"
-        negative_pdf = temp / "measurement-negative.pdf"
-        phone_photo = temp / "measurement-smartphone.jpg"
-        make_pdf(positive_pdf, POSITIVE_TEXT)
-        make_pdf(missing_pdf, POSITIVE_TEXT.replace("U0 230 V | ", ""))
-        make_pdf(negative_pdf, POSITIVE_TEXT.replace("Zs 0,50 Ohm", "Zs 4,00 Ohm").replace("Ik 460 A", "Ik 57,5 A"))
-        make_phone_photo(phone_photo, POSITIVE_TEXT)
+    with sync_playwright() as playwright:
+        executable = os.environ.get("PLAYWRIGHT_CHROMIUM_EXECUTABLE")
+        browser = playwright.chromium.launch(headless=True, executable_path=executable) if executable else playwright.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": 1440, "height": 1050})
+        console_errors: list[str] = []
+        page.on("console", lambda message: console_errors.append(message.text) if message.type == "error" else None)
+        page.goto(f"{BASE}/plausibilitaetspruefung-vde0100-600/")
+        page.wait_for_load_state("networkidle")
 
-        with sync_playwright() as playwright:
-            executable = os.environ.get("PLAYWRIGHT_CHROMIUM_EXECUTABLE")
-            browser = playwright.chromium.launch(headless=True, executable_path=executable) if executable else playwright.chromium.launch(headless=True)
-            console_errors: list[str] = []
+        summary = page.evaluate("window.SK_VDE_CHECKER.summary()")
+        assert summary["version"] == "2.1.1.0-Beta"
+        assert summary["mode"] == "manual-only"
+        assert summary["automaticDocumentAnalysis"] is False
+        assert page.locator('input[type="file"]').count() == 0
+        assert page.locator("#measurementNav .measurement-button").count() == 6
 
-            page = browser.new_page(viewport={"width": 1440, "height": 1050})
-            page.on("console", lambda message: console_errors.append(message.text) if message.type == "error" else None)
+        # Missing values must be queried specifically and must not expose a verdict.
+        fill(page, {"voltageDropMode": "percent", "approvedMaxDropPercent": "3"})
+        evaluate(page)
+        assert page.locator("#inputAlert").is_visible()
+        assert "Gemessener Spannungsfall fehlt" in page.locator("#inputAlertList").inner_text()
+        assert page.locator("#resultPanel").is_hidden()
+        assert page.evaluate("window.SK_VDE_CHECKER.summary().resultVisible") is False
 
-            positive = analyze(page, positive_pdf)
-            assert positive["version"] == "2.1.0.5-Beta"
-            assert positive["pending"][0]["id"] == "SCOPE-CONFIRM"
-            assert not positive["scopeConfirmed"]
-            assert {"loop", "shortCircuit", "loadCurrent", "voltageDrop", "rcdCurrent", "rcdTime", "insulation", "continuity"} <= set(positive["suggestedScope"])
-            assert page.locator("#resultPanel").is_hidden()
-            assert page.locator("text=Formularpassung").count() == 0
-            confirm_scope(page)
-            page.locator("#resultPanel").wait_for(state="visible")
-            assert page.locator("#verdictIcon").inner_text() == "✓"
-            assert "plausibel" in page.locator("#verdictTitle").inner_text().lower()
-            page.screenshot(path=str(ARTIFACT_DIR / "vde-messwerte-pdf-gruen.png"), full_page=True)
+        # Exact boundary is i. O.; limit, formula and calculation are visible.
+        page.locator("#measuredDropPercent").fill("3")
+        evaluate(page)
+        assert page.locator("#resultPanel").is_visible()
+        assert page.locator("#resultTitle").inner_text().lower() == "i. o."
+        assert "≤ 3 %" in page.locator("#resultLimit").inner_text()
+        assert "ΔU%gemessen" in page.locator("#resultFormula").inner_text()
+        assert "3 % ≤ 3 %" in page.locator("#resultCalculation").inner_text()
 
-            missing = analyze(page, missing_pdf)
-            confirm_scope(page)
-            missing_after_scope = page.evaluate("window.SK_VDE_CHECKER.summary()")
-            assert any(item["id"] == "REQ-phaseVoltage" and item["status"] == "open" for item in missing_after_scope["pending"])
-            assert page.locator("#resultPanel").is_hidden(), "Fehlende Bezugsgröße darf kein Endergebnis liefern"
-            assert page.locator("#confirmFail").is_hidden(), "Fehlende Bezugsgröße darf nicht als rotes X bestätigt werden"
-            assert page.locator("#issueInput").get_attribute("data-field") == "phaseVoltage"
-            page.locator("#issueInput").fill("230")
-            page.locator("#applyCorrection").click()
-            page.locator("#resultPanel").wait_for(state="visible")
-            assert page.locator("#verdictIcon").inner_text() == "✓"
+        # Insulation failure from a complete, explicit basis.
+        choose(page, "insulation")
+        fill(page, {"measuredInsulation": "0,99", "approvedMinInsulation": "1"})
+        evaluate(page)
+        assert page.locator("#resultTitle").inner_text().lower() == "nicht i. o."
+        assert "0,99 MΩ < 1 MΩ" in page.locator("#resultCalculation").inner_text()
 
-            negative = analyze(page, negative_pdf)
-            confirm_scope(page)
-            negative_after_scope = page.evaluate("window.SK_VDE_CHECKER.summary()")
-            assert any(item["id"] == "MEAS-ZS" and item["status"] == "fail" for item in negative_after_scope["pending"])
-            assert page.locator("#resultPanel").is_hidden(), "Unbestätigte Rechenabweichung darf kein Endergebnis liefern"
-            assert page.locator("#confirmFail").is_visible()
-            page.locator("#confirmFail").click()
-            page.locator("#resultPanel").wait_for(state="visible")
-            assert page.locator("#verdictIcon").inner_text() == "×"
-            assert "nicht plausibel" in page.locator("#verdictTitle").inner_text().lower()
+        # Zs formula route: no result without Ia, then transparent calculated limit.
+        choose(page, "disconnection")
+        fill(page, {"disconnectionMode": "loop-formula", "measuredLoopImpedance": "2,875", "phaseVoltage": "230"})
+        evaluate(page)
+        assert page.locator("#resultPanel").is_hidden()
+        assert "Erforderlicher Auslösestrom Ia" in page.locator("#inputAlertList").inner_text()
+        page.locator("#requiredTripCurrent").fill("80")
+        evaluate(page)
+        assert page.locator("#resultTitle").inner_text().lower() == "i. o."
+        assert "2,875 Ω" in page.locator("#resultLimit").inner_text()
+        assert "U0 / Ia" in page.locator("#resultFormula").inner_text()
 
-            phone_context = browser.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True)
-            # Chromium exposes the browser-local TextDetector API only on selected platforms.
-            # The deterministic adapter exercises the exact same browser interface and
-            # supplies the text visibly present in the generated smartphone photograph.
-            phone_context.add_init_script(
-                """
-                window.TextDetector = class {
-                  async detect(canvas) {
-                    return [{rawValue: %s, boundingBox: {x:0,y:0,width:canvas.width,height:canvas.height}}];
-                  }
-                };
-                """ % json.dumps(POSITIVE_TEXT)
-            )
-            phone_page = phone_context.new_page()
-            phone_page.on("console", lambda message: console_errors.append(message.text) if message.type == "error" else None)
-            phone = analyze(phone_page, phone_photo)
-            assert phone["mode"] == "local-image-text"
-            assert phone["pending"][0]["id"] == "SCOPE-CONFIRM"
-            assert phone["internalLocatorUsed"] is True
-            confirm_scope(phone_page)
-            assert phone_page.locator("#resultPanel").is_hidden(), "Unsichere Fotoerkennung darf kein Endergebnis liefern"
-            assert phone_page.locator("#confirmFail").is_hidden(), "Unsichere Fotoerkennung darf kein rotes X auslösen"
-            resolve_uncertain_values(phone_page)
-            assert phone_page.locator("#verdictIcon").inner_text() == "✓"
-            assert phone_page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-            phone_page.screenshot(path=str(ARTIFACT_DIR / "vde-messwerte-smartphone-gruen.png"), full_page=True)
-            phone_context.close()
+        # Combined RCD evaluation exposes both calculations and an overall failure.
+        choose(page, "rcd")
+        fill(page, {
+            "rcdMode": "both",
+            "measuredRcdTime": "299",
+            "approvedMaxRcdTime": "300",
+            "measuredRcdCurrent": "31",
+            "approvedMinRcdCurrent": "15",
+            "approvedMaxRcdCurrent": "30",
+        })
+        evaluate(page)
+        assert page.locator("#resultTitle").inner_text().lower() == "nicht i. o."
+        assert page.locator("#resultChecks .check-row").count() == 2
+        assert page.locator("#resultChecks .check-row.fail").count() == 1
+        assert page.locator("#sessionCount").inner_text() == "4"
+        page.screenshot(path=str(ARTIFACT_DIR / "vde-messwertpruefer-desktop.png"), full_page=True)
 
-            browser.close()
-            assert not console_errors, "Browser-Konsole: " + " | ".join(console_errors)
+        # Mobile interaction and overflow.
+        mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True)
+        mobile.goto(f"{BASE}/plausibilitaetspruefung-vde0100-600/")
+        mobile.wait_for_load_state("networkidle")
+        choose(mobile, "continuity")
+        fill(mobile, {"measuredContinuity": "0,5", "approvedMaxContinuity": "0,5"})
+        evaluate(mobile)
+        assert mobile.locator("#resultTitle").inner_text().lower() == "i. o."
+        assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+        mobile.screenshot(path=str(ARTIFACT_DIR / "vde-messwertpruefer-mobile.png"), full_page=True)
+        mobile.close()
+
+        browser.close()
+        assert not console_errors, "Browser-Konsole: " + " | ".join(console_errors)
 
     result = {
-        "version": "2.1.0.5-Beta",
-        "positive_pdf": "PASS · grüner Haken",
-        "missing_reference": "PASS · kein Endergebnis, kein rotes X, Einzelabfrage",
-        "confirmed_negative_measurement": "PASS · rotes X",
-        "smartphone_photo": "PASS · lokalisieren, unsichere Werte einzeln bestätigen, grüner Haken",
-        "formal_document_features_used_for_verdict": False,
-        "template_used_as_verdict_criterion": False,
+        "version": "2.1.1.0-Beta",
+        "mode": "manual-only",
+        "automatic_document_analysis": False,
+        "missing_input_blocks_result": "PASS",
+        "inclusive_boundary": "PASS",
+        "transparent_limit_formula_calculation": "PASS",
+        "confirmed_failure": "PASS",
+        "responsive_mobile": "PASS",
         "result": "PASS",
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))

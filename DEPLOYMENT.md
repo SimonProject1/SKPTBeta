@@ -1,4 +1,4 @@
-# Deployment – SK PLT Tools 2.1.0.5-Beta
+# Deployment – SK PLT Tools 2.1.1.0-Beta
 
 ## Voraussetzungen
 
@@ -8,17 +8,16 @@
 
 ## Bereitstellung
 
-1. `SK-PLT-Tools-V2.1.0.5-Beta.zip` entpacken.
-2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.0.5-Beta/` unverändert unter dem Webroot bereitstellen.
-3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/`, `vendor/` und alle Modulordner unter demselben Webroot liegen.
-4. Keine reale ausgefüllte VDE-Testdatei in den Webroot kopieren.
-5. Browserdaten einer älteren Beta bei Bedarf neu laden; der Service Worker löscht ältere `sk-plt-tools-*`-Caches automatisch.
+1. `SK-PLT-Tools-V2.1.1.0-Beta.zip` entpacken.
+2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.1.0-Beta/` unverändert unter dem Webroot bereitstellen.
+3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/` und alle Modulordner unter demselben Webroot liegen.
+4. Browserdaten einer älteren Beta bei Bedarf neu laden; der Service Worker löscht ältere `sk-plt-tools-*`-Caches automatisch.
 
 ## Release-Identität
 
-- Version: `2.1.0.5-Beta`
-- Manifest-ID/Start-URL: `./?app=sk-plt-tools-2.1.0.4-beta`
-- Cache: `sk-plt-tools-v2.1.0.5-Beta`
+- Version: `2.1.1.0-Beta`
+- Manifest-ID/Start-URL: `./?app=sk-plt-tools-2.1.1.0-beta`
+- Cache: `sk-plt-tools-v2.1.1.0-Beta`
 
 ## Vor Deployment ausführen
 
@@ -28,21 +27,16 @@ python3 tools/release.py --checksums
 python3 tools/validate_release.py
 ```
 
-Browser- und VDE-End-to-End-Tests benötigen einen lokalen Server und externe Testpfade:
+Browser- und VDE-End-to-End-Tests:
 
 ```bash
-export SK_VDE_REFERENCE_PDF=/sicherer/pfad/VDEProtokoll.pdf
-export SK_VDE_FILLED_PDF=/sicherer/pfad/ausgefüllte-testdatei.pdf
-export SK_TEST_ARTIFACT_DIR=/sicherer/pfad/testausgaben
 python3 -m http.server 4173 --bind 127.0.0.1
-```
-
-Danach in einem zweiten Terminal:
-
-```bash
+# in einem zweiten Terminal
 python3 tools/browser-smoke-test.py
 python3 tools/vde-protocol-e2e-test.py
 ```
+
+Der VDE-Test verwendet ausschließlich manuelle Formeingaben; externe Testdateien oder Protokolle sind nicht erforderlich.
 
 ## Rollback
 

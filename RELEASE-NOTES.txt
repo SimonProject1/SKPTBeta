@@ -1,34 +1,33 @@
-SK PLT Tools V2.1.0.5-Beta
-Release-Datum: 07.10.2026
-Direkte Basis: V2.1.0.4-Beta
+SK PLT Tools V2.1.1.0-Beta
+Release-Datum: 08.10.2026
+Direkte Basis: V2.1.0.5-Beta
 Stabile Referenz: V2.1.0.0
 
 SCHWERPUNKT
-- Plausibilitätsprüfung VDE 0100-600 vollständig auf eingetragene Messwerte und rechnerisch notwendige Bezugsdaten reduziert.
-- Formularidentität, Strukturpassung, Unterschriften, Namen, Datum, Ortsangaben, Kreuze, Freitext und sonstige formale Angaben aus der Bewertungsengine entfernt.
-- Internes Referenzprofil auf 18 Mess-/Bezugsfeldzonen reduziert; Verwendung nur noch für Ausrichtung und Feldlokalisierung.
-- Kein sichtbarer Musterdownload und keine eingebettete Mustervorlage.
+- Automatische Foto-, PDF-, OCR- und Protokollanalyse der VDE-0100-600-Funktion vollständig durch einen manuellen VDE-Messwertprüfer ersetzt.
+- Formularidentität, Protokollaufbau, Kreuze, Unterschriften und formale Angaben aus Laufzeit und Bewertungslogik entfernt.
+- Vollständige Projektstruktur und alle übrigen Werkzeuge, Wissensseiten, Navigation, Suche und Favoriten beibehalten.
 
-KLÄRUNGS- UND ERGEBNISLOGIK
-- Messumfang wird nach Erkennung vom Nutzer bestätigt.
-- Fehlende und unsichere Messwerte werden einzeln abgefragt.
-- Fehlende notwendige Bezugsdaten werden einzeln abgefragt.
-- Fehlende oder unsichere Werte können nicht direkt zu einem roten X führen.
-- Solange ein notwendiger Wert fehlt, wird kein Endergebnis angezeigt.
-- Grüner Haken nur bei vollständigen Werten und ausschließlich bestandenen Rechenregeln.
-- Rotes X nur nach Bestätigung eines tatsächlich eingetragenen, rechnerisch unplausiblen beziehungsweise n.-i.-O.-Messwerts.
+MANUELLE MESSWERTPRÜFUNG
+- Klare Masken für Spannungsfall, Isolation, Schleifenimpedanz/Kurzschlussstrom, RCD, Niederohmigkeit und Schutzpotentialausgleich.
+- Bedingte Felder: Es erscheinen nur Angaben, die für den gewählten Rechenweg erforderlich sind.
+- Kein Standardgrenzwert und kein Kennlinienfaktor wird vorbelegt.
+- Kontextabhängige Grenzen werden über zusätzliche Bezugsdaten oder einen freigegebenen Sollwert bewertet.
+- Fehlende/ungültige Angaben werden gezielt ausgewiesen; ohne vollständige Grundlage kein Ergebnis.
+- Vollständige Ergebnisse zeigen Grenzwert, Formel, eingesetzte Zahlen und i. O./nicht i. O.
 
 RECHENREGELN
-- Durchgängigkeit/Niederohmwert gegen konfigurierten Rechen-/Prüfwert.
-- Isolation gegen Mindestprüfwert.
-- Zs gegen U0/(Kennlinienfaktor × In).
-- Ik-Konsistenz gegen U0/Zs.
-- Ib gegen In.
-- Spannungsfall-Grenze und Konsistenz von ΔU, Un und Prozentwert.
-- RCD-Auslösestrom gegen IΔn.
-- RCD-Auslösezeit gegen Standard-Prüfwert.
+- Spannungsfall direkt in Prozent oder ΔU / Un × 100.
+- Isolation gegen freigegebenen Mindestwert.
+- Zs gegen freigegebenes Zs,max oder Zs,max = U0 / Ia.
+- Ik gegen freigegebenen erforderlichen Auslösestrom Ia.
+- RCD-Zeit gegen freigegebene Maximalzeit; RCD-Strom gegen freigegebenen Bereich.
+- Niederohmigkeit und Schutzpotentialausgleich gegen freigegebene Maximalwerte.
+- Grenzgleichheit wird als i. O. bewertet.
 
 TECHNIK UND RELEASE
-- VDE-Engine, Browseroberfläche, internes Messfeldprofil, Regeln, Funktions-, Browser-, E2E- und Release-Tests aktualisiert.
-- PWA-App-ID, Manifest, Cache, Precache, Release-Konfiguration, Versionsdateien, Dokumentation und SHA-256-Liste auf V2.1.0.5-Beta synchronisiert.
-- Vollständige Projektstruktur und alle bestehenden Werkzeuge/Wissensseiten beibehalten.
+- Engine, Eingabeschema, Regeln, UI, Navigation, Suche, Dokumentation, Funktions-, Browser-, E2E- und Release-Tests aktualisiert.
+- PWA-App-ID, Manifest, Cache, Precache, Release-Konfiguration, Versionsdateien und SHA-256-Liste auf V2.1.1.0-Beta synchronisiert.
+
+SICHERHEIT
+- Digitale Zweitkontrolle; keine Messung, keine Inbetriebnahmefreigabe und kein Ersatz für die verantwortliche Elektrofachkraft.

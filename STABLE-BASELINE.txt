@@ -1,7 +1,7 @@
 SK PLT Tools – Baseline-Hinweis
 
-Version: V2.1.0.5-Beta
-Direkte Vorgängerversion/Basis: V2.1.0.3-Beta
+Version: V2.1.1.0-Beta
+Direkte Vorgängerversion/Basis: V2.1.0.5-Beta
 Stabile Referenz: V2.1.0.0
 
-Die vollständige Projektstruktur der direkten Basis bleibt erhalten. 2.1.0.5-Beta korrigiert ausschließlich und vollständig das Bewertungsmodell der VDE-0100-600-Prüfung: Die Formularidentität ist ein technischer Hinweis, während eindeutige Kreuze, vollständige Pflichtangaben und plausible Messwerte das Ergebnis bestimmen. Die leere VDEProtokoll.pdf bleibt die verbindliche externe Referenz. Die ausgefüllte Test-PDF und daraus erzeugte Testbilder werden ausschließlich außerhalb des Releases verwendet.
+Die vollständige Projektstruktur und alle übrigen Module der direkten Basis bleiben erhalten. V2.1.1.0-Beta ersetzt ausschließlich die bisherige automatische Dokumentanalyse der VDE-0100-600-Funktion durch einen manuellen VDE-Messwertprüfer. Foto-, PDF-, OCR-, Formular- und Protokollmerkmale sind nicht Teil der Laufzeitbewertung. Kontextabhängige Grenzwerte werden nur über ausdrücklich eingegebene Zusatzangaben oder freigegebene Sollwerte verwendet. Ohne vollständige Berechnungsgrundlage erscheint kein Ergebnis.

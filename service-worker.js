@@ -1,11 +1,11 @@
-const RELEASE='2.1.0.5-Beta';
+const RELEASE='2.1.1.0-Beta';
 const CACHE_PREFIX='sk-plt-tools-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
   // precache:start
   "./",
   "./SIEMENS-QUELLEN-UND-GRENZWERTE.md",
-  "./VDE0100-600-AUTOMATIK.md",
+  "./VDE0100-600-MESSWERTPRUEFER.md",
   "./analogsignal/",
   "./analogsignal/index.html",
   "./assets/airttorque-wissen.css",
@@ -28,8 +28,8 @@ const CORE=[
   "./assets/siemens-sitrans-wissen.css",
   "./assets/vacon-wissen.css",
   "./assets/vde0100-600-engine.js",
+  "./assets/vde0100-600-input-schema.json",
   "./assets/vde0100-600-rules.json",
-  "./assets/vde0100-600-template.json",
   "./einheitenrechner/",
   "./einheitenrechner/index.html",
   "./index.html",

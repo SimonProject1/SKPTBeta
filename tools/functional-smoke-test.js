@@ -137,60 +137,68 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   assertEqual(/data-filter="EXTERN"/.test(html),true,'Filter Externe Dienste vorhanden');
 }
 {
-  const context={console,Math,Number,Object,Array,String,RegExp,Set,Intl,Error,Date,globalThis:null};context.globalThis=context;vm.createContext(context);
+  const context={console,Math,Number,Object,Array,String,Intl,Error,globalThis:null};context.globalThis=context;vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-engine.js'),'utf8'),context,{filename:'vde0100-600-engine.js'});
   const engine=context.SK_VDE_ENGINE;
-  const schema=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-template.json'),'utf8'));
+  const schema=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-input-schema.json'),'utf8'));
   const rules=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-rules.json'),'utf8'));
-  assertEqual(engine.VERSION,'2.1.0.5-Beta','VDE Messwertengine Version');
-  assertEqual(Object.keys(engine.FIELD_DEFS).length,19,'VDE ausschließlich Mess- und Bezugsfelder');
-  assertEqual(Object.keys(engine.MEASUREMENT_GROUPS).length,12,'VDE auswählbare Messgrößen');
-  assertEqual(['testerName','testDate','signatureState','protocolType','building','inspection31'].every(key=>!(key in engine.FIELD_DEFS)),true,'VDE formale Felder vollständig ausgeschlossen');
-  assertEqual(rules.excludedFromEvaluation.includes('Unterschriften')&&rules.excludedFromEvaluation.includes('Kreuze'),true,'VDE formale Ausschlüsse dokumentiert');
-  assertEqual(schema.referenceForm.embedded,false,'VDE internes Referenzprofil ohne eingebettete Vorlage');
-  assertEqual(schema.referenceForm.downloadable,false,'VDE internes Referenzprofil nicht downloadbar');
-  assertEqual(fs.existsSync(path.join(ROOT,'VDEProtokoll.pdf')),false,'VDE Mustervorlage nicht im Webprojekt');
-  assertEqual(Object.keys(schema.fieldMap).length,18,'VDE internes Profil nur für Mess- und Bezugsfelder');
-  assertEqual(Object.keys(schema.fieldMap).every(key=>key in engine.FIELD_DEFS),true,'VDE internes Profil enthält keine Formalfelder');
+  assertEqual(engine.VERSION,'2.1.1.0-Beta','VDE Messwertengine Version');
+  assertEqual(Object.keys(engine.MEASUREMENT_TYPES).length,6,'VDE sechs manuelle Messgrößen');
+  assertEqual(schema.mode,'manual-only','VDE Eingabeschema ausschließlich manuell');
+  assertEqual(schema.automaticDocumentAnalysis,false,'VDE automatische Dokumentanalyse deaktiviert');
+  assertEqual(rules.automaticInput.photo||rules.automaticInput.pdf||rules.automaticInput.ocr||rules.automaticInput.protocolRecognition,false,'VDE alle automatischen Eingänge deaktiviert');
+  assertEqual(rules.governance.numericDefaultsAllowed,false,'VDE keine numerischen Standardgrenzwerte');
+  assertEqual(['parseText','detectedMeasurementGroups','referenceDescriptor'].some(key=>key in engine),false,'VDE keine Erkennungs- oder Vorlagenlogik');
 
-  const unresolved={_confidence:{},_measurementScope:[],_scopeConfirmed:false};
-  let checks=engine.checkData(unresolved,schema.config);
-  assertEqual(checks.length,1,'VDE vor Messumfang genau eine neutrale Klärung');
-  assertEqual(checks[0].id,'SCOPE-CONFIRM','VDE Messumfang muss bestätigt werden');
-  assertEqual(checks[0].status,'open','VDE fehlender Messumfang ist offen statt rot');
-  assertEqual(engine.finalState(unresolved,schema.config).plausible,false,'VDE kein Endergebnis vor Messumfang');
+  let result=engine.evaluate('voltageDrop',{voltageDropMode:'percent',measuredDropPercent:'',approvedMaxDropPercent:'3'});
+  assertEqual(result.status,'incomplete','Spannungsfall fehlender Messwert bleibt offen');
+  assertEqual(result.resultLabel,'','Spannungsfall kein Ergebnis bei Fehlwert');
+  assertEqual(result.missing[0].field,'measuredDropPercent','Spannungsfall gezielte Rückfrage');
+  result=engine.evaluate('voltageDrop',{voltageDropMode:'percent',measuredDropPercent:'3',approvedMaxDropPercent:'3'});
+  assertEqual(result.status,'pass','Spannungsfall Grenzgleichheit i. O.');
+  result=engine.evaluate('voltageDrop',{voltageDropMode:'percent',measuredDropPercent:'3,01',approvedMaxDropPercent:'3'});
+  assertEqual(result.status,'fail','Spannungsfall oberhalb Grenze n. i. O.');
+  result=engine.evaluate('voltageDrop',{voltageDropMode:'volts',measuredDropVolts:'8',nominalVoltage:'400',approvedMaxDropPercent:'2'});
+  assertEqual(result.status,'pass','Spannungsfall ΔU/Un Grenzgleichheit');
+  assertEqual(result.checks[0].calculation.includes('8 V / 400 V × 100 = 2 %'),true,'Spannungsfall Rechenweg offengelegt');
+  result=engine.evaluate('voltageDrop',{voltageDropMode:'volts',measuredDropVolts:'8',nominalVoltage:'0',approvedMaxDropPercent:'2'});
+  assertEqual(result.status,'error','Spannungsfall Division durch null gesperrt');
 
-  const positive={
-    _scopeConfirmed:true,
-    _measurementScope:['bondingMain','insulation','loop','shortCircuit','loadCurrent','voltageDrop','rcdCurrent','rcdTime'],
-    _confidence:{bondingMain:1,insulationValues:1,loopImpedance:1,shortCircuitCurrent:1,loadCurrent:1,voltageDrop:1,voltageDropPercent:1,rcdTripCurrent:1,rcdTripTime:1,shutdownDeviceType:1,shutdownNominalCurrent:1,phaseVoltage:1,nominalCurrent:1,nominalVoltage:1,rcdNominalResidual:1},
-    bondingMain:.2,insulationValues:'>300; >300; >300',loopImpedance:.5,shortCircuitCurrent:460,shutdownDeviceType:'B',shutdownNominalCurrent:16,phaseVoltage:230,loadCurrent:10,nominalCurrent:16,voltageDrop:4,voltageDropPercent:1,nominalVoltage:400,rcdTripCurrent:18,rcdNominalResidual:30,rcdTripTime:17
-  };
-  checks=engine.checkData(positive,schema.config);
-  assertEqual(checks.some(item=>item.status==='open'||item.status==='fail'),false,'VDE vollständiger Messwert-Positivfall ohne offene Punkte');
-  assertEqual(engine.finalState(positive,schema.config).plausible,true,'VDE vollständiger Messwert-Positivfall grün');
-  assertEqual(checks.some(item=>item.id==='MEAS-ZS'&&item.status==='pass'),true,'VDE Zs rechnerisch i. O.');
-  assertEqual(checks.some(item=>item.id==='MEAS-IK-CONSISTENCY'&&item.status==='pass'),true,'VDE Ik und U0/Zs rechnerisch konsistent');
-  assertEqual(checks.some(item=>item.id==='MEAS-DU-CONSISTENCY'&&item.status==='pass'),true,'VDE Spannungsfallangaben rechnerisch konsistent');
+  result=engine.evaluate('insulation',{measuredInsulation:'1',approvedMinInsulation:'1'});
+  assertEqual(result.status,'pass','Isolation Grenzgleichheit i. O.');
+  assertEqual(engine.evaluate('insulation',{measuredInsulation:'0,99',approvedMinInsulation:'1'}).status,'fail','Isolation unter Mindestwert n. i. O.');
+  assertEqual(engine.evaluate('insulation',{measuredInsulation:'',approvedMinInsulation:'1'}).complete,false,'Isolation Fehlwert ohne Ergebnis');
 
-  const missing={...positive,shutdownNominalCurrent:''};
-  checks=engine.checkData(missing,schema.config);
-  assertEqual(checks.some(item=>item.id==='REQ-shutdownNominalCurrent'&&item.status==='open'),true,'VDE fehlende Bezugsgröße wird einzeln abgefragt');
-  assertEqual(checks.some(item=>item.status==='fail'),false,'VDE fehlende Bezugsgröße erzeugt kein rotes X');
-  assertEqual(engine.finalState(missing,schema.config).complete,false,'VDE kein Endergebnis bei fehlender Bezugsgröße');
+  result=engine.evaluate('disconnection',{disconnectionMode:'loop-approved',measuredLoopImpedance:'2,5',approvedMaxLoopImpedance:'2,5'});
+  assertEqual(result.status,'pass','Zs direkter Sollwert Grenzgleichheit');
+  assertEqual(engine.evaluate('disconnection',{disconnectionMode:'loop-approved',measuredLoopImpedance:'2,51',approvedMaxLoopImpedance:'2,5'}).status,'fail','Zs direkter Sollwert Überschreitung');
+  result=engine.evaluate('disconnection',{disconnectionMode:'loop-formula',measuredLoopImpedance:'2,875',phaseVoltage:'230',requiredTripCurrent:'80'});
+  assertEqual(result.status,'pass','Zs U0/Ia Grenzgleichheit');
+  assertEqual(result.limitText.includes('2,875 Ω'),true,'Zs berechneter Grenzwert sichtbar');
+  assertEqual(engine.evaluate('disconnection',{disconnectionMode:'loop-formula',measuredLoopImpedance:'2,876',phaseVoltage:'230',requiredTripCurrent:'80'}).status,'fail','Zs U0/Ia Überschreitung');
+  assertEqual(engine.evaluate('disconnection',{disconnectionMode:'short-current',measuredShortCircuitCurrent:'80',requiredTripCurrent:'80'}).status,'pass','Ik Grenzgleichheit i. O.');
+  assertEqual(engine.evaluate('disconnection',{disconnectionMode:'short-current',measuredShortCircuitCurrent:'79,9',requiredTripCurrent:'80'}).status,'fail','Ik unter Ia n. i. O.');
+  assertEqual(engine.evaluate('disconnection',{disconnectionMode:'short-current',measuredShortCircuitCurrent:'80',requiredTripCurrent:''}).status,'incomplete','Ik ohne Ia kein Ergebnis');
 
-  const negative={...positive,loopImpedance:4,shortCircuitCurrent:57.5};
-  checks=engine.checkData(negative,schema.config);
-  assertEqual(checks.some(item=>item.id==='MEAS-ZS'&&item.status==='fail'),true,'VDE bestätigte Zs-Überschreitung wird erkannt');
-  assertEqual(engine.buildIssues(negative,schema.config).some(item=>item.id==='MEAS-ZS'&&item.status==='fail'),true,'VDE Rechenabweichung verlangt Bestätigung oder Korrektur');
-  assertEqual(engine.finalState(negative,schema.config,['MEAS-ZS']).plausible,false,'VDE bestätigte Rechenabweichung rot');
+  assertEqual(engine.evaluate('rcd',{rcdMode:'time',measuredRcdTime:'300',approvedMaxRcdTime:'300'}).status,'pass','RCD-Zeit Grenzgleichheit');
+  assertEqual(engine.evaluate('rcd',{rcdMode:'time',measuredRcdTime:'301',approvedMaxRcdTime:'300'}).status,'fail','RCD-Zeit Überschreitung');
+  assertEqual(engine.evaluate('rcd',{rcdMode:'current',measuredRcdCurrent:'15',approvedMinRcdCurrent:'15',approvedMaxRcdCurrent:'30'}).status,'pass','RCD-Strom untere Grenzgleichheit');
+  assertEqual(engine.evaluate('rcd',{rcdMode:'current',measuredRcdCurrent:'30',approvedMinRcdCurrent:'15',approvedMaxRcdCurrent:'30'}).status,'pass','RCD-Strom obere Grenzgleichheit');
+  assertEqual(engine.evaluate('rcd',{rcdMode:'current',measuredRcdCurrent:'14,9',approvedMinRcdCurrent:'15',approvedMaxRcdCurrent:'30'}).status,'fail','RCD-Strom unterhalb Bereich');
+  assertEqual(engine.evaluate('rcd',{rcdMode:'current',measuredRcdCurrent:'31',approvedMinRcdCurrent:'15',approvedMaxRcdCurrent:'30'}).status,'fail','RCD-Strom oberhalb Bereich');
+  assertEqual(engine.evaluate('rcd',{rcdMode:'current',measuredRcdCurrent:'20',approvedMinRcdCurrent:'31',approvedMaxRcdCurrent:'30'}).status,'error','RCD ungültiger Grenzbereich gesperrt');
+  result=engine.evaluate('rcd',{rcdMode:'both',measuredRcdTime:'299',approvedMaxRcdTime:'300',measuredRcdCurrent:'31',approvedMinRcdCurrent:'15',approvedMaxRcdCurrent:'30'});
+  assertEqual(result.status,'fail','RCD Gesamtstatus folgt Teilabweichung');
+  assertEqual(result.checks.length,2,'RCD beide Rechenwege ausgewiesen');
 
-  const formalNoise={...positive,testerName:'Beliebig',testDate:'1900-01-01',signatureState:'missing',building:'X',inspection31:'nio'};
-  assertEqual(JSON.stringify(engine.checkData(formalNoise,schema.config)),JSON.stringify(engine.checkData(positive,schema.config)),'VDE formale Angaben ändern keine Bewertung');
-  const parsed=engine.parseText('Niederohmmessung 0,20 Ohm Isolation >300 MOhm Zs 0,50 Ohm Kennlinie B 16 A U0 230 V Ik 460 A Ib 10 A Nennstrom 16 A Spannungsfall 1,0 % Auslösestrom 18 mA IΔn 30 mA Auslösezeit 17 ms');
-  assertEqual(parsed.loopImpedance,.5,'VDE Dokumenttext erkennt Zs');
-  assertEqual(parsed.shortCircuitCurrent,460,'VDE Dokumenttext erkennt Ik');
-  assertEqual(parsed.rcdTripTime,17,'VDE Dokumenttext erkennt RCD-Zeit');
-  assertEqual(parsed.insulationValues.includes('300'),true,'VDE Dokumenttext erkennt Isolationswert');
+  assertEqual(engine.evaluate('continuity',{measuredContinuity:'0,5',approvedMaxContinuity:'0,5'}).status,'pass','Niederohmigkeit Grenzgleichheit');
+  assertEqual(engine.evaluate('continuity',{measuredContinuity:'0,51',approvedMaxContinuity:'0,5'}).status,'fail','Niederohmigkeit Überschreitung');
+  assertEqual(engine.evaluate('continuity',{measuredContinuity:'-0,1',approvedMaxContinuity:'0,5'}).status,'error','Niederohmigkeit negativer Wert gesperrt');
+  assertEqual(engine.evaluate('bonding',{measuredBonding:'0,2',approvedMaxBonding:'0,2'}).status,'pass','Schutzpotentialausgleich Grenzgleichheit');
+  assertEqual(engine.evaluate('bonding',{measuredBonding:'0,21',approvedMaxBonding:'0,2'}).status,'fail','Schutzpotentialausgleich Überschreitung');
+  assertEqual(engine.evaluate('bonding',{measuredBonding:'abc',approvedMaxBonding:'0,2'}).status,'error','Schutzpotentialausgleich ungültige Zahl gesperrt');
+
+  const formalNoise={measuredInsulation:'1',approvedMinInsulation:'1',testerName:'Beliebig',signatureState:'missing',formIdentity:'unknown'};
+  assertEqual(engine.evaluate('insulation',formalNoise).status,'pass','Formale Stördaten ohne Einfluss');
 }
-console.log('OK: Bestehende Funktionen, messwertzentrierte VDE-Rechenengine, formale Ausschlüsse, E+H-Externlink sowie profilabhängiger Siemens-Rohwert-Rechner geprüft.');
+console.log('OK: Bestehende Funktionen, manueller VDE-Messwertprüfer ohne Dokumentanalyse, vollständige Grenz- und Fehlerfallmatrix sowie übrige Module geprüft.');

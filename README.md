@@ -1,54 +1,45 @@
-# SK PLT Tools 2.1.0.5-Beta
+# SK PLT Tools 2.1.1.0-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.0.5-Beta** basiert auf dem vollständigen Stand **2.1.0.4-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.1.0-Beta** basiert auf dem vollständigen Stand **2.1.0.5-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
 ## Schwerpunkt dieser Beta
 
-Die Plausibilitätsprüfung VDE 0100-600 bewertet ausschließlich eingetragene Messwerte und die für ihre rechnerische Prüfung benötigten Bezugsdaten.
+Die bisherige automatische Foto-/PDF- und Protokollanalyse der VDE-0100-600-Funktion wurde vollständig durch einen manuellen **VDE-Messwertprüfer** ersetzt.
 
-- Formularidentität, Formularaufbau und Strukturpassung sind keine Bewertungskriterien.
-- Unterschriften, Namen, Datum, Ortsangaben, Kreuze, Textfelder und sonstige formale Angaben werden von der VDE-Engine nicht verarbeitet.
-- Ein internes Referenzprofil enthält nur Mess-/Bezugsfeldzonen. Es unterstützt intern die Orientierung und Lokalisierung, ist kein Bestandteil des Ergebnisses und wird nicht als Datei oder Download ausgeliefert.
-- Der Nutzer bestätigt zuerst, welche Messgrößen im Dokument tatsächlich eingetragen sind.
-- Fehlende oder unsicher erkannte Mess- beziehungsweise notwendige Bezugswerte werden einzeln am Originalausschnitt abgefragt.
-- Fehlende oder unsichere Werte erzeugen kein rotes X. Solange ein benötigter Wert fehlt, bleibt die Ergebnisansicht gesperrt.
-- Ein grüner Haken erscheint nur bei vollständigem Messumfang und ausschließlich bestandenen Rechenregeln.
-- Ein rotes X erscheint erst, wenn mindestens eine rechnerische Abweichung nach Erkennung oder manueller Eingabe ausdrücklich als tatsächlich eingetragener Wert bestätigt wurde.
+- kein Datei-Upload, keine PDF-Auswertung, keine Fotoanalyse und keine OCR,
+- keine Formularidentität, Kreuze, Unterschriften oder formale Protokollprüfung in der Bewertungslogik,
+- sechs klar getrennte Messgrößen: Spannungsfall, Isolation, Schleifenimpedanz/Kurzschlussstrom, RCD, Niederohmigkeit und Schutzpotentialausgleich,
+- dynamische Eingabemasken zeigen nur die für den gewählten Rechenweg notwendigen Angaben,
+- kein numerischer Grenzwert wird vorbelegt,
+- kontextabhängige Grenzen werden als freigegebener Sollwert eingegeben oder aus `U0` und freigegebenem `Ia` berechnet,
+- fehlende und ungültige Angaben werden gezielt benannt,
+- kein Endergebnis bei unvollständiger Berechnungsgrundlage,
+- jedes vollständige Ergebnis zeigt Grenzwert, Formel, eingesetzte Zahlen und `i. O.` beziehungsweise `nicht i. O.`.
 
-## Messgrößen und Rechenregeln
+## Messgrößen und Rechenwege
 
-- Schutzpotenzialausgleich und Niederohmmessung gegen den hinterlegten Rechen-/Prüfwert,
-- Isolationswiderstand gegen den Mindestprüfwert,
-- Schleifenimpedanz `Zs ≤ U0 / (Faktor × In)` mit B = 5, C = 10, D = 20,
-- Kurzschlussstrom-Konsistenz `Ik ≈ U0 / Zs`,
-- Verbraucherstrom `Ib ≤ In`,
-- Spannungsfall gegen Prüfziel sowie Konsistenz von `ΔU / Un × 100` und Prozentwert,
-- RCD-Auslösestrom `IΔ ≤ IΔn`,
-- RCD-Auslösezeit gegen den hinterlegten Standard-Prüfwert,
-- numerische Plausibilitätsbereiche für weitere ausgewählte Messgrößen.
+- Spannungsfall: Direktvergleich in Prozent oder Berechnung `ΔU / Un × 100`.
+- Isolationsmessung: kleinster Messwert gegen freigegebenen Mindestwert.
+- Schleifenimpedanz: gegen freigegebenes `Zs,max` oder `Zs,max = U0 / Ia`.
+- Kurzschlussstrom: `Ik ≥ Ia`.
+- RCD-Auslösezeit: gegen freigegebene Maximalzeit.
+- RCD-Auslösestrom: innerhalb eines freigegebenen Grenzbereichs.
+- Niederohmigkeit und Schutzpotentialausgleich: gegen freigegebene Maximalwerte.
 
-Die hinterlegten Rechen- und Prüfwerte sind dokumentierte Softwareparameter. Die Anwendung führt keine Messung durch und ersetzt keine fachliche Bewertung oder Inbetriebnahmefreigabe.
-
-## Erkennung und Datenschutz
-
-- PDF wird lokal mit PDF.js gerendert; eingebetteter PDF-Text wird lokal ausgewertet.
-- Fotos werden lokal ausgerichtet und über die browserseitige `TextDetector`-Schnittstelle ausgewertet, sofern diese Laufzeitfunktion verfügbar ist.
-- Steht keine lokale Bildtexterkennung zur Verfügung oder ist ein Wert unsicher, führt die Anwendung den Nutzer zur manuellen Eingabe am markierten Messwertausschnitt.
-- Es findet kein Dokumentupload statt.
-- Die leere Mustervorlage und reale ausgefüllte Protokolle sind nicht Bestandteil des Releases oder PWA-Caches.
+Die Anwendung führt keine Messung durch und ersetzt weder fachliche Bewertung noch Inbetriebnahmefreigabe durch die verantwortliche Elektrofachkraft.
 
 ## Projektstruktur
 
 - `index.html` und 15 Direktseiten,
-- `assets/`: zentrale Laufzeitdateien, Datenkataloge, VDE-Messwertengine, Regeln und internes Lokalisierungsprofil,
-- `plausibilitaetspruefung-vde0100-600/`: Upload-, Analyse-, Einzelklärungs- und Ergebnisoberfläche,
-- `vendor/pdfjs/`: lokale PDF.js-Laufzeit,
+- `assets/`: zentrale Laufzeitdateien, Datenkataloge, manuelle VDE-Rechenengine, Eingabeschema und Regeln,
+- `plausibilitaetspruefung-vde0100-600/`: manueller VDE-Prüfstand,
 - `shared/`: zentrale Header-, Footer- und Bedienelement-Fragmente,
+- `vendor/`: aus der vollständigen Basis übernommene Drittanbieterstruktur; nicht vom VDE-Messwertprüfer geladen,
 - `tools/release.py`: Versionssynchronisierung, PWA-Precache, Datenschutz-Gate, Prüfsummen und ZIP,
-- `tools/validate_release.py`: statische Vollständigkeits-, Ausschluss-, Datenschutz- und Integritätsprüfung,
+- `tools/validate_release.py`: statische Vollständigkeits-, Ausschluss- und Integritätsprüfung,
 - `tools/functional-smoke-test.js`: Rechner-, Inhalts- und VDE-Rechenregressionen,
 - `tools/browser-smoke-test.py`: Browser-, Responsive-, PWA- und Offline-Test,
-- `tools/vde-protocol-e2e-test.py`: reproduzierbare PDF-, Fehlwert-, Negativ- und Smartphone-Foto-Szenarien,
+- `tools/vde-protocol-e2e-test.py`: manueller VDE-E2E-Test; Dateiname aus Strukturkompatibilität,
 - `TESTBERICHT-UND-ABNAHME.md`: geprüfter Release-Nachweis,
 - `SHA256SUMS.txt`: vollständige interne SHA-256-Prüfsummen.
 
@@ -69,4 +60,4 @@ python3 tools/vde-protocol-e2e-test.py
 python3 tools/release.py --all
 ```
 
-Der Build synchronisiert Version, Manifest, App-ID, Cache-Namen, Precache und Dokumentationsreferenzen, prüft das Datenschutz-Gate, erzeugt `SHA256SUMS.txt` und baut das vollständige ZIP.
+Der Build synchronisiert Version, Manifest, App-ID, Cache, Precache und Dokumentationsreferenzen, erzeugt `SHA256SUMS.txt` und baut das vollständige ZIP.

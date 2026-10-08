@@ -1,70 +1,50 @@
 {
-  "schemaVersion": "3.0",
-  "moduleVersion": "2.1.0.5-Beta",
-  "status": "Beta – messwertbezogene rechnerische Plausibilitätsprüfung",
-  "scope": "Ausschließlich eingetragene Messwerte und notwendige Bezugsdaten",
+  "schemaVersion": "4.0",
+  "moduleVersion": "2.1.1.0-Beta",
+  "status": "Beta – manueller, messwertbezogener VDE-Messwertprüfer",
+  "scope": "Rechnerische Zweitkontrolle manuell eingegebener Messwerte gegen vollständig angegebene, freigegebene Bewertungsgrundlagen",
+  "automaticInput": {
+    "photo": false,
+    "pdf": false,
+    "ocr": false,
+    "protocolRecognition": false
+  },
   "excludedFromEvaluation": [
     "Formularidentität",
-    "Strukturpassung",
+    "OCR-Ergebnisse",
+    "PDF- oder Fotoeigenschaften",
+    "Protokollaufbau",
     "Unterschriften",
     "Namen",
     "Datum",
     "Ortsangaben",
     "Kreuze",
-    "Textfelder",
+    "Freitext",
     "sonstige formale Angaben"
   ],
-  "resolutionGovernance": {
-    "missingOrUncertainValuesCauseFailure": false,
-    "queryEachMissingOrUncertainValue": true,
-    "finalResultWhileValuesMissing": false,
-    "confirmedCalculationFailureCausesRedResult": true,
-    "allCalculationsPlausibleCausesGreenResult": true,
-    "referenceTemplateIsLocatorOnly": true,
-    "referenceTemplateDownloadable": false
-  },
-  "limits": {
-    "phaseVoltageDefaultHint": 230,
-    "insulationMinMOhm": 1,
-    "continuityMaxOhm": 1,
-    "voltageDropLimitPercent": 5,
-    "voltageDropConsistencyTolerancePercent": 0.3,
-    "rcdTripTimeLimitMs": 300,
-    "shortCircuitTolerancePercent": 30,
-    "fieldDarkDeltaMin": 0.006
+  "governance": {
+    "numericDefaultsAllowed": false,
+    "contextDependentLimitsRequireAdditionalInputsOrApprovedSetpoint": true,
+    "queryOnlyCalculationRelevantInputs": true,
+    "queryEachMissingInput": true,
+    "finalResultWhileInputsMissing": false,
+    "invalidInputProducesVerdict": false,
+    "boundaryComparisonIsInclusive": true,
+    "toolIsSecondCheckOnly": true,
+    "commissioningApproval": false,
+    "responsibleElectricianReplacement": false
   },
   "rules": [
-    {
-      "id": "MEAS-CONTINUITY",
-      "description": "Ausgewählte Durchgängigkeitswerte werden gegen den hinterlegten Rechen-/Prüfwert geprüft."
-    },
-    {
-      "id": "MEAS-INS",
-      "description": "Isolationswiderstände werden gegen den konfigurierten Mindestprüfwert geprüft."
-    },
-    {
-      "id": "MEAS-ZS",
-      "description": "Zs wird mit U0/(Kennlinienfaktor × In) verglichen; B=5, C=10, D=20."
-    },
-    {
-      "id": "MEAS-IK-CONSISTENCY",
-      "description": "Ik wird mit dem aus U0/Zs berechneten Wert innerhalb der konfigurierten Toleranz verglichen."
-    },
-    {
-      "id": "CIRCUIT-IB-IN",
-      "description": "Verbraucherstrom Ib darf den Nennstrom In nicht überschreiten."
-    },
-    {
-      "id": "MEAS-DU",
-      "description": "Spannungsfall wird gegen das hinterlegte Prüfziel und, sofern vorhanden, auf Konsistenz von ΔU/Un/Prozent geprüft."
-    },
-    {
-      "id": "RCD-I",
-      "description": "RCD-Auslösestrom wird gegen IΔn geprüft."
-    },
-    {
-      "id": "RCD-T",
-      "description": "RCD-Auslösezeit wird gegen den konfigurierten Standard-Prüfwert geprüft."
-    }
-  ]
+    {"id":"VD-PERCENT","measurement":"Spannungsfall","formula":"ΔU%gemessen ≤ ΔU%max, freigegeben","limitSource":"manuell eingegebener freigegebener Sollwert"},
+    {"id":"VD-DU","measurement":"Spannungsfall","formula":"ΔU% = ΔU / Un × 100; Ergebnis ≤ ΔU%max, freigegeben","limitSource":"manuell eingegebener freigegebener Sollwert"},
+    {"id":"INS-MIN","measurement":"Isolationsmessung","formula":"RISO,min gemessen ≥ RISO,min freigegeben","limitSource":"manuell eingegebener freigegebener Sollwert"},
+    {"id":"DISC-ZS-APPROVED","measurement":"Schleifenimpedanz","formula":"Zs,gemessen ≤ Zs,max freigegeben","limitSource":"manuell eingegebener freigegebener Sollwert"},
+    {"id":"DISC-ZS-FORMULA","measurement":"Schleifenimpedanz","formula":"Zs,max = U0 / Ia; Zs,gemessen ≤ Zs,max","limitSource":"U0 und fachlich freigegebener Auslösestrom Ia"},
+    {"id":"DISC-IK","measurement":"Kurzschlussstrom","formula":"Ik,gemessen ≥ Ia,erforderlich","limitSource":"fachlich freigegebener Auslösestrom Ia"},
+    {"id":"RCD-TIME","measurement":"RCD-Auslösezeit","formula":"tA,gemessen ≤ tA,max freigegeben","limitSource":"manuell eingegebener Grenzwert passend zu RCD-Typ und Prüfmodus"},
+    {"id":"RCD-CURRENT","measurement":"RCD-Auslösestrom","formula":"IΔ,min freigegeben ≤ IΔ,gemessen ≤ IΔ,max freigegeben","limitSource":"manuell eingegebener Grenzbereich passend zu RCD-Typ und Prüfmodus"},
+    {"id":"CONT-MAX","measurement":"Niederohmigkeit","formula":"RPE,gemessen ≤ RPE,max freigegeben","limitSource":"manuell eingegebener freigegebener Sollwert"},
+    {"id":"BOND-MAX","measurement":"Schutzpotentialausgleich","formula":"RPA,gemessen ≤ RPA,max freigegeben","limitSource":"manuell eingegebener freigegebener Sollwert"}
+  ],
+  "projectDocumentation": "VDE0100-600-MESSWERTPRUEFER.md"
 }

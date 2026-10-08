@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "4.0",
+  "moduleVersion": "2.1.1.0-Beta",
+  "mode": "manual-only",
+  "automaticDocumentAnalysis": false,
+  "measurementTypes": {
+    "voltageDrop": {
+      "number": "01",
+      "title": "Spannungsfall",
+      "code": "ΔU",
+      "description": "Gemessenen Prozentwert direkt oder aus ΔU und Un berechnen und gegen einen freigegebenen Maximalwert prüfen.",
+      "fields": [
+        {"id":"voltageDropMode","label":"Wie liegt der Messwert vor?","type":"choice","options":[["percent","Direkt als Prozentwert"],["volts","Als ΔU in Volt mit Bezugsspannung Un"]]},
+        {"id":"measuredDropPercent","label":"Gemessener Spannungsfall","unit":"%","type":"number","showWhen":{"field":"voltageDropMode","values":["percent"]}},
+        {"id":"measuredDropVolts","label":"Gemessener Spannungsfall ΔU","unit":"V","type":"number","showWhen":{"field":"voltageDropMode","values":["volts"]}},
+        {"id":"nominalVoltage","label":"Bezugsspannung Un","unit":"V","type":"number","showWhen":{"field":"voltageDropMode","values":["volts"]}},
+        {"id":"approvedMaxDropPercent","label":"Freigegebener maximaler Spannungsfall","unit":"%","type":"number","help":"Kein Standardwert wird vorbelegt. Verwenden Sie den für diesen Stromkreis freigegebenen Projekt-/Planungswert."}
+      ]
+    },
+    "insulation": {
+      "number": "02",
+      "title": "Isolationsmessung",
+      "code": "RISO",
+      "description": "Nur der kleinste relevante Messwert und der für Prüfspannung, Stromkreis und Schutzmaßnahme freigegebene Mindestwert werden benötigt.",
+      "fields": [
+        {"id":"measuredInsulation","label":"Kleinster gemessener Isolationswiderstand","unit":"MΩ","type":"number"},
+        {"id":"approvedMinInsulation","label":"Freigegebener Mindest-Isolationswiderstand","unit":"MΩ","type":"number","help":"Der kontextabhängige Mindestwert muss aus der freigegebenen Prüfgrundlage übernommen werden."}
+      ]
+    },
+    "disconnection": {
+      "number": "03",
+      "title": "Schleifenimpedanz / Kurzschlussstrom",
+      "code": "Zs · Ik",
+      "description": "Wählen Sie genau den vorhandenen Messwert und den dazu passenden, fachlich freigegebenen Bewertungsweg.",
+      "fields": [
+        {"id":"disconnectionMode","label":"Bewertungsweg","type":"choice","options":[["loop-approved","Zs gegen freigegebenen Zs,max prüfen"],["loop-formula","Zs,max aus U0 / Ia berechnen"],["short-current","Ik gegen erforderlichen Auslösestrom Ia prüfen"]]},
+        {"id":"measuredLoopImpedance","label":"Gemessene Schleifenimpedanz Zs","unit":"Ω","type":"number","showWhen":{"field":"disconnectionMode","values":["loop-approved","loop-formula"]}},
+        {"id":"approvedMaxLoopImpedance","label":"Freigegebene maximale Schleifenimpedanz Zs,max","unit":"Ω","type":"number","showWhen":{"field":"disconnectionMode","values":["loop-approved"]}},
+        {"id":"phaseVoltage","label":"Außenleiter-Erde-Spannung U0","unit":"V","type":"number","showWhen":{"field":"disconnectionMode","values":["loop-formula"]}},
+        {"id":"measuredShortCircuitCurrent","label":"Gemessener Kurzschlussstrom Ik","unit":"A","type":"number","showWhen":{"field":"disconnectionMode","values":["short-current"]}},
+        {"id":"requiredTripCurrent","label":"Erforderlicher Auslösestrom Ia","unit":"A","type":"number","showWhen":{"field":"disconnectionMode","values":["loop-formula","short-current"]},"help":"Ia ist aus der freigegebenen Schutzgerätekennlinie bzw. Projektgrundlage zu übernehmen; es wird kein pauschaler Kennlinienfaktor angenommen."}
+      ]
+    },
+    "rcd": {
+      "number": "04",
+      "title": "RCD-Prüfung",
+      "code": "RCD",
+      "description": "Auslösezeit, Auslösestrom oder beide Messgrößen gegen die für RCD-Typ und Prüfmodus freigegebenen Grenzwerte prüfen.",
+      "fields": [
+        {"id":"rcdMode","label":"Prüfumfang","type":"choice","options":[["time","Nur Auslösezeit"],["current","Nur Auslösestrom"],["both","Auslösezeit und Auslösestrom"]]},
+        {"id":"measuredRcdTime","label":"Gemessene RCD-Auslösezeit","unit":"ms","type":"number","showWhen":{"field":"rcdMode","values":["time","both"]}},
+        {"id":"approvedMaxRcdTime","label":"Freigegebene maximale Auslösezeit","unit":"ms","type":"number","showWhen":{"field":"rcdMode","values":["time","both"]}},
+        {"id":"measuredRcdCurrent","label":"Gemessener RCD-Auslösestrom","unit":"mA","type":"number","showWhen":{"field":"rcdMode","values":["current","both"]}},
+        {"id":"approvedMinRcdCurrent","label":"Freigegebene untere Auslösestromgrenze","unit":"mA","type":"number","showWhen":{"field":"rcdMode","values":["current","both"]}},
+        {"id":"approvedMaxRcdCurrent","label":"Freigegebene obere Auslösestromgrenze","unit":"mA","type":"number","showWhen":{"field":"rcdMode","values":["current","both"]},"help":"Grenzen passend zu RCD-Typ, Prüfstromfaktor und Prüfmodus aus der freigegebenen Prüfgrundlage übernehmen."}
+      ]
+    },
+    "continuity": {
+      "number": "05",
+      "title": "Niederohmigkeit",
+      "code": "RPE",
+      "description": "Gemessenen Widerstand gegen den freigegebenen Maximalwert der konkreten Prüfstrecke bewerten.",
+      "fields": [
+        {"id":"measuredContinuity","label":"Gemessener Niederohmigkeitswert","unit":"Ω","type":"number"},
+        {"id":"approvedMaxContinuity","label":"Freigegebener maximaler Niederohmigkeitswert","unit":"Ω","type":"number","help":"Kein pauschaler 1-Ω-Wert wird verwendet."}
+      ]
+    },
+    "bonding": {
+      "number": "06",
+      "title": "Schutzpotentialausgleich",
+      "code": "RPA",
+      "description": "Gemessenen Widerstand des Schutzpotentialausgleichs gegen den freigegebenen Maximalwert der konkreten Verbindung prüfen.",
+      "fields": [
+        {"id":"measuredBonding","label":"Gemessener Widerstand des Schutzpotentialausgleichs","unit":"Ω","type":"number"},
+        {"id":"approvedMaxBonding","label":"Freigegebener maximaler Widerstand des Schutzpotentialausgleichs","unit":"Ω","type":"number","help":"Der Sollwert muss aus der freigegebenen Projekt-/Prüfgrundlage stammen."}
+      ]
+    }
+  }
+}
