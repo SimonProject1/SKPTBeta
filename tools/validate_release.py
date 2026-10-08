@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.0.4-Beta."""
+"""Static release validation for SK PLT Tools 2.1.0.5-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.0.4-Beta'
+VERSION='2.1.0.5-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -196,41 +196,50 @@ if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwe
 vde_path=ROOT/'plausibilitaetspruefung-vde0100-600/index.html'
 vde_html=vde_path.read_text(encoding='utf-8')
 vde_page=BeautifulSoup(vde_html,'html.parser')
-for selector in ('#documentInput','#analysisPanel','#reviewPanel','#previewFrame','#layoutScore','#recognitionDetail','#issuePanel','#issueCard','#issueSource','#resolutionPolicy','#formIdentityActions','#useForm','#manualFormReview','#replaceFile','#normalIssueActions','#notRelevant','#confirmFail','#applyCorrection','#resultPanel','#verdictIcon','#verdictTitle'):
-    if not vde_page.select_one(selector): errors.append(f'VDE-Prüfung: Element fehlt: {selector}')
-if vde_page.select_one('#loadSample') or 'Muster laden' in vde_html: errors.append('VDE-Prüfung: sichtbare Musterladefunktion darf nicht vorhanden sein')
-if 'VDEProtokoll.pdf' in vde_html: errors.append('VDE-Prüfung: Mustervorlage darf nicht in der Oberfläche genannt oder verlinkt sein')
+for selector in ('#documentInput','#analysisPanel','#reviewPanel','#previewFrame','#statGroups','#statFields','#statRules','#statOpen','#recognitionDetail','#issuePanel','#issueCard','#issueSource','#resolutionPolicy','#confirmFail','#applyCorrection','#resultPanel','#verdictIcon','#verdictTitle'):
+    if not vde_page.select_one(selector): errors.append(f'VDE-Messwertprüfung: Element fehlt: {selector}')
+for forbidden_selector in ('#loadSample','#notRelevant','#useForm','#manualFormReview','#replaceFile','#formIdentityActions','#layoutScore'):
+    if vde_page.select_one(forbidden_selector): errors.append(f'VDE-Messwertprüfung: formales/überholtes Steuerelement vorhanden: {forbidden_selector}')
+if 'Muster laden' in vde_html or 'VDEProtokoll.pdf' in vde_html: errors.append('VDE-Messwertprüfung: Mustervorlage darf nicht genannt, geladen oder verlinkt sein')
+for phrase in ('Ausschließlich Messwerte','Formularidentität','Unterschriften','Namen','Datum','Orte','Kreuze'):
+    if phrase not in vde_html: errors.append(f'VDE-Messwertprüfung: Ausschluss-/Umfangshinweis fehlt: {phrase}')
 for asset in ('assets/vde0100-600-engine.js','assets/vde0100-600-template.json','assets/vde0100-600-rules.json','vendor/pdfjs/pdf.min.mjs','vendor/pdfjs/pdf.worker.min.mjs'):
-    if not (ROOT/asset).is_file(): errors.append(f'VDE-Prüfung: Laufzeitdatei fehlt: {asset}')
-if any(path.name.lower()=='vdeprotokoll.pdf' for path in ROOT.rglob('*') if path.is_file()): errors.append('VDE-Prüfung: leere Mustervorlage darf nicht Bestandteil des Webprojekts sein')
+    if not (ROOT/asset).is_file(): errors.append(f'VDE-Messwertprüfung: Laufzeitdatei fehlt: {asset}')
+if any(path.name.lower()=='vdeprotokoll.pdf' for path in ROOT.rglob('*') if path.is_file()): errors.append('VDE-Messwertprüfung: Mustervorlage darf nicht Bestandteil des Webprojekts sein')
 try:
     vde_schema=json.loads((ROOT/'assets/vde0100-600-template.json').read_text(encoding='utf-8'))
     reference=vde_schema.get('referenceForm',{})
     if vde_schema.get('moduleVersion')!=VERSION: errors.append('VDE-Schema: Modulversion inkonsistent')
-    if reference.get('fileName')!='VDEProtokoll.pdf' or reference.get('sha256')!='019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2': errors.append('VDE-Schema: Herkunftsnachweis der verbindlichen Mustervorlage stimmt nicht')
-    if reference.get('embedded') is not False or reference.get('downloadable') is not False: errors.append('VDE-Schema: Mustervorlage muss ausdrücklich nicht eingebettet und nicht downloadbar sein')
-    if len(vde_schema.get('layoutAnchorsY',[]))!=33: errors.append('VDE-Schema: erwartet werden 33 horizontale Linienanker')
+    if reference.get('embedded') is not False or reference.get('downloadable') is not False: errors.append('VDE-Schema: Mustervorlage muss nicht eingebettet und nicht downloadbar sein')
+    if 'interne Lokalisierung' not in reference.get('purpose',''): errors.append('VDE-Schema: Referenzzweck ist nicht auf interne Messfeldlokalisierung begrenzt')
     descriptor=vde_schema.get('referenceDescriptor',{})
-    if descriptor.get('version')!='structure-v2' or len(descriptor.get('grid',[]))!=432 or len(descriptor.get('x',[]))!=64 or len(descriptor.get('y',[]))!=96: errors.append('VDE-Schema: mehrstufiger Referenz-Fingerabdruck unvollständig')
-    evidence=vde_schema.get('referenceEvidence',{})
-    if len(evidence.get('fields',{}))!=93 or not evidence.get('checkboxes',{}): errors.append('VDE-Schema: Referenz-Baselines für Felder/Checkboxen unvollständig')
-    if vde_schema.get('config',{}).get('layoutScoreMin',0)<0.85: errors.append('VDE-Schema: Schwelle für eindeutige Formularidentität ist zu niedrig')
-    mapping_min=vde_schema.get('config',{}).get('layoutScoreMappingMin',0)
-    if not 0.60<=mapping_min<=0.80: errors.append('VDE-Schema: technische Mapping-Schwelle muss abweichende Formulare ohne automatische n.i.O.-Bewertung zulassen')
+    if descriptor.get('version')!='structure-v2' or len(descriptor.get('grid',[]))!=432 or len(descriptor.get('x',[]))!=64 or len(descriptor.get('y',[]))!=96: errors.append('VDE-Schema: interner Orientierungsfingerabdruck unvollständig')
     field_map=vde_schema.get('fieldMap',{})
-    if len(field_map)!=93: errors.append(f'VDE-Schema: erwartet werden 93 Feldzuordnungen, gefunden {len(field_map)}')
-    for field in ('testReason','networkSystem','inspection31','inspection50','bondingMainStatus','insulationValues','loopImpedance','rcdTripTime','test71','test76','signatureState'):
-        if field not in field_map: errors.append(f'VDE-Schema: Formularfeld fehlt: {field}')
-    for rule in ('FORM-IDENTITY','DOC-COMPLETE','MEAS-INS','MEAS-ZS','CIRCUIT-IB-IN','MEAS-DU','RCD-I','RCD-T'):
-        if rule not in {item.get('id') for item in vde_schema.get('plausibilityRules',[])}: errors.append(f'VDE-Schema: Regel fehlt: {rule}')
+    if len(field_map)!=18: errors.append(f'VDE-Schema: erwartet werden 18 Mess-/Bezugsfeldzonen, gefunden {len(field_map)}')
+    forbidden_form_fields={'protocolType','testReason','building','testerName','testDate','signatureState','commissioningSignature','inspection31','test71'}
+    if forbidden_form_fields & set(field_map): errors.append(f'VDE-Schema: formale Felder im Lokalisierungsprofil: {sorted(forbidden_form_fields & set(field_map))}')
+    for field in ('insulationValues','loopImpedance','shortCircuitCurrent','loadCurrent','voltageDrop','voltageDropPercent','rcdTripCurrent','rcdTripTime'):
+        if field not in field_map: errors.append(f'VDE-Schema: Messwertfeld fehlt: {field}')
+    rule_ids={item.get('id') for item in vde_schema.get('plausibilityRules',[])}
+    for rule in ('MEAS-INS','MEAS-ZS','MEAS-IK-CONSISTENCY','CIRCUIT-IB-IN','MEAS-DU','RCD-I','RCD-T'):
+        if rule not in rule_ids: errors.append(f'VDE-Schema: Rechenregel fehlt: {rule}')
 except Exception as exc:
     errors.append(f'VDE-Schema ungültig: {exc}')
+vde_rules=json.loads((ROOT/'assets/vde0100-600-rules.json').read_text(encoding='utf-8'))
+if vde_rules.get('moduleVersion')!=VERSION: errors.append('VDE-Regeln: Modulversion inkonsistent')
+if not vde_rules.get('resolutionGovernance',{}).get('queryEachMissingOrUncertainValue'): errors.append('VDE-Regeln: Einzelabfrage fehlender/unsicherer Werte fehlt')
+if vde_rules.get('resolutionGovernance',{}).get('missingOrUncertainValuesCauseFailure') is not False: errors.append('VDE-Regeln: fehlender/unsicherer Wert darf nicht rot werden')
+if vde_rules.get('resolutionGovernance',{}).get('finalResultWhileValuesMissing') is not False: errors.append('VDE-Regeln: Endergebnis bei fehlenden Werten nicht gesperrt')
 vde_engine=(ROOT/'assets/vde0100-600-engine.js').read_text(encoding='utf-8')
-for required in ('buildIssues','finalState','curveFactor','parseText','_notRelevant','_choiceMarks','inspectionLabels','MEAS-DU-CONSISTENCY','allowSemanticNotRelevant','safetyCritical','technicalOnly','confirmedDefects','CHOICE-MULTIPLE'):
+for required in ('MEASUREMENT_GROUPS','detectedMeasurementGroups','requiredFieldsForGroup','buildIssues','finalState','MEAS-IK-CONSISTENCY','SCOPE-CONFIRM','missing-measurement','missing-reference'):
     if required not in vde_engine: errors.append(f'VDE-Engine: Merkmal fehlt: {required}')
+for forbidden in ('signatureState','testerName','testDate','FORM-IDENTITY','STATUS-inspection','CHOICE-MULTIPLE'):
+    if forbidden in vde_engine: errors.append(f'VDE-Engine: formale Bewertungslogik noch vorhanden: {forbidden}')
 checker=(ROOT/'plausibilitaetspruefung-vde0100-600/checker.js').read_text(encoding='utf-8')
-for required in ('layoutScore','layoutScoreMappingMin','orientAndNormalize','normalizeContrast','structureDescriptor','extractTemplateFields','checkboxMarked','checkboxCandidateScoreMin','signatureState','renderIssueContext','_visualPresence','_choiceMarks','allowNotRelevant','groupControl','resolveFormIdentity','formIdentityActions'):
+for required in ('_measurementScope','_scopeConfirmed','scopeControl','data-scope','internalLocatorUsed','renderIssueContext','confirmedFailIds','TextDetector'):
     if required not in checker: errors.append(f'VDE-Erkennung: Merkmal fehlt: {required}')
+for forbidden in ('resolveFormIdentity','formIdentityActions','signatureState','checkboxMarked','_choiceMarks'):
+    if forbidden in checker: errors.append(f'VDE-Erkennung: formale Bewertungslogik noch vorhanden: {forbidden}')
 if 'loadSample' in checker: errors.append('VDE-Erkennung: alte Musterladefunktion noch vorhanden')
 
 nav_js=(ROOT/'assets/app.js').read_text(encoding='utf-8')
@@ -352,4 +361,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, VDE-Dokumentenengine, Formulargeometrie und PDF.js, geführte Klärungsoberfläche, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Navigation, 10 Startseitenkacheln, Release-Cache-Isolation, Rechner, 5 Wissenskacheln, 10 Werkstoffe, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, messwertzentrierte VDE-Engine, internes Messfeldprofil und PDF.js, geführte Einzelklärung, formale Ausschlüsse, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Navigation, 10 Startseitenkacheln, Release-Cache-Isolation, Rechner, 5 Wissenskacheln, 10 Werkstoffe, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')

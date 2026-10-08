@@ -141,66 +141,56 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-engine.js'),'utf8'),context,{filename:'vde0100-600-engine.js'});
   const engine=context.SK_VDE_ENGINE;
   const schema=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-template.json'),'utf8'));
-  assertEqual(schema.referenceForm.fileName,'VDEProtokoll.pdf','VDE verbindliche Formularquelle dokumentiert');
-  assertEqual(schema.referenceForm.embedded,false,'VDE Mustervorlage nicht eingebettet');
-  assertEqual(schema.referenceForm.downloadable,false,'VDE Mustervorlage nicht als Download vorgesehen');
-  assertEqual(Object.keys(schema.fieldMap).length,93,'VDE formularbezogene Feldzuordnungen');
-  assertEqual(schema.layoutAnchorsY.length,33,'VDE horizontale Strukturanker');
+  const rules=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/vde0100-600-rules.json'),'utf8'));
+  assertEqual(engine.VERSION,'2.1.0.5-Beta','VDE Messwertengine Version');
+  assertEqual(Object.keys(engine.FIELD_DEFS).length,19,'VDE ausschließlich Mess- und Bezugsfelder');
+  assertEqual(Object.keys(engine.MEASUREMENT_GROUPS).length,12,'VDE auswählbare Messgrößen');
+  assertEqual(['testerName','testDate','signatureState','protocolType','building','inspection31'].every(key=>!(key in engine.FIELD_DEFS)),true,'VDE formale Felder vollständig ausgeschlossen');
+  assertEqual(rules.excludedFromEvaluation.includes('Unterschriften')&&rules.excludedFromEvaluation.includes('Kreuze'),true,'VDE formale Ausschlüsse dokumentiert');
+  assertEqual(schema.referenceForm.embedded,false,'VDE internes Referenzprofil ohne eingebettete Vorlage');
+  assertEqual(schema.referenceForm.downloadable,false,'VDE internes Referenzprofil nicht downloadbar');
   assertEqual(fs.existsSync(path.join(ROOT,'VDEProtokoll.pdf')),false,'VDE Mustervorlage nicht im Webprojekt');
-  const data={_confidence:{},_notRelevant:[],_layoutScore:.93,protocolType:'supported',testReason:'Erstprüfung',building:'228',plant:'Anlage 1',networkSystem:'TN',installationCategory:'Gebäudeinstallation',device1Name:'Gossen Metrawatt',device1Number:'M 1000',device1Calibration:'2026-01-15',cableType:'NYM-J',conductors:5,crossSection:2.5,length:30,protectiveDevice:'B16',nominalCurrent:16,nominalVoltage:400,loadCurrent:10,voltageDrop:4,voltageDropPercent:1,insulationValues:'>300; >300; >300',shutdownDeviceType:'B16',shutdownNominalCurrent:16,loopImpedance:.5,testerPoints:'2; 3; 4; 5; 6',testerName:'Prüfer',testDate:'2026-10-06',signatureState:'present'};
-  for(let i=0;i<20;i++)data[`inspection${31+i}`]='io';
-  for(const key of ['bondingMainStatus','bondingAdditionalStatus','continuityStatus','networkImpedanceStatus'])data[key]='nrel';
-  for(let i=0;i<6;i++)data[`test${71+i}`]='nrel';
-  let checks=engine.checkData(data,schema.config);
-  assertEqual(checks.some(item=>item.status==='open'||item.status==='fail'),false,'VDE vollständiger Positivfall ohne offene Punkte');
-  assertEqual(engine.finalState(data,[],schema.config).plausible,true,'VDE Positivfall ergibt grünes Plausibilitätsurteil');
-  data.loopImpedance=4;
-  checks=engine.checkData(data,schema.config);
-  assertEqual(checks.some(item=>item.id==='MEAS-ZS'&&item.status==='fail'),true,'VDE Zs-Überschreitung wird erkannt');
-  data.loopImpedance=.5;data.rcdType='A';data.rcdNominalResidual=30;data.rcdTripCurrent=45;data.rcdTripTime=17;
-  checks=engine.checkData(data,schema.config);
-  assertEqual(checks.some(item=>item.id==='RCD-I'&&item.status==='fail'),true,'VDE RCD-Auslösestrom wird gegen IΔn geprüft');
-  data.rcdTripCurrent=17;data.inspection31='nio';
-  checks=engine.checkData(data,schema.config);
-  assertEqual(checks.some(item=>item.id==='STATUS-inspection31'&&item.status==='fail'),true,'VDE n.i.O.-Prüfpunkt führt zum Fehler');
-  assertEqual(engine.buildIssues(data,schema.config).find(item=>item.id==='STATUS-inspection31').allowNotRelevant,false,'VDE bestätigte Sicherheitsabweichung nicht überspringbar');
-  const mandatorySkip={...data,testReason:'',signatureState:'missing',_notRelevant:['testReason','signatureState']};
-  checks=engine.checkData(mandatorySkip,schema.config);
-  assertEqual(checks.some(item=>item.id==='REQ-testReason'),true,'VDE Pflichtfeld bleibt trotz manipuliertem Nicht-relevant-Status offen');
-  assertEqual(checks.some(item=>item.id==='SIGN-MISSING'&&item.status==='fail'),true,'VDE fehlende Pflichtunterschrift bleibt trotz manipuliertem Nicht-relevant-Status rot');
-  const locationData={...data,building:'',plant:'',work:'',plantComplex:'',partialPlant:'',pltPosition:'',pltRoom:'',distribution:'',feeder:'',subDistribution:'',outgoing:'',consumer:'',inspection31:'io'};
-  const locationIssue=engine.buildIssues(locationData,schema.config).find(item=>item.id==='MASTER-IDENT');
-  assertEqual(locationIssue.fields.length,12,'VDE Ortsklärung bietet alle Felder statt Deadlock-Einzelfeld');
-  assertEqual(locationIssue.allowNotRelevant,false,'VDE Pflichtgruppe Technischer Platz nicht überspringbar');
-  const optionalConfidence={...data,inspection31:'io',orderNumber:'123',_confidence:{orderNumber:.4}};
-  const optionalIssue=engine.buildIssues(optionalConfidence,schema.config).find(item=>item.id==='CONF-orderNumber');
-  assertEqual(optionalIssue.allowNotRelevant,true,'VDE optionales Feld darf fachlich als nicht relevant markiert werden');
-  const safetyData={...data,inspection31:'io',loadCurrent:25,nominalCurrent:16,_notRelevant:['loadCurrent']};
-  checks=engine.checkData(safetyData,schema.config);
-  assertEqual(checks.some(item=>item.id==='CIRCUIT-IB-IN'&&item.status==='fail'),true,'VDE Messwertabweichung bleibt trotz manipuliertem Nicht-relevant-Status rot');
-   const uncertain={_layoutScore:.78,_formStatus:'ambiguous',protocolType:'other',_confidence:{protocolType:.78},_notRelevant:['protocolType']};
-   checks=engine.checkData(uncertain,schema.config);
-   const identity=checks.find(item=>item.id==='FORM-IDENTITY');
-   assertEqual(Boolean(identity&&identity.status==='open'&&identity.technicalOnly),true,'VDE 78-Prozent-Formularidentität ist nur technischer Klärungshinweis');
-   assertEqual(checks.some(item=>item.id==='FORM-LAYOUT'||(item.section==='Dokument'&&item.status==='fail')),false,'VDE abweichende Formularidentität erzeugt kein automatisches n.i.O.');
-   const identityIssue=engine.buildIssues(uncertain,schema.config).find(item=>item.id==='FORM-IDENTITY');
-   assertEqual(identityIssue.groupControl,'formIdentity','VDE unsicheres Formular erhält den eigenen Drei-Optionen-Dialog');
-   assertEqual(identityIssue.allowNotRelevant,false,'VDE Formularidentität wird entschieden und nicht als nicht relevant übersprungen');
-   const continued={...uncertain,_formIdentityDecision:'use'};
-   checks=engine.checkData(continued,schema.config);
-   assertEqual(checks.some(item=>item.id==='FORM-IDENTITY'),false,'VDE Formular trotzdem verwenden setzt die fachliche Prüfung fort');
-   const multiple={...data,inspection31:'',_choiceMarks:{inspection31:{confidentCount:2,confidentValues:['io','nio']}}};
-   checks=engine.checkData(multiple,schema.config);
-   assertEqual(checks.some(item=>item.id==='CHOICE-MULTIPLE-inspection31'&&item.status==='open'),true,'VDE mehrere Kreuze werden als offener Einzelpunkt geklärt');
-   assertEqual(checks.some(item=>item.id==='REQ-inspection31'),false,'VDE Mehrfachkreuz erzeugt keinen doppelten Offenpunkt');
-   const invalid={...data,inspection31:'unklar'};
-   checks=engine.checkData(invalid,schema.config);
-   assertEqual(checks.some(item=>item.id==='CHOICE-INVALID-inspection31'&&item.status==='open'),true,'VDE nur zulässige Einzelkreuze werden akzeptiert');
-   assertEqual(engine.finalState(data,[],schema.config,['REQ-testReason']).plausible,false,'VDE bestätigte fehlende Pflichtangabe führt zum roten Ergebnis');
-  assertEqual(schema.referenceForm.sha256,'019b2918bbfa0b7bef71c6b95f1a48136305053995473b625693217383af05f2','VDE korrekter externer Referenz-Hash');
-  assertEqual(schema.referenceDescriptor.grid.length,432,'VDE Struktur-Fingerabdruck vollständig');
-  const parsed=engine.parseText('Prüfbericht nach VDE 0100-600 / IEC 60364-6 Lfd. Nr. 12782 Erstprüfung B 16A Nennspannung 400 V Zs 0,50 Ω Spannungsfall 1,0 % Auslösezeit 17 ms');
-  assertEqual(parsed.protocolType,'supported','VDE Digitaltext erkennt das verbindliche Formular');
-  assertEqual(parsed.nominalCurrent,16,'VDE Digitaltext erkennt Nennstrom');
+  assertEqual(Object.keys(schema.fieldMap).length,18,'VDE internes Profil nur für Mess- und Bezugsfelder');
+  assertEqual(Object.keys(schema.fieldMap).every(key=>key in engine.FIELD_DEFS),true,'VDE internes Profil enthält keine Formalfelder');
+
+  const unresolved={_confidence:{},_measurementScope:[],_scopeConfirmed:false};
+  let checks=engine.checkData(unresolved,schema.config);
+  assertEqual(checks.length,1,'VDE vor Messumfang genau eine neutrale Klärung');
+  assertEqual(checks[0].id,'SCOPE-CONFIRM','VDE Messumfang muss bestätigt werden');
+  assertEqual(checks[0].status,'open','VDE fehlender Messumfang ist offen statt rot');
+  assertEqual(engine.finalState(unresolved,schema.config).plausible,false,'VDE kein Endergebnis vor Messumfang');
+
+  const positive={
+    _scopeConfirmed:true,
+    _measurementScope:['bondingMain','insulation','loop','shortCircuit','loadCurrent','voltageDrop','rcdCurrent','rcdTime'],
+    _confidence:{bondingMain:1,insulationValues:1,loopImpedance:1,shortCircuitCurrent:1,loadCurrent:1,voltageDrop:1,voltageDropPercent:1,rcdTripCurrent:1,rcdTripTime:1,shutdownDeviceType:1,shutdownNominalCurrent:1,phaseVoltage:1,nominalCurrent:1,nominalVoltage:1,rcdNominalResidual:1},
+    bondingMain:.2,insulationValues:'>300; >300; >300',loopImpedance:.5,shortCircuitCurrent:460,shutdownDeviceType:'B',shutdownNominalCurrent:16,phaseVoltage:230,loadCurrent:10,nominalCurrent:16,voltageDrop:4,voltageDropPercent:1,nominalVoltage:400,rcdTripCurrent:18,rcdNominalResidual:30,rcdTripTime:17
+  };
+  checks=engine.checkData(positive,schema.config);
+  assertEqual(checks.some(item=>item.status==='open'||item.status==='fail'),false,'VDE vollständiger Messwert-Positivfall ohne offene Punkte');
+  assertEqual(engine.finalState(positive,schema.config).plausible,true,'VDE vollständiger Messwert-Positivfall grün');
+  assertEqual(checks.some(item=>item.id==='MEAS-ZS'&&item.status==='pass'),true,'VDE Zs rechnerisch i. O.');
+  assertEqual(checks.some(item=>item.id==='MEAS-IK-CONSISTENCY'&&item.status==='pass'),true,'VDE Ik und U0/Zs rechnerisch konsistent');
+  assertEqual(checks.some(item=>item.id==='MEAS-DU-CONSISTENCY'&&item.status==='pass'),true,'VDE Spannungsfallangaben rechnerisch konsistent');
+
+  const missing={...positive,shutdownNominalCurrent:''};
+  checks=engine.checkData(missing,schema.config);
+  assertEqual(checks.some(item=>item.id==='REQ-shutdownNominalCurrent'&&item.status==='open'),true,'VDE fehlende Bezugsgröße wird einzeln abgefragt');
+  assertEqual(checks.some(item=>item.status==='fail'),false,'VDE fehlende Bezugsgröße erzeugt kein rotes X');
+  assertEqual(engine.finalState(missing,schema.config).complete,false,'VDE kein Endergebnis bei fehlender Bezugsgröße');
+
+  const negative={...positive,loopImpedance:4,shortCircuitCurrent:57.5};
+  checks=engine.checkData(negative,schema.config);
+  assertEqual(checks.some(item=>item.id==='MEAS-ZS'&&item.status==='fail'),true,'VDE bestätigte Zs-Überschreitung wird erkannt');
+  assertEqual(engine.buildIssues(negative,schema.config).some(item=>item.id==='MEAS-ZS'&&item.status==='fail'),true,'VDE Rechenabweichung verlangt Bestätigung oder Korrektur');
+  assertEqual(engine.finalState(negative,schema.config,['MEAS-ZS']).plausible,false,'VDE bestätigte Rechenabweichung rot');
+
+  const formalNoise={...positive,testerName:'Beliebig',testDate:'1900-01-01',signatureState:'missing',building:'X',inspection31:'nio'};
+  assertEqual(JSON.stringify(engine.checkData(formalNoise,schema.config)),JSON.stringify(engine.checkData(positive,schema.config)),'VDE formale Angaben ändern keine Bewertung');
+  const parsed=engine.parseText('Niederohmmessung 0,20 Ohm Isolation >300 MOhm Zs 0,50 Ohm Kennlinie B 16 A U0 230 V Ik 460 A Ib 10 A Nennstrom 16 A Spannungsfall 1,0 % Auslösestrom 18 mA IΔn 30 mA Auslösezeit 17 ms');
+  assertEqual(parsed.loopImpedance,.5,'VDE Dokumenttext erkennt Zs');
+  assertEqual(parsed.shortCircuitCurrent,460,'VDE Dokumenttext erkennt Ik');
+  assertEqual(parsed.rcdTripTime,17,'VDE Dokumenttext erkennt RCD-Zeit');
+  assertEqual(parsed.insulationValues.includes('300'),true,'VDE Dokumenttext erkennt Isolationswert');
 }
-console.log('OK: Bestehende Funktionen, formulargebundene VDE-Dokumentenengine, E+H-Externlink sowie profilabhängiger Siemens-Rohwert-Rechner geprüft.');
+console.log('OK: Bestehende Funktionen, messwertzentrierte VDE-Rechenengine, formale Ausschlüsse, E+H-Externlink sowie profilabhängiger Siemens-Rohwert-Rechner geprüft.');

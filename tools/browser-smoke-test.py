@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.0.4-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.0.5-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
-REFERENCE_PDF = Path(os.environ.get("SK_VDE_REFERENCE_PDF", ""))
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.0.4-Beta"
+VERSION = "2.1.0.5-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -179,36 +178,24 @@ with sync_playwright() as p:
     desktop.wait_for_function("document.querySelector('.sk-tree-drawer').getBoundingClientRect().left >= window.innerWidth")
     desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
 
-    # VDE-Prüfung: Es gibt keine sichtbare oder ladbare Mustervorlage. Eine
-    # Datei wird ausschließlich als Nutzerupload eingelesen und angezeigt.
+    # VDE-Prüfung: messwertzentrierte Oberfläche ohne sichtbare Mustervorlage
+    # und ohne formale Bewertungselemente.
     desktop.goto(f"{BASE}/plausibilitaetspruefung-vde0100-600/")
     desktop.wait_for_load_state("networkidle")
-    assert "PDF oder Foto" in desktop.locator("#uploadPanel").inner_text()
+    assert "PDF oder Smartphone-Foto" in desktop.locator("#uploadPanel").inner_text()
+    assert "Ausschließlich Messwerte" in desktop.locator("#uploadPanel").inner_text()
     assert desktop.locator("#loadSample").count() == 0
     assert desktop.locator('a[href*="VDEProtokoll.pdf"]').count() == 0
-    assert REFERENCE_PDF.is_file(), "SK_VDE_REFERENCE_PDF muss auf die autorisierte leere Referenz-PDF zeigen"
-    desktop.locator("#documentInput").set_input_files(str(REFERENCE_PDF))
-    assert REFERENCE_PDF.name in desktop.locator("#fileList").inner_text()
-    desktop.locator("#startAnalysis").click()
-    desktop.locator("#reviewPanel").wait_for(state="visible", timeout=30000)
-    assert desktop.locator("#recognitionBadge").inner_text() == "REFERENZFORMULAR"
-    assert int(desktop.locator("#layoutScore").inner_text().rstrip(" %")) >= 90
-    summary = desktop.evaluate("window.SK_VDE_CHECKER.summary()")
-    assert summary["formStatus"] == "accepted"
-    assert summary["data"].get("signatureState") == "missing"
-    assert summary["data"].get("commissioningSignature") == "missing"
-    assert not any(summary["data"].get(f"inspection{31+i}") for i in range(20))
-    assert not any(summary["data"].get(f"test{71+i}") for i in range(6))
-    assert any(item["id"] == "SIGN-MISSING" and not item["allowNotRelevant"] for item in summary["pending"])
-    assert desktop.locator("#previewFrame canvas").count() == 1
-    assert desktop.locator("#previewFrame").inner_text() == ""
-    desktop.locator("#openIssues").click()
-    assert desktop.locator("#issueCard").is_visible()
-    assert desktop.locator("#issueSource canvas").count() == 1
-    assert desktop.locator("#notRelevant").is_hidden()
-    assert "nicht" in desktop.locator("#resolutionPolicy").inner_text().lower()
-    assert desktop.locator("#applyCorrection").is_visible()
-    desktop.screenshot(path=str(OUT / "vde-leere-referenz-klaerung-desktop.png"), full_page=True)
+    assert desktop.locator("text=Formularpassung").count() == 0
+    assert desktop.locator("#notRelevant").count() == 0
+    assert desktop.locator("#useForm").count() == 0
+    assert desktop.locator("#manualFormReview").count() == 0
+    assert desktop.locator("#replaceFile").count() == 0
+    assert desktop.locator("#confirmFail").is_hidden()
+    assert desktop.locator("#resultPanel").is_hidden()
+    assert "Namen" in desktop.locator(".template-note").inner_text()
+    assert "Unterschriften" in desktop.locator(".template-note").inner_text()
+    desktop.screenshot(path=str(OUT / "vde-messwert-upload-desktop.png"), full_page=True)
 
     tablet = browser.new_page(viewport={"width": 820, "height": 1180}, device_scale_factor=2, is_mobile=True)
     tablet.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
@@ -301,4 +288,4 @@ with sync_playwright() as p:
 
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: 16 Direktseiten, Desktop/Tablet/Mobil, Rechner, leere VDE-Referenz mit geschütztem Klärungsablauf, Suche, Filter, Sortierung, Favoriten, Navigation sowie PWA- und Offline-Verhalten geprüft.")
+    print("OK: 16 Direktseiten, Desktop/Tablet/Mobil, Rechner, messwertzentrierte VDE-Oberfläche mit gesperrtem Endergebnis, Suche, Filter, Sortierung, Favoriten, Navigation sowie PWA- und Offline-Verhalten geprüft.")

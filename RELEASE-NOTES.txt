@@ -1,35 +1,34 @@
-SK PLT Tools 2.1.0.4-Beta
-Direkte Basis: 2.1.0.3-Beta
-Stabile Referenz: 2.1.0.0
-Datum: 07.10.2026
+SK PLT Tools V2.1.0.5-Beta
+Release-Datum: 07.10.2026
+Direkte Basis: V2.1.0.4-Beta
+Stabile Referenz: V2.1.0.0
 
-VDE-0100-600 – korrigiertes Bewertungsmodell
-- Formularidentität und fachliches Prüfergebnis vollständig getrennt.
-- Teilweise oder abweichende Strukturpassung, einschließlich 78 %, ist nur ein technischer Hinweis.
-- Keine automatische n.i.O.-Bewertung und kein rotes X aufgrund der Formularidentität.
-- Referenzmapping ab 68 % technisch möglich; darunter manuelle Zuordnung statt Blockade.
-- Neue Optionen für unsichere Formulare: „Formular trotzdem verwenden“, „Zuordnung manuell prüfen“ und „Andere Datei hochladen“.
-- Genau-ein-Kreuz-Regel für erforderliche Auswahlpunkte; fehlende, mehrfache, ungültige und unsichere Kreuze werden einzeln geklärt.
-- Fehlende und unsichere Pflichtwerte werden nacheinander bearbeitet.
-- Endergebnis bleibt gesperrt, solange offene Punkte vorhanden sind.
-- Rotes X nur bei bestätigtem Mangel, bestätigter fehlender Pflichtangabe oder rechnerisch unplausiblem Messwert.
-- Grüner Haken nur bei vollständigen eindeutigen Kreuzen, Pflichtangaben und plausiblen Messwerten.
-- Pflichtfelder und sicherheitsrelevante Abweichungen bleiben nicht als „nicht relevant“ überspringbar.
+SCHWERPUNKT
+- Plausibilitätsprüfung VDE 0100-600 vollständig auf eingetragene Messwerte und rechnerisch notwendige Bezugsdaten reduziert.
+- Formularidentität, Strukturpassung, Unterschriften, Namen, Datum, Ortsangaben, Kreuze, Freitext und sonstige formale Angaben aus der Bewertungsengine entfernt.
+- Internes Referenzprofil auf 18 Mess-/Bezugsfeldzonen reduziert; Verwendung nur noch für Ausrichtung und Feldlokalisierung.
+- Kein sichtbarer Musterdownload und keine eingebettete Mustervorlage.
 
-Referenz und Datenschutz
-- Verbindliche externe Referenz: VDEProtokoll.pdf.
-- Die ausgefüllte reale Test-PDF wird ausschließlich extern getestet und ist nicht im Release enthalten.
-- Keine aus der realen Test-PDF abgeleitete Vorschau im Release.
-- Datenschutz-Gates in Builder und Validator bleiben aktiv.
+KLÄRUNGS- UND ERGEBNISLOGIK
+- Messumfang wird nach Erkennung vom Nutzer bestätigt.
+- Fehlende und unsichere Messwerte werden einzeln abgefragt.
+- Fehlende notwendige Bezugsdaten werden einzeln abgefragt.
+- Fehlende oder unsichere Werte können nicht direkt zu einem roten X führen.
+- Solange ein notwendiger Wert fehlt, wird kein Endergebnis angezeigt.
+- Grüner Haken nur bei vollständigen Werten und ausschließlich bestandenen Rechenregeln.
+- Rotes X nur nach Bestätigung eines tatsächlich eingetragenen, rechnerisch unplausiblen beziehungsweise n.-i.-O.-Messwerts.
 
-Tests
-- Funktions-Smoke einschließlich 78-%-Formidentität, Mehrfachkreuz, ungültigem Kreuz, grünem Positivfall und rotem bestätigtem Pflichtmangel.
-- End-to-End mit leerer Referenz-PDF, PNG, JPEG, ausgefüllter externer Test-PDF und Smartphone-Foto.
-- Responsive Browser-Smoke für Desktop, Tablet und Mobil sowie PWA-/Offline-Prüfung.
-- Statische Release-, Manifest-, Cache-, Datenschutz- und Prüfsummenvalidierung.
+RECHENREGELN
+- Durchgängigkeit/Niederohmwert gegen konfigurierten Rechen-/Prüfwert.
+- Isolation gegen Mindestprüfwert.
+- Zs gegen U0/(Kennlinienfaktor × In).
+- Ik-Konsistenz gegen U0/Zs.
+- Ib gegen In.
+- Spannungsfall-Grenze und Konsistenz von ΔU, Un und Prozentwert.
+- RCD-Auslösestrom gegen IΔn.
+- RCD-Auslösezeit gegen Standard-Prüfwert.
 
-Technische Identität
-- Version: 2.1.0.4-Beta
-- PWA-ID/Start-URL: ./?app=sk-plt-tools-2.1.0.4-beta
-- Cache: sk-plt-tools-v2.1.0.4-Beta
-- Archiv: SK-PLT-Tools-V2.1.0.4-Beta.zip
+TECHNIK UND RELEASE
+- VDE-Engine, Browseroberfläche, internes Messfeldprofil, Regeln, Funktions-, Browser-, E2E- und Release-Tests aktualisiert.
+- PWA-App-ID, Manifest, Cache, Precache, Release-Konfiguration, Versionsdateien, Dokumentation und SHA-256-Liste auf V2.1.0.5-Beta synchronisiert.
+- Vollständige Projektstruktur und alle bestehenden Werkzeuge/Wissensseiten beibehalten.

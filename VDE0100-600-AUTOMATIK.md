@@ -1,81 +1,83 @@
-# Automatische Plausibilitätsprüfung VDE 0100-600
+# Messwert-Plausibilitätsprüfung VDE 0100-600
 
-Stand: **2.1.0.4-Beta** · direkte Basis: **2.1.0.3-Beta** · verbindliche Formularbasis: Prüfbericht Lfd. Nr. 12782
+Stand: **2.1.0.5-Beta** · direkte Basis: **2.1.0.4-Beta**
 
-## Zweck und Grenze
+## Verbindlicher Bewertungsumfang
 
-Das Modul kontrolliert lokal die dokumentierte Vollständigkeit und rechnerische Plausibilität. Es führt keine Messung durch, bestätigt keine normgerechte Errichtung und erteilt keine Inbetriebnahmefreigabe. Unsichere Erkennung bleibt ein offener Punkt und wird niemals stillschweigend als i.O. oder n.i.O. gewertet.
+Das Modul bewertet ausschließlich:
 
-## Referenz und Testeingaben
+1. die im Nutzer-Dokument tatsächlich eingetragenen Messwerte und
+2. die Bezugsdaten, die für die jeweils anwendbare Rechenregel erforderlich sind.
 
-- `VDEProtokoll.pdf` ist die verbindliche leere Referenz.
-- Im Release werden ausschließlich Referenz-Hash, normalisierte Strukturmerkmale, Linienanker, Feldzonen und Blank-Baselines gespeichert.
-- Die Referenz-PDF selbst ist nicht eingebettet oder downloadbar.
-- Ausgefüllte reale Protokolle sind ausschließlich externe Testeingaben und werden weder gepackt noch vorgecacht.
-- PDF, JPEG, PNG und WebP werden lokal im Browser verarbeitet.
+Nicht ausgewertet werden Formularidentität, Strukturpassung, Unterschriften, Namen, Datum, Ortsangaben, gesetzte Kreuze, Freitext, Prüfgrund, Messgeräte-Stammdaten oder sonstige formale Angaben.
 
-## Entscheidungsmodell
+## Interne Lokalisierungshilfe
 
-### 1. Formularidentität
+Das interne Profil `assets/vde0100-600-template.json` enthält nur noch 18 Zonen für Messwerte und rechnerisch notwendige Bezugsdaten. Der Struktur-Fingerabdruck wird ausschließlich verwendet, um die wahrscheinlich richtige Seitenausrichtung und mögliche Messwertfelder zu finden.
 
-Die Strukturpassung ist ein technischer Qualitätsindikator, kein fachliches Prüfergebnis.
+- Der interne Lokalisierungswert wird nicht angezeigt.
+- Er wird nicht an die Rechenengine übergeben.
+- Er kann weder grün noch rot auslösen.
+- Die Mustervorlage selbst ist nicht eingebettet, nicht im Precache und nicht downloadbar.
 
-- Ab 90 % oder bei exaktem Referenz-Hash: eindeutige Referenzidentität.
-- Von 68 % bis unter 90 %: abweichende/unsichere Identität; Referenzmapping ist technisch möglich.
-- Unter 68 %: stark unsichere Identität; kein automatisches positionsgebundenes Mapping, aber manuelle Zuordnung bleibt möglich.
-- In keinem Fall erzeugt die Formularidentität allein n.i.O. oder ein rotes X.
+## Entscheidungsablauf
 
-Bei unsicherer Identität werden angeboten:
+### 1. Messumfang bestätigen
 
-1. **Formular trotzdem verwenden** – erkannte Zuordnungen übernehmen; alle unsicheren oder fehlenden Angaben bleiben offen.
-2. **Zuordnung manuell prüfen** – erkannte Werte einzeln am Original bestätigen oder korrigieren; fehlende Werte danach ergänzen.
-3. **Andere Datei hochladen** – aktuelle Auswahl verwerfen und zum Upload zurückkehren.
+Nach der lokalen Erkennung schlägt die Anwendung Messgrößen vor. Der Nutzer bestätigt nur die Größen, zu denen im Dokument tatsächlich ein Messwert eingetragen ist. Diese Auswahl ist keine formale Protokollbewertung.
 
-### 2. Kreuze
+### 2. Werte einzeln klären
 
-Für jeden erforderlichen Auswahlpunkt gilt:
+Für jede ausgewählte Messgröße gilt:
 
-- genau ein zulässiger Wert wird akzeptiert;
-- kein Kreuz, mehrere Kreuze, ein nicht zulässiger Wert oder ein unsicherer Kandidat erzeugt einen offenen Einzelpunkt;
-- der Originalausschnitt und die zulässigen Werte werden zur Bestätigung angezeigt;
-- eine bestätigte n.i.O.-Markierung bleibt ein sicherheitsrelevanter Mangel;
-- der Formularwert „nicht relevant“ ist nur dort zulässig, wo das Feldschema ihn fachlich vorsieht.
+- fehlt der Messwert, wird genau dieser Messwert abgefragt;
+- ist der Messwert unsicher erkannt, wird er am Originalausschnitt bestätigt oder korrigiert;
+- fehlt eine notwendige Bezugsgröße, wird genau diese Bezugsgröße abgefragt;
+- ein fehlender oder unsicherer Wert ist ein offener Punkt, niemals automatisch n. i. O.;
+- es gibt keine Aktion, mit der ein fehlender Wert als Mangel und damit rot bestätigt werden kann.
 
-### 3. Pflichtangaben und Messwerte
+### 3. Endergebnis sperren
 
-- Pflichtangaben ohne sicheren Wert werden nacheinander geklärt.
-- Für 4.1 bis 4.4 ist bei bestätigtem i.O. der zugehörige Messwert erforderlich.
-- Für die automatische Abschaltung muss mindestens ein vollständiger Messweg aus 6.1 oder 6.2 vorliegen.
-- Isolationswerte, Schleifenimpedanz, RCD-Werte, Stromrelation und Spannungsfall werden auf Wertebereich und rechnerische Plausibilität geprüft.
-- Pflichtfelder und sicherheitsrelevante Abweichungen sind nicht über „nicht relevant“ überspringbar.
+Solange der Messumfang nicht bestätigt ist oder ein notwendiger Mess-/Bezugswert fehlt beziehungsweise unsicher ist, bleibt die Ergebnisansicht gesperrt.
 
-### 4. Ergebnis
+### 4. Rechenabweichung bestätigen
 
-- Offene Punkte sperren die Ergebnisansicht.
-- **Grüner Haken:** alle erforderlichen Kreuze sind eindeutig, alle Pflichtangaben und Messwerte liegen vor und keine Plausibilitätsregel schlägt fehl.
-- **Rotes X:** mindestens ein Mangel, eine fehlende Pflichtangabe oder ein rechnerisch unplausibler Messwert wurde bestätigt.
-- Ein unsicheres oder abweichendes Formular allein kann nie ein rotes Ergebnis erzeugen.
+Ergibt eine vollständig berechenbare Regel eine Abweichung, zeigt die Anwendung die Rechnung und bietet zwei Wege:
+
+- Messwert korrigieren oder
+- den erkannten beziehungsweise manuell eingegebenen Wert als tatsächlich eingetragen bestätigen.
+
+Erst die zweite Variante übernimmt die Rechenabweichung als bestätigten n.-i.-O.-Befund.
+
+### 5. Ergebnis
+
+- **Grüner Haken:** Messumfang bestätigt, alle erforderlichen Mess-/Bezugswerte vorhanden, keine Rechenregel fehlgeschlagen.
+- **Rotes X:** mindestens eine Rechenabweichung wurde als tatsächlich eingetragener Wert bestätigt.
+- **Kein Endergebnis:** mindestens ein notwendiger Wert oder der Messumfang ist offen.
 
 ## Erkennungspipeline
 
-1. Datei lokal einlesen und SHA-256 bilden.
-2. PDF mit lokalem PDF.js rendern oder Foto skalieren.
-3. Kontrast normalisieren und vier Orientierungen sowie ±1°/±2° Feinausrichtung vergleichen.
-4. Struktur-Ensemble aus 18 × 24 Raster, 96 horizontalen und 64 vertikalen Projektionen, Linienankern und A4-Seitenverhältnis bilden.
-5. Sofern technisch möglich, 93 Referenzfeldzonen auswerten.
-6. Checkboxen über Blank-Differenz, Blauanteil, Dunkeldichte und Strichwechsel klassifizieren; sichere und unsichere Kandidaten getrennt protokollieren.
-7. Handschrift, Zahlen, Datumswerte und Unterschriften mit feldbezogener Konfidenz übernehmen.
-8. Vollständigkeits- und Plausibilitätsregeln berechnen.
-9. Offene Punkte einzeln klären und nach jeder Entscheidung alle Regeln erneut ausführen.
+1. Nutzerdatei lokal einlesen und für PDF.js beziehungsweise Bild-Canvas vorbereiten.
+2. Seiten in vier Orientierungen vergleichen; internes Profil nur als Ausrichtungshilfe verwenden.
+3. Eingebetteten PDF-Text auswerten.
+4. Browserseitige lokale Bildtexterkennung verwenden, sofern `TextDetector` verfügbar ist.
+5. Nur die 19 in der Engine definierten Mess-/Bezugsfelder übernehmen.
+6. Erkannten Messumfang vorschlagen.
+7. Unsichere und fehlende Werte einzeln klären.
+8. Nach jeder Eingabe alle anwendbaren Rechenregeln erneut ausführen.
+9. Ergebnis erst bei vollständig geschlossener Klärung freigeben.
 
-## Fachliche Plausibilitätsregeln
+## Rechenregeln und Standardparameter
 
-- numerische Feldbereiche,
-- Durchgängigkeit/Niederohmwerte gegen einen dokumentierten internen Hinweiswert,
-- Isolationswiderstand gegen den konfigurierten Mindestprüfwert,
-- Schleifenimpedanz mit `Zs ≤ U0 / (Kennlinienfaktor × In)` für B/C/D,
-- Verbraucherstrom `Ib ≤ In`,
-- Spannungsfall gegen Prüfziel und rechnerische Konsistenz von ΔU, Un und Prozent,
-- RCD-Auslösestrom gegen `IΔn`,
-- RCD-Auslösezeit gegen den konfigurierten Standard-Prüfwert,
-- bestätigte n.i.O.-Markierungen und fehlende Prüferunterschrift.
+| Regel | Rechnung / Grenzwert |
+|---|---|
+| Durchgängigkeit | ausgewählter Wert ≤ `continuityMaxOhm` (Standard 1 Ω) |
+| Isolation | kleinster Isolationswert ≥ `insulationMinMOhm` (Standard 1 MΩ) |
+| Schleifenimpedanz | `Zs ≤ U0 / (Faktor × In)`, B = 5, C = 10, D = 20 |
+| Kurzschlussstrom | `Ik` gegen `U0 / Zs`, Standardtoleranz 30 % |
+| Stromrelation | `Ib ≤ In` |
+| Spannungsfall | Prozentwert ≤ 5 %; Konsistenz `ΔU / Un × 100` mit 0,3 Prozentpunkten Toleranz |
+| RCD-Auslösestrom | `IΔ ≤ IΔn` |
+| RCD-Auslösezeit | `tA ≤ 300 ms` als hinterlegter Standard-Prüfwert |
+
+Abweichende Schutzgeräte, Prüfbedingungen, Anlagenarten oder normative Sonderfälle müssen von der verantwortlichen Elektrofachkraft fachlich bewertet werden.

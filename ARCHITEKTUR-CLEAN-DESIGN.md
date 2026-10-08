@@ -1,61 +1,72 @@
-# Architektur – SK PLT Tools 2.1.0.4-Beta
+# Architektur – SK PLT Tools 2.1.0.5-Beta
 
 ## Leitprinzipien
 
-1. Der vollständige Funktionsumfang der direkten Basis 2.1.0.3-Beta bleibt erhalten; stabile Referenz ist 2.1.0.0.
-2. Das Projekt bleibt statisch, lokal betreibbar, offline-fähig und ohne Cloud-Abhängigkeit.
-3. Formularidentität, Feldzuordnung, fachliche Regeln, UI-Klärung und Release-Integrität sind getrennte Schichten.
-4. Unsicherheit wird sichtbar gemacht und nie automatisch in ein negatives Endergebnis umgedeutet.
-5. Pflichtfelder und sicherheitsrelevante Abweichungen können nicht durch „nicht relevant“ ausgeblendet werden.
+1. Der vollständige Funktionsumfang der direkten Basis 2.1.0.4-Beta bleibt erhalten; stabile Referenz ist 2.1.0.0.
+2. Das Projekt bleibt statisch, lokal auslieferbar, PWA-fähig und ohne Serverkomponente.
+3. Gemeinsame Shell, Navigation, Favoriten, Suche, Werkzeuge und Wissensdatenbank bleiben unverändert integriert.
+4. Die VDE-Prüfung trennt Dokumentverarbeitung, Messwertzuordnung, Rechenengine und Nutzerklärung strikt voneinander.
+5. Nur Mess- und notwendige Bezugswerte dürfen die VDE-Entscheidung beeinflussen.
 
 ## Schichten
 
-### Shell und PWA
+### Gemeinsame Anwendungsschicht
 
-`assets/app.js`, `assets/core.css`, statische HTML-Seiten, Manifest und Service Worker bilden die gemeinsame Anwendungsschale. Der Service Worker verwendet ausschließlich den Release-Cache `sk-plt-tools-v2.1.0.4-Beta` und bereinigt ältere Cache-Versionen.
+- `assets/app.js` – Navigation, Suche, Favoriten und Service-Worker-Registrierung.
+- `assets/core.css` und `assets/logo-layout.css` – zentrale Oberfläche.
+- `shared/` – synchronisierte Header-, Footer- und Bedienelemente.
+- `service-worker.js` und `manifest.webmanifest` – versionsisolierte Offline-PWA.
 
-### VDE-Domänenengine
+### VDE-Dokumentadapter
 
-`assets/vde0100-600-engine.js` enthält Feldschema, Genau-ein-Kreuz-Regel, Auflösungs-Governance, Pflichtfeldprüfung und Messwert-Plausibilität. Die Engine ist DOM-unabhängig und wird im Node-Smoke-Test geprüft.
+- `plausibilitaetspruefung-vde0100-600/checker.js`
+  - lokales Einlesen von PDF und Smartphone-Foto,
+  - PDF.js-Rendering,
+  - Ausrichtung und Kontrastnormalisierung,
+  - eingebettete PDF-Texterkennung,
+  - optionale lokale `TextDetector`-Bildtexterkennung,
+  - interne Feldlokalisierung,
+  - Einzelabfrage fehlender/unsicherer Werte,
+  - Sperre des Endergebnisses bei offenen Werten.
 
-Die Formularidentität erzeugt ausschließlich `FORM-IDENTITY` mit Status `open` und Kennzeichen `technicalOnly`. Sie erzeugt niemals einen fachlichen `fail`. Mehrfach- und ungültige Kreuze werden als `CHOICE-MULTIPLE-*` beziehungsweise `CHOICE-INVALID-*` geführt.
+### Interner Messfeld-Lokator
 
-### VDE-Dokumentenerkennung
+- `assets/vde0100-600-template.json`
+  - externer Herkunftsnachweis der nicht eingebetteten Vorlage,
+  - Struktur-Fingerabdruck zur Seitenausrichtung,
+  - 18 Feldzonen ausschließlich für Mess- und Bezugswerte,
+  - leere Feldbaselines zur Erkennung visueller Einträge.
 
-`plausibilitaetspruefung-vde0100-600/checker.js` übernimmt lokale Datei-, Bild- und UI-Verarbeitung:
+Der Lokator erzeugt keinen fachlichen Status und wird nicht sichtbar ausgegeben.
 
-- PDF.js-Rendering und Foto-Skalierung,
-- Kontrastnormalisierung und Ausrichtung,
-- Struktur-Ensemble für die technische Formularidentität,
-- Referenzmapping ab 0,68 Strukturpassung,
-- referenzbereinigte Evidenz für Felder, Checkboxen und Unterschriften,
-- getrennte sichere und unsichere Checkbox-Kandidaten,
-- sequentielle Klärung mit Originalausschnitten,
-- eigener Drei-Optionen-Dialog für unsichere Formulare,
-- Ergebnis-Gate bis zur vollständigen Klärung.
+### VDE-Rechenengine
 
-`assets/vde0100-600-template.json` enthält 93 Feldzonen, Struktur-Fingerabdruck und Blank-Baselines. Die leere Referenz-PDF selbst ist nicht Bestandteil der Webanwendung.
+- `assets/vde0100-600-engine.js`
+  - 19 zugelassene Mess-/Bezugsfelder,
+  - 12 auswählbare Messgrößengruppen,
+  - Bedarfsauflösung notwendiger Bezugsdaten,
+  - Rechenregeln und Grenzwerte,
+  - neutrale Offenpunkte für fehlende/unsichere Werte,
+  - grünes Ergebnis nur bei Vollständigkeit und bestandenen Regeln,
+  - rotes Ergebnis nur bei bestätigter Rechenabweichung.
 
-### Release- und Testschicht
+Formale Felder existieren in dieser Engine nicht.
 
-- `tools/release.py`: Versionssynchronisierung, Precache, Datenschutz-Gate, Prüfsummen und ZIP.
-- `tools/validate_release.py`: Struktur-, Referenz-, Manifest-, Datenschutz- und Integritätsprüfung.
-- `tools/functional-smoke-test.js`: DOM-unabhängige Funktions- und VDE-Regeltests.
-- `tools/browser-smoke-test.py`: 16 Direktseiten, Responsive-Ansichten, PWA und Offline.
-- `tools/vde-protocol-e2e-test.py`: Referenz-PDF/PNG/JPEG sowie externe ausgefüllte PDF und daraus nur temporär erzeugtes Smartphone-Foto.
+### Regel- und Governance-Metadaten
 
-## Erkennungs-Governance
+- `assets/vde0100-600-rules.json`
+  - explizite Ausschlussliste formaler Angaben,
+  - Ergebnis-Governance,
+  - dokumentierte Grenzwerte und Formeln.
 
-- Eindeutige Identität: Strukturwert ≥ 0,90 oder exakter Referenz-Hash.
-- Technisch mappbar, aber unsicher: 0,68 bis < 0,90.
-- Stark unsicher: < 0,68; Pflichtfelder werden manuell zugeordnet.
-- Feldkonfidenz: 0,80 für Auswahl/Zahl/Datum, 0,74 für Text.
-- „Nicht relevant“: nur gemäß Felddefinition; niemals als Überspringen von Pflichtfeldern oder bestätigten Sicherheitsabweichungen.
-- Ergebnis: erst nach leerer Offenpunkt-Warteschlange.
+## Test- und Release-Architektur
 
-## PWA-Identität
+- `tools/functional-smoke-test.js` – deterministische Engine- und Rechenregressionen.
+- `tools/vde-protocol-e2e-test.py` – Positiv-PDF, fehlende Bezugsgröße, bestätigter Negativwert und Smartphone-Foto.
+- `tools/browser-smoke-test.py` – 16 Direktseiten, Responsive-Design, PWA und Offline-Cache.
+- `tools/validate_release.py` – Struktur, Versionskonsistenz, formale Ausschlüsse, interne Vorlage, Datenschutz, lokale Referenzen, Syntax und Prüfsummen.
+- `tools/release.py` – zentrale Versionierung, Precache, Prüfsummen und vollständiges ZIP.
 
-- Version: `2.1.0.4-Beta`
-- PWA-ID und Start-URL: `./?app=sk-plt-tools-2.1.0.4-beta`
-- Cache: `sk-plt-tools-v2.1.0.4-Beta`
-- Release-ZIP: `SK-PLT-Tools-V2.1.0.4-Beta.zip`
+## Sicherheitsgrenze
+
+Das Modul ist eine lokale rechnerische Zweitkontrolle. Es führt keine Messung durch, bewertet keine normativen Sonderfälle vollständig und erteilt keine Inbetriebnahmefreigabe.

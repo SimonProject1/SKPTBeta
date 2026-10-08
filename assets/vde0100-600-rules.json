@@ -1,113 +1,70 @@
 {
-  "schemaVersion": "2.3",
-  "moduleVersion": "2.1.0.4-Beta",
-  "status": "Beta – formulargebundene fachliche Vorprüfung",
-  "scope": "Vollständigkeits- und Plausibilitätskontrolle ohne Inbetriebnahmefreigabe",
-  "supportedProtocol": "Prüfbericht nach VDE 0100-600 / IEC 60364-6 und VDE 0105-100 / EN 50110, Lfd. Nr. 12782",
+  "schemaVersion": "3.0",
+  "moduleVersion": "2.1.0.5-Beta",
+  "status": "Beta – messwertbezogene rechnerische Plausibilitätsprüfung",
+  "scope": "Ausschließlich eingetragene Messwerte und notwendige Bezugsdaten",
+  "excludedFromEvaluation": [
+    "Formularidentität",
+    "Strukturpassung",
+    "Unterschriften",
+    "Namen",
+    "Datum",
+    "Ortsangaben",
+    "Kreuze",
+    "Textfelder",
+    "sonstige formale Angaben"
+  ],
   "resolutionGovernance": {
-    "sequentialReview": true,
-    "uncertainValues": [
-      "bestätigen",
-      "korrigieren",
-      "fachlich nicht relevant, sofern im Feldschema zugelassen"
-    ],
-    "mandatoryFieldsSkippable": false,
-    "safetyDeviationsSkippable": false,
-    "hardRejectedFormCanBeOverridden": true,
-    "formIdentityIsTechnicalOnly": true,
-    "uncertainFormOptions": [
-      "Formular trotzdem verwenden",
-      "Zuordnung manuell prüfen",
-      "Andere Datei hochladen"
-    ],
-    "finalResultWhileOpenIssues": false
+    "missingOrUncertainValuesCauseFailure": false,
+    "queryEachMissingOrUncertainValue": true,
+    "finalResultWhileValuesMissing": false,
+    "confirmedCalculationFailureCausesRedResult": true,
+    "allCalculationsPlausibleCausesGreenResult": true,
+    "referenceTemplateIsLocatorOnly": true,
+    "referenceTemplateDownloadable": false
   },
-  "defaults": {
-    "phaseVoltage": 230,
+  "limits": {
+    "phaseVoltageDefaultHint": 230,
     "insulationMinMOhm": 1,
-    "continuityWarningOhm": 1,
+    "continuityMaxOhm": 1,
     "voltageDropLimitPercent": 5,
+    "voltageDropConsistencyTolerancePercent": 0.3,
     "rcdTripTimeLimitMs": 300,
-    "layoutScoreMin": 0.9,
-    "layoutScoreMappingMin": 0.68
+    "shortCircuitTolerancePercent": 30,
+    "fieldDarkDeltaMin": 0.006
   },
   "rules": [
     {
-      "id": "FORM-IDENTITY",
-      "section": "Dokument",
-      "severity": "open",
-      "skippable": false,
-      "message": "Die Strukturpassung dient ausschließlich als technischer Hinweis. Auch bei teilweiser oder abweichender Formularidentität entsteht kein automatisches n.i.O.; zuordenbare Prüfbereiche werden weiter ausgewertet und unsichere Zuordnungen einzeln geklärt."
-    },
-    {
-      "id": "DOC-REQUIRED",
-      "section": "Dokument",
-      "severity": "open",
-      "skippable": false,
-      "message": "Pflichtfelder ohne sicheren Erkennungswert werden mit einem Ausschnitt aus dem hochgeladenen Original nacheinander zur Klärung angeboten."
-    },
-    {
-      "id": "MASTER-IDENT",
-      "section": "Stammdaten",
-      "severity": "open",
-      "skippable": false,
-      "message": "Mindestens zwei Felder des technischen Platzes werden in einem gemeinsamen Mehrfeld-Dialog bestätigt."
-    },
-    {
-      "id": "STATUS-NIO",
-      "section": "Bewertung",
-      "severity": "error",
-      "skippable": false,
-      "message": "Eine bestätigte n.i.O.-Markierung in den Prüfpunkten 3.1–3.20, 4.1–4.4, 6.2 oder 7.1–7.6 führt zum roten Gesamtergebnis."
+      "id": "MEAS-CONTINUITY",
+      "description": "Ausgewählte Durchgängigkeitswerte werden gegen den hinterlegten Rechen-/Prüfwert geprüft."
     },
     {
       "id": "MEAS-INS",
-      "section": "5. Isolation",
-      "severity": "error",
-      "skippable": false,
-      "message": "Isolationswerte werden gegen den konfigurierten Mindestprüfwert verglichen."
+      "description": "Isolationswiderstände werden gegen den konfigurierten Mindestprüfwert geprüft."
     },
     {
       "id": "MEAS-ZS",
-      "section": "6. Automatische Abschaltung",
-      "severity": "error",
-      "skippable": false,
-      "message": "Zs wird mit U0/(Kennlinienfaktor × In) verglichen; B=5, C=10, D=20."
+      "description": "Zs wird mit U0/(Kennlinienfaktor × In) verglichen; B=5, C=10, D=20."
+    },
+    {
+      "id": "MEAS-IK-CONSISTENCY",
+      "description": "Ik wird mit dem aus U0/Zs berechneten Wert innerhalb der konfigurierten Toleranz verglichen."
     },
     {
       "id": "CIRCUIT-IB-IN",
-      "section": "2. Angaben zum Objekt",
-      "severity": "error",
-      "skippable": false,
-      "message": "Der erfasste Verbraucherstrom Ib darf den Nennstrom In nicht überschreiten."
+      "description": "Verbraucherstrom Ib darf den Nennstrom In nicht überschreiten."
     },
     {
       "id": "MEAS-DU",
-      "section": "2. Angaben zum Objekt",
-      "severity": "error",
-      "skippable": false,
-      "message": "Der Spannungsfall wird gegen das konfigurierte Prüfziel und auf rechnerische Konsistenz geprüft."
+      "description": "Spannungsfall wird gegen das hinterlegte Prüfziel und, sofern vorhanden, auf Konsistenz von ΔU/Un/Prozent geprüft."
     },
     {
       "id": "RCD-I",
-      "section": "6. Automatische Abschaltung",
-      "severity": "error",
-      "skippable": false,
-      "message": "Der erfasste Auslösestrom wird gegen IΔn verglichen."
+      "description": "RCD-Auslösestrom wird gegen IΔn geprüft."
     },
     {
       "id": "RCD-T",
-      "section": "6. Automatische Abschaltung",
-      "severity": "error",
-      "skippable": false,
-      "message": "Die Auslösezeit wird gegen den konfigurierten Standard-Prüfwert verglichen."
-    },
-    {
-      "id": "SIGN-MISSING",
-      "section": "Abschluss",
-      "severity": "error",
-      "skippable": false,
-      "message": "Eine fehlende Prüferunterschrift wird als nicht plausibel bewertet."
+      "description": "RCD-Auslösezeit wird gegen den konfigurierten Standard-Prüfwert geprüft."
     }
   ]
 }
