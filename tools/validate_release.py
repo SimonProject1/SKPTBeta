@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.2.1-Beta."""
+"""Static release validation for SK PLT Tools 2.1.3.0-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.2.1-Beta'
+VERSION='2.1.3.0-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -288,6 +288,11 @@ for required in ('min-height:86px','min-height:74px'):
 for label,content in (('Favoriten',favorites_css),('Navigation',tree_css)):
     for required in ('width:48px;height:48px','width:42px;height:42px'):
         if required not in content: errors.append(f'{label}: kompakte Schaltflächengröße fehlt: {required}')
+for required in ('body{padding-bottom:calc(58px + env(safe-area-inset-bottom,0px))}',
+                 '.sk-favorites-trigger,.sk-tree-trigger{top:auto;bottom:calc(8px + env(safe-area-inset-bottom,0px));transform:none}',
+                 '.sk-favorites-trigger{left:calc(8px + env(safe-area-inset-left,0px))}',
+                 '.sk-tree-trigger{right:calc(8px + env(safe-area-inset-right,0px))}'):
+    if required not in core_css: errors.append(f'Mobile feste Schnellzugriffe unvollständig: {required}')
 for required in ('grid-template-columns:1fr 38px','.sign{font-size:16px;min-width:38px}'):
     if required not in styles_css: errors.append(f'Vorzeichen-Schaltfläche: Kompaktierungsmerkmal fehlt: {required}')
 

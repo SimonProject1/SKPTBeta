@@ -1,0 +1,23 @@
+PROJEKTÜBERGABE SK PLT TOOLS V2.1.3.0-BETA
+Datum: 09.10.2026
+Direkte Basis: V2.1.2.1-Beta
+Stabile Referenz: V2.1.0.0
+
+LIEFERUMFANG
+- Vollständiger Projektbestand aller weiterhin unterstützten Module und Unterordner.
+- Mobile Favoriten-Schaltfläche dauerhaft links unten am Viewport fixiert.
+- Mobiles Baummenü dauerhaft rechts unten am Viewport fixiert.
+- iPhone-Safe-Area und zusätzlicher Inhaltsfreiraum am mobilen Seitenende berücksichtigt.
+- Statische Offline-PWA mit 15 Direktseiten.
+- Neun Startseitenkacheln einschließlich des externen E+H Device Viewers.
+- Aktualisierte Navigation, Suche, Dokumentation, Tests, Release-Konfiguration, Cache, Manifest und Prüfsummen.
+- Vollständiges ZIP SK-PLT-Tools-V2.1.3.0-Beta.zip.
+- Testbericht TESTBERICHT-UND-ABNAHME.md.
+
+FESTE ENTSCHEIDUNGEN
+- Gemeinsame mobile Bedienelemente werden zentral in assets/core.css gepflegt.
+- Desktop- und Tablet-Verhalten dürfen durch mobile Änderungen nicht verschlechtert werden.
+
+BETRIEB
+- Erfordert nur einen statischen Webserver; HTTPS oder localhost für die installierbare PWA.
+- Berechnungen und lokale Dokumentationsfunktionen laufen im Browser.

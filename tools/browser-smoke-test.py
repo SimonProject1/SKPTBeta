@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.2.1-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.3.0-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.2.1-Beta"
+VERSION = "2.1.3.0-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -27,6 +27,27 @@ def assert_box(page, selector, width, height, tolerance=1):
     assert box, f"{selector}: kein sichtbares Rechteck"
     assert abs(box["width"] - width) <= tolerance, f"{selector}: Breite {box['width']} statt {width}"
     assert abs(box["height"] - height) <= tolerance, f"{selector}: Höhe {box['height']} statt {height}"
+
+
+def assert_mobile_fixed_controls(page, bottom=8, side=8, tolerance=1):
+    """Prüft mobile Schnellzugriffe am festen unteren Viewport-Rand."""
+    favorite = page.locator(".sk-favorites-trigger").bounding_box()
+    tree = page.locator(".sk-tree-trigger").bounding_box()
+    viewport = page.viewport_size
+    assert favorite and tree and viewport
+    assert abs(favorite["x"] - side) <= tolerance, f"Favoriten-Icon links: {favorite['x']} statt {side}"
+    assert abs((viewport["width"] - tree["x"] - tree["width"]) - side) <= tolerance, "Baummenü-Icon nicht rechts"
+    assert abs((viewport["height"] - favorite["y"] - favorite["height"]) - bottom) <= tolerance, "Favoriten-Icon nicht unten"
+    assert abs((viewport["height"] - tree["y"] - tree["height"]) - bottom) <= tolerance, "Baummenü-Icon nicht unten"
+    assert page.locator(".sk-favorites-trigger").evaluate("el => getComputedStyle(el).position") == "fixed"
+    assert page.locator(".sk-tree-trigger").evaluate("el => getComputedStyle(el).position") == "fixed"
+    before = (favorite["x"], favorite["y"], tree["x"], tree["y"])
+    page.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)")
+    page.wait_for_timeout(50)
+    favorite_after = page.locator(".sk-favorites-trigger").bounding_box()
+    tree_after = page.locator(".sk-tree-trigger").bounding_box()
+    after = (favorite_after["x"], favorite_after["y"], tree_after["x"], tree_after["y"])
+    assert all(abs(a - b) <= tolerance for a, b in zip(before, after)), "Mobile Icons bewegen sich beim Scrollen"
 
 
 PAGES = [
@@ -220,6 +241,7 @@ with sync_playwright() as p:
     assert mobile.locator("header.sk-global-header").bounding_box()["height"] <= 76
     assert_box(mobile, ".sk-favorites-trigger", 42, 42)
     assert_box(mobile, ".sk-tree-trigger", 42, 42)
+    assert_mobile_fixed_controls(mobile)
     assert mobile.locator("#cardProfile").is_visible()
     assert mobile.locator("details.analog-card-info").get_attribute("open") is None
     input_box = mobile.locator(".analog-input-shell").bounding_box()
@@ -235,6 +257,7 @@ with sync_playwright() as p:
         assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Mobiles Überlaufen: {route}"
         assert_box(mobile, ".sk-favorites-trigger", 42, 42)
         assert_box(mobile, ".sk-tree-trigger", 42, 42)
+        assert_mobile_fixed_controls(mobile)
     mobile.goto(f"{BASE}/")
     mobile.wait_for_load_state("networkidle")
     mobile.locator('.sk-tree-trigger').click()

@@ -1,4 +1,4 @@
-# Deployment – SK PLT Tools 2.1.2.1-Beta
+# Deployment – SK PLT Tools 2.1.3.0-Beta
 
 ## Voraussetzungen
 
@@ -8,16 +8,16 @@
 
 ## Bereitstellung
 
-1. `SK-PLT-Tools-V2.1.2.1-Beta.zip` entpacken.
-2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.2.1-Beta/` unverändert unter dem Webroot bereitstellen.
+1. `SK-PLT-Tools-V2.1.3.0-Beta.zip` entpacken.
+2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.3.0-Beta/` unverändert unter dem Webroot bereitstellen.
 3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/` und alle Modulordner unter demselben Webroot liegen.
 4. Browserdaten einer älteren Beta bei Bedarf neu laden; der Service Worker löscht ältere `sk-plt-tools-*`-Caches automatisch.
 
 ## Release-Identität
 
-- Version: `2.1.2.1-Beta`
-- Manifest-ID/Start-URL: `./?app=sk-plt-tools-2.1.2.1-beta`
-- Cache: `sk-plt-tools-v2.1.2.1-Beta`
+- Version: `2.1.3.0-Beta`
+- Manifest-ID/Start-URL: `./?app=sk-plt-tools-2.1.3.0-beta`
+- Cache: `sk-plt-tools-v2.1.3.0-Beta`
 
 ## Vor Deployment ausführen
 

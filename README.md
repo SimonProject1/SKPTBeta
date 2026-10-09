@@ -1,6 +1,6 @@
-# SK PLT Tools 2.1.2.1-Beta
+# SK PLT Tools 2.1.3.0-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.2.1-Beta** basiert vollständig auf dem geprüften Stand **2.1.2.0-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.3.0-Beta** basiert vollständig auf dem geprüften Stand **2.1.2.1-Beta**; die stabile Referenz bleibt **2.1.0.0**. In der mobilen Darstellung sind das Favoriten-Icon links unten und das Baummenü-Icon rechts unten dauerhaft am Viewport fixiert; iPhone-Safe-Areas werden berücksichtigt.
 
 ## Enthaltene Funktionen
 

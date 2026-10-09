@@ -1,15 +1,22 @@
-SK PLT Tools V2.1.2.1-Beta
+SK PLT Tools V2.1.3.0-Beta
 Release-Datum: 09.10.2026
-Direkte Basis: V2.1.2.0-Beta
+Direkte Basis: V2.1.2.1-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT
-- Siemens-Rohwert-Rechner um einen frei eingebbaren physikalischen Messbereich mit Minimum, Maximum und Einheit erweitert.
-- Gleichzeitige Ausgabe von Siemens-Rohwert, mA-/Spannungswert, Prozentwert, physikalischem Istwert und Diagnosebereich.
-- Umrechnung wahlweise aus Rohwert, Signalwert oder physikalischem Istwert; lineare Extrapolation für bestätigten Unter- und Überbereich.
-- Negative Messbereichsgrenzen und frei wählbare Einheiten werden unterstützt und validiert.
-- Alle übrigen Rechner, Module, Wissensseiten, Navigation, Suche, Favoriten und Offline-Funktionen aus V2.1.2.0-Beta unverändert übernommen.
+SCHWERPUNKT: MOBILE BEDIENELEMENTE
+- Das Favoriten-Icon ist in der mobilen Darstellung dauerhaft links unten am Viewport fixiert.
+- Das Baummenü-Icon ist in der mobilen Darstellung dauerhaft rechts unten am Viewport fixiert.
+- Beide Schnellzugriffe liegen außerhalb des Seitenscrollbereichs und bleiben beim Scrollen an derselben Position.
+- iPhone-Safe-Areas werden über env(safe-area-inset-bottom/left/right) berücksichtigt.
+- Ein mobiler Inhaltsabstand am Seitenende verhindert, dass die fest positionierten Schaltflächen Inhalte verdecken.
+- Desktop- und Tablet-Positionierung bleiben unverändert.
+
+ÜBERNOMMENER FUNKTIONSUMFANG
+- Alle Rechner, Wissensseiten, Navigation, Suche, Filter, Sortierung, Favoriten und Offline-Funktionen aus V2.1.2.1-Beta wurden vollständig übernommen.
+- Der Siemens-Rohwert-Rechner behält den frei definierbaren physikalischen Messbereich, freie Einheiten und die Umrechnung aus Rohwert, Signalwert oder physikalischem Istwert.
 
 TECHNIK UND RELEASE
-- PWA-App-ID, Manifest, Cache, Precache, Release-Konfiguration, Versionsdateien und SHA-256-Liste auf V2.1.2.1-Beta synchronisiert.
-- Statische Seitenprüfung, Funktions-Smoke-Test sowie Browser-, Responsive-, PWA- und Offline-Test um Messbereich, Einheiten und drei Eingaberichtungen erweitert.
+- Zentrale mobile Gestaltung in assets/core.css umgesetzt; keine seitenweisen Patches.
+- Browser-Smoke-Test um feste linke/rechte Unterkantenposition und Positionsstabilität beim Scrollen erweitert.
+- Statische Validierung um die mobilen Safe-Area- und Fixed-Position-Regeln erweitert.
+- VERSION, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Dokumentation und Prüfsummen auf V2.1.3.0-Beta synchronisiert.
