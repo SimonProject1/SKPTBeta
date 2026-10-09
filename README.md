@@ -1,14 +1,15 @@
-# SK PLT Tools 2.1.5.1-Beta
+# SK PLT Tools 2.1.5.2-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.5.1-Beta** basiert vollständig auf **2.1.5.0-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.5.2-Beta** basiert vollständig auf **2.1.5.1-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
-## Neu in 2.1.5.1-Beta
+## Neu in 2.1.5.2-Beta
 
-- Reiterwechsel zwischen **Signal**, **Rohwert** und **Phys. Wert** ohne automatischen Fokus des gemeinsamen Eingabefelds.
-- Beim Antippen eines Reiters wird ein aktiver Formularfokus beendet, damit auf dem iPhone keine Bildschirmtastatur geöffnet bleibt.
-- Die sichtbare Reiterauswahl wird vor Validierung und Neuberechnung aktualisiert; damit bleibt der Wechsel am PC auch bei einer vorübergehend unvollständigen Messbereichseingabe funktionsfähig.
-- Maus-, Touch- und Tastaturbedienung der Reiter bleiben vollständig unterstützt.
-- Drei-Reiter-Aufbau, Berechnungslogik, Diagnosefarben, responsive Bedienzone und PWA-/Offline-Funktion der direkten Basis bleiben erhalten.
+- Eigener **±-Vorzeichenwechsel** am gemeinsamen aktiven Eingabefeld für **Signal**, **Rohwert** oder **Phys. Wert**.
+- Eigene ±-Schaltflächen an **Minimum** und **Maximum** des physikalischen Messbereichs.
+- Sofortige Neuberechnung aller abgeleiteten Werte und des Diagnosezustands nach jedem gültigen Vorzeichenwechsel.
+- Touch-/Fokusbehandlung ohne automatisches Fokussieren des Zahlenfelds; dadurch öffnet der ±-Touch auf dem iPhone nicht automatisch die Bildschirmtastatur.
+- Leere oder ungültige Zahlenfelder werden nicht verfälscht, sondern über die bestehende Eingabeprüfung abgewiesen.
+- Drei-Reiter-Aufbau, Reiter-Fokuskorrektur aus 2.1.5.1-Beta, Diagnosefarben, responsive Bedienzone und PWA-/Offline-Funktion bleiben erhalten.
 
 ## Enthaltene Funktionen
 

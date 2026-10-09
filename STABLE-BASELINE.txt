@@ -1,9 +1,9 @@
 SK PLT Tools – Baseline-Hinweis
 
-Version: V2.1.5.1-Beta
-Direkte Vorgängerversion/Basis: V2.1.5.0-Beta
+Version: V2.1.5.2-Beta
+Direkte Vorgängerversion/Basis: V2.1.5.1-Beta
 Stabile Referenz: V2.1.0.0
 
 Die vollständige Projektstruktur, alle unterstützten Rechner, Dokumentationsfunktionen, Wissensseiten, Navigation, Suche, Favoriten sowie PWA- und Offline-Funktionen der direkten Basis bleiben erhalten.
 
-V2.1.5.1-Beta korrigiert ausschließlich die Bedienung der drei Reiter Signal, Rohwert und Phys. Wert im Siemens-Rohwert-Rechner. Der Reiterwechsel fokussiert das gemeinsame Eingabefeld nicht mehr automatisch, beendet auf Mobilgeräten einen aktiven Eingabefokus und aktualisiert die sichtbare Auswahl vor der Neuberechnung. Die stabile Rollback-Referenz bleibt V2.1.0.0.
+V2.1.5.2-Beta ergänzt ausschließlich den ±-Vorzeichenwechsel im Siemens-Rohwert-Rechner: am gemeinsamen aktiven Eingabefeld für Signal, Rohwert oder Phys. Wert und an Minimum sowie Maximum des physikalischen Messbereichs. Jeder gültige Wechsel berechnet die Anzeige sofort neu. Die Touch-/Fokusbehandlung verhindert, dass der ±-Button auf dem iPhone automatisch das Zahlenfeld und damit die Bildschirmtastatur öffnet. Die stabile Rollback-Referenz bleibt V2.1.0.0.

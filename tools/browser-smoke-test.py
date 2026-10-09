@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.5.1-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.5.2-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.5.1-Beta"
+VERSION = "2.1.5.2-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -110,11 +110,41 @@ with sync_playwright() as p:
     assert desktop.locator("#physicalMin").input_value() == "-50"
     assert desktop.locator("#physicalMax").input_value() == "150"
     assert desktop.locator("#physicalUnit").input_value() == "°C"
+    assert desktop.locator(".analog-sign-button").count() == 3
+    assert desktop.locator("#inputSignToggle").get_attribute("data-sign-target") == "inputValue"
+    assert desktop.locator("#physicalMinSignToggle").get_attribute("data-sign-target") == "physicalMin"
+    assert desktop.locator("#physicalMaxSignToggle").get_attribute("data-sign-target") == "physicalMax"
     assert desktop.locator("#signalType").input_value() == "4-20mA"
     physical_y = desktop.locator(".analog-physical-range").bounding_box()["y"]
     signal_y = desktop.locator("label[for='signalType']").bounding_box()["y"]
     card_y = desktop.locator("label[for='cardProfile']").bounding_box()["y"]
     assert physical_y < signal_y < card_y
+
+    # ± wechselt zuverlässig den vorhandenen Zahlenwert, aktualisiert sofort
+    # und darf das zugehörige Zahlenfeld nicht fokussieren.
+    desktop.evaluate("window.__signFocusCount=0;document.querySelectorAll('#inputValue,#physicalMin,#physicalMax').forEach(el=>el.addEventListener('focus',()=>window.__signFocusCount++))")
+    desktop.locator("#inputSignToggle").click()
+    assert float(desktop.locator("#inputValue").input_value()) == -12.0
+    assert_text(desktop, "#rawResult", "-27.648")
+    assert_text(desktop, "#physicalResult", "-250,000 °C")
+    assert desktop.evaluate("document.activeElement.id") != "inputValue"
+    desktop.locator("#inputSignToggle").click()
+    assert float(desktop.locator("#inputValue").input_value()) == 12.0
+    assert_text(desktop, "#rawResult", "13.824")
+    desktop.locator("#physicalMinSignToggle").click()
+    assert desktop.locator("#physicalMin").input_value() == "50"
+    assert_text(desktop, "#physicalResult", "100,000 °C")
+    assert desktop.evaluate("document.activeElement.id") != "physicalMin"
+    desktop.locator("#physicalMinSignToggle").click()
+    assert desktop.locator("#physicalMin").input_value() == "-50"
+    desktop.locator("#physicalMaxSignToggle").click()
+    assert desktop.locator("#physicalMax").input_value() == "-150"
+    assert desktop.locator("#calculationError").is_visible()
+    assert desktop.evaluate("document.activeElement.id") != "physicalMax"
+    desktop.locator("#physicalMaxSignToggle").click()
+    assert desktop.locator("#physicalMax").input_value() == "150"
+    assert desktop.locator("#calculationError").is_hidden()
+    assert desktop.evaluate("window.__signFocusCount") == 0
 
     set_input(desktop, "#inputValue", "16")
     assert_text(desktop, "#rawResult", "20.736")
@@ -289,7 +319,7 @@ with sync_playwright() as p:
     assert tablet.locator("details.analog-card-info").get_attribute("open") is None
     tablet.screenshot(path=str(OUT / "siemens-tablet.png"), full_page=True)
 
-    mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True)
+    mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True, has_touch=True)
     mobile.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
     mobile.goto(f"{BASE}/siemens-analogwert-rechner/")
     mobile.wait_for_load_state("networkidle")
@@ -312,6 +342,20 @@ with sync_playwright() as p:
     assert mobile.locator(".analog-tab").all_inner_texts() == ["Signal", "Rohwert", "Phys. Wert"]
     assert mobile.locator(".analog-value-card:visible").count() == 2
     assert mobile.locator("#inputValue").count() == 1
+    assert mobile.locator(".analog-sign-button").count() == 3
+    mobile.evaluate("window.__mobileSignFocusCount=0;document.querySelectorAll('#inputValue,#physicalMin,#physicalMax').forEach(el=>el.addEventListener('focus',()=>window.__mobileSignFocusCount++))")
+    mobile.locator("#inputSignToggle").tap()
+    assert float(mobile.locator("#inputValue").input_value()) == -12.0
+    assert_text(mobile, "#rawResult", "-27.648")
+    assert mobile.evaluate("document.activeElement.id") != "inputValue"
+    mobile.locator("#inputSignToggle").tap()
+    assert float(mobile.locator("#inputValue").input_value()) == 12.0
+    mobile.locator("#physicalMinSignToggle").tap()
+    assert mobile.locator("#physicalMin").input_value() == "50"
+    assert mobile.evaluate("document.activeElement.id") != "physicalMin"
+    mobile.locator("#physicalMinSignToggle").tap()
+    assert mobile.locator("#physicalMin").input_value() == "-50"
+    assert mobile.evaluate("window.__mobileSignFocusCount") == 0
     mobile.locator("#inputTabRaw").click()
     assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "raw"
     assert mobile.evaluate("document.activeElement.id") != "inputValue"

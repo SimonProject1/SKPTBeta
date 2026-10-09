@@ -83,6 +83,11 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   const context={console,Math,Number,Object,Array,String,Intl,Error,globalThis:null};context.globalThis=context;vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8'),context,{filename:'siemens-analogwert-rechner.js'});
   const api=context.SK_SIEMENS_ANALOG,calc=api.calculate;
+   assertEqual(api.toggleSignValue(12),-12,'Siemens Vorzeichen positiv zu negativ');
+   assertEqual(api.toggleSignValue(-12),12,'Siemens Vorzeichen negativ zu positiv');
+   assertEqual(api.toggleSignValue('12,5'),-12.5,'Siemens Vorzeichen mit Dezimalkomma');
+   assertEqual(api.toggleSignValue(0),0,'Siemens Vorzeichen Null bleibt Null');
+   assertThrows(()=>api.toggleSignValue(''),'gültigen Zahlenwert','Siemens Vorzeichen lehnt leere Eingabe ab');
    const temperature={min:-50,max:150,unit:'°C'};
    let result=calc('4-20mA','raw',13824,'et200sp_st',temperature);
   assertEqual(result.raw,13824,'Siemens 4–20 mA Rohwert');assertEqual(result.signal,12,'Siemens 4–20 mA Signal');assertEqual(result.percent,50,'Siemens 4–20 mA Nennbereichsanteil');assertEqual(result.status,'nominal','Siemens ET 200SP Nennbereich');
@@ -114,6 +119,9 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   const tabs=[...html.matchAll(/<button[^>]*class="analog-tab"[^>]*data-input-kind="([^"]+)"[^>]*>([^<]+)<\/button>/g)].map(match=>`${match[1]}:${match[2].trim()}`);
   assertEqual(tabs.join(','),'signal:Signal,raw:Rohwert,physical:Phys. Wert','Siemens Drei-Reiter-Aufbau und Reihenfolge');
   assertEqual((html.match(/id="inputValue"/g)||[]).length,1,'Siemens genau ein gemeinsames Vorgabefeld');
+   const signTargets=[...html.matchAll(/<button[^>]*class="analog-sign-button"[^>]*data-sign-target="([^"]+)"[^>]*>±<\/button>/g)].map(match=>match[1]);
+   assertEqual(signTargets.join(','),'inputValue,physicalMin,physicalMax','Siemens Vorzeichenwechsel an Eingabe, Minimum und Maximum');
+   assertEqual((html.match(/class="analog-sign-button"/g)||[]).length,3,'Siemens genau drei Vorzeichen-Schaltflächen');
   assertEqual((html.match(/class="analog-value-card/g)||[]).length,3,'Siemens drei umschaltbare Werteblöcke');
   assertEqual(html.includes('id="inputKind"'),false,'Siemens alte Eingaberichtungs-Auswahl entfernt');
   assertEqual(html.includes('analog-result-grid')||html.includes('analog-control-grid')||html.includes('valueSlider')||html.includes('stateStrip'),false,'Siemens alte Ergebnis-/Regleroberfläche entfernt');
@@ -124,6 +132,7 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   const js=fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8');
   assertEqual(js.includes('elements.inputValue.focus()'),false,'Siemens Reiterwechsel fokussiert das Eingabefeld nicht automatisch');
   assertEqual(js.includes('dismissInputFocus')&&js.includes('active.blur()'),true,'Siemens Reiterwechsel beendet mobilen Eingabefokus');
+   assertEqual(js.includes('toggleSignValue')&&js.includes('toggleInputSign')&&js.includes("addEventListener('pointerdown'"),true,'Siemens Vorzeichenwechsel rechnet sofort und verhindert iPhone-Autofokus');
   assertEqual(js.indexOf('syncTabs();',js.indexOf('function setMode'))<js.indexOf('try{syncPrimaryInput()',js.indexOf('function setMode')),true,'Siemens Reiterauswahl wird vor der Neuberechnung aktualisiert');
 }
 {

@@ -1,4 +1,4 @@
-# Architektur – SK PLT Tools 2.1.5.1-Beta
+# Architektur – SK PLT Tools 2.1.5.2-Beta
 
 ## Leitprinzipien
 
@@ -13,6 +13,8 @@
 - `assets/siemens-analogwert-rechner.js` kapselt eine gemeinsame Berechnungslogik für Signal, Rohwert und physikalischen Wert.
 - Drei ARIA-Reiter schalten ausschließlich die Eingabeart um; es existiert genau ein gemeinsames Vorgabefeld.
 - Der Reiter-Controller aktualisiert den ARIA-Auswahlzustand vor der Neuberechnung, fokussiert das Eingabefeld nicht automatisch und beendet bei Touch-/Mausauswahl einen aktiven Formularfokus.
+- Drei statische ±-Buttons sind eindeutig dem gemeinsamen Vorgabefeld, dem Messbereichsminimum und dem Messbereichsmaximum zugeordnet. Die reine Funktion `toggleSignValue` validiert und wechselt das Vorzeichen; die UI löst anschließend die vorhandenen Input-/Change-Pfade aus.
+- Die ±-Buttons liegen außerhalb von Labels. `pointerdown` verhindert den Eingabefokus und beendet vorhandenen Formularfokus, sodass iOS/Safari keine Bildschirmtastatur automatisch öffnet.
 - Drei Ergebnisbausteine sind vorhanden, von denen stets nur die beiden nicht vorgegebenen Werte sichtbar sind.
 - Kartenprofile, Signalbereiche, Messbereich und Diagnosegrenzen bleiben unabhängig von der aktiven Eingabeart synchron.
 - Der Rohwertzustand wird semantisch über `data-state` an Eingabe, Ausgabekarte und Statuszeile ausgegeben; CSS ordnet die geprüften Farben zu.
@@ -32,7 +34,7 @@
 
 - `assets/app.js` stellt globale Suche, Filter, Favoriten und Navigation bereit.
 - Modulbezogene JavaScript- und CSS-Dateien bleiben in `assets/` oder im jeweiligen Modulordner.
-- `service-worker.js` erzeugt den versionsgebundenen Offline-Cache `sk-plt-tools-v2.1.5.1-Beta`.
+- `service-worker.js` erzeugt den versionsgebundenen Offline-Cache `sk-plt-tools-v2.1.5.2-Beta`.
 - `manifest.webmanifest` enthält die eindeutige App-ID und Release-Version.
 
 ## Qualitätssicherung

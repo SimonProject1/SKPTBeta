@@ -32,6 +32,12 @@ function normalizePhysicalRange(range=DEFAULT_PHYSICAL_RANGE){
  if(unit.length>24)throw new Error('Die physikalische Einheit darf höchstens 24 Zeichen lang sein.');
  return Object.freeze({min,max,unit});
 }
+function toggleSignValue(value){
+ const normalized=String(value??'').trim().replace(',','.');
+ const number=Number(normalized);
+ if(!normalized||!Number.isFinite(number))throw new Error('Bitte zuerst einen gültigen Zahlenwert eingeben.');
+ return number===0?0:-number;
+}
 function limitsFor(profileId='et200sp_st',typeId='4-20mA'){
  const p=profile(profileId);
  if(p.mode==='scale-only')return null;
@@ -78,12 +84,12 @@ function profileScale(typeId,profileId='et200sp_st',mode='raw',physicalRange=DEF
  if(mode==='physical')return Object.freeze(raw.map(value=>physicalFromRaw(value,p,physicalRange)));
  return Object.freeze(raw);
 }
-const api=Object.freeze({PROFILES,TYPES,STATES,DEFAULT_PHYSICAL_RANGE,normalizePhysicalRange,limitsFor,statusForRaw,signalFromRaw,rawFromSignal,physicalFromPercent,percentFromPhysical,physicalFromRaw,rawFromPhysical,calculate,boundaries,signalScaleForType,profileScale});
+const api=Object.freeze({PROFILES,TYPES,STATES,DEFAULT_PHYSICAL_RANGE,normalizePhysicalRange,toggleSignValue,limitsFor,statusForRaw,signalFromRaw,rawFromSignal,physicalFromPercent,percentFromPhysical,physicalFromRaw,rawFromPhysical,calculate,boundaries,signalScaleForType,profileScale});
 if(typeof globalThis!=='undefined')globalThis.SK_SIEMENS_ANALOG=api;
 if(typeof document==='undefined')return;
 
 const $=id=>document.getElementById(id);
-const elements={profile:$('cardProfile'),signalType:$('signalType'),tabs:[...document.querySelectorAll('.analog-tab[data-input-kind]')],panel:$('primaryInputPanel'),inputValue:$('inputValue'),inputLabel:$('inputValueLabel'),inputShell:$('primaryInputShell'),inputSuffix:$('inputSuffix'),inputState:$('rawInputState'),physicalMin:$('physicalMin'),physicalMax:$('physicalMax'),physicalUnit:$('physicalUnit'),outputCards:[...document.querySelectorAll('.analog-value-card[data-output-kind]')],rawCard:$('rawOutputCard'),rawResult:$('rawResult'),rawStatus:$('rawStatus'),signalResult:$('signalResult'),physicalResult:$('physicalResult'),diagnostic:$('diagnosticSummary'),rangeStatus:$('rangeStatus'),statusDetail:$('statusDetail'),sourceLink:$('profileSourceLink'),error:$('calculationError')};
+const elements={profile:$('cardProfile'),signalType:$('signalType'),tabs:[...document.querySelectorAll('.analog-tab[data-input-kind]')],panel:$('primaryInputPanel'),inputValue:$('inputValue'),inputLabel:$('inputValueLabel'),inputShell:$('primaryInputShell'),inputSign:$('inputSignToggle'),inputSuffix:$('inputSuffix'),inputState:$('rawInputState'),physicalMin:$('physicalMin'),physicalMax:$('physicalMax'),physicalUnit:$('physicalUnit'),signButtons:[...document.querySelectorAll('.analog-sign-button[data-sign-target]')],outputCards:[...document.querySelectorAll('.analog-value-card[data-output-kind]')],rawCard:$('rawOutputCard'),rawResult:$('rawResult'),rawStatus:$('rawStatus'),signalResult:$('signalResult'),physicalResult:$('physicalResult'),diagnostic:$('diagnosticSummary'),rangeStatus:$('rangeStatus'),statusDetail:$('statusDetail'),sourceLink:$('profileSourceLink'),error:$('calculationError')};
 if(Object.values(elements).some(value=>!value||(Array.isArray(value)&&value.length===0)))return;
 let activeMode='signal',currentRaw=13824;
 const parse=value=>Number.parseFloat(String(value).replace(',','.'));
@@ -98,6 +104,8 @@ function syncTabs(){elements.tabs.forEach(tab=>{const selected=tab.dataset.input
 function syncPrimaryInput(){
  const p=profile(elements.profile.value),t=type(elements.signalType.value),range=physicalRange(),{min,max}=bounds(p),suffix=activeMode==='raw'?'INT':(activeMode==='signal'?t.unit:range.unit);
  elements.inputLabel.textContent=activeMode==='raw'?'Rohwert':(activeMode==='signal'?'Signal':`Phys. Wert (${range.unit})`);
+ const signSubject=activeMode==='raw'?'Rohwert':(activeMode==='signal'?'Signal':`physikalischen Wert in ${range.unit}`);
+ elements.inputSign.setAttribute('aria-label',`Vorzeichen für ${signSubject} wechseln`);elements.inputSign.title=`Vorzeichen für ${signSubject} wechseln`;
  elements.inputSuffix.textContent=suffix;elements.inputValue.step=activeMode==='raw'?'1':'any';elements.inputValue.inputMode=activeMode==='raw'?'numeric':'decimal';
  elements.inputValue.setAttribute('aria-label',activeMode==='raw'?'Rohwert eingeben':(activeMode==='signal'?`Signalwert in ${t.unit} eingeben`:`Physikalischen Wert in ${range.unit} eingeben`));
  elements.inputValue.min=inputNumber(valueForMode(activeMode,min,p,range));elements.inputValue.max=inputNumber(valueForMode(activeMode,max,p,range));elements.inputValue.value=inputNumber(valueForMode(activeMode,currentRaw,p,range));
@@ -120,6 +128,22 @@ function dismissInputFocus(){
  const active=document.activeElement;
  if(active&&active.matches&&active.matches('input,textarea,select,[contenteditable="true"]'))active.blur();
 }
+function toggleInputSign(input){
+ try{
+  input.value=inputNumber(toggleSignValue(input.value));
+  input.dispatchEvent(new Event('input',{bubbles:true}));
+  input.dispatchEvent(new Event('change',{bubbles:true}));
+ }catch(error){showError(error)}
+}
+function bindSignButtons(){
+ elements.signButtons.forEach(button=>{
+  const input=$(button.dataset.signTarget);if(!input)return;
+  // pointerdown verhindert, dass iOS/Safari das Zahlenfeld über die umgebende
+  // Bedienfläche fokussiert und dabei die Bildschirmtastatur öffnet.
+  button.addEventListener('pointerdown',event=>{event.preventDefault();dismissInputFocus()});
+  button.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();dismissInputFocus();toggleInputSign(input)});
+ });
+}
 function setMode(mode,dismissKeyboard=false){
  if(!['signal','raw','physical'].includes(mode))return;
  if(dismissKeyboard)dismissInputFocus();
@@ -136,5 +160,5 @@ elements.inputValue.addEventListener('input',renderFromInput);elements.inputValu
 elements.signalType.addEventListener('change',resyncAndRender);
 elements.profile.addEventListener('change',()=>{try{syncSupportedTypes();const p=profile(elements.profile.value),{min,max}=bounds(p);currentRaw=clamp(currentRaw,min,max);syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}});
 [elements.physicalMin,elements.physicalMax,elements.physicalUnit].forEach(element=>{element.addEventListener('input',resyncAndRender);element.addEventListener('change',resyncAndRender);element.addEventListener('focus',event=>event.currentTarget.select())});
-syncSupportedTypes();setMode('signal');
+bindSignButtons();syncSupportedTypes();setMode('signal');
 })();

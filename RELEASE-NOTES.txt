@@ -1,14 +1,16 @@
-SK PLT Tools V2.1.5.1-Beta
+SK PLT Tools V2.1.5.2-Beta
 Release-Datum: 09.10.2026
-Direkte Basis: V2.1.5.0-Beta
+Direkte Basis: V2.1.5.1-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT: ZUVERLÄSSIGER REITERWECHSEL AUF IPHONE UND PC
-- Beim Wechsel zwischen Signal, Rohwert und Phys. Wert wird das gemeinsame Eingabefeld nicht mehr automatisch fokussiert.
-- Ein aktiver Formularfokus wird beim Antippen eines Reiters beendet; dadurch bleibt die iPhone-Bildschirmtastatur geschlossen.
-- Die sichtbare Reiterauswahl wird vor Validierung und Neuberechnung aktualisiert.
-- Dadurch funktioniert der Reiterwechsel am PC auch dann sichtbar, wenn Minimum, Maximum oder Einheit gerade unvollständig beziehungsweise ungültig eingegeben sind.
-- Maus-, Touch- und Tastaturbedienung (Pfeil links/rechts, Pos1 und Ende) bleiben unterstützt.
+SCHWERPUNKT: ±-VORZEICHENWECHSEL IM SIEMENS-ROHWERT-RECHNER
+- Das aktive gemeinsame Eingabefeld besitzt jetzt in allen drei Reitern Signal, Rohwert und Phys. Wert eine ±-Schaltfläche.
+- Minimum und Maximum des physikalischen Messbereichs besitzen jeweils eine eigene ±-Schaltfläche.
+- Ein Klick beziehungsweise Touch wechselt einen gültigen vorhandenen Zahlenwert zuverlässig von positiv zu negativ oder von negativ zu positiv; Null bleibt Null.
+- Nach dem Wechsel werden Eingabe-, Rohwert-, Signal-, Prozent-, physikalischer Wert und Diagnosezustand sofort neu berechnet.
+- Leere oder ungültige Eingaben werden nicht in einen Scheinwert umgewandelt, sondern mit der bestehenden Eingabemeldung abgewiesen.
+- Die Schaltflächen sind echte Buttons außerhalb von Labels. pointerdown unterbindet den Eingabefokus; zusätzlich wird ein aktiver Formularfokus beendet. Dadurch öffnet der ±-Touch auf dem iPhone nicht automatisch die Bildschirmtastatur.
+- Der Reiterwechsel ohne automatischen Eingabefokus aus V2.1.5.1-Beta bleibt erhalten.
 
 BEIBEHALTENE FUNKTIONEN
 - Drei Reiter in fester Reihenfolge: Signal, Rohwert, Phys. Wert.
@@ -18,10 +20,10 @@ BEIBEHALTENE FUNKTIONEN
 - Alle übrigen Rechner, Wissensinhalte, Suche, Filter, Favoriten und Navigation bleiben unverändert erhalten.
 
 REGRESSIONSSCHUTZ
-- Funktionstest sperrt den früheren automatischen Eingabefokus und fordert die mobile Fokusbeendigung.
-- Browser-Test prüft echte Reiterklicks auf Desktop und Mobil sowie den Wechsel bei vorübergehend ungültigem Messbereich.
-- Statische Validierung prüft Fokus-, Reiter-, Versions-, PWA-, Offline-, Navigations- und Prüfsummenkonsistenz.
+- Funktionstest prüft positive, negative, Dezimalkomma-, Null- und ungültige Vorzeichenwerte.
+- Browser-Test prüft alle drei ±-Schaltflächen, unmittelbare Neuberechnung und fehlenden Eingabefokus auf Desktop und iPhone-Touchprofil.
+- Statische Validierung prüft Zielzuordnung, Button-Typ, Position außerhalb von Labels, Fokusblockierung, Versions-, PWA-, Offline- und Prüfsummenkonsistenz.
 
 TECHNIK UND RELEASE
-- VERSION, release-config.json, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.5.1-Beta synchronisiert.
-- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.5.1-Beta.zip.
+- VERSION, release-config.json, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.5.2-Beta synchronisiert.
+- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.5.2-Beta.zip.
