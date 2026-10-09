@@ -1,6 +1,6 @@
-# SK PLT Tools 2.1.2.0-Beta
+# SK PLT Tools 2.1.2.1-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.2.0-Beta** basiert auf dem geprüften Stand **2.1.2.0-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.2.1-Beta** basiert vollständig auf dem geprüften Stand **2.1.2.0-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
 ## Enthaltene Funktionen
 
@@ -9,7 +9,7 @@ Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben
 - Pt100-/Pt1000-Rechner,
 - Einheitenrechner,
 - Spannungsfall-Rechner,
-- Siemens-SPS-Analogwert-Rechner,
+- Siemens-SPS-Analogwert-Rechner mit frei definierbarem physikalischem Messbereich, beliebiger Einheit und Umrechnung aus Rohwert, Signalwert oder physikalischem Istwert,
 - Messstellen-Dokumentation,
 - Wissensdatenbank mit Werkstoff-Nachschlagewerk,
 - externer E+H Device Viewer,

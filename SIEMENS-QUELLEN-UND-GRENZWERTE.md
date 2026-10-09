@@ -1,6 +1,6 @@
 # Siemens-Quellen und kartenspezifische Rohwertgrenzen
 
-Stand: 06.10.2026 · Bestandteil von SK PLT Tools 2.1.2.0-Beta
+Stand: 06.10.2026 · Bestandteil von SK PLT Tools 2.1.2.1-Beta
 
 ## Grundsatz
 
@@ -62,3 +62,14 @@ Quelle: Siemens Industry Online Support, *Introduction of a safety margin for si
 ## Nicht als Kartenfreigabe verwenden
 
 Die Option **„Generische Umrechnung · ohne Kartenfreigabe“** führt ausschließlich die lineare Umrechnung zwischen Signal und 0…27.648 aus. Sie enthält bewusst keine Diagnosegrenzen. Für eine weitere Siemens-Karte darf erst nach Prüfung von Artikelnummer, Firmware, Messart, Messbereich, Geberanschluss und Diagnoseparametrierung ein eigenes Profil ergänzt werden.
+
+
+## Physikalische Skalierung
+
+Der frei eingebbare physikalische Messbereich ist eine lineare Anwenderskalierung und verändert keine kartenspezifische Diagnosegrenze. Es gelten:
+
+- `Prozent = Rohwert / 27.648 × 100`
+- `Istwert = Minimum + Prozent / 100 × (Maximum − Minimum)`
+- `Rohwert = (Istwert − Minimum) / (Maximum − Minimum) × 27.648`
+
+Minimum und Maximum dürfen negativ sein; das Maximum muss größer als das Minimum sein. Werte im bestätigten Unter- oder Überbereich werden linear extrapoliert. Die frei eingegebene Einheit dient ausschließlich der Anzeige und wird nicht physikalisch umgerechnet.

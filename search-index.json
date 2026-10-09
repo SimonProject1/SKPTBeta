@@ -1,0 +1,175 @@
+[
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Herstellerunabhängig",
+    "device": "Werkstoff-Nachschlagewerk",
+    "topic": "Werkstoffnummern und Bezeichnungen",
+    "title": "Werkstoff-Nachschlagewerk",
+    "description": "Werkstoffnummern, alternative Bezeichnungen, Werkstoffgruppen und Direktvergleiche nachschlagen.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Werkstoffe"
+    ],
+    "keywords": [
+      "Werkstoff",
+      "Material",
+      "Werkstoffnummer",
+      "Kurzname",
+      "UNS",
+      "Edelstahl",
+      "Stahlguss",
+      "Nickellegierung",
+      "Werkstoffvergleich"
+    ],
+    "url": "wissensdatenbank/werkstoff-nachschlagewerk/",
+    "passthroughQuery": true,
+    "catalog": "materials"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Air Torque",
+    "device": "Antrieb",
+    "topic": "Drehrichtung",
+    "title": "Air Torque Antrieb",
+    "description": "Bedeutung der Kennzeichnungen SCO und SCC.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Air Torque",
+      "Antrieb"
+    ],
+    "keywords": [
+      "AirTorque",
+      "Air Torque",
+      "Antrieb",
+      "Drehrichtung",
+      "SCO",
+      "SCC",
+      "Uhrzeigersinn",
+      "Federkraft"
+    ],
+    "url": "wissensdatenbank/air-torque-antrieb-drehrichtung/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Siemens",
+    "device": "Sitrans P320",
+    "topic": "SIL-Verriegelung",
+    "title": "Siemens Sitrans P320",
+    "description": "SIL-Funktion mit SIMATIC PDM aktivieren; Schreibschutz und Initial-PIN beachten.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Siemens",
+      "Sitrans P320"
+    ],
+    "keywords": [
+      "Siemens",
+      "Sitrans",
+      "P320",
+      "SIL",
+      "Verriegelung",
+      "SIMATIC PDM",
+      "Schreibschutz",
+      "2457",
+      "PIN"
+    ],
+    "url": "wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Vacon",
+    "device": "Frequenzumrichter",
+    "topic": "Ist-/Sollwert-Abweichung im PLS",
+    "title": "Vacon Frequenzumrichter",
+    "description": "Bei abweichendem Ist- und Sollwert im PLS Parameter 2.2.3.7 und die Einstellung auf maximale Frequenz prüfen.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Vacon",
+      "Frequenzumrichter"
+    ],
+    "keywords": [
+      "Vacon",
+      "Frequenzumrichter",
+      "Istwert",
+      "Sollwert",
+      "Ist-/Sollwert-Abweichung",
+      "PLS",
+      "Parameter 2.2.3.7",
+      "maximale Frequenz"
+    ],
+    "url": "wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Siemens",
+    "device": "SPS",
+    "topic": "Rohwert",
+    "title": "Siemens SPS Rohwert",
+    "description": "Bestätigte Karten- und Parametrierungsgrenzen; direkter Einstieg in den Siemens-Rohwert-Rechner.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Siemens",
+      "SPS",
+      "Rohwert"
+    ],
+    "keywords": [
+      "Siemens",
+      "SPS",
+      "Rohwert",
+      "Analogwert",
+      "ET 200SP",
+      "ET 200SP HA",
+      "S7-1500",
+      "ET 200MP",
+      "F-AI",
+      "NE43",
+      "Unterlauf",
+      "Überlauf",
+      "4-20 mA",
+      "0-20 mA"
+    ],
+    "url": "siemens-analogwert-rechner/"
+  },
+  {
+    "type": "Wissensbeitrag",
+    "category": "WISSEN",
+    "manufacturer": "Siemens",
+    "device": "SPS",
+    "topic": "Rohwert Grundlagen",
+    "title": "Siemens SPS Rohwert Grundlagen",
+    "description": "Grundlagen zu Rohwerten, A/D-Wandler, Skalierungsmodellen und Diagnosebereichen mit Link zum Rechner.",
+    "breadcrumb": [
+      "Wissensdatenbank",
+      "Siemens",
+      "SPS",
+      "Rohwert Grundlagen"
+    ],
+    "keywords": [
+      "Siemens",
+      "SPS",
+      "Rohwert",
+      "Analogwert",
+      "A/D-Wandler",
+      "27648",
+      "5530",
+      "S7-300",
+      "S7-400",
+      "S7-1200",
+      "S7-1500",
+      "ET 200SP",
+      "NE43",
+      "Unterlauf",
+      "Untersteuerung",
+      "Nennbereich",
+      "Übersteuerung",
+      "Überlauf",
+      "4-20 mA",
+      "0-20 mA"
+    ],
+    "url": "wissensdatenbank/siemens-sps-rohwert/"
+  }
+]
