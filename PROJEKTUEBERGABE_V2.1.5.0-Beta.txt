@@ -1,0 +1,40 @@
+PROJEKTÜBERGABE SK PLT TOOLS V2.1.5.0-BETA
+Datum: 09.10.2026
+Direkte Basis: V2.1.4.2-Beta
+Stabile Referenz: V2.1.0.0
+
+LIEFERUMFANG
+- Vollständiger Projektbestand aller weiterhin unterstützten Module und Unterordner.
+- Siemens-Rohwert-Rechner mit funktionaler Drei-Reiter-Ansicht: Signal, Rohwert, Phys. Wert.
+- Genau ein gemeinsames Vorgabefeld und zwei nebeneinander angezeigte abgeleitete Werte.
+- Physikalischer Messbereich, danach Einheitssignal mit Standard 4–20 mA, danach SPS-Karte.
+- Diagnoseabhängige Rohwertfarben: Grün, Gelb/Orange, Rot und Cyan.
+- Alte Eingaberichtungs-Auswahl, altes Ergebnisraster, Regler und doppelte Ergebnisblöcke entfernt.
+- Zentrale responsive Anwendungsschale für Smartphone, Tablet, Desktop und Standalone-PWA.
+- Mobile untere Bedienzone, dunkle iPhone-Safe-Area, bündige Header-Trennlinie und ausgerichteter Startseiten-Link beibehalten.
+- Aktualisierte Version, Manifest-ID, Service-Worker-Cache, Precache, Tests, Dokumentation und Prüfsummen.
+- Vollständiges ZIP SK-PLT-Tools-V2.1.5.0-Beta.zip.
+
+TESTNACHWEIS
+- Funktionstest prüft gemeinsame Umrechnungslogik, Reiterstruktur, ein einziges Vorgabefeld, Ausschluss alter Blöcke und Farbcodes.
+- Browser-Test schaltet alle drei Reiter, prüft jeweils zwei sichtbare Ergebnisse sowie Grenzstatus und berechnete Farben.
+- Responsive Prüfung: Desktop 1440 × 1050, Tablet 820 × 1180, iPhone 390 × 844 und Smartphone-Querformat 844 × 390.
+- Alle 15 Direktseiten werden auf Überlauf, Header, Safe-Area, untere Bedienzone und Versionsstand geprüft.
+- PWA-Cache und Offline-Direktaufrufe werden im Browser geprüft.
+- Statische Validierung und SHA-256-Integritätsprüfung sind Bestandteil der Abnahme.
+
+FESTE ENTSCHEIDUNGEN
+- Keine Rückkehr zur alten Siemens-Rechneroberfläche oder zu doppelten Eingabe-/Ergebnisblöcken.
+- Die drei Reiter teilen immer dieselbe Berechnungslogik; separate Unterseiten sind nicht erforderlich.
+- Diagnosefarben dürfen nur auf bestätigten Grenzen beruhen. Reine Skalierung bleibt Cyan.
+- Gemeinsame responsive Regeln werden zentral in assets/responsive.css gepflegt und nach allen Modulstilen geladen.
+- Alle Seiten behalten viewport-fit=cover und den dunklen iOS-PWA-Statusbereich.
+- Die große sichtbare Versionsnummer erscheint nur im Hero der Startseite.
+- Verworfenes Altverhalten und entfernte Module werden nicht wieder eingeführt.
+- Keine personenbezogenen Testdaten in Projekt, Cache oder Releasepaket aufnehmen.
+
+BETRIEB
+- Erfordert nur einen statischen Webserver; HTTPS oder localhost für die installierbare PWA.
+- Nach einem Update bei Bedarf die PWA vollständig schließen und neu öffnen.
+- Der Service Worker verwendet den versionsspezifischen Cache sk-plt-tools-v2.1.5.0-Beta.
+- Für weitere Änderungen immer dieses vollständige Projekt verwenden und anschließend ein vollständiges ZIP mit Tests, Dokumentation und Prüfsummen bereitstellen.

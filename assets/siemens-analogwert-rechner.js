@@ -1,25 +1,10 @@
 (()=>{'use strict';
 const PROFILES=Object.freeze({
- et200sp_st:Object.freeze({
-  label:'ET 200SP · AI 4xI ST',partNumber:'6ES7134-6GD01-0BA1',supported:['4-20mA','0-20mA'],mode:'standard',rawMin:-32768,rawMax:32767,nomMax:27648,
-  note:'Bestätigte S7-Grenzen des Gerätehandbuchs. Bei 0–20 mA mit 2-Draht-Messumformer sind negative Werte und damit Untersteuerung/Unterlauf nicht möglich.'
- }),
- et200spha_off:Object.freeze({
-  label:'ET 200SP HA · AI 16xI HART · NE43 aus',partNumber:'6DL1134-6TH00-0PH1',supported:['4-20mA','0-20mA'],mode:'standard',rawMin:-32768,rawMax:32767,nomMax:27648,
-  note:'Ausfallüberwachung nach NE43 deaktiviert: systemische S7-Grenzen laut Gerätehandbuch.'
- }),
- et200spha_on:Object.freeze({
-  label:'ET 200SP HA · AI 16xI HART · NE43 ein',partNumber:'6DL1134-6TH00-0PH1',supported:['4-20mA'],mode:'ne43',rawMin:-32768,rawMax:32767,nomMax:27648,
-  note:'Alte NE43-Ausfallüberwachung des Moduls: ungültig ab 3,6 mA bzw. 21 mA; Wiedergültigwerden erst oberhalb 3,8 mA bzw. unterhalb 20,5 mA.'
- }),
- s71500_fai_scale:Object.freeze({
-  label:'S7-1500/ET 200MP · F-AI 8xI · nur Skalierung',partNumber:'6ES7536-1MF00-0AB0',supported:['4-20mA','0-20mA'],mode:'scale-only',rawMin:0,rawMax:27648,nomMax:27648,
-  note:'Nur bestätigte Nennskalierung. Diagnosegrenzen werden bewusst nicht bewertet; maßgeblich sind Gerätehandbuch, Firmware und Kanalparametrierung.'
- }),
- generic_scale:Object.freeze({
-  label:'Generische Umrechnung · ohne Kartenfreigabe',partNumber:'–',supported:['4-20mA','0-20mA','0-10V','2-10V'],mode:'scale-only',rawMin:0,rawMax:27648,nomMax:27648,
-  note:'Nur lineare Umrechnung 0…27.648. Keine kartenspezifische Aussage zu Unterlauf, Überlauf oder Diagnose.'
- })
+ et200sp_st:Object.freeze({label:'ET 200SP · AI 4xI ST',partNumber:'6ES7134-6GD01-0BA1',supported:['4-20mA','0-20mA'],mode:'standard',rawMin:-32768,rawMax:32767,nomMax:27648,note:'Bestätigte S7-Grenzen des Gerätehandbuchs. Bei 0–20 mA mit 2-Draht-Messumformer sind negative Werte und damit Untersteuerung/Unterlauf nicht möglich.'}),
+ et200spha_off:Object.freeze({label:'ET 200SP HA · AI 16xI HART · NE43 aus',partNumber:'6DL1134-6TH00-0PH1',supported:['4-20mA','0-20mA'],mode:'standard',rawMin:-32768,rawMax:32767,nomMax:27648,note:'Ausfallüberwachung nach NE43 deaktiviert: systemische S7-Grenzen laut Gerätehandbuch.'}),
+ et200spha_on:Object.freeze({label:'ET 200SP HA · AI 16xI HART · NE43 ein',partNumber:'6DL1134-6TH00-0PH1',supported:['4-20mA'],mode:'ne43',rawMin:-32768,rawMax:32767,nomMax:27648,note:'Alte NE43-Ausfallüberwachung des Moduls: ungültig ab 3,6 mA bzw. 21 mA; Wiedergültigwerden erst oberhalb 3,8 mA bzw. unterhalb 20,5 mA.'}),
+ s71500_fai_scale:Object.freeze({label:'S7-1500/ET 200MP · F-AI 8xI · nur Skalierung',partNumber:'6ES7536-1MF00-0AB0',supported:['4-20mA','0-20mA'],mode:'scale-only',rawMin:0,rawMax:27648,nomMax:27648,note:'Nur bestätigte Nennskalierung. Diagnosegrenzen werden bewusst nicht bewertet; maßgeblich sind Gerätehandbuch, Firmware und Kanalparametrierung.'}),
+ generic_scale:Object.freeze({label:'Generische Umrechnung · ohne Kartenfreigabe',partNumber:'–',supported:['4-20mA','0-20mA','0-10V','2-10V'],mode:'scale-only',rawMin:0,rawMax:27648,nomMax:27648,note:'Nur lineare Umrechnung 0…27.648. Keine kartenspezifische Aussage zu Unterlauf, Überlauf oder Diagnose.'})
 });
 const TYPES=Object.freeze({
  '4-20mA':Object.freeze({min:4,max:20,unit:'mA',label:'4–20 mA'}),
@@ -33,7 +18,7 @@ const STATES=Object.freeze({
  nominal:Object.freeze({label:'Nennbereich',color:'#89d329'}),
  overrange:Object.freeze({label:'Übersteuerung',color:'#f5b942'}),
  overflow:Object.freeze({label:'Überlauf',color:'#ff7b83'}),
- scaleOnly:Object.freeze({label:'Nur Umrechnung',color:'#00b7e8'})
+ scaleOnly:Object.freeze({label:'Nur Skalierung',color:'#00b7e8'})
 });
 const DEFAULT_PHYSICAL_RANGE=Object.freeze({min:-50,max:150,unit:'°C'});
 const profile=value=>typeof value==='object'&&value?value:(PROFILES[value]||PROFILES.et200sp_st);
@@ -55,7 +40,7 @@ function limitsFor(profileId='et200sp_st',typeId='4-20mA'){
  return Object.freeze({rawMin:-32768,underEnd:-4865,nomStart:0,nomEnd:27648,overflowStart:32512,rawMax:32767,lowerPossible:true});
 }
 function statusForRaw(raw,profileId='et200sp_st',typeId='4-20mA'){
- const p=profile(profileId),limits=limitsFor(p,typeId),value=Number(raw);
+ const limits=limitsFor(profileId,typeId),value=Number(raw);
  if(!limits)return'scaleOnly';
  if(!limits.lowerPossible&&value<0)throw new Error('Bei 0–20 mA mit 2-Draht-Messumformer sind negative Prozesswerte laut Siemens nicht möglich.');
  if(limits.underEnd!==null&&value<=limits.underEnd)return'underflow';
@@ -64,48 +49,29 @@ function statusForRaw(raw,profileId='et200sp_st',typeId='4-20mA'){
  if(value<limits.overflowStart)return'overrange';
  return'overflow';
 }
-function signalFromRaw(typeId,raw,profileId='et200sp_st'){
- const t=type(typeId),p=profile(profileId);
- return t.min+(Number(raw)/p.nomMax)*(t.max-t.min);
-}
-function rawFromSignal(typeId,value,profileId='et200sp_st'){
- const t=type(typeId),p=profile(profileId);
- return (Number(value)-t.min)/(t.max-t.min)*p.nomMax;
-}
-function physicalFromPercent(percent,physicalRange=DEFAULT_PHYSICAL_RANGE){
- const range=normalizePhysicalRange(physicalRange);
- return range.min+(Number(percent)/100)*(range.max-range.min);
-}
-function percentFromPhysical(value,physicalRange=DEFAULT_PHYSICAL_RANGE){
- const range=normalizePhysicalRange(physicalRange);
- return (Number(value)-range.min)/(range.max-range.min)*100;
-}
-function physicalFromRaw(raw,profileId='et200sp_st',physicalRange=DEFAULT_PHYSICAL_RANGE){
- const p=profile(profileId);
- return physicalFromPercent(Number(raw)/p.nomMax*100,physicalRange);
-}
-function rawFromPhysical(value,profileId='et200sp_st',physicalRange=DEFAULT_PHYSICAL_RANGE){
- const p=profile(profileId);
- return percentFromPhysical(value,physicalRange)/100*p.nomMax;
-}
+function signalFromRaw(typeId,raw,profileId='et200sp_st'){const t=type(typeId),p=profile(profileId);return t.min+(Number(raw)/p.nomMax)*(t.max-t.min)}
+function rawFromSignal(typeId,value,profileId='et200sp_st'){const t=type(typeId),p=profile(profileId);return (Number(value)-t.min)/(t.max-t.min)*p.nomMax}
+function physicalFromPercent(percent,physicalRange=DEFAULT_PHYSICAL_RANGE){const range=normalizePhysicalRange(physicalRange);return range.min+(Number(percent)/100)*(range.max-range.min)}
+function percentFromPhysical(value,physicalRange=DEFAULT_PHYSICAL_RANGE){const range=normalizePhysicalRange(physicalRange);return (Number(value)-range.min)/(range.max-range.min)*100}
+function physicalFromRaw(raw,profileId='et200sp_st',physicalRange=DEFAULT_PHYSICAL_RANGE){const p=profile(profileId);return physicalFromPercent(Number(raw)/p.nomMax*100,physicalRange)}
+function rawFromPhysical(value,profileId='et200sp_st',physicalRange=DEFAULT_PHYSICAL_RANGE){const p=profile(profileId);return percentFromPhysical(value,physicalRange)/100*p.nomMax}
 function calculate(typeId,inputKind,value,profileId='et200sp_st',physicalRange=DEFAULT_PHYSICAL_RANGE){
  const input=Number(value),p=profile(profileId),t=type(typeId),limits=limitsFor(p,typeId),range=normalizePhysicalRange(physicalRange);
  if(!Number.isFinite(input))throw new Error('Bitte einen gültigen Zahlenwert eingeben.');
  if(!p.supported.includes(typeId))throw new Error(`${t.label} ist für dieses Profil nicht freigegeben.`);
- if(!['raw','signal','physical'].includes(inputKind))throw new Error('Unbekannte Eingaberichtung.');
+ if(!['raw','signal','physical'].includes(inputKind))throw new Error('Unbekannte Eingabeart.');
  const rawExact=inputKind==='raw'?input:(inputKind==='signal'?rawFromSignal(typeId,input,p):rawFromPhysical(input,p,range));
- const raw=Math.round(rawExact);
- const min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;
+ const raw=Math.round(rawExact),min=limits?limits.rawMin:p.rawMin,max=limits?limits.rawMax:p.rawMax;
  if(raw<min||raw>max)throw new Error(`Wert außerhalb des bestätigten Bereichs ${min}…${max}.`);
  const signal=signalFromRaw(typeId,raw,p),percent=raw/p.nomMax*100,physical=physicalFromPercent(percent,range);
  return Object.freeze({raw,rawExact,signal,percent,physical,physicalRange:range,status:statusForRaw(raw,p,typeId),profile:p,type:t,limits});
 }
 function boundaries(profileId='et200sp_st',typeId='4-20mA'){
  const limits=limitsFor(profileId,typeId);if(!limits)return null;
- const span=limits.rawMax-limits.rawMin,position=value=>((value-limits.rawMin)/span*100);
+ const span=limits.rawMax-limits.rawMin,position=value=>(value-limits.rawMin)/span*100;
  return Object.freeze({under:limits.underEnd===null?0:position(limits.underEnd+.5),nomStart:position(limits.nomStart),nomEnd:position(limits.nomEnd+.5),overflow:position(limits.overflowStart-.5)});
 }
-function signalScaleForType(typeId){const t=type(typeId);return Object.freeze(Array.from({length:5},(_,index)=>t.min+(t.max-t.min)*(index/4)));}
+function signalScaleForType(typeId){const t=type(typeId);return Object.freeze(Array.from({length:5},(_,index)=>t.min+(t.max-t.min)*(index/4)))}
 function profileScale(typeId,profileId='et200sp_st',mode='raw',physicalRange=DEFAULT_PHYSICAL_RANGE){
  const p=profile(profileId),limits=limitsFor(p,typeId),raw=limits?(limits.lowerPossible?[limits.rawMin,limits.underEnd,limits.nomStart,limits.nomEnd,limits.overflowStart,limits.rawMax]:[limits.nomStart,limits.nomEnd,limits.overflowStart,limits.rawMax]):[p.rawMin,p.nomMax];
  if(mode==='signal')return Object.freeze(raw.map(value=>signalFromRaw(typeId,value,p)));
@@ -117,54 +83,46 @@ if(typeof globalThis!=='undefined')globalThis.SK_SIEMENS_ANALOG=api;
 if(typeof document==='undefined')return;
 
 const $=id=>document.getElementById(id);
-const elements={profile:$('cardProfile'),signalType:$('signalType'),inputKind:$('inputKind'),inputValue:$('inputValue'),inputLabel:$('inputValueLabel'),inputSuffix:$('inputSuffix'),physicalMin:$('physicalMin'),physicalMax:$('physicalMax'),physicalUnit:$('physicalUnit'),slider:$('valueSlider'),sliderLabel:$('sliderLabel'),sliderScale:$('sliderScale'),sliderReadout:$('sliderReadout'),rawResult:$('rawResult'),signalResult:$('signalResult'),percentResult:$('percentResult'),physicalResult:$('physicalResult'),rangeStatus:$('rangeStatus'),statusDetail:$('statusDetail'),stateStrip:$('stateStrip'),sourceLink:$('profileSourceLink'),error:$('calculationError')};
-if(Object.values(elements).some(element=>!element))return;
-let currentRaw=13824;
+const elements={profile:$('cardProfile'),signalType:$('signalType'),tabs:[...document.querySelectorAll('.analog-tab[data-input-kind]')],panel:$('primaryInputPanel'),inputValue:$('inputValue'),inputLabel:$('inputValueLabel'),inputShell:$('primaryInputShell'),inputSuffix:$('inputSuffix'),inputState:$('rawInputState'),physicalMin:$('physicalMin'),physicalMax:$('physicalMax'),physicalUnit:$('physicalUnit'),outputCards:[...document.querySelectorAll('.analog-value-card[data-output-kind]')],rawCard:$('rawOutputCard'),rawResult:$('rawResult'),rawStatus:$('rawStatus'),signalResult:$('signalResult'),physicalResult:$('physicalResult'),diagnostic:$('diagnosticSummary'),rangeStatus:$('rangeStatus'),statusDetail:$('statusDetail'),sourceLink:$('profileSourceLink'),error:$('calculationError')};
+if(Object.values(elements).some(value=>!value||(Array.isArray(value)&&value.length===0)))return;
+let activeMode='signal',currentRaw=13824;
 const parse=value=>Number.parseFloat(String(value).replace(',','.'));
 const format=(value,digits=3)=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:digits,maximumFractionDigits:digits}):'–';
 const formatRaw=value=>Number.isFinite(value)?Math.round(value).toLocaleString('de-DE'):'–';
 const inputNumber=value=>Number.isFinite(value)?String(Number(value.toFixed(9))):'';
 const physicalRange=()=>normalizePhysicalRange({min:parse(elements.physicalMin.value),max:parse(elements.physicalMax.value),unit:elements.physicalUnit.value});
-const modeValue=(mode,raw,p,t,range)=>mode==='raw'?raw:(mode==='signal'?signalFromRaw(elements.signalType.value,raw,p):physicalFromRaw(raw,p,range));
-function formatScale(value,mode,t,range){return mode==='raw'?formatRaw(value):`${format(value,3)} ${mode==='signal'?t.unit:range.unit}`;}
-function syncSupportedTypes(){
- const p=profile(elements.profile.value);
- [...elements.signalType.options].forEach(option=>{option.disabled=!p.supported.includes(option.value)});
- if(!p.supported.includes(elements.signalType.value))elements.signalType.value=p.supported[0];
+function bounds(p){const limits=limitsFor(p,elements.signalType.value);return{min:limits?limits.rawMin:p.rawMin,max:limits?limits.rawMax:p.rawMax}}
+function valueForMode(mode,raw,p,range){return mode==='raw'?raw:(mode==='signal'?signalFromRaw(elements.signalType.value,raw,p):physicalFromRaw(raw,p,range))}
+function syncSupportedTypes(){const p=profile(elements.profile.value);[...elements.signalType.options].forEach(option=>{option.disabled=!p.supported.includes(option.value)});if(!p.supported.includes(elements.signalType.value))elements.signalType.value=p.supported[0]}
+function syncTabs(){elements.tabs.forEach(tab=>{const selected=tab.dataset.inputKind===activeMode;tab.setAttribute('aria-selected',String(selected));tab.tabIndex=selected?0:-1});const selected=elements.tabs.find(tab=>tab.dataset.inputKind===activeMode);elements.panel.setAttribute('aria-labelledby',selected.id)}
+function syncPrimaryInput(){
+ const p=profile(elements.profile.value),t=type(elements.signalType.value),range=physicalRange(),{min,max}=bounds(p),suffix=activeMode==='raw'?'INT':(activeMode==='signal'?t.unit:range.unit);
+ elements.inputLabel.textContent=activeMode==='raw'?'Rohwert':(activeMode==='signal'?'Signal':`Phys. Wert (${range.unit})`);
+ elements.inputSuffix.textContent=suffix;elements.inputValue.step=activeMode==='raw'?'1':'any';elements.inputValue.inputMode=activeMode==='raw'?'numeric':'decimal';
+ elements.inputValue.setAttribute('aria-label',activeMode==='raw'?'Rohwert eingeben':(activeMode==='signal'?`Signalwert in ${t.unit} eingeben`:`Physikalischen Wert in ${range.unit} eingeben`));
+ elements.inputValue.min=inputNumber(valueForMode(activeMode,min,p,range));elements.inputValue.max=inputNumber(valueForMode(activeMode,max,p,range));elements.inputValue.value=inputNumber(valueForMode(activeMode,currentRaw,p,range));
+ elements.outputCards.forEach(card=>{card.hidden=card.dataset.outputKind===activeMode});
+ syncTabs();
 }
-function setTrack(profileId,typeId){
- const b=boundaries(profileId,typeId),diagnostic=Boolean(b);elements.slider.dataset.diagnostic=diagnostic?'on':'off';elements.stateStrip.hidden=!diagnostic;
- if(!b)return;
- elements.slider.style.setProperty('--b1',`${b.under.toFixed(4)}%`);elements.slider.style.setProperty('--b2',`${b.nomStart.toFixed(4)}%`);elements.slider.style.setProperty('--b3',`${b.nomEnd.toFixed(4)}%`);elements.slider.style.setProperty('--b4',`${b.overflow.toFixed(4)}%`);
-}
-function renderScale(mode,p,t,range){
- elements.sliderScale.replaceChildren();
- profileScale(elements.signalType.value,p,mode,range).forEach(value=>{const item=document.createElement('span');item.textContent=formatScale(value,mode,t,range);elements.sliderScale.append(item)});
- elements.sliderScale.dataset.mode=mode;elements.sliderScale.style.setProperty('--analog-scale-count',String(elements.sliderScale.children.length));
-}
-function bounds(p){const limits=limitsFor(p,elements.signalType.value);return{limits,min:limits?limits.rawMin:p.rawMin,max:limits?limits.rawMax:p.rawMax};}
-function syncInput(){
- const mode=elements.inputKind.value,t=type(elements.signalType.value),p=profile(elements.profile.value),range=physicalRange(),{min,max}=bounds(p),suffix=mode==='raw'?'INT':(mode==='signal'?t.unit:range.unit);
- elements.inputLabel.textContent=mode==='raw'?'Rohwert':(mode==='signal'?`Signalwert (${t.unit})`:`Physikalischer Istwert (${range.unit})`);elements.inputSuffix.textContent=suffix;elements.inputValue.step=mode==='raw'?'1':'any';elements.inputValue.inputMode=mode==='raw'?'numeric':'decimal';elements.inputValue.setAttribute('aria-label',mode==='raw'?'Rohwert eingeben':(mode==='signal'?`Signalwert in ${t.unit} eingeben`:`Physikalischen Istwert in ${range.unit} eingeben`));
- elements.inputValue.min=inputNumber(modeValue(mode,min,p,t,range));elements.inputValue.max=inputNumber(modeValue(mode,max,p,t,range));elements.inputValue.value=inputNumber(modeValue(mode,currentRaw,p,t,range));
+function paintState(state){
+ elements.rawCard.dataset.state=state;elements.diagnostic.dataset.state=state;elements.rangeStatus.textContent=STATES[state].label;elements.rawStatus.textContent=STATES[state].label;
+ const rawActive=activeMode==='raw';elements.inputShell.dataset.state=rawActive?state:'neutral';elements.inputState.hidden=!rawActive;elements.inputState.dataset.state=state;elements.inputState.textContent=STATES[state].label;
 }
 function renderFromRaw(){
- const p=profile(elements.profile.value),t=type(elements.signalType.value),mode=elements.inputKind.value,range=physicalRange(),result=calculate(elements.signalType.value,'raw',currentRaw,p,range),state=STATES[result.status],{min,max}=bounds(p);
- elements.error.hidden=true;elements.rawResult.textContent=formatRaw(result.raw);elements.signalResult.textContent=`${format(result.signal,3)} ${t.unit}`;elements.percentResult.textContent=`${format(result.percent,1)} %`;elements.physicalResult.textContent=`${format(result.physical,3)} ${range.unit}`;elements.rangeStatus.textContent=state.label;elements.rangeStatus.dataset.state=result.status;
- elements.statusDetail.textContent=`${p.label} (${p.partNumber}): ${p.note}`;elements.sourceLink.href='../SIEMENS-QUELLEN-UND-GRENZWERTE.md';
- elements.slider.min=inputNumber(modeValue(mode,min,p,t,range));elements.slider.max=inputNumber(modeValue(mode,max,p,t,range));elements.slider.step=mode==='raw'?'1':'any';elements.slider.value=inputNumber(modeValue(mode,result.raw,p,t,range));
- elements.sliderLabel.textContent=mode==='raw'?'Rohwert stufenlos einstellen':(mode==='signal'?`${t.label} stufenlos einstellen`:`Physikalischen Istwert in ${range.unit} stufenlos einstellen`);
- const primary=mode==='raw'?formatRaw(result.raw):(mode==='signal'?`${format(result.signal,3)} ${t.unit}`:`${format(result.physical,3)} ${range.unit}`);
- elements.sliderReadout.textContent=`${primary} · ${formatRaw(result.raw)} · ${format(result.percent,1)} %`;elements.slider.setAttribute('aria-valuetext',elements.sliderReadout.textContent);elements.slider.setAttribute('aria-label',elements.sliderLabel.textContent);elements.slider.style.setProperty('--thumb-color',state.color);
- setTrack(p,elements.signalType.value);renderScale(mode,p,t,range);document.querySelectorAll('[data-state-key]').forEach(item=>item.classList.toggle('active',item.dataset.stateKey===result.status));
+ const p=profile(elements.profile.value),t=type(elements.signalType.value),range=physicalRange(),result=calculate(elements.signalType.value,'raw',currentRaw,p,range);
+ elements.error.hidden=true;elements.rawResult.textContent=formatRaw(result.raw);elements.signalResult.textContent=`${format(result.signal,3)} ${t.unit}`;elements.physicalResult.textContent=`${format(result.physical,3)} ${range.unit}`;
+ paintState(result.status);elements.statusDetail.textContent=`${p.label} (${p.partNumber}): ${p.note}`;elements.sourceLink.href='../SIEMENS-QUELLEN-UND-GRENZWERTE.md';
 }
-function showError(error){elements.error.textContent=error.message;elements.error.hidden=false;elements.rangeStatus.textContent='Eingabe prüfen';elements.rangeStatus.dataset.state='error';}
-function renderFromInput(){try{const result=calculate(elements.signalType.value,elements.inputKind.value,parse(elements.inputValue.value),elements.profile.value,physicalRange());currentRaw=result.raw;renderFromRaw()}catch(error){showError(error)}}
-function resyncAndRender(){try{syncInput();renderFromRaw()}catch(error){showError(error)}}
-function previewPhysicalRange(){try{const range=physicalRange();if(elements.inputKind.value==='physical')elements.inputSuffix.textContent=range.unit;renderFromRaw()}catch(error){showError(error)}}
-elements.inputValue.addEventListener('input',renderFromInput);elements.inputValue.addEventListener('change',renderFromInput);elements.inputValue.addEventListener('focus',event=>event.currentTarget.select());
-elements.slider.addEventListener('input',()=>{try{const mode=elements.inputKind.value,p=profile(elements.profile.value),range=physicalRange();currentRaw=mode==='raw'?Math.round(Number(elements.slider.value)):(mode==='signal'?Math.round(rawFromSignal(elements.signalType.value,elements.slider.value,p)):Math.round(rawFromPhysical(elements.slider.value,p,range)));syncInput();renderFromRaw()}catch(error){showError(error)}});
-elements.inputKind.addEventListener('change',resyncAndRender);elements.signalType.addEventListener('change',resyncAndRender);elements.profile.addEventListener('change',()=>{try{syncSupportedTypes();const p=profile(elements.profile.value),{min,max}=bounds(p);currentRaw=clamp(currentRaw,min,max);syncInput();renderFromRaw()}catch(error){showError(error)}});
-[elements.physicalMin,elements.physicalMax,elements.physicalUnit].forEach(element=>{element.addEventListener('input',previewPhysicalRange);element.addEventListener('change',resyncAndRender);element.addEventListener('focus',event=>event.currentTarget.select())});
-syncSupportedTypes();syncInput();renderFromRaw();
+function showError(error){elements.error.textContent=error.message;elements.error.hidden=false;elements.diagnostic.dataset.state='error';elements.rangeStatus.textContent='Eingabe prüfen'}
+function renderFromInput(){try{const result=calculate(elements.signalType.value,activeMode,parse(elements.inputValue.value),elements.profile.value,physicalRange());currentRaw=result.raw;renderFromRaw()}catch(error){showError(error)}}
+function commitInput(){renderFromInput();if(elements.error.hidden)syncPrimaryInput()}
+function setMode(mode,focus=false){if(!['signal','raw','physical'].includes(mode))return;activeMode=mode;try{syncPrimaryInput();renderFromRaw();if(focus)elements.inputValue.focus()}catch(error){showError(error)}}
+function resyncAndRender(){try{syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}}
+
+elements.tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>setMode(tab.dataset.inputKind,true));tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(event.key==='ArrowLeft')next=(index-1+elements.tabs.length)%elements.tabs.length;if(event.key==='ArrowRight')next=(index+1)%elements.tabs.length;if(event.key==='Home')next=0;if(event.key==='End')next=elements.tabs.length-1;elements.tabs[next].focus();setMode(elements.tabs[next].dataset.inputKind)})});
+elements.inputValue.addEventListener('input',renderFromInput);elements.inputValue.addEventListener('change',commitInput);elements.inputValue.addEventListener('focus',event=>event.currentTarget.select());
+elements.signalType.addEventListener('change',resyncAndRender);
+elements.profile.addEventListener('change',()=>{try{syncSupportedTypes();const p=profile(elements.profile.value),{min,max}=bounds(p);currentRaw=clamp(currentRaw,min,max);syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}});
+[elements.physicalMin,elements.physicalMax,elements.physicalUnit].forEach(element=>{element.addEventListener('input',resyncAndRender);element.addEventListener('change',resyncAndRender);element.addEventListener('focus',event=>event.currentTarget.select())});
+syncSupportedTypes();setMode('signal');
 })();

@@ -1,15 +1,15 @@
-# SK PLT Tools 2.1.4.2-Beta
+# SK PLT Tools 2.1.5.0-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.4.2-Beta** basiert auf **2.1.4.1-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.5.0-Beta** basiert vollständig auf **2.1.4.2-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
-## Neuaufbau in 2.1.4.2
+## Neu in 2.1.5.0-Beta
 
-- vollständiger Neuaufbau des Releasepakets aus der validierten V2.1.4.1-Beta,
-- konsistente Synchronisierung aller technischen Versionsstellen,
-- neue PWA-App-ID und neuer versionsgebundener Service-Worker-Cache,
-- korrigierte Versionskette in Baseline- und Deployment-Dokumentation,
-- neu erzeugte Prüfsummen und vollständiges ZIP-Paket,
-- keine fachlichen oder visuellen Funktionsänderungen gegenüber V2.1.4.1-Beta.
+- Siemens-Rohwert-Rechner als echte Drei-Reiter-Ansicht mit **Signal**, **Rohwert** und **Phys. Wert**.
+- Genau ein sichtbares Vorgabefeld; die jeweils beiden anderen Werte stehen direkt darunter nebeneinander.
+- Konfiguration in der festgelegten Reihenfolge: physikalischer Messbereich, Einheitssignal (Standard 4–20 mA), SPS-Karte.
+- Rohwert-Farbstatus: Grün im Nennbereich, Gelb/Orange bei Unter-/Übersteuerung, Rot bei Unter-/Überlauf und Cyan bei reiner Skalierung ohne bestätigte Diagnosegrenzen.
+- Alte Eingaberichtungs-Auswahl, altes Ergebnisraster, Regler und doppelte Ergebnisblöcke vollständig entfernt.
+- Mobile untere Bedienzone, dunkle iPhone-/PWA-Safe-Area, bündige Headerlinie und Startseiten-Link der direkten Basis unverändert erhalten.
 
 ## Enthaltene Funktionen
 
@@ -18,7 +18,7 @@ Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben
 - Pt100-/Pt1000-Rechner,
 - Einheitenrechner,
 - Spannungsfall-Rechner,
-- Siemens-SPS-Analogwert-Rechner mit frei definierbarem physikalischem Messbereich, beliebiger Einheit und Umrechnung aus Rohwert, Signalwert oder physikalischem Istwert,
+- Siemens-SPS-Analogwert-Rechner mit drei Eingabearten, frei definierbarem Messbereich, Einheit und Karten-/Diagnoseprofilen,
 - Messstellen-Dokumentation,
 - Wissensdatenbank mit Werkstoff-Nachschlagewerk,
 - externer E+H Device Viewer,
@@ -31,9 +31,9 @@ Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben
 - `assets/`: zentrale Laufzeitdateien, Datenkataloge und Modulressourcen,
 - `shared/`: zentrale Header-, Footer- und Bedienelement-Fragmente,
 - `tools/release.py`: Versionssynchronisierung, PWA-Precache, Prüfsummen und ZIP,
-- `tools/validate_release.py`: statische Vollständigkeits-, Safe-Area-, Ausschluss- und Integritätsprüfung,
-- `tools/functional-smoke-test.js`: Rechner- und Inhaltsregressionen,
-- `tools/browser-smoke-test.py`: Browser-, Header-, Responsive-, PWA- und Offline-Test,
+- `tools/validate_release.py`: statische Vollständigkeits-, Altoberflächen-, Safe-Area- und Integritätsprüfung,
+- `tools/functional-smoke-test.js`: Rechner-, Reiterstruktur- und Inhaltsregressionen,
+- `tools/browser-smoke-test.py`: echte Reiterwechsel, Farbstati, Responsive-, PWA- und Offline-Test,
 - `TESTBERICHT-UND-ABNAHME.md`: geprüfter Release-Nachweis,
 - `SHA256SUMS.txt`: vollständige interne SHA-256-Prüfsummen.
 
@@ -55,4 +55,4 @@ sha256sum -c SHA256SUMS.txt
 python3 tools/release.py --all
 ```
 
-Der Build synchronisiert Version, Manifest, App-ID, Cache, Precache und Dokumentationsreferenzen, erzeugt `SHA256SUMS.txt` und baut das vollständige ZIP.
+Der Build synchronisiert Version, Manifest, App-ID, Service-Worker-Cache und Precache, erzeugt `SHA256SUMS.txt` und baut das vollständige ZIP.

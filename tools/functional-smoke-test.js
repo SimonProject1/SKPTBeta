@@ -110,38 +110,17 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   const b=api.boundaries('et200sp_st','4-20mA');assertEqual(b.under<b.nomStart&&b.nomStart<b.nomEnd&&b.nomEnd<b.overflow,true,'Siemens feste Farbbereiche sortiert');
 }
 {
-  class MockElement{
-    constructor(id=''){this.id=id;this.value='';this._textContent='';this.hidden=false;this.dataset={};this.children=[];this.attributes={};this.listeners={};this.min='';this.max='';this.step='';this.options=[];this.href='';this.style={values:{},setProperty:(name,value)=>{this.style.values[name]=String(value)}};this.classList={toggle:()=>{},remove:()=>{}};Object.defineProperty(this,'textContent',{get:()=>this._textContent,set:value=>{this._textContent=String(value);if(value==='')this.children=[]}})}
-    addEventListener(type,handler){this.listeners[type]=handler}
-    dispatch(type){if(this.listeners[type])this.listeners[type]({type,target:this})}
-    setAttribute(name,value){this.attributes[name]=String(value)}
-    append(child){this.children.push(child);return child}
-    replaceChildren(...children){this.children=[...children]}
-  }
-  const ids=['cardProfile','signalType','inputKind','inputValue','inputValueLabel','inputSuffix','physicalMin','physicalMax','physicalUnit','valueSlider','sliderLabel','sliderScale','sliderReadout','rawResult','signalResult','percentResult','physicalResult','rangeStatus','statusDetail','stateStrip','profileSourceLink','calculationError'];
-  const elements=Object.fromEntries(ids.map(id=>[id,new MockElement(id)]));
-  elements.cardProfile.value='et200sp_st';elements.signalType.value='4-20mA';elements.inputKind.value='raw';elements.inputValue.value='13824';
-  elements.physicalMin.value='-50';elements.physicalMax.value='150';elements.physicalUnit.value='°C';
-  elements.signalType.options=['4-20mA','0-20mA','0-10V','2-10V'].map(value=>({value,disabled:false}));
-  const states=['underflow','underrange','nominal','overrange','overflow'].map(key=>{const item=new MockElement();item.dataset.stateKey=key;return item});
-  const document={getElementById:id=>elements[id]||null,querySelectorAll:selector=>selector==='[data-state-key]'?states:[],createElement:()=>new MockElement()};
-  const context={console,Math,Number,Object,Array,String,Intl,Error,document,globalThis:null};context.globalThis=context;vm.createContext(context);
-  vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8'),context,{filename:'siemens-analogwert-rechner-ui.js'});
-  const scale=()=>elements.sliderScale.children.map(item=>item.textContent).join('|');
-  assertEqual(elements.rawResult.textContent,'13.824','Siemens UI Start-Rohwert');assertEqual(elements.signalResult.textContent,'12,000 mA','Siemens UI Start-Signalwert');assertEqual(elements.physicalResult.textContent,'50,000 °C','Siemens UI Start-Istwert');
-  assertEqual(scale(),'-32.768|-4.865|0|27.648|32.512|32.767','Siemens UI Standard-Rohwertskala');
-  elements.inputKind.value='signal';elements.inputKind.dispatch('change');assertEqual(Number(elements.inputValue.value),12,'Siemens UI Eingaberichtung synchronisiert Wert');
-  elements.signalType.value='0-20mA';elements.signalType.dispatch('change');assertEqual(Number(elements.inputValue.value),10,'Siemens UI Signalbereich erhält Rohwert');
-  elements.valueSlider.value='15';elements.valueSlider.dispatch('input');assertEqual(elements.rawResult.textContent,'20.736','Siemens UI Signalregler aktualisiert Rohwert');
-  elements.signalType.value='4-20mA';elements.signalType.dispatch('change');
-  elements.inputKind.value='physical';elements.inputKind.dispatch('change');assertEqual(Number(elements.inputValue.value),100,'Siemens UI physikalische Eingaberichtung synchronisiert Istwert');
-  elements.inputValue.value='0';elements.inputValue.dispatch('input');assertEqual(elements.rawResult.textContent,'6.912','Siemens UI Istwert aktualisiert Rohwert');assertEqual(elements.signalResult.textContent,'8,000 mA','Siemens UI Istwert aktualisiert Signal');assertEqual(elements.percentResult.textContent,'25,0 %','Siemens UI Istwert aktualisiert Prozent');
-  elements.physicalUnit.value='bar';elements.physicalUnit.dispatch('input');assertEqual(elements.physicalResult.textContent,'0,000 bar','Siemens UI frei wählbare Einheit');assertEqual(elements.inputSuffix.textContent,'bar','Siemens UI Einheit am Eingabefeld');
-  elements.physicalMin.value='-100';elements.physicalMax.value='100';elements.physicalMax.dispatch('change');assertEqual(elements.physicalResult.textContent,'-50,000 bar','Siemens UI geänderter negativer Messbereich hält Rohwert');
-  elements.inputKind.value='raw';elements.inputKind.dispatch('change');assertEqual(elements.inputValue.value,'6912','Siemens UI Rückkehr zur Rohwerteingabe synchron');
-  elements.cardProfile.value='et200spha_on';elements.cardProfile.dispatch('change');elements.inputValue.value='-691';elements.inputValue.dispatch('input');assertEqual(elements.rangeStatus.textContent,'Unterlauf','Siemens UI NE43 Unterlaufgrenze');
-  assertEqual(elements.sliderScale.children[1].textContent,'-691','Siemens UI NE43 Rohwertskala');assertEqual(Boolean(elements.valueSlider.style.values['--b1']),true,'Siemens UI setzt feste Bereichsgrenze');
-  elements.cardProfile.value='s71500_fai_scale';elements.cardProfile.dispatch('change');assertEqual(elements.rangeStatus.textContent,'Nur Umrechnung','F-AI Profil ohne unbestätigte Diagnosegrenzen');assertEqual(elements.stateStrip.hidden,true,'F-AI blendet unbestätigte Grenzbereiche aus');
+  const html=fs.readFileSync(path.join(ROOT,'siemens-analogwert-rechner/index.html'),'utf8');
+  const tabs=[...html.matchAll(/<button[^>]*class="analog-tab"[^>]*data-input-kind="([^"]+)"[^>]*>([^<]+)<\/button>/g)].map(match=>`${match[1]}:${match[2].trim()}`);
+  assertEqual(tabs.join(','),'signal:Signal,raw:Rohwert,physical:Phys. Wert','Siemens Drei-Reiter-Aufbau und Reihenfolge');
+  assertEqual((html.match(/id="inputValue"/g)||[]).length,1,'Siemens genau ein gemeinsames Vorgabefeld');
+  assertEqual((html.match(/class="analog-value-card/g)||[]).length,3,'Siemens drei umschaltbare Werteblöcke');
+  assertEqual(html.includes('id="inputKind"'),false,'Siemens alte Eingaberichtungs-Auswahl entfernt');
+  assertEqual(html.includes('analog-result-grid')||html.includes('analog-control-grid')||html.includes('valueSlider')||html.includes('stateStrip'),false,'Siemens alte Ergebnis-/Regleroberfläche entfernt');
+  const physical=html.indexOf('class="analog-physical-range"'),signal=html.indexOf('for="signalType"'),card=html.indexOf('for="cardProfile"');
+  assertEqual(physical>0&&physical<signal&&signal<card,true,'Siemens Reihenfolge Messbereich, Einheitssignal, SPS-Karte');
+  const css=fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.css'),'utf8');
+  for(const [needle,label] of [['#89d329','Nennbereich grün'],['#f5b942','Unter-/Übersteuerung gelb-orange'],['#ff7b83','Unter-/Überlauf rot'],['#00b7e8','Skalierung cyan']])assertEqual(css.includes(needle),true,`Siemens Rohwertfarbe ${label}`);
 }
 {
   const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');

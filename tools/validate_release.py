@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.4.2-Beta."""
+"""Static release validation for SK PLT Tools 2.1.5.0-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.4.2-Beta'
+VERSION='2.1.5.0-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -264,29 +264,34 @@ release_config=json.loads((ROOT/'release-config.json').read_text(encoding='utf-8
 if release_config.get('version')!=VERSION or release_config.get('stableBaseline')!='2.1.0.0' or release_config.get('archiveName')!=f'SK-PLT-Tools-V{VERSION}.zip': errors.append('Release-Konfiguration: Beta-Version, stabile Basis oder Archivname inkonsistent')
 siemens_html=(ROOT/'siemens-analogwert-rechner/index.html').read_text(encoding='utf-8')
 siemens_page=BeautifulSoup(siemens_html,'html.parser')
-for selector in ('#cardProfile','#signalType','#inputKind','#inputValue','#inputValueLabel','#inputSuffix','#physicalMin','#physicalMax','#physicalUnit','#valueSlider','#sliderLabel','#sliderScale','#rawResult','#signalResult','#percentResult','#physicalResult','#rangeStatus','#statusDetail','#calculationError'):
+for selector in ('#cardProfile','#signalType','#inputTabs','#inputTabSignal','#inputTabRaw','#inputTabPhysical','#primaryInputPanel','#inputValue','#inputValueLabel','#inputSuffix','#physicalMin','#physicalMax','#physicalUnit','#rawOutputCard','#signalOutputCard','#physicalOutputCard','#rawResult','#signalResult','#physicalResult','#rangeStatus','#statusDetail','#calculationError'):
     if not siemens_page.select_one(selector): errors.append(f'Siemens-Rechner: Element fehlt: {selector}')
 card_info=siemens_page.select_one('details.analog-card-info > summary')
 if card_info is None or card_info.get_text(' ',strip=True)!='Karteninformationen': errors.append('Siemens-Rechner: einklappbare Karteninformationen fehlen')
 if siemens_page.select_one('h1') is None or siemens_page.select_one('h1').get_text(strip=True)!='Siemens Rohwert': errors.append('Siemens-Rechner: große Seitenüberschrift heißt nicht exakt Siemens Rohwert')
-for state in ('underflow','underrange','nominal','overrange','overflow'):
-    if not siemens_page.select_one(f'[data-state-key="{state}"]'): errors.append(f'Siemens-Rechner: Statusanzeige fehlt: {state}')
-input_directions={option.get('value') for option in siemens_page.select('#inputKind option')}
-if input_directions!={'raw','signal','physical'}: errors.append(f'Siemens-Rechner: Eingaberichtungen unvollständig: {sorted(input_directions)}')
-for required in ('Physikalischer Messbereich','Physikalischer Istwert'):
-    if required not in siemens_html: errors.append(f'Siemens-Rechner: physikalische Messbereichsfunktion fehlt: {required}')
+tabs=siemens_page.select('.analog-tab[data-input-kind]')
+if [(tab.get('data-input-kind'),tab.get_text(' ',strip=True)) for tab in tabs]!=[('signal','Signal'),('raw','Rohwert'),('physical','Phys. Wert')]: errors.append('Siemens-Rechner: Drei-Reiter-Aufbau, Beschriftung oder Reihenfolge falsch')
+if len(siemens_page.select('#primaryInputPanel input#inputValue'))!=1: errors.append('Siemens-Rechner: genau ein gemeinsames Vorgabefeld erwartet')
+if len(siemens_page.select('.analog-value-card[data-output-kind]'))!=3: errors.append('Siemens-Rechner: drei umschaltbare Werteblöcke erwartet')
+for forbidden in ('#inputKind','.analog-result-grid','.analog-control-grid','#valueSlider','#stateStrip'):
+    if siemens_page.select_one(forbidden): errors.append(f'Siemens-Rechner: alte/doppelte Oberfläche noch vorhanden: {forbidden}')
+physical=siemens_page.select_one('.analog-physical-range'); signal=siemens_page.select_one('label[for="signalType"]'); card=siemens_page.select_one('label[for="cardProfile"]')
+if not physical or not signal or not card: errors.append('Siemens-Rechner: Konfigurationsblöcke unvollständig')
+else:
+    order=[node for node in siemens_page.select('.analog-physical-range,label[for="signalType"],label[for="cardProfile"]')]
+    if order!=[physical,signal,card]: errors.append('Siemens-Rechner: Reihenfolge Messbereich, Einheitssignal, SPS-Karte falsch')
+if signal and signal.select_one('option[selected][value="4-20mA"]') is None: errors.append('Siemens-Rechner: Einheitssignal 4–20 mA ist nicht Standard')
 siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text(encoding='utf-8')
-for required in ('linear-gradient(90deg,#d74c57 0 var(--b1)', '#f5b942 var(--b1) var(--b2)', '#69c93d var(--b2) var(--b3)', '--thumb-color'):
-    if required not in siemens_css: errors.append(f'Siemens-Rechner: feste Bereichsfarbgebung fehlt: {required}')
-if '.analog-workbench::after' in siemens_css or "content:'INT'" in siemens_css or "content:'TNT'" in siemens_css: errors.append('Siemens-Rechner: transparentes Hintergrundelement im Konfigurationsbereich nicht vollständig entfernt')
-for required in ('.analog-input-shell{display:grid!important','padding:5px 7px','.analog-card-info summary','.analog-physical-range{','.analog-physical-grid{'):
-    if required not in siemens_css: errors.append(f'Siemens-Rechner: Kompaktierungsmerkmal fehlt: {required}')
+for required in ('.analog-tabs{','grid-template-columns:repeat(3,minmax(0,1fr))','.analog-derived-grid{','grid-template-columns:repeat(2,minmax(0,1fr))','#89d329','#f5b942','#ff7b83','#00b7e8','.analog-input-shell[data-state="scaleOnly"]'):
+    if required not in siemens_css: errors.append(f'Siemens-Rechner: Drei-Reiter-/Rohwertfarbgebung unvollständig: {required}')
+for forbidden in ('.analog-result-grid','.analog-control-grid','.analog-slider-block','.analog-state-strip'):
+    if forbidden in siemens_css: errors.append(f'Siemens-Rechner: alter Stilrest noch vorhanden: {forbidden}')
 siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
-for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'et200sp_st:Object.freeze','et200spha_off:Object.freeze','et200spha_on:Object.freeze','s71500_fai_scale:Object.freeze','generic_scale:Object.freeze','statusForRaw','signalScaleForType','profileScale','boundaries','normalizePhysicalRange','physicalFromPercent','percentFromPhysical','physicalFromRaw','rawFromPhysical',"['raw','signal','physical']","$('cardProfile')","$('physicalMin')","$('physicalMax')","$('physicalUnit')","$('valueSlider')","$('sliderScale')"):
-    if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungs-/Profilmerkmal fehlt: {required}')
+for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'et200sp_st:Object.freeze','et200spha_off:Object.freeze','et200spha_on:Object.freeze','s71500_fai_scale:Object.freeze','generic_scale:Object.freeze','statusForRaw','normalizePhysicalRange','physicalFromPercent','percentFromPhysical','physicalFromRaw','rawFromPhysical',"['signal','raw','physical']","document.querySelectorAll('.analog-tab[data-input-kind]')","setMode('signal')",'card.dataset.outputKind===activeMode'):
+    if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungs-/Reitermerkmal fehlt: {required}')
 if "inputKind==='percent'" in siemens_js: errors.append('Siemens-Rechner: nicht vorgesehene Prozenteingabe vorhanden')
-for required in ("elements.inputValue.inputMode=mode==='raw'?'numeric':'decimal'","event.currentTarget.select()"):
-    if required not in siemens_js: errors.append(f'Siemens-Rechner: optimierte Rohwert-Eingabe fehlt: {required}')
+for forbidden in ("$('inputKind')","$('valueSlider')","$('stateStrip')"):
+    if forbidden in siemens_js: errors.append(f'Siemens-Rechner: alte Eingaberichtungs-/Reglerlogik noch vorhanden: {forbidden}')
 
 core_css=(ROOT/'assets/core.css').read_text(encoding='utf-8')
 responsive_css=(ROOT/'assets/responsive.css').read_text(encoding='utf-8')

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.4.2-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.5.0-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.4.2-Beta"
+VERSION = "2.1.5.0-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -93,22 +93,47 @@ with sync_playwright() as p:
     assert_text(desktop, "h1", "Siemens Rohwert")
     assert desktop.locator("#cardProfile option").count() == 5
     assert desktop.locator("#signalType option").count() == 4
-    assert desktop.locator("#inputKind option").count() == 3
+    assert desktop.locator(".analog-tab").all_inner_texts() == ["Signal", "Rohwert", "Phys. Wert"]
+    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "signal"
+    assert desktop.locator("#inputKind").count() == 0
+    for old_selector in (".analog-result-grid", ".analog-control-grid", "#valueSlider", "#stateStrip"):
+        assert desktop.locator(old_selector).count() == 0, f"Alte Rechneroberfläche noch vorhanden: {old_selector}"
+    assert desktop.locator("#inputValue").count() == 1
+    assert desktop.locator("#inputValue").is_visible()
+    assert desktop.locator(".analog-value-card:visible").count() == 2
+    assert desktop.locator("#signalOutputCard").is_hidden()
+    assert desktop.locator("#rawOutputCard").is_visible()
+    assert desktop.locator("#physicalOutputCard").is_visible()
+    assert float(desktop.locator("#inputValue").input_value()) == 12.0
     assert_text(desktop, "#rawResult", "13.824")
-    assert_text(desktop, "#signalResult", "12,000 mA")
-    assert_text(desktop, "#percentResult", "50,0 %")
     assert_text(desktop, "#physicalResult", "50,000 °C")
     assert desktop.locator("#physicalMin").input_value() == "-50"
     assert desktop.locator("#physicalMax").input_value() == "150"
     assert desktop.locator("#physicalUnit").input_value() == "°C"
-    assert desktop.locator("#sliderScale span").all_inner_texts() == ["-32.768", "-4.865", "0", "27.648", "32.512", "32.767"]
+    assert desktop.locator("#signalType").input_value() == "4-20mA"
+    physical_y = desktop.locator(".analog-physical-range").bounding_box()["y"]
+    signal_y = desktop.locator("label[for='signalType']").bounding_box()["y"]
+    card_y = desktop.locator("label[for='cardProfile']").bounding_box()["y"]
+    assert physical_y < signal_y < card_y
 
-    for raw, status in [("-4865", "Unterlauf"), ("-4864", "Untersteuerung"), ("0", "Nennbereich"), ("27648", "Nennbereich"), ("27649", "Übersteuerung"), ("32512", "Überlauf")]:
+    set_input(desktop, "#inputValue", "16")
+    assert_text(desktop, "#rawResult", "20.736")
+    assert_text(desktop, "#physicalResult", "100,000 °C")
+
+    desktop.locator("#inputTabRaw").click()
+    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "raw"
+    assert desktop.locator(".analog-value-card:visible").count() == 2
+    assert desktop.locator("#rawOutputCard").is_hidden()
+    assert desktop.locator("#signalOutputCard").is_visible()
+    assert desktop.locator("#physicalOutputCard").is_visible()
+    assert float(desktop.locator("#inputValue").input_value()) == 20736.0
+    for raw, status, color in [("-4865", "Unterlauf", "rgb(255, 123, 131)"), ("-4864", "Untersteuerung", "rgb(245, 185, 66)"), ("0", "Nennbereich", "rgb(137, 211, 41)"), ("27648", "Nennbereich", "rgb(137, 211, 41)"), ("27649", "Übersteuerung", "rgb(245, 185, 66)"), ("32512", "Überlauf", "rgb(255, 123, 131)")]:
         set_input(desktop, "#inputValue", raw)
         assert_text(desktop, "#rangeStatus", status)
+        assert desktop.locator("#inputValue").evaluate("el => getComputedStyle(el).color") == color
 
     set_input(desktop, "#inputValue", "13824")
-    desktop.locator("#inputKind").select_option("signal")
+    desktop.locator("#inputTabSignal").click()
     assert float(desktop.locator("#inputValue").input_value()) == 12.0
     desktop.locator("#signalType").select_option("0-20mA")
     assert float(desktop.locator("#inputValue").input_value()) == 10.0
@@ -117,29 +142,31 @@ with sync_playwright() as p:
     assert_text(desktop, "#physicalResult", "100,000 °C")
 
     desktop.locator("#signalType").select_option("4-20mA")
-    desktop.locator("#inputKind").select_option("physical")
+    desktop.locator("#inputTabPhysical").click()
+    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "physical"
+    assert desktop.locator("#physicalOutputCard").is_hidden()
     assert float(desktop.locator("#inputValue").input_value()) == 100.0
     set_input(desktop, "#inputValue", "0")
     assert_text(desktop, "#rawResult", "6.912")
     assert_text(desktop, "#signalResult", "8,000 mA")
-    assert_text(desktop, "#percentResult", "25,0 %")
-    assert_text(desktop, "#physicalResult", "0,000 °C")
     set_input(desktop, "#physicalMin", "-100")
     set_input(desktop, "#physicalMax", "100")
     desktop.locator("#physicalUnit").fill("bar")
+    desktop.locator("#physicalUnit").dispatch_event("input")
     assert_text(desktop, "#physicalResult", "-50,000 bar")
     assert_text(desktop, "#inputSuffix", "bar")
 
     desktop.locator("#cardProfile").select_option("et200spha_on")
     assert desktop.locator('#signalType option[value="0-20mA"]').evaluate("option => option.disabled")
-    desktop.locator("#inputKind").select_option("raw")
+    desktop.locator("#inputTabRaw").click()
     for raw, status in [("-691", "Unterlauf"), ("-690", "Untersteuerung"), ("-345", "Nennbereich"), ("28511", "Nennbereich"), ("28512", "Übersteuerung"), ("29376", "Überlauf")]:
         set_input(desktop, "#inputValue", raw)
         assert_text(desktop, "#rangeStatus", status)
 
+    set_input(desktop, "#inputValue", "13824")
     desktop.locator("#cardProfile").select_option("s71500_fai_scale")
-    assert_text(desktop, "#rangeStatus", "Nur Umrechnung")
-    assert desktop.locator("#stateStrip").is_hidden()
+    assert_text(desktop, "#rangeStatus", "Nur Skalierung")
+    assert desktop.locator("#inputValue").evaluate("el => getComputedStyle(el).color") == "rgb(0, 183, 232)"
     card_info = desktop.locator("details.analog-card-info")
     assert not card_info.get_attribute("open")
     card_info.locator("summary").click()
@@ -273,7 +300,9 @@ with sync_playwright() as p:
     assert 48 <= input_box["height"] <= 52
     assert 46 <= input_field_box["height"] <= 50
     assert abs(input_field_box["y"] - suffix_box["y"]) <= 1
-    assert mobile.locator(".analog-state-strip span").first.bounding_box()["height"] <= 29
+    assert mobile.locator(".analog-tab").all_inner_texts() == ["Signal", "Rohwert", "Phys. Wert"]
+    assert mobile.locator(".analog-value-card:visible").count() == 2
+    assert mobile.locator("#inputValue").count() == 1
     mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
     for route in PAGES:
         mobile.goto(f"{BASE}{route}")
