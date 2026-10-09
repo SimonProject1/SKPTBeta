@@ -1,0 +1,35 @@
+# Deployment – SK PLT Tools 2.1.2.1-Beta
+
+## Voraussetzungen
+
+- statischer Webserver mit HTTPS oder localhost für Service Worker,
+- korrekte MIME-Typen für `.webmanifest`, `.json`, `.pdf`, `.png`, `.jpg` und `.webp`,
+- keine serverseitige Anwendung erforderlich.
+
+## Bereitstellung
+
+1. `SK-PLT-Tools-V2.1.2.1-Beta.zip` entpacken.
+2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.2.1-Beta/` unverändert unter dem Webroot bereitstellen.
+3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/` und alle Modulordner unter demselben Webroot liegen.
+4. Browserdaten einer älteren Beta bei Bedarf neu laden; der Service Worker löscht ältere `sk-plt-tools-*`-Caches automatisch.
+
+## Release-Identität
+
+- Version: `2.1.2.1-Beta`
+- Manifest-ID/Start-URL: `./?app=sk-plt-tools-2.1.2.1-beta`
+- Cache: `sk-plt-tools-v2.1.2.1-Beta`
+
+## Vor Deployment ausführen
+
+```bash
+node tools/functional-smoke-test.js
+python3 tools/release.py --checksums
+python3 tools/validate_release.py
+python3 -m http.server 4173 --bind 127.0.0.1
+# in einem zweiten Terminal
+python3 tools/browser-smoke-test.py
+```
+
+## Rollback
+
+Die stabile Referenz bleibt 2.1.0.0. Für einen Rollback den Webroot vollständig auf das gewünschte, separat geprüfte Paket zurücksetzen und bestehende `sk-plt-tools-*`-Caches im Browser löschen.

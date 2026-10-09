@@ -1,0 +1,15 @@
+SK PLT Tools V2.1.2.1-Beta
+Release-Datum: 09.10.2026
+Direkte Basis: V2.1.2.0-Beta
+Stabile Referenz: V2.1.0.0
+
+SCHWERPUNKT
+- Siemens-Rohwert-Rechner um einen frei eingebbaren physikalischen Messbereich mit Minimum, Maximum und Einheit erweitert.
+- Gleichzeitige Ausgabe von Siemens-Rohwert, mA-/Spannungswert, Prozentwert, physikalischem Istwert und Diagnosebereich.
+- Umrechnung wahlweise aus Rohwert, Signalwert oder physikalischem Istwert; lineare Extrapolation für bestätigten Unter- und Überbereich.
+- Negative Messbereichsgrenzen und frei wählbare Einheiten werden unterstützt und validiert.
+- Alle übrigen Rechner, Module, Wissensseiten, Navigation, Suche, Favoriten und Offline-Funktionen aus V2.1.2.0-Beta unverändert übernommen.
+
+TECHNIK UND RELEASE
+- PWA-App-ID, Manifest, Cache, Precache, Release-Konfiguration, Versionsdateien und SHA-256-Liste auf V2.1.2.1-Beta synchronisiert.
+- Statische Seitenprüfung, Funktions-Smoke-Test sowie Browser-, Responsive-, PWA- und Offline-Test um Messbereich, Einheiten und drei Eingaberichtungen erweitert.
