@@ -1,16 +1,15 @@
-# SK PLT Tools 2.1.4.1-Beta
+# SK PLT Tools 2.1.4.2-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.4.1-Beta** basiert auf **2.1.4.0-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.4.2-Beta** basiert auf **2.1.4.1-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
-## Korrekturen in 2.1.4.1
+## Neuaufbau in 2.1.4.2
 
-- dunkler Dokumenthintergrund bis in die obere iPhone-/PWA-Safe-Area,
-- `viewport-fit=cover` und `apple-mobile-web-app-status-bar-style=black-translucent` auf allen 15 Seiten,
-- mobile Kopfzeile auf jeder Seite exakt so breit wie der Viewport,
-- bündige Trennlinie unter der Kopfzeile,
-- konsistent ausgerichteter Startseiten-Link,
-- identisches Verhalten in Smartphone-Hoch- und -Querformat,
-- neue statische und echte Browserprüfungen gegen eine erneute Verschiebung.
+- vollständiger Neuaufbau des Releasepakets aus der validierten V2.1.4.1-Beta,
+- konsistente Synchronisierung aller technischen Versionsstellen,
+- neue PWA-App-ID und neuer versionsgebundener Service-Worker-Cache,
+- korrigierte Versionskette in Baseline- und Deployment-Dokumentation,
+- neu erzeugte Prüfsummen und vollständiges ZIP-Paket,
+- keine fachlichen oder visuellen Funktionsänderungen gegenüber V2.1.4.1-Beta.
 
 ## Enthaltene Funktionen
 
@@ -23,7 +22,8 @@ Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben
 - Messstellen-Dokumentation,
 - Wissensdatenbank mit Werkstoff-Nachschlagewerk,
 - externer E+H Device Viewer,
-- Favoriten, Suche, Filter, Navigation und Offline-PWA.
+- Favoriten, Suche, Filter, Navigation und Offline-PWA,
+- zentraler responsiver Aufbau für Desktop, Tablet, Smartphone und Standalone-PWA.
 
 ## Projektstruktur
 

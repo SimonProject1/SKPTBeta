@@ -1,23 +1,22 @@
-SK PLT Tools V2.1.4.1-Beta
+SK PLT Tools V2.1.4.2-Beta
 Release-Datum: 09.10.2026
-Direkte Basis: V2.1.4.0-Beta
+Direkte Basis: V2.1.4.1-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT: KORREKTUR DER MOBILEN KOPFZEILE UND IPHONE-SAFE-AREA
-- Der zuvor weiße, ungenutzte Bereich oberhalb der Anwendung wird durch einen durchgehend dunkel definierten Dokumenthintergrund beseitigt.
-- Alle 15 Seiten verwenden jetzt viewport-fit=cover, den iOS-PWA-Modus und apple-mobile-web-app-status-bar-style=black-translucent.
-- Die mobile Kopfzeile wird unabhängig davon, ob eine Seite einen .shell-Container verwendet, exakt über die vollständige Viewportbreite geführt.
-- Die Trennlinie unter der Kopfzeile reicht wieder bündig von Rand zu Rand.
-- Der Startseiten-Link steht wieder mit einheitlichem rechtem Abstand im Header-Raster.
-- Linke und rechte iPhone-Safe-Areas werden in den inneren Header-Abständen weiterhin berücksichtigt.
-- Die Korrektur gilt ebenfalls für breite Smartphone-Querformate.
+SCHWERPUNKT: VOLLSTÄNDIGER NEUAUFBAU DES RELEASEPAKETS
+- Das vollständige, validierte Projekt V2.1.4.1-Beta wurde als direkte Basis verwendet.
+- Der komplette Projektbestand wurde konsistent als V2.1.4.2-Beta neu aufgebaut.
+- Es wurden keine fachlichen Funktionen entfernt, ergänzt oder in ihrer Berechnungslogik verändert.
+- Die mobile Kopfzeile, die iPhone-/PWA-Safe-Area, der responsive Aufbau und alle bestehenden Module bleiben unverändert erhalten.
+- Veraltete Versionsverweise in Baseline- und Deployment-Dokumentation wurden auf die aktuelle Releasekette berichtigt.
 
 REGRESSIONSSCHUTZ
-- Die statische Release-Validierung prüft die iPhone-/PWA-Metadaten auf jeder Direktseite.
-- Der Browser-Smoke-Test prüft auf allen 15 Direktseiten Headerposition, Headerbreite, Trennlinie, Startseiten-Link und dunklen Dokumenthintergrund.
-- Smartphone-Hochformat, Smartphone-Querformat, Tablet und Desktop wurden erneut geprüft.
-- Rechner, Suche, Filter, Sortierung, Favoriten, Navigation, PWA und Offline-Aufrufe bleiben unverändert funktionsfähig.
+- Alle 15 Direktseiten werden auf Versionskonsistenz, lokale Referenzen, Header, Footer und PWA-Metadaten geprüft.
+- Der funktionale Smoke-Test deckt Rechner, Siemens-Eingaberichtungen, Werkstoffsuche, Wissensinhalte, Favoriten und Navigation ab.
+- Der Browser-Smoke-Test prüft Desktop, Tablet, Smartphone-Hochformat, Smartphone-Querformat, Navigation, PWA und Offline-Aufrufe.
+- Das entfernte Altmodul bleibt durch statische Ausschlussprüfungen gesperrt.
 
 TECHNIK UND RELEASE
-- VERSION, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Dokumentation, Tests und Prüfsummen sind auf V2.1.4.1-Beta synchronisiert.
-- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.4.1-Beta.zip.
+- VERSION, release-config.json, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.4.2-Beta synchronisiert.
+- Die interne SHA-256-Liste wird vollständig neu erzeugt und geprüft.
+- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.4.2-Beta.zip.

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.4.1-Beta."""
+"""Static release validation for SK PLT Tools 2.1.4.2-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.4.1-Beta'
+VERSION='2.1.4.2-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -320,7 +320,7 @@ for required in (
     '@media (display-mode:standalone) and (max-width:760px)',
     '@media (prefers-reduced-motion:reduce)',
 ):
-    if required not in responsive_css: errors.append(f'V2.1.4.1 Responsive-/Safe-Area-Shell unvollständig: {required}')
+    if required not in responsive_css: errors.append(f'V2.1.4.2 Responsive-/Safe-Area-Shell unvollständig: {required}')
 
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel

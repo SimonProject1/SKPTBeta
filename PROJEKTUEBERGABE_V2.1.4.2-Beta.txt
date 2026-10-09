@@ -1,0 +1,46 @@
+PROJEKTÜBERGABE SK PLT TOOLS V2.1.4.2-BETA
+Datum: 09.10.2026
+Direkte Basis: V2.1.4.1-Beta
+Stabile Referenz: V2.1.0.0
+
+LIEFERUMFANG
+- Vollständiger, neu aufgebauter Projektbestand aller weiterhin unterstützten Module und Unterordner.
+- Zentraler responsiver Aufbau für Smartphone, Tablet, Desktop und Standalone-PWA.
+- Mobile Kopfzeile über die vollständige Viewportbreite.
+- Bündige Header-Trennlinie und konsistent ausgerichteter Startseiten-Link.
+- Dunkle iPhone-/PWA-Status- und Safe-Area.
+- Safe-Area-Metadaten und -Abstände auf allen 15 Direktseiten.
+- Statische Offline-PWA mit vollständigem Release-Cache.
+- Neun Startseitenkacheln einschließlich des externen E+H Device Viewers.
+- Aktualisierte Navigation, Suche, Dokumentation, Tests, Release-Konfiguration, Cache, Manifest und Prüfsummen.
+- Vollständiges ZIP SK-PLT-Tools-V2.1.4.2-Beta.zip.
+- Testbericht TESTBERICHT-UND-ABNAHME.md.
+
+NEUAUFBAU V2.1.4.2-BETA
+- Die vollständige V2.1.4.1-Beta ist die verbindliche direkte Basis.
+- Alle technischen Versionsstellen wurden konsistent auf V2.1.4.2-Beta gesetzt.
+- Die Versionskette in Baseline- und Deployment-Dokumentation wurde berichtigt.
+- Fachliche Berechnungen, Inhalte, Navigation und sichtbares Design wurden gegenüber V2.1.4.1-Beta nicht verändert.
+- Prüfsummen, Precache, Testnachweise und ZIP-Paket wurden vollständig neu erzeugt.
+
+FESTE ENTSCHEIDUNGEN
+- Gemeinsame responsive Bedienelemente und Layoutregeln werden zentral in assets/responsive.css gepflegt und nach allen Modulstilen geladen.
+- Der mobile Header muss sowohl innerhalb eines .shell-Containers als auch direkt unter body bündig funktionieren.
+- Alle Seiten behalten viewport-fit=cover und den dunklen iOS-PWA-Statusbereich.
+- Desktop-, Tablet-, Smartphone- und PWA-Verhalten werden gemeinsam regressionsgeprüft.
+- Die große sichtbare Versionsnummer erscheint nur im Hero der Startseite.
+- Verworfenes Altverhalten und entfernte Module werden nicht wieder eingeführt.
+- Keine personenbezogenen Testdaten in Projekt, Cache oder Releasepaket aufnehmen.
+- Für weitere Änderungen immer das vollständige Projekt verwenden und anschließend ein vollständiges ZIP bereitstellen.
+
+BETRIEB
+- Erfordert nur einen statischen Webserver; HTTPS oder localhost für die installierbare PWA.
+- Nach einem Update bei Bedarf die PWA vollständig schließen und neu öffnen.
+- Der Service Worker verwendet den versionsspezifischen Cache sk-plt-tools-v2.1.4.2-Beta.
+- Vor Auslieferung funktionalen Test, statische Validierung, Browser-Smoke-Test, Prüfsummenprüfung und ZIP-Test ausführen.
+
+STARTANWEISUNG FÜR EINEN NEUEN CHAT
+- Verwende ausschließlich die vollständige V2.1.4.2-Beta als verbindliche Arbeitsbasis.
+- Prüfe vor Änderungen die Release Notes, den Testbericht und die Projektstruktur.
+- Bewahre alle unterstützten Module, PWA-Dateien, Tests, Dokumentation und Ausschlussregeln.
+- Erstelle nach jedem abgeschlossenen Änderungsblock wieder das vollständige Projekt als ZIP mit aktualisierten Prüfsummen und Testbericht.
