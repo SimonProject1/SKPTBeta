@@ -1,15 +1,14 @@
-# SK PLT Tools 2.1.5.0-Beta
+# SK PLT Tools 2.1.5.1-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.5.0-Beta** basiert vollständig auf **2.1.4.2-Beta**; die stabile Referenz bleibt **2.1.0.0**.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.5.1-Beta** basiert vollständig auf **2.1.5.0-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
-## Neu in 2.1.5.0-Beta
+## Neu in 2.1.5.1-Beta
 
-- Siemens-Rohwert-Rechner als echte Drei-Reiter-Ansicht mit **Signal**, **Rohwert** und **Phys. Wert**.
-- Genau ein sichtbares Vorgabefeld; die jeweils beiden anderen Werte stehen direkt darunter nebeneinander.
-- Konfiguration in der festgelegten Reihenfolge: physikalischer Messbereich, Einheitssignal (Standard 4–20 mA), SPS-Karte.
-- Rohwert-Farbstatus: Grün im Nennbereich, Gelb/Orange bei Unter-/Übersteuerung, Rot bei Unter-/Überlauf und Cyan bei reiner Skalierung ohne bestätigte Diagnosegrenzen.
-- Alte Eingaberichtungs-Auswahl, altes Ergebnisraster, Regler und doppelte Ergebnisblöcke vollständig entfernt.
-- Mobile untere Bedienzone, dunkle iPhone-/PWA-Safe-Area, bündige Headerlinie und Startseiten-Link der direkten Basis unverändert erhalten.
+- Reiterwechsel zwischen **Signal**, **Rohwert** und **Phys. Wert** ohne automatischen Fokus des gemeinsamen Eingabefelds.
+- Beim Antippen eines Reiters wird ein aktiver Formularfokus beendet, damit auf dem iPhone keine Bildschirmtastatur geöffnet bleibt.
+- Die sichtbare Reiterauswahl wird vor Validierung und Neuberechnung aktualisiert; damit bleibt der Wechsel am PC auch bei einer vorübergehend unvollständigen Messbereichseingabe funktionsfähig.
+- Maus-, Touch- und Tastaturbedienung der Reiter bleiben vollständig unterstützt.
+- Drei-Reiter-Aufbau, Berechnungslogik, Diagnosefarben, responsive Bedienzone und PWA-/Offline-Funktion der direkten Basis bleiben erhalten.
 
 ## Enthaltene Funktionen
 

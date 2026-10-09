@@ -1,0 +1,39 @@
+PROJEKTÜBERGABE SK PLT TOOLS V2.1.5.1-BETA
+Datum: 09.10.2026
+Direkte Basis: V2.1.5.0-Beta
+Stabile Referenz: V2.1.0.0
+
+LIEFERUMFANG
+- Vollständiger Projektbestand aller weiterhin unterstützten Module und Unterordner.
+- Siemens-Rohwert-Rechner mit funktionaler Drei-Reiter-Ansicht: Signal, Rohwert, Phys. Wert.
+- Reiterwechsel ohne automatischen Fokus auf das gemeinsame Eingabefeld.
+- Aktiver Formularfokus wird beim Antippen eines Reiters beendet, damit auf dem iPhone keine Bildschirmtastatur geöffnet bleibt.
+- Reiterauswahl wird vor Validierung und Berechnung sichtbar aktualisiert; dadurch bleibt der Wechsel am PC auch bei vorübergehend ungültigem Messbereich bedienbar.
+- Maus-, Touch- und Tastatursteuerung bleiben erhalten.
+- Zentrale responsive Anwendungsschale für Smartphone, Tablet, Desktop und Standalone-PWA.
+- Aktualisierte Version, Manifest-ID, Service-Worker-Cache, Precache, Tests, Dokumentation und Prüfsummen.
+- Vollständiges ZIP SK-PLT-Tools-V2.1.5.1-Beta.zip.
+
+TESTNACHWEIS
+- Funktionstest prüft Berechnungslogik, Reiterstruktur, Fokusverhalten und Ausschluss des automatischen Eingabefokus.
+- Browser-Test schaltet die Reiter auf Desktop und Mobil und prüft, dass das Eingabefeld dabei nicht fokussiert wird.
+- Der Desktop-Browser-Test prüft zusätzlich den Reiterwechsel bei einem vorübergehend leeren Messbereichsfeld.
+- Responsive Prüfung: Desktop 1440 × 1050, Tablet 820 × 1180, iPhone 390 × 844 und Smartphone-Querformat 844 × 390.
+- Alle 15 Direktseiten werden auf Überlauf, Header, Safe-Area, untere Bedienzone und Versionsstand geprüft.
+- PWA-Cache und Offline-Direktaufrufe werden im Browser geprüft.
+- Statische Validierung und SHA-256-Integritätsprüfung sind Bestandteil der Abnahme.
+
+FESTE ENTSCHEIDUNGEN
+- Ein Reiterwechsel darf das gemeinsame Eingabefeld nicht automatisch fokussieren.
+- Die Reiterauswahl muss auch bei einem vorübergehend ungültigen Messbereich sichtbar wechseln.
+- Die drei Reiter teilen dieselbe Berechnungslogik und dasselbe Vorgabefeld.
+- Gemeinsame responsive Regeln werden zentral in assets/responsive.css gepflegt und nach allen Modulstilen geladen.
+- Alle Seiten behalten viewport-fit=cover und den dunklen iOS-PWA-Statusbereich.
+- Die große sichtbare Versionsnummer erscheint nur im Hero der Startseite.
+- Keine personenbezogenen Testdaten in Projekt, Cache oder Releasepaket aufnehmen.
+
+BETRIEB
+- Erfordert nur einen statischen Webserver; HTTPS oder localhost für die installierbare PWA.
+- Nach einem Update die installierte PWA vollständig schließen und neu öffnen, damit der neue Service Worker sicher aktiv ist.
+- Der Service Worker verwendet den versionsspezifischen Cache sk-plt-tools-v2.1.5.1-Beta.
+- Für weitere Änderungen immer dieses vollständige Projekt verwenden und anschließend ein vollständiges ZIP mit Tests, Dokumentation und Prüfsummen bereitstellen.

@@ -1,4 +1,4 @@
-# Deployment – SK PLT Tools 2.1.5.0-Beta
+# Deployment – SK PLT Tools 2.1.5.1-Beta
 
 ## Voraussetzungen
 
@@ -8,16 +8,16 @@
 
 ## Bereitstellung
 
-1. `SK-PLT-Tools-V2.1.5.0-Beta.zip` entpacken.
-2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.5.0-Beta/` unverändert unter dem Webroot bereitstellen.
+1. `SK-PLT-Tools-V2.1.5.1-Beta.zip` entpacken.
+2. Den einzigen Projektstamm `SK-PLT-Tools-V2.1.5.1-Beta/` unverändert unter dem Webroot bereitstellen.
 3. Prüfen, dass `index.html`, `manifest.webmanifest`, `service-worker.js`, `assets/` und alle Modulordner unter demselben Webroot liegen.
 4. Die PWA nach dem Update bei Bedarf vollständig schließen und neu öffnen; der Service Worker löscht ältere `sk-plt-tools-*`-Caches automatisch.
 
 ## Release-Identität
 
-- Version: `2.1.5.0-Beta`
+- Version: `2.1.5.1-Beta`
 - Manifest-ID/Start-URL: `./?app=sk-plt-tools-2.1.5.0-beta`
-- Cache: `sk-plt-tools-v2.1.5.0-Beta`
+- Cache: `sk-plt-tools-v2.1.5.1-Beta`
 
 ## Vor Deployment ausführen
 
@@ -29,7 +29,7 @@ python3 -m http.server 4173 --bind 127.0.0.1
 # in einem zweiten Terminal
 PLAYWRIGHT_CHROMIUM_EXECUTABLE=<chromium> python3 tools/browser-smoke-test.py
 sha256sum -c SHA256SUMS.txt
-unzip -t ../SK-PLT-Tools-V2.1.5.0-Beta.zip
+unzip -t ../SK-PLT-Tools-V2.1.5.1-Beta.zip
 ```
 
 ## Rollback

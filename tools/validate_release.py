@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.5.0-Beta."""
+"""Static release validation for SK PLT Tools 2.1.5.1-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.5.0-Beta'
+VERSION='2.1.5.1-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -289,6 +289,9 @@ for forbidden in ('.analog-result-grid','.analog-control-grid','.analog-slider-b
 siemens_js=(ROOT/'assets/siemens-analogwert-rechner.js').read_text(encoding='utf-8')
 for required in ("'4-20mA'","'0-20mA'","'0-10V'","'2-10V'",'et200sp_st:Object.freeze','et200spha_off:Object.freeze','et200spha_on:Object.freeze','s71500_fai_scale:Object.freeze','generic_scale:Object.freeze','statusForRaw','normalizePhysicalRange','physicalFromPercent','percentFromPhysical','physicalFromRaw','rawFromPhysical',"['signal','raw','physical']","document.querySelectorAll('.analog-tab[data-input-kind]')","setMode('signal')",'card.dataset.outputKind===activeMode'):
     if required not in siemens_js: errors.append(f'Siemens-Rechner: Berechnungs-/Reitermerkmal fehlt: {required}')
+if 'elements.inputValue.focus()' in siemens_js: errors.append('Siemens-Rechner: Reiterwechsel darf das Eingabefeld nicht automatisch fokussieren')
+for required in ('dismissInputFocus','active.blur()','syncTabs();'):
+    if required not in siemens_js: errors.append(f'Siemens-Rechner: robuster Reiter-/Mobilfokus fehlt: {required}')
 if "inputKind==='percent'" in siemens_js: errors.append('Siemens-Rechner: nicht vorgesehene Prozenteingabe vorhanden')
 for forbidden in ("$('inputKind')","$('valueSlider')","$('stateStrip')"):
     if forbidden in siemens_js: errors.append(f'Siemens-Rechner: alte Eingaberichtungs-/Reglerlogik noch vorhanden: {forbidden}')

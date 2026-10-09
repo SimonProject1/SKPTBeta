@@ -121,6 +121,10 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   assertEqual(physical>0&&physical<signal&&signal<card,true,'Siemens Reihenfolge Messbereich, Einheitssignal, SPS-Karte');
   const css=fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.css'),'utf8');
   for(const [needle,label] of [['#89d329','Nennbereich grün'],['#f5b942','Unter-/Übersteuerung gelb-orange'],['#ff7b83','Unter-/Überlauf rot'],['#00b7e8','Skalierung cyan']])assertEqual(css.includes(needle),true,`Siemens Rohwertfarbe ${label}`);
+  const js=fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8');
+  assertEqual(js.includes('elements.inputValue.focus()'),false,'Siemens Reiterwechsel fokussiert das Eingabefeld nicht automatisch');
+  assertEqual(js.includes('dismissInputFocus')&&js.includes('active.blur()'),true,'Siemens Reiterwechsel beendet mobilen Eingabefokus');
+  assertEqual(js.indexOf('syncTabs();',js.indexOf('function setMode'))<js.indexOf('try{syncPrimaryInput()',js.indexOf('function setMode')),true,'Siemens Reiterauswahl wird vor der Neuberechnung aktualisiert');
 }
 {
   const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');

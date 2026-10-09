@@ -116,10 +116,22 @@ function renderFromRaw(){
 function showError(error){elements.error.textContent=error.message;elements.error.hidden=false;elements.diagnostic.dataset.state='error';elements.rangeStatus.textContent='Eingabe prüfen'}
 function renderFromInput(){try{const result=calculate(elements.signalType.value,activeMode,parse(elements.inputValue.value),elements.profile.value,physicalRange());currentRaw=result.raw;renderFromRaw()}catch(error){showError(error)}}
 function commitInput(){renderFromInput();if(elements.error.hidden)syncPrimaryInput()}
-function setMode(mode,focus=false){if(!['signal','raw','physical'].includes(mode))return;activeMode=mode;try{syncPrimaryInput();renderFromRaw();if(focus)elements.inputValue.focus()}catch(error){showError(error)}}
+function dismissInputFocus(){
+ const active=document.activeElement;
+ if(active&&active.matches&&active.matches('input,textarea,select,[contenteditable="true"]'))active.blur();
+}
+function setMode(mode,dismissKeyboard=false){
+ if(!['signal','raw','physical'].includes(mode))return;
+ if(dismissKeyboard)dismissInputFocus();
+ activeMode=mode;
+ // Reiterauswahl sofort aktualisieren. So bleibt der Wechsel auch dann sichtbar,
+ // wenn ein gerade unvollständiger Messbereich die Neuberechnung verhindert.
+ syncTabs();
+ try{syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}
+}
 function resyncAndRender(){try{syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}}
 
-elements.tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>setMode(tab.dataset.inputKind,true));tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(event.key==='ArrowLeft')next=(index-1+elements.tabs.length)%elements.tabs.length;if(event.key==='ArrowRight')next=(index+1)%elements.tabs.length;if(event.key==='Home')next=0;if(event.key==='End')next=elements.tabs.length-1;elements.tabs[next].focus();setMode(elements.tabs[next].dataset.inputKind)})});
+elements.tabs.forEach((tab,index)=>{tab.addEventListener('click',event=>{event.preventDefault();setMode(tab.dataset.inputKind,true)});tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(event.key==='ArrowLeft')next=(index-1+elements.tabs.length)%elements.tabs.length;if(event.key==='ArrowRight')next=(index+1)%elements.tabs.length;if(event.key==='Home')next=0;if(event.key==='End')next=elements.tabs.length-1;setMode(elements.tabs[next].dataset.inputKind);elements.tabs[next].focus({preventScroll:true})})});
 elements.inputValue.addEventListener('input',renderFromInput);elements.inputValue.addEventListener('change',commitInput);elements.inputValue.addEventListener('focus',event=>event.currentTarget.select());
 elements.signalType.addEventListener('change',resyncAndRender);
 elements.profile.addEventListener('change',()=>{try{syncSupportedTypes();const p=profile(elements.profile.value),{min,max}=bounds(p);currentRaw=clamp(currentRaw,min,max);syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}});

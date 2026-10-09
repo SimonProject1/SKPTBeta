@@ -1,29 +1,27 @@
-SK PLT Tools V2.1.5.0-Beta
+SK PLT Tools V2.1.5.1-Beta
 Release-Datum: 09.10.2026
-Direkte Basis: V2.1.4.2-Beta
+Direkte Basis: V2.1.5.0-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT: SIEMENS-ROHWERT-RECHNER IN DREI-REITER-ANSICHT
-- Drei funktionale Reiter in fester Reihenfolge: Signal, Rohwert, Phys. Wert.
-- Nur ein gemeinsames Vorgabefeld ist sichtbar; zwei abgeleitete Werte werden darunter nebeneinander angezeigt.
-- Die Reiter synchronisieren den aktuellen Prozesswert beim Wechsel ohne doppelte Eingabeblöcke.
-- Der physikalische Messbereich folgt direkt auf die Ergebniswerte; danach Einheitssignal und SPS-Karte.
-- 4–20 mA ist das voreingestellte Einheitssignal.
-- Die Rohwertanzeige verwendet Diagnosefarben: Grün (Nennbereich), Gelb/Orange (Unter-/Übersteuerung), Rot (Unter-/Überlauf), Cyan (nur Skalierung).
-- Die alte Eingaberichtungs-Auswahl, das alte fünfteilige Ergebnisraster, der Bereichsregler und alte/doppelte Ergebnisblöcke sind entfernt.
+SCHWERPUNKT: ZUVERLÄSSIGER REITERWECHSEL AUF IPHONE UND PC
+- Beim Wechsel zwischen Signal, Rohwert und Phys. Wert wird das gemeinsame Eingabefeld nicht mehr automatisch fokussiert.
+- Ein aktiver Formularfokus wird beim Antippen eines Reiters beendet; dadurch bleibt die iPhone-Bildschirmtastatur geschlossen.
+- Die sichtbare Reiterauswahl wird vor Validierung und Neuberechnung aktualisiert.
+- Dadurch funktioniert der Reiterwechsel am PC auch dann sichtbar, wenn Minimum, Maximum oder Einheit gerade unvollständig beziehungsweise ungültig eingegeben sind.
+- Maus-, Touch- und Tastaturbedienung (Pfeil links/rechts, Pos1 und Ende) bleiben unterstützt.
 
-BEIBEHALTENE MOBILE BASIS
-- Feste untere Bedienzone mit Favoriten links und Seitennavigation rechts.
-- Dunkle iPhone-/PWA-Safe-Area einschließlich black-translucent Statusbereich.
-- Vollbreiter sticky Header, bündige Trennlinie und korrekt rechts ausgerichteter Startseiten-Link.
-- Keine Regression auf Smartphone, Smartphone-Querformat, Tablet oder Desktop.
+BEIBEHALTENE FUNKTIONEN
+- Drei Reiter in fester Reihenfolge: Signal, Rohwert, Phys. Wert.
+- Ein gemeinsames Vorgabefeld und zwei abgeleitete Werte.
+- Vollständige Siemens-Skalierungs-, Messbereichs- und Diagnoseberechnung.
+- Responsive Darstellung, iPhone-Safe-Area, Tablet-/Desktop-Layout sowie PWA-/Offline-Funktion.
+- Alle übrigen Rechner, Wissensinhalte, Suche, Filter, Favoriten und Navigation bleiben unverändert erhalten.
 
 REGRESSIONSSCHUTZ
-- Funktionstest prüft Berechnungen, exakte Reiterbeschriftung und -reihenfolge, ein einziges Vorgabefeld, Entfernung der Altoberfläche und alle vier Rohwertfarben.
-- Browser-Test schaltet jeden Reiter real um, prüft die beiden jeweils sichtbaren Ausgabewerte, Grenzfälle und berechnete CSS-Farben.
-- Responsive Browser-Test prüft 15 Direktseiten auf Desktop 1440 × 1050, Tablet 820 × 1180, iPhone 390 × 844 und Querformat 844 × 390.
-- Statische Validierung sperrt die alte Rechnerstruktur und prüft Versions-, PWA-, Offline-, Navigations- und Prüfsummenkonsistenz.
+- Funktionstest sperrt den früheren automatischen Eingabefokus und fordert die mobile Fokusbeendigung.
+- Browser-Test prüft echte Reiterklicks auf Desktop und Mobil sowie den Wechsel bei vorübergehend ungültigem Messbereich.
+- Statische Validierung prüft Fokus-, Reiter-, Versions-, PWA-, Offline-, Navigations- und Prüfsummenkonsistenz.
 
 TECHNIK UND RELEASE
-- VERSION, release-config.json, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.5.0-Beta synchronisiert.
-- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.5.0-Beta.zip.
+- VERSION, release-config.json, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.5.1-Beta synchronisiert.
+- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.5.1-Beta.zip.

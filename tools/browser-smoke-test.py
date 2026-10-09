@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.5.0-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.5.1-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.5.0-Beta"
+VERSION = "2.1.5.1-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -122,6 +122,15 @@ with sync_playwright() as p:
 
     desktop.locator("#inputTabRaw").click()
     assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "raw"
+    assert desktop.evaluate("document.activeElement.id") != "inputValue"
+    desktop.locator("#physicalMin").fill("")
+    desktop.locator("#inputTabSignal").click()
+    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "signal"
+    assert desktop.locator("#calculationError").is_visible()
+    assert desktop.evaluate("document.activeElement.id") != "inputValue"
+    desktop.locator("#physicalMin").fill("-50")
+    desktop.locator("#physicalMin").dispatch_event("input")
+    desktop.locator("#inputTabRaw").click()
     assert desktop.locator(".analog-value-card:visible").count() == 2
     assert desktop.locator("#rawOutputCard").is_hidden()
     assert desktop.locator("#signalOutputCard").is_visible()
@@ -303,6 +312,12 @@ with sync_playwright() as p:
     assert mobile.locator(".analog-tab").all_inner_texts() == ["Signal", "Rohwert", "Phys. Wert"]
     assert mobile.locator(".analog-value-card:visible").count() == 2
     assert mobile.locator("#inputValue").count() == 1
+    mobile.locator("#inputTabRaw").click()
+    assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "raw"
+    assert mobile.evaluate("document.activeElement.id") != "inputValue"
+    mobile.locator("#inputTabPhysical").click()
+    assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "physical"
+    assert mobile.evaluate("document.activeElement.id") != "inputValue"
     mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
     for route in PAGES:
         mobile.goto(f"{BASE}{route}")
