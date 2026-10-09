@@ -1,0 +1,31 @@
+PROJEKTÜBERGABE SK PLT TOOLS V2.1.4.1-BETA
+Datum: 09.10.2026
+Direkte Basis: V2.1.4.0-Beta
+Stabile Referenz: V2.1.0.0
+
+LIEFERUMFANG
+- Vollständiger Projektbestand aller weiterhin unterstützten Module und Unterordner.
+- Zentraler responsiver Aufbau für Smartphone, Tablet, Desktop und Standalone-PWA.
+- Korrigierte mobile Kopfzeile über die vollständige Viewportbreite.
+- Bündige Header-Trennlinie und konsistent ausgerichteter Startseiten-Link.
+- Dunkle iPhone-/PWA-Status- und Safe-Area statt eines weißen ungenutzten Bereichs.
+- Safe-Area-Metadaten und -Abstände auf allen 15 Direktseiten.
+- Statische Offline-PWA mit vollständigem Release-Cache.
+- Neun Startseitenkacheln einschließlich des externen E+H Device Viewers.
+- Aktualisierte Navigation, Suche, Dokumentation, Tests, Release-Konfiguration, Cache, Manifest und Prüfsummen.
+- Vollständiges ZIP SK-PLT-Tools-V2.1.4.1-Beta.zip.
+- Testbericht TESTBERICHT-UND-ABNAHME.md.
+
+FESTE ENTSCHEIDUNGEN
+- Gemeinsame responsive Bedienelemente und Layoutregeln werden zentral in assets/responsive.css gepflegt und nach allen Modulsstilen geladen.
+- Der mobile Header muss sowohl innerhalb eines .shell-Containers als auch direkt unter body bündig funktionieren.
+- Alle Seiten behalten viewport-fit=cover und den dunklen iOS-PWA-Statusbereich.
+- Desktop-, Tablet-, Smartphone- und PWA-Verhalten werden gemeinsam regressionsgeprüft.
+- Die große sichtbare Versionsnummer erscheint nur im Hero der Startseite.
+- Verworfenes Altverhalten und entfernte Module werden nicht wieder eingeführt.
+- Keine personenbezogenen Testdaten in Projekt, Cache oder Releasepaket aufnehmen.
+
+BETRIEB
+- Erfordert nur einen statischen Webserver; HTTPS oder localhost für die installierbare PWA.
+- Nach einem Update bei Bedarf die PWA vollständig schließen und neu öffnen; der Service Worker verwendet den versionsspezifischen Cache sk-plt-tools-v2.1.4.1-Beta.
+- Vor Auslieferung funktionalen Test, statische Validierung, Browser-Smoke-Test, Prüfsummenprüfung und ZIP-Test ausführen.

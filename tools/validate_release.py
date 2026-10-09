@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.4.0-Beta."""
+"""Static release validation for SK PLT Tools 2.1.4.1-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.4.0-Beta'
+VERSION='2.1.4.1-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -74,6 +74,10 @@ for rel,page in pages.items():
     soup=BeautifulSoup(text,'html.parser')
     if soup.body is None or soup.head is None: errors.append(f'{rel}: head/body fehlt');continue
     if soup.body.get('data-sk-version')!=VERSION: errors.append(f'{rel}: data-sk-version fehlt/falsch')
+    viewport=soup.find('meta',attrs={'name':'viewport'})
+    if viewport is None or 'viewport-fit=cover' not in viewport.get('content',''): errors.append(f'{rel}: viewport-fit=cover fehlt')
+    status_bar=soup.find('meta',attrs={'name':'apple-mobile-web-app-status-bar-style'})
+    if status_bar is None or status_bar.get('content')!='black-translucent': errors.append(f'{rel}: dunkler iPhone/PWA-Statusbereich fehlt')
     if len(soup.select('header.sk-header-normalized'))!=1: errors.append(f'{rel}: genau ein statischer Header erwartet')
     if len(soup.select('footer.sk-footer'))!=1: errors.append(f'{rel}: genau ein statischer Footer erwartet')
     if soup.select('.sk-logo-version'): errors.append(f'{rel}: sichtbare Header-Version muss entfernt sein')
@@ -302,8 +306,12 @@ for required in ('grid-template-columns:1fr 38px','.sign{font-size:16px;min-widt
 for required in (
     '--sk-touch:44px',
     '--sk-mobile-action-size:50px',
+    'html{background-color:#04131f}',
     'position:sticky',
     'padding-top:env(safe-area-inset-top,0px)!important',
+    'width:100vw',
+    'margin-left:calc(50% - 50vw)',
+    'padding-right:calc(var(--sk-mobile-gutter) + env(safe-area-inset-right,0px))',
     'grid-template-columns:repeat(2,minmax(0,1fr))',
     'min-height:48px',
     'height:100dvh',
@@ -312,7 +320,7 @@ for required in (
     '@media (display-mode:standalone) and (max-width:760px)',
     '@media (prefers-reduced-motion:reduce)',
 ):
-    if required not in responsive_css: errors.append(f'V2.1.4.0 Responsive-Shell unvollständig: {required}')
+    if required not in responsive_css: errors.append(f'V2.1.4.1 Responsive-/Safe-Area-Shell unvollständig: {required}')
 
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel

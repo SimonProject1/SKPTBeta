@@ -1,27 +1,23 @@
-SK PLT Tools V2.1.4.0-Beta
+SK PLT Tools V2.1.4.1-Beta
 Release-Datum: 09.10.2026
-Direkte Basis: V2.1.3.0-Beta
+Direkte Basis: V2.1.4.0-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT: NEUER RESPONSIVER AUFBAU
-- Zentrale responsive Anwendungsschale für Smartphone, Tablet, Desktop und installierte PWA.
-- Mobiler Header bleibt beim Scrollen sichtbar und berücksichtigt die obere iPhone-Safe-Area.
-- Kopfzeile nutzt auf Smartphones ein stabiles Dreispaltenraster für Logo, Seitentitel und Startseiten-Link.
-- Startseiten-Hero, Seitentitel, Karten und Panels skalieren kompakter und ohne horizontales Überlaufen.
-- Tablet-Ansicht verwendet eine zweispaltige Werkzeugübersicht; Smartphones verwenden eine einspaltige, touchfreundliche Darstellung.
-- Eingabefelder und zentrale Schaltflächen erhalten mindestens 44 px große Touch-Ziele; Formfelder sind auf Mobilgeräten 48 px hoch.
-- Favoriten- und Baummenü-Schaltfläche sind mobil 50 × 50 px groß, bleiben in den unteren Ecken fixiert und berücksichtigen alle Safe-Areas.
-- Favoriten- und Navigationsdrawer verwenden die dynamische Viewport-Höhe und Safe-Area-Innenabstände.
-- Eigene Anpassungen für Smartphone-Querformat, Standalone-PWA und reduzierte Bewegung ergänzt.
-- Einheitliche, deutlich sichtbare Tastatur-Fokusmarkierung für interaktive Elemente.
+SCHWERPUNKT: KORREKTUR DER MOBILEN KOPFZEILE UND IPHONE-SAFE-AREA
+- Der zuvor weiße, ungenutzte Bereich oberhalb der Anwendung wird durch einen durchgehend dunkel definierten Dokumenthintergrund beseitigt.
+- Alle 15 Seiten verwenden jetzt viewport-fit=cover, den iOS-PWA-Modus und apple-mobile-web-app-status-bar-style=black-translucent.
+- Die mobile Kopfzeile wird unabhängig davon, ob eine Seite einen .shell-Container verwendet, exakt über die vollständige Viewportbreite geführt.
+- Die Trennlinie unter der Kopfzeile reicht wieder bündig von Rand zu Rand.
+- Der Startseiten-Link steht wieder mit einheitlichem rechtem Abstand im Header-Raster.
+- Linke und rechte iPhone-Safe-Areas werden in den inneren Header-Abständen weiterhin berücksichtigt.
+- Die Korrektur gilt ebenfalls für breite Smartphone-Querformate.
 
-ÜBERNOMMENER FUNKTIONSUMFANG
-- Alle Rechner, Wissensseiten, Dokumentationsfunktionen, Suche, Filter, Sortierung, Favoriten, Navigation und Offline-Funktionen aus V2.1.3.0-Beta bleiben erhalten.
-- Der Siemens-Rohwert-Rechner behält frei definierbare physikalische Messbereiche, freie Einheiten und die Umrechnung aus Rohwert, Signalwert oder physikalischem Istwert.
-- Die endgültig entfernten Altmodule bleiben ausgeschlossen.
+REGRESSIONSSCHUTZ
+- Die statische Release-Validierung prüft die iPhone-/PWA-Metadaten auf jeder Direktseite.
+- Der Browser-Smoke-Test prüft auf allen 15 Direktseiten Headerposition, Headerbreite, Trennlinie, Startseiten-Link und dunklen Dokumenthintergrund.
+- Smartphone-Hochformat, Smartphone-Querformat, Tablet und Desktop wurden erneut geprüft.
+- Rechner, Suche, Filter, Sortierung, Favoriten, Navigation, PWA und Offline-Aufrufe bleiben unverändert funktionsfähig.
 
 TECHNIK UND RELEASE
-- Responsive Regeln zentral in assets/responsive.css umgesetzt und auf allen Seiten als letzte Stilschicht geladen; keine seitenweisen Designpatches.
-- Browser-Smoke-Test um sticky Header, mobile Touch-Ziele, Tablet-Raster, Startseiten-Hero und 50-px-Schnellzugriffe erweitert.
-- Statische Validierung um die neue Responsive-Shell, Querformat-, Standalone- und Reduced-Motion-Regeln erweitert.
-- VERSION, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Dokumentation und Prüfsummen auf V2.1.4.0-Beta synchronisiert.
+- VERSION, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Dokumentation, Tests und Prüfsummen sind auf V2.1.4.1-Beta synchronisiert.
+- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.4.1-Beta.zip.

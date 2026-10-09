@@ -1,4 +1,4 @@
-/* === V2.1.4.0-Beta · responsive application shell ===
+/* === V2.1.4.1-Beta · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -7,6 +7,10 @@
   --sk-mobile-action-size:50px;
   --sk-header-surface:rgba(4,19,31,.94);
 }
+
+/* Die Dokumentfläche selbst muss die iPhone-Status-/Safe-Area dunkel füllen.
+   Andernfalls kann oberhalb des Body ein weißer Browser-/PWA-Streifen sichtbar werden. */
+html{background-color:#04131f}
 
 :where(a,button,input,select,textarea,summary):focus-visible{
   outline:3px solid rgba(0,183,232,.48);
@@ -34,8 +38,10 @@
     position:sticky;
     top:0;
     z-index:900;
+    width:100vw;
     min-height:74px;
-    margin-inline:calc(var(--sk-mobile-gutter) * -1);
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
     padding-top:env(safe-area-inset-top,0px)!important;
     border-bottom-color:rgba(44,98,124,.72);
     background:var(--sk-header-surface);
@@ -45,7 +51,10 @@
   .sk-global-header>.sk-header-inner{
     width:100%;
     min-height:74px;
-    padding:8px var(--sk-mobile-gutter);
+    padding-top:8px;
+    padding-right:calc(var(--sk-mobile-gutter) + env(safe-area-inset-right,0px));
+    padding-bottom:8px;
+    padding-left:calc(var(--sk-mobile-gutter) + env(safe-area-inset-left,0px));
     display:grid;
     grid-template-columns:44px minmax(0,1fr) auto;
     gap:10px;
@@ -240,6 +249,7 @@
 
 /* Breite Smartphone-Querformate (z. B. moderne iPhones mit 844–932 CSS-Pixeln). */
 @media (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  :root{--sk-landscape-gutter:18px}
   html{scroll-padding-top:66px}
   body{
     padding-right:env(safe-area-inset-right,0px);
@@ -250,13 +260,23 @@
     position:sticky;
     top:0;
     z-index:900;
+    width:100vw;
     min-height:62px;
+    margin-left:calc(50% - 50vw);
+    margin-right:calc(50% - 50vw);
     padding-top:env(safe-area-inset-top,0px)!important;
     background:var(--sk-header-surface);
     -webkit-backdrop-filter:blur(16px) saturate(135%);
     backdrop-filter:blur(16px) saturate(135%);
   }
-  .sk-global-header>.sk-header-inner{min-height:62px;padding-block:6px}
+  .sk-global-header>.sk-header-inner{
+    width:100%;
+    min-height:62px;
+    padding-top:6px;
+    padding-right:calc(var(--sk-landscape-gutter) + env(safe-area-inset-right,0px));
+    padding-bottom:6px;
+    padding-left:calc(var(--sk-landscape-gutter) + env(safe-area-inset-left,0px));
+  }
   .sk-logo-version-stack .sk-header-logo{width:38px;height:38px;min-width:38px}
   .hero{grid-template-columns:minmax(0,1fr) 150px;align-items:center}
   .hero img{order:initial;width:135px}

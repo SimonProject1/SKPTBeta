@@ -1,16 +1,16 @@
-# SK PLT Tools 2.1.4.0-Beta
+# SK PLT Tools 2.1.4.1-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.4.0-Beta** basiert vollständig auf dem geprüften Stand **2.1.3.0-Beta**; die stabile Referenz bleibt **2.1.0.0**. Der neue zentrale Responsive-Aufbau optimiert Header, Hero, Karten, Formulare, Schnellzugriffe und Drawer für Smartphone, Tablet, Desktop und Standalone-PWA.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.4.1-Beta** basiert auf **2.1.4.0-Beta**; die stabile Referenz bleibt **2.1.0.0**.
 
-## Responsive-Aufbau 2.1.4.0
+## Korrekturen in 2.1.4.1
 
-- sticky Mobile-Header mit iPhone-Safe-Area,
-- einspaltige Smartphone- und zweispaltige Tablet-Werkzeugübersicht,
-- mindestens 44 px große Touch-Ziele und 48 px hohe mobile Formfelder,
-- 50 × 50 px große, fest positionierte Favoriten- und Navigationsschaltflächen,
-- Drawer mit dynamischer Viewport-Höhe und Safe-Area-Innenabständen,
-- eigene Regeln für Querformat, Standalone-PWA und reduzierte Bewegung,
-- unveränderte fachliche Funktionen und geprüfte Desktopdarstellung.
+- dunkler Dokumenthintergrund bis in die obere iPhone-/PWA-Safe-Area,
+- `viewport-fit=cover` und `apple-mobile-web-app-status-bar-style=black-translucent` auf allen 15 Seiten,
+- mobile Kopfzeile auf jeder Seite exakt so breit wie der Viewport,
+- bündige Trennlinie unter der Kopfzeile,
+- konsistent ausgerichteter Startseiten-Link,
+- identisches Verhalten in Smartphone-Hoch- und -Querformat,
+- neue statische und echte Browserprüfungen gegen eine erneute Verschiebung.
 
 ## Enthaltene Funktionen
 
@@ -31,9 +31,9 @@ Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben
 - `assets/`: zentrale Laufzeitdateien, Datenkataloge und Modulressourcen,
 - `shared/`: zentrale Header-, Footer- und Bedienelement-Fragmente,
 - `tools/release.py`: Versionssynchronisierung, PWA-Precache, Prüfsummen und ZIP,
-- `tools/validate_release.py`: statische Vollständigkeits-, Ausschluss- und Integritätsprüfung,
+- `tools/validate_release.py`: statische Vollständigkeits-, Safe-Area-, Ausschluss- und Integritätsprüfung,
 - `tools/functional-smoke-test.js`: Rechner- und Inhaltsregressionen,
-- `tools/browser-smoke-test.py`: Browser-, Responsive-, PWA- und Offline-Test,
+- `tools/browser-smoke-test.py`: Browser-, Header-, Responsive-, PWA- und Offline-Test,
 - `TESTBERICHT-UND-ABNAHME.md`: geprüfter Release-Nachweis,
 - `SHA256SUMS.txt`: vollständige interne SHA-256-Prüfsummen.
 
@@ -41,10 +41,12 @@ Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben
 
 ```bash
 node tools/functional-smoke-test.js
+python3 tools/release.py --checksums
 python3 tools/validate_release.py
 python3 -m http.server 4173 --bind 127.0.0.1
 # in einem zweiten Terminal
-python3 tools/browser-smoke-test.py
+PLAYWRIGHT_CHROMIUM_EXECUTABLE=<chromium> python3 tools/browser-smoke-test.py
+sha256sum -c SHA256SUMS.txt
 ```
 
 ## Release bauen

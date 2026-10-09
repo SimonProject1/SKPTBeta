@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.4.0-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.4.1-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.4.0-Beta"
+VERSION = "2.1.4.1-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -48,6 +48,23 @@ def assert_mobile_fixed_controls(page, bottom=10, side=10, tolerance=1):
     tree_after = page.locator(".sk-tree-trigger").bounding_box()
     after = (favorite_after["x"], favorite_after["y"], tree_after["x"], tree_after["y"])
     assert all(abs(a - b) <= tolerance for a, b in zip(before, after)), "Mobile Icons bewegen sich beim Scrollen"
+
+
+def assert_mobile_header_shell(page, tolerance=1):
+    """Prüft den vollbreiten dunklen Header samt rechtsbündigem Startseiten-Link."""
+    header = page.locator("header.sk-global-header")
+    box = header.bounding_box()
+    viewport = page.viewport_size
+    assert box and viewport
+    assert abs(box["x"]) <= tolerance, f"Header beginnt bei x={box['x']} statt am Viewportrand"
+    assert abs(box["width"] - viewport["width"]) <= tolerance, f"Header/Trennlinie ist {box['width']} px statt {viewport['width']} px breit"
+    home = page.locator(".sk-header-home").bounding_box()
+    assert home
+    home_right = viewport["width"] - home["x"] - home["width"]
+    assert 8 <= home_right <= 20, f"Startseiten-Link ist horizontal versetzt: rechter Abstand {home_right} px"
+    assert header.evaluate("el => getComputedStyle(el).borderBottomStyle") != "none"
+    assert page.locator("html").evaluate("el => getComputedStyle(el).backgroundColor") == "rgb(4, 19, 31)"
+    assert page.locator('meta[name="apple-mobile-web-app-status-bar-style"]').get_attribute("content") == "black-translucent"
 
 
 PAGES = [
@@ -243,6 +260,7 @@ with sync_playwright() as p:
     assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
     assert mobile.locator("header.sk-global-header").bounding_box()["height"] <= 76
     assert mobile.locator("header.sk-global-header").evaluate("el => getComputedStyle(el).position") == "sticky"
+    assert_mobile_header_shell(mobile)
     assert_box(mobile, ".sk-favorites-trigger", 50, 50)
     assert_box(mobile, ".sk-tree-trigger", 50, 50)
     assert_mobile_fixed_controls(mobile)
@@ -261,6 +279,7 @@ with sync_playwright() as p:
         mobile.goto(f"{BASE}{route}")
         mobile.wait_for_load_state("networkidle")
         assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Mobiles Überlaufen: {route}"
+        assert_mobile_header_shell(mobile)
         assert_box(mobile, ".sk-favorites-trigger", 50, 50)
         assert_box(mobile, ".sk-tree-trigger", 50, 50)
         assert_mobile_fixed_controls(mobile)
@@ -294,6 +313,7 @@ with sync_playwright() as p:
     assert landscape.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
     assert landscape.locator("header.sk-global-header").bounding_box()["height"] <= 66
     assert landscape.locator("header.sk-global-header").evaluate("el => getComputedStyle(el).position") == "sticky"
+    assert_mobile_header_shell(landscape)
     assert_box(landscape, ".sk-favorites-trigger", 50, 50)
     assert_box(landscape, ".sk-tree-trigger", 50, 50)
     assert_mobile_fixed_controls(landscape, bottom=8, side=10)

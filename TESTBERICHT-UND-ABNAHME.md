@@ -1,42 +1,38 @@
-# Testbericht und Abnahme – SK PLT Tools 2.1.4.0-Beta
+# Testbericht und Abnahme – SK PLT Tools 2.1.4.1-Beta
 
 **Prüfdatum:** 09.10.2026  
-**Direkte Basis:** 2.1.3.0-Beta  
+**Direkte Basis:** 2.1.4.0-Beta  
 **Stabile Referenz:** 2.1.0.0  
-**Prüfumfang:** vollständiges Projekt mit neuem responsivem Aufbau
+**Prüfumfang:** vollständiges Projekt mit Korrektur der mobilen Kopfzeile und iPhone-/PWA-Safe-Area
 
 ## Gesamtergebnis
 
-**PASS – der neue responsive Aufbau ist zentral umgesetzt, der vollständige Funktionsumfang bleibt erhalten und die Beta ist als ZIP auslieferbar.**
+**PASS – der weiße obere Bereich ist technisch beseitigt, Header, Trennlinie und Startseiten-Link sind auf allen 15 Direktseiten bündig ausgerichtet, und der bestehende Funktionsumfang bleibt erhalten.**
 
-## Umgesetzter Aufbau
+## Umgesetzte Korrekturen
 
-- Sticky Mobile-Header mit oberer Safe-Area und stabilem Raster für Logo, Titel und Startseiten-Link.
-- Einspaltige Smartphone- und zweispaltige Tablet-Werkzeugübersicht.
-- Kompakter Startseiten-Hero mit mobil vorangestelltem Logo; im Smartphone-Querformat steht das Logo rechts neben dem Text.
-- Mindestens 44 px große zentrale Touch-Ziele; mobile Formfelder sind 48 px hoch.
-- Favoriten- und Baummenü-Schaltfläche: mobil 50 × 50 px, fest in den unteren Viewport-Ecken und Safe-Area-fähig.
-- Seitendrawer mit dynamischer Viewport-Höhe, Safe-Area-Innenabständen und begrenztem Overscrolling.
-- Eigene Regeln für breite Smartphone-Querformate, Standalone-PWA und reduzierte Bewegung.
-- Einheitliche Tastatur-Fokusmarkierung für Links, Schaltflächen, Formfelder und aufklappbare Bereiche.
-- Responsive Regeln zentral in `assets/responsive.css`, auf allen 15 Seiten als letzte Stilschicht geladen.
+- `html` erhält einen festen dunkelblauen Hintergrund, damit oberhalb des Body keine weiße Dokumentfläche sichtbar wird.
+- Alle HTML-Seiten enthalten `viewport-fit=cover`, `apple-mobile-web-app-capable=yes` und `apple-mobile-web-app-status-bar-style=black-translucent`.
+- Der Smartphone-Header verwendet `100vw` und eine containerunabhängige Zentrierung; dadurch funktioniert er innerhalb von `.shell` sowie direkt unter `body`.
+- Die Header-Innenabstände berücksichtigen linke und rechte Safe-Areas.
+- Dieselbe Korrektur gilt für breite Smartphone-Querformate.
+- Die automatischen Tests sichern Headerbreite, Trennlinie, Startseiten-Link und Hintergrund künftig gegen Regressionen ab.
 
 ## Technische Prüfungen
 
 | ID | Prüfung | Ergebnis |
 |---|---|---|
-| T01 | Versionskonsistenz | PASS · 2.1.4.0-Beta in VERSION, allen 15 HTML-Seiten, Manifest, Navigation, App-Laufzeit, Service Worker und Release-Konfiguration |
-| T02 | Smartphone Hochformat | PASS · 390 × 844 px, einspaltige Karten, sticky Header, 50-px-Schnellzugriffe, kein horizontales Überlaufen |
-| T03 | Smartphone Querformat | PASS · 844 × 390 px, zweispaltige Karten, zweispaltiger Hero, sticky Header und feste untere Schnellzugriffe |
-| T04 | Tablet | PASS · 820 × 1180 px, zweispaltige Werkzeugübersicht und unveränderte Modulfunktionen |
-| T05 | Desktop | PASS · 1440 × 1050 px, bestehender dreispaltiger Aufbau ohne Layoutregression |
-| T06 | Touch-Ziele und Formulare | PASS · zentrale Ziele mindestens 44 px; mobile Eingaben und Auswahllisten 48 px |
-| T07 | Safe-Area/PWA-Shell | PASS · obere, untere, linke und rechte Safe-Areas in Header, Schnellzugriffen und Drawern berücksichtigt |
-| T08 | Statische Release-Validierung | PASS · 15 Direktseiten, lokale Referenzen, JavaScript-Syntax, Ausschlussregeln, Modulbestand und interne SHA-256-Liste fehlerfrei |
-| T09 | Funktions-Smoke-Test | PASS · Rechner, Siemens-Eingaberichtungen, Messbereich, Einheiten, Diagnosegrenzen und Wissensinhalte funktionsfähig |
-| T10 | Navigation/Favoriten | PASS · Öffnen, Schließen, Persistenz, Entfernen und Baummenüstruktur funktionieren |
-| T11 | PWA/Offline | PASS · App-ID `sk-plt-tools-2.1.4.0-beta`, Release-Cache `sk-plt-tools-v2.1.4.0-Beta`, vollständiger Precache und Offline-Direktaufrufe |
-| T12 | Responsive Stilschicht | PASS · `assets/responsive.css` auf allen 15 Seiten vorhanden, zuletzt geladen und im Offline-Cache enthalten |
+| T01 | Versionskonsistenz | PASS · 2.1.4.1-Beta in VERSION, allen 15 HTML-Seiten, Manifest, Navigation, App-Laufzeit, Service Worker und Release-Konfiguration |
+| T02 | iPhone-/PWA-Metadaten | PASS · `viewport-fit=cover`, PWA-Fähigkeit und dunkler Statusbereich auf allen 15 Seiten |
+| T03 | Smartphone Hochformat | PASS · 390 × 844 px, Header x=0 und 390 px breit, Startseiten-Link mit 12 px rechtem Abstand, kein horizontales Überlaufen |
+| T04 | Smartphone Querformat | PASS · 844 × 390 px, vollbreiter sticky Header, bündige Trennlinie und feste Schnellzugriffe |
+| T05 | Unterschiedliche Seitenstrukturen | PASS · Header sowohl in `.shell` als auch direkt unter `body` auf allen 15 Direktseiten bündig |
+| T06 | Tablet und Desktop | PASS · bestehende zwei- bzw. dreispaltige Darstellung ohne Layoutregression |
+| T07 | Funktions-Smoke-Test | PASS · Rechner, Siemens-Eingaberichtungen, Messbereich, Einheiten, Diagnosegrenzen und Wissensinhalte funktionsfähig |
+| T08 | Navigation/Favoriten | PASS · Öffnen, Schließen, Persistenz, Entfernen und Baummenüstruktur funktionieren |
+| T09 | PWA/Offline | PASS · App-ID `sk-plt-tools-2.1.4.1-beta`, Release-Cache `sk-plt-tools-v2.1.4.1-Beta`, vollständiger Precache und Offline-Direktaufrufe |
+| T10 | Statische Release-Validierung | PASS · Direktseiten, lokale Referenzen, JavaScript-Syntax, Ausschlussregeln, Safe-Area-Metadaten und interne SHA-256-Liste fehlerfrei |
+| T11 | Integrität | PASS · 69 interne SHA-256-Prüfsummen validiert |
 
 ## Verwendete automatisierte Prüfungen
 
@@ -46,25 +42,17 @@ python3 tools/release.py --checksums
 python3 tools/validate_release.py
 PLAYWRIGHT_CHROMIUM_EXECUTABLE=<chromium> python3 tools/browser-smoke-test.py
 sha256sum -c SHA256SUMS.txt
-unzip -t SK-PLT-Tools-V2.1.4.0-Beta.zip
 ```
 
 ## Sichtprüfung
 
-Die durch den Browser-Smoke-Test erzeugten Screenshots wurden für folgende Ansichten geprüft:
-
-- Startseite Desktop,
-- Startseite Smartphone Hochformat,
-- Startseite Smartphone Querformat,
-- Siemens-Rohwert-Rechner Desktop, Tablet und Smartphone,
-- mobile Baumnavigation,
-- Wissens- und Rechnerseiten ohne horizontales Überlaufen.
+Die neu erzeugten Screenshots wurden für Startseite und Siemens-Rohwert-Rechner in Smartphone-Hochformat, Smartphone-Querformat und Desktop geprüft. Es ist kein weißer Seitenstreifen sichtbar; Header, Trennlinie und Startseiten-Link sind bündig und konsistent.
 
 ## Abnahme
 
-- Die vollständige Projektstruktur der V2.1.3.0-Beta ist erhalten und um genau eine zentrale responsive Stilschicht erweitert.
+- Die vollständige Projektstruktur der V2.1.4.0-Beta ist erhalten.
 - Bestehende Berechnungen, Wissensinhalte, Navigation, Suche, Favoriten, PWA- und Offline-Funktionen bleiben erhalten.
-- Der neue Aufbau ist für Smartphone, Smartphone-Querformat, Tablet, Desktop und Standalone-PWA zentral definiert und regressionsgeprüft.
+- Die Korrektur ist zentral umgesetzt und auf allen Direktseiten regressionsgeprüft.
 - Das Release enthält keine personenbezogenen Testdaten.
 
 **Abnahmestatus: PASS.**
