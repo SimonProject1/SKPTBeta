@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.3.0-Beta."""
+"""Static release validation for SK PLT Tools 2.1.4.0-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.3.0-Beta'
+VERSION='2.1.4.0-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -82,7 +82,10 @@ for rel,page in pages.items():
     if 'SK PLT Tools' not in soup.get_text(' ',strip=True): errors.append(f'{rel}: Produktkennzeichnung fehlt')
     styles=[tag.get('href','') for tag in soup.find_all('link',rel=lambda value:value and 'stylesheet' in value)]
     core_styles=[value for value in styles if 'assets/core.css' in value]
+    responsive_styles=[value for value in styles if 'assets/responsive.css' in value]
     if len(core_styles)!=1: errors.append(f'{rel}: genau eine zentrale core.css erwartet')
+    if len(responsive_styles)!=1: errors.append(f'{rel}: genau eine letzte responsive.css erwartet')
+    elif styles[-1] != responsive_styles[0]: errors.append(f'{rel}: responsive.css muss als letzte Stilschicht geladen werden')
     scripts=[tag.get('src','') for tag in soup.find_all('script',src=True)]
     if sum('assets/app.js' in value for value in scripts)!=1: errors.append(f'{rel}: genau eine zentrale app.js erwartet')
     for forbidden in ('favorites.js','start-filter.js','sort-tools.js','navigation-tree.js','sk-shell.js','header-alignment-fix.js','header-version-footer-fix.js','card-cleanup.js','start-voltage-drop-integration.js','version-1.9.8.5.js'):
@@ -242,7 +245,7 @@ for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'<
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
 if "const CACHE_PREFIX='sk-plt-tools-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den Release-Cache')
 if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt ältere SK-PLT-Tools-Caches nicht')
-for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
+for required in ('./assets/core.css','./assets/responsive.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
 for forbidden in ('_'.join(('228','SR4','K06','E07.1.pdf')),'744f24436071c5c9f36d91fc82fa2a6'+'a16f20ec8662bd81f68e3f53321792772'):
     if forbidden in sw: errors.append('Service Worker enthält eine personenbezogene Testreferenz')
@@ -282,6 +285,7 @@ for required in ("elements.inputValue.inputMode=mode==='raw'?'numeric':'decimal'
     if required not in siemens_js: errors.append(f'Siemens-Rechner: optimierte Rohwert-Eingabe fehlt: {required}')
 
 core_css=(ROOT/'assets/core.css').read_text(encoding='utf-8')
+responsive_css=(ROOT/'assets/responsive.css').read_text(encoding='utf-8')
 design_css=favorites_css=tree_css=styles_css=core_css
 for required in ('min-height:86px','min-height:74px'):
     if required not in design_css: errors.append(f'Kompakter Header: Merkmal fehlt: {required}')
@@ -295,6 +299,20 @@ for required in ('body{padding-bottom:calc(58px + env(safe-area-inset-bottom,0px
     if required not in core_css: errors.append(f'Mobile feste Schnellzugriffe unvollständig: {required}')
 for required in ('grid-template-columns:1fr 38px','.sign{font-size:16px;min-width:38px}'):
     if required not in styles_css: errors.append(f'Vorzeichen-Schaltfläche: Kompaktierungsmerkmal fehlt: {required}')
+for required in (
+    '--sk-touch:44px',
+    '--sk-mobile-action-size:50px',
+    'position:sticky',
+    'padding-top:env(safe-area-inset-top,0px)!important',
+    'grid-template-columns:repeat(2,minmax(0,1fr))',
+    'min-height:48px',
+    'height:100dvh',
+    '@media (max-width:760px) and (orientation:landscape) and (max-height:520px)',
+    '@media (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px)',
+    '@media (display-mode:standalone) and (max-width:760px)',
+    '@media (prefers-reduced-motion:reduce)',
+):
+    if required not in responsive_css: errors.append(f'V2.1.4.0 Responsive-Shell unvollständig: {required}')
 
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel

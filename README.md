@@ -1,6 +1,16 @@
-# SK PLT Tools 2.1.3.0-Beta
+# SK PLT Tools 2.1.4.0-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.3.0-Beta** basiert vollständig auf dem geprüften Stand **2.1.2.1-Beta**; die stabile Referenz bleibt **2.1.0.0**. In der mobilen Darstellung sind das Favoriten-Icon links unten und das Baummenü-Icon rechts unten dauerhaft am Viewport fixiert; iPhone-Safe-Areas werden berücksichtigt.
+Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.4.0-Beta** basiert vollständig auf dem geprüften Stand **2.1.3.0-Beta**; die stabile Referenz bleibt **2.1.0.0**. Der neue zentrale Responsive-Aufbau optimiert Header, Hero, Karten, Formulare, Schnellzugriffe und Drawer für Smartphone, Tablet, Desktop und Standalone-PWA.
+
+## Responsive-Aufbau 2.1.4.0
+
+- sticky Mobile-Header mit iPhone-Safe-Area,
+- einspaltige Smartphone- und zweispaltige Tablet-Werkzeugübersicht,
+- mindestens 44 px große Touch-Ziele und 48 px hohe mobile Formfelder,
+- 50 × 50 px große, fest positionierte Favoriten- und Navigationsschaltflächen,
+- Drawer mit dynamischer Viewport-Höhe und Safe-Area-Innenabständen,
+- eigene Regeln für Querformat, Standalone-PWA und reduzierte Bewegung,
+- unveränderte fachliche Funktionen und geprüfte Desktopdarstellung.
 
 ## Enthaltene Funktionen
 

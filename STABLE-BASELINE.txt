@@ -1,7 +1,9 @@
 SK PLT Tools – Baseline-Hinweis
 
-Version: V2.1.3.0-Beta
-Direkte Vorgängerversion/Basis: V2.1.2.1-Beta
+Version: V2.1.4.0-Beta
+Direkte Vorgängerversion/Basis: V2.1.3.0-Beta
 Stabile Referenz: V2.1.0.0
 
-Die enthaltenen Rechner, Dokumentationsfunktionen, Wissensseiten, Navigation, Suche, Favoriten und Offline-Funktionen bleiben gegenüber der direkten Basis erhalten. V2.1.3.0-Beta erweitert ausschließlich den Siemens-Rohwert-Rechner um den frei definierbaren physikalischen Messbereich und die zusätzliche Istwert-Eingaberichtung.
+Die enthaltenen Rechner, Dokumentationsfunktionen, Wissensseiten, Navigation, Suche, Favoriten und Offline-Funktionen bleiben gegenüber der direkten Basis erhalten.
+
+V2.1.4.0-Beta erweitert den zentralen responsiven Aufbau: sticky Mobile-Header, Safe-Area-Unterstützung, touchfreundliche Formulare und Karten, zweispaltiges Tablet-Raster, einspaltiges Smartphone-Raster, 50-px-Schnellzugriffe, dynamische Drawer-Höhen sowie Regeln für Querformat, Standalone-PWA und reduzierte Bewegung.

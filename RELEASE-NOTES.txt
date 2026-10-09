@@ -1,22 +1,27 @@
-SK PLT Tools V2.1.3.0-Beta
+SK PLT Tools V2.1.4.0-Beta
 Release-Datum: 09.10.2026
-Direkte Basis: V2.1.2.1-Beta
+Direkte Basis: V2.1.3.0-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT: MOBILE BEDIENELEMENTE
-- Das Favoriten-Icon ist in der mobilen Darstellung dauerhaft links unten am Viewport fixiert.
-- Das Baummenü-Icon ist in der mobilen Darstellung dauerhaft rechts unten am Viewport fixiert.
-- Beide Schnellzugriffe liegen außerhalb des Seitenscrollbereichs und bleiben beim Scrollen an derselben Position.
-- iPhone-Safe-Areas werden über env(safe-area-inset-bottom/left/right) berücksichtigt.
-- Ein mobiler Inhaltsabstand am Seitenende verhindert, dass die fest positionierten Schaltflächen Inhalte verdecken.
-- Desktop- und Tablet-Positionierung bleiben unverändert.
+SCHWERPUNKT: NEUER RESPONSIVER AUFBAU
+- Zentrale responsive Anwendungsschale für Smartphone, Tablet, Desktop und installierte PWA.
+- Mobiler Header bleibt beim Scrollen sichtbar und berücksichtigt die obere iPhone-Safe-Area.
+- Kopfzeile nutzt auf Smartphones ein stabiles Dreispaltenraster für Logo, Seitentitel und Startseiten-Link.
+- Startseiten-Hero, Seitentitel, Karten und Panels skalieren kompakter und ohne horizontales Überlaufen.
+- Tablet-Ansicht verwendet eine zweispaltige Werkzeugübersicht; Smartphones verwenden eine einspaltige, touchfreundliche Darstellung.
+- Eingabefelder und zentrale Schaltflächen erhalten mindestens 44 px große Touch-Ziele; Formfelder sind auf Mobilgeräten 48 px hoch.
+- Favoriten- und Baummenü-Schaltfläche sind mobil 50 × 50 px groß, bleiben in den unteren Ecken fixiert und berücksichtigen alle Safe-Areas.
+- Favoriten- und Navigationsdrawer verwenden die dynamische Viewport-Höhe und Safe-Area-Innenabstände.
+- Eigene Anpassungen für Smartphone-Querformat, Standalone-PWA und reduzierte Bewegung ergänzt.
+- Einheitliche, deutlich sichtbare Tastatur-Fokusmarkierung für interaktive Elemente.
 
 ÜBERNOMMENER FUNKTIONSUMFANG
-- Alle Rechner, Wissensseiten, Navigation, Suche, Filter, Sortierung, Favoriten und Offline-Funktionen aus V2.1.2.1-Beta wurden vollständig übernommen.
-- Der Siemens-Rohwert-Rechner behält den frei definierbaren physikalischen Messbereich, freie Einheiten und die Umrechnung aus Rohwert, Signalwert oder physikalischem Istwert.
+- Alle Rechner, Wissensseiten, Dokumentationsfunktionen, Suche, Filter, Sortierung, Favoriten, Navigation und Offline-Funktionen aus V2.1.3.0-Beta bleiben erhalten.
+- Der Siemens-Rohwert-Rechner behält frei definierbare physikalische Messbereiche, freie Einheiten und die Umrechnung aus Rohwert, Signalwert oder physikalischem Istwert.
+- Die endgültig entfernten Altmodule bleiben ausgeschlossen.
 
 TECHNIK UND RELEASE
-- Zentrale mobile Gestaltung in assets/core.css umgesetzt; keine seitenweisen Patches.
-- Browser-Smoke-Test um feste linke/rechte Unterkantenposition und Positionsstabilität beim Scrollen erweitert.
-- Statische Validierung um die mobilen Safe-Area- und Fixed-Position-Regeln erweitert.
-- VERSION, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Dokumentation und Prüfsummen auf V2.1.3.0-Beta synchronisiert.
+- Responsive Regeln zentral in assets/responsive.css umgesetzt und auf allen Seiten als letzte Stilschicht geladen; keine seitenweisen Designpatches.
+- Browser-Smoke-Test um sticky Header, mobile Touch-Ziele, Tablet-Raster, Startseiten-Hero und 50-px-Schnellzugriffe erweitert.
+- Statische Validierung um die neue Responsive-Shell, Querformat-, Standalone- und Reduced-Motion-Regeln erweitert.
+- VERSION, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Dokumentation und Prüfsummen auf V2.1.4.0-Beta synchronisiert.

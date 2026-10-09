@@ -1,4 +1,4 @@
-const RELEASE='2.1.3.0-Beta';
+const RELEASE='2.1.4.0-Beta';
 const CACHE_PREFIX='sk-plt-tools-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
@@ -21,6 +21,7 @@ const CORE=[
   "./assets/materials.js",
   "./assets/materials.json",
   "./assets/navigation-tree.json",
+  "./assets/responsive.css",
   "./assets/search-index.json",
   "./assets/siemens-analogwert-rechner.css",
   "./assets/siemens-analogwert-rechner.js",

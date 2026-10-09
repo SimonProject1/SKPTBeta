@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.3.0-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.4.0-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.3.0-Beta"
+VERSION = "2.1.4.0-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -29,7 +29,7 @@ def assert_box(page, selector, width, height, tolerance=1):
     assert abs(box["height"] - height) <= tolerance, f"{selector}: Höhe {box['height']} statt {height}"
 
 
-def assert_mobile_fixed_controls(page, bottom=8, side=8, tolerance=1):
+def assert_mobile_fixed_controls(page, bottom=10, side=10, tolerance=1):
     """Prüft mobile Schnellzugriffe am festen unteren Viewport-Rand."""
     favorite = page.locator(".sk-favorites-trigger").bounding_box()
     tree = page.locator(".sk-tree-trigger").bounding_box()
@@ -228,6 +228,9 @@ with sync_playwright() as p:
         assert tablet.locator("header.sk-global-header").bounding_box()["height"] <= 88
         assert_box(tablet, ".sk-favorites-trigger", 48, 48)
         assert_box(tablet, ".sk-tree-trigger", 48, 48)
+    tablet.goto(f"{BASE}/")
+    tablet.wait_for_load_state("networkidle")
+    assert tablet.locator(".tools").evaluate("el => getComputedStyle(el).gridTemplateColumns.split(' ').length") == 2
     tablet.goto(f"{BASE}/siemens-analogwert-rechner/")
     tablet.wait_for_load_state("networkidle")
     assert tablet.locator("details.analog-card-info").get_attribute("open") is None
@@ -239,15 +242,18 @@ with sync_playwright() as p:
     mobile.wait_for_load_state("networkidle")
     assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
     assert mobile.locator("header.sk-global-header").bounding_box()["height"] <= 76
-    assert_box(mobile, ".sk-favorites-trigger", 42, 42)
-    assert_box(mobile, ".sk-tree-trigger", 42, 42)
+    assert mobile.locator("header.sk-global-header").evaluate("el => getComputedStyle(el).position") == "sticky"
+    assert_box(mobile, ".sk-favorites-trigger", 50, 50)
+    assert_box(mobile, ".sk-tree-trigger", 50, 50)
     assert_mobile_fixed_controls(mobile)
     assert mobile.locator("#cardProfile").is_visible()
+    assert mobile.locator("#cardProfile").bounding_box()["height"] >= 48
     assert mobile.locator("details.analog-card-info").get_attribute("open") is None
     input_box = mobile.locator(".analog-input-shell").bounding_box()
     input_field_box = mobile.locator("#inputValue").bounding_box()
     suffix_box = mobile.locator("#inputSuffix").bounding_box()
-    assert input_box["height"] <= 41
+    assert 48 <= input_box["height"] <= 52
+    assert 46 <= input_field_box["height"] <= 50
     assert abs(input_field_box["y"] - suffix_box["y"]) <= 1
     assert mobile.locator(".analog-state-strip span").first.bounding_box()["height"] <= 29
     mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
@@ -255,11 +261,15 @@ with sync_playwright() as p:
         mobile.goto(f"{BASE}{route}")
         mobile.wait_for_load_state("networkidle")
         assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Mobiles Überlaufen: {route}"
-        assert_box(mobile, ".sk-favorites-trigger", 42, 42)
-        assert_box(mobile, ".sk-tree-trigger", 42, 42)
+        assert_box(mobile, ".sk-favorites-trigger", 50, 50)
+        assert_box(mobile, ".sk-tree-trigger", 50, 50)
         assert_mobile_fixed_controls(mobile)
     mobile.goto(f"{BASE}/")
     mobile.wait_for_load_state("networkidle")
+    assert mobile.locator(".tools").evaluate("el => getComputedStyle(el).gridTemplateColumns.split(' ').length") == 1
+    assert mobile.locator(".hero img").bounding_box()["y"] < mobile.locator(".hero h1").bounding_box()["y"]
+    assert mobile.locator(".sk-favorite-button").first.bounding_box()["width"] >= 44
+    mobile.screenshot(path=str(OUT / "startseite-mobile.png"), full_page=True)
     mobile.locator('.sk-tree-trigger').click()
     mobile.wait_for_timeout(300)
     mobile_row = mobile.locator('.sk-tree-group-toggle[data-group="knowledge"] + .sk-tree-list > .sk-tree-item.has-children > .sk-tree-node-row')
@@ -274,7 +284,21 @@ with sync_playwright() as p:
     mobile.locator('.sk-tree-close').click()
     mobile.goto(f"{BASE}/analogsignal/")
     mobile.wait_for_load_state("networkidle")
-    assert abs(mobile.locator("button.sign").first.bounding_box()["width"] - 38) <= 1
+    assert abs(mobile.locator("button.sign").first.bounding_box()["width"] - 44) <= 1
+
+    # Breites Smartphone-Querformat mit Safe-Area-/Viewport-Shell.
+    landscape = browser.new_page(viewport={"width": 844, "height": 390}, device_scale_factor=2, is_mobile=True)
+    landscape.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
+    landscape.goto(f"{BASE}/")
+    landscape.wait_for_load_state("networkidle")
+    assert landscape.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+    assert landscape.locator("header.sk-global-header").bounding_box()["height"] <= 66
+    assert landscape.locator("header.sk-global-header").evaluate("el => getComputedStyle(el).position") == "sticky"
+    assert_box(landscape, ".sk-favorites-trigger", 50, 50)
+    assert_box(landscape, ".sk-tree-trigger", 50, 50)
+    assert_mobile_fixed_controls(landscape, bottom=8, side=10)
+    assert landscape.locator(".hero img").bounding_box()["x"] > landscape.locator(".hero h1").bounding_box()["x"]
+    landscape.screenshot(path=str(OUT / "startseite-mobile-landscape.png"), full_page=True)
 
     # PWA-Metadaten, Service Worker und echter Offline-Aufruf aus dem Cache.
     pwa = browser.new_page(viewport={"width": 1280, "height": 900})
