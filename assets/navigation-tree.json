@@ -1,5 +1,5 @@
 {
-  "version": "2.1.1.0-Beta",
+  "version": "2.1.2.0-Beta",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -39,16 +39,6 @@
         {
           "title": "Messstellen-Dokumentation",
           "url": "messstellen-doku/"
-        }
-      ]
-    },
-    {
-      "id": "testing",
-      "title": "Prüfung",
-      "items": [
-        {
-          "title": "VDE-Messwertprüfer",
-          "url": "plausibilitaetspruefung-vde0100-600/"
         }
       ]
     },

@@ -29,12 +29,6 @@
     "homeLabel": "← Startseite",
     "homeAria": "Zur Startseite"
   },
-  "plausibilitaetspruefung-vde0100-600/index.html": {
-    "subtitle": "VDE-Messwertprüfer",
-    "homeHref": "../",
-    "homeLabel": "← Startseite",
-    "homeAria": "Zur Startseite"
-  },
   "pt-rechner/index.html": {
     "subtitle": "Pt100 / Pt1000",
     "homeHref": "../",

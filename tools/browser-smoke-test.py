@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.1.0-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.2.0-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.1.0-Beta"
+VERSION = "2.1.2.0-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -31,8 +31,7 @@ def assert_box(page, selector, width, height, tolerance=1):
 
 PAGES = [
     "/", "/analogsignal/", "/siemens-analogwert-rechner/", "/einheitenrechner/", "/messstellen-doku/",
-    "/pf-rechner/", "/pt-rechner/", "/servicewerte/", "/spannungsfall-rechner/",
-    "/plausibilitaetspruefung-vde0100-600/", "/wissensdatenbank/",
+    "/pf-rechner/", "/pt-rechner/", "/servicewerte/", "/spannungsfall-rechner/", "/wissensdatenbank/",
     "/wissensdatenbank/air-torque-antrieb-drehrichtung/",
     "/wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/", "/wissensdatenbank/siemens-sps-rohwert/",
     "/wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/",
@@ -127,7 +126,7 @@ with sync_playwright() as p:
     assert 'q=316L' in material_hit.get_attribute('href')
     assert '1 Beitrag' in desktop.locator('#skFilterResult').inner_text()
     desktop.locator('#skFilterReset').click()
-    assert desktop.locator('.tools > a.card:visible').count() == 10
+    assert desktop.locator('.tools > a.card:visible').count() == 9
 
     # Kategorie und Sortierung.
     desktop.locator('.sk-filter-button[data-filter="RECHNER"]').click()
@@ -177,25 +176,6 @@ with sync_playwright() as p:
     desktop.locator('.sk-tree-close').click()
     desktop.wait_for_function("document.querySelector('.sk-tree-drawer').getBoundingClientRect().left >= window.innerWidth")
     desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
-
-    # VDE-Messwertprüfer: ausschließlich manuelle Eingaben, keine Datei-/OCR-Analyse.
-    desktop.goto(f"{BASE}/plausibilitaetspruefung-vde0100-600/")
-    desktop.wait_for_load_state("networkidle")
-    assert desktop.locator('input[type="file"]').count() == 0
-    assert desktop.locator("#uploadPanel").count() == 0
-    assert desktop.locator("#analysisPanel").count() == 0
-    assert desktop.locator("#previewFrame").count() == 0
-    assert desktop.locator("#measurementNav .measurement-button").count() == 6
-    assert desktop.locator("#resultPanel").is_hidden()
-    assert "Ausschließlich manuelle Messwerte" in desktop.locator(".manual-boundary").inner_text()
-    assert "Formularidentität" in desktop.locator(".manual-boundary").inner_text()
-    assert "Unterschriften" in desktop.locator(".manual-boundary").inner_text()
-    desktop.locator("#voltageDropMode").select_option("percent")
-    desktop.locator("#approvedMaxDropPercent").fill("3")
-    desktop.locator("#evaluateMeasurement").click()
-    assert desktop.locator("#inputAlert").is_visible()
-    assert desktop.locator("#resultPanel").is_hidden()
-    desktop.screenshot(path=str(OUT / "vde-messwertpruefer-desktop.png"), full_page=True)
 
     tablet = browser.new_page(viewport={"width": 820, "height": 1180}, device_scale_factor=2, is_mobile=True)
     tablet.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
@@ -269,7 +249,7 @@ with sync_playwright() as p:
     cache_keys = pwa.evaluate("caches.keys()")
     assert f"sk-plt-tools-v{VERSION}" in cache_keys
     cached_urls = pwa.evaluate(f"caches.open('sk-plt-tools-v{VERSION}').then(cache => cache.keys()).then(keys => keys.map(key => new URL(key.url).pathname))")
-    for required in ('/index.html','/assets/core.css','/assets/app.js','/assets/navigation-tree.json','/assets/vde0100-600-engine.js','/assets/vde0100-600-input-schema.json','/assets/vde0100-600-rules.json','/VDE0100-600-MESSWERTPRUEFER.md','/siemens-analogwert-rechner/index.html','/wissensdatenbank/werkstoff-nachschlagewerk/index.html'):
+    for required in ('/index.html','/assets/core.css','/assets/app.js','/assets/navigation-tree.json','/siemens-analogwert-rechner/index.html','/wissensdatenbank/werkstoff-nachschlagewerk/index.html'):
         assert required in cached_urls, f"Offline-Cache fehlt: {required}"
     pwa.context.set_offline(True)
     pwa.goto(f"{BASE}/siemens-analogwert-rechner/")
@@ -288,4 +268,4 @@ with sync_playwright() as p:
 
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: 16 Direktseiten, Desktop/Tablet/Mobil, Rechner, manuellen VDE-Messwertprüfer mit gezielter Fehlwertabfrage und gesperrtem Endergebnis, Suche, Filter, Sortierung, Favoriten, Navigation sowie PWA- und Offline-Verhalten geprüft.")
+    print("OK: 15 Direktseiten, Desktop/Tablet/Mobil, Rechner, Suche, Filter, Sortierung, Favoriten, Navigation sowie PWA- und Offline-Verhalten geprüft.")

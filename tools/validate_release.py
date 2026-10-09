@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.1.0-Beta."""
+"""Static release validation for SK PLT Tools 2.1.2.0-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.1.0-Beta'
+VERSION='2.1.2.0-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
- 'spannungsfall-rechner/index.html','plausibilitaetspruefung-vde0100-600/index.html',
+ 'spannungsfall-rechner/index.html',
  'wissensdatenbank/index.html','wissensdatenbank/air-torque-antrieb-drehrichtung/index.html',
  'wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/index.html','wissensdatenbank/siemens-sps-rohwert/index.html',
  'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html',
@@ -21,6 +21,24 @@ TEMPLATE_HASHES={
  'wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.docx':'95d130036ad3e2c9e5aa799ff696114bd8dadd0b9e326d66263f742d93079e98'
 }
 errors=[]
+
+# Guard against reintroducing names, paths or text belonging to the retired module.
+REMOVED_MARKERS=(
+    'v'+'de',
+    '0100'+'-600',
+    'messwert'+'prüfer',
+    'messwert'+'pruefer',
+    'plausibilitaets'+'pruefung',
+)
+for candidate in ROOT.rglob('*'):
+    relative=candidate.relative_to(ROOT).as_posix().lower()
+    if any(marker in relative for marker in REMOVED_MARKERS):
+        errors.append(f'Entferntes Modul: Pfadrest vorhanden: {candidate.relative_to(ROOT)}')
+    if candidate.is_file() and candidate.suffix.lower() in {'.js','.css','.json','.html','.md','.txt','.py','.webmanifest'}:
+        content=candidate.read_text(encoding='utf-8',errors='ignore').lower()
+        if any(marker in content for marker in REMOVED_MARKERS):
+            errors.append(f'Entferntes Modul: Textrest vorhanden: {candidate.relative_to(ROOT)}')
+
 pages={p.relative_to(ROOT).as_posix():p for p in ROOT.rglob('index.html')}
 
 OBSOLETE_FILES={
@@ -29,14 +47,14 @@ OBSOLETE_FILES={
  'assets/card-cleanup.js','assets/disable-support.js','assets/header-alignment-fix.css','assets/header-alignment-fix.js',
  'assets/header-version-footer-fix.css','assets/header-version-footer-fix.js','assets/knowledge-template-pdf.js',
  'assets/search-service-cleanup.js','assets/siemens-sitrans-integration.js','assets/sk-shell.css','assets/sk-shell.js',
- 'assets/start-vde-integration.js','assets/start-voltage-drop-integration.js',
- 'plausibilitaetspruefung-vde0100-600/logo-fallback.js','wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf.pdf'
+ 'assets/start-voltage-drop-integration.js',
+ 'wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf.pdf'
 }
 for rel in sorted(OBSOLETE_FILES):
     if (ROOT/rel).exists(): errors.append(f'Nachweislich ersetzte Altdatei noch vorhanden: {rel}')
 for path in (ROOT/'assets').glob('version-*.js'):
     errors.append(f'Nachweislich ersetzte Versions-Patchdatei noch vorhanden: {path.relative_to(ROOT)}')
-for required in ('release-config.json','shared/header.html','shared/footer.html','shared/controls.html','shared/pages.json','tools/sync_shared.py','tools/release.py','assets/vde0100-600-engine.js','assets/vde0100-600-input-schema.json','assets/vde0100-600-rules.json','tools/vde-protocol-e2e-test.py','VDE0100-600-MESSWERTPRUEFER.md'):
+for required in ('release-config.json','shared/header.html','shared/footer.html','shared/controls.html','shared/pages.json','tools/sync_shared.py','tools/release.py'):
     if not (ROOT/required).is_file(): errors.append(f'Zentrale Build-/Shell-Datei fehlt: {required}')
 if set(pages)!=EXPECTED_PAGES:
     errors.append(f'HTML-Seiten abweichend: erwartet {sorted(EXPECTED_PAGES)}, gefunden {sorted(pages)}')
@@ -67,7 +85,7 @@ for rel,page in pages.items():
     if len(core_styles)!=1: errors.append(f'{rel}: genau eine zentrale core.css erwartet')
     scripts=[tag.get('src','') for tag in soup.find_all('script',src=True)]
     if sum('assets/app.js' in value for value in scripts)!=1: errors.append(f'{rel}: genau eine zentrale app.js erwartet')
-    for forbidden in ('favorites.js','start-filter.js','sort-tools.js','navigation-tree.js','sk-shell.js','header-alignment-fix.js','header-version-footer-fix.js','card-cleanup.js','start-vde-integration.js','start-voltage-drop-integration.js','version-1.9.8.5.js'):
+    for forbidden in ('favorites.js','start-filter.js','sort-tools.js','navigation-tree.js','sk-shell.js','header-alignment-fix.js','header-version-footer-fix.js','card-cleanup.js','start-voltage-drop-integration.js','version-1.9.8.5.js'):
         if any(forbidden in value for value in scripts): errors.append(f'{rel}: alte Patchdatei noch eingebunden: {forbidden}')
     if len(soup.select('.sk-favorites-trigger'))!=1 or len(soup.select('.sk-tree-trigger'))!=1: errors.append(f'{rel}: statische Seitentrigger fehlen')
     for marker in ('header','footer','controls'):
@@ -78,7 +96,7 @@ for rel,page in pages.items():
         if target is not None and not target.exists(): errors.append(f'{rel}: fehlende lokale Referenz {ref}')
 
 start=BeautifulSoup((ROOT/'index.html').read_text(encoding='utf-8'),'html.parser')
-if len(start.select('.tools > a.card'))!=10: errors.append('Startseite: genau 10 sichtbare Werkzeugkacheln erwartet')
+if len(start.select('.tools > a.card'))!=9: errors.append('Startseite: genau 9 sichtbare Werkzeugkacheln erwartet')
 if len(start.select('.badge'))!=1 or start.select_one('.badge').get_text(strip=True)!=f'Version {VERSION}': errors.append('Startseite: Hero-Version fehlt oder ist nicht eindeutig')
 for rel,page in pages.items():
     if rel!='index.html' and BeautifulSoup(page.read_text(encoding='utf-8'),'html.parser').select('.badge'): errors.append(f'{rel}: Unterseite darf keine sichtbare Versionsbadge enthalten')
@@ -193,56 +211,6 @@ if not any(group.get('id')=='external-services' and any(item.get('url')=='https:
 if 'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' not in json.dumps(nav): errors.append('Navigationsbaum: Vacon-Wissensbeitrag fehlt')
 if not any(item.get('url')=='wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/' and item.get('manufacturer')=='Vacon' and '2.2.3.7' in ' '.join(item.get('keywords',[])) for item in search_index): errors.append('Startseitensuche: Vacon-Wissensbeitrag oder Parameter 2.2.3.7 fehlt')
 
-vde_path=ROOT/'plausibilitaetspruefung-vde0100-600/index.html'
-vde_html=vde_path.read_text(encoding='utf-8')
-vde_page=BeautifulSoup(vde_html,'html.parser')
-for selector in ('#measurementNav','#measurementForm','#inputGrid','#inputAlert','#evaluateMeasurement','#resetMeasurement','#resultPanel','#resultTitle','#resultLimit','#resultFormula','#resultCalculation','#resultChecks','#sessionCount'):
-    if not vde_page.select_one(selector): errors.append(f'VDE-Messwertprüfer: Element fehlt: {selector}')
-for forbidden_selector in ('input[type="file"]','#documentInput','#uploadPanel','#analysisPanel','#previewFrame','#issuePanel','#confirmFail'):
-    if vde_page.select_one(forbidden_selector): errors.append(f'VDE-Messwertprüfer: automatische/überholte Oberfläche vorhanden: {forbidden_selector}')
-for phrase in ('Ausschließlich manuelle Messwerte','Foto-, PDF-, OCR- und Protokollanalyse sind deaktiviert','Formularidentität','Kreuze','Unterschriften','keine Inbetriebnahmefreigabe','verantwortliche Elektrofachkraft'):
-    if phrase.lower() not in vde_html.lower(): errors.append(f'VDE-Messwertprüfer: Umfangs-/Sicherheitshinweis fehlt: {phrase}')
-for asset in ('assets/vde0100-600-engine.js','assets/vde0100-600-input-schema.json','assets/vde0100-600-rules.json'):
-    if not (ROOT/asset).is_file(): errors.append(f'VDE-Messwertprüfer: Laufzeitdatei fehlt: {asset}')
-for removed in ('assets/vde0100-600-template.json','VDE0100-600-AUTOMATIK.md'):
-    if (ROOT/removed).exists(): errors.append(f'VDE-Messwertprüfer: entfernte Automatikdatei noch vorhanden: {removed}')
-try:
-    vde_schema=json.loads((ROOT/'assets/vde0100-600-input-schema.json').read_text(encoding='utf-8'))
-    if vde_schema.get('moduleVersion')!=VERSION: errors.append('VDE-Eingabeschema: Modulversion inkonsistent')
-    if vde_schema.get('mode')!='manual-only' or vde_schema.get('automaticDocumentAnalysis') is not False: errors.append('VDE-Eingabeschema: nicht ausschließlich manuell')
-    groups=vde_schema.get('measurementTypes',{})
-    expected={'voltageDrop','insulation','disconnection','rcd','continuity','bonding'}
-    if set(groups)!=expected: errors.append(f'VDE-Eingabeschema: Messgrößen abweichend: {sorted(groups)}')
-    for group,definition in groups.items():
-        if not definition.get('fields'): errors.append(f'VDE-Eingabeschema: keine Felder für {group}')
-        for field in definition.get('fields',[]):
-            if 'default' in field: errors.append(f'VDE-Eingabeschema: unzulässiger Vorgabewert für {field.get("id")}')
-except Exception as exc:
-    errors.append(f'VDE-Eingabeschema ungültig: {exc}')
-vde_rules=json.loads((ROOT/'assets/vde0100-600-rules.json').read_text(encoding='utf-8'))
-if vde_rules.get('moduleVersion')!=VERSION: errors.append('VDE-Regeln: Modulversion inkonsistent')
-automatic=vde_rules.get('automaticInput',{})
-if any(automatic.get(key) is not False for key in ('photo','pdf','ocr','protocolRecognition')): errors.append('VDE-Regeln: automatische Dokumenteingabe nicht vollständig deaktiviert')
-governance=vde_rules.get('governance',{})
-for key in ('contextDependentLimitsRequireAdditionalInputsOrApprovedSetpoint','queryOnlyCalculationRelevantInputs','queryEachMissingInput'):
-    if governance.get(key) is not True: errors.append(f'VDE-Regeln: Governance fehlt: {key}')
-for key in ('numericDefaultsAllowed','finalResultWhileInputsMissing','invalidInputProducesVerdict','commissioningApproval','responsibleElectricianReplacement'):
-    if governance.get(key) is not False: errors.append(f'VDE-Regeln: Governance muss false sein: {key}')
-rule_ids={item.get('id') for item in vde_rules.get('rules',[])}
-expected_rules={'VD-PERCENT','VD-DU','INS-MIN','DISC-ZS-APPROVED','DISC-ZS-FORMULA','DISC-IK','RCD-TIME','RCD-CURRENT','CONT-MAX','BOND-MAX'}
-if rule_ids!=expected_rules: errors.append(f'VDE-Regeln: Regelmenge abweichend: {sorted(rule_ids)}')
-vde_engine=(ROOT/'assets/vde0100-600-engine.js').read_text(encoding='utf-8')
-for required in ('MEASUREMENT_TYPES','requiredFields','validate','evaluate','status:\'incomplete\'','Zs,max = U0 / Ia','finalResultWhileInputsMissing'):
-    if required not in vde_engine and required!='finalResultWhileInputsMissing': errors.append(f'VDE-Engine: Merkmal fehlt: {required}')
-for forbidden in ('parseText','TextDetector','createImageBitmap','FileReader','pdfjs','referenceDescriptor','signatureState','testerName','testDate'):
-    if forbidden in vde_engine: errors.append(f'VDE-Engine: automatische/formale Logik noch vorhanden: {forbidden}')
-checker=(ROOT/'plausibilitaetspruefung-vde0100-600/checker.js').read_text(encoding='utf-8')
-for required in ('manual-only','renderFields','showProblems','renderResult','resultLimit','resultFormula','resultCalculation'):
-    if required not in checker: errors.append(f'VDE-Oberfläche: Merkmal fehlt: {required}')
-for forbidden in ('TextDetector','createImageBitmap','FileReader','documentInput','pdfLibrary','parseText','formIdentityActions'):
-    if forbidden in checker: errors.append(f'VDE-Oberfläche: automatische/formale Logik noch vorhanden: {forbidden}')
-if 'vde0100-600-input-schema.json' not in checker or 'vde0100-600-template.json' in checker: errors.append('VDE-Oberfläche: falsches Eingabeschema')
-
 nav_js=(ROOT/'assets/app.js').read_text(encoding='utf-8')
 nav_css=(ROOT/'assets/core.css').read_text(encoding='utf-8')
 for required in ('sk-tree-node-row','aria-controls','aria-label="${label} einklappen"'):
@@ -274,7 +242,7 @@ for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'<
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
 if "const CACHE_PREFIX='sk-plt-tools-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den Release-Cache')
 if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt ältere SK-PLT-Tools-Caches nicht')
-for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html','./assets/vde0100-600-engine.js','./assets/vde0100-600-input-schema.json','./assets/vde0100-600-rules.json','./VDE0100-600-MESSWERTPRUEFER.md'):
+for required in ('./assets/core.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
 for forbidden in ('_'.join(('228','SR4','K06','E07.1.pdf')),'744f24436071c5c9f36d91fc82fa2a6'+'a16f20ec8662bd81f68e3f53321792772'):
     if forbidden in sw: errors.append('Service Worker enthält eine personenbezogene Testreferenz')
@@ -322,17 +290,6 @@ for label,content in (('Favoriten',favorites_css),('Navigation',tree_css)):
 for required in ('grid-template-columns:1fr 38px','.sign{font-size:16px;min-width:38px}'):
     if required not in styles_css: errors.append(f'Vorzeichen-Schaltfläche: Kompaktierungsmerkmal fehlt: {required}')
 
-# Datenschutz-Gate: Das reale ausgefüllte Testprotokoll darf weder als Datei noch als Inhalt/Hash ausgeliefert werden.
-PII_FIXTURE_NAME='_'.join(('228','SR4','K06','E07.1.pdf'))
-PII_FIXTURE_HASH='744f24436071c5c9f36d91fc82fa2a6'+'a16f20ec8662bd81f68e3f53321792772'
-for path in ROOT.rglob('*'):
-    if not path.is_file(): continue
-    if path.name==PII_FIXTURE_NAME: errors.append(f'Datenschutz: personenbezogene Testdatei im Release: {path.relative_to(ROOT)}')
-    if hashlib.sha256(path.read_bytes()).hexdigest()==PII_FIXTURE_HASH: errors.append(f'Datenschutz: personenbezogener Testinhalt im Release: {path.relative_to(ROOT)}')
-    if path.suffix.lower() in {'.js','.json','.html','.md','.txt','.py'}:
-        text=path.read_text(encoding='utf-8',errors='ignore')
-        if PII_FIXTURE_HASH in text: errors.append(f'Datenschutz: Hash der personenbezogenen Testdatei eingebettet: {path.relative_to(ROOT)}')
-
 for rel,expected in TEMPLATE_HASHES.items():
     path=ROOT/rel
     actual=hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else ''
@@ -362,4 +319,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, manueller VDE-Messwertprüfer mit sechs Messgrößen, ohne Dokumentanalyse und ohne Grenzwert-Defaults, gezielte Fehlwertsperre, formale Ausschlüsse, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Navigation, 10 Startseitenkacheln, Release-Cache-Isolation, Rechner, 5 Wissenskacheln, 10 Werkstoffe, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Navigation, 9 Startseitenkacheln, Release-Cache-Isolation, Rechner, 5 Wissenskacheln, 10 Werkstoffe, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')

@@ -1,33 +1,13 @@
-SK PLT Tools V2.1.1.0-Beta
-Release-Datum: 08.10.2026
-Direkte Basis: V2.1.0.5-Beta
+SK PLT Tools V2.1.2.0-Beta
+Release-Datum: 09.10.2026
+Direkte Basis: V2.1.2.0-Beta
 Stabile Referenz: V2.1.0.0
 
 SCHWERPUNKT
-- Automatische Foto-, PDF-, OCR- und Protokollanalyse der VDE-0100-600-Funktion vollständig durch einen manuellen VDE-Messwertprüfer ersetzt.
-- Formularidentität, Protokollaufbau, Kreuze, Unterschriften und formale Angaben aus Laufzeit und Bewertungslogik entfernt.
-- Vollständige Projektstruktur und alle übrigen Werkzeuge, Wissensseiten, Navigation, Suche und Favoriten beibehalten.
-
-MANUELLE MESSWERTPRÜFUNG
-- Klare Masken für Spannungsfall, Isolation, Schleifenimpedanz/Kurzschlussstrom, RCD, Niederohmigkeit und Schutzpotentialausgleich.
-- Bedingte Felder: Es erscheinen nur Angaben, die für den gewählten Rechenweg erforderlich sind.
-- Kein Standardgrenzwert und kein Kennlinienfaktor wird vorbelegt.
-- Kontextabhängige Grenzen werden über zusätzliche Bezugsdaten oder einen freigegebenen Sollwert bewertet.
-- Fehlende/ungültige Angaben werden gezielt ausgewiesen; ohne vollständige Grundlage kein Ergebnis.
-- Vollständige Ergebnisse zeigen Grenzwert, Formel, eingesetzte Zahlen und i. O./nicht i. O.
-
-RECHENREGELN
-- Spannungsfall direkt in Prozent oder ΔU / Un × 100.
-- Isolation gegen freigegebenen Mindestwert.
-- Zs gegen freigegebenes Zs,max oder Zs,max = U0 / Ia.
-- Ik gegen freigegebenen erforderlichen Auslösestrom Ia.
-- RCD-Zeit gegen freigegebene Maximalzeit; RCD-Strom gegen freigegebenen Bereich.
-- Niederohmigkeit und Schutzpotentialausgleich gegen freigegebene Maximalwerte.
-- Grenzgleichheit wird als i. O. bewertet.
+- Bereinigter Paketbestand mit den weiterhin unterstützten Rechnern, Dokumentations- und Wissensfunktionen.
+- Navigation, Startseite, Suche, Offline-Cache, Dokumentation und Tests auf den aktuellen Funktionsumfang abgestimmt.
+- Nicht mehr benötigte Laufzeit- und Testabhängigkeiten entfernt.
 
 TECHNIK UND RELEASE
-- Engine, Eingabeschema, Regeln, UI, Navigation, Suche, Dokumentation, Funktions-, Browser-, E2E- und Release-Tests aktualisiert.
-- PWA-App-ID, Manifest, Cache, Precache, Release-Konfiguration, Versionsdateien und SHA-256-Liste auf V2.1.1.0-Beta synchronisiert.
-
-SICHERHEIT
-- Digitale Zweitkontrolle; keine Messung, keine Inbetriebnahmefreigabe und kein Ersatz für die verantwortliche Elektrofachkraft.
+- PWA-App-ID, Manifest, Cache, Precache, Release-Konfiguration, Versionsdateien und SHA-256-Liste auf V2.1.2.0-Beta synchronisiert.
+- Statische Seitenprüfung, Funktions-Smoke-Test sowie Browser-, Responsive-, PWA- und Offline-Test aktualisiert.

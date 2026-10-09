@@ -1,7 +1,7 @@
 SK PLT Tools – Baseline-Hinweis
 
-Version: V2.1.1.0-Beta
-Direkte Vorgängerversion/Basis: V2.1.0.5-Beta
+Version: V2.1.2.0-Beta
+Direkte Vorgängerversion/Basis: V2.1.2.0-Beta
 Stabile Referenz: V2.1.0.0
 
-Die vollständige Projektstruktur und alle übrigen Module der direkten Basis bleiben erhalten. V2.1.1.0-Beta ersetzt ausschließlich die bisherige automatische Dokumentanalyse der VDE-0100-600-Funktion durch einen manuellen VDE-Messwertprüfer. Foto-, PDF-, OCR-, Formular- und Protokollmerkmale sind nicht Teil der Laufzeitbewertung. Kontextabhängige Grenzwerte werden nur über ausdrücklich eingegebene Zusatzangaben oder freigegebene Sollwerte verwendet. Ohne vollständige Berechnungsgrundlage erscheint kein Ergebnis.
+Die enthaltenen Rechner, Dokumentationsfunktionen, Wissensseiten, Navigation, Suche, Favoriten und Offline-Funktionen bleiben gegenüber der direkten Basis erhalten. Der Paketbestand wurde für diese Beta bereinigt und vollständig neu geprüft.

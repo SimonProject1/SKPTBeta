@@ -171,31 +171,5 @@
       "0-20 mA"
     ],
     "url": "wissensdatenbank/siemens-sps-rohwert/"
-  },
-  {
-    "type": "Werkzeug",
-    "category": "PRUEFUNG",
-    "manufacturer": "Herstellerunabhängig",
-    "device": "Elektroprüfung",
-    "topic": "VDE-Messwertprüfung",
-    "title": "VDE-Messwertprüfer",
-    "description": "Spannungsfall, Isolation, Schleifenimpedanz, Kurzschlussstrom, RCD, Niederohmigkeit und Schutzpotentialausgleich manuell prüfen.",
-    "breadcrumb": [
-      "Werkzeuge",
-      "Prüfung"
-    ],
-    "keywords": [
-      "VDE",
-      "0100-600",
-      "Messwert",
-      "Spannungsfall",
-      "Isolation",
-      "Schleifenimpedanz",
-      "Kurzschlussstrom",
-      "RCD",
-      "Niederohmigkeit",
-      "Schutzpotentialausgleich"
-    ],
-    "url": "plausibilitaetspruefung-vde0100-600/"
   }
 ]
