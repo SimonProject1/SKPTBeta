@@ -1,7 +1,7 @@
-/* SK PLT Tools 2.2.2.2-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche, Sortierung, Navigation. */
+/* SK PLT Tools 2.2.3.1-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche, Sortierung, Navigation. */
 /* === app.js === */
 (()=>{'use strict';
-const RELEASE='2.2.2.2-Beta';
+const RELEASE='2.2.3.1-Beta';
 const scriptUrl=document.currentScript?.src||'';
 const root=scriptUrl?new URL('../',scriptUrl):new URL('./',location.href);
 window.SK_PLT=Object.freeze({version:RELEASE,channel:'beta',name:'SK PLT Tools',root});
@@ -42,7 +42,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{'use strict';
 let searchIndex=[];
 let materialCatalog=[];
-const RELEASE='2.2.2.2-Beta';
+const RELEASE='2.2.3.1-Beta';
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9+]+/g,' ').trim();
 const isStartPage=()=>document.body?.dataset.skPage==='start';
 const root=()=>window.SK_PLT?.root||new URL('./',location.href);
@@ -70,15 +70,62 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 const SELECT_ID='skToolSort';let originalOrder=[];
 const norm=value=>String(value||'').trim().toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 const host=()=>document.querySelector('.tools,.start-tools');
-const cards=()=>{const grid=host();return grid?[...grid.querySelectorAll(':scope > a.card,:scope > a.tool-card')]:[]};
+const cards=()=>{const grid=host();return grid?[...grid.querySelectorAll('a.card,a.tool-card')]:[]};
 const category=card=>norm(card.querySelector('.sk-card-category,.eyebrow')?.textContent||'');
 const title=card=>norm(card.querySelector('h1,h2,h3')?.textContent||'');
 function captureOriginal(){cards().forEach(card=>{if(!originalOrder.includes(card))originalOrder.push(card)})}
 function compareText(a,b,key,direction){const result=key(a).localeCompare(key(b),'de',{sensitivity:'base',numeric:true});if(result!==0)return direction==='asc'?result:-result;return originalOrder.indexOf(a)-originalOrder.indexOf(b)}
-function sortCards(mode){const grid=host();if(!grid)return;captureOriginal();let ordered=[...cards()];if(mode==='category-asc')ordered.sort((a,b)=>compareText(a,b,category,'asc')||compareText(a,b,title,'asc'));if(mode==='category-desc')ordered.sort((a,b)=>compareText(a,b,category,'desc')||compareText(a,b,title,'asc'));if(mode==='title-asc')ordered.sort((a,b)=>compareText(a,b,title,'asc'));if(mode==='title-desc')ordered.sort((a,b)=>compareText(a,b,title,'desc'));if(mode==='default')ordered=[...originalOrder].filter(card=>card.isConnected&&card.parentElement===grid);ordered.forEach(card=>grid.append(card));document.dispatchEvent(new CustomEvent('sk:cards-sorted',{detail:{mode}}))}
+function sortCards(mode){const grid=host();if(!grid)return;captureOriginal();let ordered=[...cards()];if(mode==='category-asc')ordered.sort((a,b)=>compareText(a,b,category,'asc')||compareText(a,b,title,'asc'));if(mode==='category-desc')ordered.sort((a,b)=>compareText(a,b,category,'desc')||compareText(a,b,title,'asc'));if(mode==='title-asc')ordered.sort((a,b)=>compareText(a,b,title,'asc'));if(mode==='title-desc')ordered.sort((a,b)=>compareText(a,b,title,'desc'));if(mode==='default')ordered=[...originalOrder].filter(card=>card.isConnected&&grid.contains(card));ordered.forEach(card=>grid.append(card));document.dispatchEvent(new CustomEvent('sk:cards-sorted',{detail:{mode}}))}
 function bind(){const select=document.getElementById(SELECT_ID);if(!select||select.dataset.bound)return;select.dataset.bound='true';select.addEventListener('change',()=>sortCards(select.value));document.getElementById('skFilterReset')?.addEventListener('click',()=>{select.value='default';sortCards('default')})}
 function refresh(){captureOriginal();bind();const select=document.getElementById(SELECT_ID);if(select)sortCards(select.value)}
 function init(){refresh();document.addEventListener('sk:cards-updated',refresh)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+
+
+/* === mobile-start-categories.js === */
+(()=>{'use strict';
+const MOBILE_QUERY='(max-width: 760px), (min-width: 761px) and (max-width: 932px) and (orientation: landscape) and (max-height: 520px)';
+const CATEGORY_KEY='skMobileCategoryStateV1';
+const COMPACT_KEY='skMobileCompactCardsV1';
+const labelFor=value=>({'RECHNER':'Rechner','DOKUMENTATION':'Dokumentation','WISSEN':'Wissen','EXTERN':'Externe Dienste'}[value]||value.charAt(0)+value.slice(1).toLocaleLowerCase('de-DE'));
+const slug=value=>String(value||'sonstige').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'sonstige';
+const read=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key));return value??fallback}catch{return fallback}};
+const write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
+function init(){
+  if(document.body?.dataset.skPage!=='start')return;
+  const grid=document.querySelector('.tools,.start-tools'),toggle=document.getElementById('skCompactCardsToggle'),stateText=document.getElementById('skCompactCardsState');
+  if(!grid)return;
+  const media=window.matchMedia(MOBILE_QUERY);
+  let categoryState=read(CATEGORY_KEY,{}),scheduled=false;
+  const setCompact=(enabled,persist=true)=>{document.body.classList.toggle('sk-compact-card-view',enabled);if(toggle){toggle.setAttribute('aria-pressed',String(enabled));toggle.classList.toggle('active',enabled)}if(stateText)stateText.textContent=enabled?'Ein':'Aus';if(persist)write(COMPACT_KEY,enabled)};
+  setCompact(Boolean(read(COMPACT_KEY,false)),false);
+  toggle?.addEventListener('click',()=>setCompact(toggle.getAttribute('aria-pressed')!=='true'));
+  function render(){
+    scheduled=false;
+    const cards=[...grid.querySelectorAll('a.card,a.tool-card')];
+    if(!cards.length)return;
+    const detached=document.createDocumentFragment();
+    cards.forEach(card=>detached.append(card));
+    grid.querySelectorAll(':scope > .sk-mobile-category').forEach(section=>section.remove());
+    if(!media.matches){grid.classList.remove('sk-mobile-categories');grid.append(detached);return}
+    const groups=new Map();
+    cards.forEach(card=>{const key=(card.querySelector('.sk-card-category,.eyebrow')?.textContent||'SONSTIGE').trim().toUpperCase();if(!groups.has(key))groups.set(key,[]);groups.get(key).push(card)});
+    grid.classList.add('sk-mobile-categories');
+    groups.forEach((items,key)=>{
+      const id=`sk-mobile-category-${slug(key)}`,visible=items.filter(card=>!card.hidden&&!card.classList.contains('sk-filter-hidden')).length,expanded=categoryState[key]!==false;
+      const section=document.createElement('section');section.className='sk-mobile-category';section.dataset.category=key;section.hidden=visible===0;
+      const button=document.createElement('button');button.type='button';button.className='sk-mobile-category-toggle';button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-controls',id);button.innerHTML=`<span><span class="sk-mobile-category-title">${labelFor(key)}</span><span class="sk-mobile-category-count">${visible} von ${items.length}</span></span><span class="sk-mobile-category-chevron" aria-hidden="true">⌄</span>`;
+      const content=document.createElement('div');content.className='sk-mobile-category-cards';content.id=id;content.hidden=!expanded;items.forEach(card=>content.append(card));section.append(button,content);grid.append(section);
+    });
+  }
+  const schedule=()=>{if(scheduled)return;scheduled=true;queueMicrotask(render)};
+  grid.addEventListener('click',event=>{const button=event.target.closest('.sk-mobile-category-toggle');if(!button)return;const section=button.closest('.sk-mobile-category'),content=document.getElementById(button.getAttribute('aria-controls')),expanded=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(expanded));if(content)content.hidden=!expanded;categoryState[section.dataset.category]=expanded;write(CATEGORY_KEY,categoryState)});
+  document.addEventListener('sk:cards-updated',schedule);
+  document.addEventListener('sk:cards-sorted',schedule);
+  if(typeof media.addEventListener==='function')media.addEventListener('change',schedule);else media.addListener?.(schedule);
+  render();
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 
@@ -94,6 +141,6 @@ const normalizedPage=url=>new URL(url,ROOT).pathname.replace(/index\.html$/,'').
 const active=url=>normalizedPage(url)===location.pathname.replace(/index\.html$/,'').replace(/\/+$/,'/');
 function itemHtml(item,depth=0,path='item'){const children=Array.isArray(item.children)&&item.children.length,target=item.type==='file'?' download':item.type==='external'?' target="_blank" rel="external noopener noreferrer" referrerpolicy="no-referrer"':'',suffix=item.type==='external'?' ↗':'',isActive=item.url&&active(item.url),row=item.url?`<a class="sk-tree-link${isActive?' active':''}" href="${new URL(item.url,ROOT).href}"${target}><span>${esc(item.title)}${suffix}</span></a>`:`<span class="sk-tree-label">${esc(item.title)}</span>`;if(!children)return `<li class="sk-tree-item depth-${depth}">${row}</li>`;const id=`node-${path.replace(/[^a-z0-9_-]/gi,'-')}`,label=esc(item.title);return `<li class="sk-tree-item depth-${depth} has-children"><div class="sk-tree-node-row${isActive?' active':''}"><button class="sk-tree-node-toggle" type="button" data-node="${id}" aria-expanded="true" aria-controls="${id}" aria-label="${label} einklappen"><span class="sk-tree-chevron" aria-hidden="true">⌄</span></button>${row}</div><ul id="${id}" class="sk-tree-children">${item.children.map((child,index)=>itemHtml(child,depth+1,`${path}-${index}`)).join('')}</ul></li>`}
 const groupHtml=(group,state)=>{const open=state[group.id]!==false;return `<section class="sk-tree-group"><button class="sk-tree-group-toggle" type="button" data-group="${group.id}" aria-expanded="${open}"><span class="sk-tree-chevron">${open?'⌄':'›'}</span><span>${esc(group.title)}</span></button><ul class="sk-tree-list" ${open?'':'hidden'}>${group.items.map((item,index)=>itemHtml(item,0,`${group.id}-${index}`)).join('')}</ul></section>`};
-async function init(){let data;try{const response=await fetch(new URL('assets/navigation-tree.json?v=2.2.2.2-Beta',ROOT),{cache:'no-store'});if(!response.ok)throw new Error(String(response.status));data=await response.json()}catch(error){console.warn('Navigationsbaum konnte nicht geladen werden.',error);return}const state=loadState(),trigger=document.querySelector('.sk-tree-trigger')||document.body.appendChild(Object.assign(document.createElement('button'),{type:'button',className:'sk-tree-trigger'}));trigger.setAttribute('aria-label','Seitennavigation öffnen');if(!trigger.querySelector('svg'))trigger.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${STAR_PATH}"></path></svg>`;const backdrop=document.querySelector('.sk-tree-backdrop')||document.body.appendChild(Object.assign(document.createElement('div'),{className:'sk-tree-backdrop'})),drawer=document.querySelector('.sk-tree-drawer')||document.body.appendChild(Object.assign(document.createElement('aside'),{className:'sk-tree-drawer'}));drawer.setAttribute('aria-hidden','true');drawer.innerHTML=`<div class="sk-tree-head"><div><div class="sk-tree-kicker">SEITENSTRUKTUR</div><h2>${esc(data.title||'Alle Seiten')}</h2></div><button class="sk-tree-close" type="button" aria-label="Navigation schließen">×</button></div><a class="sk-tree-home${active('')?' active':''}" href="${ROOT.href}">Startseite</a><nav class="sk-tree-content">${data.groups.map(group=>groupHtml(group,state)).join('')}</nav>`;const open=()=>{drawer.classList.add('open');backdrop.classList.add('open');drawer.setAttribute('aria-hidden','false');document.body.classList.add('sk-tree-open')},close=()=>{drawer.classList.remove('open');backdrop.classList.remove('open');drawer.setAttribute('aria-hidden','true');document.body.classList.remove('sk-tree-open')};trigger.addEventListener('click',open);backdrop.addEventListener('click',close);drawer.querySelector('.sk-tree-close').addEventListener('click',close);drawer.addEventListener('click',event=>{const group=event.target.closest('.sk-tree-group-toggle');if(group){const list=group.nextElementSibling,openNow=group.getAttribute('aria-expanded')!=='true';group.setAttribute('aria-expanded',String(openNow));group.querySelector('.sk-tree-chevron').textContent=openNow?'⌄':'›';list.hidden=!openNow;state[group.dataset.group]=openNow;saveState(state);return}const node=event.target.closest('.sk-tree-node-toggle');if(node){const children=drawer.querySelector(`#${CSS.escape(node.dataset.node)}`),openNow=node.getAttribute('aria-expanded')!=='true';node.setAttribute('aria-expanded',String(openNow));node.setAttribute('aria-label',`${node.closest('.sk-tree-node-row').querySelector('.sk-tree-link,.sk-tree-label').textContent.trim()} ${openNow?'einklappen':'ausklappen'}`);node.querySelector('.sk-tree-chevron').textContent=openNow?'⌄':'›';children.hidden=!openNow}});document.addEventListener('keydown',event=>{if(event.key==='Escape')close()})}
+async function init(){let data;try{const response=await fetch(new URL('assets/navigation-tree.json?v=2.2.3.1-Beta',ROOT),{cache:'no-store'});if(!response.ok)throw new Error(String(response.status));data=await response.json()}catch(error){console.warn('Navigationsbaum konnte nicht geladen werden.',error);return}const state=loadState(),trigger=document.querySelector('.sk-tree-trigger')||document.body.appendChild(Object.assign(document.createElement('button'),{type:'button',className:'sk-tree-trigger'}));trigger.setAttribute('aria-label','Seitennavigation öffnen');if(!trigger.querySelector('svg'))trigger.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${STAR_PATH}"></path></svg>`;const backdrop=document.querySelector('.sk-tree-backdrop')||document.body.appendChild(Object.assign(document.createElement('div'),{className:'sk-tree-backdrop'})),drawer=document.querySelector('.sk-tree-drawer')||document.body.appendChild(Object.assign(document.createElement('aside'),{className:'sk-tree-drawer'}));drawer.setAttribute('aria-hidden','true');drawer.innerHTML=`<div class="sk-tree-head"><div><div class="sk-tree-kicker">SEITENSTRUKTUR</div><h2>${esc(data.title||'Alle Seiten')}</h2></div><button class="sk-tree-close" type="button" aria-label="Navigation schließen">×</button></div><a class="sk-tree-home${active('')?' active':''}" href="${ROOT.href}">Startseite</a><nav class="sk-tree-content">${data.groups.map(group=>groupHtml(group,state)).join('')}</nav>`;const open=()=>{drawer.classList.add('open');backdrop.classList.add('open');drawer.setAttribute('aria-hidden','false');document.body.classList.add('sk-tree-open')},close=()=>{drawer.classList.remove('open');backdrop.classList.remove('open');drawer.setAttribute('aria-hidden','true');document.body.classList.remove('sk-tree-open')};trigger.addEventListener('click',open);backdrop.addEventListener('click',close);drawer.querySelector('.sk-tree-close').addEventListener('click',close);drawer.addEventListener('click',event=>{const group=event.target.closest('.sk-tree-group-toggle');if(group){const list=group.nextElementSibling,openNow=group.getAttribute('aria-expanded')!=='true';group.setAttribute('aria-expanded',String(openNow));group.querySelector('.sk-tree-chevron').textContent=openNow?'⌄':'›';list.hidden=!openNow;state[group.dataset.group]=openNow;saveState(state);return}const node=event.target.closest('.sk-tree-node-toggle');if(node){const children=drawer.querySelector(`#${CSS.escape(node.dataset.node)}`),openNow=node.getAttribute('aria-expanded')!=='true';node.setAttribute('aria-expanded',String(openNow));node.setAttribute('aria-label',`${node.closest('.sk-tree-node-row').querySelector('.sk-tree-link,.sk-tree-label').textContent.trim()} ${openNow?'einklappen':'ausklappen'}`);node.querySelector('.sk-tree-chevron').textContent=openNow?'⌄':'›';children.hidden=!openNow}});document.addEventListener('keydown',event=>{if(event.key==='Escape')close()})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

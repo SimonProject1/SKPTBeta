@@ -1,21 +1,26 @@
-SK PLT Tools 2.2.2.2-Beta
+SK PLT Tools 2.2.3.1-Beta
 
 Beta-Version der kompakten statischen Web-App für Rechner,
 Wissensdatenbank und Einheitendatenbank. Diese Version ist zum kontrollierten Testen vorgesehen.
 
 Änderung dieser Version
-- Technische Basis ist der vollständige Projektstand 2.2.2.1-Beta.
-- Auf der mobilen Startseite steht das große Logo im Hero-Bereich links.
-- Rechts daneben wird die aktuelle Version 2.2.2.2-Beta kompakt angezeigt.
-- Der mobile Hero-Bereich ist niedriger und platzsparender ausgeführt.
-- Der in 2.2.2.1-Beta mobil entfernte weiße Textblock bleibt ausgeblendet.
-- Suche, Kategorienfilter und Sortierung bleiben mobil standardmäßig eingeklappt und über „Werkzeuge durchsuchen“ erreichbar.
-- Desktop und Tablet behalten die bisherige Darstellung unverändert.
+- Technische Basis ist der korrigierte vollständige Projektstand 2.2.2.2-Beta.
+- Die Werkzeugkarten der mobilen Startseite werden nach Rechner, Dokumentation, Wissen und externen Diensten gruppiert.
+- Jede mobile Kategorie kann über eine eigene, barrierearme Schaltfläche ein- und ausgeklappt werden.
+- Sichtbare Treffer und Gesamtzahl werden je Kategorie angezeigt; leere Kategorien werden bei aktiver Suche oder Filterung ausgeblendet.
+- Eine optionale kompakte Kartenansicht reduziert Kartenhöhe und blendet Beschreibungstexte aus.
+- Kategorie- und Ansichtsstatus bleiben lokal im Browser gespeichert.
+- Desktop und Tablet behalten die flache, vollständige Kartenansicht unverändert.
 
 Bewahrte Funktionen
 - Alle 10 Werkzeug-/Dienstkarten, Suche, Kategorienfilter, Sortierung und Wissensbeitragssuche bleiben vollständig erhalten.
 - Favoriten, Seitennavigation, Rechner, Einheitendatenbank und Wissensdatenbank bleiben unverändert.
-- Der Filterzustand kann mobil barrierearm per Schaltfläche, Touch und Tastatur geöffnet und geschlossen werden; aria-expanded und aria-controls werden synchron gehalten.
+- Der vorhandene mobile Schalter für Suche und Filter bleibt erhalten.
+
+Bedienung auf der mobilen Startseite
+- Kategoriezeile antippen, um die zugehörigen Karten ein- oder auszuklappen.
+- Unter „Kartenansicht“ die Option „Kompakte Karten“ ein- oder ausschalten.
+- Die Einstellungen werden ausschließlich lokal in localStorage gespeichert.
 
 Deployment
 - Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
@@ -26,7 +31,7 @@ Deployment
 PWA
 - Installation über die Installationsfunktion des verwendeten Browsers.
 - Start-URL und App-ID sind versionsunabhängig auf ./ gesetzt.
-- Der Service Worker verwendet die Release-Caches core-v2.2.2.2-Beta und documents-v2.2.2.2-Beta.
+- Der Service Worker verwendet die Release-Caches core-v2.2.3.1-Beta und documents-v2.2.3.1-Beta.
 
 Integrität
 - Interne Dateien: SHA256SUMS.txt mit einem SHA-256-Eintrag je weiterer Datei.

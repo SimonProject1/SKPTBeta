@@ -1,4 +1,4 @@
-/* === V2.2.2.2-Beta · responsive application shell ===
+/* === V2.2.3.1-Beta · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -298,7 +298,7 @@ html{background-color:#04131f}
 
 .sk-mobile-hero-version{display:none}
 
-/* === 2.2.2.2-Beta · kompakte mobile Startseite ===
+/* === 2.2.3.1-Beta · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{
@@ -374,4 +374,46 @@ html{background-color:#04131f}
   body[data-sk-page="start"] .sk-filter-toggle:focus-visible{outline:3px solid rgba(0,183,232,.42);outline-offset:-3px}
   body[data-sk-page="start"] .sk-filter-content{padding:0 13px 13px}
   body[data-sk-page="start"] .sk-filter-content[hidden]{display:none!important}
+}
+
+
+/* === 2.2.3.1-Beta · mobile Kategorien und optionale Kompaktansicht === */
+.sk-mobile-display-controls{display:none}
+@media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  body[data-sk-page="start"] .sk-mobile-display-controls{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 12px;padding:10px 12px;border:1px solid #24485d;border-radius:15px;background:rgba(7,29,45,.86)
+  }
+  body[data-sk-page="start"] .sk-mobile-display-controls>div{display:grid;gap:2px;min-width:0}
+  body[data-sk-page="start"] .sk-mobile-display-controls strong{font-size:16px}
+  body[data-sk-page="start"] .sk-compact-cards-toggle{display:flex;align-items:center;gap:8px;min-height:44px;padding:7px 9px;border:1px solid #2c627c;border-radius:12px;background:#061827;color:#f7fbff;font-size:12px;font-weight:850;cursor:pointer}
+  body[data-sk-page="start"] .sk-compact-cards-toggle.active{border-color:#89d329;background:#0d302b}
+  body[data-sk-page="start"] .sk-view-switch{position:relative;flex:0 0 36px;width:36px;height:21px;border:1px solid #3c6578;border-radius:99px;background:#0a2639}
+  body[data-sk-page="start"] .sk-view-switch>span{position:absolute;top:3px;left:3px;width:13px;height:13px;border-radius:50%;background:#a8bdc9;transition:transform .18s ease,background .18s ease}
+  body[data-sk-page="start"] .sk-compact-cards-toggle[aria-pressed="true"] .sk-view-switch>span{transform:translateX(15px);background:#89d329}
+  body[data-sk-page="start"] .sk-view-state{min-width:20px;color:#a8bdc9;text-align:right}
+  body[data-sk-page="start"] .sk-compact-cards-toggle[aria-pressed="true"] .sk-view-state{color:#89d329}
+  body[data-sk-page="start"] .tools.sk-mobile-categories{display:grid;grid-template-columns:1fr;gap:10px}
+  body[data-sk-page="start"] .sk-mobile-category{min-width:0;border:1px solid #24485d;border-radius:17px;background:rgba(5,23,37,.72);overflow:hidden}
+  body[data-sk-page="start"] .sk-mobile-category[hidden]{display:none!important}
+  body[data-sk-page="start"] .sk-mobile-category-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;padding:9px 12px;border:0;background:linear-gradient(145deg,#0a2639,#071d2d);color:#f7fbff;text-align:left;cursor:pointer}
+  body[data-sk-page="start"] .sk-mobile-category-toggle>span:first-child{display:flex;align-items:baseline;gap:8px;min-width:0}
+  body[data-sk-page="start"] .sk-mobile-category-title{font-size:17px;font-weight:900}
+  body[data-sk-page="start"] .sk-mobile-category-count{color:#a8bdc9;font-size:11px;font-weight:800;white-space:nowrap}
+  body[data-sk-page="start"] .sk-mobile-category-chevron{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid #2c627c;border-radius:9px;color:#89d329;font-size:21px;transition:transform .18s ease}
+  body[data-sk-page="start"] .sk-mobile-category-toggle[aria-expanded="true"] .sk-mobile-category-chevron{transform:rotate(180deg)}
+  body[data-sk-page="start"] .sk-mobile-category-cards{display:grid;grid-template-columns:1fr;gap:8px;padding:9px}
+  body[data-sk-page="start"] .sk-mobile-category-cards[hidden]{display:none!important}
+  body[data-sk-page="start"] .sk-mobile-category-cards>.card{width:100%;margin:0}
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards{gap:6px;padding:7px}
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card{padding:12px 52px 12px 13px!important;border-radius:13px!important}
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card::before{height:2px}
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card .sk-card-category{display:none}
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card h2,
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card h3{margin:0!important;font-size:18px!important;line-height:1.22!important}
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card p,
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card .sk-external-link-meta{display:none!important}
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card .sk-favorite-button{top:5px;right:6px;width:38px;height:38px}
+}
+@media (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  body[data-sk-page="start"] .sk-mobile-category-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
