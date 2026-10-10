@@ -1,4 +1,4 @@
-# Architektur – SK PLT Tools 2.1.6.0-Beta
+# Architektur – SK PLT Tools 2.1.6.1-Beta
 
 ## Leitprinzipien
 
@@ -22,6 +22,7 @@
   - `.voltage-result` für die umfangreichere Spannungsfall-Ausgabe.
 - Farben, Radien, Typografie, Monospace-Zahlen, Abstände, Fokuszustände und mobile Touchgrößen leiten sich aus den vorhandenen Siemens-Variablen und -Werten ab.
 - `assets/rechner-unified.css` wird auf jeder der fünf Seiten genau einmal nach `core.css` und vor der abschließenden `responsive.css` geladen.
+- Jedes `input[type="number"]` der sechs Rechner verwendet explizit `inputmode="decimal"` oder `inputmode="numeric"`, damit mobile Browser die Zahlentastatur statt der vollständigen Texteingabetastatur anfordern.
 
 ## Logiktrennung
 
@@ -54,13 +55,13 @@
 ## Laufzeit und Offlinebetrieb
 
 - `assets/app.js` stellt globale Basisfunktionen, Favoriten, Suche, Filter, Sortierung und Navigation bereit.
-- `service-worker.js` erzeugt den versionsgebundenen Offline-Cache `sk-plt-tools-v2.1.6.0-Beta` und enthält `assets/rechner-unified.css` im Precache.
-- `manifest.webmanifest` enthält die eindeutige App-ID `./?app=sk-plt-tools-2.1.6.0-beta` und Release-Version.
+- `service-worker.js` erzeugt den versionsgebundenen Offline-Cache `sk-plt-tools-v2.1.6.1-Beta` und enthält `assets/rechner-unified.css` im Precache.
+- `manifest.webmanifest` enthält die eindeutige App-ID `./?app=sk-plt-tools-2.1.6.1-beta` und Release-Version.
 - Ältere `sk-plt-tools-*`-Caches werden bei Aktivierung des neuen Service Workers entfernt.
 
 ## Qualitätssicherung
 
 - `tools/functional-smoke-test.js` prüft Rechnerergebnisse, Siemens-Reiterstruktur, Grenzfälle und Inhaltsintegrationen.
-- `tools/browser-smoke-test.py` prüft alle fünf umgestalteten Rechner auf Desktop, Tablet und iPhone-Touchprofil, erzeugt Screenshots und testet zusätzlich Navigation, PWA und Offlinebetrieb.
-- `tools/validate_release.py` prüft Seitenbestand, gemeinsame Rechnerstruktur, Logik-Baseline, lokale Referenzen, JavaScript-Syntax, Versionskonsistenz, Responsive-Merkmale und Prüfsummen.
+- `tools/browser-smoke-test.py` prüft alle fünf umgestalteten Rechner und die Siemens-Referenz auf Desktop, Tablet und iPhone-Touchprofil, einschließlich der mobilen Tastaturattribute, erzeugt Screenshots und testet zusätzlich Navigation, PWA und Offlinebetrieb.
+- `tools/validate_release.py` prüft Seitenbestand, gemeinsame Rechnerstruktur, sämtliche Rechner-Zahlenfelder, Logik-Baseline, lokale Referenzen, JavaScript-Syntax, Versionskonsistenz, Responsive-Merkmale und Prüfsummen.
 - `tools/release.py` erzeugt reproduzierbar Precache, Prüfsummen und ZIP-Paket.

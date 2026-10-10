@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.6.0-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.6.1-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.6.0-Beta"
+VERSION = "2.1.6.1-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -98,6 +98,15 @@ def assert_unified_calculator(page, route):
     control_surface = control.evaluate("el => getComputedStyle(el.closest('.number') || el).backgroundColor")
     assert control_surface == "rgb(4, 21, 34)", f"Falsche Eingabefläche in {route}: {control_surface}"
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
+
+
+def assert_numeric_keypads(page, route):
+    """Prüft den mobilen Tastaturhinweis aller Zahlen-Eingabefelder."""
+    fields = page.locator('input[type="number"]')
+    assert fields.count() > 0, f"Kein Zahlen-Eingabefeld in {route}"
+    for index in range(fields.count()):
+        field = fields.nth(index)
+        assert field.get_attribute("inputmode") in ("decimal", "numeric"), f"Keine Zahlentastatur für #{field.get_attribute('id')} in {route}"
 
 
 with sync_playwright() as p:
@@ -396,6 +405,7 @@ with sync_playwright() as p:
     assert mobile.locator(".analog-tab").all_inner_texts() == ["Signal", "Rohwert", "Phys. Wert"]
     assert mobile.locator(".analog-value-card:visible").count() == 2
     assert mobile.locator("#inputValue").count() == 1
+    assert_numeric_keypads(mobile, "/siemens-analogwert-rechner/")
     assert mobile.locator(".analog-sign-button").count() == 3
     mobile.evaluate("window.__mobileSignFocusCount=0;document.querySelectorAll('#inputValue,#physicalMin,#physicalMax').forEach(el=>el.addEventListener('focus',()=>window.__mobileSignFocusCount++))")
     mobile.locator("#inputSignToggle").tap()
@@ -412,15 +422,18 @@ with sync_playwright() as p:
     assert mobile.evaluate("window.__mobileSignFocusCount") == 0
     mobile.locator("#inputTabRaw").click()
     assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "raw"
+    assert mobile.locator("#inputValue").get_attribute("inputmode") == "numeric"
     assert mobile.evaluate("document.activeElement.id") != "inputValue"
     mobile.locator("#inputTabPhysical").click()
     assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "physical"
+    assert mobile.locator("#inputValue").get_attribute("inputmode") == "decimal"
     assert mobile.evaluate("document.activeElement.id") != "inputValue"
     mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
     for slug, route in UNIFIED_CALCULATORS:
         mobile.goto(f"{BASE}{route}")
         mobile.wait_for_load_state("networkidle")
         assert_unified_calculator(mobile, route)
+        assert_numeric_keypads(mobile, route)
         assert mobile.locator(".calc-field-grid").evaluate("el => getComputedStyle(el).gridTemplateColumns.split(' ').length") == 1
         assert_mobile_header_shell(mobile)
         assert_mobile_fixed_controls(mobile)

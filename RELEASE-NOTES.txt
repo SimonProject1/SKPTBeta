@@ -1,35 +1,34 @@
-SK PLT Tools V2.1.6.0-Beta
+SK PLT Tools V2.1.6.1-Beta
 Release-Datum: 10.10.2026
-Direkte Basis: V2.1.5.2-Beta
+Direkte Basis: V2.1.6.0-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT: EINHEITLICHES RECHNERDESIGN
-- Analogsignal-Rechner, Einheitenrechner, P+F Rechner, Pt100/Pt1000-Rechner und Spannungsfall-Rechner wurden visuell an den Siemens-Rohwert-Rechner aus V2.1.5.2-Beta angeglichen.
-- Vereinheitlicht sind Rechnerkarten, Feldkarten, Eingabe- und Auswahlfelder, Ergebnisfelder, Aktionsschaltflächen, Abstände, Typografie, Farben und responsive Anordnung.
-- Die gemeinsame Stilschicht liegt in assets/rechner-unified.css und wird auf allen fünf umgestalteten Rechnerseiten vor assets/responsive.css geladen.
-- Der Siemens-Rohwert-Rechner bleibt unverändert und dient weiterhin als Designreferenz.
+SCHWERPUNKT: MOBILE ZAHLENTASTATUR IN ALLEN RECHNERN
+- Alle 19 Eingabefelder vom Typ number in den sechs Rechner-Tools besitzen jetzt einen expliziten mobilen Tastaturhinweis.
+- Analogsignal-Rechner: 5 Zahlenfelder mit inputmode="decimal".
+- Einheitenrechner: 1 Zahlenfeld mit inputmode="decimal".
+- P+F Rechner: 4 Zahlenfelder mit inputmode="decimal".
+- Pt100/Pt1000-Rechner: 1 Zahlenfeld mit inputmode="decimal".
+- Spannungsfall-Rechner: 5 bereits korrekt konfigurierte Zahlenfelder bestätigt.
+- Siemens-Rohwert-Rechner: 3 bereits korrekt konfigurierte Zahlenfelder bestätigt; der Rohwertmodus schaltet weiterhin dynamisch auf inputmode="numeric".
+- Damit fordern alle Zahlenfelder auf unterstützten Smartphones die Zahlentastatur statt der vollständigen Texteingabetastatur an.
 
-UNVERÄNDERTE FUNKTIONSLOGIK
-- Die Inline-Berechnungen von Analogsignal, Einheiten, P+F und Pt100/Pt1000 wurden bytegleich übernommen.
-- spannungsfall-rechner/calculator.js und assets/siemens-analogwert-rechner.js sind gegenüber V2.1.5.2-Beta bytegleich.
-- Eine im Paket enthaltene Logik-Baseline und die statische Releaseprüfung sichern diese Übereinstimmung ab.
-- Bestehende Standardwerte, Element-IDs, Ereignisse, Rechenwege, Grenzwerte und Ergebnisformate bleiben erhalten.
-
-MOBILE UND RESPONSIVE DARSTELLUNG
-- Die fünf Rechner verwenden auf Smartphones einspaltige Feld- und Ergebniskarten sowie mindestens 44 Pixel große Touchziele.
-- Die funktionierende untere Favoriten-/Navigationszone bleibt fest am Viewport-Rand.
-- Dunkle iPhone-Safe-Area, sticky Header, vollbreite Headerlinie und rechtsbündige Ausrichtung des Startseiten-Buttons bleiben erhalten.
-- Tablet und Desktop verwenden abhängig von der Rechnerstruktur zwei- oder dreispaltige Eingabeflächen und die gleiche maximale Rechnerbreite wie die Siemens-Referenz.
+UNVERÄNDERTES DESIGN UND UNVERÄNDERTE FUNKTIONSLOGIK
+- Es wurden ausschließlich Eingabeattribute an den zuvor nicht entsprechend gekennzeichneten Zahlenfeldern ergänzt.
+- Rechnerkarten, Feldkarten, Ergebnisfelder, Schaltflächen, Abstände, Typografie, Farben und responsive Anordnung bleiben unverändert.
+- Die Inline-Berechnungen von Analogsignal, Einheiten, P+F und Pt100/Pt1000 bleiben bytegleich zur Logik-Baseline.
+- spannungsfall-rechner/calculator.js und assets/siemens-analogwert-rechner.js bleiben bytegleich zur Logik-Baseline.
+- Standardwerte, Element-IDs, Ereignisse, Rechenwege, Grenzwerte und Ergebnisformate bleiben erhalten.
 
 QUALITÄTSSICHERUNG
-- Funktionstests prüfen alle bestehenden Rechnerergebnisse.
-- Browsertests prüfen alle fünf umgestalteten Rechner auf Desktop 1440 × 1050, Tablet 820 × 1180 und iPhone-Touchprofil 390 × 844; zusätzlich wird 844 × 390 für die mobile Querformat-Shell geprüft.
-- Screenshots aller fünf Rechner und aller drei Hauptansichten liegen unter test-artifacts/.
-- Alle 15 Direktseiten werden auf Version, Header, Touchflächen, Überlauf, Navigation und PWA-Verhalten geprüft.
-- PWA-App-ID, Service-Worker-Cache, Precache, Offline-Direktaufrufe und Cache-Bereinigung wurden geprüft.
+- Funktionstest prüft alle bestehenden Rechnerergebnisse und zusätzlich die Tastaturattribute aller 19 Zahlenfelder.
+- Statische Releasevalidierung prüft für alle sechs Rechner, dass jedes input[type="number"] inputmode="decimal" oder inputmode="numeric" verwendet.
+- Browsertest prüft dieselbe Vorgabe im mobilen iPhone-Touchprofil und bestätigt die dynamische Umschaltung des Siemens-Rohwertfeldes.
+- Desktop 1440 × 1050, Tablet 820 × 1180, iPhone-Touchprofil 390 × 844 und Smartphone-Querformat 844 × 390 bleiben im Testumfang.
+- Logik-Hashvergleich, PWA-/Offline-Test, lokale Referenzen, JavaScript-Syntax, Prüfsummen und ZIP-Integrität bleiben Bestandteil der Abnahme.
 
 TECHNIK UND RELEASE
-- VERSION, release-config.json, Manifest, PWA-App-ID, Service Worker, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.6.0-Beta synchronisiert.
-- Manifest-ID/Start-URL: ./?app=sk-plt-tools-2.1.6.0-beta
-- Cache: sk-plt-tools-v2.1.6.0-Beta
-- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.6.0-Beta.zip
+- VERSION, release-config.json, Manifest, PWA-App-ID, Service Worker, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.6.1-Beta synchronisiert.
+- Manifest-ID/Start-URL: ./?app=sk-plt-tools-2.1.6.1-beta
+- Cache: sk-plt-tools-v2.1.6.1-Beta
+- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.6.1-Beta.zip

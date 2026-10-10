@@ -136,6 +136,15 @@ runInline('pt-rechner/index.html','function r(t,r0)',{
   assertEqual(js.indexOf('syncTabs();',js.indexOf('function setMode'))<js.indexOf('try{syncPrimaryInput()',js.indexOf('function setMode')),true,'Siemens Reiterauswahl wird vor der Neuberechnung aktualisiert');
 }
 {
+  const calculatorPages=['analogsignal/index.html','einheitenrechner/index.html','pf-rechner/index.html','pt-rechner/index.html','spannungsfall-rechner/index.html','siemens-analogwert-rechner/index.html'];
+  for(const file of calculatorPages){
+    const html=fs.readFileSync(path.join(ROOT,file),'utf8');
+    const numberInputs=[...html.matchAll(/<input\b[^>]*\btype="number"[^>]*>/g)].map(match=>match[0]);
+    assertEqual(numberInputs.length>0,true,`${file} Zahlenfelder vorhanden`);
+    assertEqual(numberInputs.every(input=>/\binputmode="(?:decimal|numeric)"/.test(input)),true,`${file} alle Zahlenfelder mit mobiler Zahlentastatur`);
+  }
+}
+{
   const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
   const external=html.match(/<a[^>]*class="[^"]*sk-external-card[^"]*"[^>]*href="([^"]+)"[^>]*>/i);
   assertEqual(Boolean(external),true,'E+H Device Viewer Kachel vorhanden');

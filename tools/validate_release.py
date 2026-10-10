@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.6.0-Beta."""
+"""Static release validation for SK PLT Tools 2.1.6.1-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.6.0-Beta'
+VERSION='2.1.6.1-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -44,6 +44,7 @@ UNIFIED_CALCULATOR_PAGES={
  'analogsignal/index.html','einheitenrechner/index.html','pf-rechner/index.html',
  'pt-rechner/index.html','spannungsfall-rechner/index.html'
 }
+CALCULATOR_PAGES=UNIFIED_CALCULATOR_PAGES|{'siemens-analogwert-rechner/index.html'}
 
 OBSOLETE_FILES={
  'assets/styles.css','assets/design.css','assets/favorites.css','assets/favorites.js','assets/start-filter.css','assets/start-filter.js',
@@ -113,6 +114,12 @@ for rel,page in pages.items():
         if len(soup.select('.calc-panel-title'))!=1: errors.append(f'{rel}: Rechnerkartentitel fehlt oder ist doppelt')
         if len(soup.select('.calc-field-card'))<3: errors.append(f'{rel}: einheitliche Eingabekarten fehlen')
         if len(soup.select('.calc-page-title'))!=1: errors.append(f'{rel}: einheitlicher Seitentitel fehlt')
+    if rel in CALCULATOR_PAGES:
+        number_inputs=soup.select('input[type="number"]')
+        if not number_inputs: errors.append(f'{rel}: kein Zahlen-Eingabefeld gefunden')
+        for field in number_inputs:
+            if field.get('inputmode') not in {'decimal','numeric'}:
+                errors.append(f'{rel}: Zahlenfeld #{field.get("id","ohne-id")} öffnet mobil keine Zahlentastatur')
 
 # Nachweis, dass die Berechnungslogik der fünf umgestalteten Rechner und die
 # unveränderte Siemens-Referenz bitgenau der Quellversion 2.1.5.2-Beta entsprechen.
