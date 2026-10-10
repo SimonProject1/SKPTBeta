@@ -1,18 +1,19 @@
-SK PLT Tools 2.3.4.0-Beta
+SK PLT Tools 2.3.4.1-Beta
 
 Beta-Testversion der kompakten statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
 
 Basis dieser Beta
-- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.3.3.0-Beta.zip vom 10.10.2026.
-- Bestätigte SHA-256 der Basis: e4f644bdd39f3a76d5556b5fd0aa20568460c6a39154abfd6953c69cca9e80a2.
+- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.3.4.0-Beta.zip vom 10.10.2026.
+- Bestätigte SHA-256 der Basis: da3b76d0b0b2e072d8c324f72d6f8c82ea7233d5a92fc0e83f7aa7501b2d7ee6.
 - ZIP-CRC und interne Prüfsummen der Basis wurden vor der Änderung bestätigt.
 - Bestehende Funktionen, Inhalte und Gestaltung bleiben erhalten.
 
-Änderung in V2.3.4.0-Beta
-- Ausschließlich das bisherige PLT-Logo wurde durch die PCT-Variante ersetzt.
+Änderung in V2.3.4.1-Beta
+- Ausschließlich die schlecht erkennbare C-Glyphe des vorhandenen PCT-Logos wurde sauber korrigiert.
 - Ersetzt wurden assets/logo.png, favicon.png, apple-touch-icon.png,
   icon-192.png, icon-512.png, icon-maskable-192.png und icon-maskable-512.png.
+- P, T, TOOLS, Signet, Farben, Anordnung und alle übrigen Logobestandteile bleiben erhalten.
 - Die bisherigen Pixelabmessungen und Dateiformate bleiben erhalten.
 - Außer dem Logo-Austausch und der konsistenten Versionsanhebung wurden keine
   Layout-, Farb-, Typografie-, Navigations-, Inhalts- oder Funktionsänderungen vorgenommen.
@@ -35,7 +36,7 @@ Deployment zum Testen
 
 PWA
 - Start-URL, Scope und App-ID bleiben versionsunabhängig auf ./ gesetzt.
-- Service-Worker-Caches: core-v2.3.4.0 und documents-v2.3.4.0.
+- Service-Worker-Caches: core-v2.3.4.1 und documents-v2.3.4.1.
 - Der Kerncache enthält 48 Ziele; der Dokumentcache drei optionale Dokumente.
 - Laufzeitkanal: beta.
 
