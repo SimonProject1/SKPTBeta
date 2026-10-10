@@ -1,3 +1,53 @@
+SK PLT Tools 2.3.3.1-Beta
+Release-Datum: 10.10.2026
+Status: Beta-Testversion
+Ausgangsbasis: SK-PLT-Tools-V2.3.3.0-Beta.zip
+SHA-256 der Ausgangsbasis: e4f644bdd39f3a76d5556b5fd0aa20568460c6a39154abfd6953c69cca9e80a2
+
+BETA-ZIEL
+- Den sichtbaren Standardhinweis auf der Wissensdatenbank-Startseite entfernen.
+- Den technisch verbindlichen Wissensbeitragsstandard und die gemeinsame Gestaltung
+  aller Geräte-Wissensbeiträge unverändert erhalten.
+- Laufzeitkanal: beta.
+
+GEÄNDERTE OBERFLÄCHE
+- Der Kasten „Einheitlicher Standard · V2.3.3.0-Beta“ wurde von der
+  Wissensdatenbank-Startseite entfernt.
+- Die sichtbare Überschrift „Alle Beiträge folgen derselben Struktur“ wurde entfernt.
+- Der sichtbare Button „Standard herunterladen“ wurde entfernt.
+- Keine Fachinhalte und keine Beitragslayouts wurden geändert.
+
+UNVERÄNDERT ERHALTEN
+- Verbindliche Spezifikation WISSENSBEITRAGS-STANDARD.md.
+- Gemeinsamer semantischer TechArticle-Aufbau aller fünf Geräte-Wissensbeiträge.
+- Pflichtmetadaten, Kurzfassung, Beitragstypen, Fachabschnitte, Prüfhinweise sowie
+  Gültigkeits- und Quellenhinweise.
+- Zentrale Darstellung über assets/knowledge-article.css und gemeinsame kb-Komponenten.
+- PDF-Beitragsvorlage mit zwei Seiten und 14 editierbaren Feldern.
+- Sechs Rechner, Einheiten- und Werkstoffdatenbank, Messstellen-Dokumentation,
+  Navigation, Favoriten, Suche, Sortierung, responsive Ansichten und PWA-Betrieb.
+
+VERSION UND PWA
+- Öffentliche Betaversion: 2.3.3.1-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.3.1.
+- Kerncache: sk-plt-tools-core-v2.3.3.1 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.3.1 mit drei optionalen Dokumenten.
+- Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
+- Aktivierung des neuen Service Workers entfernt ältere Produktcaches.
+
+PROJEKTBESTAND
+- 56 Dateien im Projektordner einschließlich SHA256SUMS.txt.
+- 17 HTML-Seiten einschließlich der alten Werkstoff-Weiterleitungsroute.
+- 29 Dateien unter assets/.
+- Keine Test- oder Entwicklungsartefakte im Deployment-ZIP.
+
+INTEGRITÄT
+- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.3.1-Beta.zip.sha256 bereitgestellt.
+
+======================================================================
+VORHERIGER BETA-STAND V2.3.3.0-BETA
+======================================================================
 SK PLT Tools 2.3.3.0-Beta
 Release-Datum: 10.10.2026
 Status: Beta-Testversion
