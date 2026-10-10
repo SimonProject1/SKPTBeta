@@ -1,64 +1,67 @@
-SK PLT Tools 2.3.2.0-Beta
+SK PLT Tools 2.3.2.1-Beta
 Release-Datum: 10.10.2026
 Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.3.1.0-Beta.zip
-SHA-256 der Ausgangsbasis: 4aa3cd3171889a7f7be5115608e24a03bb0c7dcce708880ecf81126a52153fb6
+Ausgangsbasis: SK-PLT-Tools-V2.3.2.0-Beta.zip
+SHA-256 der Ausgangsbasis: c9ca02dff080d1c7fcfe090a3d987ddc1a1dc4e11c268f7a8403bb07fc84d2b5
 
 BETA-ZIEL
-- Das bisherige Werkstoff-Nachschlagewerk wurde aus der Wissensdatenbank ausgelagert.
-- Es wird als eigenständige Werkstoffdatenbank analog zur Einheitendatenbank geführt.
-- Alle fachlichen Werkstoffdaten und alle übrigen bestätigten Funktionen bleiben erhalten.
+- Vollständige Integration eines neuen Geräte-Wissensbeitrags zu Endress+Hauser Promass.
+- Thema: Einbaulage und Einbausituation bei Coriolis-Massedurchflussmessung.
+- Alle bestätigten Funktionen und das vorhandene Design bleiben erhalten.
 - Laufzeitkanal: beta.
 
-NEUE HAUPTROUTE UND STARTSEITE
-- Neuer Hauptordner: werkstoffdatenbank/.
-- Neue kanonische Seite: werkstoffdatenbank/index.html.
-- Neue Startseitenkarte „Werkstoffdatenbank“ in der Kategorie Wissen.
-- Die Startseite enthält damit 11 Werkzeug-/Dienstkarten.
-- Mobile Kategorien werden dynamisch mit der neuen Karte und den aktualisierten Zählern aufgebaut.
+NEUER WISSENSBEITRAG
+- Neue Route: wissensdatenbank/endress-hauser-promass-einbaulage/.
+- Hersteller: Endress+Hauser.
+- Gerätefamilie: Promass.
+- Messprinzip: Coriolis-Massedurchfluss.
+- Fachliche Grundlage: Durchfluss_Coriolis_2024.pdf, Folien 30 bis 35.
+- Steigleitung als optimaler Einbau mit vollständiger Füllung, Entgasung,
+  Absinken von Feststoffen und definiertem Leerlaufen.
+- Druckseite nach der Pumpe und stabiler Druck im Sensor als bevorzugte Anordnung.
+- Fallleitung, freien Auslauf, höchsten Anlagenpunkt und Saugseite vermeiden.
+- Liegenden Einbau bei Zwei-Rohr-Sensoren wegen ungleichmäßiger Füllung vermeiden.
+- Messumformer unten: mögliche Gasblasenansammlung in gebogenen Messrohren.
+- Messumformer oben: mögliche Feststoffablagerungen im Stillstand.
+- Ventile möglichst nach dem Sensor anordnen.
+- Rohrerweiterung erst nach einer kurzen Strecke im Gerätedurchmesser ausführen.
+- Praxisdarstellung mit responsiven Schema-, Hinweis- und Merkkarten ergänzt.
 
-WISSENSDATENBANK
-- Die Werkstoffkarte wurde aus der Wissensdatenbank entfernt.
-- Die Wissensdatenbank enthält nun vier Gerätebeiträge.
-- Mobile Herstellergruppen: Air Torque, Siemens und Vacon.
-- Suchtext, Ergebniszähler und Einleitung wurden an den verbleibenden Gerätebestand angepasst.
-- Mobile Gruppenpersistenz und Kompaktansicht bleiben unverändert erhalten.
+WISSENSDATENBANK UND HERSTELLERGRUPPIERUNG
+- Beitragsübersicht von vier auf fünf Gerätebeiträge erweitert.
+- Neue Herstellergruppe Endress+Hauser; damit vier Herstellergruppen.
+- Suchzähler, mobile Gruppierung, Gruppenpersistenz und Kompaktansicht arbeiten
+  dynamisch mit dem neuen Beitrag.
 
-NAVIGATION, SUCHE UND BREADCRUMBS
-- Der Navigationsbaum enthält eine eigene Gruppe „Werkstoffe“ mit dem Ziel „Werkstoffdatenbank“.
-- Der Werkstoffeintrag im Suchindex ist nun vom Typ „Datenbank“ und verweist auf werkstoffdatenbank/.
-- Werkstoffnummern, alternative Bezeichnungen und Suchbegriffe aus assets/materials.json bleiben in der Startseitensuche nutzbar.
-- Der Breadcrumb der Werkstoffdatenbank lautet „Startseite › Werkstoffdatenbank“.
-- Alle neuen internen Links verwenden die kanonische Hauptordnerroute.
-
-ABWÄRTSKOMPATIBILITÄT
-- wissensdatenbank/werkstoff-nachschlagewerk/index.html bleibt als Weiterleitungsseite bestehen.
-- Die Weiterleitung erhält Query-String und Fragment und führt zu werkstoffdatenbank/.
-- Alte Favoriten, Lesezeichen und gespeicherte Links bleiben damit funktionsfähig.
-- Die alte und die neue Route werden für den Offlinebetrieb vorgeladen.
+SUCHE UND NAVIGATION
+- assets/search-index.json um den Promass-Beitrag und relevante Suchbegriffe ergänzt.
+- Startseitensuche findet den Beitrag unter Endress+Hauser, E+H, Promass, Coriolis,
+  Einbaulage, Steigleitung, Druckseite, Gasblasen, Feststoffe und weiteren Begriffen.
+- assets/navigation-tree.json enthält Endress+Hauser als Herstellerknoten unter Wissen.
+- Breadcrumb führt über Startseite und Wissensdatenbank zum Promass-Beitrag.
 
 PWA UND OFFLINE-CACHE
-- Öffentliche Betaversion: 2.3.2.0-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.2.0.
-- Kerncache: sk-plt-tools-core-v2.3.2.0 mit 49 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.2.0 mit zwei optionalen Dokumenten.
+- Öffentliche Betaversion: 2.3.2.1-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.2.1.
+- Kerncache: sk-plt-tools-core-v2.3.2.1 mit 50 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.2.1 mit zwei optionalen Dokumenten.
+- Der neue Promass-Beitrag ist Teil des strikten Kerncaches und offline verfügbar.
 - Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
-- Das Manifest enthält einen zusätzlichen Shortcut zur Werkstoffdatenbank.
-- Aktivierung des neuen Service Workers entfernt ältere Caches mit dem Produktpräfix.
+- Aktivierung des neuen Service Workers entfernt ältere Produktcaches.
 
 PROJEKTBESTAND
-- 56 Dateien im Projektordner einschließlich SHA256SUMS.txt.
-- 16 HTML-Seiten einschließlich der alten Weiterleitungsroute.
+- 57 Dateien im Projektordner einschließlich SHA256SUMS.txt.
+- 17 HTML-Seiten einschließlich der alten Werkstoff-Weiterleitungsroute.
 - 31 Dateien unter assets/.
-- Neues Hauptverzeichnis werkstoffdatenbank/.
-- Keine Test- oder Entwicklungsartefakte im Deployment-ZIP.
+- Keine Test- oder Entwicklungsartefakte und keine Schulungsunterlage im Deployment-ZIP.
 
 BEWAHRTE FUNKTIONEN
-- Sechs Rechner, Einheitendatenbank, Messstellen-Dokumentation und vier Geräte-Wissensbeiträge.
+- Sechs Rechner, Einheitendatenbank, Messstellen-Dokumentation und Werkstoffdatenbank.
 - Favoriten, Navigation, Suche, Sortierung, responsive Ansichten und PWA-Betrieb.
-- Werkstoffsuche, Filtergruppen, Direktvergleiche, Datenquellen und Sicherheitshinweise.
+- Vier vorhandene Geräte-Wissensbeiträge unverändert erhalten.
+- Alte Werkstoffroute bleibt als abwärtskompatible Weiterleitung erhalten.
 - Das verworfene VDE-0100-600-Funktionsmodul bleibt vollständig entfernt.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.2.0-Beta.zip.sha256 bereitgestellt.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.2.1-Beta.zip.sha256 bereitgestellt.

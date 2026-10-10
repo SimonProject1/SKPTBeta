@@ -1,5 +1,5 @@
 {
-  "version": "2.3.2.0",
+  "version": "2.3.2.1",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -76,6 +76,15 @@
                 {
                   "title": "Drehrichtung einstellen",
                   "url": "wissensdatenbank/air-torque-antrieb-drehrichtung/"
+                }
+              ]
+            },
+            {
+              "title": "Endress+Hauser",
+              "children": [
+                {
+                  "title": "Promass - Einbaulage und Einbausituation",
+                  "url": "wissensdatenbank/endress-hauser-promass-einbaulage/"
                 }
               ]
             },

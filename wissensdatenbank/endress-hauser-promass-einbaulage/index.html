@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="#061827" name="theme-color"/>
+<meta content="Endress+Hauser Promass: Einbaulage und Einbausituation für Coriolis-Massedurchflussmessung." name="description"/>
+<title>Endress+Hauser Promass - Einbaulage und Einbausituation | SK PLT Tools</title>
+<link href="../../manifest.webmanifest" rel="manifest"/>
+<link href="../../assets/favicon.png?v=2.3.2.1" rel="icon" sizes="64x64" type="image/png"/>
+<link href="../../assets/apple-touch-icon.png?v=2.3.2.1" rel="apple-touch-icon"/>
+<link href="../../assets/core.css?v=2.3.2.1" rel="stylesheet"/>
+<link href="../../assets/responsive.css?v=2.3.2.1" rel="stylesheet"/>
+<style>
+.promass-article{width:min(1120px,calc(100% - 34px));margin:0 auto;padding:38px 0 74px}
+.promass-breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 26px;color:#9fb8c5;font-size:14px}.promass-breadcrumb a{color:#cce3ec;text-decoration:none}.promass-breadcrumb a:hover{color:#89d329}
+.promass-hero{position:relative;overflow:hidden;padding:clamp(28px,5vw,56px);border:1px solid #27536a;border-radius:28px;background:radial-gradient(circle at 90% 0,rgba(0,183,232,.22),transparent 34%),linear-gradient(145deg,#0a293d,#061827 68%);box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.promass-kicker{color:#89d329;font-size:12px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}.promass-hero h1{max-width:820px;margin:14px 0 16px;color:#f7fbff;font-size:clamp(38px,6vw,68px);line-height:1.02}.promass-hero>p{max-width:760px;margin:0;color:#c8dbe4;font-size:clamp(17px,2vw,21px);line-height:1.55}
+.promass-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.promass-tag{padding:9px 13px;border:1px solid #31647c;border-radius:999px;background:rgba(4,23,36,.62);color:#eaf4f8;font-size:13px;font-weight:800}
+.promass-section{margin-top:24px;padding:clamp(20px,3.5vw,34px);border:1px solid #24485d;border-radius:24px;background:linear-gradient(145deg,#071d2d,#082536)}.promass-section h2{margin:8px 0 12px;color:#f7fbff;font-size:clamp(26px,3.4vw,38px)}.promass-section-intro{max-width:840px;margin:0 0 24px;color:#b9ced8;font-size:17px;line-height:1.55}
+.optimal-layout{display:grid;grid-template-columns:minmax(240px,.78fr) 1.22fr;gap:22px}.optimal-visual{position:relative;display:grid;place-items:center;min-height:320px;border:1px solid #2d5b72;border-radius:20px;background:radial-gradient(circle,rgba(0,183,232,.13),transparent 62%),#061827}.riser{position:relative;width:150px;height:245px}.riser-pipe{position:absolute;left:58px;top:14px;width:34px;height:214px;border:8px solid #83a3b2;border-radius:18px;background:#0b3046;box-shadow:inset 0 0 0 3px #173f52}.riser-arrow{position:absolute;left:60px;top:72px;width:30px;color:#89d329;font-size:54px;font-weight:900;line-height:1;text-align:center}.riser-sensor{position:absolute;left:30px;top:114px;width:90px;height:52px;border:3px solid #00b7e8;border-radius:13px;background:#0c3750;box-shadow:0 0 0 6px rgba(0,183,232,.12)}.riser-label{position:absolute;right:14px;bottom:14px;padding:8px 11px;border-radius:10px;background:#113d33;color:#aef56c;font-size:12px;font-weight:900}.check-list{display:grid;gap:11px;margin:0;padding:0;list-style:none}.check-list li{position:relative;padding:15px 16px 15px 48px;border:1px solid #285168;border-radius:15px;background:#09283b;color:#d7e4ea;line-height:1.45}.check-list li::before{content:'✓';position:absolute;left:15px;top:13px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#183f2c;color:#89d329;font-weight:950}.check-list strong{color:#fff}
+.pressure-strip{display:grid;grid-template-columns:1fr auto 1.3fr auto 1fr;align-items:center;gap:10px;margin-top:22px;padding:19px;border:1px solid #315b70;border-radius:18px;background:#061827}.process-node{min-height:74px;padding:13px;border:1px solid #2c6077;border-radius:14px;background:#0b2d42;text-align:center}.process-node strong{display:block;color:#f7fbff}.process-node span{display:block;margin-top:5px;color:#9fb8c5;font-size:12px}.process-node.sensor{border-color:#89d329;background:#10342f}.process-arrow{color:#00b7e8;font-size:28px;font-weight:950}
+.avoid-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.avoid-card{position:relative;min-height:162px;padding:20px 17px;border:1px solid #573e4a;border-radius:18px;background:linear-gradient(145deg,#2a1822,#171824)}.avoid-card::before{content:'×';position:absolute;right:13px;top:10px;color:#ff6b76;font-size:32px;font-weight:950}.avoid-card h3{margin:22px 0 8px;color:#fff;font-size:19px}.avoid-card p{margin:0;color:#d4bcc3;font-size:14px;line-height:1.45}
+.orientation-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.orientation-card{padding:20px;border:1px solid #2b566c;border-radius:18px;background:#09283b}.orientation-card.warning{border-color:#674e2d;background:#2a2116}.orientation-card h3{margin:14px 0 8px;color:#fff;font-size:20px}.orientation-card p{margin:0;color:#b9ced8;line-height:1.5}.orientation-card.warning p{color:#e3d1ad}.orientation-icon{display:flex;align-items:center;justify-content:center;height:86px}.tube-pair{display:flex;gap:12px}.tube-pair span{display:block;width:22px;height:64px;border:5px solid #7fa0ae;border-radius:14px;background:#0d374b}.tube-pair.horizontal{transform:rotate(90deg)}.bubble,.solid{position:relative;width:84px;height:58px;border:5px solid #7fa0ae;border-radius:17px;background:#0d374b}.bubble::after{content:'○  ○';position:absolute;left:15px;top:10px;color:#8ee9ff;font-size:20px}.solid::after{content:'••••';position:absolute;left:14px;bottom:4px;color:#d8ad63;font-size:22px;letter-spacing:2px}
+.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.detail-card{padding:22px;border:1px solid #2a5369;border-radius:18px;background:#09283b}.detail-card h3{margin:0 0 10px;color:#f7fbff;font-size:22px}.detail-card p{margin:0;color:#bfd2dc;line-height:1.55}.detail-card .status{display:inline-block;margin-bottom:14px;padding:7px 10px;border-radius:999px;background:#143c31;color:#9ff06a;font-size:11px;font-weight:900;letter-spacing:1px}.detail-card.caution .status{background:#422d1a;color:#ffc267}
+.pipeline{display:flex;align-items:center;gap:7px;margin-top:18px}.pipe{height:15px;flex:1;border:3px solid #7696a5;border-radius:6px;background:#0d3448}.pipe.short{flex:.4}.pipe.wide{height:28px}.valve{position:relative;width:35px;height:34px}.valve::before,.valve::after{content:'';position:absolute;top:8px;width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent}.valve::before{left:2px;border-right:14px solid #ffbd59}.valve::after{right:2px;border-left:14px solid #ffbd59}.sensor-chip{padding:10px 12px;border:2px solid #00b7e8;border-radius:11px;background:#0d374b;color:#fff;font-size:12px;font-weight:900;white-space:nowrap}
+.takeaway{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;margin-top:24px;padding:24px;border:1px solid #3a6744;border-radius:20px;background:linear-gradient(135deg,#123b2e,#082536)}.takeaway-mark{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:#89d329;color:#071d2d;font-size:31px;font-weight:950}.takeaway h2{margin:0 0 8px;color:#fff;font-size:25px}.takeaway p{margin:0;color:#cce0d4;line-height:1.55}
+.promass-source{margin:22px 0 0;padding:18px 20px;border-left:4px solid #00b7e8;border-radius:0 14px 14px 0;background:#071d2d;color:#9fb8c5;font-size:14px;line-height:1.55}.promass-source strong{color:#dcebf1}
+@media(max-width:800px){.optimal-layout{grid-template-columns:1fr}.avoid-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.orientation-grid{grid-template-columns:1fr}.pressure-strip{grid-template-columns:1fr}.process-arrow{transform:rotate(90deg);text-align:center}.detail-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.promass-article{width:min(100% - 22px,1120px);padding:20px 0 42px}.promass-hero,.promass-section{border-radius:19px}.promass-hero{padding:24px 18px}.promass-hero h1{font-size:34px}.promass-section{padding:18px 14px}.avoid-grid{grid-template-columns:1fr}.optimal-visual{min-height:275px}.takeaway{grid-template-columns:1fr}.pipeline{gap:4px}.sensor-chip{padding:8px 7px;font-size:10px}}
+</style>
+</head>
+<body data-sk-module="Promass Einbaulage" data-sk-page="module" data-sk-version="2.3.2.1">
+<header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools" class="logo sk-global-logo sk-header-logo" src="../../assets/icon-512.png?v=2.3.2.1"/></div><div class="brand">SK PLT Tools<small>Promass · Einbaulage</small></div><a aria-label="Zur Wissensdatenbank" class="home sk-header-home" href="../">← Wissensdatenbank</a></div></header>
+<main class="promass-article">
+<nav aria-label="Brotkrümelnavigation" class="promass-breadcrumb"><a href="../../">Startseite</a><span>›</span><a href="../">Wissensdatenbank</a><span>›</span><span>Endress+Hauser · Promass · Einbaulage</span></nav>
+<section class="promass-hero">
+<div class="promass-kicker">ENDRESS+HAUSER · PROMASS · CORIOLIS</div>
+<h1>Einbaulage und Einbausituation</h1>
+<p>Praxisleitfaden für eine vollständig gefüllte, druckstabile und möglichst homogene Durchströmung des Coriolis-Messaufnehmers.</p>
+<div class="promass-tags"><span class="promass-tag">Hersteller: Endress+Hauser</span><span class="promass-tag">Gerätefamilie: Promass</span><span class="promass-tag">Messprinzip: Coriolis-Massedurchfluss</span></div>
+</section>
+<section class="promass-section">
+<div class="promass-kicker">BEVORZUGTER EINBAU</div><h2>Steigleitung ist die optimale Lösung</h2>
+<p class="promass-section-intro">Die vertikale Durchströmung von unten nach oben unterstützt einen stabilen Messzustand und das vollständige Füllen der Messrohre.</p>
+<div class="optimal-layout">
+<div class="optimal-visual" aria-label="Schematische Steigleitung mit Promass-Sensor"><div class="riser"><div class="riser-pipe"></div><div class="riser-arrow">↑</div><div class="riser-sensor"></div></div><span class="riser-label">OPTIMAL</span></div>
+<ul class="check-list"><li><strong>Messrohre vollständig gefüllt:</strong> Während der Förderung bleibt der Sensor sicher gefüllt.</li><li><strong>Gasblasen können entweichen:</strong> Aufsteigende Gasanteile werden mit der Strömung abgeführt.</li><li><strong>Feststoffe können absinken:</strong> Ablagerungen im Messrohr werden weniger begünstigt.</li><li><strong>Definiertes Leerlaufen:</strong> Im Stillstand kann die Leitung vollständig leerlaufen.</li></ul>
+</div>
+<div class="pressure-strip" aria-label="Empfohlene Anordnung auf der Druckseite nach der Pumpe"><div class="process-node"><strong>Pumpe</strong><span>Förderdruck aufbauen</span></div><div class="process-arrow">→</div><div class="process-node sensor"><strong>Promass</strong><span>stabiler Druck im Sensor</span></div><div class="process-arrow">→</div><div class="process-node"><strong>Ventil / Blende</strong><span>Druckhaltung nach dem Sensor</span></div></div>
+</section>
+<section class="promass-section">
+<div class="promass-kicker">UNGÜNSTIGE EINBAUSITUATIONEN</div><h2>Diese Positionen nach Möglichkeit vermeiden</h2>
+<p class="promass-section-intro">Entscheidend ist, dass der Messaufnehmer nicht teilgefüllt wird und sich weder Gas noch Feststoffe bevorzugt in den Messrohren sammeln.</p>
+<div class="avoid-grid"><article class="avoid-card"><h3>Saugseite</h3><p>Unterdruck vor der Pumpe kann Gasblasenbildung begünstigen.</p></article><article class="avoid-card"><h3>Höchster Anlagenpunkt</h3><p>Gasanteile können sich am Hochpunkt des Rohrsystems sammeln.</p></article><article class="avoid-card"><h3>Freier Auslauf</h3><p>Rohrleitung und Messrohre können teilgefüllt oder leergezogen werden.</p></article><article class="avoid-card"><h3>Fallleitung</h3><p>Nur verwenden, wenn die vollständige Füllung des Messrohrs sicher gewährleistet ist.</p></article></div>
+</section>
+<section class="promass-section">
+<div class="promass-kicker">SENSOR- UND MESSUMFORMERLAGE</div><h2>Gasblasen und Feststoffablagerungen berücksichtigen</h2>
+<div class="orientation-grid">
+<article class="orientation-card warning"><div class="orientation-icon"><div class="tube-pair horizontal"><span></span><span></span></div></div><h3>Zwei-Rohr-Sensor liegend</h3><p>Wenn möglich vermeiden: Gasanteile können bevorzugt durch das obere, Feststoffe durch das untere Messrohr strömen. Ungleiche Füllung kann Messabweichungen und Meldungen verursachen.</p></article>
+<article class="orientation-card"><div class="orientation-icon"><div class="bubble"></div></div><h3>Messumformer unten</h3><p>Bei Messaufnehmern mit gebogenen Rohren können sich Gasblasen sammeln. Einschränkungen bei Gas im Medium beachten.</p></article>
+<article class="orientation-card"><div class="orientation-icon"><div class="solid"></div></div><h3>Messumformer oben</h3><p>In der Regel gut geeignet. Bei Fest- oder Schwebstoffen können sich im Stillstand jedoch Ablagerungen bilden.</p></article>
+</div>
+</section>
+<section class="promass-section">
+<div class="promass-kicker">ARMATUREN UND ROHRÜBERGÄNGE</div><h2>Druckabfälle vom Sensor fernhalten</h2>
+<div class="detail-grid">
+<article class="detail-card"><span class="status">EMPFOHLEN</span><h3>Ventile nach dem Sensor</h3><p>Ventile möglichst hinter dem Promass einbauen. Das hält den Druck im Sensor stabil und reduziert das Risiko, dass Kavitation nach einem vorgeschalteten Ventil den Einlaufsensor beeinflusst.</p><div class="pipeline" aria-label="Promass vor Ventil"><div class="pipe"></div><div class="sensor-chip">PROMASS</div><div class="pipe short"></div><div class="valve"></div><div class="pipe"></div></div></article>
+<article class="detail-card caution"><span class="status">ABSTAND VORSEHEN</span><h3>Rohrerweiterung nicht direkt am Auslauf</h3><p>Nach dem Sensor zunächst eine kurze Strecke im Gerätedurchmesser ausführen und erst danach erweitern. So wirkt der Druckabfall der Erweiterung nicht unmittelbar auf den Auslaufsensor.</p><div class="pipeline" aria-label="Kurze Strecke vor der Rohrerweiterung"><div class="sensor-chip">PROMASS</div><div class="pipe short"></div><div class="pipe wide"></div></div></article>
+</div>
+<div class="takeaway"><div class="takeaway-mark">✓</div><div><h2>Merksatz für die Praxis</h2><p>Promass auf der Druckseite nach der Pumpe, möglichst in einer Steigleitung und vor druckhaltenden Armaturen einbauen. Messrohre vollständig und homogen gefüllt halten; Gasansammlungen, Feststoffablagerungen und unmittelbare Druckabfälle am Sensor vermeiden.</p></div></div>
+<p class="promass-source"><strong>Fachliche Grundlage:</strong> Schulungsunterlage „Durchfluss_Coriolis_2024.pdf“, insbesondere die Einbausituationen auf den Folien 30 bis 33 sowie die ergänzenden Darstellungen zum freien Auslauf und zum idealen Einbau. Vor Planung, Montage oder Änderung sind zusätzlich die gültige Betriebsanleitung des konkreten Promass-Sensortyps, die Prozessbedingungen und die betrieblichen Vorgaben zu prüfen.</p>
+</section>
+</main>
+<footer class="footer sk-footer">SK PLT Tools · Entwickelt von Simon Kiesler</footer>
+<script src="../../assets/app.js?v=2.3.2.1"></script>
+<button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button>
+<button aria-label="Seitennavigation öffnen" class="sk-tree-trigger" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-6h4v4h-4v-4zM8 6h5v6h3v2h-5V8H8V6zm0 12h5v-5h3v-2h-5v5H8v2z"></path></svg></button>
+</body>
+</html>

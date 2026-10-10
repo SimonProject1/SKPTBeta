@@ -1,4 +1,4 @@
-const RELEASE='2.3.2.0';
+const RELEASE='2.3.2.1';
 const CACHE_PREFIX='sk-plt-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -47,6 +47,7 @@ const CORE=[
   './spannungsfall-rechner/calculator.js',
   './wissensdatenbank/',
   './wissensdatenbank/air-torque-antrieb-drehrichtung/',
+  './wissensdatenbank/endress-hauser-promass-einbaulage/',
   './wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/',
   './wissensdatenbank/siemens-sps-rohwert/',
   './werkstoffdatenbank/',
