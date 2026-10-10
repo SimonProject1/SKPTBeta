@@ -1,5 +1,5 @@
-b0423e72e99512a3106c605e3f7b9aceb0e05f8de7ba2179557c360ef7fd62bc  ./README.txt
-5b64a528495fec96d88ea56e7fac8076fdb2d52d946ecc932640d6e8c36fcf69  ./RELEASE-NOTES.txt
+08befd50a695e2566368937662eb033e2ea782f59f6addb0b99613370ea91989  ./README.txt
+0dcbf5d08d22acbfb6a892a09e5b9cf6a315e1718fb90caeaccf17ba1ae557a9  ./RELEASE-NOTES.txt
 75c4f9ff894677cd482cd2809a47b79be15f06eac9cd34202d8dca8d897a070e  ./SIEMENS-QUELLEN-UND-GRENZWERTE.md
 1ec46aebeeabbd9862038da1ff06230949119f241016fab5235513301a04f7fd  ./VERSION
 f73313d03b0045382eb9ec4a5833898e66366a3cd4678c26f186330555fe7fc6  ./analogsignal/index.html
@@ -23,7 +23,7 @@ c3f47ab69f50e3a47986fd72c9311d81cd9bdf95e3621f0a3195e1bd96c2782c  ./assets/mater
 72055bb4a5f20e5997c2d1b7f5221df08fa9a0dee9c5a9d4bfacad2bd4d9fb4f  ./assets/pf-rechner.js
 64307b4d574d76ca33e01b51989d5c1950fdb92d799a7667c7afc0df9db3086a  ./assets/pt-rechner.js
 9a8811689ee6587890be8d9885cf0d88c5607dee3de915f625a86aad3de08223  ./assets/rechner-unified.css
-634bcad7047e0f40545d96c22602ada6fe6a230705b9b5c567db82b841f7d354  ./assets/responsive.css
+756022bb9fb647bb99f95bc292b8a2e92ffe903b20c028f52ad8afde9d5291ce  ./assets/responsive.css
 b521bdc628ffe89f9b4cf859bb48b4ff7cd06b84876c96001ad594ddcef31584  ./assets/search-index.json
 132957fb1524e11d0535fb21e9af5482181742f88a4f9b4a4e61beb2fdb1f935  ./assets/siemens-analogwert-rechner.css
 e27896011b715ac1a23fbee37ee3681b3fc02d6be6743e109940543a0c3664ea  ./assets/siemens-analogwert-rechner.js
@@ -36,7 +36,7 @@ ac3f81b285f696e3e7166e6e59db6f201858622a1e8fc3fd92b50c7a98acf951  ./assets/unit-
 38eff0ae6516212769c080ab029dae6398fa515976b1be1e86140dff08112e20  ./assets/vacon-wissen.css
 fe75751a142a88366905fe8a5c65edf7984b0318ff3c8253eda056d5cb062b38  ./einheitendatenbank/index.html
 c39e5ef8e5bc5cb118d6571a91d78a42b4f839083c875bfb43b0aed88a6ff963  ./einheitenrechner/index.html
-9fc79da49b692d03de9422aef8e0e7b93fca2412f3cf8ad6d73a5da91fd26139  ./index.html
+044076faed28d6ddf2eef44aaaa02e8295d7c3c986ffaaa40570325cd6c86309  ./index.html
 440b3300601b0bd6fa37cb81b87f80c7349d7665425427aed9c48d6718108829  ./manifest.webmanifest
 33fc9a66f17eda281d50f1ae64c53a3558e5e742c1465372a917d71d053c2950  ./messstellen-doku/index.html
 24189f8311be548048d1d01a662fab9a2096c47f947ad15d4814bde6217acf31  ./pf-rechner/index.html
