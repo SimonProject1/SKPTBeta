@@ -1,11 +1,12 @@
-SK PLT Tools 2.2.1.1-Beta
+SK PLT Tools 2.2.1.2-Beta
 
 Beta-Version der kompakten statischen Web-App für Rechner,
 Wissensdatenbank und Einheitendatenbank. Diese Version ist zum kontrollierten Testen vorgesehen.
 
 Änderung dieser Version
-- Werkstoffe im Werkstoff-Nachschlagewerk sind einzeln ein- und ausklappbar.
-- Beim Seitenaufruf sind alle Werkstoffe eingeklappt, um insbesondere auf dem iPhone weniger scrollen zu müssen.
+- In der PC-Darstellung stehen Werkstoff-Kurznamen vollständig in genau einer Zeile.
+- In der PC-Darstellung stehen die Werkstoffgruppen-Kennzeichnungen oben rechts ebenfalls vollständig in genau einer Zeile.
+- Die bestätigte mobile Darstellung bleibt unverändert: Alle Werkstoffe starten eingeklappt und lassen sich einzeln sowie unabhängig voneinander öffnen und schließen.
 
 Deployment
 - Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
@@ -16,7 +17,7 @@ Deployment
 PWA
 - Installation über die Installationsfunktion des verwendeten Browsers.
 - Start-URL und App-ID sind versionsunabhängig auf ./ gesetzt.
-- Der Service Worker verwendet die Release-Caches core-v2.2.1.1-Beta und documents-v2.2.1.1-Beta.
+- Der Service Worker verwendet die Release-Caches core-v2.2.1.2-Beta und documents-v2.2.1.2-Beta.
 
 Integrität
 - Interne Dateien: SHA256SUMS.txt mit einem SHA-256-Eintrag je weiterer Datei.
