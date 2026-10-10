@@ -1,4 +1,4 @@
-/* === V2.3.2.1 · responsive application shell ===
+/* === V2.3.2.2 · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -298,7 +298,7 @@ html{background-color:#04131f}
 
 .sk-mobile-hero-version{display:none}
 
-/* === 2.3.2.1 · kompakte mobile Startseite ===
+/* === 2.3.2.2 · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{
@@ -320,26 +320,58 @@ html{background-color:#04131f}
   body[data-sk-page="start"] .sk-mobile-hero-version{
     display:grid;
     justify-self:start;
-    gap:2px;
+    justify-items:center;
+    gap:4px;
     min-width:0;
-    padding:8px 10px;
+    padding:9px 11px 8px;
     border:1px solid #2c627c;
     border-radius:12px;
-    background:rgba(4,21,34,.76);
+    background:linear-gradient(155deg,rgba(8,38,57,.9),rgba(4,21,34,.8));
     color:#f7fbff;
     line-height:1.1;
+    text-align:center;
   }
-  body[data-sk-page="start"] .sk-mobile-hero-version>span{
+  body[data-sk-page="start"] .sk-mobile-hero-tool-line{
     color:#89d329;
-    font-size:10px;
+    font-size:clamp(8px,2.45vw,10px);
     font-weight:900;
-    letter-spacing:1.2px;
+    letter-spacing:.85px;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  body[data-sk-page="start"] .sk-mobile-hero-version-focus{
+    display:grid;
+    justify-items:center;
+    gap:1px;
+    width:100%;
+    padding:4px 6px 5px;
+    border-top:1px solid rgba(44,98,124,.55);
+    border-bottom:1px solid rgba(44,98,124,.55);
+  }
+  body[data-sk-page="start"] .sk-mobile-hero-version-focus>span{
+    color:#8fdcf1;
+    font-size:8px;
+    font-weight:850;
+    letter-spacing:1.25px;
     text-transform:uppercase;
   }
   body[data-sk-page="start"] .sk-mobile-hero-version strong{
-    font-size:clamp(12px,3.6vw,15px);
+    color:#f7fbff;
+    font-size:clamp(15px,4.25vw,19px);
+    line-height:1.05;
+    letter-spacing:.1px;
+    text-shadow:0 0 18px rgba(0,183,232,.22);
     white-space:nowrap;
   }
+  body[data-sk-page="start"] .sk-mobile-hero-expansion{
+    display:grid;
+    gap:1px;
+    color:#91aab7;
+    font-size:clamp(8px,2.35vw,9.5px);
+    font-weight:650;
+    line-height:1.18;
+  }
+  body[data-sk-page="start"] .sk-mobile-hero-expansion>span{white-space:nowrap}
   body[data-sk-page="start"] .sk-tool-filter{padding:0!important;overflow:hidden}
   body[data-sk-page="start"] .sk-filter-toggle{
     display:flex;
@@ -377,7 +409,7 @@ html{background-color:#04131f}
 }
 
 
-/* === 2.3.2.1 · mobile Kategorien und optionale Kompaktansicht === */
+/* === 2.3.2.2 · mobile Kategorien und optionale Kompaktansicht === */
 .sk-mobile-display-controls{display:none}
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .sk-mobile-display-controls{

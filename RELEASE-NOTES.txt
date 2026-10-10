@@ -1,51 +1,30 @@
-SK PLT Tools 2.3.2.1-Beta
+SK PLT Tools 2.3.2.2-Beta
 Release-Datum: 10.10.2026
 Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.3.2.0-Beta.zip
-SHA-256 der Ausgangsbasis: c9ca02dff080d1c7fcfe090a3d987ddc1a1dc4e11c268f7a8403bb07fc84d2b5
+Ausgangsbasis: SK-PLT-Tools-V2.3.2.1-Beta.zip
+SHA-256 der Ausgangsbasis: 72c705ab8b676ff9a75bbc33bdb7ebf7c798c371452d719438052a48676f635f
 
 BETA-ZIEL
-- Vollständige Integration eines neuen Geräte-Wissensbeitrags zu Endress+Hauser Promass.
-- Thema: Einbaulage und Einbausituation bei Coriolis-Massedurchflussmessung.
-- Alle bestätigten Funktionen und das vorhandene Design bleiben erhalten.
+- Die kompakte mobile Hero-Fläche der Startseite inhaltlich ausbalancieren.
+- Die Versionsnummer bleibt der klare visuelle Mittelpunkt.
+- Desktop und Tablet bleiben in Struktur, Breakpoints und Gestaltung unverändert.
 - Laufzeitkanal: beta.
 
-NEUER WISSENSBEITRAG
-- Neue Route: wissensdatenbank/endress-hauser-promass-einbaulage/.
-- Hersteller: Endress+Hauser.
-- Gerätefamilie: Promass.
-- Messprinzip: Coriolis-Massedurchfluss.
-- Fachliche Grundlage: Durchfluss_Coriolis_2024.pdf, Folien 30 bis 35.
-- Steigleitung als optimaler Einbau mit vollständiger Füllung, Entgasung,
-  Absinken von Feststoffen und definiertem Leerlaufen.
-- Druckseite nach der Pumpe und stabiler Druck im Sensor als bevorzugte Anordnung.
-- Fallleitung, freien Auslauf, höchsten Anlagenpunkt und Saugseite vermeiden.
-- Liegenden Einbau bei Zwei-Rohr-Sensoren wegen ungleichmäßiger Füllung vermeiden.
-- Messumformer unten: mögliche Gasblasenansammlung in gebogenen Messrohren.
-- Messumformer oben: mögliche Feststoffablagerungen im Stillstand.
-- Ventile möglichst nach dem Sensor anordnen.
-- Rohrerweiterung erst nach einer kurzen Strecke im Gerätedurchmesser ausführen.
-- Praxisdarstellung mit responsiven Schema-, Hinweis- und Merkkarten ergänzt.
+MOBILE HERO-FLÄCHE
+- Rechts neben dem großen Logo ergänzt: „PLT-TOOL · PCT-TOOL“.
+- Unter der Versionsnummer dezent ausgeschrieben: „Prozessleittechnik“ und
+  „Process Control Technology“.
+- Versionsnummer bewusst größer und kontrastreicher als alle ergänzenden Texte.
+- Beschriftung semantisch und über ein vollständiges aria-label zugänglich.
+- Gültig für Smartphone-Hochformat bis 760 CSS-Pixel sowie die bereits vorhandene
+  Smartphone-Querformatregel bis 932 CSS-Pixel bei maximal 520 CSS-Pixel Höhe.
+- Außerhalb dieser mobilen Regeln bleibt der Zusatz vollständig ausgeblendet.
 
-WISSENSDATENBANK UND HERSTELLERGRUPPIERUNG
-- Beitragsübersicht von vier auf fünf Gerätebeiträge erweitert.
-- Neue Herstellergruppe Endress+Hauser; damit vier Herstellergruppen.
-- Suchzähler, mobile Gruppierung, Gruppenpersistenz und Kompaktansicht arbeiten
-  dynamisch mit dem neuen Beitrag.
-
-SUCHE UND NAVIGATION
-- assets/search-index.json um den Promass-Beitrag und relevante Suchbegriffe ergänzt.
-- Startseitensuche findet den Beitrag unter Endress+Hauser, E+H, Promass, Coriolis,
-  Einbaulage, Steigleitung, Druckseite, Gasblasen, Feststoffe und weiteren Begriffen.
-- assets/navigation-tree.json enthält Endress+Hauser als Herstellerknoten unter Wissen.
-- Breadcrumb führt über Startseite und Wissensdatenbank zum Promass-Beitrag.
-
-PWA UND OFFLINE-CACHE
-- Öffentliche Betaversion: 2.3.2.1-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.2.1.
-- Kerncache: sk-plt-tools-core-v2.3.2.1 mit 50 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.2.1 mit zwei optionalen Dokumenten.
-- Der neue Promass-Beitrag ist Teil des strikten Kerncaches und offline verfügbar.
+VERSION UND PWA
+- Öffentliche Betaversion: 2.3.2.2-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.2.2.
+- Kerncache: sk-plt-tools-core-v2.3.2.2 mit 50 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.2.2 mit zwei optionalen Dokumenten.
 - Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
 - Aktivierung des neuen Service Workers entfernt ältere Produktcaches.
 
@@ -53,15 +32,15 @@ PROJEKTBESTAND
 - 57 Dateien im Projektordner einschließlich SHA256SUMS.txt.
 - 17 HTML-Seiten einschließlich der alten Werkstoff-Weiterleitungsroute.
 - 31 Dateien unter assets/.
-- Keine Test- oder Entwicklungsartefakte und keine Schulungsunterlage im Deployment-ZIP.
+- Keine Test- oder Entwicklungsartefakte im Deployment-ZIP.
 
 BEWAHRTE FUNKTIONEN
 - Sechs Rechner, Einheitendatenbank, Messstellen-Dokumentation und Werkstoffdatenbank.
 - Favoriten, Navigation, Suche, Sortierung, responsive Ansichten und PWA-Betrieb.
-- Vier vorhandene Geräte-Wissensbeiträge unverändert erhalten.
+- Fünf Geräte-Wissensbeiträge unverändert erhalten.
 - Alte Werkstoffroute bleibt als abwärtskompatible Weiterleitung erhalten.
 - Das verworfene VDE-0100-600-Funktionsmodul bleibt vollständig entfernt.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.2.1-Beta.zip.sha256 bereitgestellt.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.2.2-Beta.zip.sha256 bereitgestellt.

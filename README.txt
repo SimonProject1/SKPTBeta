@@ -1,35 +1,23 @@
-SK PLT Tools 2.3.2.1-Beta
+SK PLT Tools 2.3.2.2-Beta
 
 Beta-Testversion der kompakten statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
 
 Basis dieser Beta
-- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.3.2.0-Beta.zip vom 10.10.2026.
-- Bestätigte SHA-256 der Basis: c9ca02dff080d1c7fcfe090a3d987ddc1a1dc4e11c268f7a8403bb07fc84d2b5.
+- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.3.2.1-Beta.zip vom 10.10.2026.
+- Bestätigte SHA-256 der Basis: 72c705ab8b676ff9a75bbc33bdb7ebf7c798c371452d719438052a48676f635f.
 - ZIP-CRC und interne Prüfsummen der Basis wurden vor der Änderung bestätigt.
-- Bestehende Funktionen, Gestaltung und die eigenständige Werkstoffdatenbank wurden erhalten.
+- Bestehende Funktionen und Gestaltung bleiben außerhalb der ausdrücklich angepassten
+  mobilen Hero-Fläche erhalten.
 
-Neuer Wissensbeitrag
-- Hersteller: Endress+Hauser.
-- Gerätefamilie: Promass.
-- Messprinzip: Coriolis-Massedurchfluss.
-- Thema: Einbaulage und Einbausituation.
-- Neue Route: wissensdatenbank/endress-hauser-promass-einbaulage/.
-- Fachliche Grundlage: Durchfluss_Coriolis_2024.pdf, insbesondere Folien 30 bis 33 sowie ergänzend 34 und 35.
-- Der Beitrag beschreibt Steigleitung und Druckseite als bevorzugte Einbausituationen,
-  zu vermeidende Positionen, Besonderheiten von Zwei-Rohr-Sensoren und
-  Messumformerlage sowie die Anordnung von Ventilen und Rohrerweiterungen.
-- Die Schulungsunterlage selbst ist nicht Bestandteil des kompakten Deployment-ZIP.
-
-Wissensdatenbank, Suche und Navigation
-- Die Wissensdatenbank enthält fünf Gerätebeiträge in vier Herstellergruppen:
-  Air Torque, Endress+Hauser, Siemens und Vacon.
-- Die mobile Herstellergruppierung wird automatisch um Endress+Hauser ergänzt.
-- Die Beitragssuche berücksichtigt Hersteller, Gerätefamilie, Messprinzip und
-  alle wesentlichen Einbau-Schlagworte.
-- Die Startseitensuche enthält den Beitrag als eigenständigen Wissensbeitrag.
-- Der Navigationsbaum enthält unter Wissen eine Herstellergruppe Endress+Hauser
-  mit dem Promass-Beitrag.
+Mobile Hero-Erweiterung
+- Nur auf Smartphones wird rechts neben dem großen Logo die Kennzeichnung
+  „PLT-TOOL · PCT-TOOL“ angezeigt.
+- Darunter stehen dezent die ausgeschriebenen Begriffe „Prozessleittechnik“ und
+  „Process Control Technology“.
+- Die Versionsnummer 2.3.2.2-Beta bleibt als größtes Textelement im Mittelpunkt.
+- Desktop- und Tablet-Layout bleiben unverändert; die Ergänzung ist außerhalb der
+  Smartphone-Media-Queries ausgeblendet.
 
 Bewahrte Funktionen
 - Mobile Startseite mit einklappbaren Werkzeugkategorien und optionaler Kompaktansicht.
@@ -49,7 +37,7 @@ Deployment zum Testen
 
 PWA
 - Start-URL, Scope und App-ID bleiben versionsunabhängig auf ./ gesetzt.
-- Service-Worker-Caches: core-v2.3.2.1 und documents-v2.3.2.1.
+- Service-Worker-Caches: core-v2.3.2.2 und documents-v2.3.2.2.
 - Der Kerncache enthält 50 Ziele; der Dokumentcache zwei optionale Dokumente.
 - Laufzeitkanal: beta.
 
