@@ -1,4 +1,4 @@
-/* Siemens Rohwert · SK PLT Tools 2.1.7.2-Beta · Drei-Reiter-Eingabe */
+/* Siemens Rohwert · SK PLT Tools 2.1.7.3-Beta · Drei-Reiter-Eingabe */
 .analog-panel [hidden]{display:none!important}
 .analog-page-title{max-width:980px;padding-bottom:9px}
 .analog-compact{display:grid;gap:12px}
@@ -65,7 +65,7 @@
 @media(max-width:520px){.analog-physical-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.analog-physical-field:last-child{grid-column:1/-1}}
 @media(max-width:390px){.analog-tab{font-size:13px}.analog-value-card{padding:9px}.analog-value-card strong{font-size:17px}.analog-value-card span{font-size:10px}.analog-input-shell input{font-size:21px}.analog-input-shell>.analog-sign-button{min-width:44px;padding-inline:8px}.analog-input-shell b{min-width:50px;padding-inline:8px}}
 
-/* Zentrale Einheitenfelder 2.1.7.2-Beta */
+/* Zentrale Einheitenfelder 2.1.7.3-Beta */
 .analog-physical-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .analog-physical-grid select{width:100%;min-height:42px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#041522;color:var(--text);font:800 14px/1.1 Inter,system-ui,sans-serif}
 .analog-physical-grid select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,183,232,.12);outline:0}

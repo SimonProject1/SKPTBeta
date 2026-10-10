@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Browser-, Responsive-, PWA- und Rechner-Volltest für SK PLT Tools 2.1.7.2-Beta."""
+"""Browser-, Responsive-, PWA- und Rechner-Volltest für SK PLT Tools 2.1.7.3-Beta."""
 from pathlib import Path
-import os
+import json,os
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'test-artifacts'; OUT.mkdir(exist_ok=True)
-BASE='http://127.0.0.1:4173'; VERSION='2.1.7.2-Beta'
+BASE='http://127.0.0.1:4173'; VERSION='2.1.7.3-Beta'
+LAYOUT_MEASUREMENTS=[]
 PAGES=['/','/analogsignal/','/siemens-analogwert-rechner/','/einheitenrechner/','/einheitendatenbank/','/messstellen-doku/','/pf-rechner/','/pt-rechner/','/servicewerte/','/spannungsfall-rechner/','/wissensdatenbank/','/wissensdatenbank/air-torque-antrieb-drehrichtung/','/wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/','/wissensdatenbank/siemens-sps-rohwert/','/wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/','/wissensdatenbank/werkstoff-nachschlagewerk/']
 CALCULATORS=[('analogsignal','/analogsignal/'),('siemens','/siemens-analogwert-rechner/'),('einheiten','/einheitenrechner/'),('pf','/pf-rechner/'),('pt','/pt-rechner/'),('spannungsfall','/spannungsfall-rechner/')]
 
@@ -32,17 +33,19 @@ def numeric_keypads(page,route):
         assert fields.nth(index).get_attribute('inputmode') in ('decimal','numeric'),f'inputmode fehlt: {route} #{fields.nth(index).get_attribute("id")}'
 def unit_database_cta(page,route):
     cta=page.locator('.sk-unit-database-cta'); button=page.locator('.sk-unit-database-button')
+    calculator=page.locator('.calc-panel,.analog-panel').first
     assert cta.count()==1 and cta.is_visible(),f'Einheitendatenbank-Bereich fehlt: {route}'
     assert button.count()==1 and button.is_visible(),f'Einheitendatenbank-Button fehlt: {route}'
+    assert calculator.count()==1 and calculator.is_visible(),f'Rechner-Hauptbereich fehlt: {route}'
     assert button.get_attribute('href')=='../einheitendatenbank/',f'Einheitendatenbank-Ziel falsch: {route}'
-    box=cta.bounding_box(); viewport=page.viewport_size; assert box
-    limit=640 if 760<viewport['width']<=1024 else 720
-    assert box['width']<=min(limit,viewport['width'])+1,f'Einheitendatenbank-Bereich zu breit: {route} ({box["width"]} px)'
-    if viewport['width']>760:
-        main_width=page.locator('main').bounding_box()['width']
-        assert box['width']<main_width*.92,f'Einheitendatenbank-Bereich nicht kompakt: {route} ({box["width"]}/{main_width} px)'
-    else:
-        assert box['x']>=0 and box['x']+box['width']<=viewport['width']+1,f'Einheitendatenbank-Bereich mobil außerhalb des Viewports: {route}'
+    box=cta.bounding_box(); calc=calculator.bounding_box(); viewport=page.viewport_size; assert box and calc
+    assert cta.evaluate('el=>getComputedStyle(el).boxSizing')=='border-box',f'Einheitenfavoriten ohne border-box: {route}'
+    assert abs(box['x']-calc['x'])<=1,f'Linke Kante abweichend: {route} ({box["x"]}/{calc["x"]})'
+    assert abs((box['x']+box['width'])-(calc['x']+calc['width']))<=1,f'Rechte Kante abweichend: {route}'
+    assert abs(box['width']-calc['width'])<=1,f'Breite weicht vom Rechner-Hauptbereich ab: {route} ({box["width"]}/{calc["width"]})'
+    assert box['x']>=0 and box['x']+box['width']<=viewport['width']+1,f'Einheitenfavoriten außerhalb des Viewports: {route}'
+    LAYOUT_MEASUREMENTS.append({'route':route,'viewport':viewport,'calculator':{key:round(calc[key],2) for key in ('x','width')},'unitFavorites':{key:round(box[key],2) for key in ('x','width')},'edgeDelta':{'left':round(box['x']-calc['x'],2),'right':round((box['x']+box['width'])-(calc['x']+calc['width']),2)}})
+    if viewport['width']<=760:
         assert button.bounding_box()['width']<=box['width'],f'Einheitendatenbank-Button mobil zu breit: {route}'
 def mobile_controls(page):
     viewport=page.viewport_size; left=page.locator('.sk-favorites-trigger').bounding_box(); right=page.locator('.sk-tree-trigger').bounding_box()
@@ -103,7 +106,7 @@ with sync_playwright() as p:
     common(desktop,'/einheitendatenbank/'); desktop.screenshot(path=str(OUT/'einheitendatenbank-desktop.png'),full_page=True)
 
     # PWA installieren lassen und die neue Datenbank aus dem Cache offline öffnen.
-    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); desktop.evaluate("navigator.serviceWorker.ready.then(()=>true)"); desktop.wait_for_function("caches.keys().then(keys=>keys.includes('sk-plt-tools-v2.1.7.2-Beta'))")
+    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); desktop.evaluate("navigator.serviceWorker.ready.then(()=>true)"); desktop.wait_for_function("caches.keys().then(keys=>keys.includes('sk-plt-tools-v2.1.7.3-Beta'))")
     desktop.reload(); desktop.wait_for_load_state('networkidle'); context.set_offline(True); desktop.goto(BASE+'/einheitendatenbank/'); desktop.wait_for_load_state('domcontentloaded'); text(desktop,'h1','Einheitendatenbank'); assert desktop.locator('.unit-row').count()==115; context.set_offline(False)
 
     tablet_context=browser.new_context(viewport={'width':820,'height':1180},device_scale_factor=2,is_mobile=True)
@@ -121,5 +124,6 @@ with sync_playwright() as p:
     landscape=landscape_context.new_page(); common(landscape,'/',True); mobile_controls(landscape); landscape.screenshot(path=str(OUT/'startseite-mobile-landscape.png'),full_page=True)
 
     assert not console_errors,f'Desktop-Konsole: {console_errors}'; assert not tablet_errors,f'Tablet-Konsole: {tablet_errors}'; assert not mobile_errors,f'Mobil-Konsole: {mobile_errors}'
+    (OUT/'einheitenfavoriten-layout.json').write_text(json.dumps({'version':VERSION,'tolerancePx':1,'measurements':LAYOUT_MEASUREMENTS},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('OK: Desktop, Tablet, iPhone-Touchprofil, Querformat, alle Rechner, Einheitenfavoriten, automatische Umrechnungen und Offline-PWA geprüft.')
     browser.close()

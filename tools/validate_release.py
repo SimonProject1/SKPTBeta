@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Statische Vollständigkeits- und Integritätsprüfung für SK PLT Tools 2.1.7.2-Beta."""
+"""Statische Vollständigkeits- und Integritätsprüfung für SK PLT Tools 2.1.7.3-Beta."""
 from __future__ import annotations
 import hashlib,json,re,sys
 from pathlib import Path
@@ -89,15 +89,14 @@ core=load('assets/core.css'); responsive=load('assets/responsive.css'); app=load
 check('safe-area-inset-top' in responsive and 'safe-area-inset-bottom' in responsive,'iPhone Safe Areas fehlen')
 check('.sk-favorites-trigger' in core and '.sk-tree-trigger' in core,'Mobile untere Bedienzone fehlt')
 check('.sk-unit-database-cta' in core and '.sk-unit-database-button' in core,'Stil für Einheitendatenbank-Sprung fehlt')
-check('width:fit-content' in core and 'max-width:min(100%,720px)' in core,'Einheitendatenbank-Sprung ist auf Desktop nicht kompakt begrenzt')
-check('@media(min-width:761px) and (max-width:1024px)' in core and 'max-width:min(100%,640px)' in core,'Einheitendatenbank-Sprung ist auf Tablet nicht kompakt begrenzt')
-check('max-width:560px' in core and 'white-space:normal' in core,'Einheitendatenbank-Sprung ist mobil nicht responsiv')
+check('box-sizing:border-box' in core and 'width:100%;max-width:920px' in core,'Einheitenfavoriten fluchten nicht mit dem Rechner-Hauptbereich')
+check('@media(max-width:760px)' in core and 'flex-direction:column' in core and 'white-space:normal' in core,'Einheitenfavoriten sind mobil nicht responsiv')
 check('.sk-header-home' in core or '.sk-header-home' in responsive,'Startseiten-Button-Stil fehlt')
 check('border-bottom' in core,'Headerlinie fehlt')
 check("button.textContent='±'" in app,'Generischer ±-Vorzeichenwechsel fehlt')
 check('toggleSignValue' in load('assets/siemens-analogwert-rechner.js'),'Siemens ±-Vorzeichenwechsel fehlt')
 
-version_files=['VERSION','README.md','RELEASE-NOTES.txt','TESTBERICHT-UND-ABNAHME.md','PROJEKTUEBERGABE_V2.1.7.2-Beta.txt','ARCHITEKTUR-CLEAN-DESIGN.md','DEPLOYMENT.md']
+version_files=['VERSION','README.md','RELEASE-NOTES.txt','TESTBERICHT-UND-ABNAHME.md','PROJEKTUEBERGABE_V2.1.7.3-Beta.txt','ARCHITEKTUR-CLEAN-DESIGN.md','DEPLOYMENT.md']
 for rel in version_files: check((ROOT/rel).exists(),f'Dokument fehlt: {rel}'); check(VERSION in load(rel),f'{rel}: Version fehlt')
 checksum_path=ROOT/'SHA256SUMS.txt'
 if checksum_path.exists():
