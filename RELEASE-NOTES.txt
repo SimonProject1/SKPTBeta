@@ -1,36 +1,52 @@
-SK PLT Tools 2.2.3.1-Beta
+SK PLT Tools 2.3.1.0-Beta
 Release-Datum: 10.10.2026
-Status: Beta-Version zum kontrollierten Testen
-Technische Basis: korrigierter Stand 2.2.2.2-Beta
+Status: Beta-Testversion
+Ausgangsbasis: SK-PLT-Tools-V2.3.0.0.zip
+SHA-256 der Ausgangsbasis: 91ff22671dbdf2b0103c2c884daab3523bd5d476cddee6e881dcb78a0bd6747a
 
-MOBILE STARTSEITE – EINKLAPPBARE KATEGORIEN
-- Die 10 Werkzeug- und Dienstkarten werden mobil dynamisch nach Kategorie gruppiert.
-- Kategorien: Rechner, Dokumentation, Wissen und Externe Dienste.
-- Jede Kategorie besitzt eine eigene Schaltfläche mit aria-expanded und aria-controls.
-- Die Schaltfläche zeigt sichtbare Treffer und Gesamtzahl der Karten in der Kategorie.
-- Kategorien ohne sichtbare Treffer werden bei Suche oder aktivem Filter ausgeblendet.
-- Der Ein-/Ausklappzustand wird lokal unter skMobileCategoryStateV1 gespeichert.
-- Suche, Filter, Standardsortierung, Titelsortierung und Kategoriesortierung arbeiten weiterhin mit allen Karten.
+BETA-ZIEL
+- Das kompakte mobile Startseitenkonzept wurde auf die Wissensdatenbank übertragen.
+- Der fachliche Inhalt der fünf Wissensbeiträge und alle übrigen bestätigten Funktionen bleiben unverändert.
+- Laufzeitkanal: beta.
 
-OPTIONALE KOMPAKTE KARTENANSICHT
-- Der neue mobile Schalter „Kompakte Karten“ wechselt zwischen Standard- und Kompaktansicht.
-- Die Kompaktansicht reduziert Innenabstände und Überschriftengröße und blendet Beschreibungstexte aus.
-- Favoritenstern, Kartenlink und Kategoriezuordnung bleiben vollständig bedienbar.
-- Der Ansichtsstatus wird lokal unter skMobileCompactCardsV1 gespeichert.
-- Im breiten Smartphone-Querformat werden kompakte Kategorien weiterhin responsive dargestellt.
+MOBILE WISSENSDATENBANK – HERSTELLERGRUPPEN
+- Die fünf Wissensbeiträge werden mobil dynamisch nach Hersteller gruppiert.
+- Gruppen: Herstellerunabhängig, Air Torque, Siemens und Vacon.
+- Jede Gruppe besitzt eine eigene Schaltfläche mit aria-expanded und aria-controls.
+- Die Schaltfläche zeigt sichtbare Treffer und Gesamtzahl der Beiträge in der Herstellergruppe.
+- Herstellergruppen ohne sichtbare Treffer werden bei einer Suche ausgeblendet.
+- Während einer Suche werden passende Gruppen automatisch geöffnet.
+- Der Ein-/Ausklappzustand wird lokal unter skKnowledgeManufacturerStateV1 gespeichert.
 
-DESKTOP UND TABLET
-- Desktop- und reguläre Tablet-Darstellung bleiben flach und unverändert.
-- Kategoriensteuerung und Kompaktschalter werden nur in den definierten Smartphone-Ansichten angezeigt.
+KOMPAKTE BEITRAGSANSICHT
+- Die mobile Kompaktansicht ist standardmäßig aktiv.
+- Sie reduziert Innenabstände und Überschriftengröße und blendet Kategorie sowie Beschreibung aus.
+- Kartenlink und Favoritenstern bleiben vollständig bedienbar.
+- Der mobile Schalter „Kompakte Beiträge“ wechselt zwischen kompakter und ausführlicher Ansicht.
+- Der Ansichtsstatus wird lokal unter skKnowledgeCompactCardsV1 gespeichert.
+
+SUCHE UND RESPONSIVE VERHALTEN
+- Die Suche berücksichtigt weiterhin Hersteller, Gerät, Werkstoff und Thema.
+- Eine Ergebnisanzeige nennt die Zahl der sichtbaren Beiträge.
+- Smartphone-Hochformat und breite Smartphone-Querformate verwenden Herstellergruppen.
+- Desktop und reguläre Tablet-Ansicht behalten die flache zweispaltige Beitragsübersicht.
 - Beim Wechsel in einen größeren Viewport werden die Originalkarten ohne Duplikate wiederhergestellt.
 
+BEWAHRTE FUNKTIONEN
+- Mobile Startseite mit vier einklappbaren Kategorien und optionaler Kompaktansicht.
+- Alle 10 Werkzeug-/Dienstkarten, Suche, Filter, Sortierung und Wissensbeitragssuche.
+- Favoriten, Navigation, sechs Rechner, Einheitendatenbank, Werkstoffdaten und Dokumentation.
+- PWA-/Offline-Betrieb mit 48 Kerncachezielen und zwei optionalen Dokumenten.
+- Das verworfene VDE-0100-600-Funktionsmodul bleibt vollständig entfernt.
+
 PWA UND VERSION
-- Alle Versionsstellen, Asset-Querystrings, Laufzeitmodule, Datenmetadaten, Manifest und Service Worker stehen konsistent auf 2.2.3.1-Beta.
-- Laufzeitkanal: beta.
-- Kerncache: sk-plt-tools-core-v2.2.3.1-Beta.
-- Dokumentcache: sk-plt-tools-documents-v2.2.3.1-Beta.
+- Öffentliche Betaversion: 2.3.1.0-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.1.0.
+- Kerncache: sk-plt-tools-core-v2.3.1.0.
+- Dokumentcache: sk-plt-tools-documents-v2.3.1.0.
 - Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
+- Aktivierung des neuen Service Workers entfernt ältere Caches mit dem Produktpräfix.
 
 INTEGRITÄT
-- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Releaseordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.2.3.1-Beta.zip.sha256 bereitgestellt.
+- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.1.0-Beta.zip.sha256 bereitgestellt.

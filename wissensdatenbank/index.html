@@ -11,12 +11,22 @@
     .knowledge-hero{margin-bottom:36px}.knowledge-kicker{color:#89d329;font-size:12px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase}.knowledge-hero h1{margin:14px 0 16px;color:#f7fbff;font-size:clamp(44px,7vw,76px);line-height:1}.knowledge-hero p{color:#d3e0e7;font-size:20px}
     .knowledge-panel{padding:30px;border:1px solid #24485d;border-radius:24px;background:linear-gradient(145deg,#071d2d,#082536)}
     .proposal-card{display:block;padding:30px;border:1px solid #24485d;border-radius:20px;background:#0a2639;color:#f7fbff;text-decoration:none;margin-bottom:28px}.proposal-card:hover{border-color:#00b7e8}.proposal-card h2{margin:20px 0 14px;font-size:30px}.proposal-card p{color:#b9ced8;font-size:18px;line-height:1.5}
-    .knowledge-search-label{display:block;margin-bottom:8px;color:#d7e4ea;font-weight:800}.knowledge-search{box-sizing:border-box;width:100%;padding:17px 18px;border:1px solid #2a5368;border-radius:14px;background:#041724;color:#fff;font-size:18px;outline:none}.knowledge-search:focus{border-color:#00b7e8}
-    .knowledge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px}.knowledge-entry{position:relative;display:block;min-height:190px;padding:30px;border:1px solid #24485d;border-radius:20px;background:#0a2639;color:#f7fbff;text-decoration:none}.knowledge-entry[hidden]{display:none}.knowledge-entry:hover{border-color:#00b7e8;transform:translateY(-2px)}.knowledge-entry h2{margin:20px 0 14px;font-size:32px}.knowledge-entry p{margin:0;color:#b9ced8;font-size:18px;line-height:1.5}.sk-card-category{color:#89d329;font-size:12px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.knowledge-empty{display:none;margin-top:20px;padding:20px;border:1px solid #24485d;border-radius:14px;color:#b9ced8}.knowledge-empty.show{display:block}
-    @media(max-width:760px){.knowledge-overview{width:min(100% - 22px,1100px);padding-top:26px}.knowledge-panel{padding:18px}.knowledge-grid{grid-template-columns:1fr}.proposal-card,.knowledge-entry{padding:23px}.knowledge-entry{min-height:0}}
+    .knowledge-search-label{display:block;margin-bottom:8px;color:#d7e4ea;font-weight:800}.knowledge-search{box-sizing:border-box;width:100%;padding:17px 18px;border:1px solid #2a5368;border-radius:14px;background:#041724;color:#fff;font-size:18px;outline:none}.knowledge-search:focus{border-color:#00b7e8}.knowledge-search-meta{display:flex;justify-content:flex-end;margin-top:9px;color:#9fb8c5;font-size:13px;font-weight:750}
+    .knowledge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px}.knowledge-entry{position:relative;display:block;min-height:190px;padding:30px;border:1px solid #24485d;border-radius:20px;background:#0a2639;color:#f7fbff;text-decoration:none}.knowledge-entry[hidden]{display:none!important}.knowledge-entry:hover{border-color:#00b7e8;transform:translateY(-2px)}.knowledge-entry h2{margin:20px 0 14px;font-size:32px}.knowledge-entry p{margin:0;color:#b9ced8;font-size:18px;line-height:1.5}.sk-card-category{color:#89d329;font-size:12px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.knowledge-empty{display:none;margin-top:20px;padding:20px;border:1px solid #24485d;border-radius:14px;color:#b9ced8}.knowledge-empty.show{display:block}
+    .knowledge-mobile-display-controls{display:none}
+    @media(max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+      .knowledge-overview{width:min(100% - 22px,1100px);padding:20px 0 34px}.knowledge-hero{margin-bottom:18px}.knowledge-hero h1{margin:9px 0 10px;font-size:clamp(28px,8vw,32px);line-height:1;overflow-wrap:anywhere}.knowledge-hero p{margin:0;font-size:15px;line-height:1.4}
+      .knowledge-panel{padding:12px;border-radius:18px}.proposal-card{margin-bottom:14px;padding:15px 54px 15px 15px;border-radius:15px}.proposal-card .sk-card-category{margin-bottom:8px}.proposal-card h2{margin:0 0 7px;font-size:20px;line-height:1.2}.proposal-card p{margin:0;font-size:14px;line-height:1.4}
+      .knowledge-search-label{font-size:14px}.knowledge-search{min-height:48px;padding:11px 12px;font-size:16px}.knowledge-search-meta{margin-top:7px;font-size:12px}
+      .knowledge-mobile-display-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 12px;padding:9px 10px;border:1px solid #24485d;border-radius:14px;background:rgba(5,23,37,.82)}
+      .knowledge-mobile-display-controls>div{display:grid;gap:2px;min-width:0}.knowledge-mobile-display-controls strong{font-size:15px}.knowledge-compact-toggle{display:flex;align-items:center;gap:7px;min-height:44px;padding:7px 8px;border:1px solid #2c627c;border-radius:12px;background:#061827;color:#f7fbff;font-size:12px;font-weight:850;cursor:pointer}.knowledge-compact-toggle.active{border-color:#89d329;background:#0d302b}.knowledge-view-switch{position:relative;flex:0 0 36px;width:36px;height:21px;border:1px solid #3c6578;border-radius:99px;background:#0a2639}.knowledge-view-switch>span{position:absolute;top:3px;left:3px;width:13px;height:13px;border-radius:50%;background:#a8bdc9;transition:transform .18s ease,background .18s ease}.knowledge-compact-toggle[aria-pressed="true"] .knowledge-view-switch>span{transform:translateX(15px);background:#89d329}.knowledge-view-state{min-width:20px;color:#a8bdc9;text-align:right}.knowledge-compact-toggle[aria-pressed="true"] .knowledge-view-state{color:#89d329}
+      .knowledge-grid.sk-mobile-manufacturers{display:grid;grid-template-columns:1fr;gap:9px;margin-top:0}.knowledge-manufacturer{min-width:0;border:1px solid #24485d;border-radius:16px;background:rgba(5,23,37,.72);overflow:hidden}.knowledge-manufacturer[hidden]{display:none!important}.knowledge-manufacturer-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:53px;padding:9px 11px;border:0;background:linear-gradient(145deg,#0a2639,#071d2d);color:#f7fbff;text-align:left;cursor:pointer}.knowledge-manufacturer-toggle>span:first-child{display:flex;align-items:baseline;gap:8px;min-width:0}.knowledge-manufacturer-title{font-size:17px;font-weight:900}.knowledge-manufacturer-count{color:#a8bdc9;font-size:11px;font-weight:800;white-space:nowrap}.knowledge-manufacturer-chevron{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid #2c627c;border-radius:9px;color:#89d329;font-size:21px;transition:transform .18s ease}.knowledge-manufacturer-toggle[aria-expanded="true"] .knowledge-manufacturer-chevron{transform:rotate(180deg)}.knowledge-manufacturer-entries{display:grid;grid-template-columns:1fr;gap:7px;padding:8px}.knowledge-manufacturer-entries[hidden]{display:none!important}.knowledge-manufacturer-entries>.knowledge-entry{width:100%;min-height:0;margin:0;padding:18px 56px 17px 15px;border-radius:14px}.knowledge-manufacturer-entries>.knowledge-entry h2{margin:10px 0 8px;font-size:24px;line-height:1.15}.knowledge-manufacturer-entries>.knowledge-entry p{font-size:15px;line-height:1.4}.knowledge-manufacturer-entries>.knowledge-entry .sk-favorite-button{top:7px;right:7px}
+      body.sk-knowledge-compact-view .knowledge-manufacturer-entries{gap:6px;padding:7px}body.sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry{padding:12px 52px 12px 13px;border-radius:13px}body.sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry .sk-card-category,body.sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry p{display:none}body.sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry h2{margin:0;font-size:18px;line-height:1.22}body.sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry .sk-favorite-button{top:5px;right:6px;width:38px;height:38px}
+    }
+    @media (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){.knowledge-manufacturer-entries{grid-template-columns:repeat(2,minmax(0,1fr))}}
   </style>
-<link href="../manifest.webmanifest" rel="manifest"/><link href="../assets/favicon.png?v=2.2.3.1-Beta" rel="icon" sizes="64x64" type="image/png"/><link href="../assets/apple-touch-icon.png?v=2.2.3.1-Beta" rel="apple-touch-icon"/><link href="../assets/core.css?v=2.2.3.1-Beta" rel="stylesheet"/><link href="../assets/responsive.css?v=2.2.3.1-Beta" rel="stylesheet"/></head>
-<body data-sk-module="Wissensdatenbank" data-sk-page="module" data-sk-version="2.2.3.1-Beta"><!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.2.3.1-Beta"/></div><div class="brand">SK PLT Tools<small>Wissensdatenbank</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header><!-- sk:header:end -->
+<link href="../manifest.webmanifest" rel="manifest"/><link href="../assets/favicon.png?v=2.3.1.0" rel="icon" sizes="64x64" type="image/png"/><link href="../assets/apple-touch-icon.png?v=2.3.1.0" rel="apple-touch-icon"/><link href="../assets/core.css?v=2.3.1.0" rel="stylesheet"/><link href="../assets/responsive.css?v=2.3.1.0" rel="stylesheet"/></head>
+<body data-sk-module="Wissensdatenbank" data-sk-page="knowledge" data-sk-version="2.3.1.0"><!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.3.1.0"/></div><div class="brand">SK PLT Tools<small>Wissensdatenbank</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header><!-- sk:header:end -->
 <main class="knowledge-overview">
 <section class="knowledge-hero">
 <div class="knowledge-kicker">GERÄTEWISSEN</div>
@@ -31,28 +41,30 @@
 </a>
 <label class="knowledge-search-label" for="knowledgeSearch">Wissensbeiträge durchsuchen</label>
 <input autocomplete="off" class="knowledge-search" id="knowledgeSearch" placeholder="Hersteller, Gerät, Werkstoff oder Thema eingeben" type="search"/>
+<div class="knowledge-search-meta"><span id="knowledgeResultCount">5 Beiträge angezeigt</span></div>
+<section class="knowledge-mobile-display-controls" aria-label="Darstellung der Wissensbeiträge"><div><span class="knowledge-kicker">DARSTELLUNG</span><strong>Beitragsansicht</strong></div><button aria-pressed="true" class="knowledge-compact-toggle active" id="knowledgeCompactToggle" type="button"><span>Kompakte Beiträge</span><span aria-hidden="true" class="knowledge-view-switch"><span></span></span><span class="knowledge-view-state" id="knowledgeCompactState">Ein</span></button></section>
 <div class="knowledge-grid" id="knowledgeGrid">
-<a class="knowledge-entry tool-card" data-search="Werkstoff Nachschlagewerk Werkstoffnummer Material 1.4301 14301 304 1.4401 14401 316 1.4404 14404 316L 1.4408 14408 GX5CrNiMo19-11-2 CF8M 1.4409 14409 CF3M 1.4435 14435 1.4539 14539 904L 1.4571 14571 316Ti 2.4602 24602 Alloy C22 2.4605 24605 Alloy 59 Stahl Stahlguss Nickellegierung" href="werkstoff-nachschlagewerk/">
+<a class="knowledge-entry tool-card" data-manufacturer="Herstellerunabhängig" data-search="Werkstoff Nachschlagewerk Werkstoffnummer Material 1.4301 14301 304 1.4401 14401 316 1.4404 14404 316L 1.4408 14408 GX5CrNiMo19-11-2 CF8M 1.4409 14409 CF3M 1.4435 14435 1.4539 14539 904L 1.4571 14571 316Ti 2.4602 24602 Alloy C22 2.4605 24605 Alloy 59 Stahl Stahlguss Nickellegierung" href="werkstoff-nachschlagewerk/">
 <div class="sk-card-category">WERKSTOFFE</div>
 <h2>Werkstoff-Nachschlagewerk</h2>
 <p>Werkstoffnummern, alternative Bezeichnungen, Gruppenfilter und Direktvergleiche.</p>
 </a>
-<a class="knowledge-entry tool-card" data-search="Air Torque Airtorque Antrieb Drehrichtung SCO SCC Uhrzeigersinn Federkraft" href="air-torque-antrieb-drehrichtung/">
+<a class="knowledge-entry tool-card" data-manufacturer="Air Torque" data-search="Air Torque Airtorque Antrieb Drehrichtung SCO SCC Uhrzeigersinn Federkraft" href="air-torque-antrieb-drehrichtung/">
 <div class="sk-card-category">AIR TORQUE</div>
 <h2>Antrieb</h2>
 <p>Drehrichtung: Bedeutung von SCO und SCC</p>
 </a>
-<a class="knowledge-entry tool-card" data-search="Siemens Sitrans P320 SIL Verriegelung SIMATIC PDM Schreibschutz 2457 PIN" href="siemens-sitrans-p320-sil-verriegelung/">
+<a class="knowledge-entry tool-card" data-manufacturer="Siemens" data-search="Siemens Sitrans P320 SIL Verriegelung SIMATIC PDM Schreibschutz 2457 PIN" href="siemens-sitrans-p320-sil-verriegelung/">
 <div class="sk-card-category">SIEMENS</div>
 <h2>Sitrans P320</h2>
 <p>SIL-Verriegelung mit SIMATIC PDM, Schreibschutz und Initial-PIN 2457.</p>
 </a>
-<a class="knowledge-entry tool-card" data-search="Siemens SPS Rohwert Grundlagen Analogwert A/D-Wandler 27648 5530 S7-300 S7-400 S7-1200 S7-1500 ET 200SP NE43 Unterlauf Überlauf Rechner" href="siemens-sps-rohwert/">
+<a class="knowledge-entry tool-card" data-manufacturer="Siemens" data-search="Siemens SPS Rohwert Grundlagen Analogwert A/D-Wandler 27648 5530 S7-300 S7-400 S7-1200 S7-1500 ET 200SP NE43 Unterlauf Überlauf Rechner" href="siemens-sps-rohwert/">
 <div class="sk-card-category">SIEMENS · SPS</div>
 <h2>Rohwert Grundlagen</h2>
 <p>Grundlagen, Skalierungsmodelle und Diagnosebereiche – mit direktem Weg zum Rohwert-Rechner.</p>
 </a>
-<a class="knowledge-entry tool-card" data-search="Vacon Frequenzumrichter Istwert Sollwert Ist Soll Abweichung PLS Parameter 2.2.3.7 maximale Frequenz" href="vacon-frequenzumrichter-ist-sollwert-abweichung/">
+<a class="knowledge-entry tool-card" data-manufacturer="Vacon" data-search="Vacon Frequenzumrichter Istwert Sollwert Ist Soll Abweichung PLS Parameter 2.2.3.7 maximale Frequenz" href="vacon-frequenzumrichter-ist-sollwert-abweichung/">
 <div class="sk-card-category">VACON</div>
 <h2>Frequenzumrichter</h2>
 <p>Ist-/Sollwert-Abweichung im PLS: Parameter 2.2.3.7 und maximale Frequenz prüfen.</p>
@@ -61,18 +73,65 @@
 <div class="knowledge-empty" id="knowledgeEmpty">Keine passenden Wissensbeiträge gefunden.</div>
 </section>
 </main><!-- sk:footer:start --><footer class="footer sk-footer">SK PLT Tools · Entwickelt von Simon Kiesler</footer><!-- sk:footer:end -->
-<script src="../assets/app.js?v=2.2.3.1-Beta"></script><script>
+<script src="../assets/app.js?v=2.3.1.0"></script><script>
     (()=>{'use strict';
-      const input=document.getElementById('knowledgeSearch');
-      const cards=[...document.querySelectorAll('#knowledgeGrid .knowledge-entry')];
-      const empty=document.getElementById('knowledgeEmpty');
-      function filter(){
-        const q=input.value.trim().toLocaleLowerCase('de-DE');let visible=0;
-        cards.forEach(card=>{const match=!q||(card.dataset.search+' '+card.textContent).toLocaleLowerCase('de-DE').includes(q);card.hidden=!match;if(match)visible++});
-        empty.classList.toggle('show',visible===0);
+      const RELEASE='2.3.1.0';
+      const MOBILE_QUERY='(max-width: 760px), (min-width: 761px) and (max-width: 932px) and (orientation: landscape) and (max-height: 520px)';
+      const GROUP_KEY='skKnowledgeManufacturerStateV1';
+      const COMPACT_KEY='skKnowledgeCompactCardsV1';
+      const read=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key));return value??fallback}catch{return fallback}};
+      const write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
+      const slug=value=>String(value||'sonstige').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'sonstige';
+      function init(){
+        const input=document.getElementById('knowledgeSearch');
+        const grid=document.getElementById('knowledgeGrid');
+        const empty=document.getElementById('knowledgeEmpty');
+        const resultCount=document.getElementById('knowledgeResultCount');
+        const compactToggle=document.getElementById('knowledgeCompactToggle');
+        const compactState=document.getElementById('knowledgeCompactState');
+        if(!input||!grid)return;
+        const media=window.matchMedia(MOBILE_QUERY);
+        let groupState=read(GROUP_KEY,{}),scheduled=false;
+        const cards=()=>[...grid.querySelectorAll('.knowledge-entry')];
+        const setCompact=(enabled,persist=true)=>{document.body.classList.toggle('sk-knowledge-compact-view',enabled);compactToggle?.setAttribute('aria-pressed',String(enabled));compactToggle?.classList.toggle('active',enabled);if(compactState)compactState.textContent=enabled?'Ein':'Aus';if(persist)write(COMPACT_KEY,enabled)};
+        setCompact(Boolean(read(COMPACT_KEY,true)),false);
+        compactToggle?.addEventListener('click',()=>setCompact(compactToggle.getAttribute('aria-pressed')!=='true'));
+        function renderGroups(){
+          scheduled=false;
+          const items=cards();
+          if(!items.length)return;
+          const detached=document.createDocumentFragment();
+          items.forEach(card=>detached.append(card));
+          grid.querySelectorAll(':scope > .knowledge-manufacturer').forEach(section=>section.remove());
+          if(!media.matches){grid.classList.remove('sk-mobile-manufacturers');grid.append(detached);return}
+          const groups=new Map();
+          items.forEach(card=>{const key=(card.dataset.manufacturer||'Herstellerunabhängig').trim();if(!groups.has(key))groups.set(key,[]);groups.get(key).push(card)});
+          grid.classList.add('sk-mobile-manufacturers');
+          const searching=Boolean(input.value.trim());
+          groups.forEach((entries,key)=>{
+            const id=`knowledge-manufacturer-${slug(key)}`;
+            const visible=entries.filter(card=>!card.hidden).length;
+            const expanded=searching?true:groupState[key]!==false;
+            const section=document.createElement('section');section.className='knowledge-manufacturer';section.dataset.manufacturer=key;section.hidden=visible===0;
+            const button=document.createElement('button');button.type='button';button.className='knowledge-manufacturer-toggle';button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-controls',id);button.setAttribute('aria-label',`${key} ${expanded?'einklappen':'ausklappen'}`);button.innerHTML=`<span><span class="knowledge-manufacturer-title">${key}</span><span class="knowledge-manufacturer-count">${visible} von ${entries.length}</span></span><span class="knowledge-manufacturer-chevron" aria-hidden="true">⌄</span>`;
+            const content=document.createElement('div');content.className='knowledge-manufacturer-entries';content.id=id;content.hidden=!expanded;entries.forEach(card=>content.append(card));section.append(button,content);grid.append(section);
+          });
+        }
+        const scheduleGroups=()=>{if(scheduled)return;scheduled=true;queueMicrotask(renderGroups)};
+        function filter(){
+          const q=input.value.trim().toLocaleLowerCase('de-DE');let visible=0;
+          cards().forEach(card=>{const match=!q||(`${card.dataset.manufacturer||''} ${card.dataset.search||''} ${card.textContent}`).toLocaleLowerCase('de-DE').includes(q);card.hidden=!match;if(match)visible++});
+          empty.classList.toggle('show',visible===0);
+          if(resultCount)resultCount.textContent=`${visible} ${visible===1?'Beitrag':'Beiträge'} angezeigt`;
+          scheduleGroups();
+        }
+        grid.addEventListener('click',event=>{const button=event.target.closest('.knowledge-manufacturer-toggle');if(!button)return;const section=button.closest('.knowledge-manufacturer'),content=document.getElementById(button.getAttribute('aria-controls')),expanded=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-label',`${section.dataset.manufacturer} ${expanded?'einklappen':'ausklappen'}`);if(content)content.hidden=!expanded;groupState[section.dataset.manufacturer]=expanded;write(GROUP_KEY,groupState)});
+        input.addEventListener('input',filter);
+        if(typeof media.addEventListener==='function')media.addEventListener('change',scheduleGroups);else media.addListener?.(scheduleGroups);
+        filter();renderGroups();
+        document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-index',version:RELEASE}}));
       }
-      input.addEventListener('input',filter);
-      document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-index',version:'2.2.3.1-Beta'}}));
+      if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
     })();
   </script>
 <!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><button aria-label="Seitennavigation öffnen" class="sk-tree-trigger" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-6h4v4h-4v-4zM8 6h5v6h3v2h-5V8H8V6zm0 12h5v-5h3v-2h-5v5H8v2z"></path></svg></button><!-- sk:controls:end --></body>
