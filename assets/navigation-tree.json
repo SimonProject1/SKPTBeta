@@ -1,5 +1,5 @@
 {
-  "version": "2.1.7.1-Beta",
+  "version": "2.1.7.2-Beta",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -115,7 +115,7 @@
       "items": [
         {
           "title": "E+H Device Viewer",
-          "url": "https://netilion.endress.com/app/library/device_viewer",
+          "url": "https://www.de.endress.com/de/onlinetools?store_locale=de",
           "type": "external"
         }
       ]

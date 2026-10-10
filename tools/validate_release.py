@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Statische Vollständigkeits- und Integritätsprüfung für SK PLT Tools 2.1.7.1-Beta."""
+"""Statische Vollständigkeits- und Integritätsprüfung für SK PLT Tools 2.1.7.2-Beta."""
 from __future__ import annotations
 import hashlib,json,re,sys
 from pathlib import Path
@@ -71,7 +71,7 @@ for needle in ['id="unitSearch"','id="unitCategoryFilter"','unit-database-page.j
 nav=data('assets/navigation-tree.json'); check(nav.get('version')==VERSION,'Navigation: Version inkonsistent')
 check(any(item.get('url')=='einheitendatenbank/' for group in nav['groups'] for item in group.get('items',[])),'Navigation: Einheitendatenbank fehlt')
 search=data('assets/search-index.json'); check(any(item.get('url')=='einheitendatenbank/' for item in search),'Suchindex: Einheitendatenbank fehlt')
-start=load('index.html'); check(len(re.findall(r'<a\b[^>]*class="[^"]*\bcard\b[^"]*"',start))==10,'Startseite: 10 Werkzeugkacheln erwartet'); check('href="einheitendatenbank/"' in start,'Startseite: Einheitendatenbank fehlt')
+start=load('index.html'); check(len(re.findall(r'<a\b[^>]*class="[^"]*\bcard\b[^"]*"',start))==10,'Startseite: 10 Werkzeugkacheln erwartet'); check('href="einheitendatenbank/"' in start,'Startseite: Einheitendatenbank fehlt'); check('href="https://www.de.endress.com/de/onlinetools?store_locale=de" rel="noopener noreferrer" target="_blank"' in start,'Startseite: Endress+Hauser-Link oder Sicherheitsattribute falsch')
 
 manifest=data('manifest.webmanifest')
 check(manifest.get('version')==VERSION,'Manifest-Version inkonsistent'); check(manifest.get('id')==f'./?app=sk-plt-tools-{VERSION.lower()}','Manifest-ID inkonsistent'); check(any(item.get('url')=='./einheitendatenbank/' for item in manifest.get('shortcuts',[])),'Manifest-Shortcut Einheitendatenbank fehlt')
@@ -89,12 +89,15 @@ core=load('assets/core.css'); responsive=load('assets/responsive.css'); app=load
 check('safe-area-inset-top' in responsive and 'safe-area-inset-bottom' in responsive,'iPhone Safe Areas fehlen')
 check('.sk-favorites-trigger' in core and '.sk-tree-trigger' in core,'Mobile untere Bedienzone fehlt')
 check('.sk-unit-database-cta' in core and '.sk-unit-database-button' in core,'Stil für Einheitendatenbank-Sprung fehlt')
+check('width:fit-content' in core and 'max-width:min(100%,720px)' in core,'Einheitendatenbank-Sprung ist auf Desktop nicht kompakt begrenzt')
+check('@media(min-width:761px) and (max-width:1024px)' in core and 'max-width:min(100%,640px)' in core,'Einheitendatenbank-Sprung ist auf Tablet nicht kompakt begrenzt')
+check('max-width:560px' in core and 'white-space:normal' in core,'Einheitendatenbank-Sprung ist mobil nicht responsiv')
 check('.sk-header-home' in core or '.sk-header-home' in responsive,'Startseiten-Button-Stil fehlt')
 check('border-bottom' in core,'Headerlinie fehlt')
 check("button.textContent='±'" in app,'Generischer ±-Vorzeichenwechsel fehlt')
 check('toggleSignValue' in load('assets/siemens-analogwert-rechner.js'),'Siemens ±-Vorzeichenwechsel fehlt')
 
-version_files=['VERSION','README.md','RELEASE-NOTES.txt','TESTBERICHT-UND-ABNAHME.md','PROJEKTUEBERGABE_V2.1.7.1-Beta.txt','ARCHITEKTUR-CLEAN-DESIGN.md','DEPLOYMENT.md']
+version_files=['VERSION','README.md','RELEASE-NOTES.txt','TESTBERICHT-UND-ABNAHME.md','PROJEKTUEBERGABE_V2.1.7.2-Beta.txt','ARCHITEKTUR-CLEAN-DESIGN.md','DEPLOYMENT.md']
 for rel in version_files: check((ROOT/rel).exists(),f'Dokument fehlt: {rel}'); check(VERSION in load(rel),f'{rel}: Version fehlt')
 checksum_path=ROOT/'SHA256SUMS.txt'
 if checksum_path.exists():

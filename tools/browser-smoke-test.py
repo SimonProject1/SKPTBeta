@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Browser-, Responsive-, PWA- und Rechner-Volltest für SK PLT Tools 2.1.7.1-Beta."""
+"""Browser-, Responsive-, PWA- und Rechner-Volltest für SK PLT Tools 2.1.7.2-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'test-artifacts'; OUT.mkdir(exist_ok=True)
-BASE='http://127.0.0.1:4173'; VERSION='2.1.7.1-Beta'
+BASE='http://127.0.0.1:4173'; VERSION='2.1.7.2-Beta'
 PAGES=['/','/analogsignal/','/siemens-analogwert-rechner/','/einheitenrechner/','/einheitendatenbank/','/messstellen-doku/','/pf-rechner/','/pt-rechner/','/servicewerte/','/spannungsfall-rechner/','/wissensdatenbank/','/wissensdatenbank/air-torque-antrieb-drehrichtung/','/wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/','/wissensdatenbank/siemens-sps-rohwert/','/wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/','/wissensdatenbank/werkstoff-nachschlagewerk/']
 CALCULATORS=[('analogsignal','/analogsignal/'),('siemens','/siemens-analogwert-rechner/'),('einheiten','/einheitenrechner/'),('pf','/pf-rechner/'),('pt','/pt-rechner/'),('spannungsfall','/spannungsfall-rechner/')]
 
@@ -35,6 +35,15 @@ def unit_database_cta(page,route):
     assert cta.count()==1 and cta.is_visible(),f'Einheitendatenbank-Bereich fehlt: {route}'
     assert button.count()==1 and button.is_visible(),f'Einheitendatenbank-Button fehlt: {route}'
     assert button.get_attribute('href')=='../einheitendatenbank/',f'Einheitendatenbank-Ziel falsch: {route}'
+    box=cta.bounding_box(); viewport=page.viewport_size; assert box
+    limit=640 if 760<viewport['width']<=1024 else 720
+    assert box['width']<=min(limit,viewport['width'])+1,f'Einheitendatenbank-Bereich zu breit: {route} ({box["width"]} px)'
+    if viewport['width']>760:
+        main_width=page.locator('main').bounding_box()['width']
+        assert box['width']<main_width*.92,f'Einheitendatenbank-Bereich nicht kompakt: {route} ({box["width"]}/{main_width} px)'
+    else:
+        assert box['x']>=0 and box['x']+box['width']<=viewport['width']+1,f'Einheitendatenbank-Bereich mobil außerhalb des Viewports: {route}'
+        assert button.bounding_box()['width']<=box['width'],f'Einheitendatenbank-Button mobil zu breit: {route}'
 def mobile_controls(page):
     viewport=page.viewport_size; left=page.locator('.sk-favorites-trigger').bounding_box(); right=page.locator('.sk-tree-trigger').bounding_box()
     assert left and right and abs(left['x']-10)<=1 and abs(viewport['width']-right['x']-right['width']-10)<=1
@@ -80,6 +89,7 @@ with sync_playwright() as p:
     desktop.on('console',lambda msg: console_errors.append(msg.text) if msg.type=='error' else None)
     for route in PAGES: common(desktop,route)
     desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); assert desktop.locator('.tools>a.card').count()==10; text(desktop,'.hero .badge',f'Version {VERSION}')
+    external=desktop.locator('.sk-external-card'); assert external.get_attribute('href')=='https://www.de.endress.com/de/onlinetools?store_locale=de'; assert external.get_attribute('target')=='_blank'; assert external.get_attribute('rel')=='noopener noreferrer'
     desktop.locator('#skToolSearch').fill('psi'); desktop.wait_for_function("document.querySelectorAll('#skKnowledgeResultList>a').length===1"); text(desktop,'#skKnowledgeResultList h3','Einheitendatenbank'); desktop.locator('#skFilterReset').click()
     unit_card=desktop.locator('.tools>a.card[href="einheitendatenbank/"]'); unit_card.locator('.sk-favorite-button').click(); desktop.locator('.sk-favorites-trigger').click(); assert desktop.locator('.sk-favorites-list').get_by_text('Einheitendatenbank',exact=True).count()==1; desktop.locator('.sk-favorites-close').click()
 
@@ -93,7 +103,7 @@ with sync_playwright() as p:
     common(desktop,'/einheitendatenbank/'); desktop.screenshot(path=str(OUT/'einheitendatenbank-desktop.png'),full_page=True)
 
     # PWA installieren lassen und die neue Datenbank aus dem Cache offline öffnen.
-    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); desktop.evaluate("navigator.serviceWorker.ready.then(()=>true)"); desktop.wait_for_function("caches.keys().then(keys=>keys.includes('sk-plt-tools-v2.1.7.1-Beta'))")
+    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); desktop.evaluate("navigator.serviceWorker.ready.then(()=>true)"); desktop.wait_for_function("caches.keys().then(keys=>keys.includes('sk-plt-tools-v2.1.7.2-Beta'))")
     desktop.reload(); desktop.wait_for_load_state('networkidle'); context.set_offline(True); desktop.goto(BASE+'/einheitendatenbank/'); desktop.wait_for_load_state('domcontentloaded'); text(desktop,'h1','Einheitendatenbank'); assert desktop.locator('.unit-row').count()==115; context.set_offline(False)
 
     tablet_context=browser.new_context(viewport={'width':820,'height':1180},device_scale_factor=2,is_mobile=True)
