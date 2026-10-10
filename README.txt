@@ -1,6 +1,7 @@
-SK PLT Tools 2.1.8.0-Beta
+SK PLT Tools 2.2.0.0
 
-Kompakte statische Web-App für Rechner, Wissensdatenbank und Einheitendatenbank.
+Öffentliche stabile Release-Version der kompakten statischen Web-App für Rechner,
+Wissensdatenbank und Einheitendatenbank.
 
 Deployment
 - Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
@@ -8,6 +9,14 @@ Deployment
 - Nach dem ersten vollständigen Online-Aufruf stehen alle produktiven Seiten offline bereit.
 - Neue Versionen am selben Pfad bereitstellen; die versionsunabhängige PWA-ID behandelt sie als Update derselben App.
 
+PWA
+- Installation über die Installationsfunktion des verwendeten Browsers.
+- Start-URL und App-ID sind versionsunabhängig auf ./ gesetzt.
+- Der Service Worker verwendet die Release-Caches core-v2.2.0.0 und documents-v2.2.0.0.
+
 Integrität
 - Interne Dateien: SHA256SUMS.txt mit einem SHA-256-Eintrag je weiterer Datei.
 - Die Prüfsumme des ZIP-Archivs wird separat neben dem ZIP bereitgestellt.
+
+Release Notes
+- Siehe RELEASE-NOTES.txt.

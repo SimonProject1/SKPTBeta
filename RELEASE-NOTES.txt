@@ -1,40 +1,34 @@
-SK PLT Tools 2.1.7.3-Beta
+SK PLT Tools 2.2.0.0
 Release-Datum: 10.10.2026
-Basis: vollständige 2.1.7.2-Beta
+Status: öffentliche stabile Release-Version
+Technische Basis: vollständig getesteter und bestätigter letzter Vorabstand
 
-GEÄNDERT
-=========
-- Der Bereich „Einheitenfavoriten“ schließt auf allen sechs Rechnerseiten bündig mit dem jeweiligen Rechner-Hauptbereich ab.
-- Desktop und Tablet: identische linke und rechte Kante wie der Rechner; gemeinsames Maximum 920 px.
-- Smartphone: identische verfügbare Inhaltsbreite wie der Rechner, responsive Stapelung und vollbreiter Touch-Button innerhalb des Balkens.
-- Die fehlerhaften kompakten Obergrenzen von 720 px beziehungsweise 640 px aus 2.1.7.2-Beta wurden entfernt.
-- Navigation, Versionsstände, Manifest, App-ID, Service Worker und Cache wurden auf 2.1.7.3-Beta aktualisiert.
+FREIGABE
+- Die bisherige Vorabkennzeichnung wurde aus dem öffentlichen Releasebestand entfernt.
+- Sämtliche Versionsstellen, PWA-Metadaten, Laufzeitmodule, Stylesheets,
+  Datenbestände, Manifest, Service Worker und Cache-Namen stehen konsistent auf 2.2.0.0.
+- Die versionsunabhängige Manifest-ID und Start-URL ./ bleiben erhalten, damit die
+  öffentliche Version als Update derselben installierten App erkannt wird.
 
-BEWUSST UNVERÄNDERT
-===================
-- Herstellerlink: https://www.de.endress.com/de/onlinetools?store_locale=de
-- Externer Aufruf mit target="_blank" und rel="noopener noreferrer".
+UNVERÄNDERT ÜBERNOMMEN
+- Alle bestätigten Funktionen und Designs des geprüften Basisstands.
+- Sechs Rechner: Analogsignal, Siemens-SPS-Analogwert, Einheiten, P+F,
+  Pt100/Pt1000 und Spannungsfall.
 - Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
 - Persönliche Einheitenfavoriten mit lokaler Browser-Persistenz.
 - Automatische Faktor- und Offset-Umrechnung beim Einheitenwechsel.
-- Einheitliche Dropdown-Gruppen: Standardeinheit, Favoriten, Weitere Einheiten.
-- Alle sechs Rechner und ihre vorhandenen Berechnungswege.
-- Mobile Zahlentastatur und ±-Vorzeichenwechsel.
-- Einheitliches Rechnerdesign, mobile untere Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button.
-- PWA-Shortcuts, Offline-Nutzung und vorhandene Local-Storage-Schlüssel.
+- Gemeinsame Navigation, Suche, Werkzeugfavoriten und Wissensdatenbank.
+- Responsive Darstellung, iPhone-Safe-Area, Tablet- und Desktop-Layout.
+- Offline-Direktaufrufe über kanonische Ordner- und index.html-Routen.
+- Kompakter produktiver Dateibestand ohne Entwicklungs- oder QA-Artefakte.
 
-PWA / OFFLINE
-=============
-- Manifest-Version und App-ID: 2.1.7.3-Beta.
-- Cache: sk-plt-tools-v2.1.7.3-Beta.
-- Vollständiger Precache der Web-Laufzeit einschließlich Einheitendatenbank und Rechnerintegrationen.
-- Alte sk-plt-tools-*-Caches werden bei Aktivierung entfernt.
+PWA UND CACHE
+- Manifest-Version: 2.2.0.0.
+- Service-Worker-Release: 2.2.0.0.
+- Kerncache: sk-plt-tools-core-v2.2.0.0.
+- Dokumentcache: sk-plt-tools-documents-v2.2.0.0.
+- Veraltete SK-PLT-Tools-Caches werden bei Aktivierung entfernt.
 
-QUALITÄTSSICHERUNG
-==================
-- Exakte Kanten- und Breitenübereinstimmung zwischen Einheitenfavoriten und Rechner-Hauptbereich auf allen sechs Rechnern in Desktop-, Tablet- und Smartphone-Viewports geprüft.
-- Herstellerlink unverändert sowie Sicherheitsattribute statisch und im Browser geprüft.
-- 19 Kategorien, 115 Einheiten, 575 Einheiten-Roundtrips und Referenzfälle geprüft.
-- Favoriten, automatische Umrechnung, alle sechs Rechner und Offline-Aufruf geprüft.
-- 16 Seiten auf Desktop, Tablet und iPhone-Touchprofil auf Überlauf, App-Schale und Versionsstand geprüft.
-- Prüfsummen und vollständiges ZIP werden automatisiert erzeugt und validiert.
+INTEGRITÄT
+- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Releaseordner.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.2.0.0.zip.sha256 bereitgestellt.
