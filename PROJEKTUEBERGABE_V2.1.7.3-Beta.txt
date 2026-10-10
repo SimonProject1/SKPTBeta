@@ -1,0 +1,68 @@
+SK PLT TOOLS – PROJEKTÜBERGABE
+Version: 2.1.7.3-Beta
+Stand: 10.10.2026
+
+AUSGANGSBASIS
+==============
+Vollständige 2.1.7.2-Beta. Stabile Referenz: 2.1.0.0.
+
+ÄNDERUNGEN DIESER VERSION
+=========================
+- Bereich „Einheitenfavoriten“ auf allen sechs Rechnerseiten wieder auf Rechnerbreite gebracht.
+- Linke und rechte Kante fluchten mit dem jeweiligen Rechner-Hauptbereich.
+- Gemeinsame Geometrie: box-sizing:border-box, width:100%, max-width:920px.
+- Responsive Stapelung unter 760 px bleibt erhalten.
+- Herstellerlink bleibt unverändert: https://www.de.endress.com/de/onlinetools?store_locale=de
+- Navigation, Manifest, Service Worker, Cache und Versionsmetadaten auf 2.1.7.3-Beta.
+
+ERHALTENER KERN
+===============
+- Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
+- Zentrale Single Source of Truth: assets/units.json.
+- Laufzeit-API: assets/unit-system.js.
+- Lokale Einheitenfavoriten: skPltUnitFavoritesV1.
+- Einheitliche Dropdowns mit Standard, Favoriten und weiteren Einheiten.
+- Faktor- und Offset-Umrechnung bei Einheitenwechsel.
+- Integration in alle sechs Rechner.
+- Mobile Zahlentastatur und ±-Vorzeichenwechsel.
+- Einheitliches Rechnerdesign, untere mobile Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button.
+- Navigation, Suche, Suchindex, PWA, Offline-Cache und Manifest-Shortcuts.
+
+WICHTIGE DATEIEN
+================
+assets/core.css
+assets/rechner-unified.css
+assets/siemens-analogwert-rechner.css
+assets/navigation-tree.json
+assets/units.json
+assets/unit-system.js
+einheitendatenbank/index.html
+manifest.webmanifest
+service-worker.js
+TESTBERICHT-UND-ABNAHME.md
+RELEASE-NOTES.txt
+SHA256SUMS.txt
+
+WARTUNGSREGELN
+==============
+1. Umrechnungsfaktoren nur in assets/units.json ändern.
+2. Neue Einheit mit eindeutigem ID, Symbol, Faktor/Offset und Referenzfall ergänzen.
+3. Verschiedene Dimensionen nicht in einer Kategorie mischen.
+4. Nach Änderungen alle drei Testebenen ausführen: functional-smoke-test, validate_release, browser-smoke-test.
+5. Anschließend python3 tools/release.py --all ausführen.
+6. Bei neuen Seiten mit Einheiten-Dropdowns den Direktzugriff `.sk-unit-database-cta` am Ende des Hauptinhalts ergänzen und auf dieselbe Maximalbreite wie den Rechner-Hauptbereich setzen.
+7. Externe Links in einem neuen Tab immer mit rel="noopener noreferrer" absichern.
+
+BESTÄTIGTE REGRESSIONEN
+=======================
+- Mobile Zahlentastatur.
+- ±-Vorzeichenwechsel.
+- Untere mobile Bedienzone.
+- Dunkle iPhone-Safe-Area.
+- Headerlinie und Startseiten-Button.
+- Siemens-Grenzwerte und Rohwertlogik.
+- Favoriten, automatische Einheitenumrechnung, Rechnerdesign und Offline-PWA.
+
+BEKANNTE TESTGRENZE
+===================
+Der automatisierte iPhone-Nachweis verwendet ein Chromium-basiertes Touch-/Viewportprofil im Container. Eine physische iOS-/Safari-Abnahme ist nicht enthalten.

@@ -1,6 +1,6 @@
-SK PLT Tools 2.1.7.2-Beta
+SK PLT Tools 2.1.7.3-Beta
 
 Stabile Produktreferenz: 2.1.0.0
-Direkte technische Basis: vollständig getestete und bestätigte 2.1.6.1-Beta
+Direkte technische Basis: vollständige 2.1.7.2-Beta
 
-Die neue zentrale Einheitenarchitektur ist als Beta freigegeben. Bestehende Rechnerlogik und UI-Basis bleiben erhalten; die Änderungen betreffen Einheitendaten, Umrechnung, Favoriten, Dropdowns, Navigation, Suche und PWA-Integration.
+Die zentrale Einheitenarchitektur bleibt als Beta freigegeben. Bestehende Rechnerlogik und UI-Basis bleiben erhalten; 2.1.7.3-Beta korrigiert ausschließlich die responsive Breite des Bereichs „Einheitenfavoriten“ und synchronisiert die technischen Release-Metadaten.

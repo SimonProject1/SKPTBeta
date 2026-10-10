@@ -1,0 +1,348 @@
+{
+  "version": "2.1.7.3-Beta",
+  "tolerancePx": 1,
+  "measurements": [
+    {
+      "route": "/analogsignal/",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "calculator": {
+        "x": 148,
+        "width": 920
+      },
+      "unitFavorites": {
+        "x": 148,
+        "width": 920
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/siemens-analogwert-rechner/",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "calculator": {
+        "x": 148,
+        "width": 920
+      },
+      "unitFavorites": {
+        "x": 148,
+        "width": 920
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/einheitenrechner/",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "calculator": {
+        "x": 148,
+        "width": 920
+      },
+      "unitFavorites": {
+        "x": 148,
+        "width": 920
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/pf-rechner/",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "calculator": {
+        "x": 148,
+        "width": 920
+      },
+      "unitFavorites": {
+        "x": 148,
+        "width": 920
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/pt-rechner/",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "calculator": {
+        "x": 148,
+        "width": 920
+      },
+      "unitFavorites": {
+        "x": 148,
+        "width": 920
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/spannungsfall-rechner/",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "calculator": {
+        "x": 148,
+        "width": 920
+      },
+      "unitFavorites": {
+        "x": 148,
+        "width": 920
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/analogsignal/",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "calculator": {
+        "x": 18,
+        "width": 784
+      },
+      "unitFavorites": {
+        "x": 18,
+        "width": 784
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/siemens-analogwert-rechner/",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "calculator": {
+        "x": 18,
+        "width": 784
+      },
+      "unitFavorites": {
+        "x": 18,
+        "width": 784
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/einheitenrechner/",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "calculator": {
+        "x": 18,
+        "width": 784
+      },
+      "unitFavorites": {
+        "x": 18,
+        "width": 784
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/pf-rechner/",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "calculator": {
+        "x": 18,
+        "width": 784
+      },
+      "unitFavorites": {
+        "x": 18,
+        "width": 784
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/pt-rechner/",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "calculator": {
+        "x": 18,
+        "width": 784
+      },
+      "unitFavorites": {
+        "x": 18,
+        "width": 784
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/spannungsfall-rechner/",
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "calculator": {
+        "x": 18,
+        "width": 784
+      },
+      "unitFavorites": {
+        "x": 18,
+        "width": 784
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/analogsignal/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "calculator": {
+        "x": 12,
+        "width": 366
+      },
+      "unitFavorites": {
+        "x": 12,
+        "width": 366
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/siemens-analogwert-rechner/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "calculator": {
+        "x": 12,
+        "width": 366
+      },
+      "unitFavorites": {
+        "x": 12,
+        "width": 366
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/einheitenrechner/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "calculator": {
+        "x": 12,
+        "width": 366
+      },
+      "unitFavorites": {
+        "x": 12,
+        "width": 366
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/pf-rechner/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "calculator": {
+        "x": 12,
+        "width": 366
+      },
+      "unitFavorites": {
+        "x": 12,
+        "width": 366
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/pt-rechner/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "calculator": {
+        "x": 12,
+        "width": 366
+      },
+      "unitFavorites": {
+        "x": 12,
+        "width": 366
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "route": "/spannungsfall-rechner/",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "calculator": {
+        "x": 12,
+        "width": 366
+      },
+      "unitFavorites": {
+        "x": 12,
+        "width": 366
+      },
+      "edgeDelta": {
+        "left": 0,
+        "right": 0
+      }
+    }
+  ]
+}

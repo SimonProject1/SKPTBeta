@@ -1,18 +1,19 @@
-SK PLT Tools 2.1.7.2-Beta
+SK PLT Tools 2.1.7.3-Beta
 Release-Datum: 10.10.2026
-Basis: vollständige 2.1.7.1-Beta
+Basis: vollständige 2.1.7.2-Beta
 
 GEÄNDERT
 =========
-- Der Bereich „Einheitendatenbank öffnen“ ist auf allen sechs Rechnerseiten kompakt statt nahezu seitenbreit.
-- Desktop: inhaltsorientierte Breite mit maximal 720 px; Tablet: maximal 640 px.
-- Smartphone: responsive Anordnung innerhalb der verfügbaren Inhaltsbreite; Button bleibt touchfreundlich vollbreit im Bereich.
-- Der E+H-Herstellerlink wurde durch https://www.de.endress.com/de/onlinetools?store_locale=de ersetzt.
-- Der externe Link öffnet mit target="_blank" und rel="noopener noreferrer".
-- Navigationsbaum, Versionsstände, Manifest, App-ID, Service Worker und Cache wurden auf 2.1.7.2-Beta aktualisiert.
+- Der Bereich „Einheitenfavoriten“ schließt auf allen sechs Rechnerseiten bündig mit dem jeweiligen Rechner-Hauptbereich ab.
+- Desktop und Tablet: identische linke und rechte Kante wie der Rechner; gemeinsames Maximum 920 px.
+- Smartphone: identische verfügbare Inhaltsbreite wie der Rechner, responsive Stapelung und vollbreiter Touch-Button innerhalb des Balkens.
+- Die fehlerhaften kompakten Obergrenzen von 720 px beziehungsweise 640 px aus 2.1.7.2-Beta wurden entfernt.
+- Navigation, Versionsstände, Manifest, App-ID, Service Worker und Cache wurden auf 2.1.7.3-Beta aktualisiert.
 
-UNVERÄNDERT
-===========
+BEWUSST UNVERÄNDERT
+===================
+- Herstellerlink: https://www.de.endress.com/de/onlinetools?store_locale=de
+- Externer Aufruf mit target="_blank" und rel="noopener noreferrer".
 - Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
 - Persönliche Einheitenfavoriten mit lokaler Browser-Persistenz.
 - Automatische Faktor- und Offset-Umrechnung beim Einheitenwechsel.
@@ -24,15 +25,15 @@ UNVERÄNDERT
 
 PWA / OFFLINE
 =============
-- Manifest-Version und App-ID: 2.1.7.2-Beta.
-- Cache: sk-plt-tools-v2.1.7.2-Beta.
+- Manifest-Version und App-ID: 2.1.7.3-Beta.
+- Cache: sk-plt-tools-v2.1.7.3-Beta.
 - Vollständiger Precache der Web-Laufzeit einschließlich Einheitendatenbank und Rechnerintegrationen.
 - Alte sk-plt-tools-*-Caches werden bei Aktivierung entfernt.
 
 QUALITÄTSSICHERUNG
 ==================
-- Kompakte CTA-Geometrie auf Desktop und Tablet sowie viewportgerechte Darstellung auf Smartphones geprüft.
-- Neuer Endress+Hauser-Link und Sicherheitsattribute statisch und im Browser geprüft.
+- Exakte Kanten- und Breitenübereinstimmung zwischen Einheitenfavoriten und Rechner-Hauptbereich auf allen sechs Rechnern in Desktop-, Tablet- und Smartphone-Viewports geprüft.
+- Herstellerlink unverändert sowie Sicherheitsattribute statisch und im Browser geprüft.
 - 19 Kategorien, 115 Einheiten, 575 Einheiten-Roundtrips und Referenzfälle geprüft.
 - Favoriten, automatische Umrechnung, alle sechs Rechner und Offline-Aufruf geprüft.
 - 16 Seiten auf Desktop, Tablet und iPhone-Touchprofil auf Überlauf, App-Schale und Versionsstand geprüft.

@@ -1,7 +1,7 @@
-# Testbericht und Abnahme – SK PLT Tools 2.1.7.2-Beta
+# Testbericht und Abnahme – SK PLT Tools 2.1.7.3-Beta
 
 **Prüfdatum:** 10.10.2026  
-**Ausgangsbasis:** vollständige 2.1.7.1-Beta  
+**Ausgangsbasis:** vollständige 2.1.7.2-Beta  
 **Ergebnis:** automatisierte Freigabekriterien erfüllt
 
 ## 1. Testumgebung
@@ -15,14 +15,19 @@
 
 Die iPhone-Prüfung ist eine reproduzierbare Browser-/Touch-Emulation. Eine zusätzliche Prüfung auf physischer iOS-/Safari-Hardware ist nicht Bestandteil dieses automatisierten Containerlaufs.
 
-## 2. Änderungsprüfung 2.1.7.2-Beta
+## 2. Änderungsprüfung 2.1.7.3-Beta
 
 - Auf allen sechs Rechnerseiten ist genau ein Bereich `.sk-unit-database-cta` vorhanden.
-- Desktop: reale Breite höchstens 720 px; Tablet: höchstens 640 px; beide jeweils weniger als 92 % der Hauptinhaltsbreite.
-- Smartphone: vollständig innerhalb des Viewports; Button bleibt innerhalb des Bereichs und touchfreundlich.
-- Neuer Herstellerlink exakt `https://www.de.endress.com/de/onlinetools?store_locale=de`.
-- Externer Link mit `target="_blank"` und `rel="noopener noreferrer"`.
-- Navigationsbaum enthält dasselbe neue externe Ziel.
+- Der Balken verwendet `box-sizing: border-box`, `width: 100%` und `max-width: 920px`.
+- Als jeweiliger Referenzbereich wurde `.calc-panel` beziehungsweise `.analog-panel` verwendet.
+- Für sechs Rechner und drei Viewports wurden 18 Geometrievergleiche ausgeführt.
+- In allen 18 Fällen betrug die Abweichung an linker Kante, rechter Kante und Gesamtbreite **0 px**.
+- Gemessene Breiten: Desktop **920 px**, Tablet **784 px**, Smartphone **366 px** – jeweils identisch für Rechner-Hauptbereich und Einheitenfavoriten.
+- Auf dem Smartphone bleibt der Button innerhalb des Balkens, die Inhalte werden responsiv gestapelt und es entsteht kein horizontaler Überlauf.
+- Die vollständigen Messwerte stehen in `test-artifacts/einheitenfavoriten-layout.json`.
+- Der Herstellerlink ist unverändert exakt `https://www.de.endress.com/de/onlinetools?store_locale=de`.
+- Externer Link weiterhin mit `target="_blank"` und `rel="noopener noreferrer"`.
+- Navigationsbaum enthält dasselbe unveränderte externe Ziel.
 
 ## 3. Datenmodell und Umrechnungen
 
@@ -56,7 +61,7 @@ Die iPhone-Prüfung ist eine reproduzierbare Browser-/Touch-Emulation. Eine zus�
 Alle 16 Seiten wurden in Desktop-, Tablet- und iPhone-Touchprofil geladen. Geprüft wurden:
 
 - kein horizontaler Überlauf,
-- Versionsstand 2.1.7.2-Beta,
+- Versionsstand 2.1.7.3-Beta,
 - gemeinsamer Header und Footer,
 - Headerlinie und Startseiten-Button,
 - Favoriten- und Navigationsschalter,
@@ -64,14 +69,14 @@ Alle 16 Seiten wurden in Desktop-, Tablet- und iPhone-Touchprofil geladen. Gepr�
 - dunkle Safe-Area-Grundfläche,
 - mobile Zahlentastaturattribute aller Rechner-Zahlenfelder,
 - alle sechs Rechner in allen drei Haupt-Viewports,
-- kompakter responsiver Einheitendatenbank-Bereich.
+- rechnerbreiter responsiver Einheitenfavoriten-Bereich.
 
 Für die sechs Rechner wurden 18 aktuelle Screenshots erzeugt; für die Einheitendatenbank zusätzlich Desktop-, Tablet- und Mobile-Nachweise.
 
 ## 7. PWA und Offline
 
 - Manifest-Version, App-ID und Shortcuts geprüft.
-- Service-Worker-Cache `sk-plt-tools-v2.1.7.2-Beta` installiert.
+- Service-Worker-Cache `sk-plt-tools-v2.1.7.3-Beta` installiert.
 - `units.json`, Einheitensystem, Datenbankseite und Rechnerintegrationen im Precache bestätigt.
 - Einheitendatenbank offline vollständig aus dem Cache geöffnet; 115 Einheiten verfügbar.
 - Keine JavaScript-Konsolenfehler in den Desktop-, Tablet- und Mobile-Prüfläufen.
@@ -88,4 +93,4 @@ sha256sum -c SHA256SUMS.txt
 
 ## 9. Abnahme
 
-Die automatisierten Freigabekriterien für den kompakten responsiven Einheitendatenbank-Bereich, den neuen abgesicherten Herstellerlink, Datenmodell, Favoriten, Dropdowns, automatische Faktor-/Offset-Umrechnung, Rechnerregression, Responsive Design und Offline-PWA sind erfüllt. Der Release bleibt wegen der zentralen Einheitenarchitektur als **Beta** gekennzeichnet.
+Die automatisierten Freigabekriterien für den bündig am Rechner-Hauptbereich ausgerichteten Einheitenfavoriten-Balken, den unveränderten abgesicherten Herstellerlink, Datenmodell, Favoriten, Dropdowns, automatische Faktor-/Offset-Umrechnung, Rechnerregression, Responsive Design und Offline-PWA sind erfüllt. Der Release bleibt wegen der zentralen Einheitenarchitektur als **Beta** gekennzeichnet.

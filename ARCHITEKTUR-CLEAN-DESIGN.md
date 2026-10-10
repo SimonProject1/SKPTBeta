@@ -1,4 +1,4 @@
-# Architektur – SK PLT Tools 2.1.7.2-Beta
+# Architektur – SK PLT Tools 2.1.7.3-Beta
 
 ## Leitprinzipien
 
@@ -16,7 +16,7 @@
 - `assets/units.json`: Single Source of Truth mit 19 Kategorien und 115 Einheiten.
 - Rechnerdateien: fachliche Berechnung; Einheiten werden ausschließlich über `SK_UNITS` normalisiert.
 - `einheitendatenbank/`: Such-, Filter- und Favoritenoberfläche.
-- `.sk-unit-database-cta`: gemeinsamer, responsiver Direktzugriff am Ende jeder Seite mit Einheiten-Auswahl; Ziel ist immer `einheitendatenbank/`.
+- `.sk-unit-database-cta`: gemeinsamer, responsiver Direktzugriff am Ende jeder Seite mit Einheiten-Auswahl; `width: 100%` und `max-width: 920px` entsprechen dem jeweiligen Rechner-Hauptbereich, das Ziel ist immer `einheitendatenbank/`.
 
 ## Datenfluss bei Einheitenwechsel
 
