@@ -1,10 +1,13 @@
-/* Rechner-Oberflächen · SK PLT Tools 2.2.0.0
+/* Rechner-Oberflächen · SK PLT Tools 2.2.0.1-Beta
    Gemeinsame Darstellung aller Rechner nach dem Siemens-Rohwert-Design.
    Diese Datei enthält ausschließlich Layout und Gestaltung; Berechnungslogik bleibt unverändert. */
 
-.calc-page-title{max-width:980px;padding-bottom:9px}
+/* Breiten-Bugfix 2.2.0.1-Beta: Titel, Rechnerpanel, Hinweise, Ergebnisse und
+   Einheitenfavoritenleiste nutzen auf allen fünf vereinheitlichten Rechnerseiten
+   dieselbe äußere Breite. width:100% verhindert abweichende Auto-/Grid-Breiten. */
+.calc-page-title{box-sizing:border-box;width:100%;max-width:920px;padding-bottom:9px}
 .calc-page-title p{max-width:820px;margin:0;color:var(--muted);font-size:16px;line-height:1.45}
-.calc-panel{position:relative;max-width:920px;display:grid;gap:12px;overflow:hidden}
+.calc-panel{box-sizing:border-box;position:relative;width:100%;max-width:920px;display:grid;gap:12px;overflow:hidden}
 .calc-panel-title{margin:0;font-size:clamp(21px,2.5vw,28px);line-height:1.15}
 
 .calc-fields,.calc-field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -30,7 +33,7 @@
 
 .calc-info-card{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#051725;color:var(--muted);font-size:12px;line-height:1.45}
 .calc-info-card strong{color:var(--green)}
-.calc-notice{max-width:920px;margin:0 0 12px;padding:11px 13px;border:1px solid rgba(245,185,66,.64);border-radius:12px;background:rgba(74,53,7,.32);color:#ffe7a8}
+.calc-notice{box-sizing:border-box;width:100%;max-width:920px;margin:0 0 12px;padding:11px 13px;border:1px solid rgba(245,185,66,.64);border-radius:12px;background:rgba(74,53,7,.32);color:#ffe7a8}
 .calc-notice strong{font-size:12px;letter-spacing:.2px}
 .calc-notice p{margin:5px 0 0;font-size:12px;line-height:1.45}
 
@@ -41,7 +44,7 @@
 .calc-actions button:hover{filter:brightness(1.08)}
 
 /* Spannungsfall: gleiche Karten-/Ergebnislogik mit Zustandsfarben. */
-.voltage-result{max-width:920px;margin-top:12px;display:grid;gap:12px}
+.voltage-result{box-sizing:border-box;width:100%;max-width:920px;margin-top:12px;display:grid;gap:12px}
 .voltage-result .result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .voltage-result .result-head h2{margin:4px 0 0;font-size:clamp(21px,2.5vw,28px)}
 .voltage-result .result-head span{padding:6px 9px;border-radius:8px;font-size:11px;font-weight:900}

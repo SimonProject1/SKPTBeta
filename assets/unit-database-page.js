@@ -1,4 +1,4 @@
-/* SK PLT Tools 2.2.0.0 — Seite Einheitendatenbank. */
+/* SK PLT Tools 2.2.0.1-Beta — Seite Einheitendatenbank. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss');
