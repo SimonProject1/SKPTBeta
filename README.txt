@@ -1,55 +1,70 @@
-SK PLT Tools 2.3.3.1-Beta
+SK PLT Tools 2.3.3.2-Beta
 
 Beta-Testversion der kompakten statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
 
-Basis dieser Beta
-- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.3.3.0-Beta.zip vom 10.10.2026.
-- Bestätigte SHA-256 der Basis: e4f644bdd39f3a76d5556b5fd0aa20568460c6a39154abfd6953c69cca9e80a2.
-- ZIP-CRC und interne Prüfsummen der Basis wurden vor der Änderung bestätigt.
-- Bestehende Funktionen und Designs außerhalb der ausdrücklich entfernten sichtbaren Standardbox bleiben erhalten.
+Verbindliche Ausgangsbasis
+- Projektbasis: SK-PLT-Tools-V2.3.3.1-Beta.zip vom 10.10.2026.
+- SHA-256 der Projektbasis:
+  cee81ec58481f1bf3b06a2a35610c30412bbc76e6226d53a9a36cb0998c0d4f8
+- Referenz der wiederhergestellten Breitenkorrektur:
+  SK-PLT-Tools-V2.2.0.3-Beta.zip
+- SHA-256 der Breitenreferenz:
+  6e16f25b1549387c56d5f569a7dee16538f51617974d73bab58d6785c79e7c1c
+- Beide Archive wurden vor der Änderung per SHA-256, ZIP-CRC und interner
+  SHA256SUMS.txt verifiziert.
 
-Änderung V2.3.3.1-Beta
-- Auf der Wissensdatenbank-Startseite wurde ausschließlich der sichtbare Kasten
-  „Einheitlicher Standard“, die Überschrift „Alle Beiträge folgen derselben Struktur“
-  und der Button „Standard herunterladen“ entfernt.
-- Der verbindliche Wissensbeitragsstandard, die gemeinsame TechArticle-Struktur,
-  die Pflichtmetadaten und assets/knowledge-article.css bleiben technisch unverändert.
-- WISSENSBEITRAGS-STANDARD.md und die PDF-Beitragsvorlage bleiben im Projektbestand.
+Änderung V2.3.3.2-Beta
+- Die bestätigte Desktop-/Tablet-Breitenkorrektur aus V2.2.0.3-Beta wurde auf
+  der vollständigen Funktionsbasis V2.3.3.1-Beta wiederhergestellt.
+- Ab 761 CSS-Pixeln haben calc-page-title, analog-page-title, calc-panel,
+  analog-panel, calc-notice, voltage-result und sk-unit-database-cta keine
+  980-/920-px-Maximalbreite mehr.
+- Alle sechs Rechnerseiten verwenden wieder die volle nutzbare Breite der
+  gemeinsamen Startseiten-Shell.
+- scrollbar-gutter: stable bleibt ab 761 CSS-Pixeln aktiv.
+- Die Mobilansicht bis einschließlich 760 CSS-Pixel bleibt unverändert.
 
-Wissensbeitragsstandard V2.3.3.1-Beta
-- Alle fünf vorhandenen Geräte-Wissensbeiträge verwenden weiterhin eine gemeinsame
-  semantische Struktur und die zentrale Datei assets/knowledge-article.css.
-- Einheitliche Kurzfassung, Metadaten, Beitragstypen, Fachabschnitte, Prüfhinweise
-  sowie Gültigkeits- und Quellenhinweise bleiben erhalten.
-- Die PDF-Beitragsvorlage bleibt an denselben Pflichtfeldern ausgerichtet.
-- Fachinhalte der fünf bestehenden Beiträge wurden nicht geändert.
+Erhaltene spätere Funktionen aus V2.3.3.1-Beta
+- Mobile Wissensdatenbank mit Herstellergruppen.
+- Eigenständige Werkstoffdatenbank mit Suche, Gruppenfiltern und Direktvergleich.
+- Endress+Hauser-Promass-Beitrag.
+- Einheitlicher Wissensbeitragsstandard für alle fünf Gerätebeiträge.
+- Bereinigte Wissensdatenbank-Startseite ohne sichtbaren Standardkasten.
+- Mobile Startseite mit einklappbaren Werkzeugkategorien und Kompaktansicht.
+- 11 Werkzeug-/Dienstkarten, Suche, Kategorienfilter und Sortierung.
+- Favoriten, Seitennavigation, sechs Rechner, Einheitendatenbank,
+  Messstellen-Dokumentation und E+H Device Viewer.
+- Alte Werkstoffroute bleibt als kompatible Weiterleitung erhalten.
+- Das verworfene VDE-0100-600-Modul bleibt entfernt.
 
-Bewahrte Funktionen
-- Mobile Startseite mit einklappbaren Werkzeugkategorien und optionaler Kompaktansicht.
-- 11 Werkzeug-/Dienstkarten, Suche, Kategorienfilter, Sortierung und Unterseitensuche.
-- Favoriten, Seitennavigation, alle sechs Rechner, Einheitendatenbank,
-  fünf Wissensbeiträge und Werkstoffdatenbank.
-- Messstellen-Dokumentation und externer E+H Device Viewer.
-- Das verworfene VDE-0100-600-Funktionsmodul ist nicht Bestandteil dieser Anwendung.
-
-Deployment zum Testen
-- Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
-- manifest.webmanifest und service-worker.js müssen im Projektstamm erreichbar bleiben.
-- Nach dem ersten vollständigen Online-Aufruf stehen 17 HTML-Routen einschließlich
-  der alten Werkstoff-Weiterleitungsroute offline bereit.
-- Für einen lokalen Funktionstest kann ein statischer HTTP-Server verwendet werden;
-  Service Worker und Installation anschließend unter HTTPS prüfen.
+Produktidentität
+- Produktbezeichnung: SK PLT Tools.
+- Das bestätigte PLT-Logo und alle sechs zugehörigen App-/Iconvarianten wurden
+  bytegleich aus V2.3.3.1-Beta übernommen.
+- Die Logoänderungen der verworfenen V2.3.4.x-PCT-Reihe sind nicht enthalten.
 
 PWA
-- Start-URL, Scope und App-ID bleiben versionsunabhängig auf ./ gesetzt.
-- Service-Worker-Caches: core-v2.3.3.1 und documents-v2.3.3.1.
-- Der Kerncache enthält 48 Ziele; der Dokumentcache drei optionale Dokumente.
+- Öffentliche Betaversion: 2.3.3.2-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.3.2.
 - Laufzeitkanal: beta.
+- Kerncache: sk-plt-tools-core-v2.3.3.2 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.3.2 mit drei Dokumenten.
+- Manifest-ID, start_url und scope bleiben versionsunabhängig auf ./ gesetzt.
+
+Deployment zum Testen
+- Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver
+  kopieren.
+- manifest.webmanifest und service-worker.js müssen im Projektstamm erreichbar
+  bleiben.
+- Nach dem ersten vollständigen Online-Aufruf stehen 17 HTML-Routen
+  einschließlich der alten Werkstoff-Weiterleitungsroute offline bereit.
 
 Integrität
-- SHA256SUMS.txt enthält einen SHA-256-Eintrag je weiterer Datei im Projektordner.
+- SHA256SUMS.txt enthält einen SHA-256-Eintrag je weiterer Datei im
+  Projektordner.
 - Die Prüfsumme des ZIP-Archivs wird separat neben dem ZIP bereitgestellt.
+- Testbericht und Projektübergabe liegen außerhalb des Deployment-ZIP.
 
 Release Notes
 - Siehe RELEASE-NOTES.txt.

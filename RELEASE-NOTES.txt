@@ -1,37 +1,67 @@
-SK PLT Tools 2.3.3.1-Beta
+SK PLT Tools 2.3.3.2-Beta
 Release-Datum: 10.10.2026
 Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.3.3.0-Beta.zip
-SHA-256 der Ausgangsbasis: e4f644bdd39f3a76d5556b5fd0aa20568460c6a39154abfd6953c69cca9e80a2
+Projektbasis: SK-PLT-Tools-V2.3.3.1-Beta.zip
+SHA-256 der Projektbasis: cee81ec58481f1bf3b06a2a35610c30412bbc76e6226d53a9a36cb0998c0d4f8
+Breitenreferenz: SK-PLT-Tools-V2.2.0.3-Beta.zip
+SHA-256 der Breitenreferenz: 6e16f25b1549387c56d5f569a7dee16538f51617974d73bab58d6785c79e7c1c
 
 BETA-ZIEL
-- Den sichtbaren Standardhinweis auf der Wissensdatenbank-Startseite entfernen.
-- Den technisch verbindlichen Wissensbeitragsstandard und die gemeinsame Gestaltung
-  aller Geräte-Wissensbeiträge unverändert erhalten.
+- V2.3.3.1-Beta als vollständige Funktionsbasis erhalten.
+- Die bestätigte Desktop-/Tablet-Breitenkorrektur aus V2.2.0.3-Beta
+  wiederherstellen.
+- Mobilansicht bis 760 CSS-Pixel unverändert lassen.
+- PLT-Logo und Produktbezeichnung SK PLT Tools beibehalten.
+- Sämtliche Logoänderungen der V2.3.4.x-PCT-Reihe verwerfen.
 - Laufzeitkanal: beta.
 
-GEÄNDERTE OBERFLÄCHE
-- Der Kasten „Einheitlicher Standard · V2.3.3.0-Beta“ wurde von der
-  Wissensdatenbank-Startseite entfernt.
-- Die sichtbare Überschrift „Alle Beiträge folgen derselben Struktur“ wurde entfernt.
-- Der sichtbare Button „Standard herunterladen“ wurde entfernt.
-- Keine Fachinhalte und keine Beitragslayouts wurden geändert.
+WIEDERHERGESTELLTE BREITENKORREKTUR
+Ab 761 CSS-Pixeln gilt max-width:none für:
+- .calc-page-title
+- .analog-page-title
+- .calc-panel
+- .analog-panel
+- .calc-notice
+- .voltage-result
+- .sk-unit-database-cta
 
-UNVERÄNDERT ERHALTEN
-- Verbindliche Spezifikation WISSENSBEITRAGS-STANDARD.md.
-- Gemeinsamer semantischer TechArticle-Aufbau aller fünf Geräte-Wissensbeiträge.
-- Pflichtmetadaten, Kurzfassung, Beitragstypen, Fachabschnitte, Prüfhinweise sowie
-  Gültigkeits- und Quellenhinweise.
-- Zentrale Darstellung über assets/knowledge-article.css und gemeinsame kb-Komponenten.
+Zusätzlich:
+- Alle sechs Rechnerseiten tragen wieder die Klasse sk-calculator-page.
+- Die gemeinsame Rechner-Shell verwendet ab 761 px maximal 1180 px Außenbreite
+  und 18 px horizontalen Innenabstand.
+- scrollbar-gutter: stable ist ab 761 px aktiv.
+- Die vorhandenen Regeln bis einschließlich 760 px wurden nicht verändert.
+
+ERHALTENE SPÄTERE FUNKTIONEN
+- Mobile Wissensdatenbank mit Herstellergruppen.
+- Eigenständige Werkstoffdatenbank mit kanonischer Route werkstoffdatenbank/.
+- Kompatible Weiterleitung wissensdatenbank/werkstoff-nachschlagewerk/.
+- Endress+Hauser-Promass-Beitrag.
+- Fünf einheitlich aufgebaute Geräte-Wissensbeiträge.
+- WISSENSBEITRAGS-STANDARD.md und zentrale assets/knowledge-article.css.
 - PDF-Beitragsvorlage mit zwei Seiten und 14 editierbaren Feldern.
-- Sechs Rechner, Einheiten- und Werkstoffdatenbank, Messstellen-Dokumentation,
-  Navigation, Favoriten, Suche, Sortierung, responsive Ansichten und PWA-Betrieb.
+- Bereinigte Wissensdatenbank-Startseite ohne sichtbaren Standardkasten.
+- Mobile Startseite mit Herstellergruppen, einklappbaren Kategorien und
+  optionaler Kompaktansicht.
+- 11 Werkzeug-/Dienstkarten, Suche, Filterung, Sortierung und Unterseitensuche.
+- Sechs Rechner, Einheitendatenbank, Werkstoffdatenbank,
+  Messstellen-Dokumentation, Navigation und Favoriten.
+- Das VDE-0100-600-Modul bleibt vollständig entfernt.
+
+PRODUKTIDENTITÄT UND VERWORFENE PCT-REIHE
+- Produktname und sichtbare Bezeichnung bleiben SK PLT Tools.
+- assets/logo.png, favicon.png, apple-touch-icon.png, icon-192.png,
+  icon-512.png, icon-maskable-192.png und icon-maskable-512.png sind bytegleich
+  zur Projektbasis V2.3.3.1-Beta und zur PLT-Referenz V2.2.0.3-Beta.
+- Keine PCT-Logo- oder PCT-Iconvariante aus V2.3.4.0/2.3.4.1 ist enthalten.
+- Keine 2.3.4.x-Version, kein 2.3.4.x-Cache und kein 2.3.4.x-Paketbestand wurde
+  übernommen.
 
 VERSION UND PWA
-- Öffentliche Betaversion: 2.3.3.1-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.3.1.
-- Kerncache: sk-plt-tools-core-v2.3.3.1 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.3.1 mit drei optionalen Dokumenten.
+- Öffentliche Betaversion: 2.3.3.2-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.3.2.
+- Kerncache: sk-plt-tools-core-v2.3.3.2 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.3.2 mit drei Dokumenten.
 - Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
 - Aktivierung des neuen Service Workers entfernt ältere Produktcaches.
 
@@ -39,64 +69,30 @@ PROJEKTBESTAND
 - 56 Dateien im Projektordner einschließlich SHA256SUMS.txt.
 - 17 HTML-Seiten einschließlich der alten Werkstoff-Weiterleitungsroute.
 - 29 Dateien unter assets/.
-- Keine Test- oder Entwicklungsartefakte im Deployment-ZIP.
+- Keine Test-, Screenshot-, QA- oder Entwicklungsartefakte im Deployment-ZIP.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.3.1-Beta.zip.sha256 bereitgestellt.
+- ZIP-Prüfsumme wird separat als
+  SK-PLT-Tools-V2.3.3.2-Beta.zip.sha256 bereitgestellt.
+- Einzelheiten und Prüfgrenzen stehen im externen Testbericht.
 
 ======================================================================
-VORHERIGER BETA-STAND V2.3.3.0-BETA
+VORHERIGER BETA-STAND V2.3.3.1-BETA
 ======================================================================
-SK PLT Tools 2.3.3.0-Beta
-Release-Datum: 10.10.2026
-Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.3.2.2-Beta.zip
-SHA-256 der Ausgangsbasis: 149e0b41c694551c26dcb47dee0c16c7342139b369b845eeffe0b275e66707f2
+- Basis für V2.3.3.2-Beta.
+- Entfernte den sichtbaren Standardkasten von der Wissensdatenbank-Startseite.
+- Erhielt den technischen Wissensbeitragsstandard, die fünf Gerätebeiträge,
+  die PDF-Vorlage sowie alle übrigen Funktionen und Fachinhalte.
+- Projektbestand: 56 Dateien, 17 HTML-Seiten, 29 Dateien unter assets/.
+- Ursprüngliche ZIP-SHA-256:
+  cee81ec58481f1bf3b06a2a35610c30412bbc76e6226d53a9a36cb0998c0d4f8
 
-BETA-ZIEL
-- Einen verbindlichen, einheitlichen Wissensbeitragsstandard umsetzen.
-- Alle fünf vorhandenen Geräte-Wissensbeiträge auf diesen Standard migrieren.
-- Fachinhalte erhalten und Darstellung, Metadaten, Hinweise und mobile Nutzung vereinheitlichen.
-- Laufzeitkanal: beta.
-
-WISSENSBEITRAGSSTANDARD
-- Gemeinsamer semantischer TechArticle-Aufbau mit Brotkrümelnavigation, Hero,
-  Kurzfassung, Pflichtmetadaten, Beitragstyp, Fachabschnitten und Quellenhinweis.
-- Zentrale Darstellung über assets/knowledge-article.css.
-- Standardkennzeichnung auf jeder Beitragsseite.
-- Einheitliche Komponenten für Metadaten, Karten, Schritte, Checklisten,
-  Kennwerte, Hinweise, Quellennachweise und responsive Anordnung.
-- Dokumentierter Standard in WISSENSBEITRAGS-STANDARD.md.
-- Beitragsvorlage auf die neuen Pflichtfelder und Qualitätsregeln ausgerichtet.
-
-MIGRIERTE BEITRÄGE
-- Air Torque Antrieb: Drehrichtung SCO/SCC.
-- Endress+Hauser Promass: Einbaulage und Einbausituation.
-- Siemens Sitrans P320: SIL-Verriegelung.
-- Siemens SPS: Rohwert Grundlagen.
-- Vacon Frequenzumrichter: Ist-/Sollwert-Abweichung im PLS.
-
-VERSION UND PWA
-- Öffentliche Betaversion: 2.3.3.0-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.3.0.
-- Kerncache: sk-plt-tools-core-v2.3.3.0 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.3.0 mit drei optionalen Dokumenten.
-- Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
-- Aktivierung des neuen Service Workers entfernt ältere Produktcaches.
-
-PROJEKTBESTAND
-- 56 Dateien im Projektordner einschließlich SHA256SUMS.txt.
-- 17 HTML-Seiten einschließlich der alten Werkstoff-Weiterleitungsroute.
-- 29 Dateien unter assets/.
-- Keine Test- oder Entwicklungsartefakte im Deployment-ZIP.
-
-BEWAHRTE FUNKTIONEN
-- Sechs Rechner, Einheitendatenbank, Messstellen-Dokumentation und Werkstoffdatenbank.
-- Favoriten, Navigation, Suche, Sortierung, responsive Ansichten und PWA-Betrieb.
-- Alte Werkstoffroute bleibt als abwärtskompatible Weiterleitung erhalten.
-- Das verworfene VDE-0100-600-Funktionsmodul bleibt vollständig entfernt.
-
-INTEGRITÄT
-- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.3.0-Beta.zip.sha256 bereitgestellt.
+======================================================================
+BREITENREFERENZ V2.2.0.3-BETA
+======================================================================
+- Bestätigte die volle nutzbare Shell-Breite aller sechs Rechner ab 761 px.
+- Bestätigte scrollbar-gutter: stable ab 761 px.
+- Bestätigte die unveränderte Smartphone-Darstellung bis 760 px.
+- Ursprüngliche ZIP-SHA-256:
+  6e16f25b1549387c56d5f569a7dee16538f51617974d73bab58d6785c79e7c1c

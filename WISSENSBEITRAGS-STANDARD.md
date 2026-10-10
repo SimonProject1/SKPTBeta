@@ -1,4 +1,4 @@
-# SK PLT Tools - Wissensbeitragsstandard V2.3.3.1-Beta
+# SK PLT Tools - Wissensbeitragsstandard V2.3.3.2-Beta
 
 Stand: 10.10.2026
 Status: verbindlicher Beta-Standard für alle Wissensbeiträge im Projekt
@@ -13,7 +13,7 @@ Jeder Wissensbeitrag enthält in dieser Reihenfolge:
 4. Fachinhalt in klar benannten Abschnitten.
 5. Prüf-, Handlungs- oder Zuordnungsfolge, sofern fachlich sinnvoll.
 6. Sicherheits-, Gültigkeits- und Quellenhinweis.
-7. Kennzeichnung "Wissensbeitragsstandard V2.3.3.1-Beta".
+7. Kennzeichnung "Wissensbeitragsstandard V2.3.3.2-Beta".
 
 ## 2. Darstellungsregeln
 
