@@ -1,16 +1,19 @@
-const RELEASE='2.1.6.1-Beta';
+const RELEASE='2.1.7.0-Beta';
 const CACHE_PREFIX='sk-plt-tools-';
 const CACHE=`${CACHE_PREFIX}v${RELEASE}`;
 const CORE=[
   // precache:start
   "./",
+  "./EINHEITEN-DATENMODELL.md",
   "./SIEMENS-QUELLEN-UND-GRENZWERTE.md",
   "./analogsignal/",
   "./analogsignal/index.html",
   "./assets/airttorque-wissen.css",
+  "./assets/analogsignal-rechner.js",
   "./assets/app.js",
   "./assets/apple-touch-icon.png",
   "./assets/core.css",
+  "./assets/einheitenrechner.js",
   "./assets/favicon.png",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
@@ -21,13 +24,22 @@ const CORE=[
   "./assets/materials.js",
   "./assets/materials.json",
   "./assets/navigation-tree.json",
+  "./assets/pf-rechner.js",
+  "./assets/pt-rechner.js",
   "./assets/rechner-unified.css",
   "./assets/responsive.css",
   "./assets/search-index.json",
   "./assets/siemens-analogwert-rechner.css",
   "./assets/siemens-analogwert-rechner.js",
   "./assets/siemens-sitrans-wissen.css",
+  "./assets/siemens-unit-integration.js",
+  "./assets/unit-database-page.js",
+  "./assets/unit-database.css",
+  "./assets/unit-system.js",
+  "./assets/units.json",
   "./assets/vacon-wissen.css",
+  "./einheitendatenbank/",
+  "./einheitendatenbank/index.html",
   "./einheitenrechner/",
   "./einheitenrechner/index.html",
   "./index.html",

@@ -1,34 +1,46 @@
-SK PLT Tools V2.1.6.1-Beta
+SK PLT Tools 2.1.7.0-Beta
 Release-Datum: 10.10.2026
-Direkte Basis: V2.1.6.0-Beta
-Stabile Referenz: V2.1.0.0
+Basis: vollständig getestete und bestätigte 2.1.6.1-Beta
 
-SCHWERPUNKT: MOBILE ZAHLENTASTATUR IN ALLEN RECHNERN
-- Alle 19 Eingabefelder vom Typ number in den sechs Rechner-Tools besitzen jetzt einen expliziten mobilen Tastaturhinweis.
-- Analogsignal-Rechner: 5 Zahlenfelder mit inputmode="decimal".
-- Einheitenrechner: 1 Zahlenfeld mit inputmode="decimal".
-- P+F Rechner: 4 Zahlenfelder mit inputmode="decimal".
-- Pt100/Pt1000-Rechner: 1 Zahlenfeld mit inputmode="decimal".
-- Spannungsfall-Rechner: 5 bereits korrekt konfigurierte Zahlenfelder bestätigt.
-- Siemens-Rohwert-Rechner: 3 bereits korrekt konfigurierte Zahlenfelder bestätigt; der Rohwertmodus schaltet weiterhin dynamisch auf inputmode="numeric".
-- Damit fordern alle Zahlenfelder auf unterstützten Smartphones die Zahlentastatur statt der vollständigen Texteingabetastatur an.
+NEU
+===
+- Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
+- Suche nach Kategorie, Name, Symbol und Alias sowie Kategorienfilter.
+- Persönliche Einheitenfavoriten per Stern mit lokaler Browser-Persistenz.
+- Zentrale Single Source of Truth in assets/units.json.
+- Gemeinsame affine Umrechnung für Faktoren und Offsets.
+- Einheitliche Dropdown-Gruppen: Standardeinheit, Favoriten, Weitere Einheiten.
+- PWA-Shortcuts für Einheitendatenbank und Einheitenrechner.
 
-UNVERÄNDERTES DESIGN UND UNVERÄNDERTE FUNKTIONSLOGIK
-- Es wurden ausschließlich Eingabeattribute an den zuvor nicht entsprechend gekennzeichneten Zahlenfeldern ergänzt.
-- Rechnerkarten, Feldkarten, Ergebnisfelder, Schaltflächen, Abstände, Typografie, Farben und responsive Anordnung bleiben unverändert.
-- Die Inline-Berechnungen von Analogsignal, Einheiten, P+F und Pt100/Pt1000 bleiben bytegleich zur Logik-Baseline.
-- spannungsfall-rechner/calculator.js und assets/siemens-analogwert-rechner.js bleiben bytegleich zur Logik-Baseline.
-- Standardwerte, Element-IDs, Ereignisse, Rechenwege, Grenzwerte und Ergebnisformate bleiben erhalten.
+RECHNER-INTEGRATION
+===================
+- Analogsignal: Prozesskategorie, Prozesseinheit und Signaleinheit; Messbereich und Eingabe werden automatisch umgerechnet.
+- Siemens Rohwert: physikalische Kategorie und Einheit; Minimum, Maximum, Eingabe und Ergebnisse bleiben beim Wechsel fachlich konsistent.
+- Einheitenrechner: alle 19 Kategorien aus der zentralen Datenquelle.
+- P+F: getrennte X-/Y-Kategorien und Einheiten; beide Wertepaare werden automatisch umgerechnet.
+- Pt100/Pt1000: Temperatur- und Widerstandseinheiten in beiden Richtungen.
+- Spannungsfall: Spannung, Strom, Länge und Leiterquerschnitt; Eingaben und Spannungsergebnisse werden automatisch angepasst.
+
+KOMPATIBILITÄT
+==============
+- Bestehende Berechnungswege und Siemens-Grenzwerte beibehalten.
+- Mobile Zahlentastatur an allen Zahlenfeldern beibehalten.
+- ±-Vorzeichenwechsel beibehalten.
+- Einheitliches Design, mobile untere Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button beibehalten.
+
+PWA / OFFLINE
+=============
+- Einheitendatenbank, units.json, unit-system.js, Rechnerintegrationen und Styles im Precache.
+- Navigation, Startseitenkarte und Suchindex ergänzt.
+- Manifest-ID, Version, Beschreibung und Shortcuts aktualisiert.
+- Cache: sk-plt-tools-v2.1.7.0-Beta.
 
 QUALITÄTSSICHERUNG
-- Funktionstest prüft alle bestehenden Rechnerergebnisse und zusätzlich die Tastaturattribute aller 19 Zahlenfelder.
-- Statische Releasevalidierung prüft für alle sechs Rechner, dass jedes input[type="number"] inputmode="decimal" oder inputmode="numeric" verwendet.
-- Browsertest prüft dieselbe Vorgabe im mobilen iPhone-Touchprofil und bestätigt die dynamische Umschaltung des Siemens-Rohwertfeldes.
-- Desktop 1440 × 1050, Tablet 820 × 1180, iPhone-Touchprofil 390 × 844 und Smartphone-Querformat 844 × 390 bleiben im Testumfang.
-- Logik-Hashvergleich, PWA-/Offline-Test, lokale Referenzen, JavaScript-Syntax, Prüfsummen und ZIP-Integrität bleiben Bestandteil der Abnahme.
-
-TECHNIK UND RELEASE
-- VERSION, release-config.json, Manifest, PWA-App-ID, Service Worker, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.6.1-Beta synchronisiert.
-- Manifest-ID/Start-URL: ./?app=sk-plt-tools-2.1.6.1-beta
-- Cache: sk-plt-tools-v2.1.6.1-Beta
-- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.6.1-Beta.zip
+==================
+- 19 Kategorien und 115 Einheiten strukturell geprüft.
+- 575 Einheiten-Roundtrips plus verbindliche Referenzfälle geprüft.
+- Favoritenspeicherung, Dropdown-Gruppen, Standards und Offset-Umrechnungen geprüft.
+- Alle sechs Rechner funktional geprüft.
+- 16 Seiten auf Desktop, Tablet und iPhone-Touchprofil auf Überlauf, App-Schale und Versionsstand geprüft.
+- Offline-Aufruf der Einheitendatenbank aus dem Service-Worker-Cache geprüft.
+- Prüfsummen und vollständiges ZIP werden automatisiert erzeugt.

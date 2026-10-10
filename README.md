@@ -1,45 +1,39 @@
-# SK PLT Tools 2.1.6.1-Beta
+# SK PLT Tools 2.1.7.0-Beta
 
-Vollständiges statisches und offline-fähiges Webprojekt für PLT-/MSR-Aufgaben. **2.1.6.1-Beta** baut direkt auf **2.1.6.0-Beta** auf; die stabile Referenz bleibt **2.1.0.0**.
+Vollständige statische, offline-fähige Webanwendung für PLT-/MSR-Aufgaben. **2.1.7.0-Beta** baut auf der vollständig getesteten **2.1.6.1-Beta** auf; die stabile Referenz bleibt **2.1.0.0**.
 
-## Neu in 2.1.6.1-Beta
+## Neu in 2.1.7.0-Beta
 
-- Sämtliche **19 Zahlen-Eingabefelder** der sechs Rechner-Tools fordern auf unterstützten Smartphones jetzt ausschließlich eine Zahlentastatur an.
-- Die elf zuvor nicht entsprechend gekennzeichneten Felder in **Analogsignal**, **Einheiten**, **P+F** und **Pt100/Pt1000** verwenden nun wie die Siemens-Referenz `inputmode="decimal"`.
-- Die bereits korrekten fünf Felder des Spannungsfall-Rechners sowie die drei Felder des Siemens-Rohwert-Rechners wurden bestätigt; der Siemens-Rohwertmodus verwendet weiterhin dynamisch `inputmode="numeric"`.
-- Rechnerdesign, responsive Anordnung, Standardwerte, Element-IDs, Ereignisse, Rechenwege, Grenzwerte und Ergebnisformate bleiben unverändert.
-- Hash-Prüfungen vergleichen die Inline-Skripte sowie `spannungsfall-rechner/calculator.js` und `assets/siemens-analogwert-rechner.js` weiterhin bitgenau mit der vorhandenen Logik-Baseline.
-- Funktionstest, statische Validierung und mobiler Browsertest sichern die Tastaturattribute aller Rechner-Zahlenfelder ab.
-- Manifest-ID, Service-Worker-Cache, Precache, Navigation, Versionsmetadaten, Tests, Dokumentation und Prüfsummen wurden auf 2.1.6.1-Beta aktualisiert.
+- Neue Seite **Einheitendatenbank** mit Suche, Kategorienfilter, 19 Messarten und 115 Einheiten.
+- Persönliche Einheitenfavoriten per Stern; lokale Speicherung unter `skPltUnitFavoritesV1`.
+- Zentrale Datei `assets/units.json` als Single Source of Truth für Namen, Symbole, Kategorien, Standardeinheiten, Faktoren, Offsets und Referenzfälle.
+- Gemeinsame Laufzeit `assets/unit-system.js` mit affiner Umrechnung `Basis = Wert × Faktor + Offset`.
+- Einheitliche Einheiten-Dropdowns mit den Gruppen **Standardeinheit**, **Favoriten** und **Weitere Einheiten**.
+- Automatische Umrechnung bereits eingegebener Werte beim Einheitenwechsel, einschließlich °C, K und °F.
+- Integration in Analogsignal-, Siemens-Rohwert-, Einheiten-, P+F-, Pt100/Pt1000- und Spannungsfall-Rechner.
+- Navigation, Startseitensuche, Suchindex, Service-Worker-Precache, Offline-PWA und Manifest-Shortcuts ergänzt.
+- Vorhandene Rechnerlogik, Design, mobile Zahlentastatur, ±-Bedienung, untere Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button bleiben erhalten.
 
-## Enthaltene Funktionen
+## Einheitenkategorien
 
-- Analogsignal-Rechner,
-- P+F Rechner,
-- Pt100-/Pt1000-Rechner,
-- Einheitenrechner,
-- Spannungsfall-Rechner,
-- Siemens-SPS-Analogwert-Rechner mit drei Eingabearten, frei definierbarem Messbereich, Einheit und Karten-/Diagnoseprofilen,
-- Messstellen-Dokumentation,
-- Wissensdatenbank mit Werkstoff-Nachschlagewerk,
-- externer E+H Device Viewer,
-- Favoriten, Suche, Filter, Navigation und Offline-PWA,
-- responsiver Aufbau für Desktop, Tablet, Smartphone und Standalone-PWA.
+Druck; Durchfluss/Volumenstrom; Massendurchfluss; Temperatur; Länge; Fläche; Volumen; Masse; Zeit; elektrische Spannung; Strom; Widerstand; Leistung; Energie; Drehzahl; Frequenz; Geschwindigkeit; Dichte; dynamische Viskosität.
+
+Feste Grundeinheiten umfassen mindestens **bar**, **°C**, **m³/h**, **m**, **V**, **A** und **Ω**. Jede Kategorie besitzt genau eine feste Standardeinheit.
 
 ## Projektstruktur
 
-- `index.html` und 14 Unterseiten,
-- `assets/rechner-unified.css`: gemeinsame Gestaltung der fünf umgebauten Rechner,
-- `assets/siemens-analogwert-rechner.css`: Referenzgestaltung des Siemens-Rohwert-Rechners,
-- `assets/core.css` und `assets/responsive.css`: globale Anwendungsschale einschließlich Safe Areas und mobiler Bedienzone,
-- `shared/`: zentrale Header-, Footer- und Bedienelement-Fragmente,
-- `tools/release.py`: Versionssynchronisierung, PWA-Precache, Prüfsummen und ZIP,
-- `tools/validate_release.py`: statische Vollständigkeits-, Design-, Logik-Baseline-, Safe-Area- und Integritätsprüfung,
-- `tools/functional-smoke-test.js`: Rechner- und Inhaltsregressionen,
-- `tools/browser-smoke-test.py`: echte Rechner-, Responsive-, PWA- und Offline-Tests,
-- `test-artifacts/`: Referenz-Screenshots für Desktop, Tablet und iPhone-Profil sowie Logik-Baseline,
-- `TESTBERICHT-UND-ABNAHME.md`: Release-Nachweis,
-- `SHA256SUMS.txt`: vollständige interne SHA-256-Prüfsummen.
+- `assets/units.json`: zentrale Einheitendatenbank.
+- `assets/unit-system.js`: Datenvalidierung, Umrechnung, Dropdowns und Favoritenspeicherung.
+- `einheitendatenbank/`: Suche, Kategorienfilter und Favoritenverwaltung.
+- `assets/*-rechner.js` und `spannungsfall-rechner/calculator.js`: integrierte Rechnerlogik.
+- `assets/navigation-tree.json` und `assets/search-index.json`: Navigation und Suche.
+- `manifest.webmanifest` und `service-worker.js`: PWA, Shortcuts und vollständiger Offline-Cache.
+- `tools/release.py`: Versionssynchronisierung, Precache, Prüfsummen und ZIP.
+- `tools/functional-smoke-test.js`: Datenmodell-, Formel-, Roundtrip- und Integrationsprüfungen.
+- `tools/browser-smoke-test.py`: echte Browser-, Rechner-, Favoriten-, Responsive- und Offline-Tests.
+- `tools/validate_release.py`: statische Vollständigkeits- und Integritätsprüfung.
+- `EINHEITEN-DATENMODELL.md`: Schema und Erweiterungsregeln.
+- `TESTBERICHT-UND-ABNAHME.md`: ausgeführte Prüfungen und Grenzen.
 
 ## Testen
 
@@ -53,7 +47,7 @@ PLAYWRIGHT_CHROMIUM_EXECUTABLE=<chromium> python3 tools/browser-smoke-test.py
 sha256sum -c SHA256SUMS.txt
 ```
 
-Geprüfte Browsergrößen: Desktop **1440 × 1050**, Tablet **820 × 1180**, iPhone-Touchprofil **390 × 844** und Smartphone-Querformat **844 × 390**.
+Geprüfte Viewports: Desktop **1440 × 1050**, Tablet **820 × 1180**, iPhone-Touchprofil **390 × 844** und Smartphone-Querformat **844 × 390**.
 
 ## Release bauen
 
@@ -61,4 +55,4 @@ Geprüfte Browsergrößen: Desktop **1440 × 1050**, Tablet **820 × 1180**, iPh
 python3 tools/release.py --all
 ```
 
-Der Build synchronisiert Version, Manifest, App-ID, Service-Worker-Cache und Precache, erzeugt `SHA256SUMS.txt` und baut das vollständige ZIP.
+Der Build synchronisiert Version, Manifest, Navigation, App-ID, Service-Worker-Cache und Precache, erzeugt `SHA256SUMS.txt` und baut `SK-PLT-Tools-V2.1.7.0-Beta.zip`.

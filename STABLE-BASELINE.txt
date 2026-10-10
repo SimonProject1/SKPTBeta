@@ -1,9 +1,6 @@
-SK PLT Tools – Baseline-Hinweis
+SK PLT Tools 2.1.7.0-Beta
 
-Version: V2.1.6.1-Beta
-Direkte Vorgängerversion/Basis: V2.1.6.0-Beta
-Stabile Referenz: V2.1.0.0
+Stabile Produktreferenz: 2.1.0.0
+Direkte technische Basis: vollständig getestete und bestätigte 2.1.6.1-Beta
 
-Die vollständige Projektstruktur, alle unterstützten Rechner, Dokumentationsfunktionen, Wissensseiten, Navigation, Suche, Favoriten sowie PWA- und Offline-Funktionen der direkten Basis bleiben erhalten.
-
-V2.1.6.1-Beta ergänzt in sämtlichen Zahlen-Eingabefeldern der sechs Rechner-Tools die explizite mobile Zahlentastatur-Anforderung nach dem Muster des Siemens-Rohwert-Rechners. Darstellung und Berechnungslogik bleiben unverändert. Die Rechenlogik wird weiterhin per SHA-256 gegen die bestehende Quellbaseline geprüft; die stabile Rollback-Referenz bleibt V2.1.0.0.
+Die neue zentrale Einheitenarchitektur ist als Beta freigegeben. Bestehende Rechnerlogik und UI-Basis bleiben erhalten; die Änderungen betreffen Einheitendaten, Umrechnung, Favoriten, Dropdowns, Navigation, Suche und PWA-Integration.

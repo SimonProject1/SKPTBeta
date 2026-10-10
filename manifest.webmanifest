@@ -1,9 +1,9 @@
 {
-  "id": "./?app=sk-plt-tools-2.1.6.1-beta",
+  "id": "./?app=sk-plt-tools-2.1.7.0-beta",
   "name": "SK PLT Tools",
   "short_name": "SK PLT Tools",
-  "description": "Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.1.6.1-Beta",
-  "start_url": "./?app=sk-plt-tools-2.1.6.1-beta",
+  "description": "Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.1.7.0-Beta",
+  "start_url": "./?app=sk-plt-tools-2.1.7.0-beta",
   "scope": "./",
   "display": "standalone",
   "background_color": "#061827",
@@ -22,5 +22,33 @@
       "purpose": "any maskable"
     }
   ],
-  "version": "2.1.6.1-Beta"
+  "version": "2.1.7.0-Beta",
+  "shortcuts": [
+    {
+      "name": "Einheitendatenbank",
+      "short_name": "Einheiten",
+      "description": "Einheiten suchen und Favoriten verwalten",
+      "url": "./einheitendatenbank/",
+      "icons": [
+        {
+          "src": "assets/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Einheitenrechner",
+      "short_name": "Umrechnen",
+      "description": "Einheiten zentral umrechnen",
+      "url": "./einheitenrechner/",
+      "icons": [
+        {
+          "src": "assets/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
 }
