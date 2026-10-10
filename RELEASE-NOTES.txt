@@ -1,20 +1,23 @@
-SK PLT Tools 2.2.0.2-Beta
+SK PLT Tools 2.2.0.3-Beta
 Release-Datum: 10.10.2026
 Status: Beta zum kontrollierten Testen
-Technische Basis: 2.2.0.1-Beta auf Basis des öffentlichen Releases 2.2.0.0
+Technische Basis: 2.2.0.2-Beta auf Basis des öffentlichen Releases 2.2.0.0
 
-BEHOBENER FEHLER
-- Die Breitenkorrektur sitzt jetzt auf der richtigen Layout-Ebene: dem äußeren
-  Seitenrahmen der sechs Rechnerseiten.
-- Auf PC und Tablet verwenden Rechnerseiten dieselbe Shell-Geometrie wie die
-  Startseite (1180 px Außenbreite mit identischen 18-px-Seitenabständen).
-- Kopfzeile, dünner Trennstrich, Logo und Startseiten-Button haben damit dieselbe
-  Gesamtbreite und horizontale Ausrichtung wie auf der Startseite.
-- Ein stabil reservierter Scrollbar-Bereich verhindert auf PC das seitliche
-  Springen zwischen langen und kurzen Seiten.
-- Die in 2.2.0.1-Beta eingeführte pauschale width:100%-Vereinheitlichung der
-  Rechnerkarten wurde zurückgenommen. Rechnerkarten bleiben kompakt; ihre
-  bisherigen Maximalbreiten und das responsive Verhalten bleiben erhalten.
+ART DER VERSION
+- Beta-Bugfix für die tatsächlich nutzbare Breite der sechs Rechnerseiten.
+- Keine Änderung an Berechnungslogik, Datenbestand, Navigation, Favoriten oder
+  PWA-/Offlineprinzip.
+
+TATSÄCHLICH UMGESETZTE BREITENKORREKTUR
+- Ab 761 CSS-Pixeln werden die Maximalbreiten von 980 px beziehungsweise 920 px
+  für .calc-page-title, .analog-page-title, .calc-panel, .analog-panel,
+  .calc-notice, .voltage-result und .sk-unit-database-cta aufgehoben.
+- Diese Bereiche verwenden damit auf PC und Tablet die vollständige nutzbare
+  Breite der gemeinsamen Shell wie die Startseite.
+- Die Shell bleibt auf maximal 1180 px mit 18 px horizontalem Innenabstand
+  begrenzt und zentriert.
+- scrollbar-gutter: stable bleibt ab 761 CSS-Pixeln aktiv.
+- Die Smartphone-Darstellung bis einschließlich 760 CSS-Pixel bleibt unverändert.
 
 UNVERÄNDERT
 - Berechnungslogik, Referenzwerte und Einheitenumrechnung.
@@ -23,12 +26,13 @@ UNVERÄNDERT
 - Navigation, Suche, Wissensdatenbank, PWA- und Offline-Funktionen.
 
 VERSION UND PWA
-- Version: 2.2.0.2-Beta.
+- Version: 2.2.0.3-Beta.
 - Laufzeitkanal: beta.
-- Kerncache: sk-plt-tools-core-v2.2.0.2-Beta.
-- Dokumentcache: sk-plt-tools-documents-v2.2.0.2-Beta.
+- Kerncache: sk-plt-tools-core-v2.2.0.3-Beta.
+- Dokumentcache: sk-plt-tools-documents-v2.2.0.3-Beta.
 - Manifest-ID, start_url und scope bleiben versionsunabhängig auf ./.
+- Cache-Buster in HTML, CSS, JavaScript und Datenverweisen sind konsistent.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Releaseordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.2.0.2-Beta.zip.sha256 bereitgestellt.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.2.0.3-Beta.zip.sha256 bereitgestellt.

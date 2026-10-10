@@ -1,6 +1,6 @@
-/* SK PLT Tools 2.2.0.2-Beta — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
+/* SK PLT Tools 2.2.0.3-Beta — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
 (()=>{'use strict';
-const RELEASE='2.2.0.2-Beta';
+const RELEASE='2.2.0.3-Beta';
 const STORAGE_KEY='skPltUnitFavoritesV1';
 const source=document.currentScript?.src||'';
 const root=source?new URL('../',source):(window.SK_PLT?.root||new URL('./',location.href));

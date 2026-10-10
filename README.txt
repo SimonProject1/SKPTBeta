@@ -1,15 +1,18 @@
-SK PLT Tools 2.2.0.2-Beta
+SK PLT Tools 2.2.0.3-Beta
 
 Vollständige Beta der kompakten statischen Web-App für Rechner,
 Wissensdatenbank und Einheitendatenbank.
 
 Testzweck
-- Prüfung der korrigierten Rechnerseiten-Shell auf PC und Tablet.
-- Kopfzeile, Trennstrich, Logo und Startseiten-Button müssen exakt dieselbe
-  Gesamtbreite und horizontale Ausrichtung wie auf der Startseite besitzen.
-- Rechnerkarten bleiben kompakt und werden nicht pauschal auf 920 px verbreitert.
-- Die mobile Darstellung bleibt innerhalb der verfügbaren Breite und ohne
-  horizontalen Überlauf.
+- Prüfung der tatsächlich umgesetzten Breitenkorrektur auf allen sechs
+  Rechnerseiten.
+- Ab 761 CSS-Pixeln nutzen Seitentitel, Rechnerpanel, Hinweise, Ergebnisbereich
+  und Einheitenfavoriten-Balken die vollständige nutzbare Breite der gemeinsamen
+  Shell wie auf der Startseite.
+- Die bisherigen Maximalbreiten von 980 px beziehungsweise 920 px greifen ab
+  761 CSS-Pixeln nicht mehr.
+- scrollbar-gutter: stable bleibt für PC und Tablet aktiv.
+- Die Smartphone-Darstellung bis einschließlich 760 CSS-Pixel bleibt unverändert.
 
 Deployment
 - Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
@@ -19,7 +22,7 @@ Deployment
 
 PWA
 - Laufzeitkanal: beta.
-- Service-Worker-Caches: core-v2.2.0.2-Beta und documents-v2.2.0.2-Beta.
+- Service-Worker-Caches: core-v2.2.0.3-Beta und documents-v2.2.0.3-Beta.
 
 Integrität
 - Interne Dateien: SHA256SUMS.txt mit einem SHA-256-Eintrag je weiterer Datei.
