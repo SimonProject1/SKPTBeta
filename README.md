@@ -1,42 +1,41 @@
-# SK PLT Tools 2.1.7.1-Beta
+# SK PLT Tools 2.1.7.2-Beta
 
-Vollständige statische, offline-fähige Webanwendung für PLT-/MSR-Aufgaben. **2.1.7.1-Beta** baut auf der vollständigen **2.1.7.0-Beta** auf; die stabile Referenz bleibt **2.1.0.0**.
+Vollständige statische, offline-fähige Webanwendung für PLT-/MSR-Aufgaben. **2.1.7.2-Beta** baut auf der vollständigen **2.1.7.1-Beta** auf; die stabile Referenz bleibt **2.1.0.0**.
 
-## Neu in 2.1.7.1-Beta
+## Neu in 2.1.7.2-Beta
 
-- Auf allen sechs Seiten mit Einheiten-Dropdowns befindet sich jetzt ganz unten ein einheitlich gestalteter Button **Einheitendatenbank öffnen**.
-- Damit lassen sich neue Einheitenfavoriten direkt aus Analogsignal-, Siemens-Rohwert-, Einheiten-, P+F-, Pt100/Pt1000- und Spannungsfall-Rechner verwalten, ohne den Umweg über die Startseite.
-- Desktop-, Tablet- und Mobiltests prüfen Vorhandensein, Sichtbarkeit und Ziel des neuen Direktzugriffs.
-- Neue Seite **Einheitendatenbank** mit Suche, Kategorienfilter, 19 Messarten und 115 Einheiten.
-- Persönliche Einheitenfavoriten per Stern; lokale Speicherung unter `skPltUnitFavoritesV1`.
+- Der Bereich **Einheitendatenbank öffnen** ist auf allen sechs Rechnerseiten kompakt statt nahezu seitenbreit.
+- Desktop verwendet eine inhaltsorientierte Breite mit einer Obergrenze von 720 px, Tablet eine zusätzliche Obergrenze von 640 px; auf Smartphones passt sich der Bereich innerhalb des verfügbaren Inhalts responsiv an.
+- Text, Button, Abstände, Farben und Bedienlogik bleiben im einheitlichen Rechnerdesign.
+- Der bisherige E+H-Herstellerlink wurde durch `https://www.de.endress.com/de/onlinetools?store_locale=de` ersetzt.
+- Der Herstellerlink öffnet in einem neuen Tab und verwendet `rel="noopener noreferrer"`.
+- Manifest, App-ID, Service-Worker-Release und Cache wurden auf 2.1.7.2-Beta angehoben.
+
+## Unverändert enthalten
+
+- Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
+- Persönliche Einheitenfavoriten per Stern und lokale Speicherung unter `skPltUnitFavoritesV1`.
 - Zentrale Datei `assets/units.json` als Single Source of Truth für Namen, Symbole, Kategorien, Standardeinheiten, Faktoren, Offsets und Referenzfälle.
 - Gemeinsame Laufzeit `assets/unit-system.js` mit affiner Umrechnung `Basis = Wert × Faktor + Offset`.
 - Einheitliche Einheiten-Dropdowns mit den Gruppen **Standardeinheit**, **Favoriten** und **Weitere Einheiten**.
 - Automatische Umrechnung bereits eingegebener Werte beim Einheitenwechsel, einschließlich °C, K und °F.
 - Integration in Analogsignal-, Siemens-Rohwert-, Einheiten-, P+F-, Pt100/Pt1000- und Spannungsfall-Rechner.
-- Navigation, Startseitensuche, Suchindex, Service-Worker-Precache, Offline-PWA und Manifest-Shortcuts ergänzt.
-- Vorhandene Rechnerlogik, Design, mobile Zahlentastatur, ±-Bedienung, untere Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button bleiben erhalten.
-
-## Einheitenkategorien
-
-Druck; Durchfluss/Volumenstrom; Massendurchfluss; Temperatur; Länge; Fläche; Volumen; Masse; Zeit; elektrische Spannung; Strom; Widerstand; Leistung; Energie; Drehzahl; Frequenz; Geschwindigkeit; Dichte; dynamische Viskosität.
-
-Feste Grundeinheiten umfassen mindestens **bar**, **°C**, **m³/h**, **m**, **V**, **A** und **Ω**. Jede Kategorie besitzt genau eine feste Standardeinheit.
+- Mobile Zahlentastatur, ±-Vorzeichenwechsel, mobile untere Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button.
+- Navigation, Startseitensuche, Suchindex, Service-Worker-Precache, Offline-PWA und Manifest-Shortcuts.
 
 ## Projektstruktur
 
+- `assets/core.css`: gemeinsamer Seitenstil und kompakter responsiver `.sk-unit-database-cta`.
 - `assets/units.json`: zentrale Einheitendatenbank.
 - `assets/unit-system.js`: Datenvalidierung, Umrechnung, Dropdowns und Favoritenspeicherung.
-- `.sk-unit-database-cta` in `assets/core.css`: gemeinsamer responsiver Direktzugriff am Ende aller Einheiten-Auswahlseiten.
 - `einheitendatenbank/`: Suche, Kategorienfilter und Favoritenverwaltung.
 - `assets/*-rechner.js` und `spannungsfall-rechner/calculator.js`: integrierte Rechnerlogik.
 - `assets/navigation-tree.json` und `assets/search-index.json`: Navigation und Suche.
-- `manifest.webmanifest` und `service-worker.js`: PWA, Shortcuts und vollständiger Offline-Cache.
+- `manifest.webmanifest` und `service-worker.js`: PWA, Shortcuts und Offline-Cache.
 - `tools/release.py`: Versionssynchronisierung, Precache, Prüfsummen und ZIP.
 - `tools/functional-smoke-test.js`: Datenmodell-, Formel-, Roundtrip- und Integrationsprüfungen.
-- `tools/browser-smoke-test.py`: echte Browser-, Rechner-, Favoriten-, Responsive- und Offline-Tests.
+- `tools/browser-smoke-test.py`: Browser-, Rechner-, Favoriten-, Responsive-, Link- und Offline-Tests.
 - `tools/validate_release.py`: statische Vollständigkeits- und Integritätsprüfung.
-- `EINHEITEN-DATENMODELL.md`: Schema und Erweiterungsregeln.
 - `TESTBERICHT-UND-ABNAHME.md`: ausgeführte Prüfungen und Grenzen.
 
 ## Testen
@@ -59,4 +58,4 @@ Geprüfte Viewports: Desktop **1440 × 1050**, Tablet **820 × 1180**, iPhone-To
 python3 tools/release.py --all
 ```
 
-Der Build synchronisiert Version, Manifest, Navigation, App-ID, Service-Worker-Cache und Precache, erzeugt `SHA256SUMS.txt` und baut `SK-PLT-Tools-V2.1.7.1-Beta.zip`.
+Der Build synchronisiert Version, Manifest, Navigation, App-ID, Service-Worker-Cache und Precache, erzeugt `SHA256SUMS.txt` und baut `SK-PLT-Tools-V2.1.7.2-Beta.zip`.

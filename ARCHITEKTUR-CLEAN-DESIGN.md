@@ -1,4 +1,4 @@
-# Architektur – SK PLT Tools 2.1.7.1-Beta
+# Architektur – SK PLT Tools 2.1.7.2-Beta
 
 ## Leitprinzipien
 

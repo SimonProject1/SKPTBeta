@@ -1,51 +1,39 @@
-SK PLT Tools 2.1.7.1-Beta
+SK PLT Tools 2.1.7.2-Beta
 Release-Datum: 10.10.2026
-Basis: vollständige 2.1.7.0-Beta
+Basis: vollständige 2.1.7.1-Beta
 
-NEU
-===
-- Auf allen sechs Seiten mit Einheiten-Auswahl befindet sich am Ende des Hauptinhalts ein Button „Einheitendatenbank öffnen“.
-- Direkter Zugriff auf die Einheitenfavoriten ohne Rückweg über die Startseite.
-- Einheitliches responsives Design für Desktop, Tablet und Mobilgeräte.
+GEÄNDERT
+=========
+- Der Bereich „Einheitendatenbank öffnen“ ist auf allen sechs Rechnerseiten kompakt statt nahezu seitenbreit.
+- Desktop: inhaltsorientierte Breite mit maximal 720 px; Tablet: maximal 640 px.
+- Smartphone: responsive Anordnung innerhalb der verfügbaren Inhaltsbreite; Button bleibt touchfreundlich vollbreit im Bereich.
+- Der E+H-Herstellerlink wurde durch https://www.de.endress.com/de/onlinetools?store_locale=de ersetzt.
+- Der externe Link öffnet mit target="_blank" und rel="noopener noreferrer".
+- Navigationsbaum, Versionsstände, Manifest, App-ID, Service Worker und Cache wurden auf 2.1.7.2-Beta aktualisiert.
+
+UNVERÄNDERT
+===========
 - Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
-- Suche nach Kategorie, Name, Symbol und Alias sowie Kategorienfilter.
-- Persönliche Einheitenfavoriten per Stern mit lokaler Browser-Persistenz.
-- Zentrale Single Source of Truth in assets/units.json.
-- Gemeinsame affine Umrechnung für Faktoren und Offsets.
+- Persönliche Einheitenfavoriten mit lokaler Browser-Persistenz.
+- Automatische Faktor- und Offset-Umrechnung beim Einheitenwechsel.
 - Einheitliche Dropdown-Gruppen: Standardeinheit, Favoriten, Weitere Einheiten.
-- PWA-Shortcuts für Einheitendatenbank und Einheitenrechner.
-
-RECHNER-INTEGRATION
-===================
-- Analogsignal: Prozesskategorie, Prozesseinheit und Signaleinheit; Messbereich und Eingabe werden automatisch umgerechnet.
-- Siemens Rohwert: physikalische Kategorie und Einheit; Minimum, Maximum, Eingabe und Ergebnisse bleiben beim Wechsel fachlich konsistent.
-- Einheitenrechner: alle 19 Kategorien aus der zentralen Datenquelle.
-- P+F: getrennte X-/Y-Kategorien und Einheiten; beide Wertepaare werden automatisch umgerechnet.
-- Pt100/Pt1000: Temperatur- und Widerstandseinheiten in beiden Richtungen.
-- Spannungsfall: Spannung, Strom, Länge und Leiterquerschnitt; Eingaben und Spannungsergebnisse werden automatisch angepasst.
-
-KOMPATIBILITÄT
-==============
-- Bestehende Berechnungswege und Siemens-Grenzwerte beibehalten.
-- Mobile Zahlentastatur an allen Zahlenfeldern beibehalten.
-- ±-Vorzeichenwechsel beibehalten.
-- Einheitliches Design, mobile untere Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button beibehalten.
+- Alle sechs Rechner und ihre vorhandenen Berechnungswege.
+- Mobile Zahlentastatur und ±-Vorzeichenwechsel.
+- Einheitliches Rechnerdesign, mobile untere Bedienzone, dunkle iPhone-Safe-Area, Headerlinie und Startseiten-Button.
+- PWA-Shortcuts, Offline-Nutzung und vorhandene Local-Storage-Schlüssel.
 
 PWA / OFFLINE
 =============
-- Einheitendatenbank, units.json, unit-system.js, Rechnerintegrationen und Styles im Precache.
-- Navigation, Startseitenkarte und Suchindex ergänzt.
-- Manifest-ID, Version, Beschreibung und Shortcuts aktualisiert.
-- Cache: sk-plt-tools-v2.1.7.1-Beta.
+- Manifest-Version und App-ID: 2.1.7.2-Beta.
+- Cache: sk-plt-tools-v2.1.7.2-Beta.
+- Vollständiger Precache der Web-Laufzeit einschließlich Einheitendatenbank und Rechnerintegrationen.
+- Alte sk-plt-tools-*-Caches werden bei Aktivierung entfernt.
 
 QUALITÄTSSICHERUNG
 ==================
-- Direktzugriff auf jeder Einheiten-Auswahlseite statisch und im Browser geprüft.
-- Sichtbarkeit und korrektes Ziel des Buttons auf Desktop, Tablet und iPhone-Touchprofil geprüft.
-- 19 Kategorien und 115 Einheiten strukturell geprüft.
-- 575 Einheiten-Roundtrips plus verbindliche Referenzfälle geprüft.
-- Favoritenspeicherung, Dropdown-Gruppen, Standards und Offset-Umrechnungen geprüft.
-- Alle sechs Rechner funktional geprüft.
+- Kompakte CTA-Geometrie auf Desktop und Tablet sowie viewportgerechte Darstellung auf Smartphones geprüft.
+- Neuer Endress+Hauser-Link und Sicherheitsattribute statisch und im Browser geprüft.
+- 19 Kategorien, 115 Einheiten, 575 Einheiten-Roundtrips und Referenzfälle geprüft.
+- Favoriten, automatische Umrechnung, alle sechs Rechner und Offline-Aufruf geprüft.
 - 16 Seiten auf Desktop, Tablet und iPhone-Touchprofil auf Überlauf, App-Schale und Versionsstand geprüft.
-- Offline-Aufruf der Einheitendatenbank aus dem Service-Worker-Cache geprüft.
-- Prüfsummen und vollständiges ZIP werden automatisiert erzeugt.
+- Prüfsummen und vollständiges ZIP werden automatisiert erzeugt und validiert.

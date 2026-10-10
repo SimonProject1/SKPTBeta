@@ -1,0 +1,63 @@
+SK PLT TOOLS – PROJEKTÜBERGABE
+Version: 2.1.7.2-Beta
+Stand: 10.10.2026
+
+AUSGANGSBASIS
+==============
+Vollständige 2.1.7.1-Beta. Stabile Referenz: 2.1.0.0.
+
+ÄNDERUNGEN DIESER VERSION
+=========================
+- Kompakter responsiver Bereich „Einheitendatenbank öffnen“ auf allen sechs Rechnerseiten.
+- Desktop: inhaltsorientiert, maximal 720 px; Tablet: maximal 640 px; Smartphone: innerhalb der Inhaltsbreite voll responsiv.
+- Neuer Herstellerlink: https://www.de.endress.com/de/onlinetools?store_locale=de
+- Externer Aufruf mit target="_blank" und rel="noopener noreferrer".
+- Navigation, Manifest, Service Worker, Cache und Versionsmetadaten auf 2.1.7.2-Beta.
+
+ERHALTENER KERN
+===============
+- Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
+- Zentrale Single Source of Truth: assets/units.json.
+- Laufzeit-API: assets/unit-system.js.
+- Lokale Einheitenfavoriten: skPltUnitFavoritesV1.
+- Einheitliche Dropdowns mit Standard, Favoriten und weiteren Einheiten.
+- Faktor- und Offset-Umrechnung bei Einheitenwechsel.
+- Integration in alle sechs Rechner.
+- Navigation, Suche, Suchindex, PWA, Offline-Cache und Manifest-Shortcuts.
+
+WICHTIGE DATEIEN
+================
+assets/core.css
+assets/navigation-tree.json
+assets/units.json
+assets/unit-system.js
+einheitendatenbank/index.html
+manifest.webmanifest
+service-worker.js
+TESTBERICHT-UND-ABNAHME.md
+RELEASE-NOTES.txt
+SHA256SUMS.txt
+
+WARTUNGSREGELN
+==============
+1. Umrechnungsfaktoren nur in assets/units.json ändern.
+2. Neue Einheit mit eindeutigem ID, Symbol, Faktor/Offset und Referenzfall ergänzen.
+3. Verschiedene Dimensionen nicht in einer Kategorie mischen.
+4. Nach Änderungen alle drei Testebenen ausführen: functional-smoke-test, validate_release, browser-smoke-test.
+5. Anschließend python3 tools/release.py --all ausführen.
+6. Bei neuen Seiten mit Einheiten-Dropdowns den Direktzugriff `.sk-unit-database-cta` am Ende des Hauptinhalts ergänzen und die Breitenregeln beibehalten.
+7. Externe Links in einem neuen Tab immer mit rel="noopener noreferrer" absichern.
+
+BESTÄTIGTE REGRESSIONEN
+=======================
+- Mobile Zahlentastatur.
+- ±-Vorzeichenwechsel.
+- Untere mobile Bedienzone.
+- Dunkle iPhone-Safe-Area.
+- Headerlinie und Startseiten-Button.
+- Siemens-Grenzwerte und Rohwertlogik.
+- Favoriten, automatische Einheitenumrechnung, Rechnerdesign und Offline-PWA.
+
+BEKANNTE TESTGRENZE
+===================
+Der automatisierte iPhone-Nachweis verwendet ein Chromium-basiertes Touch-/Viewportprofil im Container. Eine physische iOS-/Safari-Abnahme ist nicht enthalten.
