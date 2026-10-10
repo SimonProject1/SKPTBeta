@@ -1,4 +1,4 @@
-/* === V2.2.1.2-Beta · responsive application shell ===
+/* === V2.2.2.1-Beta · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -293,4 +293,57 @@ html{background-color:#04131f}
   .sk-favorites-trigger{left:calc(10px + env(safe-area-inset-left,0px))}
   .sk-tree-trigger{right:calc(10px + env(safe-area-inset-right,0px))}
   .sk-favorites-drawer,.sk-tree-drawer{height:100dvh;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+}
+
+
+/* === 2.2.2.1-Beta · kompakte mobile Startseite ===
+   Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
+@media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  body[data-sk-page="start"] .hero{
+    display:flex;
+    justify-content:center;
+    min-height:0;
+    margin:10px 0 12px;
+    padding:12px;
+  }
+  body[data-sk-page="start"] .hero .sk-hero-copy{display:none}
+  body[data-sk-page="start"] .hero img{
+    order:initial;
+    width:min(132px,38vw);
+    margin:0 auto;
+  }
+  body[data-sk-page="start"] .sk-tool-filter{padding:0!important;overflow:hidden}
+  body[data-sk-page="start"] .sk-filter-toggle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    width:100%;
+    min-height:62px;
+    padding:11px 13px;
+    border:0;
+    border-radius:17px;
+    background:linear-gradient(145deg,#0a2639,#071d2d);
+    color:#f7fbff;
+    text-align:left;
+    cursor:pointer;
+  }
+  body[data-sk-page="start"] .sk-filter-toggle>span:first-child{display:grid;gap:3px}
+  body[data-sk-page="start"] .sk-filter-toggle strong{font-size:17px;line-height:1.2}
+  body[data-sk-page="start"] .sk-filter-toggle-icon{
+    display:grid;
+    place-items:center;
+    flex:0 0 34px;
+    width:34px;
+    height:34px;
+    border:1px solid #2c627c;
+    border-radius:10px;
+    color:#89d329;
+    font-size:22px;
+    transition:transform .18s ease;
+  }
+  body[data-sk-page="start"] .sk-filter-toggle[aria-expanded="true"] .sk-filter-toggle-icon{transform:rotate(180deg)}
+  body[data-sk-page="start"] .sk-filter-toggle:focus-visible{outline:3px solid rgba(0,183,232,.42);outline-offset:-3px}
+  body[data-sk-page="start"] .sk-filter-content{padding:0 13px 13px}
+  body[data-sk-page="start"] .sk-filter-content[hidden]{display:none!important}
 }
