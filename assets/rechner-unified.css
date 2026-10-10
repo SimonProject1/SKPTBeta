@@ -1,4 +1,4 @@
-/* Rechner-Oberflächen · SK PLT Tools 2.2.0.3-Beta
+/* Rechner-Oberflächen · SK PLT Tools 2.2.1.1-Beta
    Gemeinsame Darstellung aller Rechner nach dem Siemens-Rohwert-Design.
    Diese Datei enthält ausschließlich Layout und Gestaltung; Berechnungslogik bleibt unverändert. */
 
@@ -60,10 +60,6 @@
 .voltage-result .protocol span{color:var(--muted)}
 .voltage-result .protocol b{color:var(--green);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
 
-/* V2.2.0.3-Beta: volle nutzbare Shell-Breite auf PC und Tablet. */
-@media(min-width:761px){
-  .calc-page-title,.calc-panel,.calc-notice,.voltage-result{max-width:none}
-}
 @media(max-width:900px){
   .calc-field-grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}
 }

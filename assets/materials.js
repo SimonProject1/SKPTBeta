@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const RELEASE='2.2.0.3-Beta';
+const RELEASE='2.2.1.1-Beta';
 const normalize=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'');
 const searchable=material=>[material.materialNumber,material.shortName,material.uns,...(material.internationalDesignations||[]),...(material.searchTerms||[])].map(normalize).join(' ');
 const matches=(material,query)=>{const terms=String(query||'').trim().split(/\s+/).map(normalize).filter(Boolean);if(!terms.length)return true;const haystack=searchable(material);return terms.every(term=>haystack.includes(term))};
@@ -16,19 +16,24 @@ function chip(text,className='material-chip'){return create('span',className,tex
 function addList(parent,title,items,className){if(!items?.length)return;const section=create('section',className);section.append(create('h3','material-card-subtitle',title));const list=create('ul','material-list');items.forEach(item=>{const li=create('li','',item);list.append(li)});section.append(list);parent.append(section)}
 function renderMaterial(material){
   const article=create('article','material-card');article.id=`material-${material.id}`;
+  const contentId=`material-content-${material.id}`;
+  const toggle=create('button','material-card-toggle');toggle.type='button';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-controls',contentId);
   const head=create('div','material-card-head');
   const identity=create('div','material-identity');identity.append(chip(material.materialNumber,'material-number'),create('h2','',material.shortName));
   head.append(identity,chip(data.groups.find(group=>group.id===material.group)?.label||material.group,'material-group'));
-  article.append(head);
-  const designations=create('div','material-designations');(material.internationalDesignations||[]).forEach(value=>designations.append(chip(value)));if(material.uns)designations.append(chip(`UNS ${material.uns}`,'material-chip material-chip-uns'));article.append(designations);
+  const toggleIcon=create('span','material-toggle-icon');toggleIcon.setAttribute('aria-hidden','true');
+  toggle.append(head,toggleIcon);article.append(toggle);
+  const content=create('div','material-card-content');content.id=contentId;content.hidden=true;
+  const designations=create('div','material-designations');(material.internationalDesignations||[]).forEach(value=>designations.append(chip(value)));if(material.uns)designations.append(chip(`UNS ${material.uns}`,'material-chip material-chip-uns'));content.append(designations);
   const facts=create('dl','material-facts');
   [['Werkstoffgruppe',data.groups.find(group=>group.id===material.group)?.label||material.group],['Erzeugnisform',material.productForm]].forEach(([term,value])=>{facts.append(create('dt','',term),create('dd','',value))});
-  article.append(facts,create('p','material-explanation',material.explanation));
-  addList(article,'Verwandte Werkstoffe',material.related,'material-related');
-  addList(article,'Nicht verwechseln mit',material.doNotConfuseWith,'material-not-confuse');
+  content.append(facts,create('p','material-explanation',material.explanation));
+  addList(content,'Verwandte Werkstoffe',material.related,'material-related');
+  addList(content,'Nicht verwechseln mit',material.doNotConfuseWith,'material-not-confuse');
   const sourceSection=create('section','material-sources');sourceSection.append(create('h3','material-card-subtitle','Quellen'));
-  const sourceList=create('ul','material-source-list');(material.sources||[]).forEach(source=>{const li=create('li');const link=create('a','',source.label);link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';li.append(link);sourceList.append(li)});sourceSection.append(sourceList);article.append(sourceSection);
-  const notice=create('p','material-safety',data.safetyNotice);notice.setAttribute('role','note');article.append(notice);
+  const sourceList=create('ul','material-source-list');(material.sources||[]).forEach(source=>{const li=create('li');const link=create('a','',source.label);link.href=source.url;link.target='_blank';link.rel='noopener noreferrer';li.append(link);sourceList.append(li)});sourceSection.append(sourceList);content.append(sourceSection);
+  const notice=create('p','material-safety',data.safetyNotice);notice.setAttribute('role','note');content.append(notice);article.append(content);
+  toggle.addEventListener('click',()=>{const expanded=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!expanded));content.hidden=expanded});
   return article;
 }
 function renderResults(){

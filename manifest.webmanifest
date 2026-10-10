@@ -2,7 +2,7 @@
   "id": "./",
   "name": "SK PLT Tools",
   "short_name": "SK PLT Tools",
-  "description": "Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.2.0.3-Beta",
+  "description": "Praktische Werkzeuge und Wissensdatenbank für die Prozessleittechnik · Version 2.2.1.1-Beta zum kontrollierten Testen",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -34,7 +34,7 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.2.0.3-Beta",
+  "version": "2.2.1.1-Beta",
   "shortcuts": [
     {
       "name": "Einheitendatenbank",

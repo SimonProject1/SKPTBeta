@@ -1,18 +1,11 @@
-SK PLT Tools 2.2.0.3-Beta
+SK PLT Tools 2.2.1.1-Beta
 
-Vollständige Beta der kompakten statischen Web-App für Rechner,
-Wissensdatenbank und Einheitendatenbank.
+Beta-Version der kompakten statischen Web-App für Rechner,
+Wissensdatenbank und Einheitendatenbank. Diese Version ist zum kontrollierten Testen vorgesehen.
 
-Testzweck
-- Prüfung der tatsächlich umgesetzten Breitenkorrektur auf allen sechs
-  Rechnerseiten.
-- Ab 761 CSS-Pixeln nutzen Seitentitel, Rechnerpanel, Hinweise, Ergebnisbereich
-  und Einheitenfavoriten-Balken die vollständige nutzbare Breite der gemeinsamen
-  Shell wie auf der Startseite.
-- Die bisherigen Maximalbreiten von 980 px beziehungsweise 920 px greifen ab
-  761 CSS-Pixeln nicht mehr.
-- scrollbar-gutter: stable bleibt für PC und Tablet aktiv.
-- Die Smartphone-Darstellung bis einschließlich 760 CSS-Pixel bleibt unverändert.
+Änderung dieser Version
+- Werkstoffe im Werkstoff-Nachschlagewerk sind einzeln ein- und ausklappbar.
+- Beim Seitenaufruf sind alle Werkstoffe eingeklappt, um insbesondere auf dem iPhone weniger scrollen zu müssen.
 
 Deployment
 - Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
@@ -21,8 +14,9 @@ Deployment
 - Neue Versionen am selben Pfad bereitstellen; die versionsunabhängige PWA-ID behandelt sie als Update derselben App.
 
 PWA
-- Laufzeitkanal: beta.
-- Service-Worker-Caches: core-v2.2.0.3-Beta und documents-v2.2.0.3-Beta.
+- Installation über die Installationsfunktion des verwendeten Browsers.
+- Start-URL und App-ID sind versionsunabhängig auf ./ gesetzt.
+- Der Service Worker verwendet die Release-Caches core-v2.2.1.1-Beta und documents-v2.2.1.1-Beta.
 
 Integrität
 - Interne Dateien: SHA256SUMS.txt mit einem SHA-256-Eintrag je weiterer Datei.
