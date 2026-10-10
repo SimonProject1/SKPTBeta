@@ -1,15 +1,14 @@
 [
   {
-    "type": "Wissensbeitrag",
+    "type": "Datenbank",
     "category": "WISSEN",
     "manufacturer": "Herstellerunabhängig",
-    "device": "Werkstoff-Nachschlagewerk",
+    "device": "Werkstoffdatenbank",
     "topic": "Werkstoffnummern und Bezeichnungen",
-    "title": "Werkstoff-Nachschlagewerk",
-    "description": "Werkstoffnummern, alternative Bezeichnungen, Werkstoffgruppen und Direktvergleiche nachschlagen.",
+    "title": "Werkstoffdatenbank",
+    "description": "Werkstoffnummern, alternative Bezeichnungen, Werkstoffgruppen und Direktvergleiche zentral nachschlagen.",
     "breadcrumb": [
-      "Wissensdatenbank",
-      "Werkstoffe"
+      "Werkstoffdatenbank"
     ],
     "keywords": [
       "Werkstoff",
@@ -20,9 +19,10 @@
       "Edelstahl",
       "Stahlguss",
       "Nickellegierung",
-      "Werkstoffvergleich"
+      "Werkstoffvergleich",
+      "Werkstoff-Nachschlagewerk"
     ],
-    "url": "wissensdatenbank/werkstoff-nachschlagewerk/",
+    "url": "werkstoffdatenbank/",
     "passthroughQuery": true,
     "catalog": "materials"
   },

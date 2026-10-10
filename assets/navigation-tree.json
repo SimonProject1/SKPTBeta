@@ -1,5 +1,5 @@
 {
-  "version": "2.3.1.0",
+  "version": "2.3.2.0",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -53,6 +53,16 @@
       ]
     },
     {
+      "id": "material-data",
+      "title": "Werkstoffe",
+      "items": [
+        {
+          "title": "Werkstoffdatenbank",
+          "url": "werkstoffdatenbank/"
+        }
+      ]
+    },
+    {
       "id": "knowledge",
       "title": "Wissen",
       "items": [
@@ -60,10 +70,6 @@
           "title": "Wissensdatenbank",
           "url": "wissensdatenbank/",
           "children": [
-            {
-              "title": "Werkstoff-Nachschlagewerk",
-              "url": "wissensdatenbank/werkstoff-nachschlagewerk/"
-            },
             {
               "title": "Air Torque",
               "children": [

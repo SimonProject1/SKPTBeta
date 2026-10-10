@@ -1,44 +1,51 @@
-SK PLT Tools 2.3.1.0-Beta
+SK PLT Tools 2.3.2.0-Beta
 
 Beta-Testversion der kompakten statischen Web-App für Rechner,
-Wissensdatenbank und Einheitendatenbank.
+Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
 
 Basis dieser Beta
-- Verbindliche Ausgangsbasis ist die öffentliche stabile Version 2.3.0.0 vom 10.10.2026.
-- Bestätigte SHA-256 der Basis: 91ff22671dbdf2b0103c2c884daab3523bd5d476cddee6e881dcb78a0bd6747a.
-- Die bestätigten Funktionen und das Design wurden erhalten; geändert wurde gezielt die mobile Übersicht der Wissensdatenbank.
+- Verbindliche Ausgangsbasis ist SK-PLT-Tools-V2.3.1.0-Beta.zip vom 10.10.2026.
+- Bestätigte SHA-256 der Basis: 4aa3cd3171889a7f7be5115608e24a03bb0c7dcce708880ecf81126a52153fb6.
+- Die bestätigten Funktionen und das Design wurden erhalten; geändert wurde gezielt die organisatorische Auslagerung des Werkstoff-Nachschlagewerks.
 
-Neue mobile Wissensdatenbank
-- Wissensbeiträge werden auf Smartphones nach Hersteller zusammengefasst.
-- Gruppen: Herstellerunabhängig, Air Torque, Siemens und Vacon.
-- Jede Herstellergruppe ist einzeln ein- und ausklappbar und zeigt sichtbare Treffer sowie Gesamtzahl.
-- Die Gruppenzustände werden lokal unter skKnowledgeManufacturerStateV1 gespeichert.
-- Die kompakte Beitragsansicht ist mobil standardmäßig aktiv, blendet Beschreibungen aus und bleibt unter skKnowledgeCompactCardsV1 gespeichert.
-- Bei einer Suche werden passende Herstellergruppen automatisch geöffnet; Gruppen ohne Treffer werden ausgeblendet.
-- Desktop und reguläre Tablet-Ansicht bleiben als flache zweispaltige Beitragsübersicht erhalten.
+Eigenständige Werkstoffdatenbank
+- Neuer Hauptordner werkstoffdatenbank/ mit eigener index.html.
+- Die Startseite enthält eine eigene Karte „Werkstoffdatenbank“ in der Kategorie Wissen.
+- Werkstoffsuche, Gruppenfilter, Direktvergleiche, Datenquellen und Sicherheitshinweis bleiben vollständig erhalten.
+- Der Breadcrumb lautet nun „Startseite › Werkstoffdatenbank“.
+- Suchindex und Startseitensuche führen direkt zur neuen Route und reichen Suchbegriffe weiterhin als q-Parameter durch.
+- Der Navigationsbaum enthält eine eigene Gruppe „Werkstoffe“ analog zur Gruppe „Einheiten“.
+- Das PWA-Manifest bietet zusätzlich einen Shortcut zur Werkstoffdatenbank.
+
+Wissensdatenbank und mobile Kategorien
+- Die Werkstoffdatenbank ist kein Wissensbeitrag mehr.
+- Die Wissensdatenbank enthält weiterhin vier Gerätebeiträge in den drei Herstellergruppen Air Torque, Siemens und Vacon.
+- Mobile Herstellergruppen, Suchtrefferzählung, Persistenz und Kompaktansicht bleiben erhalten.
+- Die mobile Startseite nimmt die neue Karte automatisch in die Kategorie Wissen auf und aktualisiert sichtbare sowie gesamte Kartenzahlen.
+
+Kompatibilität alter Links
+- Der bisherige Pfad wissensdatenbank/werkstoff-nachschlagewerk/ bleibt als Weiterleitungsseite bestehen.
+- Die Weiterleitung führt zu werkstoffdatenbank/ und erhält Suchparameter sowie URL-Fragmente.
+- Dadurch funktionieren alte Favoriten, Lesezeichen und gespeicherte Links weiterhin.
+- Neue interne Links verwenden ausschließlich die kanonische Route werkstoffdatenbank/.
 
 Bewahrte Funktionen
 - Mobile Startseite mit einklappbaren Werkzeugkategorien und optionaler Kompaktansicht.
-- Alle 10 Werkzeug-/Dienstkarten, Suche, Kategorienfilter, Sortierung und Wissensbeitragssuche.
-- Favoriten, Seitennavigation, alle sechs Rechner, Einheitendatenbank und fünf Wissensbeiträge.
-- Werkstoff-Nachschlagewerk, Messstellen-Dokumentation und externer E+H Device Viewer.
+- 11 Werkzeug-/Dienstkarten, Suche, Kategorienfilter, Sortierung und Unterseitensuche.
+- Favoriten, Seitennavigation, alle sechs Rechner, Einheitendatenbank, vier Wissensbeiträge und Werkstoffdatenbank.
+- Messstellen-Dokumentation und externer E+H Device Viewer.
 - Das verworfene VDE-0100-600-Funktionsmodul ist nicht Bestandteil dieser Anwendung.
-
-Bedienung der mobilen Wissensdatenbank
-- Herstellerzeile antippen, um die enthaltenen Wissensbeiträge ein- oder auszuklappen.
-- Unter „Beitragsansicht“ die Option „Kompakte Beiträge“ ein- oder ausschalten.
-- Über das Suchfeld nach Hersteller, Gerät, Werkstoff oder Thema filtern.
-- Einstellungen werden ausschließlich lokal in localStorage gespeichert.
 
 Deployment zum Testen
 - Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
 - manifest.webmanifest und service-worker.js müssen im Projektstamm erreichbar bleiben.
-- Nach dem ersten vollständigen Online-Aufruf stehen alle produktiven Seiten offline bereit.
+- Nach dem ersten vollständigen Online-Aufruf stehen 16 HTML-Routen einschließlich der alten Weiterleitungsroute offline bereit.
 - Für einen lokalen Funktionstest kann ein statischer HTTP-Server verwendet werden; Service Worker und Installation anschließend unter HTTPS prüfen.
 
 PWA
 - Start-URL, Scope und App-ID bleiben versionsunabhängig auf ./ gesetzt.
-- Der Service Worker verwendet die Beta-Caches core-v2.3.1.0 und documents-v2.3.1.0.
+- Der Service Worker verwendet die Beta-Caches core-v2.3.2.0 und documents-v2.3.2.0.
+- Der Kerncache enthält 49 Ziele; der Dokumentcache enthält zwei optionale Dokumente.
 - Laufzeitkanal: beta.
 
 Integrität

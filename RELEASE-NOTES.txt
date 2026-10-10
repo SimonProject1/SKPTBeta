@@ -1,52 +1,64 @@
-SK PLT Tools 2.3.1.0-Beta
+SK PLT Tools 2.3.2.0-Beta
 Release-Datum: 10.10.2026
 Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.3.0.0.zip
-SHA-256 der Ausgangsbasis: 91ff22671dbdf2b0103c2c884daab3523bd5d476cddee6e881dcb78a0bd6747a
+Ausgangsbasis: SK-PLT-Tools-V2.3.1.0-Beta.zip
+SHA-256 der Ausgangsbasis: 4aa3cd3171889a7f7be5115608e24a03bb0c7dcce708880ecf81126a52153fb6
 
 BETA-ZIEL
-- Das kompakte mobile Startseitenkonzept wurde auf die Wissensdatenbank übertragen.
-- Der fachliche Inhalt der fünf Wissensbeiträge und alle übrigen bestätigten Funktionen bleiben unverändert.
+- Das bisherige Werkstoff-Nachschlagewerk wurde aus der Wissensdatenbank ausgelagert.
+- Es wird als eigenständige Werkstoffdatenbank analog zur Einheitendatenbank geführt.
+- Alle fachlichen Werkstoffdaten und alle übrigen bestätigten Funktionen bleiben erhalten.
 - Laufzeitkanal: beta.
 
-MOBILE WISSENSDATENBANK – HERSTELLERGRUPPEN
-- Die fünf Wissensbeiträge werden mobil dynamisch nach Hersteller gruppiert.
-- Gruppen: Herstellerunabhängig, Air Torque, Siemens und Vacon.
-- Jede Gruppe besitzt eine eigene Schaltfläche mit aria-expanded und aria-controls.
-- Die Schaltfläche zeigt sichtbare Treffer und Gesamtzahl der Beiträge in der Herstellergruppe.
-- Herstellergruppen ohne sichtbare Treffer werden bei einer Suche ausgeblendet.
-- Während einer Suche werden passende Gruppen automatisch geöffnet.
-- Der Ein-/Ausklappzustand wird lokal unter skKnowledgeManufacturerStateV1 gespeichert.
+NEUE HAUPTROUTE UND STARTSEITE
+- Neuer Hauptordner: werkstoffdatenbank/.
+- Neue kanonische Seite: werkstoffdatenbank/index.html.
+- Neue Startseitenkarte „Werkstoffdatenbank“ in der Kategorie Wissen.
+- Die Startseite enthält damit 11 Werkzeug-/Dienstkarten.
+- Mobile Kategorien werden dynamisch mit der neuen Karte und den aktualisierten Zählern aufgebaut.
 
-KOMPAKTE BEITRAGSANSICHT
-- Die mobile Kompaktansicht ist standardmäßig aktiv.
-- Sie reduziert Innenabstände und Überschriftengröße und blendet Kategorie sowie Beschreibung aus.
-- Kartenlink und Favoritenstern bleiben vollständig bedienbar.
-- Der mobile Schalter „Kompakte Beiträge“ wechselt zwischen kompakter und ausführlicher Ansicht.
-- Der Ansichtsstatus wird lokal unter skKnowledgeCompactCardsV1 gespeichert.
+WISSENSDATENBANK
+- Die Werkstoffkarte wurde aus der Wissensdatenbank entfernt.
+- Die Wissensdatenbank enthält nun vier Gerätebeiträge.
+- Mobile Herstellergruppen: Air Torque, Siemens und Vacon.
+- Suchtext, Ergebniszähler und Einleitung wurden an den verbleibenden Gerätebestand angepasst.
+- Mobile Gruppenpersistenz und Kompaktansicht bleiben unverändert erhalten.
 
-SUCHE UND RESPONSIVE VERHALTEN
-- Die Suche berücksichtigt weiterhin Hersteller, Gerät, Werkstoff und Thema.
-- Eine Ergebnisanzeige nennt die Zahl der sichtbaren Beiträge.
-- Smartphone-Hochformat und breite Smartphone-Querformate verwenden Herstellergruppen.
-- Desktop und reguläre Tablet-Ansicht behalten die flache zweispaltige Beitragsübersicht.
-- Beim Wechsel in einen größeren Viewport werden die Originalkarten ohne Duplikate wiederhergestellt.
+NAVIGATION, SUCHE UND BREADCRUMBS
+- Der Navigationsbaum enthält eine eigene Gruppe „Werkstoffe“ mit dem Ziel „Werkstoffdatenbank“.
+- Der Werkstoffeintrag im Suchindex ist nun vom Typ „Datenbank“ und verweist auf werkstoffdatenbank/.
+- Werkstoffnummern, alternative Bezeichnungen und Suchbegriffe aus assets/materials.json bleiben in der Startseitensuche nutzbar.
+- Der Breadcrumb der Werkstoffdatenbank lautet „Startseite › Werkstoffdatenbank“.
+- Alle neuen internen Links verwenden die kanonische Hauptordnerroute.
+
+ABWÄRTSKOMPATIBILITÄT
+- wissensdatenbank/werkstoff-nachschlagewerk/index.html bleibt als Weiterleitungsseite bestehen.
+- Die Weiterleitung erhält Query-String und Fragment und führt zu werkstoffdatenbank/.
+- Alte Favoriten, Lesezeichen und gespeicherte Links bleiben damit funktionsfähig.
+- Die alte und die neue Route werden für den Offlinebetrieb vorgeladen.
+
+PWA UND OFFLINE-CACHE
+- Öffentliche Betaversion: 2.3.2.0-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.2.0.
+- Kerncache: sk-plt-tools-core-v2.3.2.0 mit 49 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.2.0 mit zwei optionalen Dokumenten.
+- Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
+- Das Manifest enthält einen zusätzlichen Shortcut zur Werkstoffdatenbank.
+- Aktivierung des neuen Service Workers entfernt ältere Caches mit dem Produktpräfix.
+
+PROJEKTBESTAND
+- 56 Dateien im Projektordner einschließlich SHA256SUMS.txt.
+- 16 HTML-Seiten einschließlich der alten Weiterleitungsroute.
+- 31 Dateien unter assets/.
+- Neues Hauptverzeichnis werkstoffdatenbank/.
+- Keine Test- oder Entwicklungsartefakte im Deployment-ZIP.
 
 BEWAHRTE FUNKTIONEN
-- Mobile Startseite mit vier einklappbaren Kategorien und optionaler Kompaktansicht.
-- Alle 10 Werkzeug-/Dienstkarten, Suche, Filter, Sortierung und Wissensbeitragssuche.
-- Favoriten, Navigation, sechs Rechner, Einheitendatenbank, Werkstoffdaten und Dokumentation.
-- PWA-/Offline-Betrieb mit 48 Kerncachezielen und zwei optionalen Dokumenten.
+- Sechs Rechner, Einheitendatenbank, Messstellen-Dokumentation und vier Geräte-Wissensbeiträge.
+- Favoriten, Navigation, Suche, Sortierung, responsive Ansichten und PWA-Betrieb.
+- Werkstoffsuche, Filtergruppen, Direktvergleiche, Datenquellen und Sicherheitshinweise.
 - Das verworfene VDE-0100-600-Funktionsmodul bleibt vollständig entfernt.
-
-PWA UND VERSION
-- Öffentliche Betaversion: 2.3.1.0-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.1.0.
-- Kerncache: sk-plt-tools-core-v2.3.1.0.
-- Dokumentcache: sk-plt-tools-documents-v2.3.1.0.
-- Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
-- Aktivierung des neuen Service Workers entfernt ältere Caches mit dem Produktpräfix.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.1.0-Beta.zip.sha256 bereitgestellt.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.2.0-Beta.zip.sha256 bereitgestellt.
