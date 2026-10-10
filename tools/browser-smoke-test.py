@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Browser-, Responsive-, PWA- und Rechner-Volltest für SK PLT Tools 2.1.7.0-Beta."""
+"""Browser-, Responsive-, PWA- und Rechner-Volltest für SK PLT Tools 2.1.7.1-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'test-artifacts'; OUT.mkdir(exist_ok=True)
-BASE='http://127.0.0.1:4173'; VERSION='2.1.7.0-Beta'
+BASE='http://127.0.0.1:4173'; VERSION='2.1.7.1-Beta'
 PAGES=['/','/analogsignal/','/siemens-analogwert-rechner/','/einheitenrechner/','/einheitendatenbank/','/messstellen-doku/','/pf-rechner/','/pt-rechner/','/servicewerte/','/spannungsfall-rechner/','/wissensdatenbank/','/wissensdatenbank/air-torque-antrieb-drehrichtung/','/wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/','/wissensdatenbank/siemens-sps-rohwert/','/wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/','/wissensdatenbank/werkstoff-nachschlagewerk/']
 CALCULATORS=[('analogsignal','/analogsignal/'),('siemens','/siemens-analogwert-rechner/'),('einheiten','/einheitenrechner/'),('pf','/pf-rechner/'),('pt','/pt-rechner/'),('spannungsfall','/spannungsfall-rechner/')]
 
@@ -30,6 +30,11 @@ def numeric_keypads(page,route):
     fields=page.locator('input[type="number"]'); assert fields.count()>0
     for index in range(fields.count()):
         assert fields.nth(index).get_attribute('inputmode') in ('decimal','numeric'),f'inputmode fehlt: {route} #{fields.nth(index).get_attribute("id")}'
+def unit_database_cta(page,route):
+    cta=page.locator('.sk-unit-database-cta'); button=page.locator('.sk-unit-database-button')
+    assert cta.count()==1 and cta.is_visible(),f'Einheitendatenbank-Bereich fehlt: {route}'
+    assert button.count()==1 and button.is_visible(),f'Einheitendatenbank-Button fehlt: {route}'
+    assert button.get_attribute('href')=='../einheitendatenbank/',f'Einheitendatenbank-Ziel falsch: {route}'
 def mobile_controls(page):
     viewport=page.viewport_size; left=page.locator('.sk-favorites-trigger').bounding_box(); right=page.locator('.sk-tree-trigger').bounding_box()
     assert left and right and abs(left['x']-10)<=1 and abs(viewport['width']-right['x']-right['width']-10)<=1
@@ -84,23 +89,23 @@ with sync_playwright() as p:
     desktop.goto(BASE+'/einheitenrechner/'); desktop.wait_for_load_state('networkidle'); desktop.locator('#cat').select_option('temperature'); assert desktop.locator('#from optgroup[label="Favoriten"] option[value="fahrenheit"]').count()==1
     calculator_tests(desktop)
     for slug,route in CALCULATORS:
-        common(desktop,route); numeric_keypads(desktop,route); assert desktop.locator('select optgroup[label="Standardeinheit"]').count()>=1; desktop.screenshot(path=str(OUT/f'rechner-{slug}-desktop.png'),full_page=True)
+        common(desktop,route); numeric_keypads(desktop,route); unit_database_cta(desktop,route); assert desktop.locator('select optgroup[label="Standardeinheit"]').count()>=1; desktop.screenshot(path=str(OUT/f'rechner-{slug}-desktop.png'),full_page=True)
     common(desktop,'/einheitendatenbank/'); desktop.screenshot(path=str(OUT/'einheitendatenbank-desktop.png'),full_page=True)
 
     # PWA installieren lassen und die neue Datenbank aus dem Cache offline öffnen.
-    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); desktop.evaluate("navigator.serviceWorker.ready.then(()=>true)"); desktop.wait_for_function("caches.keys().then(keys=>keys.includes('sk-plt-tools-v2.1.7.0-Beta'))")
+    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); desktop.evaluate("navigator.serviceWorker.ready.then(()=>true)"); desktop.wait_for_function("caches.keys().then(keys=>keys.includes('sk-plt-tools-v2.1.7.1-Beta'))")
     desktop.reload(); desktop.wait_for_load_state('networkidle'); context.set_offline(True); desktop.goto(BASE+'/einheitendatenbank/'); desktop.wait_for_load_state('domcontentloaded'); text(desktop,'h1','Einheitendatenbank'); assert desktop.locator('.unit-row').count()==115; context.set_offline(False)
 
     tablet_context=browser.new_context(viewport={'width':820,'height':1180},device_scale_factor=2,is_mobile=True)
     tablet=tablet_context.new_page(); tablet_errors=[]; tablet.on('console',lambda msg: tablet_errors.append(msg.text) if msg.type=='error' else None)
     for route in PAGES: common(tablet,route)
-    for slug,route in CALCULATORS: common(tablet,route); numeric_keypads(tablet,route); tablet.screenshot(path=str(OUT/f'rechner-{slug}-tablet.png'),full_page=True)
+    for slug,route in CALCULATORS: common(tablet,route); numeric_keypads(tablet,route); unit_database_cta(tablet,route); tablet.screenshot(path=str(OUT/f'rechner-{slug}-tablet.png'),full_page=True)
     common(tablet,'/einheitendatenbank/'); tablet.screenshot(path=str(OUT/'einheitendatenbank-tablet.png'),full_page=True)
 
     mobile_context=browser.new_context(viewport={'width':390,'height':844},device_scale_factor=2,is_mobile=True,has_touch=True)
     mobile=mobile_context.new_page(); mobile_errors=[]; mobile.on('console',lambda msg: mobile_errors.append(msg.text) if msg.type=='error' else None)
     for route in PAGES: common(mobile,route,True); mobile_controls(mobile)
-    for slug,route in CALCULATORS: common(mobile,route,True); numeric_keypads(mobile,route); mobile.screenshot(path=str(OUT/f'rechner-{slug}-mobile.png'),full_page=True)
+    for slug,route in CALCULATORS: common(mobile,route,True); numeric_keypads(mobile,route); unit_database_cta(mobile,route); mobile.screenshot(path=str(OUT/f'rechner-{slug}-mobile.png'),full_page=True)
     common(mobile,'/einheitendatenbank/',True); mobile.locator('#unitSearch').fill('bar'); assert mobile.locator('.unit-row:visible').count()>=1; mobile.screenshot(path=str(OUT/'einheitendatenbank-mobile.png'),full_page=True)
     landscape_context=browser.new_context(viewport={'width':844,'height':390},device_scale_factor=2,is_mobile=True,has_touch=True)
     landscape=landscape_context.new_page(); common(landscape,'/',True); mobile_controls(landscape); landscape.screenshot(path=str(OUT/'startseite-mobile-landscape.png'),full_page=True)

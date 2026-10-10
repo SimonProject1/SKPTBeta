@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const fs=require('fs'),vm=require('vm'),path=require('path');
-const ROOT=path.resolve(__dirname,'..'),VERSION='2.1.7.0-Beta';
+const ROOT=path.resolve(__dirname,'..'),VERSION='2.1.7.1-Beta';
 const read=file=>fs.readFileSync(path.join(ROOT,file),'utf8');
 const json=file=>JSON.parse(read(file));
 function ok(condition,label){if(!condition)throw new Error(label);console.log(`OK ${label}`)}
@@ -31,7 +31,7 @@ ok(unitRuntime.includes("standard.label='Standardeinheit'")&&unitRuntime.include
 ok(unitRuntime.includes("new CustomEvent('sk:unit-change'")&&unitRuntime.includes('convertTargets'),'Automatische Wertumrechnung bei Einheitenwechsel');
 
 const calculatorPages=['analogsignal/index.html','einheitenrechner/index.html','pf-rechner/index.html','pt-rechner/index.html','spannungsfall-rechner/index.html','siemens-analogwert-rechner/index.html'];
-for(const file of calculatorPages){const html=read(file),inputs=[...html.matchAll(/<input\b[^>]*\btype="number"[^>]*>/g)].map(match=>match[0]);ok(inputs.length>0,`${file}: Zahlenfelder vorhanden`);ok(inputs.every(input=>/\binputmode="(?:decimal|numeric)"/.test(input)),`${file}: mobile Zahlentastatur für alle Zahlenfelder`);ok(html.includes('unit-system.js'),`${file}: zentrale Einheitendatenbank eingebunden`)}
+for(const file of calculatorPages){const html=read(file),inputs=[...html.matchAll(/<input\b[^>]*\btype="number"[^>]*>/g)].map(match=>match[0]);ok(inputs.length>0,`${file}: Zahlenfelder vorhanden`);ok(inputs.every(input=>/\binputmode="(?:decimal|numeric)"/.test(input)),`${file}: mobile Zahlentastatur für alle Zahlenfelder`);ok(html.includes('unit-system.js'),`${file}: zentrale Einheitendatenbank eingebunden`);equal((html.match(/class="sk-unit-database-cta"/g)||[]).length,1,`${file}: genau ein Datenbank-Sprung am Seitenende`);ok(html.includes('class="sk-unit-database-button" href="../einheitendatenbank/"'),`${file}: Datenbank-Sprung zeigt auf die Einheitendatenbank`);ok(html.lastIndexOf('sk-unit-database-cta')<html.lastIndexOf('</main>'),`${file}: Datenbank-Sprung innerhalb des Hauptinhalts`)}
 for(const file of ['assets/analogsignal-rechner.js','assets/einheitenrechner.js','assets/pf-rechner.js','assets/pt-rechner.js','spannungsfall-rechner/calculator.js','assets/siemens-unit-integration.js'])ok(read(file).includes('SK_UNITS'),`${file}: zentrale Umrechnungs-API verwendet`);
 
 close(4+(50-0)/(100-0)*(20-4),12,1e-12,'Analogsignal 0…100 → 4…20 mA');
@@ -53,5 +53,5 @@ const search=json('assets/search-index.json');ok(search.some(item=>item.url==='e
 const sw=read('service-worker.js');for(const item of ['./assets/units.json','./assets/unit-system.js','./einheitendatenbank/','./einheitendatenbank/index.html'])ok(sw.includes(`"${item}"`),`Offline-Precache enthält ${item}`);
 const manifest=json('manifest.webmanifest');equal(manifest.version,VERSION,'Manifest-Version');equal(manifest.id,`./?app=sk-plt-tools-${VERSION.toLowerCase()}`,'Manifest-App-ID');
 const start=read('index.html');equal((start.match(/<a\b[^>]*class="[^"]*\bcard\b[^"]*"/g)||[]).length,10,'Startseite Werkzeugkacheln');ok(start.includes('href="einheitendatenbank/"'),'Startseite Einheitendatenbank-Kachel');
-const core=read('assets/core.css'),responsive=read('assets/responsive.css'),app=read('assets/app.js');ok(responsive.includes('safe-area-inset-bottom')&&responsive.includes('safe-area-inset-top'),'iPhone Safe Areas erhalten');ok(core.includes('.sk-favorites-trigger')&&core.includes('.sk-tree-trigger'),'Mobile untere Bedienzone erhalten');ok(app.includes("button.textContent='±'")||read('assets/siemens-analogwert-rechner.js').includes('toggleSignValue'),'±-Vorzeichenwechsel erhalten');
+const core=read('assets/core.css'),responsive=read('assets/responsive.css'),app=read('assets/app.js');ok(responsive.includes('safe-area-inset-bottom')&&responsive.includes('safe-area-inset-top'),'iPhone Safe Areas erhalten');ok(core.includes('.sk-favorites-trigger')&&core.includes('.sk-tree-trigger'),'Mobile untere Bedienzone erhalten');ok(core.includes('.sk-unit-database-cta')&&core.includes('.sk-unit-database-button'),'Einheitendatenbank-Sprung zentral gestaltet');ok(app.includes("button.textContent='±'")||read('assets/siemens-analogwert-rechner.js').includes('toggleSignValue'),'±-Vorzeichenwechsel erhalten');
 console.log('OK: Einheitendatenbank, Favoriten, Umrechnungen, Rechner und PWA-Integration funktional geprüft.');

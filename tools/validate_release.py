@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Statische Vollständigkeits- und Integritätsprüfung für SK PLT Tools 2.1.7.0-Beta."""
+"""Statische Vollständigkeits- und Integritätsprüfung für SK PLT Tools 2.1.7.1-Beta."""
 from __future__ import annotations
 import hashlib,json,re,sys
 from pathlib import Path
@@ -43,6 +43,9 @@ for rel in ['analogsignal/index.html','einheitenrechner/index.html','pf-rechner/
     text=load(rel); fields=re.findall(r'<input\b[^>]*\btype="number"[^>]*>',text)
     check(fields and all(re.search(r'\binputmode="(?:decimal|numeric)"',field) for field in fields),f'{rel}: mobile Zahlentastatur unvollständig')
     check('unit-system.js' in text,f'{rel}: zentrale Einheitendatenbank nicht eingebunden')
+    check(text.count('class="sk-unit-database-cta"')==1,f'{rel}: genau ein Datenbank-Sprung erwartet')
+    check('class="sk-unit-database-button" href="../einheitendatenbank/"' in text,f'{rel}: Datenbank-Sprung fehlt oder hat falsches Ziel')
+    check(text.rfind('sk-unit-database-cta') < text.rfind('</main>'),f'{rel}: Datenbank-Sprung muss am Ende des Hauptinhalts liegen')
 
 units=data('assets/units.json')
 check(units.get('release')==VERSION,'assets/units.json: Release inkonsistent')
@@ -85,12 +88,13 @@ for entry in precache:
 core=load('assets/core.css'); responsive=load('assets/responsive.css'); app=load('assets/app.js')
 check('safe-area-inset-top' in responsive and 'safe-area-inset-bottom' in responsive,'iPhone Safe Areas fehlen')
 check('.sk-favorites-trigger' in core and '.sk-tree-trigger' in core,'Mobile untere Bedienzone fehlt')
+check('.sk-unit-database-cta' in core and '.sk-unit-database-button' in core,'Stil für Einheitendatenbank-Sprung fehlt')
 check('.sk-header-home' in core or '.sk-header-home' in responsive,'Startseiten-Button-Stil fehlt')
 check('border-bottom' in core,'Headerlinie fehlt')
 check("button.textContent='±'" in app,'Generischer ±-Vorzeichenwechsel fehlt')
 check('toggleSignValue' in load('assets/siemens-analogwert-rechner.js'),'Siemens ±-Vorzeichenwechsel fehlt')
 
-version_files=['VERSION','README.md','RELEASE-NOTES.txt','TESTBERICHT-UND-ABNAHME.md','PROJEKTUEBERGABE_V2.1.7.0-Beta.txt','ARCHITEKTUR-CLEAN-DESIGN.md','DEPLOYMENT.md']
+version_files=['VERSION','README.md','RELEASE-NOTES.txt','TESTBERICHT-UND-ABNAHME.md','PROJEKTUEBERGABE_V2.1.7.1-Beta.txt','ARCHITEKTUR-CLEAN-DESIGN.md','DEPLOYMENT.md']
 for rel in version_files: check((ROOT/rel).exists(),f'Dokument fehlt: {rel}'); check(VERSION in load(rel),f'{rel}: Version fehlt')
 checksum_path=ROOT/'SHA256SUMS.txt'
 if checksum_path.exists():
