@@ -1,0 +1,91 @@
+/* Rechner-Oberflächen · SK PLT Tools 2.1.6.0-Beta
+   Gemeinsame Darstellung aller Rechner nach dem Siemens-Rohwert-Design.
+   Diese Datei enthält ausschließlich Layout und Gestaltung; Berechnungslogik bleibt unverändert. */
+
+.calc-page-title{max-width:980px;padding-bottom:9px}
+.calc-page-title p{max-width:820px;margin:0;color:var(--muted);font-size:16px;line-height:1.45}
+.calc-panel{position:relative;max-width:920px;display:grid;gap:12px;overflow:hidden}
+.calc-panel-title{margin:0;font-size:clamp(21px,2.5vw,28px);line-height:1.15}
+
+.calc-fields,.calc-field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.calc-field-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.calc-field-card{min-width:0;margin:0;padding:11px 12px 12px;border:1px solid rgba(36,72,93,.86);border-radius:12px;background:rgba(4,21,34,.48)}
+.calc-field-card>span,.calc-field-label{display:block;margin-bottom:5px;color:var(--muted);font-size:11px;font-weight:850;letter-spacing:.2px}
+.calc-field-card>input,.calc-field-card>select,.calc-field-card>textarea{width:100%;min-height:44px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#041522;color:var(--text);font:800 15px/1.1 ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums}
+.calc-field-card>select{font-family:inherit;font-weight:750}
+.calc-field-card>input:focus,.calc-field-card>select:focus,.calc-field-card>textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,183,232,.12);outline:0}
+.calc-field-card .number{grid-template-columns:minmax(0,1fr) 44px;gap:0;border:1px solid var(--line);border-radius:9px;background:#041522;overflow:hidden}
+.calc-field-card .number:focus-within{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,183,232,.12)}
+.calc-field-card .number input{min-width:0;min-height:42px;padding:8px 10px;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--text);font:800 15px/1.1 ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums}
+.calc-field-card .number .sign{align-self:stretch;min-width:44px;min-height:42px;padding:0 8px;border:0;border-left:1px solid rgba(36,72,93,.75);border-radius:0;background:linear-gradient(135deg,var(--green),var(--cyan));color:#061827;font:950 18px/1 inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.calc-field-card .number .sign:hover{filter:brightness(1.08)}
+
+.calc-results,.calc-result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0}
+.calc-value-card{min-width:0;min-height:84px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#051725}
+.calc-value-card>span,.calc-value-card .calc-value-label{display:block;color:var(--muted);font-size:11px;font-weight:850;letter-spacing:.2px}
+.calc-value-card>strong,.calc-value-card .calc-value{display:block;margin-top:6px;overflow-wrap:anywhere;color:var(--green);font:900 clamp(20px,3.2vw,30px)/1.05 ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums}
+.calc-value-card>small,.calc-value-card .calc-value-note{display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:850;line-height:1.35}
+.calc-value-card.calc-wide{grid-column:1/-1}
+.calc-value-card .muted{font-size:11px;font-weight:850}
+
+.calc-info-card{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#051725;color:var(--muted);font-size:12px;line-height:1.45}
+.calc-info-card strong{color:var(--green)}
+.calc-notice{max-width:920px;margin:0 0 12px;padding:11px 13px;border:1px solid rgba(245,185,66,.64);border-radius:12px;background:rgba(74,53,7,.32);color:#ffe7a8}
+.calc-notice strong{font-size:12px;letter-spacing:.2px}
+.calc-notice p{margin:5px 0 0;font-size:12px;line-height:1.45}
+
+.calc-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:2px}
+.calc-actions button{min-height:44px;padding:9px 15px;border-radius:11px;font-weight:900;cursor:pointer;touch-action:manipulation}
+.calc-actions .primary{border:0;background:linear-gradient(135deg,var(--green),var(--cyan));color:#061827}
+.calc-actions .secondary{border:1px solid #2c627c;background:#071d2d;color:var(--text)}
+.calc-actions button:hover{filter:brightness(1.08)}
+
+/* Spannungsfall: gleiche Karten-/Ergebnislogik mit Zustandsfarben. */
+.voltage-result{max-width:920px;margin-top:12px;display:grid;gap:12px}
+.voltage-result .result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.voltage-result .result-head h2{margin:4px 0 0;font-size:clamp(21px,2.5vw,28px)}
+.voltage-result .result-head span{padding:6px 9px;border-radius:8px;font-size:11px;font-weight:900}
+.voltage-result .good{border:1px solid rgba(137,211,41,.35);background:#123b28;color:#89d329}
+.voltage-result .near{border:1px solid rgba(245,185,66,.4);background:#42340e;color:#ffd86a}
+.voltage-result .bad{border:1px solid rgba(255,123,131,.42);background:#481d24;color:#ff9ca3}
+.voltage-result .result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:0}
+.voltage-result .result-grid article{min-width:0;min-height:84px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#051725}
+.voltage-result .result-grid article:last-child{grid-column:1/-1}
+.voltage-result .result-grid span,.voltage-result .result-grid small{display:block;color:var(--muted);font-size:11px;font-weight:850}
+.voltage-result .result-grid strong{display:block;margin:6px 0 5px;overflow-wrap:anywhere;color:var(--green);font:900 clamp(20px,3.2vw,30px)/1.05 ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums}
+.voltage-result .formula{margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#041522;color:#b8d1dc;font:800 12px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}
+.voltage-result .protocol{display:flex;align-items:center;gap:16px;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:rgba(4,21,34,.48)}
+.voltage-result .protocol>strong{margin-right:auto;color:var(--green);font-size:12px}
+.voltage-result .protocol div{display:flex;gap:8px;font-size:12px}
+.voltage-result .protocol span{color:var(--muted)}
+.voltage-result .protocol b{color:var(--green);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+
+@media(max-width:900px){
+  .calc-field-grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .calc-page-title{padding-top:9px}
+  .calc-page-title h1{font-size:clamp(28px,8vw,38px)!important;overflow-wrap:normal;word-break:normal;hyphens:auto}
+  .calc-panel.panel,.voltage-result.panel{padding:11px}
+  .calc-panel,.voltage-result{gap:9px}
+  .calc-field-card{padding:10px}
+  .calc-field-card>input,.calc-field-card>select{min-height:48px;font-size:16px}
+  .calc-field-card .number input{min-height:46px;font-size:16px}
+  .calc-field-card .number .sign{min-width:44px;min-height:46px}
+  .calc-value-card,.voltage-result .result-grid article{min-height:78px;padding:10px}
+  .calc-value-card>strong,.calc-value-card .calc-value,.voltage-result .result-grid strong{font-size:clamp(18px,6vw,24px)}
+  .calc-actions button{min-height:48px}
+}
+@media(max-width:620px){
+  .calc-fields,.calc-field-grid,.calc-field-grid.cols-3,.calc-results,.calc-result-grid,.voltage-result .result-grid{grid-template-columns:1fr}
+  .calc-value-card.calc-wide,.voltage-result .result-grid article:last-child{grid-column:auto}
+  .calc-actions{justify-content:stretch}
+  .calc-actions button{flex:1}
+  .voltage-result .result-head,.voltage-result .protocol{align-items:flex-start;flex-direction:column;gap:8px}
+  .voltage-result .protocol>strong{margin:0}
+}
+@media(max-width:390px){
+  .calc-value-card,.voltage-result .result-grid article{padding:9px}
+  .calc-value-card>strong,.calc-value-card .calc-value,.voltage-result .result-grid strong{font-size:19px}
+  .calc-value-card>span,.calc-value-card .calc-value-label{font-size:10px}
+}

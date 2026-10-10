@@ -1,29 +1,35 @@
-SK PLT Tools V2.1.5.2-Beta
-Release-Datum: 09.10.2026
-Direkte Basis: V2.1.5.1-Beta
+SK PLT Tools V2.1.6.0-Beta
+Release-Datum: 10.10.2026
+Direkte Basis: V2.1.5.2-Beta
 Stabile Referenz: V2.1.0.0
 
-SCHWERPUNKT: ±-VORZEICHENWECHSEL IM SIEMENS-ROHWERT-RECHNER
-- Das aktive gemeinsame Eingabefeld besitzt jetzt in allen drei Reitern Signal, Rohwert und Phys. Wert eine ±-Schaltfläche.
-- Minimum und Maximum des physikalischen Messbereichs besitzen jeweils eine eigene ±-Schaltfläche.
-- Ein Klick beziehungsweise Touch wechselt einen gültigen vorhandenen Zahlenwert zuverlässig von positiv zu negativ oder von negativ zu positiv; Null bleibt Null.
-- Nach dem Wechsel werden Eingabe-, Rohwert-, Signal-, Prozent-, physikalischer Wert und Diagnosezustand sofort neu berechnet.
-- Leere oder ungültige Eingaben werden nicht in einen Scheinwert umgewandelt, sondern mit der bestehenden Eingabemeldung abgewiesen.
-- Die Schaltflächen sind echte Buttons außerhalb von Labels. pointerdown unterbindet den Eingabefokus; zusätzlich wird ein aktiver Formularfokus beendet. Dadurch öffnet der ±-Touch auf dem iPhone nicht automatisch die Bildschirmtastatur.
-- Der Reiterwechsel ohne automatischen Eingabefokus aus V2.1.5.1-Beta bleibt erhalten.
+SCHWERPUNKT: EINHEITLICHES RECHNERDESIGN
+- Analogsignal-Rechner, Einheitenrechner, P+F Rechner, Pt100/Pt1000-Rechner und Spannungsfall-Rechner wurden visuell an den Siemens-Rohwert-Rechner aus V2.1.5.2-Beta angeglichen.
+- Vereinheitlicht sind Rechnerkarten, Feldkarten, Eingabe- und Auswahlfelder, Ergebnisfelder, Aktionsschaltflächen, Abstände, Typografie, Farben und responsive Anordnung.
+- Die gemeinsame Stilschicht liegt in assets/rechner-unified.css und wird auf allen fünf umgestalteten Rechnerseiten vor assets/responsive.css geladen.
+- Der Siemens-Rohwert-Rechner bleibt unverändert und dient weiterhin als Designreferenz.
 
-BEIBEHALTENE FUNKTIONEN
-- Drei Reiter in fester Reihenfolge: Signal, Rohwert, Phys. Wert.
-- Ein gemeinsames Vorgabefeld und zwei abgeleitete Werte.
-- Vollständige Siemens-Skalierungs-, Messbereichs- und Diagnoseberechnung.
-- Responsive Darstellung, iPhone-Safe-Area, Tablet-/Desktop-Layout sowie PWA-/Offline-Funktion.
-- Alle übrigen Rechner, Wissensinhalte, Suche, Filter, Favoriten und Navigation bleiben unverändert erhalten.
+UNVERÄNDERTE FUNKTIONSLOGIK
+- Die Inline-Berechnungen von Analogsignal, Einheiten, P+F und Pt100/Pt1000 wurden bytegleich übernommen.
+- spannungsfall-rechner/calculator.js und assets/siemens-analogwert-rechner.js sind gegenüber V2.1.5.2-Beta bytegleich.
+- Eine im Paket enthaltene Logik-Baseline und die statische Releaseprüfung sichern diese Übereinstimmung ab.
+- Bestehende Standardwerte, Element-IDs, Ereignisse, Rechenwege, Grenzwerte und Ergebnisformate bleiben erhalten.
 
-REGRESSIONSSCHUTZ
-- Funktionstest prüft positive, negative, Dezimalkomma-, Null- und ungültige Vorzeichenwerte.
-- Browser-Test prüft alle drei ±-Schaltflächen, unmittelbare Neuberechnung und fehlenden Eingabefokus auf Desktop und iPhone-Touchprofil.
-- Statische Validierung prüft Zielzuordnung, Button-Typ, Position außerhalb von Labels, Fokusblockierung, Versions-, PWA-, Offline- und Prüfsummenkonsistenz.
+MOBILE UND RESPONSIVE DARSTELLUNG
+- Die fünf Rechner verwenden auf Smartphones einspaltige Feld- und Ergebniskarten sowie mindestens 44 Pixel große Touchziele.
+- Die funktionierende untere Favoriten-/Navigationszone bleibt fest am Viewport-Rand.
+- Dunkle iPhone-Safe-Area, sticky Header, vollbreite Headerlinie und rechtsbündige Ausrichtung des Startseiten-Buttons bleiben erhalten.
+- Tablet und Desktop verwenden abhängig von der Rechnerstruktur zwei- oder dreispaltige Eingabeflächen und die gleiche maximale Rechnerbreite wie die Siemens-Referenz.
+
+QUALITÄTSSICHERUNG
+- Funktionstests prüfen alle bestehenden Rechnerergebnisse.
+- Browsertests prüfen alle fünf umgestalteten Rechner auf Desktop 1440 × 1050, Tablet 820 × 1180 und iPhone-Touchprofil 390 × 844; zusätzlich wird 844 × 390 für die mobile Querformat-Shell geprüft.
+- Screenshots aller fünf Rechner und aller drei Hauptansichten liegen unter test-artifacts/.
+- Alle 15 Direktseiten werden auf Version, Header, Touchflächen, Überlauf, Navigation und PWA-Verhalten geprüft.
+- PWA-App-ID, Service-Worker-Cache, Precache, Offline-Direktaufrufe und Cache-Bereinigung wurden geprüft.
 
 TECHNIK UND RELEASE
-- VERSION, release-config.json, Manifest, PWA-App-ID, Service-Worker-Cache, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.5.2-Beta synchronisiert.
-- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.5.2-Beta.zip.
+- VERSION, release-config.json, Manifest, PWA-App-ID, Service Worker, Precache, Navigation, HTML-Metadaten, Tests und Dokumentation sind auf V2.1.6.0-Beta synchronisiert.
+- Manifest-ID/Start-URL: ./?app=sk-plt-tools-2.1.6.0-beta
+- Cache: sk-plt-tools-v2.1.6.0-Beta
+- Vollständiges Releasepaket: SK-PLT-Tools-V2.1.6.0-Beta.zip

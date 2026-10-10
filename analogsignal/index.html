@@ -1,4 +1,45 @@
 <!DOCTYPE html>
-
-<html lang="de"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/><meta content="#061827" name="theme-color"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/><meta content="SK PLT Tools" name="apple-mobile-web-app-title"/><title>Analogsignal-Rechner · SK PLT Tools</title><link href="../manifest.webmanifest" rel="manifest"/><link href="../assets/favicon.png?v=2.1.5.2-Beta" rel="icon" sizes="64x64" type="image/png"/><link href="../assets/apple-touch-icon.png?v=2.1.5.2-Beta" rel="apple-touch-icon"/><link href="../assets/core.css?v=2.1.5.2-Beta" rel="stylesheet"/><link href="../assets/responsive.css?v=2.1.5.2-Beta" rel="stylesheet"/></head><body data-sign-controls="true" data-sk-page="module" data-sk-version="2.1.5.2-Beta"><div class="shell"><!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.1.5.2-Beta"/></div><div class="brand">SK PLT Tools<small>Analogsignal-Rechner</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header><!-- sk:header:end --><main>
-<section class="page-title"><div class="eyebrow">SIGNALTECHNIK</div><h1>Analogsignal-Rechner</h1></section><section class="panel"><div class="grid2"><label><span>Prozesswert min.</span><input id="p0" type="number" value="0"/></label><label><span>Prozesswert max.</span><input id="p1" type="number" value="100"/></label><label><span>Signal min. (mA)</span><input id="s0" type="number" value="4"/></label><label><span>Signal max. (mA)</span><input id="s1" type="number" value="20"/></label><label><span>Richtung</span><select id="dir"><option value="ps">Prozesswert → Signal</option><option value="sp">Signal → Prozesswert</option></select></label><label><span>Eingabewert</span><input id="x" type="number" value="50"/></label></div><div class="result"><div class="muted">Ergebnis</div><strong id="out">–</strong><div id="pct"></div></div></section></main><!-- sk:footer:start --><footer class="footer sk-footer">SK PLT Tools · Entwickelt von Simon Kiesler</footer><!-- sk:footer:end --></div><script src="../assets/app.js?v=2.1.5.2-Beta"></script><script>function calc(){let a=num(p0.value),b=num(p1.value),c=num(s0.value),d=num(s1.value),v=num(x.value),q;if([a,b,c,d,v].some(Number.isNaN)||a===b||c===d){out.textContent='Ungültige Eingabe';return}if(dir.value==='ps'){q=c+(v-a)/(b-a)*(d-c);out.textContent=de(q)+' mA';pct.textContent=de((v-a)/(b-a)*100,1)+' %'}else{q=a+(v-c)/(d-c)*(b-a);out.textContent=de(q)+' Prozesswert';pct.textContent=de((v-c)/(d-c)*100,1)+' %'}}document.querySelectorAll('input,select').forEach(e=>e.oninput=calc);calc()</script><!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><button aria-label="Seitennavigation öffnen" class="sk-tree-trigger" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-6h4v4h-4v-4zM8 6h5v6h3v2h-5V8H8V6zm0 12h5v-5h3v-2h-5v5H8v2z"></path></svg></button><!-- sk:controls:end --></body></html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="#061827" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="SK PLT Tools" name="apple-mobile-web-app-title"/>
+<title>Analogsignal-Rechner · SK PLT Tools</title>
+<link href="../manifest.webmanifest" rel="manifest"/>
+<link href="../assets/favicon.png?v=2.1.6.0-Beta" rel="icon" sizes="64x64" type="image/png"/>
+<link href="../assets/apple-touch-icon.png?v=2.1.6.0-Beta" rel="apple-touch-icon"/>
+<link href="../assets/core.css?v=2.1.6.0-Beta" rel="stylesheet"/>
+<link href="../assets/rechner-unified.css?v=2.1.6.0-Beta" rel="stylesheet"/>
+<link href="../assets/responsive.css?v=2.1.6.0-Beta" rel="stylesheet"/>
+</head>
+<body data-sign-controls="true" data-sk-page="module" data-sk-version="2.1.6.0-Beta">
+<div class="shell">
+<!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.1.6.0-Beta"/></div><div class="brand">SK PLT Tools<small>Analogsignal-Rechner</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header><!-- sk:header:end -->
+<main>
+<section class="page-title calc-page-title"><div class="eyebrow">SIGNALTECHNIK</div><h1>Analogsignal-Rechner</h1><p>Prozesswert und Einheitssignal in beide Richtungen linear umrechnen.</p></section>
+<section aria-labelledby="analog-calc-title" class="panel calc-panel">
+<h2 class="calc-panel-title" id="analog-calc-title">Analogsignal umrechnen</h2>
+<div class="calc-field-grid">
+<label class="calc-field-card"><span>Prozesswert min.</span><input id="p0" type="number" value="0"/></label>
+<label class="calc-field-card"><span>Prozesswert max.</span><input id="p1" type="number" value="100"/></label>
+<label class="calc-field-card"><span>Signal min. (mA)</span><input id="s0" type="number" value="4"/></label>
+<label class="calc-field-card"><span>Signal max. (mA)</span><input id="s1" type="number" value="20"/></label>
+<label class="calc-field-card"><span>Richtung</span><select id="dir"><option value="ps">Prozesswert → Signal</option><option value="sp">Signal → Prozesswert</option></select></label>
+<label class="calc-field-card"><span>Eingabewert</span><input id="x" type="number" value="50"/></label>
+</div>
+<div aria-live="polite" class="calc-result-grid">
+<div class="calc-value-card"><span>Ergebnis</span><strong id="out">–</strong></div>
+<div class="calc-value-card"><span>Messbereichsanteil</span><strong id="pct">–</strong></div>
+</div>
+</section>
+</main>
+<!-- sk:footer:start --><footer class="footer sk-footer">SK PLT Tools · Entwickelt von Simon Kiesler</footer><!-- sk:footer:end -->
+</div>
+<script src="../assets/app.js?v=2.1.6.0-Beta"></script>
+<script>function calc(){let a=num(p0.value),b=num(p1.value),c=num(s0.value),d=num(s1.value),v=num(x.value),q;if([a,b,c,d,v].some(Number.isNaN)||a===b||c===d){out.textContent='Ungültige Eingabe';return}if(dir.value==='ps'){q=c+(v-a)/(b-a)*(d-c);out.textContent=de(q)+' mA';pct.textContent=de((v-a)/(b-a)*100,1)+' %'}else{q=a+(v-c)/(d-c)*(b-a);out.textContent=de(q)+' Prozesswert';pct.textContent=de((v-c)/(d-c)*100,1)+' %'}}document.querySelectorAll('input,select').forEach(e=>e.oninput=calc);calc()</script>
+<!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><button aria-label="Seitennavigation öffnen" class="sk-tree-trigger" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-6h4v4h-4v-4zM8 6h5v6h3v2h-5V8H8V6zm0 12h5v-5h3v-2h-5v5H8v2z"></path></svg></button><!-- sk:controls:end -->
+</body>
+</html>

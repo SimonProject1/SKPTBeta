@@ -1,0 +1,41 @@
+PROJEKTÜBERGABE SK PLT TOOLS V2.1.6.0-BETA
+Datum: 10.10.2026
+Direkte Basis: V2.1.5.2-Beta
+Stabile Referenz: V2.1.0.0
+
+LIEFERUMFANG
+- Vollständiger Projektbestand aller weiterhin unterstützten Module und Unterordner.
+- Siemens-Rohwert-Rechner unverändert als Design- und Funktionsreferenz.
+- Analogsignal-Rechner, Einheitenrechner, P+F Rechner, Pt100/Pt1000-Rechner und Spannungsfall-Rechner im einheitlichen Siemens-Design.
+- Gemeinsame Rechner-Stilschicht assets/rechner-unified.css.
+- Einheitliche Rechnerkarten, Eingabekarten, Eingabe- und Auswahlfelder, Ergebnisfelder, Schaltflächen, Abstände, Typografie, Farben und mobile Anordnung.
+- Unveränderte Berechnungslogik mit bitgenauem SHA-256-Baselinevergleich zur V2.1.5.2-Beta-Quelle.
+- Beibehaltene mobile untere Bedienzone, dunkle iPhone-Safe-Area, vollbreite Headerlinie und rechtsbündiger Startseiten-Button.
+- Aktualisierte Version, Manifest-ID, Service-Worker-Cache, Precache, Tests, Dokumentation und Prüfsummen.
+- Vollständiges ZIP SK-PLT-Tools-V2.1.6.0-Beta.zip.
+
+TESTNACHWEIS
+- Funktionstest prüft alle bestehenden Rechnerergebnisse und Siemens-Grenzfälle.
+- Statische Validierung prüft den vollständigen Rechnerbestand, die gemeinsame Stilschicht, lokale Referenzen, JavaScript-Syntax, Versionskonsistenz und die bitgenaue Logik-Baseline.
+- Browser-Test prüft alle fünf umgestalteten Rechner auf Desktop 1440 × 1050, Tablet 820 × 1180 und iPhone-Touchprofil 390 × 844.
+- Das Smartphone-Querformat 844 × 390 wird zusätzlich auf Headerlinie, Safe Area und untere Bedienzone geprüft.
+- Alle 15 Direktseiten werden auf Überlauf, Header, Touchflächen und Versionsstand geprüft.
+- PWA-Cache und Offline-Direktaufrufe werden im Browser geprüft.
+- Vollständige SHA-256-Integritätsprüfung und ZIP-Integritätsprüfung sind Bestandteil der Abnahme.
+
+FESTE ENTSCHEIDUNGEN
+- Die Berechnungslogik der Rechner darf durch Designänderungen nicht verändert werden.
+- Die fünf umgestalteten Rechner verwenden assets/rechner-unified.css; responsive.css bleibt die letzte Stilschicht.
+- Der Siemens-Rohwert-Rechner bleibt unverändert und dient als Referenz.
+- Favoriten und Seitennavigation bleiben mobil als feste 50 × 50 px große Bedienelemente in den unteren Viewport-Ecken.
+- Die dunkle Dokumentgrundfläche füllt die iPhone-/PWA-Safe-Area.
+- Headerlinie und Startseiten-Button behalten ihre bisherige mobile Ausrichtung.
+- Die große sichtbare Versionsnummer erscheint nur im Hero der Startseite.
+- Keine personenbezogenen Testdaten in Projekt, Cache oder Releasepaket aufnehmen.
+
+BETRIEB
+- Erfordert nur einen statischen Webserver; HTTPS oder localhost für die installierbare PWA.
+- Manifest-ID/Start-URL: ./?app=sk-plt-tools-2.1.6.0-beta
+- Service-Worker-Cache: sk-plt-tools-v2.1.6.0-Beta
+- Nach einem Update die installierte PWA vollständig schließen und neu öffnen, damit der neue Service Worker sicher aktiv ist.
+- Für weitere Änderungen immer dieses vollständige Projekt verwenden und anschließend Tests, Prüfsummen und ZIP neu erzeugen.

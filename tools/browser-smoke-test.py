@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.5.2-Beta."""
+"""Browser smoke test for SK PLT Tools 2.1.6.0-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "test-artifacts"
 OUT.mkdir(exist_ok=True)
 BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.5.2-Beta"
+VERSION = "2.1.6.0-Beta"
 APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
 
 
@@ -75,6 +75,29 @@ PAGES = [
     "/wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/",
     "/wissensdatenbank/werkstoff-nachschlagewerk/"
 ]
+
+UNIFIED_CALCULATORS = [
+    ("analogsignal", "/analogsignal/"),
+    ("einheitenrechner", "/einheitenrechner/"),
+    ("pf-rechner", "/pf-rechner/"),
+    ("pt-rechner", "/pt-rechner/"),
+    ("spannungsfall-rechner", "/spannungsfall-rechner/"),
+]
+
+
+def assert_unified_calculator(page, route):
+    """Prüft die gemeinsame, vom Siemens-Rohwert-Rechner abgeleitete UI-Schicht."""
+    assert page.locator('link[href*="rechner-unified.css"]').count() == 1, f"Gemeinsames Rechner-CSS fehlt: {route}"
+    assert page.locator(".calc-panel").count() == 1, f"Gemeinsame Rechnerkarte fehlt: {route}"
+    assert page.locator(".calc-panel-title").count() == 1, f"Rechnerkartentitel fehlt: {route}"
+    assert page.locator(".calc-field-card").count() >= 3, f"Zu wenige einheitliche Eingabekarten: {route}"
+    assert page.locator(".calc-page-title").count() == 1, f"Einheitlicher Seitentitel fehlt: {route}"
+    assert page.locator(".calc-field-card").first.evaluate("el => getComputedStyle(el).borderRadius") == "12px"
+    control = page.locator(".calc-field-card input,.calc-field-card select").first
+    assert control.is_visible()
+    control_surface = control.evaluate("el => getComputedStyle(el.closest('.number') || el).backgroundColor")
+    assert control_surface == "rgb(4, 21, 34)", f"Falsche Eingabefläche in {route}: {control_surface}"
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
 
 
 with sync_playwright() as p:
@@ -213,6 +236,31 @@ with sync_playwright() as p:
     assert "nicht bewertet" in desktop.locator("#statusDetail").inner_text().lower()
     desktop.screenshot(path=str(OUT / "siemens-desktop.png"), full_page=True)
 
+    # Alle übrigen Rechner verwenden dieselbe Karten-, Feld-, Ergebnis- und
+    # Typografie-Schicht wie die Siemens-Referenz; die bestehende Logik bleibt aktiv.
+    for slug, route in UNIFIED_CALCULATORS:
+        desktop.goto(f"{BASE}{route}")
+        desktop.wait_for_load_state("networkidle")
+        assert_unified_calculator(desktop, route)
+        if slug == "analogsignal":
+            assert_text(desktop, "#out", "12,000 mA")
+            assert_text(desktop, "#pct", "50,0 %")
+        elif slug == "einheitenrechner":
+            assert_text(desktop, "#out", "1.000,000 mbar")
+        elif slug == "pf-rechner":
+            assert_text(desktop, "#k", "0,160000")
+            assert_text(desktop, "#n", "4,000000")
+        elif slug == "pt-rechner":
+            assert_text(desktop, "#out", "100,000 Ω")
+        elif slug == "spannungsfall-rechner":
+            set_input(desktop, "#current", "16")
+            set_input(desktop, "#length", "35")
+            desktop.locator("#calculate").click()
+            assert desktop.locator("#result").is_visible()
+            assert_text(desktop, "#dropV", "6,93 V")
+            assert_text(desktop, "#dropPercent", "1,73 %")
+        desktop.screenshot(path=str(OUT / f"rechner-{slug}-desktop.png"), full_page=True)
+
     desktop.goto(f"{BASE}/wissensdatenbank/")
     desktop.wait_for_load_state("networkidle")
     knowledge = desktop.locator('a.knowledge-entry[href="siemens-sps-rohwert/"]')
@@ -318,6 +366,12 @@ with sync_playwright() as p:
     tablet.wait_for_load_state("networkidle")
     assert tablet.locator("details.analog-card-info").get_attribute("open") is None
     tablet.screenshot(path=str(OUT / "siemens-tablet.png"), full_page=True)
+    for slug, route in UNIFIED_CALCULATORS:
+        tablet.goto(f"{BASE}{route}")
+        tablet.wait_for_load_state("networkidle")
+        assert_unified_calculator(tablet, route)
+        assert tablet.locator(".calc-field-card").first.bounding_box()["width"] > 250
+        tablet.screenshot(path=str(OUT / f"rechner-{slug}-tablet.png"), full_page=True)
 
     mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True, has_touch=True)
     mobile.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
@@ -363,6 +417,14 @@ with sync_playwright() as p:
     assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "physical"
     assert mobile.evaluate("document.activeElement.id") != "inputValue"
     mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
+    for slug, route in UNIFIED_CALCULATORS:
+        mobile.goto(f"{BASE}{route}")
+        mobile.wait_for_load_state("networkidle")
+        assert_unified_calculator(mobile, route)
+        assert mobile.locator(".calc-field-grid").evaluate("el => getComputedStyle(el).gridTemplateColumns.split(' ').length") == 1
+        assert_mobile_header_shell(mobile)
+        assert_mobile_fixed_controls(mobile)
+        mobile.screenshot(path=str(OUT / f"rechner-{slug}-mobile.png"), full_page=True)
     for route in PAGES:
         mobile.goto(f"{BASE}{route}")
         mobile.wait_for_load_state("networkidle")
@@ -443,4 +505,4 @@ with sync_playwright() as p:
 
     browser.close()
     assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: 15 Direktseiten, Desktop/Tablet/Mobil, Rechner, Suche, Filter, Sortierung, Favoriten, Navigation sowie PWA- und Offline-Verhalten geprüft.")
+    print("OK: 15 Direktseiten sowie fünf vereinheitlichte Rechner auf Desktop, Tablet und iPhone-Touchprofil; Suche, Filter, Sortierung, Favoriten, Navigation, PWA und Offline-Verhalten geprüft.")

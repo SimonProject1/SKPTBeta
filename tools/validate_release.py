@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Static release validation for SK PLT Tools 2.1.5.2-Beta."""
+"""Static release validation for SK PLT Tools 2.1.6.0-Beta."""
 from pathlib import Path
 from bs4 import BeautifulSoup
 import hashlib, json, re, subprocess, sys
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.1.5.2-Beta'
+VERSION='2.1.6.0-Beta'
 EXPECTED_PAGES={
  'index.html','analogsignal/index.html','siemens-analogwert-rechner/index.html','einheitenrechner/index.html','messstellen-doku/index.html',
  'pf-rechner/index.html','pt-rechner/index.html','servicewerte/index.html',
@@ -40,6 +40,10 @@ for candidate in ROOT.rglob('*'):
             errors.append(f'Entferntes Modul: Textrest vorhanden: {candidate.relative_to(ROOT)}')
 
 pages={p.relative_to(ROOT).as_posix():p for p in ROOT.rglob('index.html')}
+UNIFIED_CALCULATOR_PAGES={
+ 'analogsignal/index.html','einheitenrechner/index.html','pf-rechner/index.html',
+ 'pt-rechner/index.html','spannungsfall-rechner/index.html'
+}
 
 OBSOLETE_FILES={
  'assets/styles.css','assets/design.css','assets/favorites.css','assets/favorites.js','assets/start-filter.css','assets/start-filter.js',
@@ -101,6 +105,30 @@ for rel,page in pages.items():
         ref=tag.get('src') or tag.get('href')
         target=resolve_local(page,ref)
         if target is not None and not target.exists(): errors.append(f'{rel}: fehlende lokale Referenz {ref}')
+    if rel in UNIFIED_CALCULATOR_PAGES:
+        unified_styles=[value for value in styles if 'assets/rechner-unified.css' in value]
+        if len(unified_styles)!=1: errors.append(f'{rel}: genau eine gemeinsame Rechner-Stilschicht erwartet')
+        elif styles.index(unified_styles[0])>=styles.index(responsive_styles[0]): errors.append(f'{rel}: Rechner-Stilschicht muss vor responsive.css geladen werden')
+        if len(soup.select('.calc-panel'))!=1: errors.append(f'{rel}: genau eine einheitliche Rechnerkarte erwartet')
+        if len(soup.select('.calc-panel-title'))!=1: errors.append(f'{rel}: Rechnerkartentitel fehlt oder ist doppelt')
+        if len(soup.select('.calc-field-card'))<3: errors.append(f'{rel}: einheitliche Eingabekarten fehlen')
+        if len(soup.select('.calc-page-title'))!=1: errors.append(f'{rel}: einheitlicher Seitentitel fehlt')
+
+# Nachweis, dass die Berechnungslogik der fünf umgestalteten Rechner und die
+# unveränderte Siemens-Referenz bitgenau der Quellversion 2.1.5.2-Beta entsprechen.
+logic_baseline_path=ROOT/'test-artifacts/logic-baseline-source.json'
+try:
+    logic_baseline=json.loads(logic_baseline_path.read_text(encoding='utf-8'))
+    logic_current={}
+    for rel in ('analogsignal/index.html','einheitenrechner/index.html','pf-rechner/index.html','pt-rechner/index.html'):
+        html=(ROOT/rel).read_text(encoding='utf-8')
+        payload=''.join(match.group(1) for match in re.finditer(r'<script(?:\s[^>]*)?>([\s\S]*?)</script>',html,re.I) if match.group(1).strip())
+        logic_current[rel]=hashlib.sha256(payload.encode()).hexdigest()
+    for rel in ('spannungsfall-rechner/calculator.js','assets/siemens-analogwert-rechner.js'):
+        logic_current[rel]=hashlib.sha256((ROOT/rel).read_bytes()).hexdigest()
+    if logic_current!=logic_baseline: errors.append(f'Rechnerlogik weicht von der 2.1.5.2-Beta-Baseline ab: {logic_current}')
+except Exception as exc:
+    errors.append(f'Logik-Baseline ungültig: {exc}')
 
 start=BeautifulSoup((ROOT/'index.html').read_text(encoding='utf-8'),'html.parser')
 if len(start.select('.tools > a.card'))!=9: errors.append('Startseite: genau 9 sichtbare Werkzeugkacheln erwartet')
@@ -249,7 +277,7 @@ for forbidden in ('enhanceHtml','enhanceJs','.replace(\'</head>\'','.replace(\'<
 if f"const RELEASE='{VERSION}'" not in sw: errors.append('Service Worker verwendet falsche Version')
 if "const CACHE_PREFIX='sk-plt-tools-'" not in sw or 'const CACHE=`${CACHE_PREFIX}v${RELEASE}`' not in sw: errors.append('Service Worker verwendet nicht den Release-Cache')
 if 'key.startsWith(CACHE_PREFIX)&&key!==CACHE' not in sw: errors.append('Service Worker bereinigt ältere SK-PLT-Tools-Caches nicht')
-for required in ('./assets/core.css','./assets/responsive.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
+for required in ('./assets/core.css','./assets/responsive.css','./assets/rechner-unified.css','./assets/app.js','./assets/navigation-tree.json','./assets/siemens-analogwert-rechner.css','./assets/siemens-analogwert-rechner.js','./siemens-analogwert-rechner/index.html','./assets/materials.json','./assets/materials.js','./assets/materials.css','./wissensdatenbank/werkstoff-nachschlagewerk/index.html','./assets/vacon-wissen.css','./wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'):
     if required not in sw: errors.append(f'Service Worker: Precache-Eintrag fehlt: {required}')
 for forbidden in ('_'.join(('228','SR4','K06','E07.1.pdf')),'744f24436071c5c9f36d91fc82fa2a6'+'a16f20ec8662bd81f68e3f53321792772'):
     if forbidden in sw: errors.append('Service Worker enthält eine personenbezogene Testreferenz')
@@ -366,4 +394,4 @@ if errors:
     print('FEHLER')
     for error in errors: print('-',error)
     sys.exit(1)
-print(f'OK: {len(pages)} Seiten, eindeutige sichtbare Hero-Version, vereinheitlichte Footer, Navigation, 9 Startseitenkacheln, Release-Cache-Isolation, Rechner, 5 Wissenskacheln, 10 Werkstoffe, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')
+print(f'OK: {len(pages)} Seiten, fünf vereinheitlichte Rechner mit unveränderter Logik-Baseline, Header/Footer, Navigation, 9 Startseitenkacheln, Release-Cache-Isolation, 5 Wissenskacheln, 10 Werkstoffe, vollständige SHA-256-Prüfsummen, lokale Referenzen und JavaScript geprüft.')
