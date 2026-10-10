@@ -1,23 +1,23 @@
-SK PLT Tools 2.3.2.2-Beta
+SK PLT Tools 2.3.3.0-Beta
 
 Beta-Testversion der kompakten statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
 
 Basis dieser Beta
-- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.3.2.1-Beta.zip vom 10.10.2026.
-- Bestätigte SHA-256 der Basis: 72c705ab8b676ff9a75bbc33bdb7ebf7c798c371452d719438052a48676f635f.
+- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.3.2.2-Beta.zip vom 10.10.2026.
+- Bestätigte SHA-256 der Basis: 149e0b41c694551c26dcb47dee0c16c7342139b369b845eeffe0b275e66707f2.
 - ZIP-CRC und interne Prüfsummen der Basis wurden vor der Änderung bestätigt.
-- Bestehende Funktionen und Gestaltung bleiben außerhalb der ausdrücklich angepassten
-  mobilen Hero-Fläche erhalten.
+- Bestehende Funktionen außerhalb des vereinheitlichten Wissensbereichs bleiben erhalten.
 
-Mobile Hero-Erweiterung
-- Nur auf Smartphones wird rechts neben dem großen Logo die Kennzeichnung
-  „PLT-TOOL · PCT-TOOL“ angezeigt.
-- Darunter stehen dezent die ausgeschriebenen Begriffe „Prozessleittechnik“ und
-  „Process Control Technology“.
-- Die Versionsnummer 2.3.2.2-Beta bleibt als größtes Textelement im Mittelpunkt.
-- Desktop- und Tablet-Layout bleiben unverändert; die Ergänzung ist außerhalb der
-  Smartphone-Media-Queries ausgeblendet.
+Wissensbeitragsstandard V2.3.3.0-Beta
+- Alle fünf vorhandenen Geräte-Wissensbeiträge verwenden eine gemeinsame semantische
+  Struktur und die zentrale Datei assets/knowledge-article.css.
+- Einheitliche Kurzfassung, Metadaten, Beitragstypen, Fachabschnitte, Prüfhinweise
+  sowie Gültigkeits- und Quellenhinweise.
+- Die bisher getrennten Beitrags-Styles wurden durch eine zentrale CSS-Datei ersetzt.
+- Die Wissensdatenbank erläutert den Standard und stellt ihn als Markdown-Dokument bereit.
+- Die PDF-Beitragsvorlage ist an denselben Pflichtfeldern ausgerichtet.
+- Fachinhalte der fünf bestehenden Beiträge wurden erhalten und strukturell vereinheitlicht.
 
 Bewahrte Funktionen
 - Mobile Startseite mit einklappbaren Werkzeugkategorien und optionaler Kompaktansicht.
@@ -37,8 +37,8 @@ Deployment zum Testen
 
 PWA
 - Start-URL, Scope und App-ID bleiben versionsunabhängig auf ./ gesetzt.
-- Service-Worker-Caches: core-v2.3.2.2 und documents-v2.3.2.2.
-- Der Kerncache enthält 50 Ziele; der Dokumentcache zwei optionale Dokumente.
+- Service-Worker-Caches: core-v2.3.3.0 und documents-v2.3.3.0.
+- Der Kerncache enthält 48 Ziele; der Dokumentcache drei optionale Dokumente.
 - Laufzeitkanal: beta.
 
 Integrität

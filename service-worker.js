@@ -1,11 +1,10 @@
-const RELEASE='2.3.2.2';
+const RELEASE='2.3.3.0';
 const CACHE_PREFIX='sk-plt-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
 const CORE=[
   './',
   './analogsignal/',
-  './assets/airttorque-wissen.css',
   './assets/analogsignal-rechner.js',
   './assets/app.js',
   './assets/apple-touch-icon.png',
@@ -16,6 +15,7 @@ const CORE=[
   './assets/icon-512.png',
   './assets/icon-maskable-192.png',
   './assets/icon-maskable-512.png',
+  './assets/knowledge-article.css',
   './assets/logo-layout.css',
   './assets/logo.png',
   './assets/materials.css',
@@ -29,13 +29,11 @@ const CORE=[
   './assets/search-index.json',
   './assets/siemens-analogwert-rechner.css',
   './assets/siemens-analogwert-rechner.js',
-  './assets/siemens-sitrans-wissen.css',
   './assets/siemens-unit-integration.js',
   './assets/unit-database-page.js',
   './assets/unit-database.css',
   './assets/unit-system.js',
   './assets/units.json',
-  './assets/vacon-wissen.css',
   './einheitendatenbank/',
   './einheitenrechner/',
   './manifest.webmanifest',
@@ -55,6 +53,7 @@ const CORE=[
   './wissensdatenbank/werkstoff-nachschlagewerk/'
 ];
 const OPTIONAL_DOCUMENTS=[
+  './WISSENSBEITRAGS-STANDARD.md',
   './SIEMENS-QUELLEN-UND-GRENZWERTE.md',
   './wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf'
 ];

@@ -1,46 +1,52 @@
-SK PLT Tools 2.3.2.2-Beta
+SK PLT Tools 2.3.3.0-Beta
 Release-Datum: 10.10.2026
 Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.3.2.1-Beta.zip
-SHA-256 der Ausgangsbasis: 72c705ab8b676ff9a75bbc33bdb7ebf7c798c371452d719438052a48676f635f
+Ausgangsbasis: SK-PLT-Tools-V2.3.2.2-Beta.zip
+SHA-256 der Ausgangsbasis: 149e0b41c694551c26dcb47dee0c16c7342139b369b845eeffe0b275e66707f2
 
 BETA-ZIEL
-- Die kompakte mobile Hero-Fläche der Startseite inhaltlich ausbalancieren.
-- Die Versionsnummer bleibt der klare visuelle Mittelpunkt.
-- Desktop und Tablet bleiben in Struktur, Breakpoints und Gestaltung unverändert.
+- Einen verbindlichen, einheitlichen Wissensbeitragsstandard umsetzen.
+- Alle fünf vorhandenen Geräte-Wissensbeiträge auf diesen Standard migrieren.
+- Fachinhalte erhalten und Darstellung, Metadaten, Hinweise und mobile Nutzung vereinheitlichen.
 - Laufzeitkanal: beta.
 
-MOBILE HERO-FLÄCHE
-- Rechts neben dem großen Logo ergänzt: „PLT-TOOL · PCT-TOOL“.
-- Unter der Versionsnummer dezent ausgeschrieben: „Prozessleittechnik“ und
-  „Process Control Technology“.
-- Versionsnummer bewusst größer und kontrastreicher als alle ergänzenden Texte.
-- Beschriftung semantisch und über ein vollständiges aria-label zugänglich.
-- Gültig für Smartphone-Hochformat bis 760 CSS-Pixel sowie die bereits vorhandene
-  Smartphone-Querformatregel bis 932 CSS-Pixel bei maximal 520 CSS-Pixel Höhe.
-- Außerhalb dieser mobilen Regeln bleibt der Zusatz vollständig ausgeblendet.
+WISSENSBEITRAGSSTANDARD
+- Gemeinsamer semantischer TechArticle-Aufbau mit Brotkrümelnavigation, Hero,
+  Kurzfassung, Pflichtmetadaten, Beitragstyp, Fachabschnitten und Quellenhinweis.
+- Zentrale Darstellung über assets/knowledge-article.css.
+- Standardkennzeichnung auf jeder Beitragsseite.
+- Einheitliche Komponenten für Metadaten, Karten, Schritte, Checklisten,
+  Kennwerte, Hinweise, Quellennachweise und responsive Anordnung.
+- Dokumentierter Standard in WISSENSBEITRAGS-STANDARD.md.
+- Beitragsvorlage auf die neuen Pflichtfelder und Qualitätsregeln ausgerichtet.
+
+MIGRIERTE BEITRÄGE
+- Air Torque Antrieb: Drehrichtung SCO/SCC.
+- Endress+Hauser Promass: Einbaulage und Einbausituation.
+- Siemens Sitrans P320: SIL-Verriegelung.
+- Siemens SPS: Rohwert Grundlagen.
+- Vacon Frequenzumrichter: Ist-/Sollwert-Abweichung im PLS.
 
 VERSION UND PWA
-- Öffentliche Betaversion: 2.3.2.2-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.2.2.
-- Kerncache: sk-plt-tools-core-v2.3.2.2 mit 50 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.2.2 mit zwei optionalen Dokumenten.
+- Öffentliche Betaversion: 2.3.3.0-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.3.0.
+- Kerncache: sk-plt-tools-core-v2.3.3.0 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.3.0 mit drei optionalen Dokumenten.
 - Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
 - Aktivierung des neuen Service Workers entfernt ältere Produktcaches.
 
 PROJEKTBESTAND
-- 57 Dateien im Projektordner einschließlich SHA256SUMS.txt.
+- 56 Dateien im Projektordner einschließlich SHA256SUMS.txt.
 - 17 HTML-Seiten einschließlich der alten Werkstoff-Weiterleitungsroute.
-- 31 Dateien unter assets/.
+- 29 Dateien unter assets/.
 - Keine Test- oder Entwicklungsartefakte im Deployment-ZIP.
 
 BEWAHRTE FUNKTIONEN
 - Sechs Rechner, Einheitendatenbank, Messstellen-Dokumentation und Werkstoffdatenbank.
 - Favoriten, Navigation, Suche, Sortierung, responsive Ansichten und PWA-Betrieb.
-- Fünf Geräte-Wissensbeiträge unverändert erhalten.
 - Alte Werkstoffroute bleibt als abwärtskompatible Weiterleitung erhalten.
 - Das verworfene VDE-0100-600-Funktionsmodul bleibt vollständig entfernt.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.2.2-Beta.zip.sha256 bereitgestellt.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.3.3.0-Beta.zip.sha256 bereitgestellt.

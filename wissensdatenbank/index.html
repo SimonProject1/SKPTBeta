@@ -12,9 +12,9 @@
     .proposal-card{display:block;padding:30px;border:1px solid #24485d;border-radius:20px;background:#0a2639;color:#f7fbff;text-decoration:none;margin-bottom:28px}.proposal-card:hover{border-color:#00b7e8}.proposal-card h2{margin:20px 0 14px;font-size:30px}.proposal-card p{color:#b9ced8;font-size:18px;line-height:1.5}
     .knowledge-search-label{display:block;margin-bottom:8px;color:#d7e4ea;font-weight:800}.knowledge-search{box-sizing:border-box;width:100%;padding:17px 18px;border:1px solid #2a5368;border-radius:14px;background:#041724;color:#fff;font-size:18px;outline:none}.knowledge-search:focus{border-color:#00b7e8}.knowledge-search-meta{display:flex;justify-content:flex-end;margin-top:9px;color:#9fb8c5;font-size:13px;font-weight:750}
     .knowledge-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px}.knowledge-entry{position:relative;display:block;min-height:190px;padding:30px;border:1px solid #24485d;border-radius:20px;background:#0a2639;color:#f7fbff;text-decoration:none}.knowledge-entry[hidden]{display:none!important}.knowledge-entry:hover{border-color:#00b7e8;transform:translateY(-2px)}.knowledge-entry h2{margin:20px 0 14px;font-size:32px}.knowledge-entry p{margin:0;color:#b9ced8;font-size:18px;line-height:1.5}.sk-card-category{color:#89d329;font-size:12px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.knowledge-empty{display:none;margin-top:20px;padding:20px;border:1px solid #24485d;border-radius:14px;color:#b9ced8}.knowledge-empty.show{display:block}
-    .knowledge-mobile-display-controls{display:none}
+    .knowledge-standard-note{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:22px;padding:18px 20px;border:1px solid #326044;border-radius:16px;background:linear-gradient(135deg,#10342f,#082536)}.knowledge-standard-note h2{margin:5px 0 7px;font-size:22px}.knowledge-standard-note p{margin:0;color:#bfd2dc;line-height:1.5}.knowledge-standard-link{flex:0 0 auto;padding:10px 13px;border:1px solid #89d329;border-radius:11px;color:#dfffc2;text-decoration:none;font-weight:850}.knowledge-standard-link:hover{background:#173f2f}.knowledge-mobile-display-controls{display:none}
     @media(max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
-      .knowledge-overview{width:min(100% - 22px,1100px);padding:20px 0 34px}.knowledge-hero{margin-bottom:18px}.knowledge-hero h1{margin:9px 0 10px;font-size:clamp(28px,8vw,32px);line-height:1;overflow-wrap:anywhere}.knowledge-hero p{margin:0;font-size:15px;line-height:1.4}
+      .knowledge-overview{width:min(100% - 22px,1100px);padding:20px 0 34px}.knowledge-standard-note{display:block;padding:15px}.knowledge-standard-link{display:inline-block;margin-top:12px}.knowledge-hero{margin-bottom:18px}.knowledge-hero h1{margin:9px 0 10px;font-size:clamp(28px,8vw,32px);line-height:1;overflow-wrap:anywhere}.knowledge-hero p{margin:0;font-size:15px;line-height:1.4}
       .knowledge-panel{padding:12px;border-radius:18px}.proposal-card{margin-bottom:14px;padding:15px 54px 15px 15px;border-radius:15px}.proposal-card .sk-card-category{margin-bottom:8px}.proposal-card h2{margin:0 0 7px;font-size:20px;line-height:1.2}.proposal-card p{margin:0;font-size:14px;line-height:1.4}
       .knowledge-search-label{font-size:14px}.knowledge-search{min-height:48px;padding:11px 12px;font-size:16px}.knowledge-search-meta{margin-top:7px;font-size:12px}
       .knowledge-mobile-display-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 12px;padding:9px 10px;border:1px solid #24485d;border-radius:14px;background:rgba(5,23,37,.82)}
@@ -24,8 +24,8 @@
     }
     @media (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){.knowledge-manufacturer-entries{grid-template-columns:repeat(2,minmax(0,1fr))}}
   </style>
-<link href="../manifest.webmanifest" rel="manifest"/><link href="../assets/favicon.png?v=2.3.2.2" rel="icon" sizes="64x64" type="image/png"/><link href="../assets/apple-touch-icon.png?v=2.3.2.2" rel="apple-touch-icon"/><link href="../assets/core.css?v=2.3.2.2" rel="stylesheet"/><link href="../assets/responsive.css?v=2.3.2.2" rel="stylesheet"/></head>
-<body data-sk-module="Wissensdatenbank" data-sk-page="knowledge" data-sk-version="2.3.2.2"><!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.3.2.2"/></div><div class="brand">SK PLT Tools<small>Wissensdatenbank</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header><!-- sk:header:end -->
+<link href="../manifest.webmanifest" rel="manifest"/><link href="../assets/favicon.png?v=2.3.3.0" rel="icon" sizes="64x64" type="image/png"/><link href="../assets/apple-touch-icon.png?v=2.3.3.0" rel="apple-touch-icon"/><link href="../assets/core.css?v=2.3.3.0" rel="stylesheet"/><link href="../assets/responsive.css?v=2.3.3.0" rel="stylesheet"/></head>
+<body data-sk-module="Wissensdatenbank" data-sk-page="knowledge" data-sk-version="2.3.3.0"><!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized"><div class="sk-header-inner"><div class="sk-logo-version-stack"><img alt="SK PLT Tools" class="logo sk-global-logo sk-header-logo" src="../assets/icon-512.png?v=2.3.3.0"/></div><div class="brand">SK PLT Tools<small>Wissensdatenbank</small></div><a aria-label="Zur Startseite" class="home sk-header-home" href="../">← Startseite</a></div></header><!-- sk:header:end -->
 <main class="knowledge-overview">
 <section class="knowledge-hero">
 <div class="knowledge-kicker">GERÄTEWISSEN</div>
@@ -36,8 +36,9 @@
 <a class="proposal-card" download="" href="vorlagen/Wissensdatenbank_Beitragsvorlage.pdf">
 <div class="sk-card-category">WISSEN</div>
 <h2>Neuen Wissensbeitrag vorschlagen</h2>
-<p>Editierbare PDF herunterladen, direkt ausfüllen und zusammen mit den Anhängen an Simon Kiesler senden.</p>
+<p>Vorlage nach dem Standard V2.3.3.0-Beta ausfüllen und zusammen mit den Anhängen an Simon Kiesler senden.</p>
 </a>
+<aside class="knowledge-standard-note"><div><span class="knowledge-kicker">EINHEITLICHER STANDARD · V2.3.3.0-BETA</span><h2>Alle Beiträge folgen derselben Struktur</h2><p>Kurzfassung, Hersteller, Gerät, Thema, Beitragstyp, Anwendungsinhalt sowie einheitliche Gültigkeits- und Quellenhinweise.</p></div><a class="knowledge-standard-link" download href="../WISSENSBEITRAGS-STANDARD.md">Standard herunterladen</a></aside>
 <label class="knowledge-search-label" for="knowledgeSearch">Wissensbeiträge durchsuchen</label>
 <input autocomplete="off" class="knowledge-search" id="knowledgeSearch" placeholder="Hersteller, Gerät oder Thema eingeben" type="search"/>
 <div class="knowledge-search-meta"><span id="knowledgeResultCount">5 Beiträge angezeigt</span></div>
@@ -73,9 +74,9 @@
 <div class="knowledge-empty" id="knowledgeEmpty">Keine passenden Wissensbeiträge gefunden.</div>
 </section>
 </main><!-- sk:footer:start --><footer class="footer sk-footer">SK PLT Tools · Entwickelt von Simon Kiesler</footer><!-- sk:footer:end -->
-<script src="../assets/app.js?v=2.3.2.2"></script><script>
+<script src="../assets/app.js?v=2.3.3.0"></script><script>
     (()=>{'use strict';
-      const RELEASE='2.3.2.2';
+      const RELEASE='2.3.3.0';
       const MOBILE_QUERY='(max-width: 760px), (min-width: 761px) and (max-width: 932px) and (orientation: landscape) and (max-height: 520px)';
       const GROUP_KEY='skKnowledgeManufacturerStateV1';
       const COMPACT_KEY='skKnowledgeCompactCardsV1';
