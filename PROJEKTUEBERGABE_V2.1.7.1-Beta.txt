@@ -1,0 +1,54 @@
+SK PLT TOOLS – PROJEKTÜBERGABE
+Version: 2.1.7.1-Beta
+Stand: 10.10.2026
+
+AUSGANGSBASIS
+==============
+Vollständige 2.1.7.0-Beta. Stabile Referenz: 2.1.0.0.
+
+UMGESETZTER KERN
+================
+- Einheitendatenbank mit 19 Kategorien und 115 Einheiten.
+- Zentrale Single Source of Truth: assets/units.json.
+- Laufzeit-API: assets/unit-system.js.
+- Lokale Einheitenfavoriten: skPltUnitFavoritesV1.
+- Einheitliche Dropdowns mit Standard, Favoriten und weiteren Einheiten.
+- Faktor- und Offset-Umrechnung bei Einheitenwechsel.
+- Integration in alle sechs Rechner.
+- Direkter Button zur Einheitendatenbank am Ende aller sechs Einheiten-Auswahlseiten.
+- Navigation, Suche, Suchindex, PWA, Offline-Cache und Manifest-Shortcuts aktualisiert.
+
+WICHTIGE DATEIEN
+================
+assets/units.json
+assets/unit-system.js
+assets/unit-database-page.js
+assets/unit-database.css
+einheitendatenbank/index.html
+EINHEITEN-DATENMODELL.md
+TESTBERICHT-UND-ABNAHME.md
+RELEASE-NOTES.txt
+SHA256SUMS.txt
+
+WARTUNGSREGELN
+==============
+1. Umrechnungsfaktoren nur in assets/units.json ändern.
+2. Neue Einheit mit eindeutigem ID, Symbol, Faktor/Offset und Referenzfall ergänzen.
+3. Verschiedene Dimensionen nicht in einer Kategorie mischen.
+4. Nach Änderungen alle drei Testebenen ausführen: functional-smoke-test, validate_release, browser-smoke-test.
+5. Anschließend python3 tools/release.py --all ausführen.
+6. Bei neuen Seiten mit Einheiten-Dropdowns auch den Direktzugriff `.sk-unit-database-cta` am Ende des Hauptinhalts ergänzen.
+
+BESTÄTIGTE REGRESSIONEN
+=======================
+- Mobile Zahlentastatur.
+- ±-Vorzeichenwechsel.
+- Untere mobile Bedienzone.
+- Dunkle iPhone-Safe-Area.
+- Headerlinie und Startseiten-Button.
+- Siemens-Grenzwerte und Rohwertlogik.
+- Rechnerdesign und Offline-PWA.
+
+BEKANNTE TESTGRENZE
+===================
+Der automatisierte iPhone-Nachweis verwendet ein Chromium-basiertes Touch-/Viewportprofil im Container. Eine physische iOS-/Safari-Abnahme ist nicht enthalten.

@@ -1,9 +1,12 @@
-# SK PLT Tools 2.1.7.0-Beta
+# SK PLT Tools 2.1.7.1-Beta
 
-Vollständige statische, offline-fähige Webanwendung für PLT-/MSR-Aufgaben. **2.1.7.0-Beta** baut auf der vollständig getesteten **2.1.6.1-Beta** auf; die stabile Referenz bleibt **2.1.0.0**.
+Vollständige statische, offline-fähige Webanwendung für PLT-/MSR-Aufgaben. **2.1.7.1-Beta** baut auf der vollständigen **2.1.7.0-Beta** auf; die stabile Referenz bleibt **2.1.0.0**.
 
-## Neu in 2.1.7.0-Beta
+## Neu in 2.1.7.1-Beta
 
+- Auf allen sechs Seiten mit Einheiten-Dropdowns befindet sich jetzt ganz unten ein einheitlich gestalteter Button **Einheitendatenbank öffnen**.
+- Damit lassen sich neue Einheitenfavoriten direkt aus Analogsignal-, Siemens-Rohwert-, Einheiten-, P+F-, Pt100/Pt1000- und Spannungsfall-Rechner verwalten, ohne den Umweg über die Startseite.
+- Desktop-, Tablet- und Mobiltests prüfen Vorhandensein, Sichtbarkeit und Ziel des neuen Direktzugriffs.
 - Neue Seite **Einheitendatenbank** mit Suche, Kategorienfilter, 19 Messarten und 115 Einheiten.
 - Persönliche Einheitenfavoriten per Stern; lokale Speicherung unter `skPltUnitFavoritesV1`.
 - Zentrale Datei `assets/units.json` als Single Source of Truth für Namen, Symbole, Kategorien, Standardeinheiten, Faktoren, Offsets und Referenzfälle.
@@ -24,6 +27,7 @@ Feste Grundeinheiten umfassen mindestens **bar**, **°C**, **m³/h**, **m**, **V
 
 - `assets/units.json`: zentrale Einheitendatenbank.
 - `assets/unit-system.js`: Datenvalidierung, Umrechnung, Dropdowns und Favoritenspeicherung.
+- `.sk-unit-database-cta` in `assets/core.css`: gemeinsamer responsiver Direktzugriff am Ende aller Einheiten-Auswahlseiten.
 - `einheitendatenbank/`: Suche, Kategorienfilter und Favoritenverwaltung.
 - `assets/*-rechner.js` und `spannungsfall-rechner/calculator.js`: integrierte Rechnerlogik.
 - `assets/navigation-tree.json` und `assets/search-index.json`: Navigation und Suche.
@@ -55,4 +59,4 @@ Geprüfte Viewports: Desktop **1440 × 1050**, Tablet **820 × 1180**, iPhone-To
 python3 tools/release.py --all
 ```
 
-Der Build synchronisiert Version, Manifest, Navigation, App-ID, Service-Worker-Cache und Precache, erzeugt `SHA256SUMS.txt` und baut `SK-PLT-Tools-V2.1.7.0-Beta.zip`.
+Der Build synchronisiert Version, Manifest, Navigation, App-ID, Service-Worker-Cache und Precache, erzeugt `SHA256SUMS.txt` und baut `SK-PLT-Tools-V2.1.7.1-Beta.zip`.

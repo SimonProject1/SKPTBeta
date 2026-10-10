@@ -1,4 +1,4 @@
-SK PLT Tools 2.1.7.0-Beta
+SK PLT Tools 2.1.7.1-Beta
 
 Stabile Produktreferenz: 2.1.0.0
 Direkte technische Basis: vollständig getestete und bestätigte 2.1.6.1-Beta

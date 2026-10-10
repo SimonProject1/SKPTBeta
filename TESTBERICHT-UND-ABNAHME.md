@@ -1,7 +1,7 @@
-# Testbericht und Abnahme – SK PLT Tools 2.1.7.0-Beta
+# Testbericht und Abnahme – SK PLT Tools 2.1.7.1-Beta
 
 **Prüfdatum:** 10.10.2026  
-**Ausgangsbasis:** vollständig getestete und bestätigte 2.1.6.1-Beta  
+**Ausgangsbasis:** vollständige 2.1.7.0-Beta  
 **Ergebnis:** automatisierte Freigabekriterien erfüllt
 
 ## 1. Testumgebung
@@ -49,7 +49,7 @@ Die iPhone-Prüfung ist eine reproduzierbare Browser-/Touch-Emulation. Eine zus�
 Alle 16 Seiten wurden in Desktop-, Tablet- und iPhone-Touchprofil geladen. Geprüft wurden:
 
 - kein horizontaler Überlauf,
-- Versionsstand 2.1.7.0-Beta,
+- Versionsstand 2.1.7.1-Beta,
 - gemeinsamer Header und Footer,
 - Headerlinie und Startseiten-Button,
 - Favoriten- und Navigationsschalter,
@@ -57,13 +57,15 @@ Alle 16 Seiten wurden in Desktop-, Tablet- und iPhone-Touchprofil geladen. Gepr�
 - dunkle Safe-Area-Grundfläche,
 - mobile Zahlentastaturattribute aller Rechner-Zahlenfelder,
 - alle sechs Rechner in allen drei Haupt-Viewports.
+- genau ein Direktzugriff zur Einheitendatenbank auf jeder der sechs Einheiten-Auswahlseiten,
+- sichtbarer Button und korrektes Ziel `../einheitendatenbank/` auf Desktop, Tablet und iPhone-Touchprofil.
 
 Für die sechs Rechner wurden 18 aktuelle Screenshots erzeugt; für die Einheitendatenbank zusätzlich Desktop-, Tablet- und Mobile-Nachweise.
 
 ## 6. PWA und Offline
 
 - Manifest-Version, App-ID und Shortcuts geprüft.
-- Service-Worker-Cache `sk-plt-tools-v2.1.7.0-Beta` installiert.
+- Service-Worker-Cache `sk-plt-tools-v2.1.7.1-Beta` installiert.
 - `units.json`, Einheitensystem, Datenbankseite und Rechnerintegrationen im Precache bestätigt.
 - Einheitendatenbank nach Umschalten des Browserkontexts auf offline vollständig aus dem Cache geöffnet; 115 Einheiten verfügbar.
 - Keine JavaScript-Konsolenfehler in den Desktop-, Tablet- und Mobile-Prüfläufen.
@@ -80,4 +82,4 @@ sha256sum -c SHA256SUMS.txt
 
 ## 8. Abnahme
 
-Die automatisierten Freigabekriterien für Datenmodell, Favoriten, Dropdowns, Standardeinheiten, automatische Faktor-/Offset-Umrechnung, Rechnerregression, Responsive Design und Offline-PWA sind erfüllt. Der Release bleibt wegen der neuen zentralen Einheitenarchitektur als **Beta** gekennzeichnet.
+Die automatisierten Freigabekriterien für Datenmodell, Favoriten, Dropdowns, Direktzugriff zur Einheitendatenbank, Standardeinheiten, automatische Faktor-/Offset-Umrechnung, Rechnerregression, Responsive Design und Offline-PWA sind erfüllt. Der Release bleibt wegen der zentralen Einheitenarchitektur als **Beta** gekennzeichnet.
