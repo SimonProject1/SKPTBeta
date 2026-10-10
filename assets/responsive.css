@@ -1,4 +1,4 @@
-/* === V2.2.2.1-Beta · responsive application shell ===
+/* === V2.2.2.2-Beta · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -296,7 +296,7 @@ html{background-color:#04131f}
 }
 
 
-/* === 2.2.2.1-Beta · kompakte mobile Startseite ===
+/* === 2.2.2.2-Beta · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{

@@ -1,15 +1,17 @@
-SK PLT Tools 2.2.2.1-Beta
+SK PLT Tools 2.2.2.2-Beta
 
 Beta-Version der kompakten statischen Web-App für Rechner,
 Wissensdatenbank und Einheitendatenbank. Diese Version ist zum kontrollierten Testen vorgesehen.
 
 Änderung dieser Version
+- Der vollständige Stand 2.2.2.1-Beta wurde ohne fachliche Funktions- oder Designänderung auf 2.2.2.2-Beta angehoben.
+- Version, Cache-Buster, Laufzeitmodule, Datenmetadaten, Manifest, Service Worker, Dokumentation und Prüfsummen wurden konsistent aktualisiert.
+
+Bewahrte Funktionen
 - Die mobile Startseite zeigt im großen Startseitenbereich nur noch das Logo; der darunterliegende Textblock entfällt auf Smartphones.
 - Suche, Kategorienfilter und Sortierung sind auf der mobilen Startseite standardmäßig eingeklappt und über „Werkzeuge durchsuchen“ erreichbar.
 - Smartphone-Querformate bis 932 CSS-Pixel Breite und 520 CSS-Pixel Höhe verwenden ebenfalls die kompakte Startseite.
 - Desktop ab 933 CSS-Pixel sowie Tablets, insbesondere 820 × 1180 CSS-Pixel, behalten die bisherige Darstellung unverändert.
-
-Bewahrte Funktionen
 - Alle 10 Werkzeug-/Dienstkarten, Suche, Kategorienfilter, Sortierung und Wissensbeitragssuche bleiben vollständig erhalten.
 - Favoriten, Seitennavigation, Rechner, Einheitendatenbank und Wissensdatenbank bleiben unverändert.
 - Der Filterzustand kann mobil barrierearm per Schaltfläche, Touch und Tastatur geöffnet und geschlossen werden; aria-expanded und aria-controls werden synchron gehalten.
@@ -23,7 +25,7 @@ Deployment
 PWA
 - Installation über die Installationsfunktion des verwendeten Browsers.
 - Start-URL und App-ID sind versionsunabhängig auf ./ gesetzt.
-- Der Service Worker verwendet die Release-Caches core-v2.2.2.1-Beta und documents-v2.2.2.1-Beta.
+- Der Service Worker verwendet die Release-Caches core-v2.2.2.2-Beta und documents-v2.2.2.2-Beta.
 
 Integrität
 - Interne Dateien: SHA256SUMS.txt mit einem SHA-256-Eintrag je weiterer Datei.

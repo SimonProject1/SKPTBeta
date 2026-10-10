@@ -1,27 +1,25 @@
-SK PLT Tools 2.2.2.1-Beta
+SK PLT Tools 2.2.2.2-Beta
 Release-Datum: 10.10.2026
 Status: Beta-Version zum kontrollierten Testen
-Technische Basis: 2.2.1.2-Beta
+Technische Basis: 2.2.2.1-Beta
 
-MOBILE STARTSEITE
-- Der große Startseitenbereich ist auf Smartphones deutlich kürzer: Sichtbar bleibt das Logo, der vollständige Textblock darunter wird mobil ausgeblendet.
-- Das Such-, Kategorie- und Sortierfeature ist auf der mobilen Startseite standardmäßig eingeklappt.
-- Eine kompakte Schaltfläche „Werkzeuge durchsuchen“ öffnet und schließt den vollständigen Funktionsbereich.
-- Der mobile Schalter unterstützt Touch, Maus und Tastatur; aria-expanded und aria-controls bilden den Zustand ab.
-- Smartphone-Querformate bis 932 CSS-Pixel Breite und 520 CSS-Pixel Höhe werden ebenfalls als mobile Darstellung behandelt.
-
-DESKTOP UND TABLET
-- Desktop- und Tablet-Darstellung bleiben unverändert.
-- Auf diesen Viewports bleibt der vollständige Startseitentext sichtbar und Suche/Filter/Sortierung bleiben dauerhaft geöffnet.
-- Alle sonstigen Seiten, Inhalte und Funktionen bleiben unverändert.
-
-PWA UND VERSION
-- Alle Versionsstellen, Asset-Querystrings, Laufzeitmodule, Datenmetadaten, Manifest und Service Worker stehen konsistent auf 2.2.2.1-Beta.
+RELEASE-/VERSIONSSTAND
+- Der vollständige, geprüfte Projektstand 2.2.2.1-Beta wurde konsistent auf 2.2.2.2-Beta angehoben.
+- Es wurden keine fachlichen Funktionen und keine Designs geändert.
+- Alle Versionsstellen, Asset-Querystrings, Laufzeitmodule, Datenmetadaten, Manifest und Service Worker stehen konsistent auf 2.2.2.2-Beta.
 - Laufzeitkanal: beta.
-- Kerncache: sk-plt-tools-core-v2.2.2.1-Beta.
-- Dokumentcache: sk-plt-tools-documents-v2.2.2.1-Beta.
+- Kerncache: sk-plt-tools-core-v2.2.2.2-Beta.
+- Dokumentcache: sk-plt-tools-documents-v2.2.2.2-Beta.
 - Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
+
+ÜBERNOMMENER FUNKTIONSSTAND AUS 2.2.2.1-Beta
+- Der große Startseitenbereich ist auf Smartphones kompakt: Sichtbar bleibt das Logo, der vollständige Textblock darunter wird mobil ausgeblendet.
+- Suche, Kategorienfilter und Sortierung sind auf der mobilen Startseite standardmäßig eingeklappt.
+- Die Schaltfläche „Werkzeuge durchsuchen“ öffnet und schließt den vollständigen Funktionsbereich.
+- Der mobile Schalter unterstützt Touch, Maus und Tastatur; aria-expanded und aria-controls bilden den Zustand ab.
+- Smartphone-Querformate bis 932 CSS-Pixel Breite und 520 CSS-Pixel Höhe verwenden ebenfalls die kompakte Darstellung.
+- Desktop- und Tablet-Darstellung sowie alle sonstigen Seiten, Inhalte und Funktionen bleiben unverändert.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Releaseordner.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.2.2.1-Beta.zip.sha256 bereitgestellt.
+- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.2.2.2-Beta.zip.sha256 bereitgestellt.
