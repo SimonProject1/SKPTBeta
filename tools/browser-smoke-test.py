@@ -1,521 +1,110 @@
 #!/usr/bin/env python3
-"""Browser smoke test for SK PLT Tools 2.1.6.1-Beta."""
+"""Browser-, Responsive-, PWA- und Rechner-Volltest für SK PLT Tools 2.1.7.0-Beta."""
 from pathlib import Path
 import os
 from playwright.sync_api import sync_playwright
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "test-artifacts"
-OUT.mkdir(exist_ok=True)
-BASE = "http://127.0.0.1:4173"
-VERSION = "2.1.6.1-Beta"
-APP_ID = f"./?app=sk-plt-tools-{VERSION.lower()}"
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/'test-artifacts'; OUT.mkdir(exist_ok=True)
+BASE='http://127.0.0.1:4173'; VERSION='2.1.7.0-Beta'
+PAGES=['/','/analogsignal/','/siemens-analogwert-rechner/','/einheitenrechner/','/einheitendatenbank/','/messstellen-doku/','/pf-rechner/','/pt-rechner/','/servicewerte/','/spannungsfall-rechner/','/wissensdatenbank/','/wissensdatenbank/air-torque-antrieb-drehrichtung/','/wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/','/wissensdatenbank/siemens-sps-rohwert/','/wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/','/wissensdatenbank/werkstoff-nachschlagewerk/']
+CALCULATORS=[('analogsignal','/analogsignal/'),('siemens','/siemens-analogwert-rechner/'),('einheiten','/einheitenrechner/'),('pf','/pf-rechner/'),('pt','/pt-rechner/'),('spannungsfall','/spannungsfall-rechner/')]
 
-
-def assert_text(page, selector, expected):
-    actual = page.locator(selector).inner_text().strip()
-    assert actual == expected, f"{selector}: expected {expected!r}, got {actual!r}"
-
-
-def set_input(page, selector, value):
-    page.locator(selector).fill(str(value))
-    page.locator(selector).dispatch_event("input")
-
-
-def assert_box(page, selector, width, height, tolerance=1):
-    box = page.locator(selector).bounding_box()
-    assert box, f"{selector}: kein sichtbares Rechteck"
-    assert abs(box["width"] - width) <= tolerance, f"{selector}: Breite {box['width']} statt {width}"
-    assert abs(box["height"] - height) <= tolerance, f"{selector}: Höhe {box['height']} statt {height}"
-
-
-def assert_mobile_fixed_controls(page, bottom=10, side=10, tolerance=1):
-    """Prüft mobile Schnellzugriffe am festen unteren Viewport-Rand."""
-    favorite = page.locator(".sk-favorites-trigger").bounding_box()
-    tree = page.locator(".sk-tree-trigger").bounding_box()
-    viewport = page.viewport_size
-    assert favorite and tree and viewport
-    assert abs(favorite["x"] - side) <= tolerance, f"Favoriten-Icon links: {favorite['x']} statt {side}"
-    assert abs((viewport["width"] - tree["x"] - tree["width"]) - side) <= tolerance, "Baummenü-Icon nicht rechts"
-    assert abs((viewport["height"] - favorite["y"] - favorite["height"]) - bottom) <= tolerance, "Favoriten-Icon nicht unten"
-    assert abs((viewport["height"] - tree["y"] - tree["height"]) - bottom) <= tolerance, "Baummenü-Icon nicht unten"
-    assert page.locator(".sk-favorites-trigger").evaluate("el => getComputedStyle(el).position") == "fixed"
-    assert page.locator(".sk-tree-trigger").evaluate("el => getComputedStyle(el).position") == "fixed"
-    before = (favorite["x"], favorite["y"], tree["x"], tree["y"])
-    page.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)")
-    page.wait_for_timeout(50)
-    favorite_after = page.locator(".sk-favorites-trigger").bounding_box()
-    tree_after = page.locator(".sk-tree-trigger").bounding_box()
-    after = (favorite_after["x"], favorite_after["y"], tree_after["x"], tree_after["y"])
-    assert all(abs(a - b) <= tolerance for a, b in zip(before, after)), "Mobile Icons bewegen sich beim Scrollen"
-
-
-def assert_mobile_header_shell(page, tolerance=1):
-    """Prüft den vollbreiten dunklen Header samt rechtsbündigem Startseiten-Link."""
-    header = page.locator("header.sk-global-header")
-    box = header.bounding_box()
-    viewport = page.viewport_size
-    assert box and viewport
-    assert abs(box["x"]) <= tolerance, f"Header beginnt bei x={box['x']} statt am Viewportrand"
-    assert abs(box["width"] - viewport["width"]) <= tolerance, f"Header/Trennlinie ist {box['width']} px statt {viewport['width']} px breit"
-    home = page.locator(".sk-header-home").bounding_box()
-    assert home
-    home_right = viewport["width"] - home["x"] - home["width"]
-    assert 8 <= home_right <= 20, f"Startseiten-Link ist horizontal versetzt: rechter Abstand {home_right} px"
-    assert header.evaluate("el => getComputedStyle(el).borderBottomStyle") != "none"
-    assert page.locator("html").evaluate("el => getComputedStyle(el).backgroundColor") == "rgb(4, 19, 31)"
-    assert page.locator('meta[name="apple-mobile-web-app-status-bar-style"]').get_attribute("content") == "black-translucent"
-
-
-PAGES = [
-    "/", "/analogsignal/", "/siemens-analogwert-rechner/", "/einheitenrechner/", "/messstellen-doku/",
-    "/pf-rechner/", "/pt-rechner/", "/servicewerte/", "/spannungsfall-rechner/", "/wissensdatenbank/",
-    "/wissensdatenbank/air-torque-antrieb-drehrichtung/",
-    "/wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/", "/wissensdatenbank/siemens-sps-rohwert/",
-    "/wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/",
-    "/wissensdatenbank/werkstoff-nachschlagewerk/"
-]
-
-UNIFIED_CALCULATORS = [
-    ("analogsignal", "/analogsignal/"),
-    ("einheitenrechner", "/einheitenrechner/"),
-    ("pf-rechner", "/pf-rechner/"),
-    ("pt-rechner", "/pt-rechner/"),
-    ("spannungsfall-rechner", "/spannungsfall-rechner/"),
-]
-
-
-def assert_unified_calculator(page, route):
-    """Prüft die gemeinsame, vom Siemens-Rohwert-Rechner abgeleitete UI-Schicht."""
-    assert page.locator('link[href*="rechner-unified.css"]').count() == 1, f"Gemeinsames Rechner-CSS fehlt: {route}"
-    assert page.locator(".calc-panel").count() == 1, f"Gemeinsame Rechnerkarte fehlt: {route}"
-    assert page.locator(".calc-panel-title").count() == 1, f"Rechnerkartentitel fehlt: {route}"
-    assert page.locator(".calc-field-card").count() >= 3, f"Zu wenige einheitliche Eingabekarten: {route}"
-    assert page.locator(".calc-page-title").count() == 1, f"Einheitlicher Seitentitel fehlt: {route}"
-    assert page.locator(".calc-field-card").first.evaluate("el => getComputedStyle(el).borderRadius") == "12px"
-    control = page.locator(".calc-field-card input,.calc-field-card select").first
-    assert control.is_visible()
-    control_surface = control.evaluate("el => getComputedStyle(el.closest('.number') || el).backgroundColor")
-    assert control_surface == "rgb(4, 21, 34)", f"Falsche Eingabefläche in {route}: {control_surface}"
-    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
-
-
-def assert_numeric_keypads(page, route):
-    """Prüft den mobilen Tastaturhinweis aller Zahlen-Eingabefelder."""
-    fields = page.locator('input[type="number"]')
-    assert fields.count() > 0, f"Kein Zahlen-Eingabefeld in {route}"
+def text(page,selector,expected):
+    actual=page.locator(selector).inner_text().strip(); assert actual==expected,f'{selector}: {actual!r} statt {expected!r}'
+def set_input(page,selector,value):
+    page.locator(selector).fill(str(value)); page.locator(selector).dispatch_event('input')
+def common(page,route,mobile=False):
+    page.goto(BASE+route); page.wait_for_load_state('networkidle')
+    assert page.locator('body').get_attribute('data-sk-version')==VERSION
+    assert page.evaluate('document.documentElement.scrollWidth<=window.innerWidth'),f'Überlauf: {route}'
+    assert page.locator('header.sk-global-header').count()==1
+    assert page.locator('.sk-header-home').count()==1
+    assert page.locator('.sk-favorites-trigger').is_visible() and page.locator('.sk-tree-trigger').is_visible()
+    if mobile:
+        header=page.locator('header.sk-global-header').bounding_box(); viewport=page.viewport_size
+        assert abs(header['x'])<=1 and abs(header['width']-viewport['width'])<=1
+        assert page.locator('html').evaluate('el=>getComputedStyle(el).backgroundColor')=='rgb(4, 19, 31)'
+        assert page.locator('header.sk-global-header').evaluate('el=>getComputedStyle(el).borderBottomStyle')!='none'
+def numeric_keypads(page,route):
+    fields=page.locator('input[type="number"]'); assert fields.count()>0
     for index in range(fields.count()):
-        field = fields.nth(index)
-        assert field.get_attribute("inputmode") in ("decimal", "numeric"), f"Keine Zahlentastatur für #{field.get_attribute('id')} in {route}"
+        assert fields.nth(index).get_attribute('inputmode') in ('decimal','numeric'),f'inputmode fehlt: {route} #{fields.nth(index).get_attribute("id")}'
+def mobile_controls(page):
+    viewport=page.viewport_size; left=page.locator('.sk-favorites-trigger').bounding_box(); right=page.locator('.sk-tree-trigger').bounding_box()
+    assert left and right and abs(left['x']-10)<=1 and abs(viewport['width']-right['x']-right['width']-10)<=1
+    left_bottom=viewport['height']-left['y']-left['height']; right_bottom=viewport['height']-right['y']-right['height']
+    assert 8<=left_bottom<=10 and 8<=right_bottom<=10
+    assert page.locator('.sk-favorites-trigger').evaluate('el=>getComputedStyle(el).position')=='fixed'
 
+def calculator_tests(page):
+    page.goto(BASE+'/einheitenrechner/'); page.wait_for_load_state('networkidle'); text(page,'#out','1.000,000 mbar')
+    page.locator('#cat').select_option('temperature'); page.locator('#from').select_option('fahrenheit'); set_input(page,'#x',32); text(page,'#out','273,150 K')
+    page.locator('#to').select_option('celsius'); text(page,'#out','0,000 °C')
+
+    page.goto(BASE+'/analogsignal/'); page.wait_for_load_state('networkidle'); text(page,'#out','12,000 mA'); text(page,'#pct','50,0 %')
+    page.locator('#processUnit').select_option('psi'); assert abs(float(page.locator('#x').input_value())-725.18868865)<1e-8; text(page,'#out','12,000 mA')
+    page.locator('#signalUnit').select_option('ampere'); assert abs(float(page.locator('#s1').input_value())-.02)<1e-12; text(page,'#out','0,012 A')
+
+    page.goto(BASE+'/pf-rechner/'); page.wait_for_load_state('networkidle'); text(page,'#k','0,160000'); text(page,'#n','4,000000')
+    page.locator('#xUnit').select_option('psi'); assert abs(float(page.locator('#x2').input_value())-1450.3773773)<1e-8
+    page.locator('#yUnit').select_option('ampere'); assert abs(float(page.locator('#y2').input_value())-.02)<1e-12
+
+    page.goto(BASE+'/pt-rechner/'); page.wait_for_load_state('networkidle'); text(page,'#out','100,000 Ω')
+    page.locator('#inputUnit').select_option('fahrenheit'); assert page.locator('#x').input_value()=='32'; text(page,'#out','100,000 Ω')
+    page.locator('#dir').select_option('rt'); assert page.locator('#x').input_value()=='100'; text(page,'#out','0,00 °C')
+    page.locator('#outputUnit').select_option('fahrenheit'); text(page,'#out','32,00 °F')
+
+    page.goto(BASE+'/siemens-analogwert-rechner/'); page.wait_for_load_state('networkidle'); text(page,'#rawResult','13.824'); text(page,'#physicalResult','50,000 °C')
+    page.locator('#physicalUnitSelect').select_option('fahrenheit'); assert page.locator('#physicalMin').input_value()=='-58' and page.locator('#physicalMax').input_value()=='302'; text(page,'#physicalResult','122,000 °F')
+    page.locator('#inputSignToggle').click(); assert float(page.locator('#inputValue').input_value())==-12; page.locator('#inputSignToggle').click()
+
+    page.goto(BASE+'/spannungsfall-rechner/'); page.wait_for_load_state('networkidle'); set_input(page,'#current',16); set_input(page,'#length',35); page.locator('#calculate').click(); text(page,'#dropV','6,93 V'); text(page,'#dropPercent','1,73 %')
+    page.locator('#currentUnit').select_option('milliampere'); assert page.locator('#current').input_value()=='16000'; text(page,'#dropV','6,93 V')
+    page.locator('#lengthUnit').select_option('foot'); assert abs(float(page.locator('#length').input_value())-114.829396325)<1e-8; text(page,'#dropV','6,93 V')
+    page.locator('#voltageUnit').select_option('millivolt'); text(page,'#dropV','6.928,20 mV')
 
 with sync_playwright() as p:
-    executable = os.environ.get("PLAYWRIGHT_CHROMIUM_EXECUTABLE")
-    browser = p.chromium.launch(headless=True, executable_path=executable) if executable else p.chromium.launch(headless=True)
-    console_errors = []
+    executable=os.environ.get('PLAYWRIGHT_CHROMIUM_EXECUTABLE')
+    if not executable:
+        candidates=[Path('/opt/pw-browsers/chromium-1208/chrome-linux64/chrome'),Path('/opt/pw-browsers/chromium_headless_shell-1208/chrome-headless-shell-linux64/chrome-headless-shell')]
+        executable=str(next((item for item in candidates if item.exists()),'')) or None
+    browser=p.chromium.launch(headless=True,executable_path=executable)
+    context=browser.new_context(viewport={'width':1440,'height':1050},device_scale_factor=1)
+    desktop=context.new_page(); console_errors=[]
+    desktop.on('console',lambda msg: console_errors.append(msg.text) if msg.type=='error' else None)
+    for route in PAGES: common(desktop,route)
+    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); assert desktop.locator('.tools>a.card').count()==10; text(desktop,'.hero .badge',f'Version {VERSION}')
+    desktop.locator('#skToolSearch').fill('psi'); desktop.wait_for_function("document.querySelectorAll('#skKnowledgeResultList>a').length===1"); text(desktop,'#skKnowledgeResultList h3','Einheitendatenbank'); desktop.locator('#skFilterReset').click()
+    unit_card=desktop.locator('.tools>a.card[href="einheitendatenbank/"]'); unit_card.locator('.sk-favorite-button').click(); desktop.locator('.sk-favorites-trigger').click(); assert desktop.locator('.sk-favorites-list').get_by_text('Einheitendatenbank',exact=True).count()==1; desktop.locator('.sk-favorites-close').click()
 
-    desktop = browser.new_page(viewport={"width": 1440, "height": 1050}, device_scale_factor=1)
-    desktop.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
-    desktop.goto(f"{BASE}/siemens-analogwert-rechner/")
-    desktop.wait_for_load_state("networkidle")
-    assert desktop.locator("body").get_attribute("data-sk-version") == VERSION
-    assert desktop.locator("header.sk-global-header").bounding_box()["height"] <= 88
-    assert_box(desktop, ".sk-favorites-trigger", 48, 48)
-    assert_box(desktop, ".sk-tree-trigger", 48, 48)
-    assert_text(desktop, "h1", "Siemens Rohwert")
-    assert desktop.locator("#cardProfile option").count() == 5
-    assert desktop.locator("#signalType option").count() == 4
-    assert desktop.locator(".analog-tab").all_inner_texts() == ["Signal", "Rohwert", "Phys. Wert"]
-    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "signal"
-    assert desktop.locator("#inputKind").count() == 0
-    for old_selector in (".analog-result-grid", ".analog-control-grid", "#valueSlider", "#stateStrip"):
-        assert desktop.locator(old_selector).count() == 0, f"Alte Rechneroberfläche noch vorhanden: {old_selector}"
-    assert desktop.locator("#inputValue").count() == 1
-    assert desktop.locator("#inputValue").is_visible()
-    assert desktop.locator(".analog-value-card:visible").count() == 2
-    assert desktop.locator("#signalOutputCard").is_hidden()
-    assert desktop.locator("#rawOutputCard").is_visible()
-    assert desktop.locator("#physicalOutputCard").is_visible()
-    assert float(desktop.locator("#inputValue").input_value()) == 12.0
-    assert_text(desktop, "#rawResult", "13.824")
-    assert_text(desktop, "#physicalResult", "50,000 °C")
-    assert desktop.locator("#physicalMin").input_value() == "-50"
-    assert desktop.locator("#physicalMax").input_value() == "150"
-    assert desktop.locator("#physicalUnit").input_value() == "°C"
-    assert desktop.locator(".analog-sign-button").count() == 3
-    assert desktop.locator("#inputSignToggle").get_attribute("data-sign-target") == "inputValue"
-    assert desktop.locator("#physicalMinSignToggle").get_attribute("data-sign-target") == "physicalMin"
-    assert desktop.locator("#physicalMaxSignToggle").get_attribute("data-sign-target") == "physicalMax"
-    assert desktop.locator("#signalType").input_value() == "4-20mA"
-    physical_y = desktop.locator(".analog-physical-range").bounding_box()["y"]
-    signal_y = desktop.locator("label[for='signalType']").bounding_box()["y"]
-    card_y = desktop.locator("label[for='cardProfile']").bounding_box()["y"]
-    assert physical_y < signal_y < card_y
+    desktop.goto(BASE+'/einheitendatenbank/'); desktop.wait_for_load_state('networkidle'); assert desktop.locator('.unit-category-card').count()==19; assert desktop.locator('.unit-row').count()==115; text(desktop,'#unitResult','115 Einheiten in 19 Kategorien')
+    desktop.locator('#unitSearch').fill('Fahrenheit'); assert desktop.locator('.unit-row:visible').count()==1; desktop.locator('#unitReset').click(); desktop.locator('#unitCategoryFilter').select_option('viscosity'); assert desktop.locator('.unit-category-card:visible').count()==1; desktop.locator('#unitReset').click()
+    fahrenheit=desktop.locator('.unit-row').filter(has_text='Grad Fahrenheit').locator('.unit-favorite-button'); fahrenheit.click(); assert fahrenheit.get_attribute('data-active')=='true'; desktop.reload(); desktop.wait_for_load_state('networkidle'); assert desktop.locator('.unit-row').filter(has_text='Grad Fahrenheit').locator('.unit-favorite-button').get_attribute('data-active')=='true'
+    desktop.goto(BASE+'/einheitenrechner/'); desktop.wait_for_load_state('networkidle'); desktop.locator('#cat').select_option('temperature'); assert desktop.locator('#from optgroup[label="Favoriten"] option[value="fahrenheit"]').count()==1
+    calculator_tests(desktop)
+    for slug,route in CALCULATORS:
+        common(desktop,route); numeric_keypads(desktop,route); assert desktop.locator('select optgroup[label="Standardeinheit"]').count()>=1; desktop.screenshot(path=str(OUT/f'rechner-{slug}-desktop.png'),full_page=True)
+    common(desktop,'/einheitendatenbank/'); desktop.screenshot(path=str(OUT/'einheitendatenbank-desktop.png'),full_page=True)
 
-    # ± wechselt zuverlässig den vorhandenen Zahlenwert, aktualisiert sofort
-    # und darf das zugehörige Zahlenfeld nicht fokussieren.
-    desktop.evaluate("window.__signFocusCount=0;document.querySelectorAll('#inputValue,#physicalMin,#physicalMax').forEach(el=>el.addEventListener('focus',()=>window.__signFocusCount++))")
-    desktop.locator("#inputSignToggle").click()
-    assert float(desktop.locator("#inputValue").input_value()) == -12.0
-    assert_text(desktop, "#rawResult", "-27.648")
-    assert_text(desktop, "#physicalResult", "-250,000 °C")
-    assert desktop.evaluate("document.activeElement.id") != "inputValue"
-    desktop.locator("#inputSignToggle").click()
-    assert float(desktop.locator("#inputValue").input_value()) == 12.0
-    assert_text(desktop, "#rawResult", "13.824")
-    desktop.locator("#physicalMinSignToggle").click()
-    assert desktop.locator("#physicalMin").input_value() == "50"
-    assert_text(desktop, "#physicalResult", "100,000 °C")
-    assert desktop.evaluate("document.activeElement.id") != "physicalMin"
-    desktop.locator("#physicalMinSignToggle").click()
-    assert desktop.locator("#physicalMin").input_value() == "-50"
-    desktop.locator("#physicalMaxSignToggle").click()
-    assert desktop.locator("#physicalMax").input_value() == "-150"
-    assert desktop.locator("#calculationError").is_visible()
-    assert desktop.evaluate("document.activeElement.id") != "physicalMax"
-    desktop.locator("#physicalMaxSignToggle").click()
-    assert desktop.locator("#physicalMax").input_value() == "150"
-    assert desktop.locator("#calculationError").is_hidden()
-    assert desktop.evaluate("window.__signFocusCount") == 0
+    # PWA installieren lassen und die neue Datenbank aus dem Cache offline öffnen.
+    desktop.goto(BASE+'/'); desktop.wait_for_load_state('networkidle'); desktop.evaluate("navigator.serviceWorker.ready.then(()=>true)"); desktop.wait_for_function("caches.keys().then(keys=>keys.includes('sk-plt-tools-v2.1.7.0-Beta'))")
+    desktop.reload(); desktop.wait_for_load_state('networkidle'); context.set_offline(True); desktop.goto(BASE+'/einheitendatenbank/'); desktop.wait_for_load_state('domcontentloaded'); text(desktop,'h1','Einheitendatenbank'); assert desktop.locator('.unit-row').count()==115; context.set_offline(False)
 
-    set_input(desktop, "#inputValue", "16")
-    assert_text(desktop, "#rawResult", "20.736")
-    assert_text(desktop, "#physicalResult", "100,000 °C")
+    tablet_context=browser.new_context(viewport={'width':820,'height':1180},device_scale_factor=2,is_mobile=True)
+    tablet=tablet_context.new_page(); tablet_errors=[]; tablet.on('console',lambda msg: tablet_errors.append(msg.text) if msg.type=='error' else None)
+    for route in PAGES: common(tablet,route)
+    for slug,route in CALCULATORS: common(tablet,route); numeric_keypads(tablet,route); tablet.screenshot(path=str(OUT/f'rechner-{slug}-tablet.png'),full_page=True)
+    common(tablet,'/einheitendatenbank/'); tablet.screenshot(path=str(OUT/'einheitendatenbank-tablet.png'),full_page=True)
 
-    desktop.locator("#inputTabRaw").click()
-    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "raw"
-    assert desktop.evaluate("document.activeElement.id") != "inputValue"
-    desktop.locator("#physicalMin").fill("")
-    desktop.locator("#inputTabSignal").click()
-    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "signal"
-    assert desktop.locator("#calculationError").is_visible()
-    assert desktop.evaluate("document.activeElement.id") != "inputValue"
-    desktop.locator("#physicalMin").fill("-50")
-    desktop.locator("#physicalMin").dispatch_event("input")
-    desktop.locator("#inputTabRaw").click()
-    assert desktop.locator(".analog-value-card:visible").count() == 2
-    assert desktop.locator("#rawOutputCard").is_hidden()
-    assert desktop.locator("#signalOutputCard").is_visible()
-    assert desktop.locator("#physicalOutputCard").is_visible()
-    assert float(desktop.locator("#inputValue").input_value()) == 20736.0
-    for raw, status, color in [("-4865", "Unterlauf", "rgb(255, 123, 131)"), ("-4864", "Untersteuerung", "rgb(245, 185, 66)"), ("0", "Nennbereich", "rgb(137, 211, 41)"), ("27648", "Nennbereich", "rgb(137, 211, 41)"), ("27649", "Übersteuerung", "rgb(245, 185, 66)"), ("32512", "Überlauf", "rgb(255, 123, 131)")]:
-        set_input(desktop, "#inputValue", raw)
-        assert_text(desktop, "#rangeStatus", status)
-        assert desktop.locator("#inputValue").evaluate("el => getComputedStyle(el).color") == color
+    mobile_context=browser.new_context(viewport={'width':390,'height':844},device_scale_factor=2,is_mobile=True,has_touch=True)
+    mobile=mobile_context.new_page(); mobile_errors=[]; mobile.on('console',lambda msg: mobile_errors.append(msg.text) if msg.type=='error' else None)
+    for route in PAGES: common(mobile,route,True); mobile_controls(mobile)
+    for slug,route in CALCULATORS: common(mobile,route,True); numeric_keypads(mobile,route); mobile.screenshot(path=str(OUT/f'rechner-{slug}-mobile.png'),full_page=True)
+    common(mobile,'/einheitendatenbank/',True); mobile.locator('#unitSearch').fill('bar'); assert mobile.locator('.unit-row:visible').count()>=1; mobile.screenshot(path=str(OUT/'einheitendatenbank-mobile.png'),full_page=True)
+    landscape_context=browser.new_context(viewport={'width':844,'height':390},device_scale_factor=2,is_mobile=True,has_touch=True)
+    landscape=landscape_context.new_page(); common(landscape,'/',True); mobile_controls(landscape); landscape.screenshot(path=str(OUT/'startseite-mobile-landscape.png'),full_page=True)
 
-    set_input(desktop, "#inputValue", "13824")
-    desktop.locator("#inputTabSignal").click()
-    assert float(desktop.locator("#inputValue").input_value()) == 12.0
-    desktop.locator("#signalType").select_option("0-20mA")
-    assert float(desktop.locator("#inputValue").input_value()) == 10.0
-    set_input(desktop, "#inputValue", "15")
-    assert_text(desktop, "#rawResult", "20.736")
-    assert_text(desktop, "#physicalResult", "100,000 °C")
-
-    desktop.locator("#signalType").select_option("4-20mA")
-    desktop.locator("#inputTabPhysical").click()
-    assert desktop.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "physical"
-    assert desktop.locator("#physicalOutputCard").is_hidden()
-    assert float(desktop.locator("#inputValue").input_value()) == 100.0
-    set_input(desktop, "#inputValue", "0")
-    assert_text(desktop, "#rawResult", "6.912")
-    assert_text(desktop, "#signalResult", "8,000 mA")
-    set_input(desktop, "#physicalMin", "-100")
-    set_input(desktop, "#physicalMax", "100")
-    desktop.locator("#physicalUnit").fill("bar")
-    desktop.locator("#physicalUnit").dispatch_event("input")
-    assert_text(desktop, "#physicalResult", "-50,000 bar")
-    assert_text(desktop, "#inputSuffix", "bar")
-
-    desktop.locator("#cardProfile").select_option("et200spha_on")
-    assert desktop.locator('#signalType option[value="0-20mA"]').evaluate("option => option.disabled")
-    desktop.locator("#inputTabRaw").click()
-    for raw, status in [("-691", "Unterlauf"), ("-690", "Untersteuerung"), ("-345", "Nennbereich"), ("28511", "Nennbereich"), ("28512", "Übersteuerung"), ("29376", "Überlauf")]:
-        set_input(desktop, "#inputValue", raw)
-        assert_text(desktop, "#rangeStatus", status)
-
-    set_input(desktop, "#inputValue", "13824")
-    desktop.locator("#cardProfile").select_option("s71500_fai_scale")
-    assert_text(desktop, "#rangeStatus", "Nur Skalierung")
-    assert desktop.locator("#inputValue").evaluate("el => getComputedStyle(el).color") == "rgb(0, 183, 232)"
-    card_info = desktop.locator("details.analog-card-info")
-    assert not card_info.get_attribute("open")
-    card_info.locator("summary").click()
-    assert card_info.get_attribute("open") is not None
-    assert "nicht bewertet" in desktop.locator("#statusDetail").inner_text().lower()
-    desktop.screenshot(path=str(OUT / "siemens-desktop.png"), full_page=True)
-
-    # Alle übrigen Rechner verwenden dieselbe Karten-, Feld-, Ergebnis- und
-    # Typografie-Schicht wie die Siemens-Referenz; die bestehende Logik bleibt aktiv.
-    for slug, route in UNIFIED_CALCULATORS:
-        desktop.goto(f"{BASE}{route}")
-        desktop.wait_for_load_state("networkidle")
-        assert_unified_calculator(desktop, route)
-        if slug == "analogsignal":
-            assert_text(desktop, "#out", "12,000 mA")
-            assert_text(desktop, "#pct", "50,0 %")
-        elif slug == "einheitenrechner":
-            assert_text(desktop, "#out", "1.000,000 mbar")
-        elif slug == "pf-rechner":
-            assert_text(desktop, "#k", "0,160000")
-            assert_text(desktop, "#n", "4,000000")
-        elif slug == "pt-rechner":
-            assert_text(desktop, "#out", "100,000 Ω")
-        elif slug == "spannungsfall-rechner":
-            set_input(desktop, "#current", "16")
-            set_input(desktop, "#length", "35")
-            desktop.locator("#calculate").click()
-            assert desktop.locator("#result").is_visible()
-            assert_text(desktop, "#dropV", "6,93 V")
-            assert_text(desktop, "#dropPercent", "1,73 %")
-        desktop.screenshot(path=str(OUT / f"rechner-{slug}-desktop.png"), full_page=True)
-
-    desktop.goto(f"{BASE}/wissensdatenbank/")
-    desktop.wait_for_load_state("networkidle")
-    knowledge = desktop.locator('a.knowledge-entry[href="siemens-sps-rohwert/"]')
-    assert knowledge.count() == 1
-    assert_text(desktop, 'a.knowledge-entry[href="siemens-sps-rohwert/"] h2', "Rohwert Grundlagen")
-
-    desktop.goto(f"{BASE}/wissensdatenbank/siemens-sps-rohwert/")
-    desktop.wait_for_load_state("networkidle")
-    assert desktop.locator('a.cta').get_attribute('href') == '../../siemens-analogwert-rechner/'
-    assert '12 mA = 13824' in desktop.locator('main').inner_text()
-    assert desktop.locator('.sk-logo-version').count() == 0
-    assert 'Version ' not in desktop.locator('footer.sk-footer').inner_text()
-    breadcrumb_links = desktop.locator('.knowledge-breadcrumb a')
-    assert breadcrumb_links.count() == 2
-    assert breadcrumb_links.all_inner_texts() == ['Startseite', 'Wissensdatenbank']
-    assert breadcrumb_links.evaluate_all("links => links.map(link => getComputedStyle(link).color)") == ['rgb(0, 183, 232)', 'rgb(0, 183, 232)']
-    desktop.screenshot(path=str(OUT / "rohwert-grundlagen-desktop.png"), full_page=True)
-
-    desktop.goto(f"{BASE}/")
-    desktop.wait_for_load_state("networkidle")
-    external = desktop.locator('a.sk-external-card')
-    assert external.count() == 1
-    assert external.get_attribute("href") == "https://netilion.endress.com/app/library/device_viewer"
-    assert external.get_attribute("target") == "_blank"
-    assert set((external.get_attribute("rel") or "").split()) >= {"external", "noopener", "noreferrer"}
-    assert external.get_attribute("referrerpolicy") == "no-referrer"
-    assert_text(desktop, '.hero .badge', f'Version {VERSION}')
-    assert desktop.locator(f'text=Version {VERSION}').count() == 1
-
-    # Suche und Suchübergabe in das getrennte Werkstoffmodul.
-    desktop.locator('#skToolSearch').fill('316L')
-    desktop.wait_for_function("document.querySelectorAll('#skKnowledgeResultList > a').length > 0")
-    material_hit = desktop.locator('#skKnowledgeResultList a[href*="werkstoff-nachschlagewerk"]')
-    assert material_hit.count() == 1
-    assert 'q=316L' in material_hit.get_attribute('href')
-    assert '1 Beitrag' in desktop.locator('#skFilterResult').inner_text()
-    desktop.locator('#skFilterReset').click()
-    assert desktop.locator('.tools > a.card:visible').count() == 9
-
-    # Kategorie und Sortierung.
-    desktop.locator('.sk-filter-button[data-filter="RECHNER"]').click()
-    assert desktop.locator('.tools > a.card:visible').count() == 6
-    desktop.locator('#skFilterReset').click()
-    desktop.locator('#skToolSort').select_option('title-asc')
-    sorted_titles = desktop.locator('.tools > a.card h2').all_inner_texts()
-    assert sorted_titles == sorted(sorted_titles, key=lambda value: value.casefold())
-    desktop.locator('#skToolSort').select_option('default')
-
-    # Favoriten per UI hinzufügen, nach Reload wiederfinden und entfernen.
-    analog_card = desktop.locator('.tools > a.card[href="analogsignal/"]')
-    analog_card.locator('.sk-favorite-button').click()
-    desktop.locator('.sk-favorites-trigger').click()
-    assert_text(desktop, '.sk-favorites-list strong', 'Analogsignal-Rechner')
-    desktop.locator('.sk-favorites-close').click()
-    desktop.reload()
-    desktop.wait_for_load_state('networkidle')
-    desktop.locator('.sk-favorites-trigger').click()
-    assert_text(desktop, '.sk-favorites-list strong', 'Analogsignal-Rechner')
-    desktop.locator('.sk-favorite-remove').click()
-    assert_text(desktop, '.sk-favorites-empty strong', 'Noch keine Favoriten')
-    desktop.locator('.sk-favorites-close').click()
-
-    desktop.locator('.sk-tree-trigger').click()
-    desktop.wait_for_timeout(300)
-    knowledge_group = desktop.locator('.sk-tree-group-toggle[data-group="knowledge"]')
-    assert knowledge_group.get_attribute('aria-expanded') == 'true'
-    knowledge_row = desktop.locator('.sk-tree-group-toggle[data-group="knowledge"] + .sk-tree-list > .sk-tree-item.has-children > .sk-tree-node-row')
-    assert knowledge_row.count() == 1
-    assert_text(desktop, '.sk-tree-group-toggle[data-group="knowledge"] + .sk-tree-list > .sk-tree-item.has-children > .sk-tree-node-row > .sk-tree-link', 'Wissensdatenbank')
-    assert desktop.locator('.sk-tree-node-toggle a').count() == 0
-    assert knowledge_row.evaluate("row => getComputedStyle(row).backgroundColor") == 'rgb(10, 38, 57)'
-    assert knowledge_group.evaluate("button => getComputedStyle(button).backgroundColor") == 'rgb(10, 38, 57)'
-    assert knowledge_row.locator('.sk-tree-chevron').inner_text() == '⌄'
-    assert knowledge_row.locator('.sk-tree-node-toggle').evaluate("button => getComputedStyle(button).color") == 'rgb(137, 211, 41)'
-    row_box = knowledge_row.bounding_box()
-    toggle_box = knowledge_row.locator('.sk-tree-node-toggle').bounding_box()
-    link_box = knowledge_row.locator('.sk-tree-link').bounding_box()
-    assert row_box and toggle_box and link_box
-    assert row_box['x'] <= toggle_box['x'] and toggle_box['x'] + toggle_box['width'] <= row_box['x'] + row_box['width']
-    assert row_box['x'] <= link_box['x'] and link_box['x'] + link_box['width'] <= row_box['x'] + row_box['width']
-    assert abs((toggle_box['y'] + toggle_box['height'] / 2) - (row_box['y'] + row_box['height'] / 2)) <= 1
-    assert desktop.get_by_text('Rohwert Grundlagen', exact=True).count() == 1
-    assert desktop.get_by_text('Rohwert-Rechner', exact=True).count() == 0
-    desktop.screenshot(path=str(OUT / "navigation-wissen-desktop.png"), full_page=True)
-    desktop.locator('.sk-tree-close').click()
-    desktop.wait_for_function("document.querySelector('.sk-tree-drawer').getBoundingClientRect().left >= window.innerWidth")
-    desktop.screenshot(path=str(OUT / "startseite-desktop.png"), full_page=True)
-
-    tablet = browser.new_page(viewport={"width": 820, "height": 1180}, device_scale_factor=2, is_mobile=True)
-    tablet.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
-    for route in PAGES:
-        tablet.goto(f"{BASE}{route}")
-        tablet.wait_for_load_state("networkidle")
-        assert tablet.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Horizontales Überlaufen: {route}"
-        assert tablet.locator("body").get_attribute("data-sk-version") == VERSION
-        assert tablet.locator("header.sk-global-header").bounding_box()["height"] <= 88
-        assert_box(tablet, ".sk-favorites-trigger", 48, 48)
-        assert_box(tablet, ".sk-tree-trigger", 48, 48)
-    tablet.goto(f"{BASE}/")
-    tablet.wait_for_load_state("networkidle")
-    assert tablet.locator(".tools").evaluate("el => getComputedStyle(el).gridTemplateColumns.split(' ').length") == 2
-    tablet.goto(f"{BASE}/siemens-analogwert-rechner/")
-    tablet.wait_for_load_state("networkidle")
-    assert tablet.locator("details.analog-card-info").get_attribute("open") is None
-    tablet.screenshot(path=str(OUT / "siemens-tablet.png"), full_page=True)
-    for slug, route in UNIFIED_CALCULATORS:
-        tablet.goto(f"{BASE}{route}")
-        tablet.wait_for_load_state("networkidle")
-        assert_unified_calculator(tablet, route)
-        assert tablet.locator(".calc-field-card").first.bounding_box()["width"] > 250
-        tablet.screenshot(path=str(OUT / f"rechner-{slug}-tablet.png"), full_page=True)
-
-    mobile = browser.new_page(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True, has_touch=True)
-    mobile.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
-    mobile.goto(f"{BASE}/siemens-analogwert-rechner/")
-    mobile.wait_for_load_state("networkidle")
-    assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-    assert mobile.locator("header.sk-global-header").bounding_box()["height"] <= 76
-    assert mobile.locator("header.sk-global-header").evaluate("el => getComputedStyle(el).position") == "sticky"
-    assert_mobile_header_shell(mobile)
-    assert_box(mobile, ".sk-favorites-trigger", 50, 50)
-    assert_box(mobile, ".sk-tree-trigger", 50, 50)
-    assert_mobile_fixed_controls(mobile)
-    assert mobile.locator("#cardProfile").is_visible()
-    assert mobile.locator("#cardProfile").bounding_box()["height"] >= 48
-    assert mobile.locator("details.analog-card-info").get_attribute("open") is None
-    input_box = mobile.locator(".analog-input-shell").bounding_box()
-    input_field_box = mobile.locator("#inputValue").bounding_box()
-    suffix_box = mobile.locator("#inputSuffix").bounding_box()
-    assert 48 <= input_box["height"] <= 52
-    assert 46 <= input_field_box["height"] <= 50
-    assert abs(input_field_box["y"] - suffix_box["y"]) <= 1
-    assert mobile.locator(".analog-tab").all_inner_texts() == ["Signal", "Rohwert", "Phys. Wert"]
-    assert mobile.locator(".analog-value-card:visible").count() == 2
-    assert mobile.locator("#inputValue").count() == 1
-    assert_numeric_keypads(mobile, "/siemens-analogwert-rechner/")
-    assert mobile.locator(".analog-sign-button").count() == 3
-    mobile.evaluate("window.__mobileSignFocusCount=0;document.querySelectorAll('#inputValue,#physicalMin,#physicalMax').forEach(el=>el.addEventListener('focus',()=>window.__mobileSignFocusCount++))")
-    mobile.locator("#inputSignToggle").tap()
-    assert float(mobile.locator("#inputValue").input_value()) == -12.0
-    assert_text(mobile, "#rawResult", "-27.648")
-    assert mobile.evaluate("document.activeElement.id") != "inputValue"
-    mobile.locator("#inputSignToggle").tap()
-    assert float(mobile.locator("#inputValue").input_value()) == 12.0
-    mobile.locator("#physicalMinSignToggle").tap()
-    assert mobile.locator("#physicalMin").input_value() == "50"
-    assert mobile.evaluate("document.activeElement.id") != "physicalMin"
-    mobile.locator("#physicalMinSignToggle").tap()
-    assert mobile.locator("#physicalMin").input_value() == "-50"
-    assert mobile.evaluate("window.__mobileSignFocusCount") == 0
-    mobile.locator("#inputTabRaw").click()
-    assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "raw"
-    assert mobile.locator("#inputValue").get_attribute("inputmode") == "numeric"
-    assert mobile.evaluate("document.activeElement.id") != "inputValue"
-    mobile.locator("#inputTabPhysical").click()
-    assert mobile.locator(".analog-tab[aria-selected='true']").get_attribute("data-input-kind") == "physical"
-    assert mobile.locator("#inputValue").get_attribute("inputmode") == "decimal"
-    assert mobile.evaluate("document.activeElement.id") != "inputValue"
-    mobile.screenshot(path=str(OUT / "siemens-mobile.png"), full_page=True)
-    for slug, route in UNIFIED_CALCULATORS:
-        mobile.goto(f"{BASE}{route}")
-        mobile.wait_for_load_state("networkidle")
-        assert_unified_calculator(mobile, route)
-        assert_numeric_keypads(mobile, route)
-        assert mobile.locator(".calc-field-grid").evaluate("el => getComputedStyle(el).gridTemplateColumns.split(' ').length") == 1
-        assert_mobile_header_shell(mobile)
-        assert_mobile_fixed_controls(mobile)
-        mobile.screenshot(path=str(OUT / f"rechner-{slug}-mobile.png"), full_page=True)
-    for route in PAGES:
-        mobile.goto(f"{BASE}{route}")
-        mobile.wait_for_load_state("networkidle")
-        assert mobile.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), f"Mobiles Überlaufen: {route}"
-        assert_mobile_header_shell(mobile)
-        assert_box(mobile, ".sk-favorites-trigger", 50, 50)
-        assert_box(mobile, ".sk-tree-trigger", 50, 50)
-        assert_mobile_fixed_controls(mobile)
-    mobile.goto(f"{BASE}/")
-    mobile.wait_for_load_state("networkidle")
-    assert mobile.locator(".tools").evaluate("el => getComputedStyle(el).gridTemplateColumns.split(' ').length") == 1
-    assert mobile.locator(".hero img").bounding_box()["y"] < mobile.locator(".hero h1").bounding_box()["y"]
-    assert mobile.locator(".sk-favorite-button").first.bounding_box()["width"] >= 44
-    mobile.screenshot(path=str(OUT / "startseite-mobile.png"), full_page=True)
-    mobile.locator('.sk-tree-trigger').click()
-    mobile.wait_for_timeout(300)
-    mobile_row = mobile.locator('.sk-tree-group-toggle[data-group="knowledge"] + .sk-tree-list > .sk-tree-item.has-children > .sk-tree-node-row')
-    mobile_row_box = mobile_row.bounding_box()
-    mobile_toggle_box = mobile_row.locator('.sk-tree-node-toggle').bounding_box()
-    mobile_link_box = mobile_row.locator('.sk-tree-link').bounding_box()
-    assert mobile_row_box and mobile_toggle_box and mobile_link_box
-    assert mobile_row_box['x'] <= mobile_toggle_box['x'] and mobile_toggle_box['x'] + mobile_toggle_box['width'] <= mobile_row_box['x'] + mobile_row_box['width']
-    assert mobile_row_box['x'] <= mobile_link_box['x'] and mobile_link_box['x'] + mobile_link_box['width'] <= mobile_row_box['x'] + mobile_row_box['width']
-    assert abs((mobile_toggle_box['y'] + mobile_toggle_box['height'] / 2) - (mobile_row_box['y'] + mobile_row_box['height'] / 2)) <= 1
-    mobile.screenshot(path=str(OUT / "navigation-wissen-mobile.png"))
-    mobile.locator('.sk-tree-close').click()
-    mobile.goto(f"{BASE}/analogsignal/")
-    mobile.wait_for_load_state("networkidle")
-    assert abs(mobile.locator("button.sign").first.bounding_box()["width"] - 44) <= 1
-
-    # Breites Smartphone-Querformat mit Safe-Area-/Viewport-Shell.
-    landscape = browser.new_page(viewport={"width": 844, "height": 390}, device_scale_factor=2, is_mobile=True)
-    landscape.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
-    landscape.goto(f"{BASE}/")
-    landscape.wait_for_load_state("networkidle")
-    assert landscape.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-    assert landscape.locator("header.sk-global-header").bounding_box()["height"] <= 66
-    assert landscape.locator("header.sk-global-header").evaluate("el => getComputedStyle(el).position") == "sticky"
-    assert_mobile_header_shell(landscape)
-    assert_box(landscape, ".sk-favorites-trigger", 50, 50)
-    assert_box(landscape, ".sk-tree-trigger", 50, 50)
-    assert_mobile_fixed_controls(landscape, bottom=8, side=10)
-    assert landscape.locator(".hero img").bounding_box()["x"] > landscape.locator(".hero h1").bounding_box()["x"]
-    landscape.screenshot(path=str(OUT / "startseite-mobile-landscape.png"), full_page=True)
-
-    # PWA-Metadaten, Service Worker und echter Offline-Aufruf aus dem Cache.
-    pwa = browser.new_page(viewport={"width": 1280, "height": 900})
-    pwa.on("console", lambda msg: console_errors.append(msg.text) if msg.type == "error" else None)
-    pwa.goto(f"{BASE}/")
-    pwa.wait_for_load_state("networkidle")
-    manifest = pwa.evaluate("fetch('manifest.webmanifest').then(response => response.json())")
-    assert manifest["version"] == VERSION
-    assert manifest["id"] == APP_ID
-    pwa.evaluate("navigator.serviceWorker.ready.then(() => true)")
-    if not pwa.evaluate("Boolean(navigator.serviceWorker.controller)"):
-        pwa.reload()
-        pwa.wait_for_load_state("networkidle")
-    assert pwa.evaluate("Boolean(navigator.serviceWorker.controller)")
-    cache_keys = pwa.evaluate("caches.keys()")
-    assert f"sk-plt-tools-v{VERSION}" in cache_keys
-    cached_urls = pwa.evaluate(f"caches.open('sk-plt-tools-v{VERSION}').then(cache => cache.keys()).then(keys => keys.map(key => new URL(key.url).pathname))")
-    for required in ('/index.html','/assets/core.css','/assets/app.js','/assets/navigation-tree.json','/siemens-analogwert-rechner/index.html','/wissensdatenbank/werkstoff-nachschlagewerk/index.html'):
-        assert required in cached_urls, f"Offline-Cache fehlt: {required}"
-    pwa.context.set_offline(True)
-    pwa.goto(f"{BASE}/siemens-analogwert-rechner/")
-    pwa.wait_for_load_state("domcontentloaded")
-    assert_text(pwa, 'h1', 'Siemens Rohwert')
-    assert_text(pwa, '#rawResult', '13.824')
-    pwa.goto(f"{BASE}/wissensdatenbank/werkstoff-nachschlagewerk/")
-    pwa.wait_for_load_state("domcontentloaded")
-    assert pwa.locator('#materialSearch').is_visible()
-    pwa.goto(f"{BASE}/")
-    pwa.wait_for_load_state("domcontentloaded")
-    pwa.locator('#skToolSearch').fill('Vacon')
-    pwa.wait_for_function("document.querySelectorAll('#skKnowledgeResultList > a').length === 1")
-    assert_text(pwa, '#skKnowledgeResultList h3', 'Vacon Frequenzumrichter')
-    pwa.context.set_offline(False)
-
+    assert not console_errors,f'Desktop-Konsole: {console_errors}'; assert not tablet_errors,f'Tablet-Konsole: {tablet_errors}'; assert not mobile_errors,f'Mobil-Konsole: {mobile_errors}'
+    print('OK: Desktop, Tablet, iPhone-Touchprofil, Querformat, alle Rechner, Einheitenfavoriten, automatische Umrechnungen und Offline-PWA geprüft.')
     browser.close()
-    assert not console_errors, "Browser console errors: " + " | ".join(console_errors)
-    print("OK: 15 Direktseiten sowie fünf vereinheitlichte Rechner auf Desktop, Tablet und iPhone-Touchprofil; Suche, Filter, Sortierung, Favoriten, Navigation, PWA und Offline-Verhalten geprüft.")

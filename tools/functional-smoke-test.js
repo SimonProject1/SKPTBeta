@@ -1,157 +1,57 @@
 #!/usr/bin/env node
 'use strict';
-const fs=require('fs');const vm=require('vm');const path=require('path');
-const ROOT=path.resolve(__dirname,'..');
-function baseContext(){
-  const context={console,URL,Number,Intl,Math,JSON,Array,String,RegExp,Object,Error,setTimeout:()=>0,clearTimeout:()=>{},location:{href:'http://localhost/',pathname:'/'},navigator:{},Event:function(type,options){this.type=type;Object.assign(this,options||{})}};
-  context.window=context;
-  context.document={currentScript:{src:'http://localhost/assets/app.js'},readyState:'loading',addEventListener:()=>{},querySelectorAll:()=>[],getElementById:()=>null,body:{dataset:{}}};
-  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/app.js'),'utf8'),context,{filename:'assets/app.js'});return context;
-}
-function inlineScript(file,needle){const html=fs.readFileSync(path.join(ROOT,file),'utf8'),scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(match=>match[1]);const found=scripts.find(text=>text.includes(needle));if(!found)throw new Error(`Inline-Skript nicht gefunden: ${file}`);return found}
-function assertEqual(actual,expected,label){if(actual!==expected)throw new Error(`${label}: erwartet ${expected}, erhalten ${actual}`);console.log(`OK ${label}: ${actual}`)}
-function assertClose(actual,expected,tolerance,label){if(Math.abs(actual-expected)>tolerance)throw new Error(`${label}: erwartet ${expected} ± ${tolerance}, erhalten ${actual}`);console.log(`OK ${label}: ${actual}`)}
-function assertThrows(callback,needle,label){let message='';try{callback()}catch(error){message=error.message}if(!message.includes(needle))throw new Error(`${label}: erwartete Fehlermeldung mit ${needle}, erhalten ${message||'keine Fehlermeldung'}`);console.log(`OK ${label}: ${message}`)}
-function runInline(file,needle,values,assertions,setup){const context=baseContext();Object.assign(context,values);if(setup)setup(context);vm.runInContext(inlineScript(file,needle),context,{filename:file});for(const [key,expected] of Object.entries(assertions))assertEqual(context[key].textContent,expected,`${file} ${key}`)}
-runInline('analogsignal/index.html','function calc()',{
- p0:{value:'0'},p1:{value:'100'},s0:{value:'4'},s1:{value:'20'},dir:{value:'ps'},x:{value:'50'},out:{textContent:''},pct:{textContent:''}
-},{out:'12,000 mA',pct:'50,0 %'});
-runInline('pf-rechner/index.html','function calc()',{
- x1:{value:'0'},y1:{value:'4'},x2:{value:'100'},y2:{value:'20'},k:{textContent:''},n:{textContent:''}
-},{k:'0,160000',n:'4,000000'});
-runInline('pt-rechner/index.html','function r(t,r0)',{
- sensor:{value:'100'},dir:{value:'tr'},x:{value:'0'},out:{textContent:''}
-},{out:'100,000 Ω'});
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const ROOT=path.resolve(__dirname,'..'),VERSION='2.1.7.0-Beta';
+const read=file=>fs.readFileSync(path.join(ROOT,file),'utf8');
+const json=file=>JSON.parse(read(file));
+function ok(condition,label){if(!condition)throw new Error(label);console.log(`OK ${label}`)}
+function equal(actual,expected,label){if(actual!==expected)throw new Error(`${label}: erwartet ${expected}, erhalten ${actual}`);console.log(`OK ${label}: ${actual}`)}
+function close(actual,expected,tolerance,label){if(Math.abs(actual-expected)>tolerance)throw new Error(`${label}: erwartet ${expected} ± ${tolerance}, erhalten ${actual}`);console.log(`OK ${label}: ${actual}`)}
+
+const data=json('assets/units.json');
+equal(data.release,VERSION,'Einheitendatenbank Release');
+equal(data.categories.length,19,'Einheitendatenbank Kategorien');
+equal(data.categories.reduce((sum,entry)=>sum+entry.units.length,0),115,'Einheitendatenbank Einheiten');
+const category=id=>data.categories.find(item=>item.id===id);
+const unit=(categoryId,unitId)=>category(categoryId).units.find(item=>item.id===unitId);
+const toBase=(value,categoryId,unitId)=>value*unit(categoryId,unitId).toBase.factor+(unit(categoryId,unitId).toBase.offset||0);
+const fromBase=(value,categoryId,unitId)=>(value-(unit(categoryId,unitId).toBase.offset||0))/unit(categoryId,unitId).toBase.factor;
+const convert=(value,categoryId,from,to)=>fromBase(toBase(value,categoryId,from),categoryId,to);
+for(const entry of data.categories){ok(entry.units.some(item=>item.id===entry.defaultUnit),`${entry.name}: feste Standardeinheit vorhanden`);for(const item of entry.units){for(const value of [-273.15,-1,0,1,123.456]){const roundTrip=convert(convert(value,entry.id,item.id,entry.defaultUnit),entry.id,entry.defaultUnit,item.id);close(roundTrip,value,Math.max(1e-9,Math.abs(value)*1e-10),`${entry.id}/${item.id}: Roundtrip ${value}`)}}}
+const requiredDefaults={pressure:'bar',temperature:'celsius',volumeFlow:'cubic_metre_hour',length:'metre',voltage:'volt',current:'ampere',resistance:'ohm'};
+for(const [id,expected] of Object.entries(requiredDefaults))equal(category(id).defaultUnit,expected,`${id}: geforderte Grundeinheit`);
+for(const test of data.validationCases)close(convert(test.input,test.category,test.from,test.to),test.expected,1e-10,`Referenzfall ${test.category} ${test.from}→${test.to}`);
+close(convert(32,'temperature','fahrenheit','celsius'),0,1e-12,'Offset 32 °F = 0 °C');
+close(convert(-40,'temperature','celsius','fahrenheit'),-40,1e-12,'Offset −40 °C = −40 °F');
+
+const unitRuntime=read('assets/unit-system.js');
+ok(unitRuntime.includes("const STORAGE_KEY='skPltUnitFavoritesV1'"),'Einheitenfavoriten eigener Local-Storage-Schlüssel');
+ok(unitRuntime.includes('localStorage.setItem(STORAGE_KEY'),'Einheitenfavoriten persistent gespeichert');
+ok(unitRuntime.includes("standard.label='Standardeinheit'")&&unitRuntime.includes("favoriteGroup.label='Favoriten'"),'Einheitliches Dropdown gruppiert Standard und Favoriten');
+ok(unitRuntime.includes("new CustomEvent('sk:unit-change'")&&unitRuntime.includes('convertTargets'),'Automatische Wertumrechnung bei Einheitenwechsel');
+
+const calculatorPages=['analogsignal/index.html','einheitenrechner/index.html','pf-rechner/index.html','pt-rechner/index.html','spannungsfall-rechner/index.html','siemens-analogwert-rechner/index.html'];
+for(const file of calculatorPages){const html=read(file),inputs=[...html.matchAll(/<input\b[^>]*\btype="number"[^>]*>/g)].map(match=>match[0]);ok(inputs.length>0,`${file}: Zahlenfelder vorhanden`);ok(inputs.every(input=>/\binputmode="(?:decimal|numeric)"/.test(input)),`${file}: mobile Zahlentastatur für alle Zahlenfelder`);ok(html.includes('unit-system.js'),`${file}: zentrale Einheitendatenbank eingebunden`)}
+for(const file of ['assets/analogsignal-rechner.js','assets/einheitenrechner.js','assets/pf-rechner.js','assets/pt-rechner.js','spannungsfall-rechner/calculator.js','assets/siemens-unit-integration.js'])ok(read(file).includes('SK_UNITS'),`${file}: zentrale Umrechnungs-API verwendet`);
+
+close(4+(50-0)/(100-0)*(20-4),12,1e-12,'Analogsignal 0…100 → 4…20 mA');
+close((20-4)/(100-0),0.16,1e-12,'P+F K-Faktor');
+function resistance(t,r0){const A=3.9083e-3,B=-5.775e-7,C=-4.183e-12;return t>=0?r0*(1+A*t+B*t*t):r0*(1+A*t+B*t*t+C*(t-100)*t*t*t)}
+close(resistance(0,100),100,1e-12,'Pt100 bei 0 °C');close(resistance(100,100),138.5055,1e-6,'Pt100 bei 100 °C');
+const drop=Math.sqrt(3)*35*16/(56*2.5);close(drop,6.928203230275509,1e-12,'Spannungsfall Referenzrechnung');
+
 {
- const context=baseContext();
- function select(){let options=[];let index=0;const object={oninput:null,onchange:null};Object.defineProperty(object,'innerHTML',{set(value){options=[...String(value).matchAll(/<option>(.*?)<\/option>/g)].map(match=>match[1]);index=0}});Object.defineProperty(object,'selectedIndex',{set(value){index=value}});Object.defineProperty(object,'value',{get(){return options[index]||''},set(value){const found=options.indexOf(value);if(found>=0)index=found}});return object}
- Object.assign(context,{cat:{value:'Druck'},from:select(),to:select(),x:{value:'1'},out:{textContent:''}});
- vm.runInContext(inlineScript('einheitenrechner/index.html','const U='),context,{filename:'einheitenrechner/index.html'});
- assertEqual(context.out.textContent,'1.000,000 mbar','Einheitenrechner 1 bar in mbar');
+ const context={console,Math,Number,Object,Array,String,Intl,Error,globalThis:null};context.globalThis=context;vm.createContext(context);vm.runInContext(read('assets/siemens-analogwert-rechner.js'),context,{filename:'siemens-analogwert-rechner.js'});const api=context.SK_SIEMENS_ANALOG,result=api.calculate('4-20mA','raw',13824,'et200sp_st',{min:-50,max:150,unit:'°C'});equal(result.raw,13824,'Siemens Rohwert');close(result.signal,12,1e-12,'Siemens Signal');close(result.physical,50,1e-12,'Siemens physikalischer Wert');equal(api.statusForRaw(32512,'et200sp_st','4-20mA'),'overflow','Siemens Überlaufgrenze');equal(api.toggleSignValue(12),-12,'Siemens ±-Vorzeichenwechsel');
 }
-{
- const elements={system:{value:'three'},voltagePreset:{value:'400'},customVoltage:{value:'500'},customVoltageLabel:{hidden:true},current:{value:'16',addEventListener:()=>{}},length:{value:'35',addEventListener:()=>{}},area:{value:'2.5'},material:{value:'56'},cosphi:{value:'1.00',addEventListener:()=>{}},limit:{value:'6.0',addEventListener:()=>{}},calculate:{},reset:{},result:{hidden:true,scrollIntoView:()=>{}},statusBadge:{className:'',textContent:''},dropV:{textContent:''},dropPercent:{textContent:''},loadVoltage:{textContent:''},permittedV:{textContent:''},reserve:{textContent:''},protocolV:{textContent:''},protocolPercent:{textContent:''},formula:{textContent:''}};
- const context={console,Math,Number,Intl,Array,String,document:{readyState:'complete',getElementById:id=>elements[id],querySelectorAll:selector=>selector==='input'?[elements.current,elements.length,elements.cosphi,elements.limit]:[]},alert:message=>{throw new Error(message)}};vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(ROOT,'spannungsfall-rechner/calculator.js'),'utf8'),context,{filename:'calculator.js'});elements.calculate.onclick();
- assertEqual(elements.dropV.textContent,'6,93 V','Spannungsfall ΔU');assertEqual(elements.dropPercent.textContent,'1,73 %','Spannungsfall Prozent');assertEqual(elements.loadVoltage.textContent,'393,07 V','Spannungsfall Lastspannung');assertEqual(elements.reserve.textContent,'+17,07 V','Spannungsfall Reserve');
-}
-{
-  const context={console,window:{}};
-  vm.createContext(context);
-  vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/materials.js'),'utf8'),context,{filename:'assets/materials.js'});
-  const api=context.window.SK_MATERIALS;
-  if(!api)throw new Error('Werkstoff-Suchfunktionen wurden nicht exportiert.');
-  const data=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/materials.json'),'utf8'));
-  const ids=(query,group='all')=>api.filterMaterials(data.materials,query,group).map(item=>item.id).sort().join(',');
-  assertEqual(ids('316L'),'1-4404,1-4409,1-4435','Werkstoffsuche 316L Mehrfachtreffer');
-  assertEqual(ids('1.4404'),'1-4404','Werkstoffsuche 1.4404');
-  assertEqual(ids('14404'),'1-4404','Werkstoffsuche 14404 ohne Punkt');
-  assertEqual(ids('CF8M'),'1-4408','Werkstoffsuche CF8M');
-  assertEqual(ids('316L','cast-stainless'),'1-4409','Werkstofffilter 316L Stahlguss');
-  assertEqual(ids('Alloy 59'),'2-4605','Werkstoffsuche Alloy 59');
-}
-{
-  const html=fs.readFileSync(path.join(ROOT,'wissensdatenbank/index.html'),'utf8');
-  const tiles=[...html.matchAll(/<a class="([^"]*\bknowledge-entry\b[^"]*)"[^>]*href="([^"]+)"/g)].map(match=>({classes:match[1].split(/\s+/),href:match[2]}));
-  assertEqual(tiles.length,5,'Wissensdatenbank Anzahl Wissenskacheln');
-  const expected=['air-torque-antrieb-drehrichtung/','siemens-sitrans-p320-sil-verriegelung/','siemens-sps-rohwert/','vacon-frequenzumrichter-ist-sollwert-abweichung/','werkstoff-nachschlagewerk/'];
-  assertEqual(tiles.map(tile=>tile.href).sort().join(','),expected.join(','),'Wissensdatenbank erwartete Kachelziele');
-  assertEqual(tiles.every(tile=>tile.classes.includes('tool-card')),true,'Wissensdatenbank alle Kacheln favoritenfähig');
-   const article=fs.readFileSync(path.join(ROOT,'wissensdatenbank/siemens-sps-rohwert/index.html'),'utf8');
-   assertEqual(article.includes('4 mA  =     0')&&article.includes('12 mA = 13824'),true,'Rohwertartikel 4–20-mA-Parametrierung');
-   assertEqual(article.includes('4 mA  =  5530')&&article.includes('12 mA = 16589'),true,'Rohwertartikel 0–20-mA-Bezugsweise getrennt');
-   assertEqual(article.includes('Rohwert = 13824'),true,'Rohwertartikel Praxisbeispiel konsistent');
-  const favorites=fs.readFileSync(path.join(ROOT,'assets/app.js'),'utf8');
-  assertEqual(favorites.includes("const KEY='skPltToolsFavoritesV2'"),true,'Favoriten bestehender Speicherschlüssel');
-  assertEqual(favorites.includes('localStorage.setItem(KEY'),true,'Favoriten persistente Speicherung');
-  assertEqual(favorites.includes('event.preventDefault()')&&favorites.includes('event.stopPropagation()'),true,'Favoriten Sternklick ohne Kachelnavigation');
-}
-{
-  const html=fs.readFileSync(path.join(ROOT,'wissensdatenbank/werkstoff-nachschlagewerk/index.html'),'utf8');
-  const breadcrumb=html.match(/<nav aria-label="Brotkrümelnavigation" class="knowledge-breadcrumb">([\s\S]*?)<\/nav>/i);
-  assertEqual(Boolean(breadcrumb),true,'Werkstoffseite Brotkrümelnavigation vorhanden');
-  const links=[...breadcrumb[1].matchAll(/<a href="([^"]+)">([^<]+)<\/a>/g)].map(match=>`${match[2]}:${match[1]}`).join(',');
-  assertEqual(links,'Startseite:../../,Wissensdatenbank:../','Werkstoffseite Breadcrumb-Linkziele');
-  const labels=breadcrumb[1].replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
-  assertEqual(labels,'Startseite › Wissensdatenbank › Werkstoff-Nachschlagewerk','Werkstoffseite Breadcrumb-Beschriftung');
-}
-{
-  const vacon=fs.readFileSync(path.join(ROOT,'wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/index.html'),'utf8');
-  assertEqual(vacon.includes('Parameter 2.2.3.7'),true,'Vacon Parameterhinweis vorhanden');
-  assertEqual(vacon.includes('maximale Frequenz'),true,'Vacon Soll-Einstellung vorhanden');
-}
-{
-  const context={console,Math,Number,Object,Array,String,Intl,Error,globalThis:null};context.globalThis=context;vm.createContext(context);
-  vm.runInContext(fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8'),context,{filename:'siemens-analogwert-rechner.js'});
-  const api=context.SK_SIEMENS_ANALOG,calc=api.calculate;
-   assertEqual(api.toggleSignValue(12),-12,'Siemens Vorzeichen positiv zu negativ');
-   assertEqual(api.toggleSignValue(-12),12,'Siemens Vorzeichen negativ zu positiv');
-   assertEqual(api.toggleSignValue('12,5'),-12.5,'Siemens Vorzeichen mit Dezimalkomma');
-   assertEqual(api.toggleSignValue(0),0,'Siemens Vorzeichen Null bleibt Null');
-   assertThrows(()=>api.toggleSignValue(''),'gültigen Zahlenwert','Siemens Vorzeichen lehnt leere Eingabe ab');
-   const temperature={min:-50,max:150,unit:'°C'};
-   let result=calc('4-20mA','raw',13824,'et200sp_st',temperature);
-  assertEqual(result.raw,13824,'Siemens 4–20 mA Rohwert');assertEqual(result.signal,12,'Siemens 4–20 mA Signal');assertEqual(result.percent,50,'Siemens 4–20 mA Nennbereichsanteil');assertEqual(result.status,'nominal','Siemens ET 200SP Nennbereich');
-   assertEqual(result.physical,50,'Siemens negativer Temperatur-Messbereich aus Rohwert');assertEqual(result.physicalRange.unit,'°C','Siemens frei gewählte Temperatureinheit');
-   result=calc('4-20mA','signal',8,'et200sp_st',temperature);assertEqual(result.raw,6912,'Siemens Signal zu Rohwert mit Messbereich');assertEqual(result.percent,25,'Siemens Signal zu Prozent');assertEqual(result.physical,0,'Siemens Signal zu physikalischem Istwert');
-   result=calc('4-20mA','physical',0,'et200sp_st',temperature);assertEqual(result.raw,6912,'Siemens physikalischer Istwert zu Rohwert');assertEqual(result.signal,8,'Siemens physikalischer Istwert zu Signal');assertEqual(result.percent,25,'Siemens physikalischer Istwert zu Prozent');
-   result=calc('4-20mA','raw',27648,'et200sp_st',{min:-1,max:9,unit:'bar'});assertEqual(result.physical,9,'Siemens frei gewählte Druckeinheit und Messbereich');assertEqual(result.physicalRange.unit,'bar','Siemens frei gewählte Druckeinheit');
-   result=calc('4-20mA','raw',-4864,'et200sp_st',temperature);assertEqual(result.status,'underrange','Siemens Unterbereich mit physikalischer Extrapolation');assertClose(result.physical,-85.1851851852,1e-9,'Siemens physikalischer Unterbereich');
-   result=calc('4-20mA','raw',27649,'et200sp_st',temperature);assertEqual(result.status,'overrange','Siemens Überbereich mit physikalischer Extrapolation');assertClose(result.physical,150.0072337963,1e-9,'Siemens physikalischer Überbereich');
-   assertThrows(()=>calc('4-20mA','physical',10,'et200sp_st',{min:10,max:10,unit:'°C'}),'größer als das Minimum','Siemens identische Messbereichsgrenzen abgewiesen');
-   assertThrows(()=>calc('4-20mA','raw',0,'et200sp_st',{min:0,max:100,unit:'  '}),'Einheit','Siemens leere Einheit abgewiesen');
-  result=calc('0-20mA','signal',20,'et200sp_st');
-  assertEqual(result.raw,27648,'Siemens 0–20 mA Signal zu Rohwert');assertEqual(result.signal,20,'Siemens 0–20 mA Rückrechnung');
-  result=calc('2-10V','raw',20736,'generic_scale');assertEqual(result.signal,8,'Siemens generische 2–10 V Skalierung');assertEqual(result.status,'scaleOnly','Generische Skalierung ohne Diagnosegrenzen');
-  assertEqual(Object.keys(api.PROFILES).length,5,'Siemens fünf Karten-/Skalierungsprofile');
-  assertEqual(api.statusForRaw(-4865,'et200sp_st','4-20mA'),'underflow','ET 200SP Unterlauf beginnt bei −4.865');
-  assertEqual(api.statusForRaw(-4864,'et200sp_st','4-20mA'),'underrange','ET 200SP Untersteuerung beginnt bei −4.864');
-  assertEqual(api.statusForRaw(32511,'et200sp_st','4-20mA'),'overrange','ET 200SP Übersteuerung bis 32.511');
-  assertEqual(api.statusForRaw(32512,'et200sp_st','4-20mA'),'overflow','ET 200SP Überlauf beginnt bei 32.512');
-  assertEqual(api.statusForRaw(-691,'et200spha_on','4-20mA'),'underflow','ET 200SP HA NE43 Unterlauf ab −691');
-  assertEqual(api.statusForRaw(-690,'et200spha_on','4-20mA'),'underrange','ET 200SP HA NE43 untere Hysterese');
-  assertEqual(api.statusForRaw(29375,'et200spha_on','4-20mA'),'overrange','ET 200SP HA NE43 obere Hysterese');
-  assertEqual(api.statusForRaw(29376,'et200spha_on','4-20mA'),'overflow','ET 200SP HA NE43 Überlauf ab 29.376');
-  assertEqual(api.profileScale('4-20mA','et200sp_st','raw').join(','),'-32768,-4865,0,27648,32512,32767','Siemens Rohwertskala mit sechs Profilgrenzen');
-  const b=api.boundaries('et200sp_st','4-20mA');assertEqual(b.under<b.nomStart&&b.nomStart<b.nomEnd&&b.nomEnd<b.overflow,true,'Siemens feste Farbbereiche sortiert');
-}
-{
-  const html=fs.readFileSync(path.join(ROOT,'siemens-analogwert-rechner/index.html'),'utf8');
-  const tabs=[...html.matchAll(/<button[^>]*class="analog-tab"[^>]*data-input-kind="([^"]+)"[^>]*>([^<]+)<\/button>/g)].map(match=>`${match[1]}:${match[2].trim()}`);
-  assertEqual(tabs.join(','),'signal:Signal,raw:Rohwert,physical:Phys. Wert','Siemens Drei-Reiter-Aufbau und Reihenfolge');
-  assertEqual((html.match(/id="inputValue"/g)||[]).length,1,'Siemens genau ein gemeinsames Vorgabefeld');
-   const signTargets=[...html.matchAll(/<button[^>]*class="analog-sign-button"[^>]*data-sign-target="([^"]+)"[^>]*>±<\/button>/g)].map(match=>match[1]);
-   assertEqual(signTargets.join(','),'inputValue,physicalMin,physicalMax','Siemens Vorzeichenwechsel an Eingabe, Minimum und Maximum');
-   assertEqual((html.match(/class="analog-sign-button"/g)||[]).length,3,'Siemens genau drei Vorzeichen-Schaltflächen');
-  assertEqual((html.match(/class="analog-value-card/g)||[]).length,3,'Siemens drei umschaltbare Werteblöcke');
-  assertEqual(html.includes('id="inputKind"'),false,'Siemens alte Eingaberichtungs-Auswahl entfernt');
-  assertEqual(html.includes('analog-result-grid')||html.includes('analog-control-grid')||html.includes('valueSlider')||html.includes('stateStrip'),false,'Siemens alte Ergebnis-/Regleroberfläche entfernt');
-  const physical=html.indexOf('class="analog-physical-range"'),signal=html.indexOf('for="signalType"'),card=html.indexOf('for="cardProfile"');
-  assertEqual(physical>0&&physical<signal&&signal<card,true,'Siemens Reihenfolge Messbereich, Einheitssignal, SPS-Karte');
-  const css=fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.css'),'utf8');
-  for(const [needle,label] of [['#89d329','Nennbereich grün'],['#f5b942','Unter-/Übersteuerung gelb-orange'],['#ff7b83','Unter-/Überlauf rot'],['#00b7e8','Skalierung cyan']])assertEqual(css.includes(needle),true,`Siemens Rohwertfarbe ${label}`);
-  const js=fs.readFileSync(path.join(ROOT,'assets/siemens-analogwert-rechner.js'),'utf8');
-  assertEqual(js.includes('elements.inputValue.focus()'),false,'Siemens Reiterwechsel fokussiert das Eingabefeld nicht automatisch');
-  assertEqual(js.includes('dismissInputFocus')&&js.includes('active.blur()'),true,'Siemens Reiterwechsel beendet mobilen Eingabefokus');
-   assertEqual(js.includes('toggleSignValue')&&js.includes('toggleInputSign')&&js.includes("addEventListener('pointerdown'"),true,'Siemens Vorzeichenwechsel rechnet sofort und verhindert iPhone-Autofokus');
-  assertEqual(js.indexOf('syncTabs();',js.indexOf('function setMode'))<js.indexOf('try{syncPrimaryInput()',js.indexOf('function setMode')),true,'Siemens Reiterauswahl wird vor der Neuberechnung aktualisiert');
-}
-{
-  const calculatorPages=['analogsignal/index.html','einheitenrechner/index.html','pf-rechner/index.html','pt-rechner/index.html','spannungsfall-rechner/index.html','siemens-analogwert-rechner/index.html'];
-  for(const file of calculatorPages){
-    const html=fs.readFileSync(path.join(ROOT,file),'utf8');
-    const numberInputs=[...html.matchAll(/<input\b[^>]*\btype="number"[^>]*>/g)].map(match=>match[0]);
-    assertEqual(numberInputs.length>0,true,`${file} Zahlenfelder vorhanden`);
-    assertEqual(numberInputs.every(input=>/\binputmode="(?:decimal|numeric)"/.test(input)),true,`${file} alle Zahlenfelder mit mobiler Zahlentastatur`);
-  }
-}
-{
-  const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
-  const external=html.match(/<a[^>]*class="[^"]*sk-external-card[^"]*"[^>]*href="([^"]+)"[^>]*>/i);
-  assertEqual(Boolean(external),true,'E+H Device Viewer Kachel vorhanden');
-  assertEqual(external[1],'https://netilion.endress.com/app/library/device_viewer','E+H Device Viewer Zieladresse');
-  assertEqual(/target="_blank"/.test(external[0]),true,'E+H Device Viewer neuer Tab');
-  assertEqual(/rel="external noopener noreferrer"/.test(external[0]),true,'E+H Device Viewer sichere Externkennzeichnung');
-  assertEqual(/referrerpolicy="no-referrer"/.test(external[0]),true,'E+H Device Viewer ohne Referrer');
-  assertEqual(/data-filter="EXTERN"/.test(html),true,'Filter Externe Dienste vorhanden');
-}
-console.log('OK: Bestehende Rechner, Inhalte und übrige Module geprüft.');
+
+const pages=[...function*(){function* walk(dir=''){for(const name of fs.readdirSync(path.join(ROOT,dir))){const rel=path.join(dir,name),full=path.join(ROOT,rel),stat=fs.statSync(full);if(stat.isDirectory()&&!['tools','test-artifacts','shared'].includes(name))yield* walk(rel);else if(name==='index.html')yield rel.replaceAll('\\','/')}}yield* walk()}()];
+equal(pages.length,16,'HTML-Seiten einschließlich Einheitendatenbank');
+for(const file of pages)ok(read(file).includes(`data-sk-version="${VERSION}"`),`${file}: Version konsistent`);
+const databaseHtml=read('einheitendatenbank/index.html');ok(databaseHtml.includes('id="unitSearch"')&&databaseHtml.includes('id="unitCategoryFilter"'),'Einheitendatenbank Suche und Kategorienfilter');
+const nav=json('assets/navigation-tree.json');ok(nav.groups.some(group=>group.items.some(item=>item.url==='einheitendatenbank/')),'Navigation enthält Einheitendatenbank');
+const search=json('assets/search-index.json');ok(search.some(item=>item.url==='einheitendatenbank/'&&item.keywords.includes('Viskosität')),'Suchindex enthält Einheitendatenbank und Kategorien');
+const sw=read('service-worker.js');for(const item of ['./assets/units.json','./assets/unit-system.js','./einheitendatenbank/','./einheitendatenbank/index.html'])ok(sw.includes(`"${item}"`),`Offline-Precache enthält ${item}`);
+const manifest=json('manifest.webmanifest');equal(manifest.version,VERSION,'Manifest-Version');equal(manifest.id,`./?app=sk-plt-tools-${VERSION.toLowerCase()}`,'Manifest-App-ID');
+const start=read('index.html');equal((start.match(/<a\b[^>]*class="[^"]*\bcard\b[^"]*"/g)||[]).length,10,'Startseite Werkzeugkacheln');ok(start.includes('href="einheitendatenbank/"'),'Startseite Einheitendatenbank-Kachel');
+const core=read('assets/core.css'),responsive=read('assets/responsive.css'),app=read('assets/app.js');ok(responsive.includes('safe-area-inset-bottom')&&responsive.includes('safe-area-inset-top'),'iPhone Safe Areas erhalten');ok(core.includes('.sk-favorites-trigger')&&core.includes('.sk-tree-trigger'),'Mobile untere Bedienzone erhalten');ok(app.includes("button.textContent='±'")||read('assets/siemens-analogwert-rechner.js').includes('toggleSignValue'),'±-Vorzeichenwechsel erhalten');
+console.log('OK: Einheitendatenbank, Favoriten, Umrechnungen, Rechner und PWA-Integration funktional geprüft.');

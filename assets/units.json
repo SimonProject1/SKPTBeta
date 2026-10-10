@@ -1,0 +1,1630 @@
+{
+  "schemaVersion": 1,
+  "release": "2.1.7.0-Beta",
+  "conversionModel": {
+    "toBase": "base = value × factor + offset",
+    "fromBase": "value = (base − offset) ÷ factor",
+    "roundTripTolerance": 1e-10,
+    "favoritesStorageKey": "skPltUnitFavoritesV1"
+  },
+  "categories": [
+    {
+      "id": "pressure",
+      "name": "Druck",
+      "defaultUnit": "bar",
+      "calculatorTargetUnit": "millibar",
+      "description": "Basiseinheit der Anwendung: bar.",
+      "units": [
+        {
+          "id": "bar",
+          "name": "Bar",
+          "symbol": "bar",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millibar",
+          "name": "Millibar",
+          "symbol": "mbar",
+          "aliases": [
+            "hPa"
+          ],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 3,
+          "note": ""
+        },
+        {
+          "id": "pascal",
+          "name": "Pascal",
+          "symbol": "Pa",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-05,
+            "offset": 0
+          },
+          "precision": 1,
+          "note": ""
+        },
+        {
+          "id": "hectopascal",
+          "name": "Hektopascal",
+          "symbol": "hPa",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 3,
+          "note": ""
+        },
+        {
+          "id": "kilopascal",
+          "name": "Kilopascal",
+          "symbol": "kPa",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.01,
+            "offset": 0
+          },
+          "precision": 4,
+          "note": ""
+        },
+        {
+          "id": "megapascal",
+          "name": "Megapascal",
+          "symbol": "MPa",
+          "aliases": [],
+          "toBase": {
+            "factor": 10,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "psi",
+          "name": "Pound-force per square inch",
+          "symbol": "psi",
+          "aliases": [
+            "lb/in²"
+          ],
+          "toBase": {
+            "factor": 0.0689475729318,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "atmosphere",
+          "name": "Normatmosphäre",
+          "symbol": "atm",
+          "aliases": [],
+          "toBase": {
+            "factor": 1.01325,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "torr",
+          "name": "Torr",
+          "symbol": "Torr",
+          "aliases": [
+            "mmHg"
+          ],
+          "toBase": {
+            "factor": 0.001333223684,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "inch_water",
+          "name": "Zoll Wassersäule",
+          "symbol": "inH₂O",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.002490889,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": "Konventioneller Umrechnungswert."
+        }
+      ]
+    },
+    {
+      "id": "volumeFlow",
+      "name": "Durchfluss / Volumenstrom",
+      "defaultUnit": "cubic_metre_hour",
+      "calculatorTargetUnit": "litre_minute",
+      "description": "Basiseinheit der Anwendung: m³/h.",
+      "units": [
+        {
+          "id": "cubic_metre_hour",
+          "name": "Kubikmeter pro Stunde",
+          "symbol": "m³/h",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "cubic_metre_second",
+          "name": "Kubikmeter pro Sekunde",
+          "symbol": "m³/s",
+          "aliases": [],
+          "toBase": {
+            "factor": 3600,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "litre_hour",
+          "name": "Liter pro Stunde",
+          "symbol": "l/h",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "litre_minute",
+          "name": "Liter pro Minute",
+          "symbol": "l/min",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.06,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "litre_second",
+          "name": "Liter pro Sekunde",
+          "symbol": "l/s",
+          "aliases": [],
+          "toBase": {
+            "factor": 3.6,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millilitre_minute",
+          "name": "Milliliter pro Minute",
+          "symbol": "ml/min",
+          "aliases": [],
+          "toBase": {
+            "factor": 6e-05,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "us_gallon_minute",
+          "name": "US-Gallone pro Minute",
+          "symbol": "US gal/min",
+          "aliases": [
+            "gpm"
+          ],
+          "toBase": {
+            "factor": 0.22712470704,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "imperial_gallon_minute",
+          "name": "Imperiale Gallone pro Minute",
+          "symbol": "Imp gal/min",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.2727654,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "cubic_foot_minute",
+          "name": "Kubikfuß pro Minute",
+          "symbol": "ft³/min",
+          "aliases": [
+            "cfm"
+          ],
+          "toBase": {
+            "factor": 1.69901079552,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "massFlow",
+      "name": "Massendurchfluss",
+      "defaultUnit": "kilogram_hour",
+      "calculatorTargetUnit": "kilogram_second",
+      "description": "Basiseinheit der Anwendung: kg/h.",
+      "units": [
+        {
+          "id": "kilogram_hour",
+          "name": "Kilogramm pro Stunde",
+          "symbol": "kg/h",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilogram_second",
+          "name": "Kilogramm pro Sekunde",
+          "symbol": "kg/s",
+          "aliases": [],
+          "toBase": {
+            "factor": 3600,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "kilogram_minute",
+          "name": "Kilogramm pro Minute",
+          "symbol": "kg/min",
+          "aliases": [],
+          "toBase": {
+            "factor": 60,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "gram_second",
+          "name": "Gramm pro Sekunde",
+          "symbol": "g/s",
+          "aliases": [],
+          "toBase": {
+            "factor": 3.6,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "tonne_hour",
+          "name": "Tonne pro Stunde",
+          "symbol": "t/h",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "pound_hour",
+          "name": "Pfund pro Stunde",
+          "symbol": "lb/h",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.45359237,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "pound_minute",
+          "name": "Pfund pro Minute",
+          "symbol": "lb/min",
+          "aliases": [],
+          "toBase": {
+            "factor": 27.2155422,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "name": "Temperatur",
+      "defaultUnit": "celsius",
+      "calculatorTargetUnit": "kelvin",
+      "description": "Affine Umrechnung über °C; Offsets werden berücksichtigt.",
+      "units": [
+        {
+          "id": "celsius",
+          "name": "Grad Celsius",
+          "symbol": "°C",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 3,
+          "note": ""
+        },
+        {
+          "id": "kelvin",
+          "name": "Kelvin",
+          "symbol": "K",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": -273.15
+          },
+          "precision": 3,
+          "note": "°C = K − 273,15"
+        },
+        {
+          "id": "fahrenheit",
+          "name": "Grad Fahrenheit",
+          "symbol": "°F",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.5555555555555556,
+            "offset": -17.77777777777778
+          },
+          "precision": 3,
+          "note": "°C = (°F − 32) × 5/9"
+        },
+        {
+          "id": "rankine",
+          "name": "Grad Rankine",
+          "symbol": "°R",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.5555555555555556,
+            "offset": -273.15
+          },
+          "precision": 3,
+          "note": "°C = °R × 5/9 − 273,15"
+        }
+      ]
+    },
+    {
+      "id": "length",
+      "name": "Länge",
+      "defaultUnit": "metre",
+      "calculatorTargetUnit": "millimetre",
+      "description": "Basiseinheit der Anwendung: m.",
+      "units": [
+        {
+          "id": "metre",
+          "name": "Meter",
+          "symbol": "m",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millimetre",
+          "name": "Millimeter",
+          "symbol": "mm",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 3,
+          "note": ""
+        },
+        {
+          "id": "centimetre",
+          "name": "Zentimeter",
+          "symbol": "cm",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.01,
+            "offset": 0
+          },
+          "precision": 4,
+          "note": ""
+        },
+        {
+          "id": "decimetre",
+          "name": "Dezimeter",
+          "symbol": "dm",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.1,
+            "offset": 0
+          },
+          "precision": 5,
+          "note": ""
+        },
+        {
+          "id": "kilometre",
+          "name": "Kilometer",
+          "symbol": "km",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "inch",
+          "name": "Zoll",
+          "symbol": "in",
+          "aliases": [
+            "″"
+          ],
+          "toBase": {
+            "factor": 0.0254,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "foot",
+          "name": "Fuß",
+          "symbol": "ft",
+          "aliases": [
+            "′"
+          ],
+          "toBase": {
+            "factor": 0.3048,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "yard",
+          "name": "Yard",
+          "symbol": "yd",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.9144,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "mile",
+          "name": "Meile",
+          "symbol": "mi",
+          "aliases": [],
+          "toBase": {
+            "factor": 1609.344,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "area",
+      "name": "Fläche",
+      "defaultUnit": "square_metre",
+      "calculatorTargetUnit": "square_millimetre",
+      "description": "Basiseinheit der Anwendung: m².",
+      "units": [
+        {
+          "id": "square_metre",
+          "name": "Quadratmeter",
+          "symbol": "m²",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "square_millimetre",
+          "name": "Quadratmillimeter",
+          "symbol": "mm²",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-06,
+            "offset": 0
+          },
+          "precision": 3,
+          "note": ""
+        },
+        {
+          "id": "square_centimetre",
+          "name": "Quadratzentimeter",
+          "symbol": "cm²",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.0001,
+            "offset": 0
+          },
+          "precision": 4,
+          "note": ""
+        },
+        {
+          "id": "hectare",
+          "name": "Hektar",
+          "symbol": "ha",
+          "aliases": [],
+          "toBase": {
+            "factor": 10000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "square_kilometre",
+          "name": "Quadratkilometer",
+          "symbol": "km²",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000000.0,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "square_inch",
+          "name": "Quadratzoll",
+          "symbol": "in²",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.00064516,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "square_foot",
+          "name": "Quadratfuß",
+          "symbol": "ft²",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.09290304,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "volume",
+      "name": "Volumen",
+      "defaultUnit": "cubic_metre",
+      "calculatorTargetUnit": "litre",
+      "description": "Basiseinheit der Anwendung: m³.",
+      "units": [
+        {
+          "id": "cubic_metre",
+          "name": "Kubikmeter",
+          "symbol": "m³",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "litre",
+          "name": "Liter",
+          "symbol": "l",
+          "aliases": [
+            "L"
+          ],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millilitre",
+          "name": "Milliliter",
+          "symbol": "ml",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-06,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "cubic_centimetre",
+          "name": "Kubikzentimeter",
+          "symbol": "cm³",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-06,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "cubic_decimetre",
+          "name": "Kubikdezimeter",
+          "symbol": "dm³",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "cubic_foot",
+          "name": "Kubikfuß",
+          "symbol": "ft³",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.028316846592,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "cubic_inch",
+          "name": "Kubikzoll",
+          "symbol": "in³",
+          "aliases": [],
+          "toBase": {
+            "factor": 1.6387064e-05,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "us_gallon",
+          "name": "US-Gallone",
+          "symbol": "US gal",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.003785411784,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "imperial_gallon",
+          "name": "Imperiale Gallone",
+          "symbol": "Imp gal",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.00454609,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "mass",
+      "name": "Masse",
+      "defaultUnit": "kilogram",
+      "calculatorTargetUnit": "gram",
+      "description": "Basiseinheit der Anwendung: kg.",
+      "units": [
+        {
+          "id": "kilogram",
+          "name": "Kilogramm",
+          "symbol": "kg",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "milligram",
+          "name": "Milligramm",
+          "symbol": "mg",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-06,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "gram",
+          "name": "Gramm",
+          "symbol": "g",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "tonne",
+          "name": "Tonne",
+          "symbol": "t",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "pound",
+          "name": "Pfund",
+          "symbol": "lb",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.45359237,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "ounce",
+          "name": "Unze",
+          "symbol": "oz",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.028349523125,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "time",
+      "name": "Zeit",
+      "defaultUnit": "second",
+      "calculatorTargetUnit": "hour",
+      "description": "Basiseinheit der Anwendung: s.",
+      "units": [
+        {
+          "id": "second",
+          "name": "Sekunde",
+          "symbol": "s",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millisecond",
+          "name": "Millisekunde",
+          "symbol": "ms",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 3,
+          "note": ""
+        },
+        {
+          "id": "minute",
+          "name": "Minute",
+          "symbol": "min",
+          "aliases": [],
+          "toBase": {
+            "factor": 60,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "hour",
+          "name": "Stunde",
+          "symbol": "h",
+          "aliases": [],
+          "toBase": {
+            "factor": 3600,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "day",
+          "name": "Tag",
+          "symbol": "d",
+          "aliases": [],
+          "toBase": {
+            "factor": 86400,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "voltage",
+      "name": "Elektrische Spannung",
+      "defaultUnit": "volt",
+      "calculatorTargetUnit": "millivolt",
+      "description": "Basiseinheit der Anwendung: V.",
+      "units": [
+        {
+          "id": "volt",
+          "name": "Volt",
+          "symbol": "V",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "microvolt",
+          "name": "Mikrovolt",
+          "symbol": "µV",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-06,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millivolt",
+          "name": "Millivolt",
+          "symbol": "mV",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilovolt",
+          "name": "Kilovolt",
+          "symbol": "kV",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "current",
+      "name": "Strom",
+      "defaultUnit": "ampere",
+      "calculatorTargetUnit": "milliampere",
+      "description": "Basiseinheit der Anwendung: A.",
+      "units": [
+        {
+          "id": "ampere",
+          "name": "Ampere",
+          "symbol": "A",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "microampere",
+          "name": "Mikroampere",
+          "symbol": "µA",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-06,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "milliampere",
+          "name": "Milliampere",
+          "symbol": "mA",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kiloampere",
+          "name": "Kiloampere",
+          "symbol": "kA",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "resistance",
+      "name": "Widerstand",
+      "defaultUnit": "ohm",
+      "calculatorTargetUnit": "kiloohm",
+      "description": "Basiseinheit der Anwendung: Ω.",
+      "units": [
+        {
+          "id": "ohm",
+          "name": "Ohm",
+          "symbol": "Ω",
+          "aliases": [
+            "Ohm"
+          ],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "milliohm",
+          "name": "Milliohm",
+          "symbol": "mΩ",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kiloohm",
+          "name": "Kiloohm",
+          "symbol": "kΩ",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "megaohm",
+          "name": "Megaohm",
+          "symbol": "MΩ",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000000.0,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "name": "Leistung",
+      "defaultUnit": "watt",
+      "calculatorTargetUnit": "kilowatt",
+      "description": "Basiseinheit der Anwendung: W.",
+      "units": [
+        {
+          "id": "watt",
+          "name": "Watt",
+          "symbol": "W",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "milliwatt",
+          "name": "Milliwatt",
+          "symbol": "mW",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilowatt",
+          "name": "Kilowatt",
+          "symbol": "kW",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "megawatt",
+          "name": "Megawatt",
+          "symbol": "MW",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000000.0,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "metric_horsepower",
+          "name": "Pferdestärke",
+          "symbol": "PS",
+          "aliases": [],
+          "toBase": {
+            "factor": 735.49875,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "horsepower",
+          "name": "Horsepower",
+          "symbol": "hp",
+          "aliases": [],
+          "toBase": {
+            "factor": 745.699871582,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "energy",
+      "name": "Energie",
+      "defaultUnit": "joule",
+      "calculatorTargetUnit": "kilowatt_hour",
+      "description": "Basiseinheit der Anwendung: J.",
+      "units": [
+        {
+          "id": "joule",
+          "name": "Joule",
+          "symbol": "J",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilojoule",
+          "name": "Kilojoule",
+          "symbol": "kJ",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "megajoule",
+          "name": "Megajoule",
+          "symbol": "MJ",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000000.0,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "watt_hour",
+          "name": "Wattstunde",
+          "symbol": "Wh",
+          "aliases": [],
+          "toBase": {
+            "factor": 3600,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "kilowatt_hour",
+          "name": "Kilowattstunde",
+          "symbol": "kWh",
+          "aliases": [],
+          "toBase": {
+            "factor": 3600000.0,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "megawatt_hour",
+          "name": "Megawattstunde",
+          "symbol": "MWh",
+          "aliases": [],
+          "toBase": {
+            "factor": 3600000000.0,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "calorie",
+          "name": "Kalorie",
+          "symbol": "cal",
+          "aliases": [],
+          "toBase": {
+            "factor": 4.184,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilocalorie",
+          "name": "Kilokalorie",
+          "symbol": "kcal",
+          "aliases": [],
+          "toBase": {
+            "factor": 4184,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "rotationalSpeed",
+      "name": "Drehzahl",
+      "defaultUnit": "revolution_minute",
+      "calculatorTargetUnit": "radian_second",
+      "description": "Basiseinheit der Anwendung: U/min.",
+      "units": [
+        {
+          "id": "revolution_minute",
+          "name": "Umdrehung pro Minute",
+          "symbol": "U/min",
+          "aliases": [
+            "rpm",
+            "min⁻¹"
+          ],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "revolution_second",
+          "name": "Umdrehung pro Sekunde",
+          "symbol": "U/s",
+          "aliases": [
+            "rps"
+          ],
+          "toBase": {
+            "factor": 60,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "radian_second",
+          "name": "Radiant pro Sekunde",
+          "symbol": "rad/s",
+          "aliases": [],
+          "toBase": {
+            "factor": 9.549296585513721,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "frequency",
+      "name": "Frequenz",
+      "defaultUnit": "hertz",
+      "calculatorTargetUnit": "kilohertz",
+      "description": "Basiseinheit der Anwendung: Hz.",
+      "units": [
+        {
+          "id": "hertz",
+          "name": "Hertz",
+          "symbol": "Hz",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millihertz",
+          "name": "Millihertz",
+          "symbol": "mHz",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilohertz",
+          "name": "Kilohertz",
+          "symbol": "kHz",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "megahertz",
+          "name": "Megahertz",
+          "symbol": "MHz",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000000.0,
+            "offset": 0
+          },
+          "precision": 9,
+          "note": ""
+        },
+        {
+          "id": "per_minute",
+          "name": "Pro Minute",
+          "symbol": "min⁻¹",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.016666666666666666,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "speed",
+      "name": "Geschwindigkeit",
+      "defaultUnit": "metre_second",
+      "calculatorTargetUnit": "kilometre_hour",
+      "description": "Basiseinheit der Anwendung: m/s.",
+      "units": [
+        {
+          "id": "metre_second",
+          "name": "Meter pro Sekunde",
+          "symbol": "m/s",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilometre_hour",
+          "name": "Kilometer pro Stunde",
+          "symbol": "km/h",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.2777777777777778,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "mile_hour",
+          "name": "Meile pro Stunde",
+          "symbol": "mph",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.44704,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "foot_second",
+          "name": "Fuß pro Sekunde",
+          "symbol": "ft/s",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.3048,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "knot",
+          "name": "Knoten",
+          "symbol": "kn",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.514444444444,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "density",
+      "name": "Dichte",
+      "defaultUnit": "kilogram_cubic_metre",
+      "calculatorTargetUnit": "gram_cubic_centimetre",
+      "description": "Basiseinheit der Anwendung: kg/m³.",
+      "units": [
+        {
+          "id": "kilogram_cubic_metre",
+          "name": "Kilogramm pro Kubikmeter",
+          "symbol": "kg/m³",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "gram_litre",
+          "name": "Gramm pro Liter",
+          "symbol": "g/l",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "kilogram_litre",
+          "name": "Kilogramm pro Liter",
+          "symbol": "kg/l",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "gram_cubic_centimetre",
+          "name": "Gramm pro Kubikzentimeter",
+          "symbol": "g/cm³",
+          "aliases": [],
+          "toBase": {
+            "factor": 1000,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "pound_cubic_foot",
+          "name": "Pfund pro Kubikfuß",
+          "symbol": "lb/ft³",
+          "aliases": [],
+          "toBase": {
+            "factor": 16.01846337396,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    },
+    {
+      "id": "viscosity",
+      "name": "Viskosität (dynamisch)",
+      "defaultUnit": "pascal_second",
+      "calculatorTargetUnit": "millipascal_second",
+      "description": "Dynamische Viskosität; kinematische Einheiten werden bewusst nicht vermischt.",
+      "units": [
+        {
+          "id": "pascal_second",
+          "name": "Pascalsekunde",
+          "symbol": "Pa·s",
+          "aliases": [],
+          "toBase": {
+            "factor": 1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "millipascal_second",
+          "name": "Millipascalsekunde",
+          "symbol": "mPa·s",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "micropascal_second",
+          "name": "Mikropascalsekunde",
+          "symbol": "µPa·s",
+          "aliases": [],
+          "toBase": {
+            "factor": 1e-06,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        },
+        {
+          "id": "centipoise",
+          "name": "Centipoise",
+          "symbol": "cP",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.001,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": "1 cP = 1 mPa·s"
+        },
+        {
+          "id": "poise",
+          "name": "Poise",
+          "symbol": "P",
+          "aliases": [],
+          "toBase": {
+            "factor": 0.1,
+            "offset": 0
+          },
+          "precision": 6,
+          "note": ""
+        }
+      ]
+    }
+  ],
+  "validationCases": [
+    {
+      "category": "pressure",
+      "from": "bar",
+      "to": "millibar",
+      "input": 1,
+      "expected": 1000
+    },
+    {
+      "category": "temperature",
+      "from": "celsius",
+      "to": "kelvin",
+      "input": 0,
+      "expected": 273.15
+    },
+    {
+      "category": "temperature",
+      "from": "fahrenheit",
+      "to": "celsius",
+      "input": 32,
+      "expected": 0
+    },
+    {
+      "category": "volumeFlow",
+      "from": "cubic_metre_hour",
+      "to": "litre_minute",
+      "input": 1,
+      "expected": 16.6666666666667
+    },
+    {
+      "category": "energy",
+      "from": "kilowatt_hour",
+      "to": "megajoule",
+      "input": 1,
+      "expected": 3.6
+    },
+    {
+      "category": "viscosity",
+      "from": "centipoise",
+      "to": "millipascal_second",
+      "input": 1,
+      "expected": 1
+    }
+  ]
+}

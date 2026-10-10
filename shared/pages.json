@@ -5,6 +5,12 @@
     "homeLabel": "← Startseite",
     "homeAria": "Zur Startseite"
   },
+  "einheitendatenbank/index.html": {
+    "subtitle": "Einheitendatenbank",
+    "homeHref": "../",
+    "homeLabel": "← Startseite",
+    "homeAria": "Zur Startseite"
+  },
   "einheitenrechner/index.html": {
     "subtitle": "Einheitenrechner",
     "homeHref": "../",

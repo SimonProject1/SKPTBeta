@@ -1,5 +1,5 @@
 {
-  "version": "2.1.6.1-Beta",
+  "version": "2.1.7.0-Beta",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -39,6 +39,16 @@
         {
           "title": "Messstellen-Dokumentation",
           "url": "messstellen-doku/"
+        }
+      ]
+    },
+    {
+      "id": "unit-data",
+      "title": "Einheiten",
+      "items": [
+        {
+          "title": "Einheitendatenbank",
+          "url": "einheitendatenbank/"
         }
       ]
     },

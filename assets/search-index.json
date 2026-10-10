@@ -171,5 +171,51 @@
       "0-20 mA"
     ],
     "url": "wissensdatenbank/siemens-sps-rohwert/"
+  },
+  {
+    "type": "Datenbank",
+    "category": "WISSEN",
+    "manufacturer": "Herstellerunabhängig",
+    "device": "Einheitendatenbank",
+    "topic": "Einheiten und Umrechnung",
+    "title": "Einheitendatenbank",
+    "description": "Zentrale Datenbasis mit 19 Kategorien, geprüften Faktoren, Offset-Formeln und persönlichen Favoriten.",
+    "breadcrumb": [
+      "Einheitendatenbank"
+    ],
+    "keywords": [
+      "Einheiten",
+      "Umrechnung",
+      "Favoriten",
+      "Druck",
+      "bar",
+      "psi",
+      "Volumenstrom",
+      "m³/h",
+      "Massendurchfluss",
+      "Temperatur",
+      "Celsius",
+      "Fahrenheit",
+      "Kelvin",
+      "Länge",
+      "Fläche",
+      "Volumen",
+      "Masse",
+      "Zeit",
+      "Spannung",
+      "Volt",
+      "Strom",
+      "Ampere",
+      "Widerstand",
+      "Ohm",
+      "Leistung",
+      "Energie",
+      "Drehzahl",
+      "Frequenz",
+      "Geschwindigkeit",
+      "Dichte",
+      "Viskosität"
+    ],
+    "url": "einheitendatenbank/"
   }
 ]
