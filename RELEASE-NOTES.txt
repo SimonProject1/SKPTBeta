@@ -1,98 +1,69 @@
-SK PLT Tools 2.3.3.2-Beta
-Release-Datum: 10.10.2026
-Status: Beta-Testversion
-Projektbasis: SK-PLT-Tools-V2.3.3.1-Beta.zip
-SHA-256 der Projektbasis: cee81ec58481f1bf3b06a2a35610c30412bbc76e6226d53a9a36cb0998c0d4f8
-Breitenreferenz: SK-PLT-Tools-V2.2.0.3-Beta.zip
-SHA-256 der Breitenreferenz: 6e16f25b1549387c56d5f569a7dee16538f51617974d73bab58d6785c79e7c1c
+SK PLT Tools 2.3.3.3-Beta
+Release-Datum: 11.10.2026
+Status: vollständige Beta-Testversion
+Projektbasis: SK-PLT-Tools-V2.3.3.2-Beta.zip
+SHA-256 der Projektbasis: 6e2cdcd963b7db9af4c3fa3b83ab901ae798a2543632736775210154cc1c6c85
 
 BETA-ZIEL
-- V2.3.3.1-Beta als vollständige Funktionsbasis erhalten.
-- Die bestätigte Desktop-/Tablet-Breitenkorrektur aus V2.2.0.3-Beta
-  wiederherstellen.
-- Mobilansicht bis 760 CSS-Pixel unverändert lassen.
-- PLT-Logo und Produktbezeichnung SK PLT Tools beibehalten.
-- Sämtliche Logoänderungen der V2.3.4.x-PCT-Reihe verwerfen.
-- Laufzeitkanal: beta.
+- Den vollständigen Funktions- und Designstand V2.3.3.2-Beta erhalten.
+- Sichtbare Standardkennzeichnung aus allen bestehenden Wissensbeiträgen entfernen.
+- Promass-Quellenhinweis von konkretem PDF-/Schulungsbezug bereinigen.
+- Endress+Hauser-Geräte hierarchisch und erweiterbar strukturieren.
+- Alle Versions-, PWA-, Navigations-, Such- und Integritätsdaten konsistent auf
+  V2.3.3.3-Beta fortführen.
 
-WIEDERHERGESTELLTE BREITENKORREKTUR
-Ab 761 CSS-Pixeln gilt max-width:none für:
-- .calc-page-title
-- .analog-page-title
-- .calc-panel
-- .analog-panel
-- .calc-notice
-- .voltage-result
-- .sk-unit-database-cta
+UMGESETZTE ÄNDERUNGEN
+1. Wissensbeiträge
+- Aus allen fünf bestehenden Gerätebeiträgen wurde die sichtbare Leiste mit
+  „Wissensbeitragsstandard V2.3.3.2-Beta“ und
+  „Einheitliche Struktur · mobil optimiert · Gültigkeit vor Ort prüfen“ entfernt.
+- Der semantische TechArticle-Aufbau, die Metadaten, Fachabschnitte, Prüfschritte,
+  Warnungen und Quellen-/Gültigkeitshinweise bleiben erhalten.
+- Die technische Standardzuordnung bleibt unsichtbar über
+  data-knowledge-standard="2.3.3.3-Beta" bestehen.
 
-Zusätzlich:
-- Alle sechs Rechnerseiten tragen wieder die Klasse sk-calculator-page.
-- Die gemeinsame Rechner-Shell verwendet ab 761 px maximal 1180 px Außenbreite
-  und 18 px horizontalen Innenabstand.
-- scrollbar-gutter: stable ist ab 761 px aktiv.
-- Die vorhandenen Regeln bis einschließlich 760 px wurden nicht verändert.
+2. Endress+Hauser / Promass
+- Im sichtbaren Beitrag wurden der konkrete PDF-Dateiname, der Verweis auf eine
+  Schulungsunterlage und die Folienangaben vollständig entfernt.
+- Der allgemeine Quellen-, Gültigkeits- und Sicherheitshinweis bleibt erhalten.
+- Der fachliche Inhalt des Promass-Beitrags wurde nicht verändert.
+- Sichtbarer Breadcrumb:
+  Startseite > Wissensdatenbank > Endress+Hauser > Promass >
+  Einbaulage und Einbausituation.
+- Navigationsbaum:
+  Wissensdatenbank > Endress+Hauser > Promass >
+  Einbaulage und Einbausituation.
+- Suchindex und Wissensübersicht führen Hersteller und Gerätefamilie getrennt.
 
-ERHALTENE SPÄTERE FUNKTIONEN
-- Mobile Wissensdatenbank mit Herstellergruppen.
-- Eigenständige Werkstoffdatenbank mit kanonischer Route werkstoffdatenbank/.
-- Kompatible Weiterleitung wissensdatenbank/werkstoff-nachschlagewerk/.
-- Endress+Hauser-Promass-Beitrag.
-- Fünf einheitlich aufgebaute Geräte-Wissensbeiträge.
-- WISSENSBEITRAGS-STANDARD.md und zentrale assets/knowledge-article.css.
+3. Version und PWA
+- Öffentliche Betaversion: 2.3.3.3-Beta.
+- Technische Versionskennung und Cache-Buster: 2.3.3.3.
+- Kerncache: sk-plt-tools-core-v2.3.3.3 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.3.3.3 mit drei Dokumenten.
+- Manifest, Service Worker, Cache-Namen, VERSION, HTML-Metadaten,
+  JavaScript-Konstanten, CSS-Kommentare, Datenmetadaten, PDF-Metadaten und
+  Asset-Querystrings wurden aktualisiert.
+
+ERHALTENE FUNKTIONEN UND DESIGNS
+- Mobile Wissensdatenbank mit vier Herstellergruppen und Kompaktansicht.
+- Fünf Geräte-Wissensbeiträge mit unverändertem Fachinhalt außerhalb der
+  ausdrücklich angeforderten sichtbaren Quellenbereinigung.
+- Eigenständige Werkstoffdatenbank und kompatible alte Werkstoffroute.
+- Sechs Rechner und bestätigte Rechnerbreite ab 761 CSS-Pixeln.
+- Einheitendatenbank, Messstellen-Dokumentation, Suche, Filter, Sortierung,
+  Favoriten und Seitennavigation.
+- Bestätigtes PLT-Logo und alle sechs App-/Iconvarianten.
 - PDF-Beitragsvorlage mit zwei Seiten und 14 editierbaren Feldern.
-- Bereinigte Wissensdatenbank-Startseite ohne sichtbaren Standardkasten.
-- Mobile Startseite mit Herstellergruppen, einklappbaren Kategorien und
-  optionaler Kompaktansicht.
-- 11 Werkzeug-/Dienstkarten, Suche, Filterung, Sortierung und Unterseitensuche.
-- Sechs Rechner, Einheitendatenbank, Werkstoffdatenbank,
-  Messstellen-Dokumentation, Navigation und Favoriten.
 - Das VDE-0100-600-Modul bleibt vollständig entfernt.
-
-PRODUKTIDENTITÄT UND VERWORFENE PCT-REIHE
-- Produktname und sichtbare Bezeichnung bleiben SK PLT Tools.
-- assets/logo.png, favicon.png, apple-touch-icon.png, icon-192.png,
-  icon-512.png, icon-maskable-192.png und icon-maskable-512.png sind bytegleich
-  zur Projektbasis V2.3.3.1-Beta und zur PLT-Referenz V2.2.0.3-Beta.
-- Keine PCT-Logo- oder PCT-Iconvariante aus V2.3.4.0/2.3.4.1 ist enthalten.
-- Keine 2.3.4.x-Version, kein 2.3.4.x-Cache und kein 2.3.4.x-Paketbestand wurde
-  übernommen.
-
-VERSION UND PWA
-- Öffentliche Betaversion: 2.3.3.2-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.3.2.
-- Kerncache: sk-plt-tools-core-v2.3.3.2 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.3.2 mit drei Dokumenten.
-- Manifest-ID, Start-URL und Scope bleiben versionsunabhängig auf ./ .
-- Aktivierung des neuen Service Workers entfernt ältere Produktcaches.
 
 PROJEKTBESTAND
 - 56 Dateien im Projektordner einschließlich SHA256SUMS.txt.
-- 17 HTML-Seiten einschließlich der alten Werkstoff-Weiterleitungsroute.
+- 17 HTML-Seiten einschließlich der kompatiblen Werkstoff-Weiterleitungsroute.
 - 29 Dateien unter assets/.
 - Keine Test-, Screenshot-, QA- oder Entwicklungsartefakte im Deployment-ZIP.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
 - ZIP-Prüfsumme wird separat als
-  SK-PLT-Tools-V2.3.3.2-Beta.zip.sha256 bereitgestellt.
-- Einzelheiten und Prüfgrenzen stehen im externen Testbericht.
-
-======================================================================
-VORHERIGER BETA-STAND V2.3.3.1-BETA
-======================================================================
-- Basis für V2.3.3.2-Beta.
-- Entfernte den sichtbaren Standardkasten von der Wissensdatenbank-Startseite.
-- Erhielt den technischen Wissensbeitragsstandard, die fünf Gerätebeiträge,
-  die PDF-Vorlage sowie alle übrigen Funktionen und Fachinhalte.
-- Projektbestand: 56 Dateien, 17 HTML-Seiten, 29 Dateien unter assets/.
-- Ursprüngliche ZIP-SHA-256:
-  cee81ec58481f1bf3b06a2a35610c30412bbc76e6226d53a9a36cb0998c0d4f8
-
-======================================================================
-BREITENREFERENZ V2.2.0.3-BETA
-======================================================================
-- Bestätigte die volle nutzbare Shell-Breite aller sechs Rechner ab 761 px.
-- Bestätigte scrollbar-gutter: stable ab 761 px.
-- Bestätigte die unveränderte Smartphone-Darstellung bis 760 px.
-- Ursprüngliche ZIP-SHA-256:
-  6e16f25b1549387c56d5f569a7dee16538f51617974d73bab58d6785c79e7c1c
+  SK-PLT-Tools-V2.3.3.3-Beta.zip.sha256 bereitgestellt.
+- Testbericht und Übergabedatei werden außerhalb des Deployment-ZIP ausgeliefert.

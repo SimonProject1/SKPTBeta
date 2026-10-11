@@ -1,5 +1,5 @@
 {
-  "version": "2.3.3.2",
+  "version": "2.3.3.3",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -83,8 +83,13 @@
               "title": "Endress+Hauser",
               "children": [
                 {
-                  "title": "Promass - Einbaulage und Einbausituation",
-                  "url": "wissensdatenbank/endress-hauser-promass-einbaulage/"
+                  "title": "Promass",
+                  "children": [
+                    {
+                      "title": "Einbaulage und Einbausituation",
+                      "url": "wissensdatenbank/endress-hauser-promass-einbaulage/"
+                    }
+                  ]
                 }
               ]
             },
