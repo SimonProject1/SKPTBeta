@@ -1,53 +1,56 @@
-SK PLT Tools 2.4.1.0-Beta
+SK PLT Tools 2.4.1.1-Beta
 
-Beta-Testversion der vollständigen statischen Web-App für Rechner,
-Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
+Vollständige Beta-Testversion der statischen Web-App für Rechner,
+Wissensdatenbank, Einheitendatenbank, Werkstoffdatenbank und Dokumentation.
 
-Basis dieser Beta
-- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.4.0.2-Beta.zip vom 11.10.2026.
-- SHA-256 des Ausgangsarchivs: 6913fe54c65b7e8a17dc1f5cfd2be94673f75b67610d80da54ad1e7f12febb10
-- Funktions-, Inhalts-, Navigations-, PWA- und Logostand der Basis bleibt erhalten.
+Direkte Ausgangsbasis
+- SK-PLT-Tools-V2.4.1.0-Beta.zip vom 11.10.2026.
+- Die vorhandenen Funktionen und Inhalte wurden übernommen.
+- Designreferenz: PCT-Controls-Designprobe.zip.
 
-Änderung in V2.4.1.0-Beta
-- Vollständiges Fachgrafikpaket für alle fünf Wissensbeiträge ergänzt.
-- 11 responsive SVG-Grafiken zu Air Torque, Endress+Hauser Promass,
-  Siemens SITRANS P320, Siemens SPS-Rohwert und Vacon integriert.
-- Alle Grafiken besitzen Alternativtexte, sichtbare Bildunterschriften und
-  skalieren ohne horizontalen Überlauf auf Desktop, Tablet und Smartphone.
-- Sämtliche Grafikdateien sind lokal im Deployment enthalten und Bestandteil
-  des strikten Offline-Caches; es bestehen keine externen Bildabhängigkeiten.
-- Öffentliche Betaversion: 2.4.1.0-Beta.
-- Technische Versionskennung, Cache-Buster und Datenmetadaten: 2.4.1.0.
+PCT-Design in V2.4.1.1-Beta
+- Die neuen Designs sind jetzt sichtbar in die vollständige Webapp integriert.
+- Originale Designfarben: Graphit/Schwarz für Flächen, Signalorange für Aktion
+  und Fokus sowie Mint für sichere, aktive und bestätigte Zustände.
+- Abgeschrägte 45-Grad-Kanten, technische Rasterflächen, Statuslicht,
+  mechanische Druckzustände und eingelassene Bedienfelder werden durchgängig
+  verwendet.
+- Alle Grafiken und Designkomponenten sind lokal und offlinefähig.
+
+Direkt testbare Designkomponenten
+- Auf der Startseite befindet sich die neue Karte „PCT Controls“.
+- Die Route designsystem/ enthält den interaktiven Vorzeichenumschalter,
+  den interaktiven Klappschalter mit Schutzklappe sowie die Referenz für
+  Geometrie, Farben und Typografie.
+
+Integrierte Bedienelemente
+- Vorzeichenwechsel, Bereiche und Kategorien auf-/zuklappen.
+- Werkzeug- und Einheitenfavoriten sowie Favoriten-Drawer.
+- Navigation/Baumansicht, separate Zurück- und Startseitentaster.
+- Suchfelder, Reset, Dropdowns, Tabs und Toggle-Schalter.
+- Kopieren-Taster an Rechenergebnissen mit sichtbarer Erfolgsrückmeldung.
+- Info-, Quellen-, Warn- und Sicherheitshinweise.
+- Druck-, Neu-/Reset- und Löschaktionen der Messstellen-Dokumentation.
+
+Erhaltene Funktionen und Inhalte
+- Alle bestehenden Rechner und Berechnungslogiken.
+- Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
+- Fünf fachliche Wissensbeiträge mit Sicherheits- und Gültigkeitshinweisen.
+- Suche, Filter, Sortierung, Favoriten, Navigation und stabile URLs.
+- Responsive Darstellung für Desktop, Tablet, Smartphone und Standalone-PWA.
+- Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
+- PDF-Beitragsvorlage mit editierbaren AcroForm-Feldern.
+
+Version und PWA
+- Öffentliche Betaversion: 2.4.1.1-Beta.
+- Technische Versionskennung und Cache-Buster: 2.4.1.1.
 - Laufzeitkanal: beta.
-
-Grafikbestand
-- assets/graphics/air-torque-drehrichtung.svg
-- assets/graphics/promass-steigleitung.svg
-- assets/graphics/promass-vermeiden.svg
-- assets/graphics/promass-sensorlagen.svg
-- assets/graphics/promass-druckhaltung.svg
-- assets/graphics/sitrans-p320-sil-aktivierung.svg
-- assets/graphics/sps-rohwert-signalweg.svg
-- assets/graphics/sps-rohwert-skalen.svg
-- assets/graphics/sps-rohwert-beispiel.svg
-- assets/graphics/vacon-parameter-2-2-3-7.svg
-- assets/graphics/vacon-pruefkette.svg
-
-Erhaltene Funktionen und Gestaltung
-- Alle fünf fachlichen Wissensbeiträge und ihre Sicherheits-/Gültigkeitshinweise.
-- Mobile Wissensdatenbank, Werkstoffdatenbank, sechs Rechner,
-  Einheitendatenbank, Messstellen-Dokumentation, Suche, Filter, Sortierung,
-  Favoriten und Seitennavigation.
-- Sieben bestätigte Logo- und Iconvarianten.
-- PDF-Beitragsvorlage mit zwei Seiten und 14 editierbaren Feldern.
-- Das verworfene VDE-0100-600-Modul bleibt vollständig entfernt.
-
-PWA und Offline-Funktion
-- Kerncache: sk-plt-tools-core-v2.4.1.0 mit 59 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.4.1.0 mit drei Dokumenten.
-- Manifest-ID, start_url und scope bleiben versionsunabhängig auf ./ gesetzt.
+- Die neue Designseite und ihre Assets gehören zum Offline-Kerncache.
 
 Deployment
-- Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
-- manifest.webmanifest und service-worker.js müssen im Projektstamm erreichbar bleiben.
-- SHA256SUMS.txt enthält einen SHA-256-Eintrag für jede weitere Projektdatei.
+- Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver
+  kopieren.
+- manifest.webmanifest und service-worker.js müssen im Projektstamm verbleiben.
+- SHA256SUMS.txt enthält für jede weitere Projektdatei einen SHA-256-Eintrag.
+- Die externe ZIP-Prüfsumme wird separat als
+  SK-PLT-Tools-V2.4.1.1-Beta.zip.sha256 bereitgestellt.

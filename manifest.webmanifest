@@ -2,12 +2,12 @@
   "id": "./",
   "name": "SK PLT Tools",
   "short_name": "SK PLT Tools",
-  "description": "Praktische Rechner, Wissens-, Einheiten- und Werkstoffdatenbank für die Prozessleittechnik · Version 2.4.1.0-Beta · Beta-Testversion",
+  "description": "Praktische PLT-Werkzeuge mit integriertem PCT Controls Designsystem · Version 2.4.1.1-Beta",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#061827",
-  "theme_color": "#061827",
+  "background_color": "#090c11",
+  "theme_color": "#090c11",
   "icons": [
     {
       "src": "assets/icon-192.png",
@@ -34,7 +34,7 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.4.1.0",
+  "version": "2.4.1.1",
   "shortcuts": [
     {
       "name": "Einheitendatenbank",

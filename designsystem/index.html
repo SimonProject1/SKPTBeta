@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0d12" />
+  <meta name="description" content="PCT Controls – integriertes Designsystem in SK PLT Tools 2.4.1.1-Beta" />
+  <title>PCT Controls · SK PLT Tools 2.4.1.1-Beta</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="PCT Controls Startseite">
+      <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-labelledby="logo-title">
+        <title id="logo-title">PCT Logo</title>
+        <defs>
+          <linearGradient id="signal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffb44d" />
+            <stop offset="1" stop-color="#ff542e" />
+          </linearGradient>
+        </defs>
+        <path class="brand-plate" d="M10 3h36l8 8v42l-8 8H10l-8-8V11z" />
+        <path fill="url(#signal)" d="M14 15h23c8 0 13 4.4 13 11.4 0 7.2-5.2 11.6-13 11.6H26v11H14zm12 9v5h10c1.8 0 2.8-.8 2.8-2.5S37.8 24 36 24z" />
+        <path class="brand-cut" d="M42 39h8v10h-8z" />
+      </svg>
+      <span class="brand-word"><strong>PCT</strong><small>CONTROL SYSTEMS</small></span>
+    </a>
+    <nav aria-label="Seitennavigation">
+      <a href="#components">Komponenten</a>
+      <a href="#specs">System</a>
+    </nav>
+    <a class="home-link" href="../" aria-label="Zurück zu SK PLT Tools">← <span>SK PLT Tools</span></a><div class="release"><span></span> 2.4.1.1-Beta</div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span>01</span> Human–Machine Interface</p>
+        <h1 id="hero-title">Kontrolle,<br /><em>die einrastet.</em></h1>
+        <p class="hero-intro">Zwei präzise Schaltprinzipien. Eine klare PCT-Identität. Entwickelt für eindeutige Zustände, sichere Bedienung und den Einsatz auf industriellen Bedienoberflächen.</p>
+        <a class="hero-cta" href="#components">Schalter testen <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="hero-monogram">P</div>
+        <div class="crosshair h"></div>
+        <div class="crosshair v"></div>
+        <div class="coordinate c1">X / 042.8</div>
+        <div class="coordinate c2">Y / 117.3</div>
+      </div>
+    </section>
+
+    <section class="marquee" aria-label="Produkteigenschaften">
+      <div>
+        <span>TACTILE RESPONSE</span><b>+</b><span>FAIL-SAFE STATES</span><b>+</b><span>24 V READY</span><b>+</b><span>PRECISE CONTROL</span><b>+</b>
+        <span>TACTILE RESPONSE</span><b>+</b><span>FAIL-SAFE STATES</span><b>+</b><span>24 V READY</span><b>+</b><span>PRECISE CONTROL</span><b>+</b>
+      </div>
+    </section>
+
+    <section id="components" class="components-section" aria-labelledby="components-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow"><span>02</span> Bedienkomponenten</p>
+          <h2 id="components-title">Eindeutig in<br />jeder Position.</h2>
+        </div>
+        <p>Form, Licht und Bewegung folgen derselben Logik wie das neue PCT-Zeichen: technisch, kompakt und mit einer markanten Signalkante.</p>
+      </div>
+
+      <div class="component-grid">
+        <article class="product-card polarity-card" data-state="positive">
+          <div class="card-index">01 / 02</div>
+          <div class="card-title-row">
+            <div>
+              <p class="product-kicker">PCT / POLARITY</p>
+              <h3>Vorzeichen&shy;umschalter</h3>
+            </div>
+            <span class="status-pill"><i></i><span class="polarity-status">Positiv</span></span>
+          </div>
+
+          <div class="device-stage">
+            <div class="polarity-device" role="group" aria-label="Vorzeichen wählen">
+              <div class="device-screws"><i></i><i></i><i></i><i></i></div>
+              <div class="device-label">PCT–PS2 <span>24V DC</span></div>
+              <div class="polarity-display" aria-live="polite">
+                <small>OUTPUT</small>
+                <strong><span class="sign-value">+</span><span class="number-value">24.0</span></strong>
+                <span>V DC</span>
+              </div>
+              <div class="rocker-shell">
+                <button class="rocker-half plus active" type="button" data-polarity="positive" aria-pressed="true" aria-label="Positive Polarität wählen">
+                  <span class="symbol">+</span><small>POS</small>
+                </button>
+                <button class="rocker-half minus" type="button" data-polarity="negative" aria-pressed="false" aria-label="Negative Polarität wählen">
+                  <span class="symbol">−</span><small>NEG</small>
+                </button>
+              </div>
+              <div class="terminal-row"><span>IN</span><i></i><i></i><span>OUT</span></div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <p>Direkter Polaritätswechsel mit verriegelter Mittelachse und unmissverständlicher Lichtcodierung.</p>
+            <dl><div><dt>ZUSTÄNDE</dt><dd>+ / −</dd></div><div><dt>FEEDBACK</dt><dd>Optisch + haptisch</dd></div></dl>
+          </div>
+        </article>
+
+        <article class="product-card toggle-card" data-state="off">
+          <div class="card-index">02 / 02</div>
+          <div class="card-title-row">
+            <div>
+              <p class="product-kicker">PCT / GUARD</p>
+              <h3>Klappschalter</h3>
+            </div>
+            <span class="status-pill"><i></i><span class="toggle-status">Standby</span></span>
+          </div>
+
+          <div class="device-stage">
+            <div class="toggle-device">
+              <div class="guard-hinge" aria-hidden="true"><span></span><span></span></div>
+              <button class="safety-guard" type="button" aria-expanded="false" aria-label="Schutzklappe öffnen">
+                <span class="guard-glass"><b>PCT</b><i>LIFT</i></span>
+              </button>
+              <button class="toggle-lever" type="button" role="switch" aria-checked="false" aria-label="PCT-Klappschalter">
+                <span class="lever-stem"><i></i></span>
+                <span class="lever-base"><i></i></span>
+              </button>
+              <div class="toggle-led" aria-hidden="true"><i></i><span>ACTIVE</span></div>
+              <div class="toggle-copy on-copy">I</div>
+              <div class="toggle-copy off-copy">O</div>
+              <div class="device-label toggle-label">PCT–KS1 <span>GUARDED</span></div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <p>Zweistufige Sicherheitslogik: Schutzklappe anheben, Schalter bewusst betätigen und Zustand sofort erkennen.</p>
+            <dl><div><dt>SICHERUNG</dt><dd>Klappschutz</dd></div><div><dt>STATUS</dt><dd class="footer-toggle-status">Standby</dd></div></dl>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="specs" class="system-section" aria-labelledby="system-title">
+      <div class="section-heading compact">
+        <div>
+          <p class="eyebrow"><span>03</span> Designsystem</p>
+          <h2 id="system-title">Aus dem Zeichen<br />ins Produkt.</h2>
+        </div>
+        <p>Die abgeschrägte PCT-Kontur wird zum Rahmen, Signalorange markiert Aktion und Mint bestätigt einen sicheren Zustand.</p>
+      </div>
+      <div class="system-grid">
+        <div class="spec-card geometry">
+          <span class="spec-num">G–01</span><h3>45° Signalkante</h3>
+          <div class="angle-demo"><i></i><b>45°</b></div>
+          <p>Wiederkehrende Fase an Logo, Gehäuse und Interaktionsfläche.</p>
+        </div>
+        <div class="spec-card color">
+          <span class="spec-num">C–02</span><h3>Funktionsfarbe</h3>
+          <div class="swatches"><i class="orange"></i><i class="mint"></i><i class="graphite"></i></div>
+          <p>Signal für Handlung. Mint für Bestätigung. Graphit für Ruhe.</p>
+        </div>
+        <div class="spec-card type">
+          <span class="spec-num">T–03</span><h3>Technische Typografie</h3>
+          <div class="type-demo"><strong>Aa</strong><span>012<br />PCT</span></div>
+          <p>Breite Grotesk für Orientierung, Mono-Ziffern für Zustände und Werte.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="#top" aria-label="Zurück zum Seitenanfang">
+      <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><path class="brand-plate" d="M10 3h36l8 8v42l-8 8H10l-8-8V11z" /><path fill="#ff6b35" d="M14 15h23c8 0 13 4.4 13 11.4 0 7.2-5.2 11.6-13 11.6H26v11H14zm12 9v5h10c1.8 0 2.8-.8 2.8-2.5S37.8 24 36 24z" /><path class="brand-cut" d="M42 39h8v10h-8z" /></svg>
+      <span class="brand-word"><strong>PCT</strong><small>CONTROL SYSTEMS</small></span>
+    </a>
+    <p>SK PLT TOOLS / PCT CONTROLS / 2.4.1.1-BETA</p>
+    <a href="#top">Nach oben <span>↑</span></a>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

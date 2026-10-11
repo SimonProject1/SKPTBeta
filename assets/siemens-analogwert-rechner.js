@@ -13,12 +13,12 @@ const TYPES=Object.freeze({
  '2-10V':Object.freeze({min:2,max:10,unit:'V',label:'2–10 V'})
 });
 const STATES=Object.freeze({
- underflow:Object.freeze({label:'Unterlauf',color:'#ff7b83'}),
+ underflow:Object.freeze({label:'Unterlauf',color:'#ff5a50'}),
  underrange:Object.freeze({label:'Untersteuerung',color:'#f5b942'}),
- nominal:Object.freeze({label:'Nennbereich',color:'#89d329'}),
+ nominal:Object.freeze({label:'Nennbereich',color:'#7af5d0'}),
  overrange:Object.freeze({label:'Übersteuerung',color:'#f5b942'}),
- overflow:Object.freeze({label:'Überlauf',color:'#ff7b83'}),
- scaleOnly:Object.freeze({label:'Nur Skalierung',color:'#00b7e8'})
+ overflow:Object.freeze({label:'Überlauf',color:'#ff5a50'}),
+ scaleOnly:Object.freeze({label:'Nur Skalierung',color:'#ff6735'})
 });
 const DEFAULT_PHYSICAL_RANGE=Object.freeze({min:-50,max:150,unit:'°C'});
 const profile=value=>typeof value==='object'&&value?value:(PROFILES[value]||PROFILES.et200sp_st);

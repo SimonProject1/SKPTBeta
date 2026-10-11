@@ -1,4 +1,4 @@
-/* === V2.4.1.0 · responsive application shell ===
+/* === V2.4.1.1 · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -10,7 +10,7 @@
 
 /* Die Dokumentfläche selbst muss die iPhone-Status-/Safe-Area dunkel füllen.
    Andernfalls kann oberhalb des Body ein weißer Browser-/PWA-Streifen sichtbar werden. */
-html{background-color:#04131f}
+html{background-color:#090c11}
 
 :where(a,button,input,select,textarea,summary):focus-visible{
   outline:3px solid rgba(0,183,232,.48);
@@ -31,7 +31,7 @@ html{background-color:#04131f}
     padding-left:env(safe-area-inset-left,0px);
     background:
       radial-gradient(circle at 100% 0,rgba(0,183,232,.15),transparent 36%),
-      linear-gradient(180deg,#04131f 0%,#03101a 100%);
+      linear-gradient(180deg,#090c11 0%,#03101a 100%);
   }
   .shell{padding-inline:var(--sk-mobile-gutter)}
   .sk-global-header{
@@ -90,7 +90,7 @@ html{background-color:#04131f}
     align-items:center;
     justify-content:center;
     padding:8px 10px;
-    border-color:#2c627c;
+    border-color:#5d453c;
     background:rgba(7,29,45,.84);
     font-size:12px;
   }
@@ -298,7 +298,7 @@ html{background-color:#04131f}
 
 .sk-mobile-hero-version{display:none}
 
-/* === 2.4.1.0 · kompakte mobile Startseite ===
+/* === 2.4.1.1 · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{
@@ -324,15 +324,15 @@ html{background-color:#04131f}
     gap:4px;
     min-width:0;
     padding:9px 11px 8px;
-    border:1px solid #2c627c;
+    border:1px solid #5d453c;
     border-radius:12px;
     background:linear-gradient(155deg,rgba(8,38,57,.9),rgba(4,21,34,.8));
-    color:#f7fbff;
+    color:#f2f2ec;
     line-height:1.1;
     text-align:center;
   }
   body[data-sk-page="start"] .sk-mobile-hero-tool-line{
-    color:#89d329;
+    color:#7af5d0;
     font-size:clamp(8px,2.45vw,10px);
     font-weight:900;
     letter-spacing:.85px;
@@ -356,7 +356,7 @@ html{background-color:#04131f}
     text-transform:uppercase;
   }
   body[data-sk-page="start"] .sk-mobile-hero-version strong{
-    color:#f7fbff;
+    color:#f2f2ec;
     font-size:clamp(15px,4.25vw,19px);
     line-height:1.05;
     letter-spacing:.1px;
@@ -383,8 +383,8 @@ html{background-color:#04131f}
     padding:11px 13px;
     border:0;
     border-radius:17px;
-    background:linear-gradient(145deg,#0a2639,#071d2d);
-    color:#f7fbff;
+    background:linear-gradient(145deg,#151b23,#11161d);
+    color:#f2f2ec;
     text-align:left;
     cursor:pointer;
   }
@@ -396,9 +396,9 @@ html{background-color:#04131f}
     flex:0 0 34px;
     width:34px;
     height:34px;
-    border:1px solid #2c627c;
+    border:1px solid #5d453c;
     border-radius:10px;
-    color:#89d329;
+    color:#7af5d0;
     font-size:22px;
     transition:transform .18s ease;
   }
@@ -409,29 +409,29 @@ html{background-color:#04131f}
 }
 
 
-/* === 2.4.1.0 · mobile Kategorien und optionale Kompaktansicht === */
+/* === 2.4.1.1 · mobile Kategorien und optionale Kompaktansicht === */
 .sk-mobile-display-controls{display:none}
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .sk-mobile-display-controls{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 12px;padding:10px 12px;border:1px solid #24485d;border-radius:15px;background:rgba(7,29,45,.86)
+    display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 12px;padding:10px 12px;border:1px solid #38414c;border-radius:15px;background:rgba(7,29,45,.86)
   }
   body[data-sk-page="start"] .sk-mobile-display-controls>div{display:grid;gap:2px;min-width:0}
   body[data-sk-page="start"] .sk-mobile-display-controls strong{font-size:16px}
-  body[data-sk-page="start"] .sk-compact-cards-toggle{display:flex;align-items:center;gap:8px;min-height:44px;padding:7px 9px;border:1px solid #2c627c;border-radius:12px;background:#061827;color:#f7fbff;font-size:12px;font-weight:850;cursor:pointer}
-  body[data-sk-page="start"] .sk-compact-cards-toggle.active{border-color:#89d329;background:#0d302b}
-  body[data-sk-page="start"] .sk-view-switch{position:relative;flex:0 0 36px;width:36px;height:21px;border:1px solid #3c6578;border-radius:99px;background:#0a2639}
-  body[data-sk-page="start"] .sk-view-switch>span{position:absolute;top:3px;left:3px;width:13px;height:13px;border-radius:50%;background:#a8bdc9;transition:transform .18s ease,background .18s ease}
-  body[data-sk-page="start"] .sk-compact-cards-toggle[aria-pressed="true"] .sk-view-switch>span{transform:translateX(15px);background:#89d329}
-  body[data-sk-page="start"] .sk-view-state{min-width:20px;color:#a8bdc9;text-align:right}
-  body[data-sk-page="start"] .sk-compact-cards-toggle[aria-pressed="true"] .sk-view-state{color:#89d329}
+  body[data-sk-page="start"] .sk-compact-cards-toggle{display:flex;align-items:center;gap:8px;min-height:44px;padding:7px 9px;border:1px solid #5d453c;border-radius:12px;background:#090c11;color:#f2f2ec;font-size:12px;font-weight:850;cursor:pointer}
+  body[data-sk-page="start"] .sk-compact-cards-toggle.active{border-color:#7af5d0;background:#0d302b}
+  body[data-sk-page="start"] .sk-view-switch{position:relative;flex:0 0 36px;width:36px;height:21px;border:1px solid #5f5149;border-radius:99px;background:#151b23}
+  body[data-sk-page="start"] .sk-view-switch>span{position:absolute;top:3px;left:3px;width:13px;height:13px;border-radius:50%;background:#8d949d;transition:transform .18s ease,background .18s ease}
+  body[data-sk-page="start"] .sk-compact-cards-toggle[aria-pressed="true"] .sk-view-switch>span{transform:translateX(15px);background:#7af5d0}
+  body[data-sk-page="start"] .sk-view-state{min-width:20px;color:#8d949d;text-align:right}
+  body[data-sk-page="start"] .sk-compact-cards-toggle[aria-pressed="true"] .sk-view-state{color:#7af5d0}
   body[data-sk-page="start"] .tools.sk-mobile-categories{display:grid;grid-template-columns:1fr;gap:10px}
-  body[data-sk-page="start"] .sk-mobile-category{min-width:0;border:1px solid #24485d;border-radius:17px;background:rgba(5,23,37,.72);overflow:hidden}
+  body[data-sk-page="start"] .sk-mobile-category{min-width:0;border:1px solid #38414c;border-radius:17px;background:rgba(5,23,37,.72);overflow:hidden}
   body[data-sk-page="start"] .sk-mobile-category[hidden]{display:none!important}
-  body[data-sk-page="start"] .sk-mobile-category-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;padding:9px 12px;border:0;background:linear-gradient(145deg,#0a2639,#071d2d);color:#f7fbff;text-align:left;cursor:pointer}
+  body[data-sk-page="start"] .sk-mobile-category-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;padding:9px 12px;border:0;background:linear-gradient(145deg,#151b23,#11161d);color:#f2f2ec;text-align:left;cursor:pointer}
   body[data-sk-page="start"] .sk-mobile-category-toggle>span:first-child{display:flex;align-items:baseline;gap:8px;min-width:0}
   body[data-sk-page="start"] .sk-mobile-category-title{font-size:17px;font-weight:900}
-  body[data-sk-page="start"] .sk-mobile-category-count{color:#a8bdc9;font-size:11px;font-weight:800;white-space:nowrap}
-  body[data-sk-page="start"] .sk-mobile-category-chevron{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid #2c627c;border-radius:9px;color:#89d329;font-size:21px;transition:transform .18s ease}
+  body[data-sk-page="start"] .sk-mobile-category-count{color:#8d949d;font-size:11px;font-weight:800;white-space:nowrap}
+  body[data-sk-page="start"] .sk-mobile-category-chevron{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid #5d453c;border-radius:9px;color:#7af5d0;font-size:21px;transition:transform .18s ease}
   body[data-sk-page="start"] .sk-mobile-category-toggle[aria-expanded="true"] .sk-mobile-category-chevron{transform:rotate(180deg)}
   body[data-sk-page="start"] .sk-mobile-category-cards{display:grid;grid-template-columns:1fr;gap:8px;padding:9px}
   body[data-sk-page="start"] .sk-mobile-category-cards[hidden]{display:none!important}

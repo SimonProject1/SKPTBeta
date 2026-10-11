@@ -1,36 +1,54 @@
-SK PLT Tools 2.4.1.0-Beta
+SK PLT Tools 2.4.1.1-Beta
 Release-Datum: 11.10.2026
-Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.4.0.2-Beta.zip
-SHA-256 der Ausgangsbasis: 6913fe54c65b7e8a17dc1f5cfd2be94673f75b67610d80da54ad1e7f12febb10
+Status: vollständige Beta-Testversion
+Direkte Ausgangsbasis: SK-PLT-Tools-V2.4.1.0-Beta.zip
+Designreferenz: PCT-Controls-Designprobe.zip
 
-BETA-ZIEL
-- Den vollständigen bestätigten Funktions- und Designstand 2.4.0.2-Beta erhalten.
-- Sämtliche Fachgrafiken für alle bestehenden Wissensbeiträge ergänzen.
-- Grafiken responsiv, barrierearm, lokal und vollständig offline verfügbar machen.
-- Die Betaversion technisch und sichtbar konsistent auf 2.4.1.0-Beta fortführen.
+ZIEL
+- Die neuen PCT-Designs nicht nur technisch hinterlegen, sondern in der gesamten
+  Webapp sichtbar und direkt testbar integrieren.
+- Alle bisherigen Rechner, Datenbanken, Wissensbeiträge, URLs und Offlinefunktionen
+  der Version 2.4.1.0-Beta erhalten.
 
-UMGESETZTE ÄNDERUNGEN
-1. Grafikpaket
-- 11 eigenständige, skalierbare SVG-Fachgrafiken erstellt und integriert.
-- Air Torque: SCO/SCC-Drehrichtung.
-- Promass: bevorzugter Einbau, ungünstige Einbausituationen, Sensorlagen,
-  Druckhaltung und Rohrfolge.
-- SITRANS P320: Prüfkette zur SIL-Verriegelung.
-- Siemens SPS: Signalweg, Parametriermodelle und 0-10-bar-Beispiel.
-- Vacon: Parameter 2.2.3.7 und systematische Prüfkette.
-- Alternativtexte und Bildunterschriften für jede Grafik ergänzt.
+NEU IN 2.4.1.1-BETA
+1. Sichtbare PCT-Vollintegration
+- Originale Farbwelt der Designprobe: Graphit/Schwarz, Signalorange und Mint.
+- 45-Grad-Signalkanten, abgeschrägte Karten, technische Rasterflächen,
+  eingelassene Bedienfelder und eindeutige Zustandslichter.
+- Startseite, Hero, Karten, Panels, Suche, Dropdowns, Tabs, Drawer und mobile
+  Schnellzugriffe an die Designprobe angeglichen.
 
-2. PWA und Offline
-- Alle 11 SVG-Dateien in den strikten Kerncache aufgenommen.
-- Kerncache auf 59 Ziele erweitert.
-- Öffentliche Betaversion, technische Versionskennung und Cache-Buster: 2.4.1.0.
+2. PCT Controls als integrierte Designseite
+- Neue lokale Route: designsystem/
+- Interaktiver Vorzeichenumschalter mit positiver und negativer Polarität.
+- Interaktiver Klappschalter mit Schutzklappe und sicherem Rücksetzen.
+- Referenz für Geometrie, Funktionsfarben und technische Typografie.
+- Direkter Einstieg über die neue Karte „PCT Controls“ auf der Startseite und
+  über den Navigationsbaum.
 
-3. Erhaltener Bestand
-- 17 HTML-Seiten, 11 Werkzeug-/Dienstkarten, sechs Rechner,
-  drei Daten-/Dokumentationsbereiche und fünf Wissensbeiträge erhalten.
-- Keine Test-, Screenshot-, QA- oder Entwicklungsartefakte im Deployment-ZIP.
+3. Bedienelemente in der Webapp
+- Vorzeichenwechsel, Auf-/Zuklappen, Favoriten, Navigation/Baumansicht,
+  Startseite, Suche, Zurück, Reset, Kopieren, Info, Warnung, Dropdowns, Tabs,
+  Toggle-Schalter, Drucken und Löschen verwenden das neue PCT-Erscheinungsbild.
+- Normal-, Hover-, Fokus-, Aktiv-, Auswahl- und Deaktiviert-Zustände bleiben
+  tastaturbedienbar und besitzen sichtbare Rückmeldungen.
+
+4. Version und Offline-PWA
+- Öffentliche Version: 2.4.1.1-Beta.
+- Technische Version/Cache-Buster: 2.4.1.1.
+- Die Designseite sowie ihre lokalen CSS- und JavaScript-Dateien sind Bestandteil
+  des Kerncaches und funktionieren offline.
+- Manifestfarben auf die neue graphitfarbene Oberfläche aktualisiert.
+
+ERHALTEN
+- Sechs Rechner und sämtliche Berechnungslogik.
+- Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
+- Fünf Wissensbeiträge, Herstellerhierarchien und PDF-Beitragsvorlage.
+- Suche, Filter, Sortierung, Favoriten, Navigation und stabile interne URLs.
+- Desktop-, Tablet-, Smartphone- und Standalone-PWA-Darstellung.
 
 INTEGRITÄT
-- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
-- ZIP-Prüfsumme wird separat bereitgestellt.
+- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
+- Die externe ZIP-Prüfsumme wird als
+  SK-PLT-Tools-V2.4.1.1-Beta.zip.sha256 bereitgestellt.
+- Test- und Screenshot-Artefakte befinden sich nicht im Deployment-ZIP.
