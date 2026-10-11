@@ -1,55 +1,53 @@
-SK PLT Tools 2.4.0.2-Beta
+SK PLT Tools 2.4.1.0-Beta
 
 Beta-Testversion der vollständigen statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
 
 Basis dieser Beta
-- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.4.0.1-Beta.zip vom 11.10.2026.
-- SHA-256 des Ausgangsarchivs: e06aaedb00f8e859efd67fe69e616f619db4e93d1c53f72f2a5ed5c1b99c5266
-- ZIP-CRC, Pfadsicherheit und interne Prüfsummen der Basis wurden vor der
-  Änderung erfolgreich verifiziert.
+- Verbindliche Ausgangsbasis: SK-PLT-Tools-V2.4.0.2-Beta.zip vom 11.10.2026.
+- SHA-256 des Ausgangsarchivs: 6913fe54c65b7e8a17dc1f5cfd2be94673f75b67610d80da54ad1e7f12febb10
+- Funktions-, Inhalts-, Navigations-, PWA- und Logostand der Basis bleibt erhalten.
 
-Änderung in V2.4.0.2-Beta
-- Das bestätigte PCT-Zahnradlogo wurde in alle sieben produktiv verwendeten
-  Web-App-Formate übernommen.
-- Die Bildmarke zeigt „PCT“ groß am Zahnrad.
-- Der einzige Schriftzug unterhalb der Bildmarke lautet exakt
-  „Tool’s by S.K.“.
-- Bereitgestellt sind assets/logo.png, favicon.png, apple-touch-icon.png,
-  icon-192.png, icon-512.png, icon-maskable-192.png und
-  icon-maskable-512.png.
-- Alle Varianten besitzen echte Alphatransparenz. Die beiden Maskable-Icons
-  liegen innerhalb der vorgesehenen Sicherheitszone.
-- Hauptseite, Kopfzeilen, PWA-Manifest, Service Worker und PDF-Beitragsvorlage
-  verwenden die aktualisierten Logo-Dateien.
-- Die sichtbare Betaversion lautet 2.4.0.2-Beta; technische Versionskennung,
-  Cache-Buster und Datenmetadaten lauten 2.4.0.2.
+Änderung in V2.4.1.0-Beta
+- Vollständiges Fachgrafikpaket für alle fünf Wissensbeiträge ergänzt.
+- 11 responsive SVG-Grafiken zu Air Torque, Endress+Hauser Promass,
+  Siemens SITRANS P320, Siemens SPS-Rohwert und Vacon integriert.
+- Alle Grafiken besitzen Alternativtexte, sichtbare Bildunterschriften und
+  skalieren ohne horizontalen Überlauf auf Desktop, Tablet und Smartphone.
+- Sämtliche Grafikdateien sind lokal im Deployment enthalten und Bestandteil
+  des strikten Offline-Caches; es bestehen keine externen Bildabhängigkeiten.
+- Öffentliche Betaversion: 2.4.1.0-Beta.
+- Technische Versionskennung, Cache-Buster und Datenmetadaten: 2.4.1.0.
 - Laufzeitkanal: beta.
+
+Grafikbestand
+- assets/graphics/air-torque-drehrichtung.svg
+- assets/graphics/promass-steigleitung.svg
+- assets/graphics/promass-vermeiden.svg
+- assets/graphics/promass-sensorlagen.svg
+- assets/graphics/promass-druckhaltung.svg
+- assets/graphics/sitrans-p320-sil-aktivierung.svg
+- assets/graphics/sps-rohwert-signalweg.svg
+- assets/graphics/sps-rohwert-skalen.svg
+- assets/graphics/sps-rohwert-beispiel.svg
+- assets/graphics/vacon-parameter-2-2-3-7.svg
+- assets/graphics/vacon-pruefkette.svg
 
 Erhaltene Funktionen und Gestaltung
 - Alle fünf fachlichen Wissensbeiträge und ihre Sicherheits-/Gültigkeitshinweise.
-- Mobile Wissensdatenbank mit vier Herstellergruppen und Kompaktansicht.
-- Eigenständige Werkstoffdatenbank mit Suche, Gruppenfiltern und Direktvergleich.
-- Sechs Rechner, Einheitendatenbank, Messstellen-Dokumentation, Suche, Filter,
-  Sortierung, Favoriten und Seitennavigation.
-- Siemens- und Endress+Hauser-Hierarchien sowie alle stabilen internen URLs.
+- Mobile Wissensdatenbank, Werkstoffdatenbank, sechs Rechner,
+  Einheitendatenbank, Messstellen-Dokumentation, Suche, Filter, Sortierung,
+  Favoriten und Seitennavigation.
+- Sieben bestätigte Logo- und Iconvarianten.
 - PDF-Beitragsvorlage mit zwei Seiten und 14 editierbaren Feldern.
-- Offline-Funktion mit getrenntem Kern- und Dokumentcache.
 - Das verworfene VDE-0100-600-Modul bleibt vollständig entfernt.
 
 PWA und Offline-Funktion
-- Öffentliche Betaversion: 2.4.0.2-Beta.
-- Technische Versionskennung und Cache-Buster: 2.4.0.2.
-- Laufzeitkanal: beta.
-- Kerncache: sk-plt-tools-core-v2.4.0.2 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.4.0.2 mit drei Dokumenten.
+- Kerncache: sk-plt-tools-core-v2.4.1.0 mit 59 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.4.1.0 mit drei Dokumenten.
 - Manifest-ID, start_url und scope bleiben versionsunabhängig auf ./ gesetzt.
 
 Deployment
-- Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver
-  kopieren.
-- manifest.webmanifest und service-worker.js müssen im Projektstamm erreichbar
-  bleiben.
+- Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
+- manifest.webmanifest und service-worker.js müssen im Projektstamm erreichbar bleiben.
 - SHA256SUMS.txt enthält einen SHA-256-Eintrag für jede weitere Projektdatei.
-- Die ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.4.0.2-Beta.zip.sha256
-  bereitgestellt.

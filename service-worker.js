@@ -1,4 +1,4 @@
-const RELEASE='2.4.0.2';
+const RELEASE='2.4.1.0';
 const CACHE_PREFIX='sk-plt-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -18,6 +18,17 @@ const CORE=[
   './assets/knowledge-article.css',
   './assets/logo-layout.css',
   './assets/logo.png',
+  './assets/graphics/air-torque-drehrichtung.svg',
+  './assets/graphics/promass-druckhaltung.svg',
+  './assets/graphics/promass-sensorlagen.svg',
+  './assets/graphics/promass-steigleitung.svg',
+  './assets/graphics/promass-vermeiden.svg',
+  './assets/graphics/sitrans-p320-sil-aktivierung.svg',
+  './assets/graphics/sps-rohwert-beispiel.svg',
+  './assets/graphics/sps-rohwert-signalweg.svg',
+  './assets/graphics/sps-rohwert-skalen.svg',
+  './assets/graphics/vacon-parameter-2-2-3-7.svg',
+  './assets/graphics/vacon-pruefkette.svg',
   './assets/materials.css',
   './assets/materials.js',
   './assets/materials.json',

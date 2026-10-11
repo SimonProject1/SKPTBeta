@@ -1,46 +1,36 @@
-SK PLT Tools 2.4.0.2-Beta
+SK PLT Tools 2.4.1.0-Beta
 Release-Datum: 11.10.2026
 Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.4.0.1-Beta.zip
-SHA-256 der Ausgangsbasis: e06aaedb00f8e859efd67fe69e616f619db4e93d1c53f72f2a5ed5c1b99c5266
+Ausgangsbasis: SK-PLT-Tools-V2.4.0.2-Beta.zip
+SHA-256 der Ausgangsbasis: 6913fe54c65b7e8a17dc1f5cfd2be94673f75b67610d80da54ad1e7f12febb10
 
 BETA-ZIEL
-- Den vollständigen bestätigten Funktions- und Designstand 2.4.0.1-Beta erhalten.
-- Das zuletzt bestätigte Logo mit großem „PCT“ am Zahnrad verwenden.
-- Den Schriftzug unterhalb der Bildmarke exakt als „Tool’s by S.K.“ setzen.
-- Sämtliche produktiv benötigten Logo- und Iconvarianten aktualisieren.
-- Die Betaversion technisch und sichtbar konsistent auf 2.4.0.2-Beta fortführen.
+- Den vollständigen bestätigten Funktions- und Designstand 2.4.0.2-Beta erhalten.
+- Sämtliche Fachgrafiken für alle bestehenden Wissensbeiträge ergänzen.
+- Grafiken responsiv, barrierearm, lokal und vollständig offline verfügbar machen.
+- Die Betaversion technisch und sichtbar konsistent auf 2.4.1.0-Beta fortführen.
 
 UMGESETZTE ÄNDERUNGEN
-1. Logo und Icons
-- assets/logo.png: 640 × 640 Pixel, transparent.
-- assets/favicon.png: 64 × 64 Pixel, transparent.
-- assets/apple-touch-icon.png: 180 × 180 Pixel, transparent.
-- assets/icon-192.png und assets/icon-512.png: transparent, purpose any.
-- assets/icon-maskable-192.png und assets/icon-maskable-512.png: transparent und
-  innerhalb der Maskable-Sicherheitszone skaliert.
-- Alle sieben Varianten zeigen dieselbe Bildmarke: großes „PCT“ am Zahnrad und
-  darunter exakt „Tool’s by S.K.“.
-- Die PDF-Beitragsvorlage verwendet ebenfalls das aktualisierte Logo.
+1. Grafikpaket
+- 11 eigenständige, skalierbare SVG-Fachgrafiken erstellt und integriert.
+- Air Torque: SCO/SCC-Drehrichtung.
+- Promass: bevorzugter Einbau, ungünstige Einbausituationen, Sensorlagen,
+  Druckhaltung und Rohrfolge.
+- SITRANS P320: Prüfkette zur SIL-Verriegelung.
+- Siemens SPS: Signalweg, Parametriermodelle und 0-10-bar-Beispiel.
+- Vacon: Parameter 2.2.3.7 und systematische Prüfkette.
+- Alternativtexte und Bildunterschriften für jede Grafik ergänzt.
 
-2. Version und PWA
-- Öffentliche Betaversion: 2.4.0.2-Beta.
-- Technische Versionskennung und Cache-Buster: 2.4.0.2.
-- Laufzeitkanal: beta.
-- Kerncache: sk-plt-tools-core-v2.4.0.2 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.4.0.2 mit drei Dokumenten.
-- Manifest, Service Worker, VERSION, HTML-Metadaten, JavaScript-Konstanten,
-  CSS-Kommentare, Datenmetadaten, PDF-Sichttext und PDF-Metadaten wurden
-  aktualisiert.
+2. PWA und Offline
+- Alle 11 SVG-Dateien in den strikten Kerncache aufgenommen.
+- Kerncache auf 59 Ziele erweitert.
+- Öffentliche Betaversion, technische Versionskennung und Cache-Buster: 2.4.1.0.
 
-ERHALTENE FUNKTIONEN UND DESIGNS
-- 17 HTML-Seiten einschließlich der kompatiblen Werkstoff-Weiterleitungsroute.
-- 11 Werkzeug-/Dienstkarten, sechs Rechner, drei Daten-/Dokumentationsbereiche.
-- Fünf Wissensbeiträge, Herstellerhierarchien, Suche, Filter, Sortierung,
-  Favoriten, Seitennavigation und Offline-Funktion.
+3. Erhaltener Bestand
+- 17 HTML-Seiten, 11 Werkzeug-/Dienstkarten, sechs Rechner,
+  drei Daten-/Dokumentationsbereiche und fünf Wissensbeiträge erhalten.
 - Keine Test-, Screenshot-, QA- oder Entwicklungsartefakte im Deployment-ZIP.
 
 INTEGRITÄT
-- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.4.0.2-Beta.zip.sha256 bereitgestellt.
-- Testbericht und Übergabedatei werden außerhalb des Deployment-ZIP ausgeliefert.
+- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
+- ZIP-Prüfsumme wird separat bereitgestellt.

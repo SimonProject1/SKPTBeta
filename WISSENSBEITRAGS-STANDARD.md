@@ -1,4 +1,4 @@
-# SK PLT Tools - Wissensbeitragsstandard V2.4.0.2
+# SK PLT Tools - Wissensbeitragsstandard V2.4.1.0
 
 Stand: 11.10.2026
 Status: verbindlicher Release-Standard für alle Wissensbeiträge im Projekt
@@ -13,7 +13,7 @@ Jeder Wissensbeitrag enthält in dieser Reihenfolge:
 4. Fachinhalt in klar benannten Abschnitten.
 5. Prüf-, Handlungs- oder Zuordnungsfolge, sofern fachlich sinnvoll.
 6. Sicherheits-, Gültigkeits- und Quellenhinweis.
-7. Technische Standardzuordnung über `data-knowledge-standard="2.4.0.2"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
+7. Technische Standardzuordnung über `data-knowledge-standard="2.4.1.0"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
 
 ## 2. Darstellungsregeln
 

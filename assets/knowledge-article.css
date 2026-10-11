@@ -1,4 +1,4 @@
-/* SK PLT Tools 2.4.0.2 - einheitlicher Wissensbeitragsstandard */
+/* SK PLT Tools 2.4.1.0 - einheitlicher Wissensbeitragsstandard */
 .knowledge-standard{width:min(1120px,calc(100% - 34px));margin:0 auto;padding:24px 0 72px;color:#f7fbff}
 .kb-breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 18px;color:#9fb8c5;font-size:14px}.kb-breadcrumb a{color:#cce3ec;text-decoration:none}.kb-breadcrumb a:hover,.kb-breadcrumb a:focus-visible{color:#89d329;text-decoration:underline}
 .kb-hero{position:relative;overflow:hidden;padding:clamp(26px,5vw,52px);border:1px solid #27536a;border-radius:28px;background:radial-gradient(circle at 90% 0,rgba(0,183,232,.18),transparent 35%),linear-gradient(145deg,#0a293d,#061827 68%);box-shadow:0 24px 60px rgba(0,0,0,.2)}
@@ -21,3 +21,9 @@
 .kb-pipeline{display:flex;align-items:center;gap:7px;margin-top:18px}.kb-pipe{height:15px;flex:1;border:3px solid #7696a5;border-radius:6px;background:#0d3448}.kb-pipe.short{flex:.4}.kb-pipe.wide{height:28px}.kb-valve{position:relative;width:35px;height:34px}.kb-valve::before,.kb-valve::after{content:'';position:absolute;top:8px;width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent}.kb-valve::before{left:2px;border-right:14px solid #ffbd59}.kb-valve::after{right:2px;border-left:14px solid #ffbd59}.kb-sensor-chip{padding:10px 12px;border:2px solid #00b7e8;border-radius:11px;background:#0d374b;color:#fff;font-size:12px;font-weight:900;white-space:nowrap}
 @media(max-width:900px){.kb-meta-grid,.kb-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}.kb-grid-3{grid-template-columns:1fr}.kb-optimal-layout{grid-template-columns:1fr}.kb-process{grid-template-columns:1fr}.kb-process-arrow{transform:rotate(90deg);text-align:center}}
 @media(max-width:620px){.knowledge-standard{width:min(100% - 22px,1120px);padding:18px 0 46px}.kb-hero,.kb-section{border-radius:19px}.kb-hero{padding:24px 18px}.kb-hero h1{font-size:34px;overflow-wrap:anywhere}.kb-section{padding:18px 14px}.kb-meta-grid,.kb-grid-2,.kb-grid-4{grid-template-columns:1fr}.kb-standard-bar{align-items:flex-start;flex-direction:column}.kb-optimal-visual{min-height:275px}.kb-pipeline{gap:4px}.kb-sensor-chip{padding:8px 7px;font-size:10px}}
+
+/* Grafikpaket 2.4.1.0: responsive, offline-faehige SVG-Fachgrafiken */
+.kb-figure{margin:22px 0 0;padding:12px;border:1px solid #2a5369;border-radius:20px;background:#061827;box-shadow:0 18px 42px rgba(0,0,0,.16)}
+.kb-figure img{display:block;width:100%;height:auto;border-radius:14px;background:#061827}.kb-figure figcaption{padding:11px 7px 3px;color:#9fb8c5;font-size:14px;line-height:1.5}
+.kb-figure-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:20px}.kb-figure-grid .kb-figure{margin:0}
+@media(max-width:760px){.kb-figure{padding:7px;border-radius:15px}.kb-figure-grid{grid-template-columns:1fr}.kb-figure figcaption{font-size:13px}}
