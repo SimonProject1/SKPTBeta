@@ -1,15 +1,15 @@
-SK PLT Tools 2.4.0.1-Beta
+SK PLT Tools 2.4.0.2-Beta
 Release-Datum: 11.10.2026
 Status: Beta-Testversion
-Ausgangsbasis: SK-PLT-Tools-V2.4.0.0.zip
-SHA-256 der Ausgangsbasis: c9406ceb3ff2cc9e8a7f98f49cfff0e11e7b5a95228229160df7c817fafd3135
+Ausgangsbasis: SK-PLT-Tools-V2.4.0.1-Beta.zip
+SHA-256 der Ausgangsbasis: e06aaedb00f8e859efd67fe69e616f619db4e93d1c53f72f2a5ed5c1b99c5266
 
 BETA-ZIEL
-- Den vollständigen bestätigten Funktions- und Designstand 2.4.0.0 erhalten.
-- Sämtliche produktiv benötigten Logo- und Iconvarianten mit transparentem
-  Hintergrund bereitstellen.
-- Im Logo ausschließlich die Wortmarke „S.K. PCT TOOL“ verwenden.
-- Die Betaversion technisch und sichtbar konsistent auf 2.4.0.1-Beta fortführen.
+- Den vollständigen bestätigten Funktions- und Designstand 2.4.0.1-Beta erhalten.
+- Das zuletzt bestätigte Logo mit großem „PCT“ am Zahnrad verwenden.
+- Den Schriftzug unterhalb der Bildmarke exakt als „Tool’s by S.K.“ setzen.
+- Sämtliche produktiv benötigten Logo- und Iconvarianten aktualisieren.
+- Die Betaversion technisch und sichtbar konsistent auf 2.4.0.2-Beta fortführen.
 
 UMGESETZTE ÄNDERUNGEN
 1. Logo und Icons
@@ -19,17 +19,16 @@ UMGESETZTE ÄNDERUNGEN
 - assets/icon-192.png und assets/icon-512.png: transparent, purpose any.
 - assets/icon-maskable-192.png und assets/icon-maskable-512.png: transparent und
   innerhalb der Maskable-Sicherheitszone skaliert.
-- Alle Varianten verwenden dieselbe technische Bildmarke und ausschließlich den
-  Text „S.K. PCT TOOL“; „by Simon Kiesler“ ist nicht mehr Bestandteil der Logos.
-- Die CSS-Hintergrundflächen der Logo-Elemente wurden auf transparent gesetzt.
+- Alle sieben Varianten zeigen dieselbe Bildmarke: großes „PCT“ am Zahnrad und
+  darunter exakt „Tool’s by S.K.“.
 - Die PDF-Beitragsvorlage verwendet ebenfalls das aktualisierte Logo.
 
 2. Version und PWA
-- Öffentliche Betaversion: 2.4.0.1-Beta.
-- Technische Versionskennung und Cache-Buster: 2.4.0.1.
+- Öffentliche Betaversion: 2.4.0.2-Beta.
+- Technische Versionskennung und Cache-Buster: 2.4.0.2.
 - Laufzeitkanal: beta.
-- Kerncache: sk-plt-tools-core-v2.4.0.1 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.4.0.1 mit drei Dokumenten.
+- Kerncache: sk-plt-tools-core-v2.4.0.2 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.4.0.2 mit drei Dokumenten.
 - Manifest, Service Worker, VERSION, HTML-Metadaten, JavaScript-Konstanten,
   CSS-Kommentare, Datenmetadaten, PDF-Sichttext und PDF-Metadaten wurden
   aktualisiert.
@@ -43,5 +42,5 @@ ERHALTENE FUNKTIONEN UND DESIGNS
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.4.0.1-Beta.zip.sha256 bereitgestellt.
+- ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.4.0.2-Beta.zip.sha256 bereitgestellt.
 - Testbericht und Übergabedatei werden außerhalb des Deployment-ZIP ausgeliefert.
