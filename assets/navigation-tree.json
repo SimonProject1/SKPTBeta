@@ -1,5 +1,5 @@
 {
-  "version": "2.3.3.3",
+  "version": "2.4.0.0",
   "title": "Alle Seiten",
   "groups": [
     {
@@ -97,14 +97,19 @@
               "title": "Siemens",
               "children": [
                 {
-                  "title": "Sitrans P320 - SIL-Verriegelung",
-                  "url": "wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/"
+                  "title": "Sitrans P320",
+                  "children": [
+                    {
+                      "title": "SIL Verriegelung",
+                      "url": "wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/"
+                    }
+                  ]
                 },
                 {
                   "title": "SPS",
                   "children": [
                     {
-                      "title": "Rohwert Grundlagen",
+                      "title": "Rohwert",
                       "url": "wissensdatenbank/siemens-sps-rohwert/"
                     }
                   ]

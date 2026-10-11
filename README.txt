@@ -1,34 +1,32 @@
-SK PLT Tools 2.3.3.3-Beta
+SK PLT Tools 2.4.0.0
 
-Beta-Testversion der kompakten statischen Web-App für Rechner,
-Wissensdatenbank, Einheitendatenbank und Werkstoffdatenbank.
+Veröffentlichungsfertige statische Web-App für Rechner, Wissensdatenbank,
+Einheitendatenbank und Werkstoffdatenbank.
 
-Verbindliche Ausgangsbasis
-- Projektbasis: SK-PLT-Tools-V2.3.3.2-Beta.zip vom 10.10.2026.
-- Bestätigte SHA-256 der Projektbasis:
-  6e2cdcd963b7db9af4c3fa3b83ab901ae798a2543632736775210154cc1c6c85
+Release-Basis
+- Verifizierter Vorgängerstand: 2.3.3.3.
+- SHA-256 des unveränderten Ausgangsarchivs:
+  757e635a516feccff01d400abf7d60aadd219f19331c5ff3b412a6ff9e2a3e2b
 - ZIP-CRC, Pfadsicherheit und 55 interne Prüfsummen der Basis wurden vor der
   Änderung erfolgreich verifiziert.
 
-Änderung V2.3.3.3-Beta
-- Der sichtbare Kasten mit der Kennzeichnung des Wissensbeitragsstandards wurde
-  aus allen fünf bestehenden Geräte-Wissensbeiträgen entfernt.
-- Die Texte „Wissensbeitragsstandard V2.3.3.2-Beta“ und „Einheitliche Struktur ·
-  mobil optimiert · Gültigkeit vor Ort prüfen“ werden in den Beiträgen nicht mehr
-  angezeigt.
-- Der Promass-Beitrag enthält keinen sichtbaren PDF-Dateinamen, keine Folienangabe
-  und keinen Hinweis auf eine konkrete Schulungsunterlage mehr.
-- Der allgemeine Quellen-, Gültigkeits- und Sicherheitshinweis im Promass-Beitrag
-  bleibt erhalten.
-- Endress+Hauser ist im Navigationsbaum und im Breadcrumb nach dem Schema
-  Wissensdatenbank > Endress+Hauser > Promass > Beitrag gegliedert.
-- Suchindex und Wissensübersicht bilden Hersteller und Gerätefamilie konsistent ab.
+Änderungen in Version 2.4.0.0
+- Siemens ist in der Wissensdatenbank analog zur bestehenden
+  Endress+Hauser-Hierarchie als Hersteller > Gerät/System > Beitrag gegliedert.
+- Unter Siemens > Sitrans P320 ist der Beitrag „SIL Verriegelung“ verfügbar.
+- Unter Siemens > SPS ist der Beitrag „Rohwert“ verfügbar.
+- Kartenbeschriftungen, Breadcrumbs, Navigationsbaum, Suchindex und interne
+  Verlinkungen wurden auf dieselbe Hierarchie normalisiert.
+- Die sichtbare und technische Versionsführung wurde vollständig auf 2.4.0.0
+  umgestellt; der Laufzeitkanal ist stable.
 
 Erhaltene Funktionen und Gestaltung
-- Alle fünf fachlichen Wissensbeiträge und ihre Sicherheits-/Gültigkeitshinweise.
-- Mobile Wissensdatenbank mit Herstellergruppen und Kompaktansicht.
+- Alle fünf fachlichen Wissensbeiträge einschließlich des bereinigten
+  Endress+Hauser-Promass-Beitrags und ihrer Sicherheits-/Gültigkeitshinweise.
+- Mobile Wissensdatenbank mit vier Herstellergruppen und standardmäßig aktiver
+  Kompaktansicht.
 - Eigenständige Werkstoffdatenbank mit Suche, Gruppenfiltern und Direktvergleich.
-- Bestätigte volle Rechnerbreite ab 761 CSS-Pixeln.
+- Bestätigte volle Rechnerbreite ab 761 CSS-Pixeln auf PC und Tablet.
 - Bestätigtes PLT-Logo und alle App-/Iconvarianten.
 - 11 Werkzeug-/Dienstkarten, Suche, Filterung, Sortierung, Favoriten und Navigation.
 - Sechs Rechner, Einheitendatenbank und Messstellen-Dokumentation.
@@ -38,31 +36,29 @@ Erhaltene Funktionen und Gestaltung
 Technischer Wissensbeitragsstandard
 - WISSENSBEITRAGS-STANDARD.md bleibt als technischer und redaktioneller Standard
   erhalten.
-- Alle fünf Beiträge tragen unsichtbar data-knowledge-standard="2.3.3.3-Beta".
-- Die gemeinsame Darstellung erfolgt weiterhin über assets/knowledge-article.css.
-- Die zweitseitige PDF-Beitragsvorlage mit 14 editierbaren Feldern bleibt erhalten
-  und ist auf V2.3.3.3-Beta aktualisiert.
+- Alle fünf Beiträge tragen unsichtbar data-knowledge-standard="2.4.0.0".
+- Die gemeinsame Darstellung erfolgt über assets/knowledge-article.css.
+- Die zweitseitige PDF-Beitragsvorlage mit 14 editierbaren Feldern ist auf
+  Version 2.4.0.0 aktualisiert.
 
-PWA
-- Öffentliche Betaversion: 2.3.3.3-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.3.3.
-- Laufzeitkanal: beta.
-- Kerncache: sk-plt-tools-core-v2.3.3.3 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.3.3 mit drei Dokumenten.
+PWA und Offline-Funktion
+- Öffentliche und technische Version: 2.4.0.0.
+- Cache-Buster: 2.4.0.0.
+- Laufzeitkanal: stable.
+- Kerncache: sk-plt-tools-core-v2.4.0.0 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.4.0.0 mit drei Dokumenten.
 - Manifest-ID, start_url und scope bleiben versionsunabhängig auf ./ gesetzt.
+- Nach dem ersten vollständigen Online-Aufruf stehen 17 HTML-Routen
+  einschließlich der kompatiblen Werkstoff-Weiterleitung offline bereit.
 
-Deployment zum Testen
+Deployment
 - Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver
   kopieren.
 - manifest.webmanifest und service-worker.js müssen im Projektstamm erreichbar
   bleiben.
-- Nach dem ersten vollständigen Online-Aufruf stehen 17 HTML-Routen einschließlich
-  der alten Werkstoff-Weiterleitungsroute offline bereit.
-
-Integrität
-- SHA256SUMS.txt enthält einen SHA-256-Eintrag je weiterer Datei im Projektordner.
-- Die Prüfsumme des ZIP-Archivs wird separat neben dem ZIP bereitgestellt.
-- Testbericht und Projektübergabe liegen außerhalb des Deployment-ZIP.
+- SHA256SUMS.txt enthält einen SHA-256-Eintrag für jede weitere Projektdatei.
+- Die ZIP-Prüfsumme, der Testbericht und die Übergabedatei werden separat neben
+  dem Deployment-ZIP bereitgestellt.
 
 Release Notes
 - Siehe RELEASE-NOTES.txt.

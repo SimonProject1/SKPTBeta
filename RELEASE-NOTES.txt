@@ -1,59 +1,49 @@
-SK PLT Tools 2.3.3.3-Beta
+SK PLT Tools 2.4.0.0
 Release-Datum: 11.10.2026
-Status: vollständige Beta-Testversion
-Projektbasis: SK-PLT-Tools-V2.3.3.2-Beta.zip
-SHA-256 der Projektbasis: 6e2cdcd963b7db9af4c3fa3b83ab901ae798a2543632736775210154cc1c6c85
+Status: finaler veröffentlichungsfertiger Release
+Projektbasis: verifizierter Vorgängerstand 2.3.3.3
+SHA-256 der Projektbasis: 757e635a516feccff01d400abf7d60aadd219f19331c5ff3b412a6ff9e2a3e2b
 
-BETA-ZIEL
-- Den vollständigen Funktions- und Designstand V2.3.3.2-Beta erhalten.
-- Sichtbare Standardkennzeichnung aus allen bestehenden Wissensbeiträgen entfernen.
-- Promass-Quellenhinweis von konkretem PDF-/Schulungsbezug bereinigen.
-- Endress+Hauser-Geräte hierarchisch und erweiterbar strukturieren.
+RELEASE-ZIEL
+- Den vollständigen bestätigten Funktions- und Designstand 2.3.3.3 erhalten.
+- Siemens analog zur Endress+Hauser-Hierarchie strukturieren.
 - Alle Versions-, PWA-, Navigations-, Such- und Integritätsdaten konsistent auf
-  V2.3.3.3-Beta fortführen.
+  Version 2.4.0.0 fortführen.
+- Einen finalen Release ohne Testkanal-Kennzeichnung bereitstellen.
 
 UMGESETZTE ÄNDERUNGEN
-1. Wissensbeiträge
-- Aus allen fünf bestehenden Gerätebeiträgen wurde die sichtbare Leiste mit
-  „Wissensbeitragsstandard V2.3.3.2-Beta“ und
-  „Einheitliche Struktur · mobil optimiert · Gültigkeit vor Ort prüfen“ entfernt.
-- Der semantische TechArticle-Aufbau, die Metadaten, Fachabschnitte, Prüfschritte,
-  Warnungen und Quellen-/Gültigkeitshinweise bleiben erhalten.
-- Die technische Standardzuordnung bleibt unsichtbar über
-  data-knowledge-standard="2.3.3.3-Beta" bestehen.
+1. Siemens-Herstellerhierarchie
+- Navigationsbaum: Wissensdatenbank > Siemens > Sitrans P320 > SIL Verriegelung.
+- Navigationsbaum: Wissensdatenbank > Siemens > SPS > Rohwert.
+- Beide Beitragsseiten verwenden dieselbe vierstufige Breadcrumb-Struktur.
+- Die mobile Herstellergruppe Siemens zeigt die grünen Geräte-/Systembezeichnungen
+  Sitrans P320 und SPS sowie die Beiträge SIL Verriegelung und Rohwert.
+- Beide Siemens-Karten tragen eine maschinenlesbare Geräte-/Systemzuordnung.
 
-2. Endress+Hauser / Promass
-- Im sichtbaren Beitrag wurden der konkrete PDF-Dateiname, der Verweis auf eine
-  Schulungsunterlage und die Folienangaben vollständig entfernt.
-- Der allgemeine Quellen-, Gültigkeits- und Sicherheitshinweis bleibt erhalten.
-- Der fachliche Inhalt des Promass-Beitrags wurde nicht verändert.
-- Sichtbarer Breadcrumb:
-  Startseite > Wissensdatenbank > Endress+Hauser > Promass >
-  Einbaulage und Einbausituation.
-- Navigationsbaum:
-  Wissensdatenbank > Endress+Hauser > Promass >
-  Einbaulage und Einbausituation.
-- Suchindex und Wissensübersicht führen Hersteller und Gerätefamilie getrennt.
+2. Suche und Verlinkung
+- Der Suchindex führt beide Siemens-Beiträge mit der vollständigen Hierarchie.
+- Der Siemens-Rohwert-Rechner ist als Rechner vom Wissensbeitrag getrennt.
+- Bestehende Beitrags- und Rechner-URLs bleiben stabil; interne Links wurden geprüft.
 
 3. Version und PWA
-- Öffentliche Betaversion: 2.3.3.3-Beta.
-- Technische Versionskennung und Cache-Buster: 2.3.3.3.
-- Kerncache: sk-plt-tools-core-v2.3.3.3 mit 48 Zielen.
-- Dokumentcache: sk-plt-tools-documents-v2.3.3.3 mit drei Dokumenten.
-- Manifest, Service Worker, Cache-Namen, VERSION, HTML-Metadaten,
-  JavaScript-Konstanten, CSS-Kommentare, Datenmetadaten, PDF-Metadaten und
+- Öffentliche und technische Version, Cache-Buster und Datenmetadaten: 2.4.0.0.
+- Laufzeitkanal: stable.
+- Kerncache: sk-plt-tools-core-v2.4.0.0 mit 48 Zielen.
+- Dokumentcache: sk-plt-tools-documents-v2.4.0.0 mit drei Dokumenten.
+- Manifest, Service Worker, VERSION, HTML-Metadaten, JavaScript-Konstanten,
+  CSS-Kommentare, Datenmetadaten, PDF-Sichttext, PDF-Metadaten und
   Asset-Querystrings wurden aktualisiert.
 
 ERHALTENE FUNKTIONEN UND DESIGNS
 - Mobile Wissensdatenbank mit vier Herstellergruppen und Kompaktansicht.
-- Fünf Geräte-Wissensbeiträge mit unverändertem Fachinhalt außerhalb der
-  ausdrücklich angeforderten sichtbaren Quellenbereinigung.
+- Fünf Geräte-Wissensbeiträge einschließlich des bereinigten Promass-Beitrags.
 - Eigenständige Werkstoffdatenbank und kompatible alte Werkstoffroute.
-- Sechs Rechner und bestätigte Rechnerbreite ab 761 CSS-Pixeln.
+- Sechs Rechner und bestätigte volle Rechnerbreite ab 761 CSS-Pixeln.
 - Einheitendatenbank, Messstellen-Dokumentation, Suche, Filter, Sortierung,
   Favoriten und Seitennavigation.
 - Bestätigtes PLT-Logo und alle sechs App-/Iconvarianten.
 - PDF-Beitragsvorlage mit zwei Seiten und 14 editierbaren Feldern.
+- Offline-Funktion mit getrenntem Kern- und Dokumentcache.
 - Das VDE-0100-600-Modul bleibt vollständig entfernt.
 
 PROJEKTBESTAND
@@ -64,6 +54,5 @@ PROJEKTBESTAND
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- ZIP-Prüfsumme wird separat als
-  SK-PLT-Tools-V2.3.3.3-Beta.zip.sha256 bereitgestellt.
+- ZIP-Prüfsumme wird separat als SK-PLT-Tools-V2.4.0.0.zip.sha256 bereitgestellt.
 - Testbericht und Übergabedatei werden außerhalb des Deployment-ZIP ausgeliefert.
