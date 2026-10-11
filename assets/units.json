@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "release": "2.4.1.3",
+  "release": "2.4.1.4",
   "conversionModel": {
     "toBase": "base = value × factor + offset",
     "fromBase": "value = (base − offset) ÷ factor",
     "roundTripTolerance": 1e-10,
-    "favoritesStorageKey": "skPltUnitFavoritesV1"
+    "favoritesStorageKey": "skPctUnitFavoritesV1"
   },
   "categories": [
     {

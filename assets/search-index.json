@@ -261,29 +261,5 @@
       "Viskosität"
     ],
     "url": "einheitendatenbank/"
-  },
-  {
-    "type": "Designsystem",
-    "category": "DESIGN",
-    "manufacturer": "PCT",
-    "device": "Bedienoberfläche",
-    "topic": "Controls und Zustände",
-    "title": "PCT Controls",
-    "description": "Integriertes PCT-Designsystem mit Vorzeichenumschalter, Klappschalter, 45-Grad-Signalkanten, Signalorange und Mint.",
-    "breadcrumb": [
-      "Designsystem",
-      "PCT Controls"
-    ],
-    "keywords": [
-      "PCT",
-      "Design",
-      "Controls",
-      "Vorzeichenumschalter",
-      "Klappschalter",
-      "Signalorange",
-      "Mint",
-      "45 Grad"
-    ],
-    "url": "designsystem/"
   }
 ]

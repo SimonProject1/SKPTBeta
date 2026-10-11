@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const RELEASE='2.4.1.3';
+const RELEASE='2.4.1.4';
 const normalize=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'');
 const searchable=material=>[material.materialNumber,material.shortName,material.uns,...(material.internationalDesignations||[]),...(material.searchTerms||[])].map(normalize).join(' ');
 const matches=(material,query)=>{const terms=String(query||'').trim().split(/\s+/).map(normalize).filter(Boolean);if(!terms.length)return true;const haystack=searchable(material);return terms.every(term=>haystack.includes(term))};
@@ -7,7 +7,7 @@ const filterMaterials=(materials,query,group='all')=>(materials||[]).filter(mate
 window.SK_MATERIALS=Object.freeze({normalize,matches,filterMaterials});
 if(typeof document==='undefined')return;
 const byId=id=>document.getElementById(id);
-const root=()=>window.SK_PLT?.root||new URL('../',location.href);
+const root=()=>window.SK_PCT?.root||new URL('../',location.href);
 const create=(tag,className,text)=>{const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node};
 let data={groups:[],materials:[],comparisons:[],safetyNotice:''};
 let activeGroup='all';

@@ -1,12 +1,9 @@
-const RELEASE='2.4.1.3';
-const CACHE_PREFIX='sk-plt-tools-';
+const RELEASE='2.4.1.4';
+const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
 const CORE=[
   './',
-  './designsystem/',
-  './designsystem/styles.css',
-  './designsystem/app.js',
   './analogsignal/',
   './assets/analogsignal-rechner.js',
   './assets/app.js',
@@ -92,7 +89,7 @@ self.addEventListener('activate',event=>{
   event.waitUntil((async()=>{
     const keep=new Set([CORE_CACHE,DOCUMENT_CACHE]);
     const keys=await caches.keys();
-    await Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&!keep.has(key)).map(key=>caches.delete(key)));
+    await Promise.all(keys.filter(key=>key.startsWith('sk-')&&key.includes('-tools-')&&!keep.has(key)).map(key=>caches.delete(key)));
     await self.clients.claim();
   })());
 });

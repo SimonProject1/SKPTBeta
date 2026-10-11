@@ -1,16 +1,17 @@
-/* SK PLT Tools 2.4.1.3 — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
+/* SK PCT Tools 2.4.1.4 — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
 (()=>{'use strict';
-const RELEASE='2.4.1.3';
-const STORAGE_KEY='skPltUnitFavoritesV1';
+const RELEASE='2.4.1.4';
+const STORAGE_KEY='skPctUnitFavoritesV1';
 const source=document.currentScript?.src||'';
-const root=source?new URL('../',source):(window.SK_PLT?.root||new URL('./',location.href));
+const root=source?new URL('../',source):(window.SK_PCT?.root||new URL('./',location.href));
 let model=null;
 const selects=new Set();
 const listeners=new Set();
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
 const number=value=>Number.parseFloat(String(value).replace(',','.'));
 const favoriteKey=(categoryId,unitId)=>`${categoryId}:${unitId}`;
-function loadFavorites(){try{const value=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');return Array.isArray(value)?[...new Set(value.filter(item=>typeof item==='string'))]:[]}catch{return []}}
+function storedFavorites(){const direct=localStorage.getItem(STORAGE_KEY);if(direct!==null)return direct;const previous=Object.keys(localStorage).find(item=>item!==STORAGE_KEY&&item.startsWith('sk')&&item.endsWith('UnitFavoritesV1'));const value=previous?localStorage.getItem(previous):null;if(value!==null)localStorage.setItem(STORAGE_KEY,value);return value}
+function loadFavorites(){try{const value=JSON.parse(storedFavorites()||'[]');return Array.isArray(value)?[...new Set(value.filter(item=>typeof item==='string'))]:[]}catch{return []}}
 function saveFavorites(items){const clean=[...new Set(items)];try{localStorage.setItem(STORAGE_KEY,JSON.stringify(clean))}catch(error){console.warn('Einheitenfavoriten konnten nicht gespeichert werden.',error)};listeners.forEach(listener=>listener(clean));document.dispatchEvent(new CustomEvent('sk:unit-favorites-changed',{detail:{favorites:clean}}));refreshSelects();return clean}
 function isFavorite(categoryId,unitId){return loadFavorites().includes(favoriteKey(categoryId,unitId))}
 function toggleFavorite(categoryId,unitId){const key=favoriteKey(categoryId,unitId),items=loadFavorites(),index=items.indexOf(key);index>=0?items.splice(index,1):items.push(key);saveFavorites(items);return index<0}

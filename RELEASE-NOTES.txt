@@ -1,37 +1,35 @@
-SK PLT Tools 2.4.1.3-Beta
+SK PCT Tools 2.4.1.4-Beta
 Release-Datum: 11.10.2026
 Status: vollständige Beta-Testversion
-Direkte Ausgangsbasis: SK-PLT-Tools-V2.4.1.2-Beta.zip
+Direkte Ausgangsbasis: Version 2.4.1.3-Beta
 
-NEU IN 2.4.1.3-BETA
-1. Stern-Grafiken sauber in Reihen und Karten eingepasst
-- Favoritensterne verwenden ein festes 44-px-Raster und sind in allen Schaltern exakt zentriert.
-- Sterne in Einheitenzeilen, Werkzeugkarten und Favoritenlisten bleiben unabhängig von Textlänge und Zeilenhöhe bündig.
-- Einheitenzeilen nutzen eine feste Sternspalte; mobile Zweispaltenzeilen behalten dieselbe Achse.
-- Das Sternsymbol besitzt eine klarere schwarze Comic-Kontur und eine einheitliche aktive Zustandsfarbe.
+NEU IN 2.4.1.4-BETA
+1. Design-Demoseite aus der Anwenderoberfläche entfernt
+- Keine separate Design-Kachel mehr in der Werkzeugauswahl.
+- Keine Design-Kategorie mehr im Filter.
+- Kein Designsystem-Eintrag mehr in Suche, Navigation oder Offline-Cache.
+- Die integrierte PCT-Gestaltung der regulären Seiten bleibt unverändert aktiv.
 
-2. Gestaltung stärker am S.K.-PCT-Logo ausgerichtet
-- Cyan, Blau, Grün, tiefes Schwarz und helle Metalltöne leiten sich direkt aus dem vorhandenen Logo ab.
-- Das Hauptlogo erhält auf Start- und Designseite eine stärkere visuelle Rolle.
-- Die PCT-Designseite verwendet das echte S.K.-PCT-Logo in Kopfzeile, Hero und Fußzeile.
-- Statuskanten, Kartenakzente und Schalter verwenden einen durchgängigen Blau-Cyan-Grün-Verlauf.
+2. Vorzeichen-Schalter überarbeitet
+- Das ± ist direkt und eindeutig lesbar.
+- Der Schalter sitzt bündig im Zahlenfeld und verwendet ein stabiles 44-/48-px-Touchraster.
+- Hover, Tastaturfokus und Druckzustand sind klar voneinander unterscheidbar.
+- Die kleine Zusatzbeschriftung im Schalter wurde entfernt.
 
-3. Schwarze Comic-Trennlinien
-- Kopfzeile, Hauptabschnitte, Karten, Datenzeilen, Filter- und Aktionsbereiche sind deutlicher schwarz getrennt.
-- Karten und technische Module besitzen schwarze Außenkonturen mit innerer Metallkante.
-- Daten- und Favoritenzeilen erhalten eine farbige Signalkante mit schwarzem Trenner.
-- Mobile Schatten und Konturen wurden reduziert, ohne die Comic-Wirkung zu verlieren.
+3. PCT-Bezeichnung vereinheitlicht
+- Sichtbare Titel, Kopf- und Fußzeilen, PWA-Texte sowie Dokumentation verwenden PCT.
+- Technische Kennungen wurden konsistent angepasst.
 
 4. Version und Offline-PWA
-- Öffentliche Version: 2.4.1.3-Beta.
-- Technische Version/Cache-Buster: 2.4.1.3.
-- Neuer, isolierter Service-Worker-Cache für 2.4.1.3.
+- Öffentliche Version: 2.4.1.4-Beta.
+- Technische Version/Cache-Buster: 2.4.1.4.
+- Neuer, isolierter Service-Worker-Cache für 2.4.1.4.
 
 ERHALTEN
 - Sechs Rechner und sämtliche Berechnungslogik.
 - Einheitendatenbank, Werkstoffdatenbank, Messstellen-Dokumentation.
 - Fünf Wissensbeiträge und PDF-Beitragsvorlage.
-- Suche, Filter, Sortierung, Favoriten, Navigation, PCT-Designseite und stabile URLs.
+- Suche, Filter, Sortierung, Favoriten, Navigation und stabile Anwender-URLs.
 - Desktop-, Tablet-, Smartphone- und Standalone-PWA-Unterstützung.
 
 INTEGRITÄT

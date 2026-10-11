@@ -1,4 +1,4 @@
-/* SK PLT Tools 2.4.1.3 - PCT Controls – integriertes Designsystem
+/* SK PCT Tools 2.4.1.4 - PCT Controls – integriertes Designsystem
    Originale Formensprache der freigegebenen PCT-Designprobe: abgeschraegte
    Gehaeuse, Metallkante, Statuslicht und mechanischer Druckzustand.
    Frühere Signalfarben: Dunkelblau, Signalcyan und Grün. */
@@ -96,7 +96,7 @@ select.pct-select{appearance:none;-webkit-appearance:none;min-height:44px;paddin
 @media(prefers-reduced-motion:reduce){.pct-control,.pct-tab,.pct-chevron-slot .pct-icon{transition-duration:.01ms!important}}
 
 
-/* === 2.4.1.3: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
+/* === 2.4.1.4: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
 :root{
   --bg:#04131f!important;--panel:#071d2d!important;--panel2:#0a2639!important;
   --line:rgba(255,255,255,.14)!important;--text:#f7fbff!important;--muted:#a8bdc9!important;
@@ -129,13 +129,11 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 .sk-favorites-drawer,.sk-tree-drawer{background:linear-gradient(160deg,#071d2d,#04131f 62%)!important;border-color:rgba(255,255,255,.14)!important}
 .sk-favorites-backdrop,.sk-tree-backdrop{background:rgba(0,0,0,.72)!important}
 .sk-external-card::before{background:linear-gradient(90deg,var(--pct-orange-hot),var(--pct-orange))!important}.sk-external-link-meta{color:var(--pct-orange-hot)!important}
-.sk-design-card::after{content:"PCT";position:absolute;right:17px;bottom:11px;color:transparent;-webkit-text-stroke:1px rgba(0,183,232,.3);font:800 58px/.8 system-ui;letter-spacing:-.12em;pointer-events:none}
-.sk-design-card .sk-design-link-meta{display:inline-flex;margin-top:18px;color:var(--pct-orange)!important;font:700 11px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase}
 ::selection{background:var(--pct-orange);color:#04131f}
-@media(max-width:760px){.hero::after{font-size:210px;right:-24%}.sk-design-card::after{font-size:48px}}
+@media(max-width:760px){.hero::after{font-size:210px;right:-24%}}
 
 
-/* === 2.4.1.3: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
+/* === 2.4.1.4: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
    Die schwarze Außenkontur ist unabhängig vom Zustand; Cyan/Grün erscheinen
    als innere Statuskante. Favoriten und Baumansicht bleiben im Viewport fixiert. */
 .pct-control,.pct-tab,.pct-search-shell>input[type="search"],select.pct-select,.pct-chevron-slot{
@@ -158,7 +156,7 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 }
 
 
-/* === 2.4.1.3: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
+/* === 2.4.1.4: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
    Ziel: Die Oberfläche übernimmt die Cyan-/Blau-/Grün-Signatur des Logos.
    Schwarze Konturen trennen Funktionsgruppen wie Comic-Panels. */
 :root{
@@ -308,7 +306,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 }
 
 
-/* 2.4.1.3 QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
+/* 2.4.1.4 QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
 .unit-row,.sk-favorite-row{
   border-left:5px solid var(--pct-cyan)!important;
 }
@@ -338,3 +336,19 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
   .unit-row>.unit-main strong,.unit-row>.unit-main span{min-width:0!important;overflow-wrap:anywhere;}
   .unit-row>.unit-meta{display:flex!important;justify-content:flex-start!important;align-items:center!important;flex-wrap:wrap!important;gap:7px!important;margin-top:6px!important;}
 }
+
+
+/* === 2.4.1.4: klarer, feldintegrierter Vorzeichen-Schalter === */
+.pct-control--sign{
+  box-sizing:border-box!important;align-self:stretch!important;width:44px!important;min-width:44px!important;height:100%!important;min-height:44px!important;
+  padding:0!important;border:0!important;border-left:3px solid #000!important;border-radius:0!important;clip-path:none!important;
+  color:var(--pct-cyan-soft)!important;background:linear-gradient(180deg,#16455f 0 48%,#071a29 49% 100%)!important;
+  box-shadow:inset 1px 0 0 #347996,inset 0 1px rgba(255,255,255,.12),inset 0 -4px 8px rgba(0,0,0,.56)!important;
+}
+.analog-input-shell>.pct-control--sign{width:48px!important;min-width:48px!important;border-right:3px solid #000!important}
+.pct-control--sign::before{content:""!important;left:7px!important;right:7px!important;top:4px!important;height:3px!important;background:var(--pct-logo-gradient)!important;box-shadow:0 0 8px rgba(0,230,241,.34)!important;opacity:1!important}
+.pct-control--sign::after{content:none!important;display:none!important}
+.pct-control--sign .pct-sign-glyph{display:grid;place-items:center;width:100%;height:100%;padding-top:3px;color:currentColor;font:950 24px/1 var(--pct-mono);letter-spacing:-.08em;text-shadow:2px 2px 0 #000;pointer-events:none}
+.pct-control--sign:hover{color:#fff!important;background:linear-gradient(180deg,#1b5873 0 48%,#0a2638 49% 100%)!important;box-shadow:inset 0 0 0 2px var(--pct-cyan),inset 0 -4px 8px rgba(0,0,0,.5)!important}
+.pct-control--sign:focus-visible{outline:3px solid var(--pct-focus)!important;outline-offset:-3px!important;color:#fff!important;box-shadow:inset 0 0 0 2px var(--pct-cyan),inset 0 -4px 8px rgba(0,0,0,.5)!important}
+.pct-control--sign:active{transform:none!important;color:var(--pct-green)!important;background:linear-gradient(180deg,#0d302b 0 48%,#061d1a 49% 100%)!important;box-shadow:inset 0 0 0 2px var(--pct-green),inset 0 4px 9px rgba(0,0,0,.62)!important}

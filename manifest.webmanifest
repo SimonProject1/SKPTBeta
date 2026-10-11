@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "SK PLT Tools",
-  "short_name": "SK PLT Tools",
-  "description": "Praktische PLT-Werkzeuge mit integriertem PCT Controls Designsystem · Version 2.4.1.3-Beta",
+  "name": "SK PCT Tools",
+  "short_name": "SK PCT Tools",
+  "description": "Praktische PCT-Werkzeuge für Rechner, Dokumentation und technisches Wissen · Version 2.4.1.4-Beta",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -34,7 +34,7 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.4.1.3",
+  "version": "2.4.1.4",
   "shortcuts": [
     {
       "name": "Einheitendatenbank",

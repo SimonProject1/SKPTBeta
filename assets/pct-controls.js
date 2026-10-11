@@ -1,7 +1,7 @@
-/* SK PLT Tools 2.4.1.3 - Adapter fuer PCT Industrial Controls. */
+/* SK PCT Tools 2.4.1.4 - Adapter fuer PCT Industrial Controls. */
 (()=>{'use strict';
-const RELEASE='2.4.1.3';
-const root=window.SK_PLT?.root||new URL('../',document.currentScript?.src||location.href);
+const RELEASE='2.4.1.4';
+const root=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
 const sprite=new URL('assets/pct-controls.svg',root).href;
 const icon=(name,small=false)=>`<svg class="pct-icon${small?' pct-icon--small':''}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="${sprite}#icon-${name}"></use></svg>`;
 const normalized=value=>String(value||'').trim().toLocaleLowerCase('de-DE');
@@ -13,7 +13,7 @@ function searches(){document.querySelectorAll('input[type="search"]').forEach(in
 function selects(){document.querySelectorAll('select').forEach(select=>select.classList.add('pct-select'))}
 function favorites(){document.querySelectorAll('.sk-favorite-button,.unit-favorite-button,.sk-favorite-remove').forEach(button=>{add(button,'pct-control','pct-control--icon','pct-control--favorite');iconOnly(button,'star')});document.querySelectorAll('.sk-favorites-trigger').forEach(button=>{add(button,'pct-control','pct-control--icon','pct-control--favorite');const slot=button.querySelector('.sk-trigger-star');if(slot){if(!slot.querySelector('.pct-icon'))slot.innerHTML=icon('star')}else prefix(button,'star')})}
 function navigation(){document.querySelectorAll('.sk-tree-trigger').forEach(button=>{add(button,'pct-control','pct-control--icon','pct-control--tree');iconOnly(button,'tree')});document.querySelectorAll('.sk-tree-home').forEach(link=>{add(link,'pct-control','pct-control--quiet','pct-control--home');prefix(link,'home')});document.querySelectorAll('.sk-favorites-close,.sk-tree-close').forEach(button=>{add(button,'pct-control','pct-control--icon');iconOnly(button,'close')});document.querySelectorAll('.sk-tree-node-toggle').forEach(button=>add(button,'pct-control','pct-control--icon'))}
-function signControls(){document.querySelectorAll('.sign,.analog-sign-button').forEach(button=>{add(button,'pct-control','pct-control--icon','pct-control--sign');iconOnly(button,'sign')})}
+function signControls(){document.querySelectorAll('.sign,.analog-sign-button').forEach(button=>{add(button,'pct-control','pct-control--icon','pct-control--sign');if(button.querySelector('.pct-sign-glyph'))return;button.dataset.pctIcon='sign';button.innerHTML='<span class="pct-sign-glyph" aria-hidden="true">±</span>';button.title=button.title||'Vorzeichen wechseln'})}
 function resets(){document.querySelectorAll('button,.sk-filter-reset,.material-reset').forEach(button=>{const value=normalized(button.textContent);if(!(button.matches('.sk-filter-reset,.material-reset,#unitReset')||value.includes('zurücksetzen')||value==='neue messstelle'))return;add(button,'pct-control','pct-control--reset');prefix(button,'reset')})}
 function tabs(){document.querySelectorAll('.sk-filter-button,.material-filter,.analog-tab').forEach(button=>button.classList.add('pct-tab'))}
 function toggles(){document.querySelectorAll('.sk-compact-cards-toggle,.knowledge-compact-toggle').forEach(button=>button.classList.add('pct-toggle-control'))}
