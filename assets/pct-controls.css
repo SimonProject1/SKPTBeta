@@ -1,4 +1,4 @@
-/* SK PLT Tools 2.4.1.2 - PCT Controls – integriertes Designsystem
+/* SK PLT Tools 2.4.1.3 - PCT Controls – integriertes Designsystem
    Originale Formensprache der freigegebenen PCT-Designprobe: abgeschraegte
    Gehaeuse, Metallkante, Statuslicht und mechanischer Druckzustand.
    Frühere Signalfarben: Dunkelblau, Signalcyan und Grün. */
@@ -96,7 +96,7 @@ select.pct-select{appearance:none;-webkit-appearance:none;min-height:44px;paddin
 @media(prefers-reduced-motion:reduce){.pct-control,.pct-tab,.pct-chevron-slot .pct-icon{transition-duration:.01ms!important}}
 
 
-/* === 2.4.1.2: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
+/* === 2.4.1.3: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
 :root{
   --bg:#04131f!important;--panel:#071d2d!important;--panel2:#0a2639!important;
   --line:rgba(255,255,255,.14)!important;--text:#f7fbff!important;--muted:#a8bdc9!important;
@@ -135,7 +135,7 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 @media(max-width:760px){.hero::after{font-size:210px;right:-24%}.sk-design-card::after{font-size:48px}}
 
 
-/* === 2.4.1.2: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
+/* === 2.4.1.3: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
    Die schwarze Außenkontur ist unabhängig vom Zustand; Cyan/Grün erscheinen
    als innere Statuskante. Favoriten und Baumansicht bleiben im Viewport fixiert. */
 .pct-control,.pct-tab,.pct-search-shell>input[type="search"],select.pct-select,.pct-chevron-slot{
@@ -155,4 +155,186 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
   .sk-favorites-trigger.pct-control,.sk-tree-trigger.pct-control{top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;transform:none!important}
   .sk-favorites-trigger.pct-control{left:calc(10px + env(safe-area-inset-left,0px))!important}
   .sk-tree-trigger.pct-control{right:calc(10px + env(safe-area-inset-right,0px))!important}
+}
+
+
+/* === 2.4.1.3: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
+   Ziel: Die Oberfläche übernimmt die Cyan-/Blau-/Grün-Signatur des Logos.
+   Schwarze Konturen trennen Funktionsgruppen wie Comic-Panels. */
+:root{
+  --pct-bg:#02080d;
+  --pct-face:#071a29;
+  --pct-face-hi:#16455f;
+  --pct-face-lo:#010609;
+  --pct-metal-hi:#d9e5ec;
+  --pct-metal:#347996;
+  --pct-metal-lo:#12384d;
+  --pct-ink:#f8fbff;
+  --pct-muted:#a9c2cf;
+  --pct-cyan:#00e6f1;
+  --pct-cyan-soft:#77eff8;
+  --pct-green:#78ff32;
+  --pct-focus:rgba(0,230,241,.48);
+  --pct-comic:#000;
+  --pct-blue:#008cff;
+  --pct-logo-gradient:linear-gradient(90deg,var(--pct-blue) 0%,var(--pct-cyan) 55%,var(--pct-green) 100%);
+  --bg:#02080d!important;
+  --panel:#071a29!important;
+  --panel2:#0b2638!important;
+  --line:rgba(119,239,248,.20)!important;
+  --blue:#008cff!important;
+  --cyan:#00e6f1!important;
+  --green:#78ff32!important;
+  --pct-orange:#00e6f1;
+  --pct-orange-hot:#77eff8;
+  --pct-mint:#78ff32;
+}
+body{
+  background:
+    radial-gradient(circle at 88% 2%,rgba(0,230,241,.15),transparent 27%),
+    radial-gradient(circle at 12% 30%,rgba(0,140,255,.09),transparent 24%),
+    radial-gradient(circle,rgba(255,255,255,.038) 0 1px,transparent 1.4px) 0 0/12px 12px,
+    #02080d!important;
+}
+.sk-global-header{
+  position:relative;
+  border-bottom:4px solid var(--pct-comic)!important;
+  background:rgba(2,8,13,.96)!important;
+  box-shadow:0 2px 0 rgba(0,230,241,.8),0 7px 0 rgba(0,0,0,.55)!important;
+}
+.sk-global-header::after{
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;
+  background:var(--pct-logo-gradient);pointer-events:none;
+}
+.sk-header-logo,.hero>img{
+  filter:drop-shadow(0 0 2px #000) drop-shadow(5px 6px 0 rgba(0,0,0,.9)) drop-shadow(0 0 13px rgba(0,230,241,.16));
+}
+.sk-global-header .brand,.hero h1,.tools .card h2,.start-tools .tool-card h2{
+  text-shadow:2px 2px 0 #000;
+}
+main>section+section,.footer,.sk-footer{
+  border-top:4px solid var(--pct-comic)!important;
+  box-shadow:inset 0 1px 0 rgba(0,230,241,.45)!important;
+}
+.hero,.panel,.tools .card,.start-tools .tool-card,.sk-unit-database-cta,
+.unit-category-card,.unit-row,.material-card,.kb-section,.kb-callout,
+.analog-card,.calc-card,.result,.voltage-result,.sk-search-result-card{
+  border:3px solid var(--pct-comic)!important;
+  box-shadow:inset 0 0 0 1px rgba(52,121,150,.62),5px 6px 0 rgba(0,0,0,.72)!important;
+}
+.hero,.panel,.tools .card,.start-tools .tool-card,.sk-unit-database-cta,
+.unit-category-card,.material-card,.analog-card,.calc-card,.sk-search-result-card{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.035),transparent 43%),
+    linear-gradient(180deg,#0a2638,#061521)!important;
+}
+.tools .card::before,.start-tools .tool-card::before,.sk-search-result-card::before{
+  height:5px!important;background:var(--pct-logo-gradient)!important;
+  border-bottom:2px solid #000!important;
+}
+.sk-filter-heading,.sk-results-heading,.unit-category-head,.material-card-head,
+.kb-article-header,.sk-favorites-head,.sk-tree-head{
+  padding-bottom:14px;border-bottom:3px solid #000!important;
+  box-shadow:0 1px 0 rgba(0,230,241,.34)!important;
+}
+.unit-row,.sk-favorite-row{
+  position:relative;border-radius:2px!important;background:#061521!important;
+}
+.unit-row::before,.sk-favorite-row::before{
+  content:"";position:absolute;left:-3px;top:-3px;bottom:-3px;width:5px;
+  background:var(--pct-logo-gradient);border-right:2px solid #000;pointer-events:none;
+}
+
+/* Sternschalter sitzen exakt in ihrem 44/48-px-Raster – unabhängig von Textzeilen. */
+.sk-favorite-button.pct-control,.unit-favorite-button.pct-control,
+.sk-favorite-remove.pct-control,.sk-favorites-trigger.pct-control{
+  box-sizing:border-box!important;display:grid!important;place-items:center!important;
+  padding:0!important;line-height:0!important;overflow:visible!important;
+  border:3px solid #000!important;border-radius:3px!important;
+  background:linear-gradient(145deg,#17394b,#030b11 72%)!important;
+  box-shadow:inset 0 0 0 1px #347996,3px 4px 0 rgba(0,0,0,.72)!important;
+}
+.sk-favorite-button.pct-control,.unit-favorite-button.pct-control{
+  width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;
+}
+.sk-favorite-button.pct-control{
+  top:12px!important;right:12px!important;inset-block-start:12px!important;inset-inline-end:12px!important;
+  margin:0!important;transform:none!important;
+}
+.tools .card.sk-favorite-capable,.start-tools .tool-card.sk-favorite-capable,
+.sk-search-result-card.sk-favorite-capable{padding-right:72px!important;}
+.sk-favorite-button.pct-control>.pct-icon,.unit-favorite-button.pct-control>.pct-icon,
+.sk-favorite-remove.pct-control>.pct-icon,.sk-favorites-trigger.pct-control .pct-icon{
+  position:static!important;display:block!important;width:22px!important;height:22px!important;
+  margin:auto!important;transform:none!important;transform-origin:50% 50%!important;
+}
+.sk-favorite-button.pct-control[data-active="true"],.unit-favorite-button.pct-control[data-active="true"],
+.sk-favorite-button.pct-control[aria-pressed="true"],.unit-favorite-button.pct-control[aria-pressed="true"],
+.sk-favorite-remove.pct-control{
+  color:var(--pct-green)!important;
+}
+.sk-favorite-button.pct-control:hover,.unit-favorite-button.pct-control:hover,
+.sk-favorite-remove.pct-control:hover{
+  color:#fff!important;box-shadow:inset 0 0 0 2px var(--pct-cyan),3px 4px 0 #000!important;
+}
+.unit-row{
+  grid-template-columns:48px minmax(0,1fr) minmax(220px,auto)!important;
+  align-items:center!important;column-gap:14px!important;min-height:68px;
+}
+.unit-favorite-button.pct-control{position:relative!important;inset:auto!important;justify-self:center!important;align-self:center!important;margin:0!important;}
+.sk-favorite-row{grid-template-columns:minmax(0,1fr) 48px!important;align-items:stretch!important;gap:8px!important;}
+.sk-favorite-remove.pct-control{position:relative!important;width:48px!important;min-width:48px!important;height:100%!important;min-height:52px!important;margin:0!important;}
+.sk-favorite-entry{border:0!important;border-right:3px solid #000!important;border-radius:0!important;background:#0a2638!important;}
+.sk-favorites-trigger.pct-control .sk-trigger-star{display:grid!important;place-items:center!important;width:100%!important;height:100%!important;}
+.sk-favorites-count{border:3px solid #000!important;background:var(--pct-green)!important;color:#02080d!important;}
+
+/* Schwarze Comic-Trenner innerhalb dichter Bedien- und Datenbereiche. */
+.unit-list,.sk-favorites-list,.material-result-list{gap:10px!important;}
+.toolbar,.actions,.sk-filter-controls-line,.unit-filter-actions{
+  border-top:3px solid #000;padding-top:12px;box-shadow:inset 0 1px 0 rgba(0,230,241,.25);
+}
+input,select,textarea,.sk-filter-search input,.sk-sort-select{
+  border:3px solid #000!important;box-shadow:inset 0 0 0 1px #347996,inset 0 4px 10px rgba(0,0,0,.72)!important;
+}
+
+@media(max-width:720px){
+  .hero,.panel,.tools .card,.start-tools .tool-card,.unit-category-card,.unit-row,.material-card,.kb-section{
+    box-shadow:inset 0 0 0 1px rgba(52,121,150,.62),3px 4px 0 rgba(0,0,0,.72)!important;
+  }
+  .unit-row{grid-template-columns:48px minmax(0,1fr)!important;column-gap:10px!important;}
+  .unit-meta{grid-column:2!important;}
+  .sk-favorite-button.pct-control{top:9px!important;right:9px!important;inset-block-start:9px!important;inset-inline-end:9px!important;}
+  .tools .card.sk-favorite-capable,.start-tools .tool-card.sk-favorite-capable{padding-right:62px!important;}
+}
+
+
+/* 2.4.1.3 QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
+.unit-row,.sk-favorite-row{
+  border-left:5px solid var(--pct-cyan)!important;
+}
+.unit-row::before,.sk-favorite-row::before{display:none!important;content:none!important;}
+.unit-row{grid-template-columns:48px minmax(0,1fr) minmax(0,360px)!important;}
+.unit-row>.unit-favorite-button{grid-column:1!important;grid-row:1!important;}
+.unit-row>.unit-main{grid-column:2!important;grid-row:1!important;}
+.unit-row>.unit-meta{grid-column:3!important;grid-row:1!important;min-width:0!important;}
+.sk-favorite-row>.sk-favorite-entry{grid-column:1!important;}
+.sk-favorite-row>.sk-favorite-remove{grid-column:2!important;}
+@media(max-width:720px){
+  .unit-row{grid-template-columns:48px minmax(0,1fr)!important;}
+  .unit-row>.unit-favorite-button{grid-column:1!important;grid-row:1 / span 2!important;}
+  .unit-row>.unit-main{grid-column:2!important;grid-row:1!important;}
+  .unit-row>.unit-meta{grid-column:2!important;grid-row:2!important;}
+}
+
+/* Explizite Symbolfarbe, damit currentColor auch über externe SVG-Sprites eindeutig bleibt. */
+.pct-control--favorite>.pct-icon,.pct-control--favorite .sk-trigger-star>.pct-icon{color:#c8e5ee!important;}
+.pct-control--favorite[data-active="true"]>.pct-icon,
+.pct-control--favorite[aria-pressed="true"]>.pct-icon,
+.pct-control--favorite.active>.pct-icon,
+.sk-favorite-remove.pct-control>.pct-icon{color:var(--pct-green)!important;}
+
+@media(max-width:720px){
+  .unit-row>.unit-main{display:grid!important;gap:2px!important;align-items:start!important;min-width:0!important;}
+  .unit-row>.unit-main strong,.unit-row>.unit-main span{min-width:0!important;overflow-wrap:anywhere;}
+  .unit-row>.unit-meta{display:flex!important;justify-content:flex-start!important;align-items:center!important;flex-wrap:wrap!important;gap:7px!important;margin-top:6px!important;}
 }

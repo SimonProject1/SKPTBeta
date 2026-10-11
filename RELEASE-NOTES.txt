@@ -1,28 +1,31 @@
-SK PLT Tools 2.4.1.2-Beta
+SK PLT Tools 2.4.1.3-Beta
 Release-Datum: 11.10.2026
 Status: vollständige Beta-Testversion
-Direkte Ausgangsbasis: SK-PLT-Tools-V2.4.1.1-Beta.zip
-Farbreferenz: SK-PLT-Tools-V2.4.1.0-Beta.zip
+Direkte Ausgangsbasis: SK-PLT-Tools-V2.4.1.2-Beta.zip
 
-NEU IN 2.4.1.2-BETA
-1. Farbkonzept zurückgeführt
-- Dunkelblau, Signalcyan, Grün und die früheren Kontrast-/Warnfarben sind wieder aktiv.
-- Startseite, Rechner, Datenbanken, Wissensseiten, Drawer und PCT-Designseite sind angeglichen.
+NEU IN 2.4.1.3-BETA
+1. Stern-Grafiken sauber in Reihen und Karten eingepasst
+- Favoritensterne verwenden ein festes 44-px-Raster und sind in allen Schaltern exakt zentriert.
+- Sterne in Einheitenzeilen, Werkzeugkarten und Favoritenlisten bleiben unabhängig von Textlänge und Zeilenhöhe bündig.
+- Einheitenzeilen nutzen eine feste Sternspalte; mobile Zweispaltenzeilen behalten dieselbe Achse.
+- Das Sternsymbol besitzt eine klarere schwarze Comic-Kontur und eine einheitliche aktive Zustandsfarbe.
 
-2. PCT-Stil und Logo erhalten
-- Das neue Cartoon-/Techniklogo bleibt unverändert.
-- Abgeschrägte Kanten, technische Flächen, Statuslichter und mechanische Zustände bleiben erhalten.
-- Sämtliche neuen PCT-Bedienelemente haben eine klare schwarze Außenkontur.
+2. Gestaltung stärker am S.K.-PCT-Logo ausgerichtet
+- Cyan, Blau, Grün, tiefes Schwarz und helle Metalltöne leiten sich direkt aus dem vorhandenen Logo ab.
+- Das Hauptlogo erhält auf Start- und Designseite eine stärkere visuelle Rolle.
+- Die PCT-Designseite verwendet das echte S.K.-PCT-Logo in Kopfzeile, Hero und Fußzeile.
+- Statuskanten, Kartenakzente und Schalter verwenden einen durchgängigen Blau-Cyan-Grün-Verlauf.
 
-3. Mobiler Layoutfehler behoben
-- Favoriten und Baumansicht verwenden trotz PCT-Klasse wieder position: fixed.
-- Beide Schalter sind im Smartphone-Hochformat und breiten Querformaten dauerhaft sichtbar.
-- Viewport- und Safe-Area-Abstände verhindern, dass die Schalter unter Browser-/PWA-Leisten liegen.
+3. Schwarze Comic-Trennlinien
+- Kopfzeile, Hauptabschnitte, Karten, Datenzeilen, Filter- und Aktionsbereiche sind deutlicher schwarz getrennt.
+- Karten und technische Module besitzen schwarze Außenkonturen mit innerer Metallkante.
+- Daten- und Favoritenzeilen erhalten eine farbige Signalkante mit schwarzem Trenner.
+- Mobile Schatten und Konturen wurden reduziert, ohne die Comic-Wirkung zu verlieren.
 
 4. Version und Offline-PWA
-- Öffentliche Version: 2.4.1.2-Beta.
-- Technische Version/Cache-Buster: 2.4.1.2.
-- Neuer, isolierter Service-Worker-Cache für 2.4.1.2.
+- Öffentliche Version: 2.4.1.3-Beta.
+- Technische Version/Cache-Buster: 2.4.1.3.
+- Neuer, isolierter Service-Worker-Cache für 2.4.1.3.
 
 ERHALTEN
 - Sechs Rechner und sämtliche Berechnungslogik.

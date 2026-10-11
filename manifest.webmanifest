@@ -2,12 +2,12 @@
   "id": "./",
   "name": "SK PLT Tools",
   "short_name": "SK PLT Tools",
-  "description": "Praktische PLT-Werkzeuge mit integriertem PCT Controls Designsystem · Version 2.4.1.2-Beta",
+  "description": "Praktische PLT-Werkzeuge mit integriertem PCT Controls Designsystem · Version 2.4.1.3-Beta",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#04131f",
-  "theme_color": "#04131f",
+  "background_color": "#02080d",
+  "theme_color": "#02080d",
   "icons": [
     {
       "src": "assets/icon-192.png",
@@ -34,7 +34,7 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.4.1.2",
+  "version": "2.4.1.3",
   "shortcuts": [
     {
       "name": "Einheitendatenbank",

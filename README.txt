@@ -1,24 +1,26 @@
-SK PLT Tools 2.4.1.2-Beta
+SK PLT Tools 2.4.1.3-Beta
 
 Vollständige Beta-Testversion der statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank, Werkstoffdatenbank und Dokumentation.
 
 Direkte Ausgangsbasis
-- SK-PLT-Tools-V2.4.1.1-Beta.zip vom 11.10.2026.
+- SK-PLT-Tools-V2.4.1.2-Beta.zip vom 11.10.2026.
 - Alle dort enthaltenen Funktionen, Inhalte, Routen und Offline-Komponenten wurden übernommen.
 
-Design in V2.4.1.2-Beta
-- Das frühere Blau/Cyan/Grün-Farbkonzept der Version 2.4.1.0 ist wieder aktiv.
-- Das neue PCT-Logo bleibt unverändert: cooler Cartoon-/Technikstil mit markanter Kontur.
-- Die neuen PCT-Bedienelemente behalten Form, Fasen, Statuslicht und mechanische Zustände.
-- Alle neuen PCT-Bedienelemente besitzen eine klare schwarze Außenkontur;
-  Cyan und Grün kennzeichnen Fokus, Aktion und bestätigte Zustände.
+Design in V2.4.1.3-Beta
+- Die Oberfläche ist enger an das S.K.-PCT-Logo angelehnt: tiefes Schwarz,
+  Signalblau, Cyan, Grün, helle Metalltöne und technische Leuchtkanten.
+- Schwarze Trennlinien gliedern Kopfzeile, Abschnitte, Karten, Datenreihen,
+  Filter und Aktionsbereiche im Stil technischer Comic-Panels.
+- Das echte Logo wird auf der Startseite und in der PCT-Designseite deutlich
+  präsenter verwendet.
+- Abgeschrägte Kanten, mechanische Schalterzustände und PCT-Statuslichter bleiben erhalten.
 
-Mobiler Layoutfix
-- Favoriten- und Baumansicht-Schalter sind auf Smartphones und breiten
-  Smartphone-Querformaten fest am unteren Viewport-Rand verankert.
-- Die Safe Area von iPhone/PWA wird berücksichtigt.
-- Die Schalter bleiben unabhängig von der Scrollposition dauerhaft sichtbar und erreichbar.
+Stern- und Reihenfix
+- Favoritensterne sind in einem festen 44-px-Raster zentriert.
+- Werkzeugkarten, Einheitenzeilen und Favoritenlisten besitzen konsistente Sternachsen.
+- Die Einheitenzeilen behalten ihre Ausrichtung auch bei längeren Bezeichnungen und auf Smartphones.
+- Das neue Sternsymbol hat eine kräftige schwarze Kontur und klare Cyan-/Grün-Zustände.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche Berechnungslogiken.
@@ -30,8 +32,8 @@ Erhaltene Funktionen und Inhalte
 - PDF-Beitragsvorlage mit editierbaren AcroForm-Feldern.
 
 Version und PWA
-- Öffentliche Betaversion: 2.4.1.2-Beta.
-- Technische Versionskennung und Cache-Buster: 2.4.1.2.
+- Öffentliche Betaversion: 2.4.1.3-Beta.
+- Technische Versionskennung und Cache-Buster: 2.4.1.3.
 - Laufzeitkanal: beta.
 
 Deployment
