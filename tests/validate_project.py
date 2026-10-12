@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.2-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.3-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.2-Beta"
+VERSION = "2.5.0.3-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -100,6 +100,8 @@ def main() -> int:
             fail(f"Alte Laufzeitversion in {path.relative_to(ROOT)} gefunden.", errors)
 
     start_html = (ROOT / "index.html").read_text(encoding="utf-8")
+    if "viewport-fit=cover" not in start_html:
+        fail("Startseite aktiviert viewport-fit=cover nicht.", errors)
     forbidden_home = ("pctHomeClock", "pctHomeDate", "pct-home-heading", "pctHomeEdit", "skCompactCardsToggle")
     for token in forbidden_home:
         if token in start_html:
@@ -110,11 +112,34 @@ def main() -> int:
     if start_html.index("pct-home-brand-mark") < start_html.index("pct-home-screen"):
         fail("Das Startseitenlogo liegt nicht innerhalb des PCT Home-Screens.", errors)
     knowledge_html = (ROOT / "wissensdatenbank" / "index.html").read_text(encoding="utf-8")
+    if "viewport-fit=cover" not in knowledge_html:
+        fail("Wissensdatenbank aktiviert viewport-fit=cover nicht.", errors)
+    if knowledge_html.index("sk:header:start") < knowledge_html.index("knowledge-home-screen"):
+        fail("Der Wissensdatenbank-Kopf liegt nicht im abgerundeten App-Paket.", errors)
     if knowledge_html.count('class="knowledge-entry tool-card"') != 5:
         fail("Die Wissensdatenbank muss genau fünf vorhandene Fachbeiträge enthalten.", errors)
     for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon"):
         if f"knowledge-manufacturer-logos.svg#{logo}" not in knowledge_html:
             fail(f"Herstellerkennzeichnung fehlt: {logo}", errors)
+    home_css = (ROOT / "assets" / "pct-home.css").read_text(encoding="utf-8")
+    knowledge_css = (ROOT / "assets" / "knowledge-overview.css").read_text(encoding="utf-8")
+    for label, css in (("Startseite", home_css), ("Wissensdatenbank", knowledge_css)):
+        for inset in ("safe-area-inset-top", "safe-area-inset-left", "safe-area-inset-right"):
+            if inset not in css:
+                fail(f"{label} berücksichtigt {inset} nicht.", errors)
+    if 'data-manufacturer="' in knowledge_css:
+        fail("Herstellerspezifische farbige Icon-Gründe sind noch vorhanden.", errors)
+    manufacturer_svg = (ROOT / "assets" / "knowledge-manufacturer-logos.svg").read_text(encoding="utf-8")
+    for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon"):
+        match = re.search(rf'<symbol id="{re.escape(logo)}".*?</symbol>', manufacturer_svg, re.S)
+        if not match:
+            fail(f"SVG-Wortmarke fehlt: {logo}", errors)
+            continue
+        symbol = match.group(0)
+        if "currentColor" not in symbol or re.search(r'#[0-9a-fA-F]{3,8}', symbol) or "<rect" in symbol:
+            fail(f"Herstellerkennzeichnung ist nicht als reduzierte weiße/monochrome Marke umgesetzt: {logo}", errors)
+    if ">E+H<" not in manufacturer_svg:
+        fail("E+H-Kurzmarke fehlt.", errors)
     for required_knowledge in ("knowledgeSearch", "knowledgeCompactToggle", "knowledgeGrid", "Wissensdatenbank_Beitragsvorlage.pdf"):
         if required_knowledge not in knowledge_html:
             fail(f"Erforderliche Wissensdatenbank-Funktion fehlt: {required_knowledge}", errors)

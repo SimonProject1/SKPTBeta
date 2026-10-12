@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.5.0.2-Beta — Suche, kompakte Ansicht und Herstellergruppen der Wissensdatenbank. */
+/* SK PCT Tools 2.5.0.3-Beta — Suche, kompakte Ansicht und Herstellergruppen der Wissensdatenbank. */
 (()=>{'use strict';
-  const RELEASE='2.5.0.2-Beta';
+  const RELEASE='2.5.0.3-Beta';
   const MOBILE_QUERY='(max-width: 760px), (min-width: 761px) and (max-width: 932px) and (orientation: landscape) and (max-height: 520px)';
   const GROUP_KEY='skKnowledgeManufacturerStateV1';
   const COMPACT_KEY='skKnowledgeCompactCardsV1';

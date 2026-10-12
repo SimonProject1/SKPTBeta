@@ -1,28 +1,26 @@
-SK PCT Tools 2.5.0.2-Beta
+SK PCT Tools 2.5.0.3-Beta
 Release-Datum: 12.10.2026
-Status: Beta mit integriertem PCT-Logo und einheitlichem Icon-Raster
-Direkte Ausgangsbasis: 2.5.0.1-Beta
+Status: Beta mit iOS-Safe-Area und vereinheitlichten Herstellerkennzeichnungen
+Direkte Ausgangsbasis: 2.5.0.2-Beta
 
-NEU IN 2.5.0.2-BETA
-1. Logo im PCT Home-Screen
-- Das vorhandene S.K.-PCT-Logo steht nicht mehr oberhalb des PCT Home-Screens.
-- Logo, Produktname und Kennzeichnung „PCT Home“ sind jetzt direkt in das große
-  abgerundete Rechteck integriert.
-- Suche und Bearbeitungsmodus bleiben unverändert erreichbar.
+NEU IN 2.5.0.3-BETA
+1. iOS-Safe-Area auf der Startseite
+- Das vollständige abgerundete PCT-Home-Paket beginnt unterhalb der iPhone-Statusleiste.
+- Oberer, linker und rechter Safe-Area-Abstand werden im Standalone-/PWA-Betrieb berücksichtigt.
+- Logo, Titel, Suche, Bearbeitungszugriffe und App-Raster bleiben gemeinsam im Paket.
+- Der fixierte Bearbeitungskopf hält beim Scrollen ebenfalls Abstand zur Statusleiste.
 
-2. Wissensdatenbank im PCT-Icon-Raster
-- Die Übersichtsseite der Wissensdatenbank übernimmt Form, Tiefe, Kontur,
-  Farbverläufe und responsives Raster des PCT Home-Screens.
-- Die fünf vorhandenen Wissensbeiträge und die PDF-Beitragsvorlage bleiben erhalten.
-- Hersteller, Gerät und Thema sind weiterhin durchsuchbar.
-- Kompaktansicht und ein-/ausklappbare Herstellergruppen auf Mobilgeräten bleiben
-  vollständig erhalten.
+2. iOS-Safe-Area in der Wissensdatenbank
+- Auch das abgerundete Wissensdatenbank-Paket beginnt unterhalb der Statusleiste.
+- Der vorhandene Kopf mit Logo und Startseitenzugriff wurde in das Paket integriert.
+- Titel, Suche, mobile Darstellungssteuerung und Beitragsraster bleiben vollständig erhalten.
+- Seitliche Safe Areas werden im Hoch- und Querformat berücksichtigt.
 
-3. Herstellererkennung direkt im Icon
-- Air Torque, Endress+Hauser, Siemens und Vacon erscheinen mit eigenständigen,
-  lokal eingebetteten Herstellerkennzeichnungen in den Beitrags-Icons.
-- Gerätefamilie bzw. Thema wird zusätzlich als kompakte Icon-Plakette angezeigt.
-- Alle Logo-Assets sind lokal enthalten und Teil des Offline-Kerncaches.
+3. Einheitliche Herstellerkennzeichnungen
+- Endress+Hauser erscheint als reduzierte weiße Kurzmarke „E+H“.
+- Siemens, Air Torque und Vacon verwenden reduzierte weiße Wortmarken.
+- Farbige Herstellerflächen und weiße Logo-Kacheln wurden entfernt.
+- Alle Herstellerkennzeichnungen stehen auf demselben dunklen PCT-Icon-Grund.
 
 ERHALTENE FUNKTIONEN UND INHALTE
 - Alle 11 Apps und alle sechs Rechner einschließlich vorhandener Berechnungslogik.
@@ -34,5 +32,5 @@ ERHALTENE FUNKTIONEN UND INHALTE
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- tests/validate_project.py prüft Version, App-Inventar, Startseiten-Logo,
-  Hersteller-Icons, interne Links, Cache-Einträge und Prüfsummen.
+- tests/validate_project.py prüft Version, App-Inventar, Safe-Area-Regeln,
+  Herstellerkennzeichnungen, interne Links, Cache-Einträge und Prüfsummen.

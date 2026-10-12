@@ -1,8 +1,8 @@
-/* SK PCT Tools 2.5.0.2-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche und Sortierung. */
+/* SK PCT Tools 2.5.0.3-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche und Sortierung. */
 /* === app.js === */
 (()=>{'use strict';
-const RELEASE='2.5.0.2-Beta';
-const DISPLAY_RELEASE='2.5.0.2-Beta';
+const RELEASE='2.5.0.3-Beta';
+const DISPLAY_RELEASE='2.5.0.3-Beta';
 const scriptUrl=document.currentScript?.src||'';
 const root=scriptUrl?new URL('../',scriptUrl):new URL('./',location.href);
 window.SK_PCT=Object.freeze({version:RELEASE,channel:'beta',name:'SK PCT Tools',root});
@@ -44,7 +44,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{'use strict';
 let searchIndex=[];
 let materialCatalog=[];
-const RELEASE='2.5.0.2-Beta';
+const RELEASE='2.5.0.3-Beta';
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9+]+/g,' ').trim();
 const isStartPage=()=>document.body?.dataset.skPage==='start';
 const root=()=>window.SK_PCT?.root||new URL('./',location.href);

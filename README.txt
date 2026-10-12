@@ -1,17 +1,18 @@
-SK PCT Tools 2.5.0.2-Beta
+SK PCT Tools 2.5.0.3-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist 2.5.0.1-Beta.
+Direkte Ausgangsbasis ist 2.5.0.2-Beta.
 
 Änderungen dieser Beta
-- Das S.K.-PCT-Logo ist direkt in das abgerundete Rechteck des PCT Home-Screens
-  integriert; oberhalb des Home-Screens gibt es auf der Startseite keinen separaten
-  schwebenden Markenbereich mehr.
-- Die Wissensdatenbank verwendet dasselbe responsive Icon-Raster wie PCT Home.
-- Air Torque, Endress+Hauser, Siemens und Vacon sind durch lokal eingebettete
-  Herstellerkennzeichnungen direkt in den Beitrags-Icons erkennbar.
-- Gerätefamilien und Themen bleiben zusätzlich als kleine Icon-Plaketten sichtbar.
+- Startseite und Wissensdatenbank berücksichtigen die iOS-Safe-Area am oberen sowie
+  an den seitlichen Bildschirmrändern. Das jeweilige abgerundete App-Paket beginnt
+  unterhalb der iPhone-Statusleiste.
+- In der Wissensdatenbank befinden sich Logo, Titel, Suche und Beitragsraster gemeinsam
+  innerhalb des abgerundeten App-Pakets.
+- Air Torque, Endress+Hauser, Siemens und Vacon verwenden reduzierte weiße Wort- bzw.
+  Kurzmarken auf dem einheitlichen dunklen PCT-Icon-Grund.
+- Farbige Herstellerflächen und weiße Logo-Kacheln wurden entfernt.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche vorhandenen Berechnungslogiken.
@@ -24,8 +25,8 @@ Erhaltene Funktionen und Inhalte
 - Stabile interne URLs und abgesicherter externer Herstellerlink.
 
 Version und PWA
-- Öffentliche Version: 2.5.0.2-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.0.2-Beta.
+- Öffentliche Version: 2.5.0.3-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.0.3-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen: localStorage; App-Reihenfolgen werden nicht übertragen.
 

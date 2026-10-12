@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.0.2-Beta — fokussierter PCT Home-Screen mit integrierter Marke. */
+/* SK PCT Tools 2.5.0.3-Beta — fokussierter PCT Home-Screen mit integrierter Marke. */
 body[data-sk-home="ios"]{background:#02080d!important}
 body[data-sk-home="ios"] .shell{width:min(1240px,100%);padding-inline:clamp(8px,2vw,22px)}
 body[data-sk-home="ios"] .pct-header-actions{display:none!important}
@@ -53,3 +53,31 @@ body[data-sk-home="ios"] .sk-knowledge-results{margin:18px auto;padding:16px;max
 @media(max-width:620px){.pct-home-main{padding-top:4px}.pct-home-screen{min-height:650px;padding:8px 5px 15px;border-radius:27px}.pct-home-head{min-height:52px;padding-inline:7px}.pct-home-brand{gap:8px}.pct-home-brand-mark{flex-basis:46px;width:46px;height:46px;border-radius:14px;box-shadow:inset 0 0 0 1px #347996,2px 3px 0 rgba(0,0,0,.62)}.pct-home-brand-mark img{width:40px;height:40px;border-radius:11px}.pct-home-brand-copy strong{font-size:15px}.pct-home-brand-copy small{font-size:8px;letter-spacing:1.05px}.pct-home-utility{min-height:42px}.pct-home-search-trigger{padding:8px 10px}.pct-home-search-trigger span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.pct-home-search-line{align-items:stretch;flex-direction:column}.pct-home-search-line .sk-filter-reset{align-self:flex-end}.pct-home-edit-label{display:none}.pct-home-edit-reset-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.pct-home-edit-reset{width:38px;justify-content:center;padding:7px}.pct-home-grid.tools{grid-template-columns:repeat(4,minmax(64px,1fr));gap:19px 4px;max-width:430px;min-height:500px;padding:25px 3px 26px}.sk-home-icon{width:64px;border-radius:21%;box-shadow:inset 0 0 0 2px #347996,inset 0 0 0 4px rgba(0,230,241,.08),3px 4px 0 rgba(0,0,0,.65),0 10px 20px rgba(0,0,0,.34)}.sk-home-icon::after{left:6px;bottom:5px;font-size:6px}.pct-home-grid .sk-home-app.card{min-height:103px;padding-inline:1px!important}.pct-home-grid .sk-home-app.card h2.sk-home-app-title{max-width:78px!important;font-size:10.5px!important;line-height:1.14!important}.pct-home-grid .sk-home-app .sk-favorite-button.pct-control{right:calc(50% - 36px)!important;inset-inline-end:calc(50% - 36px)!important;width:24px!important;min-width:24px!important;height:24px!important;min-height:24px!important}.pct-home-grid .sk-home-app .sk-favorite-button.pct-control>.pct-icon{width:13px!important;height:13px!important}}
 @media(max-width:380px){.pct-home-grid.tools{grid-template-columns:repeat(3,minmax(70px,1fr));max-width:330px}.pct-home-grid .sk-home-app.card h2.sk-home-app-title{max-width:88px!important}}
 @media(prefers-reduced-motion:reduce){.pct-home-editing .sk-home-app{animation:none!important}.pct-home-grid .sk-home-app.card,.sk-home-icon{transition-duration:.01ms!important}}
+
+/* iOS Safe Area: Das komplette abgerundete PCT-Home-Paket beginnt unterhalb der Statusleiste. */
+body[data-sk-home="ios"] .shell{
+  padding-left:calc(clamp(8px,2vw,22px) + constant(safe-area-inset-left));
+  padding-right:calc(clamp(8px,2vw,22px) + constant(safe-area-inset-right));
+  padding-left:calc(clamp(8px,2vw,22px) + env(safe-area-inset-left,0px));
+  padding-right:calc(clamp(8px,2vw,22px) + env(safe-area-inset-right,0px));
+}
+body[data-sk-home="ios"] .pct-home-main{
+  padding-top:calc(8px + constant(safe-area-inset-top));
+  padding-top:calc(8px + env(safe-area-inset-top,0px));
+}
+.pct-home-editing .pct-home-head{
+  top:calc(8px + constant(safe-area-inset-top));
+  top:calc(8px + env(safe-area-inset-top,0px));
+}
+@media(max-width:620px){
+  body[data-sk-home="ios"] .pct-home-main{
+    padding-top:calc(4px + constant(safe-area-inset-top));
+    padding-top:calc(4px + env(safe-area-inset-top,0px));
+  }
+  body[data-sk-home="ios"] .shell{
+    padding-left:calc(5px + constant(safe-area-inset-left));
+    padding-right:calc(5px + constant(safe-area-inset-right));
+    padding-left:calc(5px + env(safe-area-inset-left,0px));
+    padding-right:calc(5px + env(safe-area-inset-right,0px));
+  }
+}
