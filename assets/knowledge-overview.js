@@ -1,60 +1,122 @@
-/* SK PCT Tools 2.5.0.4-Beta — Suche, kompakte Ansicht und Herstellergruppen der Wissensdatenbank. */
+/* SK PCT Tools 2.5.0.5-Beta — Hersteller-Hub, Herstelleransichten, Suche und Kompaktansicht. */
 (()=>{'use strict';
-  const RELEASE='2.5.0.4-Beta';
-  const MOBILE_QUERY='(max-width: 760px), (min-width: 761px) and (max-width: 932px) and (orientation: landscape) and (max-height: 520px)';
-  const GROUP_KEY='skKnowledgeManufacturerStateV1';
+  const RELEASE='2.5.0.5-Beta';
   const COMPACT_KEY='skKnowledgeCompactCardsV1';
   const read=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key));return value??fallback}catch{return fallback}};
   const write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
-  const slug=value=>String(value||'sonstige').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'sonstige';
+  const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9+]+/g,' ').trim();
+
   function init(){
     const input=document.getElementById('knowledgeSearch');
-    const grid=document.getElementById('knowledgeGrid');
+    const hub=document.getElementById('knowledgeHub');
+    const views=document.getElementById('knowledgeViews');
     const empty=document.getElementById('knowledgeEmpty');
     const resultCount=document.getElementById('knowledgeResultCount');
+    const title=document.getElementById('knowledgeTitle');
+    const kicker=document.getElementById('knowledgeKicker');
+    const description=document.getElementById('knowledgeDescription');
+    const back=document.getElementById('knowledgeViewBack');
+    const displayControls=document.getElementById('knowledgeDisplayControls');
     const compactToggle=document.getElementById('knowledgeCompactToggle');
     const compactState=document.getElementById('knowledgeCompactState');
-    if(!input||!grid)return;
-    const media=window.matchMedia(MOBILE_QUERY);
-    let groupState=read(GROUP_KEY,{}),scheduled=false;
-    const cards=()=>[...grid.querySelectorAll('.knowledge-entry')];
-    const setCompact=(enabled,persist=true)=>{document.body.classList.toggle('sk-knowledge-compact-view',enabled);compactToggle?.setAttribute('aria-pressed',String(enabled));compactToggle?.classList.toggle('active',enabled);if(compactState)compactState.textContent=enabled?'Ein':'Aus';if(persist)write(COMPACT_KEY,enabled)};
+    if(!input||!hub||!views)return;
+
+    const hubCards=[...hub.querySelectorAll('.knowledge-hub-card')];
+    const manufacturerViews=[...views.querySelectorAll('.knowledge-manufacturer-view')];
+    const viewBySlug=new Map(manufacturerViews.map(view=>[view.dataset.manufacturerSlug,view]));
+    let activeView=null;
+
+    const setCompact=(enabled,persist=true)=>{
+      document.body.classList.toggle('sk-knowledge-compact-view',enabled);
+      compactToggle?.setAttribute('aria-pressed',String(enabled));
+      compactToggle?.classList.toggle('active',enabled);
+      if(compactState)compactState.textContent=enabled?'Ein':'Aus';
+      if(persist)write(COMPACT_KEY,enabled);
+    };
     setCompact(Boolean(read(COMPACT_KEY,true)),false);
     compactToggle?.addEventListener('click',()=>setCompact(compactToggle.getAttribute('aria-pressed')!=='true'));
-    function renderGroups(){
-      scheduled=false;
-      const items=cards();
-      if(!items.length)return;
-      const detached=document.createDocumentFragment();
-      items.forEach(card=>detached.append(card));
-      grid.querySelectorAll(':scope > .knowledge-manufacturer').forEach(section=>section.remove());
-      if(!media.matches){grid.classList.remove('sk-mobile-manufacturers');grid.append(detached);return}
-      const groups=new Map();
-      items.forEach(card=>{const key=(card.dataset.manufacturer||'Herstellerunabhängig').trim();if(!groups.has(key))groups.set(key,[]);groups.get(key).push(card)});
-      grid.classList.add('sk-mobile-manufacturers');
-      const searching=Boolean(input.value.trim());
-      groups.forEach((entries,key)=>{
-        const id=`knowledge-manufacturer-${slug(key)}`;
-        const visible=entries.filter(card=>!card.hidden).length;
-        const expanded=searching?true:groupState[key]!==false;
-        const section=document.createElement('section');section.className='knowledge-manufacturer';section.dataset.manufacturer=key;section.hidden=visible===0;
-        const button=document.createElement('button');button.type='button';button.className='knowledge-manufacturer-toggle';button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-controls',id);button.setAttribute('aria-label',`${key} ${expanded?'einklappen':'ausklappen'}`);button.innerHTML=`<span><span class="knowledge-manufacturer-title">${key}</span><span class="knowledge-manufacturer-count">${visible} von ${entries.length}</span></span><span class="knowledge-manufacturer-chevron" aria-hidden="true">⌄</span>`;
-        const content=document.createElement('div');content.className='knowledge-manufacturer-entries';content.id=id;content.hidden=!expanded;entries.forEach(card=>content.append(card));section.append(button,content);grid.append(section);
-      });
+
+    function currentSlug(){
+      const slug=new URL(location.href).searchParams.get('manufacturer');
+      return slug&&viewBySlug.has(slug)?slug:null;
     }
-    const scheduleGroups=()=>{if(scheduled)return;scheduled=true;queueMicrotask(renderGroups)};
-    function filter(){
-      const q=input.value.trim().toLocaleLowerCase('de-DE');let visible=0;
-      cards().forEach(card=>{const match=!q||(`${card.dataset.manufacturer||''} ${card.dataset.search||''} ${card.textContent}`).toLocaleLowerCase('de-DE').includes(q);card.hidden=!match;if(match)visible++});
-      empty.classList.toggle('show',visible===0);
+    function announceCards(){
+      document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-index',version:RELEASE}}));
+    }
+    function showMode(){
+      const slug=currentSlug();
+      activeView=slug?viewBySlug.get(slug):null;
+      const onHub=!activeView;
+      document.body.classList.toggle('knowledge-mode-hub',onHub);
+      document.body.classList.toggle('knowledge-mode-manufacturer',!onHub);
+      hub.hidden=!onHub;
+      views.hidden=onHub;
+      back.hidden=onHub;
+      displayControls.hidden=onHub;
+      manufacturerViews.forEach(view=>{view.hidden=view!==activeView});
+      input.value='';
+      if(onHub){
+        kicker.textContent='HERSTELLER-HUB';
+        title.textContent='Wissensdatenbank';
+        description.textContent='Hersteller wählen und direkt zum passenden Know-how wechseln.';
+        input.placeholder='Hersteller, Gerät oder Thema eingeben';
+        document.title='Wissensdatenbank | SK PCT Tools';
+      }else{
+        const manufacturer=activeView.dataset.manufacturer;
+        kicker.textContent='HERSTELLER-KNOW-HOW';
+        title.textContent=manufacturer;
+        description.textContent=activeView.dataset.description||`Wissensbeiträge von ${manufacturer}.`;
+        input.placeholder=`${manufacturer}: Gerät oder Thema suchen`;
+        document.title=`${manufacturer} · Wissensdatenbank | SK PCT Tools`;
+      }
+      applyFilter();
+      announceCards();
+    }
+    function matches(element,query){
+      if(!query)return true;
+      const text=norm(`${element.dataset.search||''} ${element.dataset.manufacturer||''} ${element.textContent||''}`);
+      return query.split(/\s+/).every(term=>text.includes(term));
+    }
+    function applyFilter(){
+      const query=norm(input.value);
+      if(!activeView){
+        let visible=0;
+        hubCards.forEach(card=>{const show=matches(card,query);card.hidden=!show;if(show)visible++});
+        empty.classList.toggle('show',visible===0);
+        empty.textContent='Keine passenden Hersteller oder Wissensbeiträge gefunden.';
+        if(resultCount)resultCount.textContent=`${visible} ${visible===1?'Hersteller-Bereich':'Hersteller-Bereiche'} angezeigt`;
+        return;
+      }
+      const cards=[...activeView.querySelectorAll('.knowledge-entry')];
+      let visible=0;
+      cards.forEach(card=>{const show=matches(card,query);card.hidden=!show;if(show)visible++});
+      const permanentEmpty=activeView.querySelector('.knowledge-section-empty');
+      if(permanentEmpty)permanentEmpty.hidden=cards.length>0||Boolean(query);
+      const noMatch=cards.length>0&&visible===0;
+      empty.classList.toggle('show',noMatch);
+      empty.textContent='Keine passenden Wissensbeiträge gefunden.';
       if(resultCount)resultCount.textContent=`${visible} ${visible===1?'Beitrag':'Beiträge'} angezeigt`;
-      scheduleGroups();
     }
-    grid.addEventListener('click',event=>{const button=event.target.closest('.knowledge-manufacturer-toggle');if(!button)return;const section=button.closest('.knowledge-manufacturer'),content=document.getElementById(button.getAttribute('aria-controls')),expanded=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-label',`${section.dataset.manufacturer} ${expanded?'einklappen':'ausklappen'}`);if(content)content.hidden=!expanded;groupState[section.dataset.manufacturer]=expanded;write(GROUP_KEY,groupState)});
-    input.addEventListener('input',filter);
-    if(typeof media.addEventListener==='function')media.addEventListener('change',scheduleGroups);else media.addListener?.(scheduleGroups);
-    filter();renderGroups();
-    document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-index',version:RELEASE}}));
+
+    input.addEventListener('input',applyFilter);
+    window.addEventListener('popstate',showMode);
+    hub.addEventListener('click',event=>{
+      const link=event.target.closest('.knowledge-hub-card');
+      if(!link||event.defaultPrevented||event.button>0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      event.preventDefault();
+      history.pushState({},'',link.href);
+      showMode();
+      title.focus?.({preventScroll:true});
+      scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    });
+    back.addEventListener('click',event=>{
+      if(event.defaultPrevented||event.button>0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      event.preventDefault();
+      history.pushState({},'',back.href);
+      showMode();
+      scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    });
+    showMode();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();

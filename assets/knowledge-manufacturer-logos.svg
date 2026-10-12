@@ -22,4 +22,11 @@
       <path d="M91 27v20M81 37h20" stroke="#06120a" stroke-width="5" stroke-linecap="round"/>
     </g>
   </symbol>
+  <symbol id="logo-sonstiges" viewBox="0 0 120 72">
+    <g aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M26 22h68M26 36h44M26 50h56" stroke-width="5"/>
+      <circle cx="88" cy="36" r="14" stroke-width="4"/>
+      <path d="M88 29v.2M88 35v9" stroke-width="4"/>
+    </g>
+  </symbol>
 </svg>

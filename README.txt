@@ -1,34 +1,35 @@
-SK PCT Tools 2.5.0.4-Beta
+SK PCT Tools 2.5.0.5-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist 2.5.0.3-Beta.
+Direkte Ausgangsbasis ist 2.5.0.4-Beta.
 
 Änderungen dieser Beta
-- Das PCT-Logo auf der Startseite ist im Desktop- und Mobil-Layout moderat vergrößert.
-- Die aktuelle Versionsnummer V2.5.0.4-Beta steht unmittelbar neben dem PCT-Logo.
-- Suche und Favoriten bilden rechts oben eine kompakte vertikale Schnellzugriffsgruppe;
-  der Favoriten-Stern sitzt direkt unter der Suchlupe.
-- Das Favoriten-Icon verwendet jetzt den dunklen PCT-Grund, schwarze Außenkontur,
-  innere grüne Signalkante, passende Schatten und einen integrierten Zähler.
-- Die iOS-Safe-Area, das unveränderte 11-App-Icon-Raster und alle bisherigen Inhalte
-  und Funktionen wurden beibehalten.
+- Die Startseite der Wissensdatenbank ist jetzt ein reiner Hersteller-Hub mit Icons
+  für Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges.
+- Jeder Hersteller öffnet eine eigene Herstelleransicht. Dort werden die zugehörigen
+  Wissensbeiträge als PCT-Icons dargestellt; Sonstiges ist für Beiträge ohne Hersteller
+  vorbereitet.
+- Suche, mobile Kompaktansicht, Favoriten und die PDF-Beitragsvorlage bleiben erhalten.
+- Das PCT-Logo auf der Hauptstartseite ist deutlich größer; der sichtbare weiße Text
+  „SK PCT Tools“ wurde entfernt. Die Versionsanzeige bleibt direkt am Logo.
+- Das Lupensymbol ist geometrisch innerhalb seiner Schaltfläche zentriert.
+- Die iOS-Safe-Area oben sowie links und rechts bleibt vollständig erhalten.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche vorhandenen Berechnungslogiken.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-- Fünf fachliche Wissensbeiträge und die PDF-Beitragsvorlage.
-- Suche, Kategorienfilter, Sortierung, gemeinsames Zurücksetzen und Favoriten.
+- Alle fünf fachlichen Wissensbeiträge und die PDF-Beitragsvorlage.
+- Startseitensuche, Kategorienfilter, Sortierung, gemeinsames Zurücksetzen und Favoriten.
 - Long-Press-Bearbeitungsmodus mit lokaler Speicherung der App-Reihenfolge.
-- Mobile Herstellergruppen und kompakte Beitragsansicht der Wissensdatenbank.
 - Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
-- Stabile interne URLs und abgesicherter externer Herstellerlink.
+- Stabile interne Beitrags-URLs und abgesicherter externer Herstellerlink.
 
 Version und PWA
-- Öffentliche Version: 2.5.0.4-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.0.4-Beta.
+- Öffentliche Version: 2.5.0.5-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.0.5-Beta.
 - Laufzeitkanal: beta.
-- Einstellungen: localStorage; App-Reihenfolgen und Favoriten werden nicht übertragen.
+- Einstellungen: localStorage; App-Reihenfolgen, Wissensansicht und Favoriten werden nicht übertragen.
 
 Deployment
 1. Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.

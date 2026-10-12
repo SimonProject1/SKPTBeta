@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.4-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.5-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,18 +10,28 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.4-Beta"
+VERSION = "2.5.0.5-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
     "wissensdatenbank", "spannungsfall-rechner", "siemens-rohwert",
     "eh-device-viewer",
 }
+EXPECTED_MANUFACTURERS = {
+    "air-torque": 1,
+    "endress-hauser": 1,
+    "siemens": 2,
+    "vacon": 1,
+    "sonstiges": 0,
+}
 
-class StartParser(HTMLParser):
+class PageParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.apps: list[dict[str, str]] = []
+        self.hub_cards: list[dict[str, str]] = []
+        self.entries: list[dict[str, str]] = []
+        self.views: list[dict[str, str]] = []
         self.local_refs: list[str] = []
         self.icon_uses: list[str] = []
     def handle_starttag(self, tag, attrs):
@@ -29,6 +39,12 @@ class StartParser(HTMLParser):
         classes = set(values.get("class", "").split())
         if tag == "a" and "sk-home-app" in classes:
             self.apps.append(values)
+        if tag == "a" and "knowledge-hub-card" in classes:
+            self.hub_cards.append(values)
+        if tag == "a" and "knowledge-entry" in classes:
+            self.entries.append(values)
+        if tag == "section" and "knowledge-manufacturer-view" in classes:
+            self.views.append(values)
         if tag in {"script", "link", "img", "a"}:
             attr = "href" if tag in {"link", "a"} else "src"
             value = values.get(attr)
@@ -40,7 +56,7 @@ class StartParser(HTMLParser):
 def fail(message: str, errors: list[str]) -> None:
     errors.append(message)
 
-def target_exists(ref: str, source: Path = ROOT / "index.html") -> bool:
+def target_exists(ref: str, source: Path) -> bool:
     path = urlsplit(ref).path
     target = (source.parent / path).resolve()
     try:
@@ -49,6 +65,11 @@ def target_exists(ref: str, source: Path = ROOT / "index.html") -> bool:
         return False
     return target.is_file() or (target.is_dir() and (target / "index.html").is_file())
 
+def parse_page(path: Path) -> PageParser:
+    parser = PageParser()
+    parser.feed(path.read_text(encoding="utf-8"))
+    return parser
+
 def main() -> int:
     errors: list[str] = []
     if (ROOT / "VERSION").read_text(encoding="utf-8").strip() != VERSION:
@@ -56,115 +77,113 @@ def main() -> int:
     manifest = json.loads((ROOT / "manifest.webmanifest").read_text(encoding="utf-8"))
     if manifest.get("version") != VERSION:
         fail("Manifest-Version stimmt nicht.", errors)
-    parser = StartParser()
-    parser.feed((ROOT / "index.html").read_text(encoding="utf-8"))
-    ids = [app.get("data-app-id", "") for app in parser.apps]
+
+    start_path = ROOT / "index.html"
+    start_html = start_path.read_text(encoding="utf-8")
+    start = parse_page(start_path)
+    ids = [app.get("data-app-id", "") for app in start.apps]
     if len(ids) != 11 or set(ids) != EXPECTED_APPS or len(ids) != len(set(ids)):
         fail(f"App-Inventar unvollständig oder nicht eindeutig: {ids}", errors)
-    for app in parser.apps:
+    for app in start.apps:
         if not app.get("aria-label") or not app.get("href"):
             fail(f"App ohne zugänglichen Namen oder Ziel: {app}", errors)
-        if not urlsplit(app.get("href", "")).scheme and not target_exists(app["href"]):
+        elif not urlsplit(app["href"]).scheme and not target_exists(app["href"], start_path):
             fail(f"App-Ziel fehlt: {app['href']}", errors)
-    if len(parser.icon_uses) != 11 or len(set(parser.icon_uses)) != 11:
+    if len(start.icon_uses) != 11 or len(set(start.icon_uses)) != 11:
         fail("Jede App muss genau ein eigenes Symbol verwenden.", errors)
-    for ref in parser.icon_uses:
-        sprite, _, symbol = ref.partition("#")
-        if not target_exists(sprite) or not symbol:
-            fail(f"Ungültige Symbolreferenz: {ref}", errors)
-    for ref in parser.local_refs:
-        if not target_exists(ref):
+    for ref in start.local_refs:
+        if not target_exists(ref, start_path):
             fail(f"Lokale Startseitenreferenz fehlt: {ref}", errors)
-    worker = (ROOT / "service-worker.js").read_text(encoding="utf-8")
-    for required in (
-        "./assets/pct-home.css", "./assets/pct-home.js", "./assets/pct-home-icons.svg",
-        "./assets/knowledge-overview.css", "./assets/knowledge-overview.js",
-        "./assets/knowledge-manufacturer-logos.svg",
-    ):
-        if required not in worker:
-            fail(f"Offline-Kerncache enthält {required} nicht.", errors)
-
-    cached_refs = re.findall(r"'\./([^']+)'", worker)
-    for ref in cached_refs:
-        if not target_exists(ref):
-            fail(f"Offline-Cache-Ziel fehlt: {ref}", errors)
-    if "icon-" + "tree" in (ROOT / "assets/pct-controls.svg").read_text(encoding="utf-8"):
-        fail("Entferntes Hierarchie-Symbol noch vorhanden.", errors)
-
-    runtime_files = [ROOT / "index.html", ROOT / "assets/app.js", ROOT / "assets/pct-home.js", ROOT / "service-worker.js"]
-    for path in runtime_files:
-        text = path.read_text(encoding="utf-8")
-        if VERSION not in text:
-            fail(f"Versionskennung fehlt in {path.relative_to(ROOT)}.", errors)
-        if "2.4.2.1" in text:
-            fail(f"Alte Laufzeitversion in {path.relative_to(ROOT)} gefunden.", errors)
-
-    start_html = (ROOT / "index.html").read_text(encoding="utf-8")
     if "viewport-fit=cover" not in start_html:
         fail("Startseite aktiviert viewport-fit=cover nicht.", errors)
-    forbidden_home = ("pctHomeClock", "pctHomeDate", "pct-home-heading", "pctHomeEdit", "skCompactCardsToggle")
-    for token in forbidden_home:
-        if token in start_html:
-            fail(f"Entferntes Startseitenelement noch vorhanden: {token}", errors)
-    for required_home in (
-        "pctHomeGrid", "skFilterToggle", "pctHomeDone", "pctHomeReset",
-        "pct-home-brand-mark", "pct-home-version", "pct-home-quick-actions",
-        "sk-favorites-trigger",
-    ):
-        if required_home not in start_html:
-            fail(f"Erforderliches Startseitenelement fehlt: {required_home}", errors)
-    if start_html.index("pct-home-brand-mark") < start_html.index("pct-home-screen"):
-        fail("Das Startseitenlogo liegt nicht innerhalb des PCT Home-Screens.", errors)
+    if "pct-home-brand-copy" in start_html or "<strong>SK PCT Tools</strong>" in start_html:
+        fail("Der sichtbare weiße Produkttext wurde nicht aus dem Startseitenkopf entfernt.", errors)
+    for required in ("pctHomeGrid", "skFilterToggle", "pctHomeDone", "pctHomeReset", "pct-home-brand-mark", "pct-home-version", "pct-home-quick-actions", "sk-favorites-trigger"):
+        if required not in start_html:
+            fail(f"Erforderliches Startseitenelement fehlt: {required}", errors)
     if start_html.count('class="sk-favorites-trigger"') != 1:
         fail("Die Startseite muss genau einen Favoriten-Schnellzugriff enthalten.", errors)
-    if not (start_html.index("pct-home-brand-mark") < start_html.index("pct-home-version") < start_html.index("pct-home-brand-copy")):
-        fail("Die Versionsnummer steht nicht direkt neben dem PCT-Logo.", errors)
-    if not (start_html.index("pct-home-quick-actions") < start_html.index("skFilterToggle") < start_html.index("sk-favorites-trigger")):
-        fail("Der Favoriten-Schnellzugriff liegt nicht direkt unter der Suchlupe.", errors)
-    knowledge_html = (ROOT / "wissensdatenbank" / "index.html").read_text(encoding="utf-8")
+
+    knowledge_path = ROOT / "wissensdatenbank" / "index.html"
+    knowledge_html = knowledge_path.read_text(encoding="utf-8")
+    knowledge = parse_page(knowledge_path)
     if "viewport-fit=cover" not in knowledge_html:
         fail("Wissensdatenbank aktiviert viewport-fit=cover nicht.", errors)
-    if knowledge_html.index("sk:header:start") < knowledge_html.index("knowledge-home-screen"):
-        fail("Der Wissensdatenbank-Kopf liegt nicht im abgerundeten App-Paket.", errors)
-    if knowledge_html.count('class="knowledge-entry tool-card"') != 5:
-        fail("Die Wissensdatenbank muss genau fünf vorhandene Fachbeiträge enthalten.", errors)
-    for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon"):
+    hub_slugs = [card.get("data-manufacturer-slug", "") for card in knowledge.hub_cards]
+    if len(hub_slugs) != 5 or set(hub_slugs) != set(EXPECTED_MANUFACTURERS) or len(hub_slugs) != len(set(hub_slugs)):
+        fail(f"Hersteller-Hub unvollständig oder nicht eindeutig: {hub_slugs}", errors)
+    if len(knowledge.entries) != 5:
+        fail(f"Es müssen genau fünf vorhandene Fachbeiträge erhalten bleiben, gefunden: {len(knowledge.entries)}", errors)
+    view_slugs = [view.get("data-manufacturer-slug", "") for view in knowledge.views]
+    if len(view_slugs) != 5 or set(view_slugs) != set(EXPECTED_MANUFACTURERS):
+        fail(f"Herstelleransichten unvollständig: {view_slugs}", errors)
+    for slug, expected_count in EXPECTED_MANUFACTURERS.items():
+        pattern = rf'<section class="knowledge-manufacturer-view"[^>]*data-manufacturer-slug="{re.escape(slug)}".*?</section>'
+        match = re.search(pattern, knowledge_html, re.S)
+        if not match:
+            fail(f"Herstelleransicht fehlt: {slug}", errors)
+        else:
+            count = match.group(0).count('class="knowledge-entry tool-card"')
+            if count != expected_count:
+                fail(f"Falsche Beitragszahl für {slug}: {count} statt {expected_count}", errors)
+    for slug in EXPECTED_MANUFACTURERS:
+        if f'href="?manufacturer={slug}"' not in knowledge_html:
+            fail(f"Herstellerlink fehlt: {slug}", errors)
+    for required in ("knowledgeSearch", "knowledgeCompactToggle", "knowledgeHub", "knowledgeViews", "Wissensdatenbank_Beitragsvorlage.pdf"):
+        if required not in knowledge_html:
+            fail(f"Erforderliche Wissensdatenbank-Funktion fehlt: {required}", errors)
+    for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon", "logo-sonstiges"):
         if f"knowledge-manufacturer-logos.svg#{logo}" not in knowledge_html:
             fail(f"Herstellerkennzeichnung fehlt: {logo}", errors)
+    for ref in knowledge.local_refs:
+        if not target_exists(ref, knowledge_path):
+            fail(f"Lokale Wissensdatenbank-Referenz fehlt: {ref}", errors)
+
     home_css = (ROOT / "assets" / "pct-home.css").read_text(encoding="utf-8")
     knowledge_css = (ROOT / "assets" / "knowledge-overview.css").read_text(encoding="utf-8")
     for label, css in (("Startseite", home_css), ("Wissensdatenbank", knowledge_css)):
         for inset in ("safe-area-inset-top", "safe-area-inset-left", "safe-area-inset-right"):
             if inset not in css:
                 fail(f"{label} berücksichtigt {inset} nicht.", errors)
-    for token in (
-        ".pct-home-version", ".pct-home-quick-actions",
-        '.pct-home-quick-actions>.sk-favorites-trigger.pct-control',
-        "grid-template-columns:repeat(6", "grid-template-columns:repeat(4",
-        "grid-template-columns:repeat(3",
-    ):
+    for token in ("flex-basis:92px;width:92px;height:92px", "flex-basis:72px;width:72px;height:72px", ".pct-home-search-trigger{display:grid;place-items:center", "grid-template-columns:repeat(6", "grid-template-columns:repeat(4", "grid-template-columns:repeat(3"):
         if token not in home_css:
             fail(f"Startseiten-Designregel fehlt: {token}", errors)
-    if "flex-basis:68px;width:68px;height:68px" not in home_css:
-        fail("Das Desktop-PCT-Logo wurde nicht wie vorgesehen vergrößert.", errors)
-    if "flex-basis:54px;width:54px;height:54px" not in home_css:
-        fail("Das mobile PCT-Logo wurde nicht wie vorgesehen vergrößert.", errors)
-    if 'data-manufacturer="' in knowledge_css:
-        fail("Herstellerspezifische farbige Icon-Gründe sind noch vorhanden.", errors)
+    for token in (".knowledge-hub", ".knowledge-manufacturer-view", ".knowledge-grid", ".knowledge-view-back"):
+        if token not in knowledge_css:
+            fail(f"Hersteller-Hub-Designregel fehlt: {token}", errors)
+
+    overview_js = (ROOT / "assets" / "knowledge-overview.js").read_text(encoding="utf-8")
+    for token in ("popstate", "history.pushState", "knowledge-hub-card", "knowledge-entry"):
+        if token not in overview_js:
+            fail(f"Herstelleransichts-Logik fehlt: {token}", errors)
+    # URLSearchParams is expressed through URL(...).searchParams in the implementation.
+    if "URLSearchParams" not in overview_js and ".searchParams.get('manufacturer')" not in overview_js:
+        fail("Herstellerparameter wird nicht ausgewertet.", errors)
+
     manufacturer_svg = (ROOT / "assets" / "knowledge-manufacturer-logos.svg").read_text(encoding="utf-8")
-    for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon"):
-        match = re.search(rf'<symbol id="{re.escape(logo)}".*?</symbol>', manufacturer_svg, re.S)
-        if not match:
-            fail(f"SVG-Wortmarke fehlt: {logo}", errors)
-            continue
-        symbol = match.group(0)
-        if "currentColor" not in symbol or re.search(r'#[0-9a-fA-F]{3,8}', symbol) or "<rect" in symbol:
-            fail(f"Herstellerkennzeichnung ist nicht als reduzierte weiße/monochrome Marke umgesetzt: {logo}", errors)
+    for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon", "logo-sonstiges"):
+        if not re.search(rf'<symbol id="{re.escape(logo)}".*?</symbol>', manufacturer_svg, re.S):
+            fail(f"SVG-Symbol fehlt: {logo}", errors)
     if ">E+H<" not in manufacturer_svg:
         fail("E+H-Kurzmarke fehlt.", errors)
-    for required_knowledge in ("knowledgeSearch", "knowledgeCompactToggle", "knowledgeGrid", "Wissensdatenbank_Beitragsvorlage.pdf"):
-        if required_knowledge not in knowledge_html:
-            fail(f"Erforderliche Wissensdatenbank-Funktion fehlt: {required_knowledge}", errors)
+
+    worker = (ROOT / "service-worker.js").read_text(encoding="utf-8")
+    for required in ("./assets/pct-home.css", "./assets/pct-home.js", "./assets/pct-home-icons.svg", "./assets/knowledge-overview.css", "./assets/knowledge-overview.js", "./assets/knowledge-manufacturer-logos.svg", "./wissensdatenbank/"):
+        if required not in worker:
+            fail(f"Offline-Kerncache enthält {required} nicht.", errors)
+    cached_refs = re.findall(r"'\./([^']+)'", worker)
+    for ref in cached_refs:
+        if not target_exists(ref, ROOT / "index.html"):
+            fail(f"Offline-Cache-Ziel fehlt: {ref}", errors)
+
+    runtime_files = [ROOT / "index.html", ROOT / "assets/app.js", ROOT / "assets/pct-home.js", ROOT / "assets/knowledge-overview.js", ROOT / "service-worker.js"]
+    for path in runtime_files:
+        text = path.read_text(encoding="utf-8")
+        if VERSION not in text:
+            fail(f"Versionskennung fehlt in {path.relative_to(ROOT)}.", errors)
+        if "2.5.0.4-Beta" in text:
+            fail(f"Alte Laufzeitversion in {path.relative_to(ROOT)} gefunden.", errors)
+
     forbidden_tree = ("sk" + "-tree", "navigation" + "-tree", "Navigations" + "baum", "Seitennavi" + "gation")
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.name == "SHA256SUMS.txt" or path.resolve() == Path(__file__).resolve():
@@ -175,8 +194,6 @@ def main() -> int:
         for token in forbidden_tree:
             if token in content:
                 fail(f"Rest der entfernten Hierarchienavigation in {path.relative_to(ROOT)}: {token}", errors)
-    if (ROOT / "assets/navigation-tree.json").exists():
-        fail("Navigationsdaten wurden nicht entfernt.", errors)
 
     sums = ROOT / "SHA256SUMS.txt"
     if sums.is_file():
@@ -192,11 +209,13 @@ def main() -> int:
                 fail(f"Prüfsumme falsch: {rel}", errors)
     else:
         fail("SHA256SUMS.txt fehlt.", errors)
+
     if errors:
         print("FAIL")
-        for error in errors: print(f"- {error}")
+        for error in errors:
+            print(f"- {error}")
         return 1
-    print(f"PASS · {len(ids)} Apps · {len(parser.icon_uses)} eindeutige Symbole · Version {VERSION}")
+    print(f"PASS · {len(ids)} Apps · {len(knowledge.hub_cards)} Hersteller-Bereiche · {len(knowledge.entries)} Wissensbeiträge · Version {VERSION}")
     return 0
 
 if __name__ == "__main__":

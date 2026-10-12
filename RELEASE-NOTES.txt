@@ -1,31 +1,34 @@
-SK PCT Tools 2.5.0.4-Beta
+SK PCT Tools 2.5.0.5-Beta
 Release-Datum: 12.10.2026
-Status: Beta mit überarbeitetem PCT-Home-Kopf und Favoriten-Schnellzugriff
-Direkte Ausgangsbasis: 2.5.0.3-Beta
+Status: Beta mit Hersteller-Hub und überarbeitetem PCT-Home-Kopf
+Direkte Ausgangsbasis: 2.5.0.4-Beta
 
-NEU IN 2.5.0.4-BETA
-1. Größeres PCT-Logo und direkte Versionsanzeige
-- Die PCT-Marke auf der Startseite wurde moderat vergrößert.
-- Die aktuelle Versionsnummer V2.5.0.4-Beta steht direkt neben dem Logo.
-- Produktname und Bezeichnung „PCT Home“ bleiben vollständig erhalten.
-- Desktop- und Mobilgrößen sind separat abgestimmt.
+NEU IN 2.5.0.5-BETA
+1. Wissensdatenbank als Hersteller-Hub
+- Auf der Startansicht erscheinen ausschließlich Hersteller-Icons für Air Torque,
+  Endress+Hauser, Siemens und Vacon sowie das zusätzliche Icon Sonstiges.
+- Sonstiges nimmt künftig Wissensbeiträge ohne Herstellerzuordnung auf.
+- Jede Auswahl öffnet eine eigene, per URL adressierbare Herstelleransicht.
+- In der Herstelleransicht werden die zugehörigen Wissensbeiträge erneut als Icons dargestellt.
+- Die bestehenden fünf Wissensbeiträge behalten ihre stabilen URLs.
 
-2. Favoriten direkt unter der Suchlupe
-- Suche und Favoriten sind als vertikale Schnellzugriffsgruppe im Startseitenkopf angeordnet.
-- Das Favoriten-Icon befindet sich unmittelbar unter der Suchlupe.
-- Die bisherige globale Fixposition wird auf der Startseite gezielt aufgehoben; auf allen
-  weiteren Seiten bleibt das bestehende Verhalten unverändert.
-- Der Favoritenzähler bleibt erhalten und sitzt als kompakte grüne Statusanzeige am Icon.
+2. Suche, Favoriten und Beitragsvorlage erhalten
+- Die Suche filtert im Hub Hersteller anhand von Hersteller-, Geräte- und Themenbegriffen.
+- In einer Herstelleransicht filtert dieselbe Suche die dortigen Beiträge.
+- Favoritensterne bleiben an allen fünf Wissensbeiträgen verfügbar.
+- Favoritendrawer und globale Favoriten bleiben unverändert kompatibel.
+- Die PDF-Beitragsvorlage ist weiterhin über „Beitrag vorschlagen“ erreichbar.
+- Die mobile Kompaktansicht bleibt in Herstelleransichten verfügbar.
 
-3. Favoriten-Icon im PCT-Home-Design
-- Dunkler PCT-Grund, schwarze Außenkontur und abgerundetes Gehäuse entsprechen dem Home-Design.
-- Eine grüne innere Signalkante, Cyan-/Stahlakzente und abgestimmte Schatten greifen die
-  PCT-Farb- und Formensprache auf.
-- Hover-, Fokus- und Aktivzustände sowie die Bedienung des Favoritendrawers bleiben erhalten.
+3. Hauptstartseite überarbeitet
+- Das PCT-Logo wurde auf Desktop und Mobil deutlich vergrößert.
+- Der sichtbare weiße Produkttext „SK PCT Tools“ wurde aus dem Startseitenkopf entfernt.
+- Die Version V2.5.0.5-Beta bleibt direkt und kompakt beim Logo.
+- Die Suchlupe ist über Grid-Zentrierung exakt horizontal und vertikal in ihrer Schaltfläche ausgerichtet.
 
 ERHALTENE FUNKTIONEN UND INHALTE
 - iOS-Safe-Area oben sowie links/rechts im Hoch- und Querformat.
-- Unverändertes responsives Icon-Raster mit allen 11 Apps und 11 eindeutigen Symbolen.
+- Responsives Icon-Raster mit allen 11 Apps und 11 eindeutigen Symbolen.
 - Alle sechs Rechner einschließlich vorhandener Berechnungslogik.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
 - Fünf fachliche Wissensbeiträge und die PDF-Beitragsvorlage.
@@ -35,6 +38,6 @@ ERHALTENE FUNKTIONEN UND INHALTE
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- tests/validate_project.py prüft Version, App-Inventar, Safe-Area-Regeln,
-  Logo-/Versionskopf, Schnellzugriffsanordnung, Herstellerkennzeichnungen,
-  interne Links, Cache-Einträge und Prüfsummen.
+- tests/validate_project.py prüft Version, App-Inventar, Safe-Area, Hersteller-Hub,
+  Herstelleransichten, Beitragszuordnung, Startseitenlogo, Suchlupe, interne Links,
+  Cache-Einträge und Prüfsummen.
