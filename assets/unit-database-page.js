@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.4.1.6 — Seite Einheitendatenbank. */
+/* SK PCT Tools 2.4.1.7 — Seite Einheitendatenbank. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss');

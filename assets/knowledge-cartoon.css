@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.4.1.6 — Wissensdatenbank im PCT Cartoon-Tech-Design.
+/* SK PCT Tools 2.4.1.7 — Wissensdatenbank im PCT Cartoon-Tech-Design.
    Diese Ebene verändert ausschließlich Darstellung und responsive Anordnung.
    Inhalte, Routen und Laufzeitfunktionen bleiben im bestehenden Markup/JavaScript. */
 
@@ -473,4 +473,83 @@ body[data-sk-page="module"][data-knowledge-standard] .sk-tree-drawer{
 
 @media(prefers-reduced-motion:reduce){
   .proposal-card,.knowledge-entry{transition-duration:.01ms!important}
+}
+
+/* SK PCT Tools 2.4.1.7 — Cleaner Hauptheader der Wissensdatenbank.
+   Der Aufbau folgt dem zurückhaltenden Standard der Werkstoffdatenbank:
+   kleine Kategoriezeile, einzeiliger Titel, Beschreibung und dezentes PCT-Logo.
+   Der übrige Cartoon-Tech-Auftritt und die Beitragsdarstellung bleiben unverändert. */
+body[data-sk-page="knowledge"] .knowledge-overview{
+  width:min(1100px,calc(100% - 34px))!important;
+  padding-top:28px!important;
+}
+body[data-sk-page="knowledge"] .knowledge-hero{
+  min-height:0!important;
+  display:block!important;
+  margin:0 0 16px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border:0!important;
+  border-radius:0!important;
+  clip-path:none!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body[data-sk-page="knowledge"] .knowledge-hero::before,
+body[data-sk-page="knowledge"] .knowledge-hero::after{
+  content:none!important;
+  display:none!important;
+}
+body[data-sk-page="knowledge"] .knowledge-kicker{
+  color:var(--kb-cyan)!important;
+  font-size:12px!important;
+  font-weight:900!important;
+  letter-spacing:1.6px!important;
+  text-transform:uppercase!important;
+  text-shadow:1px 2px 0 #000;
+}
+body[data-sk-page="knowledge"] .knowledge-hero h1{
+  max-width:100%!important;
+  margin:9px 0 11px!important;
+  padding:0!important;
+  color:var(--kb-ink)!important;
+  font-size:clamp(40px,7vw,70px)!important;
+  line-height:1.02!important;
+  letter-spacing:-.035em!important;
+  text-shadow:3px 4px 0 #000;
+}
+body[data-sk-page="knowledge"] .knowledge-hero p{
+  max-width:850px!important;
+  margin:0!important;
+  color:#c8d8df!important;
+  font-size:19px!important;
+  line-height:1.55!important;
+  text-shadow:1px 2px 0 #000;
+}
+body[data-sk-page="knowledge"] .knowledge-hero>.sk-page-heading-logo{
+  right:clamp(8px,4vw,46px);
+  width:clamp(118px,19vw,230px);
+  opacity:.11;
+}
+@media(max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  body[data-sk-page="knowledge"] .knowledge-overview{
+    width:min(100% - 22px,1100px)!important;
+    padding-top:19px!important;
+  }
+  body[data-sk-page="knowledge"] .knowledge-hero{
+    margin-bottom:16px!important;
+  }
+  body[data-sk-page="knowledge"] .knowledge-hero h1{
+    font-size:clamp(28px,8vw,32px)!important;
+  }
+  body[data-sk-page="knowledge"] .knowledge-hero p{
+    max-width:calc(100% - 68px)!important;
+    font-size:15px!important;
+    line-height:1.4!important;
+  }
+  body[data-sk-page="knowledge"] .knowledge-hero>.sk-page-heading-logo{
+    right:-12px;
+    width:clamp(104px,34vw,148px);
+    opacity:.09;
+  }
 }
