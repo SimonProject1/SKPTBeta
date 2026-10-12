@@ -1,32 +1,33 @@
-SK PCT Tools 2.4.2.0-Beta
+SK PCT Tools 2.4.2.1-Beta
 Release-Datum: 12.10.2026
-Status: gründlich geprüfte und optimierte Beta-Testversion
-Direkte Ausgangsbasis: vollständige Version 2.4.1.9-Beta
+Status: geprüfte Beta-Testversion
+Direkte Ausgangsbasis: vollständige Version 2.4.2.0-Beta
 
-NEU IN 2.4.2.0-BETA
-1. Einheitliches Seitentitel-Design
-- Alle 17 Seiten wurden in Desktop- und Mobilansicht visuell geprüft.
-- Interne Seitentitel verwenden jetzt dieselbe Typografieskala und dürfen lesbar umbrechen.
-- Die bisherige JavaScript-Verkleinerung auf eine Zeile wurde entfernt; lange Titel fallen mobil nicht mehr auf sehr kleine Schriftgrößen ab.
-- Hintergrundlogo, Abstände, Farbwelt, Kopf- und Fußbereich bleiben einheitlich erhalten.
+NEU IN 2.4.2.1-BETA
+1. Zustandsdesign von „Suche & Filter“
+- Der mobile Klappbereich der Startseite übernimmt den vorhandenen Standard der
+  auf- und zuklappbaren Startseiten- und Wissensdatenbankbereiche.
+- Geschlossen: eckiger, kompakter Rahmen mit ausschließlich sichtbarer Kopfzeile.
+- Geöffnet: konsistent gerundeter Außenrahmen mit gerundetem Kopf und nahtlosem
+  Übergang zum Such-, Filter- und Sortierinhalt.
+- Außenkontur, innere Statuskante, Schatten, Radien und Übergänge entsprechen dem
+  bestehenden mobilen Klappdesign.
 
-2. Barrierefreiheit und Robustheit
-- Die Fotoauswahl der Messstellen-Dokumentation besitzt eindeutige zugängliche Namen.
-- Dynamisch erzeugte Fotovorschauen, Bildbeschriftungen und Löschschalter sind eindeutig beschriftet.
-- Benutzereingaben in Bildbeschriftungen werden vor dem erneuten Rendern sicher maskiert.
+2. Zustandslogik und Barrierefreiheit
+- Der Container erhält bei jedem Wechsel eindeutig is-collapsed oder is-expanded.
+- aria-expanded, aria-label, sichtbarer Schaltertext und hidden-Zustand des Inhalts
+  werden gemeinsam aktualisiert.
+- Mobil startet der Bereich weiterhin geschlossen; auf größeren Ansichten bleibt
+  er vollständig geöffnet.
 
-3. Dateigröße und Laufzeit
-- Das große Startseitenlogo wurde als hochwertiges WebP optimiert.
-- Header verwenden das bereits vorhandene 192-px-Icon statt der unnötig großen 512-px-Datei.
-- Titel-Logik und Titel-Stile wurden in die bestehende responsive Kaskade integriert.
-- Die Siemens-Einheitenintegration wurde in das zugehörige Rechnerskript zusammengeführt.
-- Nicht verwendete bzw. zusammengeführte Dateien wurden entfernt und der Offline-Kerncache bereinigt.
-
-ERHALTEN
-- Alle sechs Rechner und sämtliche Berechnungslogiken.
-- Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-- Fünf Wissensbeiträge, PDF-Beitragsvorlage, Suche, Filter, Sortierung, Favoriten und Navigation.
-- Stabile Anwender-URLs sowie Desktop-, Tablet-, Smartphone- und Standalone-PWA-Unterstützung.
+ERHALTEN UND GEPRÜFT
+- Suche über Werkzeuge und Wissensbeiträge einschließlich Werkstoffbegriffen.
+- Kategorienfilter, Standardsortierung sowie Sortierung nach Kategorie und Titel.
+- Gemeinsamer Reset von Suchtext, Filter und Sortierung.
+- Mobile Kategorien, Kompaktansicht und Viewportwechsel.
+- Favoriten, Seitennavigation und stabile interne URLs.
+- Offline-Kerncache, Dokumentcache und PWA-Manifest.
+- Alle Rechner, Datenbanken, Dokumentationsfunktionen und Wissensbeiträge.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.

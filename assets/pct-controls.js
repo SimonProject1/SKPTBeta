@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.4.2.0 - Adapter fuer PCT Industrial Controls. */
+/* SK PCT Tools 2.4.2.1 - Adapter fuer PCT Industrial Controls. */
 (()=>{'use strict';
-const RELEASE='2.4.2.0';
+const RELEASE='2.4.2.1';
 const root=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
 const sprite=new URL('assets/pct-controls.svg',root).href;
 const icon=(name,small=false)=>`<svg class="pct-icon${small?' pct-icon--small':''}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="${sprite}#icon-${name}"></use></svg>`;

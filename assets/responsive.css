@@ -1,4 +1,4 @@
-/* === V2.4.2.0 · responsive application shell ===
+/* === V2.4.2.1 · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -298,7 +298,7 @@ html{background-color:#04131f}
 
 .sk-mobile-hero-version{display:none}
 
-/* === 2.4.2.0 · kompakte mobile Startseite ===
+/* === 2.4.2.1 · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{
@@ -372,21 +372,36 @@ html{background-color:#04131f}
     line-height:1.18;
   }
   body[data-sk-page="start"] .sk-mobile-hero-expansion>span{white-space:nowrap}
-  body[data-sk-page="start"] .sk-tool-filter{padding:0!important;overflow:hidden}
+  body[data-sk-page="start"] .sk-tool-filter{
+    padding:0!important;
+    overflow:hidden;
+    border:3px solid #000!important;
+    clip-path:none!important;
+    background:#061521!important;
+    box-shadow:inset 0 0 0 1px #347996,3px 4px 0 #000!important;
+    transition:border-radius .18s ease;
+  }
+  body[data-sk-page="start"] .sk-tool-filter.is-collapsed{border-radius:0!important}
+  body[data-sk-page="start"] .sk-tool-filter.is-expanded{border-radius:17px!important}
   body[data-sk-page="start"] .sk-filter-toggle{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:12px;
     width:100%;
-    min-height:62px;
-    padding:11px 13px;
+    min-height:54px;
+    padding:9px 12px;
     border:0;
-    border-radius:17px;
-    background:linear-gradient(145deg,#0a2639,#071d2d);
+    border-radius:0;
+    background:#0a2638;
     color:#f7fbff;
     text-align:left;
     cursor:pointer;
+    transition:border-radius .18s ease,background .18s ease;
+  }
+  body[data-sk-page="start"] .sk-tool-filter.is-expanded>.sk-filter-toggle{
+    border-radius:14px 14px 0 0;
+    background:linear-gradient(145deg,#0a2639,#071d2d);
   }
   body[data-sk-page="start"] .sk-filter-toggle>span:first-child{display:grid;gap:3px}
   body[data-sk-page="start"] .sk-filter-toggle strong{font-size:17px;line-height:1.2}
@@ -409,7 +424,7 @@ html{background-color:#04131f}
 }
 
 
-/* === 2.4.2.0 · mobile Kategorien und optionale Kompaktansicht === */
+/* === 2.4.2.1 · mobile Kategorien und optionale Kompaktansicht === */
 .sk-mobile-display-controls{display:none}
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .sk-mobile-display-controls{
@@ -454,7 +469,7 @@ html{background-color:#04131f}
   body[data-sk-page="start"] .sk-mobile-category-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
-/* === V2.4.2.0 · einheitliche, ohne JavaScript lesbare Seitentitel === */
+/* === V2.4.2.1 · einheitliche, ohne JavaScript lesbare Seitentitel === */
 .sk-page-heading{
   position:relative!important;
   isolation:isolate;
