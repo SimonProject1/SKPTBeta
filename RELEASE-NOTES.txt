@@ -1,29 +1,32 @@
-SK PCT Tools 2.5.0.3-Beta
+SK PCT Tools 2.5.0.4-Beta
 Release-Datum: 12.10.2026
-Status: Beta mit iOS-Safe-Area und vereinheitlichten Herstellerkennzeichnungen
-Direkte Ausgangsbasis: 2.5.0.2-Beta
+Status: Beta mit überarbeitetem PCT-Home-Kopf und Favoriten-Schnellzugriff
+Direkte Ausgangsbasis: 2.5.0.3-Beta
 
-NEU IN 2.5.0.3-BETA
-1. iOS-Safe-Area auf der Startseite
-- Das vollständige abgerundete PCT-Home-Paket beginnt unterhalb der iPhone-Statusleiste.
-- Oberer, linker und rechter Safe-Area-Abstand werden im Standalone-/PWA-Betrieb berücksichtigt.
-- Logo, Titel, Suche, Bearbeitungszugriffe und App-Raster bleiben gemeinsam im Paket.
-- Der fixierte Bearbeitungskopf hält beim Scrollen ebenfalls Abstand zur Statusleiste.
+NEU IN 2.5.0.4-BETA
+1. Größeres PCT-Logo und direkte Versionsanzeige
+- Die PCT-Marke auf der Startseite wurde moderat vergrößert.
+- Die aktuelle Versionsnummer V2.5.0.4-Beta steht direkt neben dem Logo.
+- Produktname und Bezeichnung „PCT Home“ bleiben vollständig erhalten.
+- Desktop- und Mobilgrößen sind separat abgestimmt.
 
-2. iOS-Safe-Area in der Wissensdatenbank
-- Auch das abgerundete Wissensdatenbank-Paket beginnt unterhalb der Statusleiste.
-- Der vorhandene Kopf mit Logo und Startseitenzugriff wurde in das Paket integriert.
-- Titel, Suche, mobile Darstellungssteuerung und Beitragsraster bleiben vollständig erhalten.
-- Seitliche Safe Areas werden im Hoch- und Querformat berücksichtigt.
+2. Favoriten direkt unter der Suchlupe
+- Suche und Favoriten sind als vertikale Schnellzugriffsgruppe im Startseitenkopf angeordnet.
+- Das Favoriten-Icon befindet sich unmittelbar unter der Suchlupe.
+- Die bisherige globale Fixposition wird auf der Startseite gezielt aufgehoben; auf allen
+  weiteren Seiten bleibt das bestehende Verhalten unverändert.
+- Der Favoritenzähler bleibt erhalten und sitzt als kompakte grüne Statusanzeige am Icon.
 
-3. Einheitliche Herstellerkennzeichnungen
-- Endress+Hauser erscheint als reduzierte weiße Kurzmarke „E+H“.
-- Siemens, Air Torque und Vacon verwenden reduzierte weiße Wortmarken.
-- Farbige Herstellerflächen und weiße Logo-Kacheln wurden entfernt.
-- Alle Herstellerkennzeichnungen stehen auf demselben dunklen PCT-Icon-Grund.
+3. Favoriten-Icon im PCT-Home-Design
+- Dunkler PCT-Grund, schwarze Außenkontur und abgerundetes Gehäuse entsprechen dem Home-Design.
+- Eine grüne innere Signalkante, Cyan-/Stahlakzente und abgestimmte Schatten greifen die
+  PCT-Farb- und Formensprache auf.
+- Hover-, Fokus- und Aktivzustände sowie die Bedienung des Favoritendrawers bleiben erhalten.
 
 ERHALTENE FUNKTIONEN UND INHALTE
-- Alle 11 Apps und alle sechs Rechner einschließlich vorhandener Berechnungslogik.
+- iOS-Safe-Area oben sowie links/rechts im Hoch- und Querformat.
+- Unverändertes responsives Icon-Raster mit allen 11 Apps und 11 eindeutigen Symbolen.
+- Alle sechs Rechner einschließlich vorhandener Berechnungslogik.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
 - Fünf fachliche Wissensbeiträge und die PDF-Beitragsvorlage.
 - Favoriten, eigene App-Reihenfolge, Long-Press-Verschieben, Filter und Sortierung.
@@ -33,4 +36,5 @@ ERHALTENE FUNKTIONEN UND INHALTE
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
 - tests/validate_project.py prüft Version, App-Inventar, Safe-Area-Regeln,
-  Herstellerkennzeichnungen, interne Links, Cache-Einträge und Prüfsummen.
+  Logo-/Versionskopf, Schnellzugriffsanordnung, Herstellerkennzeichnungen,
+  interne Links, Cache-Einträge und Prüfsummen.

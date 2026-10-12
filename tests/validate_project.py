@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.3-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.4-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.3-Beta"
+VERSION = "2.5.0.4-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -106,11 +106,21 @@ def main() -> int:
     for token in forbidden_home:
         if token in start_html:
             fail(f"Entferntes Startseitenelement noch vorhanden: {token}", errors)
-    for required_home in ("pctHomeGrid", "skFilterToggle", "pctHomeDone", "pctHomeReset", "pct-home-brand-mark"):
+    for required_home in (
+        "pctHomeGrid", "skFilterToggle", "pctHomeDone", "pctHomeReset",
+        "pct-home-brand-mark", "pct-home-version", "pct-home-quick-actions",
+        "sk-favorites-trigger",
+    ):
         if required_home not in start_html:
             fail(f"Erforderliches Startseitenelement fehlt: {required_home}", errors)
     if start_html.index("pct-home-brand-mark") < start_html.index("pct-home-screen"):
         fail("Das Startseitenlogo liegt nicht innerhalb des PCT Home-Screens.", errors)
+    if start_html.count('class="sk-favorites-trigger"') != 1:
+        fail("Die Startseite muss genau einen Favoriten-Schnellzugriff enthalten.", errors)
+    if not (start_html.index("pct-home-brand-mark") < start_html.index("pct-home-version") < start_html.index("pct-home-brand-copy")):
+        fail("Die Versionsnummer steht nicht direkt neben dem PCT-Logo.", errors)
+    if not (start_html.index("pct-home-quick-actions") < start_html.index("skFilterToggle") < start_html.index("sk-favorites-trigger")):
+        fail("Der Favoriten-Schnellzugriff liegt nicht direkt unter der Suchlupe.", errors)
     knowledge_html = (ROOT / "wissensdatenbank" / "index.html").read_text(encoding="utf-8")
     if "viewport-fit=cover" not in knowledge_html:
         fail("Wissensdatenbank aktiviert viewport-fit=cover nicht.", errors)
@@ -127,6 +137,18 @@ def main() -> int:
         for inset in ("safe-area-inset-top", "safe-area-inset-left", "safe-area-inset-right"):
             if inset not in css:
                 fail(f"{label} berücksichtigt {inset} nicht.", errors)
+    for token in (
+        ".pct-home-version", ".pct-home-quick-actions",
+        '.pct-home-quick-actions>.sk-favorites-trigger.pct-control',
+        "grid-template-columns:repeat(6", "grid-template-columns:repeat(4",
+        "grid-template-columns:repeat(3",
+    ):
+        if token not in home_css:
+            fail(f"Startseiten-Designregel fehlt: {token}", errors)
+    if "flex-basis:68px;width:68px;height:68px" not in home_css:
+        fail("Das Desktop-PCT-Logo wurde nicht wie vorgesehen vergrößert.", errors)
+    if "flex-basis:54px;width:54px;height:54px" not in home_css:
+        fail("Das mobile PCT-Logo wurde nicht wie vorgesehen vergrößert.", errors)
     if 'data-manufacturer="' in knowledge_css:
         fail("Herstellerspezifische farbige Icon-Gründe sind noch vorhanden.", errors)
     manufacturer_svg = (ROOT / "assets" / "knowledge-manufacturer-logos.svg").read_text(encoding="utf-8")

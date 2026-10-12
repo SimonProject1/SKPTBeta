@@ -1,18 +1,18 @@
-SK PCT Tools 2.5.0.3-Beta
+SK PCT Tools 2.5.0.4-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist 2.5.0.2-Beta.
+Direkte Ausgangsbasis ist 2.5.0.3-Beta.
 
 Änderungen dieser Beta
-- Startseite und Wissensdatenbank berücksichtigen die iOS-Safe-Area am oberen sowie
-  an den seitlichen Bildschirmrändern. Das jeweilige abgerundete App-Paket beginnt
-  unterhalb der iPhone-Statusleiste.
-- In der Wissensdatenbank befinden sich Logo, Titel, Suche und Beitragsraster gemeinsam
-  innerhalb des abgerundeten App-Pakets.
-- Air Torque, Endress+Hauser, Siemens und Vacon verwenden reduzierte weiße Wort- bzw.
-  Kurzmarken auf dem einheitlichen dunklen PCT-Icon-Grund.
-- Farbige Herstellerflächen und weiße Logo-Kacheln wurden entfernt.
+- Das PCT-Logo auf der Startseite ist im Desktop- und Mobil-Layout moderat vergrößert.
+- Die aktuelle Versionsnummer V2.5.0.4-Beta steht unmittelbar neben dem PCT-Logo.
+- Suche und Favoriten bilden rechts oben eine kompakte vertikale Schnellzugriffsgruppe;
+  der Favoriten-Stern sitzt direkt unter der Suchlupe.
+- Das Favoriten-Icon verwendet jetzt den dunklen PCT-Grund, schwarze Außenkontur,
+  innere grüne Signalkante, passende Schatten und einen integrierten Zähler.
+- Die iOS-Safe-Area, das unveränderte 11-App-Icon-Raster und alle bisherigen Inhalte
+  und Funktionen wurden beibehalten.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche vorhandenen Berechnungslogiken.
@@ -25,10 +25,10 @@ Erhaltene Funktionen und Inhalte
 - Stabile interne URLs und abgesicherter externer Herstellerlink.
 
 Version und PWA
-- Öffentliche Version: 2.5.0.3-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.0.3-Beta.
+- Öffentliche Version: 2.5.0.4-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.0.4-Beta.
 - Laufzeitkanal: beta.
-- Einstellungen: localStorage; App-Reihenfolgen werden nicht übertragen.
+- Einstellungen: localStorage; App-Reihenfolgen und Favoriten werden nicht übertragen.
 
 Deployment
 1. Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
