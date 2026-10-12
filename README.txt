@@ -1,31 +1,33 @@
-SK PCT Tools 2.4.1.4-Beta
+SK PCT Tools 2.4.1.5-Beta
 
 Vollständige Beta-Testversion der statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank, Werkstoffdatenbank und Dokumentation.
 
 Direkte Ausgangsbasis
-- Version 2.4.1.3-Beta vom 11.10.2026.
+- Version 2.4.1.4-Beta vom 11.10.2026.
 - Alle fachlichen Funktionen, Inhalte und stabilen Anwender-Routen wurden übernommen.
 
-Änderungen in V2.4.1.4-Beta
-- Die interne Design-Demoseite wurde aus Werkzeugauswahl, Filter, Suche,
-  Navigation, Offline-Cache und Paket entfernt.
-- Der Vorzeichen-Schalter zeigt jetzt ein deutliches ±, ist bündig in die
-  Zahlenfelder integriert und besitzt konsistente Hover-, Fokus- und Druckzustände.
-- Die sichtbare Produktbezeichnung wurde durchgängig auf PCT vereinheitlicht.
-- Technische Kennungen, PWA-Bezeichnungen und Metadaten wurden entsprechend angepasst.
+Änderungen in V2.4.1.5-Beta
+- Die Hauptseite der Wissensdatenbank und alle fünf Wissensbeiträge verwenden jetzt
+  das bestehende PCT Cartoon-Tech-Design der übrigen Anwendung.
+- Logo-Palette, dunkles Farbschema, Cyan-/Blau-/Grünakzente, kräftige schwarze
+  Comic-Trennlinien, abgeschrägte Panels und mechanische Bedienelemente sind
+  durchgängig auf Wissensübersicht, Suche, Beitragskarten und Fachartikel übertragen.
+- Desktop-, Tablet-, Smartphone- und Standalone-PWA-Darstellung wurden beibehalten
+  und für die neue Wissensdarstellung responsiv abgestimmt.
+- Sichtbare Produktbezeichnungen wurden erneut geprüft und verwenden PCT.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche Berechnungslogiken.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-- Fünf fachliche Wissensbeiträge mit Sicherheits- und Gültigkeitshinweisen.
+- Fünf fachliche Wissensbeiträge mit unveränderten Inhalten, Sicherheits- und
+  Gültigkeitshinweisen sowie die PDF-Beitragsvorlage.
 - Suche, Filter, Sortierung, Favoriten, Navigation und stabile interne URLs.
 - Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
-- PDF-Beitragsvorlage mit editierbaren AcroForm-Feldern.
 
 Version und PWA
-- Öffentliche Betaversion: 2.4.1.4-Beta.
-- Technische Versionskennung und Cache-Buster: 2.4.1.4.
+- Öffentliche Betaversion: 2.4.1.5-Beta.
+- Technische Versionskennung und Cache-Buster: 2.4.1.5.
 - Laufzeitkanal: beta.
 
 Deployment

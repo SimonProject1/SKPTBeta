@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.4.1.4 — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
+/* SK PCT Tools 2.4.1.5 — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
 (()=>{'use strict';
-const RELEASE='2.4.1.4';
+const RELEASE='2.4.1.5';
 const STORAGE_KEY='skPctUnitFavoritesV1';
 const source=document.currentScript?.src||'';
 const root=source?new URL('../',source):(window.SK_PCT?.root||new URL('./',location.href));

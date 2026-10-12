@@ -1,4 +1,4 @@
-const RELEASE='2.4.1.4';
+const RELEASE='2.4.1.5';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -19,6 +19,7 @@ const CORE=[
   './assets/icon-maskable-192.png',
   './assets/icon-maskable-512.png',
   './assets/knowledge-article.css',
+  './assets/knowledge-cartoon.css',
   './assets/logo-layout.css',
   './assets/logo.png',
   './assets/materials.css',
