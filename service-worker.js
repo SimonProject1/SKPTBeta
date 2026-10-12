@@ -1,4 +1,4 @@
-const RELEASE='2.4.1.5';
+const RELEASE='2.4.1.6';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -12,6 +12,8 @@ const CORE=[
   './assets/pct-controls.svg',
   './assets/apple-touch-icon.png',
   './assets/core.css',
+  './assets/header-title.css',
+  './assets/header-title.js',
   './assets/einheitenrechner.js',
   './assets/favicon.png',
   './assets/icon-192.png',

@@ -1,6 +1,6 @@
 # Siemens-Quellen und kartenspezifische Rohwertgrenzen
 
-Stand: 11.10.2026 · Bestandteil von SK PCT Tools 2.4.1.5
+Stand: 11.10.2026 · Bestandteil von SK PCT Tools 2.4.1.6
 
 ## Grundsatz
 

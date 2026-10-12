@@ -1,21 +1,22 @@
-SK PCT Tools 2.4.1.5-Beta
+SK PCT Tools 2.4.1.6-Beta
 
 Vollständige Beta-Testversion der statischen Web-App für Rechner,
 Wissensdatenbank, Einheitendatenbank, Werkstoffdatenbank und Dokumentation.
 
 Direkte Ausgangsbasis
-- Version 2.4.1.4-Beta vom 11.10.2026.
+- Vollständiges Projektpaket Version 2.4.1.5-Beta vom 12.10.2026.
 - Alle fachlichen Funktionen, Inhalte und stabilen Anwender-Routen wurden übernommen.
 
-Änderungen in V2.4.1.5-Beta
-- Die Hauptseite der Wissensdatenbank und alle fünf Wissensbeiträge verwenden jetzt
-  das bestehende PCT Cartoon-Tech-Design der übrigen Anwendung.
-- Logo-Palette, dunkles Farbschema, Cyan-/Blau-/Grünakzente, kräftige schwarze
-  Comic-Trennlinien, abgeschrägte Panels und mechanische Bedienelemente sind
-  durchgängig auf Wissensübersicht, Suche, Beitragskarten und Fachartikel übertragen.
-- Desktop-, Tablet-, Smartphone- und Standalone-PWA-Darstellung wurden beibehalten
-  und für die neue Wissensdarstellung responsiv abgestimmt.
-- Sichtbare Produktbezeichnungen wurden erneut geprüft und verwenden PCT.
+Änderungen in V2.4.1.6-Beta
+- Alle Haupt-Seitenheader verwenden jetzt ein dezent sichtbares PCT-Icon im
+  Hintergrund des Titelbereichs.
+- Die Darstellung orientiert sich am klaren Header-Aufbau der Einheitendatenbank;
+  bestehende seitenbezogene Farben, Abstände und PCT-Komponenten bleiben erhalten.
+- Das zuvor dominante Logo im Header der Wissensdatenbank wurde auf dieselbe
+  dezente Hintergrundwirkung wie die übrigen Seiten abgestimmt.
+- Haupttitel werden auf Desktop, Tablet, Smartphone und im Querformat dynamisch
+  auf genau eine Zeile eingepasst, ohne Text abzuschneiden.
+- Die neue gemeinsame Header-Design- und Laufzeitschicht ist offline verfügbar.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche Berechnungslogiken.
@@ -26,8 +27,8 @@ Erhaltene Funktionen und Inhalte
 - Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
 
 Version und PWA
-- Öffentliche Betaversion: 2.4.1.5-Beta.
-- Technische Versionskennung und Cache-Buster: 2.4.1.5.
+- Öffentliche Betaversion: 2.4.1.6-Beta.
+- Technische Versionskennung und Cache-Buster: 2.4.1.6.
 - Laufzeitkanal: beta.
 
 Deployment

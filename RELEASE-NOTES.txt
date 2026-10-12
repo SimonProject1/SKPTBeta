@@ -1,33 +1,26 @@
-SK PCT Tools 2.4.1.5-Beta
+SK PCT Tools 2.4.1.6-Beta
 Release-Datum: 12.10.2026
 Status: vollständige Beta-Testversion
-Direkte Ausgangsbasis: Version 2.4.1.4-Beta
+Direkte Ausgangsbasis: vollständige Version 2.4.1.5-Beta
 
-NEU IN 2.4.1.5-BETA
-1. Wissensdatenbank vollständig an das PCT-Design angeglichen
-- Die Übersichtsseite nutzt das aktuelle PCT-Logo als prägendes Hero-Element.
-- Dunkle Cartoon-Tech-Flächen, Cyan-, Blau- und Grünakzente sowie kräftige
-  schwarze Comic-Konturen entsprechen jetzt dem übrigen Projekt.
-- Suche, Vorschlagskarte, Wissenskarten, Herstellergruppen und Leerzustand
-  verwenden konsistente PCT-Komponenten.
+NEU IN 2.4.1.6-BETA
+1. Einheitliche Haupt-Seitenheader
+- Jeder Haupttitelbereich zeigt das PCT-Icon dezent im Hintergrund des Textes.
+- Die gemeinsame Darstellung übernimmt die klare, zurückhaltende Wirkung des
+  Headers der Einheitendatenbank, ohne fachliche Seitenlayouts umzubauen.
+- Der bisher deutlich hervortretende Logo-Hintergrund der Wissensdatenbank wurde
+  an die projektweit einheitliche, leichte Sichtbarkeit angepasst.
 
-2. Alle Wissensbeiträge visuell vereinheitlicht
-- Artikel-Hero, Breadcrumbs, Metadaten, Fachkarten, Schritte, Checklisten,
-  Hinweise, Codeblöcke, Diagramme und CTA-Elemente wurden in das gemeinsame
-  Cartoon-Tech-Raster überführt.
-- Inhalte, Fachwerte, Sicherheits- und Gültigkeitshinweise blieben unverändert.
+2. Titel immer in einer Zeile
+- Haupttitel bleiben auf PC, Tablet, Smartphone und in Querformaten einzeilig.
+- Eine kleine, lokale Anpassungslogik reduziert nur bei Bedarf die Schriftgröße;
+  Titel werden weder abgeschnitten noch mit Auslassungspunkten gekürzt.
 
-3. Mobile und Offline
-- Smartphone-, Tablet-, Landscape- und Standalone-PWA-Darstellung bleiben erhalten.
-- Die neue Wissens-Designschicht ist im versionsisolierten Offline-Kerncache enthalten.
-- Suche, Gruppierung, Kompaktansicht, Favoriten und Navigationsbaum bleiben funktionsfähig.
-
-4. PCT-Bezeichnung und Version
-- Sichtbare Projekttexte wurden auf ältere Produktbezeichnungen geprüft; die
-  Produktbezeichnung ist durchgängig PCT.
-- Öffentliche Version: 2.4.1.5-Beta.
-- Technische Version/Cache-Buster: 2.4.1.5.
-- Neuer, isolierter Service-Worker-Cache für 2.4.1.5.
+3. Offline und Versionierung
+- header-title.css und header-title.js sind Teil des Offline-Kerncaches.
+- Öffentliche Version: 2.4.1.6-Beta.
+- Technische Version/Cache-Buster: 2.4.1.6.
+- Neuer, isolierter Service-Worker-Cache für 2.4.1.6.
 
 ERHALTEN
 - Sechs Rechner und sämtliche Berechnungslogik.
