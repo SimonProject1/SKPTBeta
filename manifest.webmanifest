@@ -2,7 +2,7 @@
   "id": "./",
   "name": "SK PCT Tools",
   "short_name": "SK PCT Tools",
-  "description": "Praktische PCT-Werkzeuge für Rechner, Dokumentation und technisches Wissen · Version 2.4.1.8-Beta",
+  "description": "Praktische PCT-Werkzeuge für Rechner, Dokumentation und technisches Wissen · Version 2.4.1.9-Beta",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -34,7 +34,7 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.4.1.8",
+  "version": "2.4.1.9",
   "shortcuts": [
     {
       "name": "Einheitendatenbank",

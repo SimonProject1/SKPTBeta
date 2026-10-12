@@ -1,4 +1,4 @@
-/* === V2.4.1.8 · responsive application shell ===
+/* === V2.4.1.9 · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -298,7 +298,7 @@ html{background-color:#04131f}
 
 .sk-mobile-hero-version{display:none}
 
-/* === 2.4.1.8 · kompakte mobile Startseite ===
+/* === 2.4.1.9 · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{
@@ -409,7 +409,7 @@ html{background-color:#04131f}
 }
 
 
-/* === 2.4.1.8 · mobile Kategorien und optionale Kompaktansicht === */
+/* === 2.4.1.9 · mobile Kategorien und optionale Kompaktansicht === */
 .sk-mobile-display-controls{display:none}
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .sk-mobile-display-controls{
@@ -425,15 +425,19 @@ html{background-color:#04131f}
   body[data-sk-page="start"] .sk-view-state{min-width:20px;color:#a8bdc9;text-align:right}
   body[data-sk-page="start"] .sk-compact-cards-toggle[aria-pressed="true"] .sk-view-state{color:#89d329}
   body[data-sk-page="start"] .tools.sk-mobile-categories{display:grid;grid-template-columns:1fr;gap:10px}
-  body[data-sk-page="start"] .sk-mobile-category{min-width:0;border:1px solid #24485d;border-radius:17px;background:rgba(5,23,37,.72);overflow:hidden}
+  body[data-sk-page="start"] .sk-mobile-category{min-width:0;border:3px solid #000;background:#061521;box-shadow:inset 0 0 0 1px #347996,3px 4px 0 #000;overflow:hidden;transition:border-radius .18s ease}
+  body[data-sk-page="start"] .sk-mobile-category.is-collapsed{border-radius:0}
+  body[data-sk-page="start"] .sk-mobile-category.is-expanded{border-radius:17px}
   body[data-sk-page="start"] .sk-mobile-category[hidden]{display:none!important}
-  body[data-sk-page="start"] .sk-mobile-category-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;padding:9px 12px;border:0;background:linear-gradient(145deg,#0a2639,#071d2d);color:#f7fbff;text-align:left;cursor:pointer}
+  body[data-sk-page="start"] .sk-mobile-category-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:54px;padding:9px 12px;border:0;border-radius:0;background:#0a2638;color:#fff;text-align:left;cursor:pointer;transition:border-radius .18s ease,background .18s ease}
+  body[data-sk-page="start"] .sk-mobile-category.is-expanded>.sk-mobile-category-toggle{border-radius:14px 14px 0 0;background:linear-gradient(145deg,#0a2639,#071d2d)}
+  body[data-sk-page="start"] .sk-mobile-category-toggle:focus-visible{outline:3px solid rgba(0,183,232,.42);outline-offset:-3px}
   body[data-sk-page="start"] .sk-mobile-category-toggle>span:first-child{display:flex;align-items:baseline;gap:8px;min-width:0}
   body[data-sk-page="start"] .sk-mobile-category-title{font-size:17px;font-weight:900}
   body[data-sk-page="start"] .sk-mobile-category-count{color:#a8bdc9;font-size:11px;font-weight:800;white-space:nowrap}
   body[data-sk-page="start"] .sk-mobile-category-chevron{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid #2c627c;border-radius:9px;color:#89d329;font-size:21px;transition:transform .18s ease}
   body[data-sk-page="start"] .sk-mobile-category-toggle[aria-expanded="true"] .sk-mobile-category-chevron{transform:rotate(180deg)}
-  body[data-sk-page="start"] .sk-mobile-category-cards{display:grid;grid-template-columns:1fr;gap:8px;padding:9px}
+  body[data-sk-page="start"] .sk-mobile-category-cards{display:grid;grid-template-columns:1fr;gap:8px;padding:9px;background:#061521}
   body[data-sk-page="start"] .sk-mobile-category-cards[hidden]{display:none!important}
   body[data-sk-page="start"] .sk-mobile-category-cards>.card{width:100%;margin:0}
   body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards{gap:6px;padding:7px}

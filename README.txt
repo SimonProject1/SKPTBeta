@@ -1,34 +1,37 @@
-SK PCT Tools 2.4.1.8-Beta
-Release-Datum: 12.10.2026
-Status: vollständige Beta-Testversion
-Direkte Ausgangsbasis: vollständige Version 2.4.1.7-Beta
+SK PCT Tools 2.4.1.9-Beta
 
-NEU IN 2.4.1.8-BETA
-1. Kleinere Sternfelder auf der Startseite
-- Die Favoritenfelder der Werkzeugkarten wurden von 44 x 44 px auf 38 x 38 px verkleinert.
-- Positionierung, PCT-Schalteroptik, Favoritenfunktion und aktiver Zustand bleiben erhalten.
-- Die Anpassung gilt für Desktop, Tablet und die mobilen Kartenansichten.
+Vollständige Beta-Testversion der statischen Web-App für Rechner,
+Wissensdatenbank, Einheitendatenbank, Werkstoffdatenbank und Dokumentation.
 
-2. Einheitliche kompakte Karten
-- Kompakte Beiträge der Wissensdatenbank verwenden nun dieselben Kartenmaße wie die
-  kompakten Karten der Startseite.
-- Innenabstände, Titelgröße, Zeilenhöhe und Favoritenfeld sind angeglichen.
-- Hersteller-/Gerätekategorie und Beschreibung werden in der Kompaktansicht konsequent
-  ausgeblendet, damit alle kompakten Beiträge dieselbe Höhe erhalten.
+Direkte Ausgangsbasis
+- Vollständiges Projektpaket Version 2.4.1.8-Beta vom 12.10.2026.
+- Alle fachlichen Funktionen, Inhalte und stabilen Anwender-Routen wurden übernommen.
 
-3. Offline und Versionierung
-- Alle geänderten Ressourcen sind im Offline-Kerncache enthalten.
-- Öffentliche Version: 2.4.1.8-Beta.
-- Technische Version/Cache-Buster: 2.4.1.8.
-- Neuer, isolierter Service-Worker-Cache für 2.4.1.8.
+Änderungen in V2.4.1.9-Beta
+- Die mobilen Werkzeugbereiche der Startseite verwenden nun die mechanische
+  Bereichsoptik der Wissensdatenbank.
+- Zugeklappte Bereiche werden eckig dargestellt; aufgeklappte Bereiche erhalten
+  die runde, zusammenfassende Bereichsdarstellung.
+- Der jeweilige Zustand wird weiterhin lokal gespeichert; Filterung, Sortierung,
+  Trefferzahlen und Kartenaktionen bleiben unverändert.
+- Die kompakte Kartengröße und die 38 x 38 px großen Favoritenfelder bleiben erhalten.
+- Favoriten- und Baumzugriff bleiben auf mobilen Ansichten fest am unteren Rand.
 
-ERHALTEN
-- Sechs Rechner und sämtliche Berechnungslogik.
-- Einheitendatenbank, Werkstoffdatenbank, Messstellen-Dokumentation.
-- Fünf Wissensbeiträge und PDF-Beitragsvorlage.
-- Suche, Filter, Sortierung, Favoriten, Navigation und stabile Anwender-URLs.
+Erhaltene Funktionen und Inhalte
+- Alle sechs Rechner und sämtliche Berechnungslogiken.
+- Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
+- Fünf fachliche Wissensbeiträge mit unveränderten Inhalten, Sicherheits- und
+  Gültigkeitshinweisen sowie die PDF-Beitragsvorlage.
+- Suche, Filter, Sortierung, Favoriten, Navigation und stabile interne URLs.
 - Desktop-, Tablet-, Smartphone- und Standalone-PWA-Unterstützung.
+- Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
 
-INTEGRITÄT
-- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- Die externe ZIP-Prüfsumme wird separat bereitgestellt.
+Version und PWA
+- Öffentliche Betaversion: 2.4.1.9-Beta.
+- Technische Versionskennung und Cache-Buster: 2.4.1.9.
+- Laufzeitkanal: beta.
+
+Deployment
+- Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.
+- manifest.webmanifest und service-worker.js müssen im Projektstamm verbleiben.
+- SHA256SUMS.txt enthält für jede weitere Projektdatei einen SHA-256-Eintrag.
