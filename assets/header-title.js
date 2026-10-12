@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.4.1.7 · einzeilige, responsive Haupttitel */
+/* SK PCT Tools 2.4.1.8 · einzeilige, responsive Haupttitel */
 (()=>{'use strict';
   const SELECTOR='.sk-page-heading h1';
   const MIN_FONT_SIZE=10;

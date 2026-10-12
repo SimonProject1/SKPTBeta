@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.4.1.7 — Wissensdatenbank im PCT Cartoon-Tech-Design.
+/* SK PCT Tools 2.4.1.8 — Wissensdatenbank im PCT Cartoon-Tech-Design.
    Diese Ebene verändert ausschließlich Darstellung und responsive Anordnung.
    Inhalte, Routen und Laufzeitfunktionen bleiben im bestehenden Markup/JavaScript. */
 
@@ -475,7 +475,7 @@ body[data-sk-page="module"][data-knowledge-standard] .sk-tree-drawer{
   .proposal-card,.knowledge-entry{transition-duration:.01ms!important}
 }
 
-/* SK PCT Tools 2.4.1.7 — Cleaner Hauptheader der Wissensdatenbank.
+/* SK PCT Tools 2.4.1.8 — Cleaner Hauptheader der Wissensdatenbank.
    Der Aufbau folgt dem zurückhaltenden Standard der Werkstoffdatenbank:
    kleine Kategoriezeile, einzeiliger Titel, Beschreibung und dezentes PCT-Logo.
    Der übrige Cartoon-Tech-Auftritt und die Beitragsdarstellung bleiben unverändert. */
@@ -551,5 +551,39 @@ body[data-sk-page="knowledge"] .knowledge-hero>.sk-page-heading-logo{
     right:-12px;
     width:clamp(104px,34vw,148px);
     opacity:.09;
+  }
+}
+
+
+/* === 2.4.1.8: kompakte Wissensbeiträge wie kompakte Startseiten-Karten === */
+@media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries{
+    gap:6px!important;
+    padding:7px!important;
+  }
+  body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry{
+    min-height:0!important;
+    padding:12px 52px 12px 13px!important;
+    border-radius:13px!important;
+  }
+  body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry .sk-card-category,
+  body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry[data-device-family] .sk-card-category,
+  body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry p{
+    display:none!important;
+  }
+  body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry h2{
+    margin:0!important;
+    font-size:18px!important;
+    line-height:1.22!important;
+  }
+  body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries>.knowledge-entry .sk-favorite-button.pct-control{
+    width:38px!important;
+    min-width:38px!important;
+    height:38px!important;
+    min-height:38px!important;
+    top:5px!important;
+    right:6px!important;
+    inset-block-start:5px!important;
+    inset-inline-end:6px!important;
   }
 }

@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.4.1.7 - einheitlicher Wissensbeitragsstandard */
+/* SK PCT Tools 2.4.1.8 - einheitlicher Wissensbeitragsstandard */
 .knowledge-standard{width:min(1120px,calc(100% - 34px));margin:0 auto;padding:24px 0 72px;color:#f7fbff}
 .kb-breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 18px;color:#a8bdc9;font-size:14px}.kb-breadcrumb a{color:#cce3ec;text-decoration:none}.kb-breadcrumb a:hover,.kb-breadcrumb a:focus-visible{color:#89d329;text-decoration:underline}
 .kb-hero{position:relative;overflow:hidden;padding:clamp(26px,5vw,52px);border:1px solid #27536a;border-radius:28px;background:radial-gradient(circle at 90% 0,rgba(0,183,232,.18),transparent 35%),linear-gradient(145deg,#0a293d,#04131f 68%);box-shadow:0 24px 60px rgba(0,0,0,.2)}

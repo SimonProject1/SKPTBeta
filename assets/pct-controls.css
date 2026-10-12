@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.4.1.7 - PCT Controls – integriertes Designsystem
+/* SK PCT Tools 2.4.1.8 - PCT Controls – integriertes Designsystem
    Originale Formensprache der freigegebenen PCT-Designprobe: abgeschraegte
    Gehaeuse, Metallkante, Statuslicht und mechanischer Druckzustand.
    Frühere Signalfarben: Dunkelblau, Signalcyan und Grün. */
@@ -96,7 +96,7 @@ select.pct-select{appearance:none;-webkit-appearance:none;min-height:44px;paddin
 @media(prefers-reduced-motion:reduce){.pct-control,.pct-tab,.pct-chevron-slot .pct-icon{transition-duration:.01ms!important}}
 
 
-/* === 2.4.1.7: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
+/* === 2.4.1.8: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
 :root{
   --bg:#04131f!important;--panel:#071d2d!important;--panel2:#0a2639!important;
   --line:rgba(255,255,255,.14)!important;--text:#f7fbff!important;--muted:#a8bdc9!important;
@@ -133,7 +133,7 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 @media(max-width:760px){.hero::after{font-size:210px;right:-24%}}
 
 
-/* === 2.4.1.7: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
+/* === 2.4.1.8: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
    Die schwarze Außenkontur ist unabhängig vom Zustand; Cyan/Grün erscheinen
    als innere Statuskante. Favoriten und Baumansicht bleiben im Viewport fixiert. */
 .pct-control,.pct-tab,.pct-search-shell>input[type="search"],select.pct-select,.pct-chevron-slot{
@@ -156,7 +156,7 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 }
 
 
-/* === 2.4.1.7: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
+/* === 2.4.1.8: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
    Ziel: Die Oberfläche übernimmt die Cyan-/Blau-/Grün-Signatur des Logos.
    Schwarze Konturen trennen Funktionsgruppen wie Comic-Panels. */
 :root{
@@ -306,7 +306,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 }
 
 
-/* 2.4.1.7 QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
+/* 2.4.1.8 QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
 .unit-row,.sk-favorite-row{
   border-left:5px solid var(--pct-cyan)!important;
 }
@@ -338,7 +338,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 }
 
 
-/* === 2.4.1.7: klarer, feldintegrierter Vorzeichen-Schalter === */
+/* === 2.4.1.8: klarer, feldintegrierter Vorzeichen-Schalter === */
 .pct-control--sign{
   box-sizing:border-box!important;align-self:stretch!important;width:44px!important;min-width:44px!important;height:100%!important;min-height:44px!important;
   padding:0!important;border:0!important;border-left:3px solid #000!important;border-radius:0!important;clip-path:none!important;
@@ -352,3 +352,31 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 .pct-control--sign:hover{color:#fff!important;background:linear-gradient(180deg,#1b5873 0 48%,#0a2638 49% 100%)!important;box-shadow:inset 0 0 0 2px var(--pct-cyan),inset 0 -4px 8px rgba(0,0,0,.5)!important}
 .pct-control--sign:focus-visible{outline:3px solid var(--pct-focus)!important;outline-offset:-3px!important;color:#fff!important;box-shadow:inset 0 0 0 2px var(--pct-cyan),inset 0 -4px 8px rgba(0,0,0,.5)!important}
 .pct-control--sign:active{transform:none!important;color:var(--pct-green)!important;background:linear-gradient(180deg,#0d302b 0 48%,#061d1a 49% 100%)!important;box-shadow:inset 0 0 0 2px var(--pct-green),inset 0 4px 9px rgba(0,0,0,.62)!important}
+
+
+/* === 2.4.1.8: kleinere Favoritenfelder auf der Startseite ===
+   Die mechanische PCT-Optik bleibt erhalten; nur das Karten-Sternfeld wird kompakter. */
+body[data-sk-page="start"] .sk-favorite-button.pct-control{
+  width:38px!important;
+  min-width:38px!important;
+  height:38px!important;
+  min-height:38px!important;
+  top:10px!important;
+  right:10px!important;
+  inset-block-start:10px!important;
+  inset-inline-end:10px!important;
+}
+@media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  body[data-sk-page="start"] .sk-favorite-button.pct-control{
+    top:7px!important;
+    right:7px!important;
+    inset-block-start:7px!important;
+    inset-inline-end:7px!important;
+  }
+  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card .sk-favorite-button.pct-control{
+    top:5px!important;
+    right:6px!important;
+    inset-block-start:5px!important;
+    inset-inline-end:6px!important;
+  }
+}
