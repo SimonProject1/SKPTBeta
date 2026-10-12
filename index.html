@@ -9,19 +9,19 @@
   <meta content="SK PCT Tools" name="apple-mobile-web-app-title"/>
   <title>PCT Home · SK PCT Tools</title>
   <link href="./manifest.webmanifest" rel="manifest"/>
-  <link href="assets/favicon.png?v=2.5.0.0-Beta" rel="icon" sizes="64x64" type="image/png"/>
-  <link href="assets/apple-touch-icon.png?v=2.5.0.0-Beta" rel="apple-touch-icon"/>
-  <link href="assets/core.css?v=2.5.0.0-Beta" rel="stylesheet"/>
-  <link href="assets/responsive.css?v=2.5.0.0-Beta" rel="stylesheet"/>
-  <link href="assets/pct-controls.css?v=2.5.0.0-Beta" rel="stylesheet"/>
-  <link href="assets/pct-home.css?v=2.5.0.0-Beta" rel="stylesheet"/>
+  <link href="assets/favicon.png?v=2.5.0.1-Beta" rel="icon" sizes="64x64" type="image/png"/>
+  <link href="assets/apple-touch-icon.png?v=2.5.0.1-Beta" rel="apple-touch-icon"/>
+  <link href="assets/core.css?v=2.5.0.1-Beta" rel="stylesheet"/>
+  <link href="assets/responsive.css?v=2.5.0.1-Beta" rel="stylesheet"/>
+  <link href="assets/pct-controls.css?v=2.5.0.1-Beta" rel="stylesheet"/>
+  <link href="assets/pct-home.css?v=2.5.0.1-Beta" rel="stylesheet"/>
 </head>
-<body data-sign-controls="true" data-sk-home="ios" data-sk-page="start" data-sk-version="2.5.0.0-Beta">
+<body data-sign-controls="true" data-sk-home="ios" data-sk-page="start" data-sk-version="2.5.0.1-Beta">
 <div class="shell">
   <!-- sk:header:start -->
   <header class="topbar sk-global-header sk-header-normalized">
     <div class="sk-header-inner">
-      <div class="sk-logo-version-stack"><img alt="S.K. PCT TOOL" class="logo sk-global-logo sk-header-logo" src="assets/icon-192.png?v=2.5.0.0-Beta"/></div>
+      <div class="sk-logo-version-stack"><img alt="S.K. PCT TOOL" class="logo sk-global-logo sk-header-logo" src="assets/icon-192.png?v=2.5.0.1-Beta"/></div>
       <div class="brand">SK PCT Tools<small>PCT-Werkzeuge für den Einsatz im Feld</small></div>
       <a aria-label="Zur Startseite" class="home sk-header-home" href="./">← Startseite</a>
     </div>
@@ -29,35 +29,32 @@
   <!-- sk:header:end -->
   <main class="pct-home-main">
     <section aria-label="PCT Home-Screen" class="pct-home-screen">
-      <div class="pct-home-status"><span id="pctHomeClock">--:--</span><span class="pct-home-status-right"><span id="pctHomeDate">PCT Home</span><span>PWA</span><span class="pct-home-status-dot" title="Lokaler PWA-Betrieb"></span></span></div>
-      <div class="pct-home-heading">
-        <div><div class="eyebrow">PROZESSLEITTECHNIK · MSR · INBETRIEBNAHME</div><h1>PCT Home</h1><p>Alle Werkzeuge, Datenbanken und die Dokumentation als verschiebbare PCT Apps.</p></div>
-        <div class="pct-home-version"><span>Testversion</span><strong>2.5.0.0-Beta</strong></div>
-      </div>
-      <div class="pct-home-toolbar">
-        <div class="pct-home-hint">„Anordnen“ wählen oder eine App gedrückt halten und anschließend per Finger oder Maus verschieben.</div>
-        <div class="pct-home-actions">
-          <button aria-pressed="false" class="pct-home-action pct-home-action--edit" id="pctHomeEdit" type="button">Anordnen</button>
-          <button class="pct-home-action pct-home-action--done" id="pctHomeDone" type="button">Fertig</button>
-          <button class="pct-home-action pct-home-action--reset" id="pctHomeReset" type="button">Standard</button>
+      <div class="pct-home-utility">
+        <button aria-controls="skFilterContent" aria-expanded="false" aria-label="Apps und Wissensbeiträge durchsuchen" class="pct-home-search-trigger" id="skFilterToggle" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><span>Suchen</span>
+        </button>
+        <div aria-label="Anordnung bearbeiten" class="pct-home-edit-actions">
+          <span class="pct-home-edit-label">Apps anordnen</span>
+          <button aria-label="Anordnung zurücksetzen" class="pct-home-edit-reset" id="pctHomeReset" title="Anordnung zurücksetzen" type="button"><span aria-hidden="true">↺</span><span class="pct-home-edit-reset-label">Zurücksetzen</span></button>
+          <button class="pct-home-done" id="pctHomeDone" type="button">Fertig</button>
         </div>
       </div>
-      <section class="sk-tool-filter panel is-expanded" id="skToolFilter">
-        <button aria-controls="skFilterContent" aria-expanded="true" class="sk-filter-toggle" id="skFilterToggle" type="button"><span><span class="eyebrow">SPOTLIGHT</span><strong>PCT Apps durchsuchen</strong></span><span aria-hidden="true" class="sk-filter-toggle-icon">⌄</span></button>
-        <div class="sk-filter-content" id="skFilterContent">
-          <div class="sk-filter-heading"><div><div class="eyebrow">SUCHE &amp; FILTER</div><h2>Was suchst du?</h2></div><button class="sk-filter-reset" id="skFilterReset" type="button">Zurücksetzen</button></div>
-          <label class="sk-filter-search" for="skToolSearch"><span>App oder Wissensbeitrag suchen</span><input autocomplete="off" id="skToolSearch" placeholder="z. B. Analog, Pt100, Werkstoff, 316L, CF8M, SCO oder SCC" type="search"/></label>
+      <section class="sk-tool-filter pct-home-search-panel is-collapsed" id="skToolFilter">
+        <div class="sk-filter-content" hidden id="skFilterContent">
+          <div class="pct-home-search-line">
+            <label class="sk-filter-search" for="skToolSearch"><span class="visually-hidden">App oder Wissensbeitrag suchen</span><input autocomplete="off" id="skToolSearch" placeholder="App oder Wissensbeitrag suchen …" type="search"/></label>
+            <button class="sk-filter-reset" id="skFilterReset" type="button">Zurücksetzen</button>
+          </div>
           <div class="sk-filter-controls-line">
             <div aria-label="Apps nach Kategorie filtern" class="sk-filter-buttons" role="group">
               <button class="sk-filter-button active" data-filter="ALLE" type="button">Alle</button><button class="sk-filter-button" data-filter="RECHNER" type="button">Rechner</button><button class="sk-filter-button" data-filter="DOKUMENTATION" type="button">Dokumentation</button><button class="sk-filter-button" data-filter="WISSEN" type="button">Wissen</button><button class="sk-filter-button" data-filter="EXTERN" type="button">Externe Dienste</button>
             </div>
-            <div class="sk-sort-row"><label class="sk-sort-label" for="skToolSort">Sortieren nach</label><select class="sk-sort-select" id="skToolSort"><option value="default">Eigene Reihenfolge</option><option value="category-asc">Kategorie: A bis Z</option><option value="category-desc">Kategorie: Z bis A</option><option value="title-asc">Titel: A bis Z</option><option value="title-desc">Titel: Z bis A</option></select></div>
+            <div class="sk-sort-row"><label class="sk-sort-label" for="skToolSort">Sortieren</label><select class="sk-sort-select" id="skToolSort"><option value="default">Eigene Reihenfolge</option><option value="category-asc">Kategorie: A bis Z</option><option value="category-desc">Kategorie: Z bis A</option><option value="title-asc">Titel: A bis Z</option><option value="title-desc">Titel: Z bis A</option></select></div>
           </div>
           <div class="sk-filter-meta"><span id="skFilterResult">11 Apps angezeigt</span></div>
           <div class="sk-filter-empty" hidden id="skFilterEmpty"><strong>Keine passenden Apps oder Wissensbeiträge gefunden.</strong><span>Ändere den Suchbegriff oder setze den Filter zurück.</span></div>
         </div>
       </section>
-      <section aria-label="Darstellung der PCT Apps" class="sk-mobile-display-controls"><div><span class="eyebrow">DARSTELLUNG</span><strong>App-Dichte</strong></div><button aria-pressed="false" class="sk-compact-cards-toggle" id="skCompactCardsToggle" type="button"><span>Kompakte Apps</span><span aria-hidden="true" class="sk-view-switch"><span></span></span><span class="sk-view-state" id="skCompactCardsState">Aus</span></button></section>
       <div aria-label="PCT Apps" class="tools pct-home-grid" id="pctHomeGrid">
         <a aria-label="Analogsignal-Rechner öffnen" class="card sk-home-app" data-app-id="analogsignal" data-tone="cyan" href="analogsignal/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-analog"></use></svg></span><h2 class="sk-home-app-title">Analogsignal</h2><div class="sk-card-category">RECHNER</div><p>Prozesswert und Analogsignal umrechnen.</p></a>
         <a aria-label="P+F Rechner öffnen" class="card sk-home-app" data-app-id="pf-rechner" data-tone="blue" href="pf-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-pf"></use></svg></span><h2 class="sk-home-app-title">P+F Rechner</h2><div class="sk-card-category">RECHNER</div><p>K-Faktor und Nullpunkt berechnen.</p></a>
@@ -71,16 +68,15 @@
         <a aria-label="Siemens Rohwert-Rechner öffnen" class="card sk-home-app" data-app-id="siemens-rohwert" data-tone="blue" href="siemens-analogwert-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-plc"></use></svg></span><h2 class="sk-home-app-title">Siemens Rohwert</h2><div class="sk-card-category">RECHNER</div><p>4–20 mA, 0–20 mA, 0–10 V und 2–10 V direkt in Siemens-Rohwerte umrechnen – und zurück.</p></a>
         <a aria-label="E+H Device Viewer öffnen – externer Herstellerdienst in neuem Tab" class="card sk-home-app sk-external-card" data-app-id="eh-device-viewer" data-external="true" data-tone="cyan" href="https://www.de.endress.com/de/onlinetools?store_locale=de" referrerpolicy="no-referrer" rel="external noopener noreferrer" target="_blank"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-device"></use></svg></span><h2 class="sk-home-app-title">E+H Viewer</h2><div class="sk-card-category">EXTERN</div><p>Geräteinformationen über den offiziellen Endress+Hauser-Dienst aufrufen. Seriennummern und Eingaben werden nicht in SK PCT Tools gespeichert.</p><span aria-hidden="true" class="sk-external-link-meta">Herstellerdienst öffnen ↗</span></a>
       </div>
-      <div class="pct-home-page-indicator">11 PCT Apps · Reihenfolge wird lokal gespeichert</div>
       <div aria-live="polite" class="pct-home-announcement" id="pctHomeAnnouncement"></div>
       <section class="sk-knowledge-results" hidden id="skKnowledgeResults"><div class="sk-results-heading"><div><div class="eyebrow">WISSENSBEITRÄGE</div><h2>Passende Unterseiten</h2></div><span id="skKnowledgeResultCount"></span></div><div class="sk-knowledge-result-list" id="skKnowledgeResultList"></div></section>
     </section>
   </main>
-  <!-- sk:footer:start --><footer class="footer sk-footer">SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.0.0-Beta</footer><!-- sk:footer:end -->
+  <!-- sk:footer:start --><footer class="footer sk-footer">SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.0.1-Beta</footer><!-- sk:footer:end -->
 </div>
-<script src="assets/pct-home.js?v=2.5.0.0-Beta"></script>
-<script src="assets/app.js?v=2.5.0.0-Beta"></script>
-<script src="assets/pct-controls.js?v=2.5.0.0-Beta"></script>
-<!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><button aria-label="Seitennavigation öffnen" class="sk-tree-trigger" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-6h4v4h-4v-4zM8 6h5v6h3v2h-5V8H8V6zm0 12h5v-5h3v-2h-5v5H8v2z"></path></svg></button><!-- sk:controls:end -->
+<script src="assets/pct-home.js?v=2.5.0.1-Beta"></script>
+<script src="assets/app.js?v=2.5.0.1-Beta"></script>
+<script src="assets/pct-controls.js?v=2.5.0.1-Beta"></script>
+<!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><!-- sk:controls:end -->
 </body>
 </html>

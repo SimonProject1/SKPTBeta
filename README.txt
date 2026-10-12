@@ -1,37 +1,44 @@
-SK PCT Tools 2.5.0.0-Beta
+SK PCT Tools 2.5.0.1-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte und vollständig übernommene Ausgangsbasis ist die veröffentlichte
-Version 2.4.2.1.
+Direkte Ausgangsbasis ist 2.5.0.0-Beta.
 
-Neuer PCT Home-Screen
-- Die bisherige Kachelansicht wurde durch einen iOS-artigen PCT Home-Screen ersetzt.
-- Alle sechs Rechner, alle drei Datenbanken/Wissensbereiche, die
-  Messstellen-Dokumentation und der externe E+H Device Viewer besitzen ein eigenes,
-  zur PCT-App-Icon-Familie passendes Symbol.
-- Apps können über „Anordnen“ oder durch Gedrückthalten mit Finger oder Maus
-  verschoben werden.
+Reduzierter PCT Home-Screen
+- Das App-Raster steht ohne Uhrzeit, Datum, Einführung oder Versionskarte direkt
+  im Mittelpunkt.
+- Die dauerhaft sichtbare Verschiebeanleitung, die App-Dichte-Auswahl sowie die
+  großen Schaltflächen „Anordnen“ und „Standard“ wurden entfernt.
+- Gedrückthalten einer App aktiviert den Bearbeitungsmodus und startet das
+  Verschieben. Die Wackelanimation kennzeichnet den aktiven Modus.
+- „Fertig“ beendet den Bearbeitungsmodus. „Zurücksetzen“ stellt innerhalb des
+  Bearbeitungsmodus optional die ausgelieferte Reihenfolge wieder her.
+- Für Tastaturbedienung aktiviert die Leertaste auf einer fokussierten App den
+  Bearbeitungsmodus; Pfeiltasten verschieben die App, Escape beendet den Modus.
 - Die eigene Reihenfolge wird ausschließlich lokal im Browser gespeichert.
-- Im Anordnen-Modus sind auch Tastaturverschiebungen mit den Pfeiltasten möglich.
-- „Standard“ stellt die ausgelieferte Reihenfolge wieder her.
-- Eine kompakte App-Dichte steht für kleine Displays und dichte Übersichten bereit.
+
+Kompakte Suche
+- Ein kleiner Zugriff „Suchen“ öffnet Suche, Kategorienfilter und Sortierung nur
+  bei Bedarf. Das App-Raster bleibt beim Start frei sichtbar.
+- Suche über Apps, Wissensbeiträge und Werkstoffbegriffe bleibt erhalten.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche vorhandenen Berechnungslogiken.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
 - Fünf fachliche Wissensbeiträge und die PDF-Beitragsvorlage.
-- Suche über Apps, Wissensbeiträge und Werkstoffbegriffe.
-- Kategorienfilter, Sortierung, gemeinsames Zurücksetzen, Favoriten und
-  Seitennavigation.
+- Kategorienfilter, Sortierung, gemeinsames Zurücksetzen und Favoriten.
 - Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
 - Stabile interne URLs und abgesicherter externer Herstellerlink.
 
+Entfernt
+- Die hierarchische Seitenauswahl einschließlich Schaltfläche, Drawer, Laufzeitmodul,
+  Navigationsdaten und Offline-Cache-Eintrag ist nicht Bestandteil dieser Version.
+
 Version und PWA
-- Öffentliche Version: 2.5.0.0-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.0.0-Beta.
+- Öffentliche Version: 2.5.0.1-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.0.1-Beta.
 - Laufzeitkanal: beta.
-- Einstellungen: localStorage; es werden keine App-Reihenfolgen übertragen.
+- Einstellungen: localStorage; App-Reihenfolgen werden nicht übertragen.
 
 Deployment
 1. Den vollständigen Inhalt dieses Ordners unverändert auf einen HTTPS-Webserver kopieren.

@@ -1,4 +1,4 @@
-const RELEASE='2.5.0.0-Beta';
+const RELEASE='2.5.0.1-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -27,7 +27,6 @@ const CORE=[
   './assets/materials.css',
   './assets/materials.js',
   './assets/materials.json',
-  './assets/navigation-tree.json',
   './assets/pf-rechner.js',
   './assets/pt-rechner.js',
   './assets/rechner-unified.css',

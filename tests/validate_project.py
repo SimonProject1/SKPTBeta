@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.0-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.1-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.0-Beta"
+VERSION = "2.5.0.1-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -79,6 +79,14 @@ def main() -> int:
     for required in ("./assets/pct-home.css", "./assets/pct-home.js", "./assets/pct-home-icons.svg"):
         if required not in worker:
             fail(f"Offline-Kerncache enthält {required} nicht.", errors)
+
+    cached_refs = re.findall(r"'\./([^']+)'", worker)
+    for ref in cached_refs:
+        if not target_exists(ref):
+            fail(f"Offline-Cache-Ziel fehlt: {ref}", errors)
+    if "icon-" + "tree" in (ROOT / "assets/pct-controls.svg").read_text(encoding="utf-8"):
+        fail("Entferntes Hierarchie-Symbol noch vorhanden.", errors)
+
     runtime_files = [ROOT / "index.html", ROOT / "assets/app.js", ROOT / "assets/pct-home.js", ROOT / "service-worker.js"]
     for path in runtime_files:
         text = path.read_text(encoding="utf-8")
@@ -86,6 +94,28 @@ def main() -> int:
             fail(f"Versionskennung fehlt in {path.relative_to(ROOT)}.", errors)
         if "2.4.2.1" in text:
             fail(f"Alte Laufzeitversion in {path.relative_to(ROOT)} gefunden.", errors)
+
+    start_html = (ROOT / "index.html").read_text(encoding="utf-8")
+    forbidden_home = ("pctHomeClock", "pctHomeDate", "pct-home-heading", "pctHomeEdit", "skCompactCardsToggle")
+    for token in forbidden_home:
+        if token in start_html:
+            fail(f"Entferntes Startseitenelement noch vorhanden: {token}", errors)
+    for required_home in ("pctHomeGrid", "skFilterToggle", "pctHomeDone", "pctHomeReset"):
+        if required_home not in start_html:
+            fail(f"Erforderliches Startseitenelement fehlt: {required_home}", errors)
+    forbidden_tree = ("sk" + "-tree", "navigation" + "-tree", "Navigations" + "baum", "Seitennavi" + "gation")
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or path.name == "SHA256SUMS.txt" or path.resolve() == Path(__file__).resolve():
+            continue
+        if path.suffix.lower() not in {".html", ".js", ".css", ".json", ".md", ".txt", ".webmanifest"}:
+            continue
+        content = path.read_text(encoding="utf-8")
+        for token in forbidden_tree:
+            if token in content:
+                fail(f"Rest der entfernten Hierarchienavigation in {path.relative_to(ROOT)}: {token}", errors)
+    if (ROOT / "assets/navigation-tree.json").exists():
+        fail("Navigationsdaten wurden nicht entfernt.", errors)
+
     sums = ROOT / "SHA256SUMS.txt"
     if sums.is_file():
         for line in sums.read_text(encoding="utf-8").splitlines():

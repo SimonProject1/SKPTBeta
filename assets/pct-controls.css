@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.0.0-Beta - PCT Controls – integriertes Designsystem
+/* SK PCT Tools 2.5.0.1-Beta - PCT Controls – integriertes Designsystem
    Originale Formensprache der freigegebenen PCT-Designprobe: abgeschraegte
    Gehaeuse, Metallkante, Statuslicht und mechanischer Druckzustand.
    Frühere Signalfarben: Dunkelblau, Signalcyan und Grün. */
@@ -59,7 +59,7 @@
 
 /* Favorit und Navigationsschalter */
 .pct-control--favorite{color:#c8d8df!important}.pct-control--favorite:hover{color:var(--pct-cyan-soft)!important}.pct-control--favorite[data-active="true"],.pct-control--favorite[aria-pressed="true"],.pct-control--favorite.active{color:var(--pct-green)!important}.pct-control--favorite[data-active="true"] .pct-icon,.pct-control--favorite[aria-pressed="true"] .pct-icon,.pct-control--favorite.active .pct-icon{filter:drop-shadow(0 0 6px rgba(137,211,41,.48))}
-.pct-control--tree{color:var(--pct-cyan-soft)!important}.pct-control--home{color:#f7fbff!important}.pct-control--back{color:var(--pct-muted)!important}.pct-control--reset{color:#f7fbff!important}.pct-control--copy{color:var(--pct-cyan-soft)!important}
+.pct-control--home{color:#f7fbff!important}.pct-control--back{color:var(--pct-muted)!important}.pct-control--reset{color:#f7fbff!important}.pct-control--copy{color:var(--pct-cyan-soft)!important}
 
 /* Kopfzeile: getrennte mechanische Taster fuer Zurueck und Startseite */
 .pct-header-actions{margin-left:auto;display:flex;align-items:center;gap:8px;flex:0 0 auto}.sk-global-header .pct-header-actions .sk-header-home{margin-left:0}.pct-header-actions .pct-control{min-height:40px;padding:8px 12px!important;font-size:12px!important}.pct-header-actions .pct-icon{width:16px;height:16px;flex-basis:16px}
@@ -88,7 +88,7 @@ select.pct-select{appearance:none;-webkit-appearance:none;min-height:44px;paddin
 .pct-info-control{display:flex!important;align-items:center!important;gap:7px!important;color:var(--pct-cyan-soft)!important}
 
 /* Bestehende globale Elemente an das PCT-Gehaeuse anbinden */
-.sk-tree-trigger.pct-control,.sk-favorites-trigger.pct-control{display:grid!important;padding:0!important}.sk-favorite-button.pct-control{position:absolute!important;top:10px!important;right:10px!important;display:grid!important;padding:0!important}.unit-favorite-button.pct-control,.sk-favorite-remove.pct-control{display:grid!important;padding:0!important}.sk-favorites-close.pct-control,.sk-tree-close.pct-control{font-size:0!important}.sign.pct-control,.analog-sign-button.pct-control{font-size:0!important}.toolbar button.pct-control,.actions button.pct-control{padding:9px 13px!important}.sk-tree-home.pct-control{display:flex!important;justify-content:flex-start!important;width:100%}.sk-tree-node-toggle.pct-control{flex:0 0 42px!important;width:42px!important;min-height:42px!important;padding:0!important}
+.sk-favorites-trigger.pct-control{display:grid!important;padding:0!important}.sk-favorite-button.pct-control{position:absolute!important;top:10px!important;right:10px!important;display:grid!important;padding:0!important}.unit-favorite-button.pct-control,.sk-favorite-remove.pct-control{display:grid!important;padding:0!important}.sk-favorites-close.pct-control{font-size:0!important}.sign.pct-control,.analog-sign-button.pct-control{font-size:0!important}.toolbar button.pct-control,.actions button.pct-control{padding:9px 13px!important}
 
 @media(max-width:760px){
   :root{--pct-control-h:44px;--pct-cut:7px}.sk-favorite-button.pct-control{top:9px!important;right:9px!important}.pct-header-actions{gap:6px}.pct-header-actions .pct-control{width:42px;min-width:42px;padding:0!important}.pct-header-actions .pct-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.pct-copy-button{right:7px;top:7px}.pct-message{padding-left:48px!important}.pct-message-icon{left:13px;top:14px}.pct-control--sign{width:48px;min-width:48px}
@@ -96,7 +96,7 @@ select.pct-select{appearance:none;-webkit-appearance:none;min-height:44px;paddin
 @media(prefers-reduced-motion:reduce){.pct-control,.pct-tab,.pct-chevron-slot .pct-icon{transition-duration:.01ms!important}}
 
 
-/* === 2.5.0.0-Beta: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
+/* === 2.5.0.1-Beta: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
 :root{
   --bg:#04131f!important;--panel:#071d2d!important;--panel2:#0a2639!important;
   --line:rgba(255,255,255,.14)!important;--text:#f7fbff!important;--muted:#a8bdc9!important;
@@ -112,7 +112,7 @@ body{
   background-size:auto,84px 84px,84px 84px,auto!important;
 }
 .sk-global-header{border-bottom-color:rgba(255,255,255,.14)!important;background:rgba(4,19,31,.94)!important;backdrop-filter:blur(18px)}
-.sk-global-header .brand small,.eyebrow,.sk-card-category,.sk-tree-kicker,.sk-favorites-kicker,.sk-favorite-category{color:var(--pct-orange)!important}
+.sk-global-header .brand small,.eyebrow,.sk-card-category,.sk-favorites-kicker,.sk-favorite-category{color:var(--pct-orange)!important}
 .hero,.panel,.tools .card,.start-tools .tool-card,.sk-unit-database-cta{
   border-color:rgba(255,255,255,.14)!important;border-radius:0!important;
   clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)!important;
@@ -126,16 +126,16 @@ body{
 input,select,textarea,.sk-filter-search input,.sk-sort-select{border-color:#2c627c!important;border-radius:3px!important;background:#041522!important;color:#f7fbff!important;box-shadow:inset 0 4px 10px rgba(0,0,0,.56)!important}
 input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-select:focus{border-color:var(--pct-orange)!important;outline:3px solid rgba(0,183,232,.2)!important;outline-offset:2px!important}
 .sk-filter-button{border-radius:3px!important;background:#0a2639!important;border-color:#2c627c!important;color:#f7fbff!important}.sk-filter-button.active{color:#04131f!important;border-color:var(--pct-mint)!important;background:var(--pct-mint)!important}
-.sk-favorites-drawer,.sk-tree-drawer{background:linear-gradient(160deg,#071d2d,#04131f 62%)!important;border-color:rgba(255,255,255,.14)!important}
-.sk-favorites-backdrop,.sk-tree-backdrop{background:rgba(0,0,0,.72)!important}
+.sk-favorites-drawer{background:linear-gradient(160deg,#071d2d,#04131f 62%)!important;border-color:rgba(255,255,255,.14)!important}
+.sk-favorites-backdrop{background:rgba(0,0,0,.72)!important}
 .sk-external-card::before{background:linear-gradient(90deg,var(--pct-orange-hot),var(--pct-orange))!important}.sk-external-link-meta{color:var(--pct-orange-hot)!important}
 ::selection{background:var(--pct-orange);color:#04131f}
 @media(max-width:760px){.hero::after{font-size:210px;right:-24%}}
 
 
-/* === 2.5.0.0-Beta: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
+/* === 2.5.0.1-Beta: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
    Die schwarze Außenkontur ist unabhängig vom Zustand; Cyan/Grün erscheinen
-   als innere Statuskante. Favoriten und Baumansicht bleiben im Viewport fixiert. */
+   als innere Statuskante. Favoriten bleiben im Viewport fixiert. */
 .pct-control,.pct-tab,.pct-search-shell>input[type="search"],select.pct-select,.pct-chevron-slot{
   border:2px solid #000!important;
   box-shadow:inset 0 0 0 1px var(--pct-metal),inset 0 -3px 7px rgba(0,0,0,.42),0 5px 12px rgba(0,0,0,.34)!important;
@@ -144,19 +144,17 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 .pct-control:focus-visible,.pct-tab:focus-visible{border-color:#000!important;box-shadow:inset 0 0 0 2px var(--pct-cyan),inset 0 -3px 7px rgba(0,0,0,.42),0 0 0 3px var(--pct-focus)!important}
 .pct-control.active,.pct-control[aria-pressed="true"],.pct-control[aria-selected="true"],.pct-control[data-active="true"],.pct-tab.active,.pct-tab[aria-pressed="true"],.pct-tab[aria-selected="true"]{border-color:#000!important;box-shadow:inset 0 0 0 2px var(--pct-green),inset 0 -3px 7px rgba(0,0,0,.42),0 0 14px rgba(137,211,41,.14)!important}
 .pct-search-shell>input[type="search"]:focus,select.pct-select:focus{border-color:#000!important;box-shadow:inset 0 0 0 2px var(--pct-cyan),inset 0 4px 10px rgba(0,0,0,.62),0 0 0 3px rgba(0,183,232,.24)!important}
-.sk-favorites-trigger.pct-control,.sk-tree-trigger.pct-control{
+.sk-favorites-trigger.pct-control{
   position:fixed!important;top:50%!important;bottom:auto!important;z-index:1100!important;margin:0!important;transform:translateY(-50%)!important;
 }
 .sk-favorites-trigger.pct-control{left:14px!important;right:auto!important}
-.sk-tree-trigger.pct-control{right:14px!important;left:auto!important}
 @media(max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
-  .sk-favorites-trigger.pct-control,.sk-tree-trigger.pct-control{top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;transform:none!important}
+  .sk-favorites-trigger.pct-control{top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;transform:none!important}
   .sk-favorites-trigger.pct-control{left:calc(10px + env(safe-area-inset-left,0px))!important}
-  .sk-tree-trigger.pct-control{right:calc(10px + env(safe-area-inset-right,0px))!important}
 }
 
 
-/* === 2.5.0.0-Beta: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
+/* === 2.5.0.1-Beta: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
    Ziel: Die Oberfläche übernimmt die Cyan-/Blau-/Grün-Signatur des Logos.
    Schwarze Konturen trennen Funktionsgruppen wie Comic-Panels. */
 :root{
@@ -231,7 +229,7 @@ main>section+section,.footer,.sk-footer{
   border-bottom:2px solid #000!important;
 }
 .sk-filter-heading,.sk-results-heading,.unit-category-head,.material-card-head,
-.kb-article-header,.sk-favorites-head,.sk-tree-head{
+.kb-article-header,.sk-favorites-head{
   padding-bottom:14px;border-bottom:3px solid #000!important;
   box-shadow:0 1px 0 rgba(0,230,241,.34)!important;
 }
@@ -306,7 +304,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 }
 
 
-/* 2.5.0.0-Beta QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
+/* 2.5.0.1-Beta QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
 .unit-row,.sk-favorite-row{
   border-left:5px solid var(--pct-cyan)!important;
 }
@@ -338,7 +336,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 }
 
 
-/* === 2.5.0.0-Beta: klarer, feldintegrierter Vorzeichen-Schalter === */
+/* === 2.5.0.1-Beta: klarer, feldintegrierter Vorzeichen-Schalter === */
 .pct-control--sign{
   box-sizing:border-box!important;align-self:stretch!important;width:44px!important;min-width:44px!important;height:100%!important;min-height:44px!important;
   padding:0!important;border:0!important;border-left:3px solid #000!important;border-radius:0!important;clip-path:none!important;
@@ -354,7 +352,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 .pct-control--sign:active{transform:none!important;color:var(--pct-green)!important;background:linear-gradient(180deg,#0d302b 0 48%,#061d1a 49% 100%)!important;box-shadow:inset 0 0 0 2px var(--pct-green),inset 0 4px 9px rgba(0,0,0,.62)!important}
 
 
-/* === 2.5.0.0-Beta: kleinere Favoritenfelder auf der Startseite ===
+/* === 2.5.0.1-Beta: kleinere Favoritenfelder auf der Startseite ===
    Die mechanische PCT-Optik bleibt erhalten; nur das Karten-Sternfeld wird kompakter. */
 body[data-sk-page="start"] .sk-favorite-button.pct-control{
   width:38px!important;
@@ -372,11 +370,5 @@ body[data-sk-page="start"] .sk-favorite-button.pct-control{
     right:7px!important;
     inset-block-start:7px!important;
     inset-inline-end:7px!important;
-  }
-  body[data-sk-page="start"].sk-compact-card-view .sk-mobile-category-cards>.card .sk-favorite-button.pct-control{
-    top:5px!important;
-    right:6px!important;
-    inset-block-start:5px!important;
-    inset-inline-end:6px!important;
   }
 }
