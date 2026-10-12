@@ -1,4 +1,4 @@
-/* === V2.4.1.9 · responsive application shell ===
+/* === V2.4.2.0 · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -298,7 +298,7 @@ html{background-color:#04131f}
 
 .sk-mobile-hero-version{display:none}
 
-/* === 2.4.1.9 · kompakte mobile Startseite ===
+/* === 2.4.2.0 · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{
@@ -409,7 +409,7 @@ html{background-color:#04131f}
 }
 
 
-/* === 2.4.1.9 · mobile Kategorien und optionale Kompaktansicht === */
+/* === 2.4.2.0 · mobile Kategorien und optionale Kompaktansicht === */
 .sk-mobile-display-controls{display:none}
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .sk-mobile-display-controls{
@@ -453,3 +453,50 @@ html{background-color:#04131f}
 @media (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .sk-mobile-category-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* === V2.4.2.0 · einheitliche, ohne JavaScript lesbare Seitentitel === */
+.sk-page-heading{
+  position:relative!important;
+  isolation:isolate;
+  overflow:hidden!important;
+}
+.sk-page-heading>.sk-page-heading-logo{
+  position:absolute;
+  z-index:0;
+  top:50%;
+  right:clamp(8px,4vw,46px);
+  width:clamp(118px,19vw,230px);
+  aspect-ratio:1;
+  transform:translateY(-50%) rotate(1.5deg);
+  background:url("icon-192.png") center/contain no-repeat;
+  opacity:.13;
+  filter:saturate(.78) contrast(.96) drop-shadow(0 5px 16px rgba(0,0,0,.26));
+  pointer-events:none;
+  user-select:none;
+}
+.sk-page-heading>*:not(.sk-page-heading-logo){position:relative;z-index:1}
+html body .sk-page-heading.sk-page-heading h1{
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:100%!important;
+  margin-block:10px 13px;
+  font-size:clamp(42px,5vw,58px)!important;
+  line-height:1.05!important;
+  white-space:normal!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  hyphens:auto!important;
+  text-wrap:balance;
+}
+.knowledge-hero.sk-page-heading::after{display:none!important}
+.kb-hero.sk-page-heading::before{content:none!important;display:none!important}
+@media(max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  .sk-page-heading>.sk-page-heading-logo{right:-12px;width:clamp(104px,34vw,148px);opacity:.1}
+  html body .sk-page-heading.sk-page-heading h1{
+    padding-right:0!important;
+    font-size:clamp(30px,9vw,40px)!important;
+    line-height:1.08!important;
+  }
+}
+@media(prefers-contrast:more){.sk-page-heading>.sk-page-heading-logo{opacity:.07}}
+@media(forced-colors:active){.sk-page-heading>.sk-page-heading-logo{display:none}}

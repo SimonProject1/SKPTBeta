@@ -1,4 +1,4 @@
-const RELEASE='2.4.1.9';
+const RELEASE='2.4.2.0';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -12,8 +12,6 @@ const CORE=[
   './assets/pct-controls.svg',
   './assets/apple-touch-icon.png',
   './assets/core.css',
-  './assets/header-title.css',
-  './assets/header-title.js',
   './assets/einheitenrechner.js',
   './assets/favicon.png',
   './assets/icon-192.png',
@@ -22,8 +20,7 @@ const CORE=[
   './assets/icon-maskable-512.png',
   './assets/knowledge-article.css',
   './assets/knowledge-cartoon.css',
-  './assets/logo-layout.css',
-  './assets/logo.png',
+  './assets/logo.webp',
   './assets/materials.css',
   './assets/materials.js',
   './assets/materials.json',
@@ -35,7 +32,6 @@ const CORE=[
   './assets/search-index.json',
   './assets/siemens-analogwert-rechner.css',
   './assets/siemens-analogwert-rechner.js',
-  './assets/siemens-unit-integration.js',
   './assets/unit-database-page.js',
   './assets/unit-database.css',
   './assets/unit-system.js',
