@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.1-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.2-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.1-Beta"
+VERSION = "2.5.0.2-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -76,7 +76,11 @@ def main() -> int:
         if not target_exists(ref):
             fail(f"Lokale Startseitenreferenz fehlt: {ref}", errors)
     worker = (ROOT / "service-worker.js").read_text(encoding="utf-8")
-    for required in ("./assets/pct-home.css", "./assets/pct-home.js", "./assets/pct-home-icons.svg"):
+    for required in (
+        "./assets/pct-home.css", "./assets/pct-home.js", "./assets/pct-home-icons.svg",
+        "./assets/knowledge-overview.css", "./assets/knowledge-overview.js",
+        "./assets/knowledge-manufacturer-logos.svg",
+    ):
         if required not in worker:
             fail(f"Offline-Kerncache enthält {required} nicht.", errors)
 
@@ -100,9 +104,20 @@ def main() -> int:
     for token in forbidden_home:
         if token in start_html:
             fail(f"Entferntes Startseitenelement noch vorhanden: {token}", errors)
-    for required_home in ("pctHomeGrid", "skFilterToggle", "pctHomeDone", "pctHomeReset"):
+    for required_home in ("pctHomeGrid", "skFilterToggle", "pctHomeDone", "pctHomeReset", "pct-home-brand-mark"):
         if required_home not in start_html:
             fail(f"Erforderliches Startseitenelement fehlt: {required_home}", errors)
+    if start_html.index("pct-home-brand-mark") < start_html.index("pct-home-screen"):
+        fail("Das Startseitenlogo liegt nicht innerhalb des PCT Home-Screens.", errors)
+    knowledge_html = (ROOT / "wissensdatenbank" / "index.html").read_text(encoding="utf-8")
+    if knowledge_html.count('class="knowledge-entry tool-card"') != 5:
+        fail("Die Wissensdatenbank muss genau fünf vorhandene Fachbeiträge enthalten.", errors)
+    for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon"):
+        if f"knowledge-manufacturer-logos.svg#{logo}" not in knowledge_html:
+            fail(f"Herstellerkennzeichnung fehlt: {logo}", errors)
+    for required_knowledge in ("knowledgeSearch", "knowledgeCompactToggle", "knowledgeGrid", "Wissensdatenbank_Beitragsvorlage.pdf"):
+        if required_knowledge not in knowledge_html:
+            fail(f"Erforderliche Wissensdatenbank-Funktion fehlt: {required_knowledge}", errors)
     forbidden_tree = ("sk" + "-tree", "navigation" + "-tree", "Navigations" + "baum", "Seitennavi" + "gation")
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.name == "SHA256SUMS.txt" or path.resolve() == Path(__file__).resolve():

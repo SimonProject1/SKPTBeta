@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.5.0.1-Beta
+# Testplan · SK PCT Tools 2.5.0.2-Beta
 
 ## 1. Start und reduzierte Darstellung
 1. Projekt über HTTP/HTTPS öffnen.
@@ -6,6 +6,8 @@
    Versionsfeld, Verschiebeanleitung oder App-Dichte-Auswahl sichtbar ist.
 3. Desktop, Tablet sowie Smartphone in Hoch- und Querformat prüfen.
 4. Prüfen, dass die Suche beim Start geschlossen und das Raster direkt sichtbar ist.
+5. Prüfen, dass das S.K.-PCT-Logo innerhalb des großen abgerundeten Home-Screens
+   steht und oberhalb davon kein separater Startseiten-Header verbleibt.
 
 ## 2. Anordnen
 1. Eine App etwa eine halbe Sekunde gedrückt halten; Bearbeitungsmodus und
@@ -29,6 +31,9 @@
 - Messstellen-Dokumentation: neuen Eintrag/Fotoplatzhalter und PDF-/Druckfunktion prüfen.
 - Einheiten- und Werkstoffdatenbank: Suche, Filter, Vergleich/Favorit prüfen.
 - Wissensdatenbank: Herstellerbereiche und alle fünf Beiträge öffnen.
+- Wissensdatenbank: identisches PCT-Icon-Raster sowie sichtbare Kennzeichnungen für
+  Air Torque, Endress+Hauser, Siemens und Vacon prüfen.
+- Wissensdatenbank mobil: vier Herstellergruppen, Auf-/Zuklappen und Kompaktansicht prüfen.
 - E+H Device Viewer: neuer Tab, `noopener`, `noreferrer` und externe Kennzeichnung.
 - Favorit hinzufügen/entfernen und Favoritendrawer öffnen.
 - Prüfen, dass auf keiner Seite eine hierarchische Seitenauswahl-Schaltfläche oder ein Drawer erscheint.
@@ -37,7 +42,7 @@
 1. Seite einmal online laden und Service-Worker-Installation abwarten.
 2. Browser in den Offline-Modus versetzen.
 3. Startseite, alle internen Apps, Datenbanken und Wissensbeiträge öffnen.
-4. Prüfen, dass nur Caches der Version 2.5.0.1-Beta verwendet werden.
+4. Prüfen, dass nur Caches der Version 2.5.0.2-Beta verwendet werden.
 
 ## 6. Automatische Prüfung
 ```bash

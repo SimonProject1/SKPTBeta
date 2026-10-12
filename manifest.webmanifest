@@ -2,7 +2,7 @@
   "id": "./",
   "name": "SK PCT Tools",
   "short_name": "SK PCT Tools",
-  "description": "Reduzierter PCT Home-Screen mit verschiebbaren Apps für Rechner, Datenbanken, Dokumentation und technisches Wissen · Version 2.5.0.1-Beta",
+  "description": "PCT Home-Screen mit integriertem Logo, verschiebbaren Apps und Wissensdatenbank im Hersteller-Icon-Raster · Version 2.5.0.2-Beta",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -34,7 +34,7 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.5.0.1-Beta",
+  "version": "2.5.0.2-Beta",
   "shortcuts": [
     {
       "name": "Einheitendatenbank",

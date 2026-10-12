@@ -9,27 +9,23 @@
   <meta content="SK PCT Tools" name="apple-mobile-web-app-title"/>
   <title>PCT Home · SK PCT Tools</title>
   <link href="./manifest.webmanifest" rel="manifest"/>
-  <link href="assets/favicon.png?v=2.5.0.1-Beta" rel="icon" sizes="64x64" type="image/png"/>
-  <link href="assets/apple-touch-icon.png?v=2.5.0.1-Beta" rel="apple-touch-icon"/>
-  <link href="assets/core.css?v=2.5.0.1-Beta" rel="stylesheet"/>
-  <link href="assets/responsive.css?v=2.5.0.1-Beta" rel="stylesheet"/>
-  <link href="assets/pct-controls.css?v=2.5.0.1-Beta" rel="stylesheet"/>
-  <link href="assets/pct-home.css?v=2.5.0.1-Beta" rel="stylesheet"/>
+  <link href="assets/favicon.png?v=2.5.0.2-Beta" rel="icon" sizes="64x64" type="image/png"/>
+  <link href="assets/apple-touch-icon.png?v=2.5.0.2-Beta" rel="apple-touch-icon"/>
+  <link href="assets/core.css?v=2.5.0.2-Beta" rel="stylesheet"/>
+  <link href="assets/responsive.css?v=2.5.0.2-Beta" rel="stylesheet"/>
+  <link href="assets/pct-controls.css?v=2.5.0.2-Beta" rel="stylesheet"/>
+  <link href="assets/pct-home.css?v=2.5.0.2-Beta" rel="stylesheet"/>
 </head>
-<body data-sign-controls="true" data-sk-home="ios" data-sk-page="start" data-sk-version="2.5.0.1-Beta">
+<body data-sign-controls="true" data-sk-home="ios" data-sk-page="start" data-sk-version="2.5.0.2-Beta">
 <div class="shell">
-  <!-- sk:header:start -->
-  <header class="topbar sk-global-header sk-header-normalized">
-    <div class="sk-header-inner">
-      <div class="sk-logo-version-stack"><img alt="S.K. PCT TOOL" class="logo sk-global-logo sk-header-logo" src="assets/icon-192.png?v=2.5.0.1-Beta"/></div>
-      <div class="brand">SK PCT Tools<small>PCT-Werkzeuge für den Einsatz im Feld</small></div>
-      <a aria-label="Zur Startseite" class="home sk-header-home" href="./">← Startseite</a>
-    </div>
-  </header>
-  <!-- sk:header:end -->
   <main class="pct-home-main">
     <section aria-label="PCT Home-Screen" class="pct-home-screen">
-      <div class="pct-home-utility">
+      <div class="pct-home-head">
+        <a aria-label="SK PCT Tools – PCT Home" class="pct-home-brand" href="./">
+          <span class="pct-home-brand-mark"><img alt="S.K. PCT TOOL" src="assets/icon-192.png?v=2.5.0.2-Beta"/></span>
+          <span class="pct-home-brand-copy"><strong>SK PCT Tools</strong><small>PCT Home</small></span>
+        </a>
+        <div class="pct-home-utility">
         <button aria-controls="skFilterContent" aria-expanded="false" aria-label="Apps und Wissensbeiträge durchsuchen" class="pct-home-search-trigger" id="skFilterToggle" type="button">
           <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><span>Suchen</span>
         </button>
@@ -37,6 +33,7 @@
           <span class="pct-home-edit-label">Apps anordnen</span>
           <button aria-label="Anordnung zurücksetzen" class="pct-home-edit-reset" id="pctHomeReset" title="Anordnung zurücksetzen" type="button"><span aria-hidden="true">↺</span><span class="pct-home-edit-reset-label">Zurücksetzen</span></button>
           <button class="pct-home-done" id="pctHomeDone" type="button">Fertig</button>
+        </div>
         </div>
       </div>
       <section class="sk-tool-filter pct-home-search-panel is-collapsed" id="skToolFilter">
@@ -72,11 +69,11 @@
       <section class="sk-knowledge-results" hidden id="skKnowledgeResults"><div class="sk-results-heading"><div><div class="eyebrow">WISSENSBEITRÄGE</div><h2>Passende Unterseiten</h2></div><span id="skKnowledgeResultCount"></span></div><div class="sk-knowledge-result-list" id="skKnowledgeResultList"></div></section>
     </section>
   </main>
-  <!-- sk:footer:start --><footer class="footer sk-footer">SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.0.1-Beta</footer><!-- sk:footer:end -->
+  <!-- sk:footer:start --><footer class="footer sk-footer">SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.0.2-Beta</footer><!-- sk:footer:end -->
 </div>
-<script src="assets/pct-home.js?v=2.5.0.1-Beta"></script>
-<script src="assets/app.js?v=2.5.0.1-Beta"></script>
-<script src="assets/pct-controls.js?v=2.5.0.1-Beta"></script>
+<script src="assets/pct-home.js?v=2.5.0.2-Beta"></script>
+<script src="assets/app.js?v=2.5.0.2-Beta"></script>
+<script src="assets/pct-controls.js?v=2.5.0.2-Beta"></script>
 <!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><!-- sk:controls:end -->
 </body>
 </html>

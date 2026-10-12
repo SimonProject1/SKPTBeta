@@ -1,42 +1,31 @@
-SK PCT Tools 2.5.0.1-Beta
+SK PCT Tools 2.5.0.2-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist 2.5.0.0-Beta.
+Direkte Ausgangsbasis ist 2.5.0.1-Beta.
 
-Reduzierter PCT Home-Screen
-- Das App-Raster steht ohne Uhrzeit, Datum, Einführung oder Versionskarte direkt
-  im Mittelpunkt.
-- Die dauerhaft sichtbare Verschiebeanleitung, die App-Dichte-Auswahl sowie die
-  großen Schaltflächen „Anordnen“ und „Standard“ wurden entfernt.
-- Gedrückthalten einer App aktiviert den Bearbeitungsmodus und startet das
-  Verschieben. Die Wackelanimation kennzeichnet den aktiven Modus.
-- „Fertig“ beendet den Bearbeitungsmodus. „Zurücksetzen“ stellt innerhalb des
-  Bearbeitungsmodus optional die ausgelieferte Reihenfolge wieder her.
-- Für Tastaturbedienung aktiviert die Leertaste auf einer fokussierten App den
-  Bearbeitungsmodus; Pfeiltasten verschieben die App, Escape beendet den Modus.
-- Die eigene Reihenfolge wird ausschließlich lokal im Browser gespeichert.
-
-Kompakte Suche
-- Ein kleiner Zugriff „Suchen“ öffnet Suche, Kategorienfilter und Sortierung nur
-  bei Bedarf. Das App-Raster bleibt beim Start frei sichtbar.
-- Suche über Apps, Wissensbeiträge und Werkstoffbegriffe bleibt erhalten.
+Änderungen dieser Beta
+- Das S.K.-PCT-Logo ist direkt in das abgerundete Rechteck des PCT Home-Screens
+  integriert; oberhalb des Home-Screens gibt es auf der Startseite keinen separaten
+  schwebenden Markenbereich mehr.
+- Die Wissensdatenbank verwendet dasselbe responsive Icon-Raster wie PCT Home.
+- Air Torque, Endress+Hauser, Siemens und Vacon sind durch lokal eingebettete
+  Herstellerkennzeichnungen direkt in den Beitrags-Icons erkennbar.
+- Gerätefamilien und Themen bleiben zusätzlich als kleine Icon-Plaketten sichtbar.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche vorhandenen Berechnungslogiken.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
 - Fünf fachliche Wissensbeiträge und die PDF-Beitragsvorlage.
-- Kategorienfilter, Sortierung, gemeinsames Zurücksetzen und Favoriten.
+- Suche, Kategorienfilter, Sortierung, gemeinsames Zurücksetzen und Favoriten.
+- Long-Press-Bearbeitungsmodus mit lokaler Speicherung der App-Reihenfolge.
+- Mobile Herstellergruppen und kompakte Beitragsansicht der Wissensdatenbank.
 - Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
 - Stabile interne URLs und abgesicherter externer Herstellerlink.
 
-Entfernt
-- Die hierarchische Seitenauswahl einschließlich Schaltfläche, Drawer, Laufzeitmodul,
-  Navigationsdaten und Offline-Cache-Eintrag ist nicht Bestandteil dieser Version.
-
 Version und PWA
-- Öffentliche Version: 2.5.0.1-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.0.1-Beta.
+- Öffentliche Version: 2.5.0.2-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.0.2-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen: localStorage; App-Reihenfolgen werden nicht übertragen.
 

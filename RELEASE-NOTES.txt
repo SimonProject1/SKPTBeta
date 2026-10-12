@@ -1,38 +1,38 @@
-SK PCT Tools 2.5.0.1-Beta
+SK PCT Tools 2.5.0.2-Beta
 Release-Datum: 12.10.2026
-Status: Beta mit reduzierter Startseite
-Direkte Ausgangsbasis: 2.5.0.0-Beta
+Status: Beta mit integriertem PCT-Logo und einheitlichem Icon-Raster
+Direkte Ausgangsbasis: 2.5.0.1-Beta
 
-NEU IN 2.5.0.1-BETA
-1. App-Raster im Mittelpunkt
-- Uhrzeit und Datum im Inhaltsbereich wurden entfernt.
-- PCT-Home-Einführung, Beschreibung und Versionsfeld wurden entfernt.
-- Die App-Auswahl erscheint direkt als zentriertes, responsives Raster.
+NEU IN 2.5.0.2-BETA
+1. Logo im PCT Home-Screen
+- Das vorhandene S.K.-PCT-Logo steht nicht mehr oberhalb des PCT Home-Screens.
+- Logo, Produktname und Kennzeichnung „PCT Home“ sind jetzt direkt in das große
+  abgerundete Rechteck integriert.
+- Suche und Bearbeitungsmodus bleiben unverändert erreichbar.
 
-2. Long-Press-Bearbeitungsmodus
-- Gedrückthalten einer App aktiviert den Bearbeitungsmodus und das Verschieben.
-- Der aktive Modus wird durch Wackelanimationen gekennzeichnet.
-- Eine kompakte Leiste bietet „Fertig“ und optional „Zurücksetzen“.
-- Die großen Schaltflächen „Anordnen“ und „Standard“ sowie die dauerhaft sichtbare
-  Verschiebeanleitung entfallen.
-- Leertaste, Pfeiltasten und Escape erhalten die barrierearme Tastaturbedienung.
+2. Wissensdatenbank im PCT-Icon-Raster
+- Die Übersichtsseite der Wissensdatenbank übernimmt Form, Tiefe, Kontur,
+  Farbverläufe und responsives Raster des PCT Home-Screens.
+- Die fünf vorhandenen Wissensbeiträge und die PDF-Beitragsvorlage bleiben erhalten.
+- Hersteller, Gerät und Thema sind weiterhin durchsuchbar.
+- Kompaktansicht und ein-/ausklappbare Herstellergruppen auf Mobilgeräten bleiben
+  vollständig erhalten.
 
-3. Kompakter Suchzugriff
-- Suche, Kategorienfilter und Sortierung liegen hinter einem kleinen Zugriff und
-  werden nur bei Bedarf eingeblendet.
-- Suchindex, Werkstoffsuche und Wissensbeitragstreffer bleiben unverändert nutzbar.
+3. Herstellererkennung direkt im Icon
+- Air Torque, Endress+Hauser, Siemens und Vacon erscheinen mit eigenständigen,
+  lokal eingebetteten Herstellerkennzeichnungen in den Beitrags-Icons.
+- Gerätefamilie bzw. Thema wird zusätzlich als kompakte Icon-Plakette angezeigt.
+- Alle Logo-Assets sind lokal enthalten und Teil des Offline-Kerncaches.
 
-4. Entfernte hierarchische Seitenauswahl
-- Baum-Schaltfläche und Navigationsdrawer wurden auf allen Seiten entfernt.
-- Laufzeitlogik, Navigationsdaten, Styles und Offline-Cache-Eintrag wurden entfernt.
-
-5. Erhaltene Funktionen
-- Alle 11 Apps, sechs Rechner, Datenbanken, Dokumentation und Wissensbeiträge.
-- Favoriten, eigene Reihenfolge, Kategorienfilter und Sortierung.
+ERHALTENE FUNKTIONEN UND INHALTE
+- Alle 11 Apps und alle sechs Rechner einschließlich vorhandener Berechnungslogik.
+- Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
+- Fünf fachliche Wissensbeiträge und die PDF-Beitragsvorlage.
+- Favoriten, eigene App-Reihenfolge, Long-Press-Verschieben, Filter und Sortierung.
 - PWA-Manifest, Service Worker, Offline-Kerncache und optionaler Dokumentcache.
-- Responsive Darstellung und abgesicherter externer Herstellerlink.
+- Stabile interne URLs und abgesicherter externer Herstellerlink.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- tests/validate_project.py prüft Version, App-Inventar, Symbole, interne Links,
-  Cache-Einträge, entfernte hierarchische Seitenauswahl und interne Prüfsummen.
+- tests/validate_project.py prüft Version, App-Inventar, Startseiten-Logo,
+  Hersteller-Icons, interne Links, Cache-Einträge und Prüfsummen.

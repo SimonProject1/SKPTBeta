@@ -1,4 +1,4 @@
-const RELEASE='2.5.0.1-Beta';
+const RELEASE='2.5.0.2-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -23,6 +23,9 @@ const CORE=[
   './assets/icon-maskable-512.png',
   './assets/knowledge-article.css',
   './assets/knowledge-cartoon.css',
+  './assets/knowledge-manufacturer-logos.svg',
+  './assets/knowledge-overview.css',
+  './assets/knowledge-overview.js',
   './assets/logo.webp',
   './assets/materials.css',
   './assets/materials.js',
