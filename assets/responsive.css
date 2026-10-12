@@ -1,4 +1,4 @@
-/* === V2.4.2.1 · responsive application shell ===
+/* === V2.5.0.0-Beta · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -298,7 +298,7 @@ html{background-color:#04131f}
 
 .sk-mobile-hero-version{display:none}
 
-/* === 2.4.2.1 · kompakte mobile Startseite ===
+/* === 2.5.0.0-Beta · kompakte mobile Startseite ===
    Nur Smartphone-Hochformat sowie breite Smartphone-Querformate. Tablet und Desktop bleiben unverändert. */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .hero{
@@ -424,7 +424,7 @@ html{background-color:#04131f}
 }
 
 
-/* === 2.4.2.1 · mobile Kategorien und optionale Kompaktansicht === */
+/* === 2.5.0.0-Beta · mobile Kategorien und optionale Kompaktansicht === */
 .sk-mobile-display-controls{display:none}
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="start"] .sk-mobile-display-controls{
@@ -469,7 +469,7 @@ html{background-color:#04131f}
   body[data-sk-page="start"] .sk-mobile-category-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
-/* === V2.4.2.1 · einheitliche, ohne JavaScript lesbare Seitentitel === */
+/* === V2.5.0.0-Beta · einheitliche, ohne JavaScript lesbare Seitentitel === */
 .sk-page-heading{
   position:relative!important;
   isolation:isolate;

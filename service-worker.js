@@ -1,4 +1,4 @@
-const RELEASE='2.4.2.1';
+const RELEASE='2.5.0.0-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -7,6 +7,9 @@ const CORE=[
   './analogsignal/',
   './assets/analogsignal-rechner.js',
   './assets/app.js',
+  './assets/pct-home.css',
+  './assets/pct-home.js',
+  './assets/pct-home-icons.svg',
   './assets/pct-controls.css',
   './assets/pct-controls.js',
   './assets/pct-controls.svg',

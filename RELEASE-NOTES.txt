@@ -1,34 +1,48 @@
-SK PCT Tools 2.4.2.1-Beta
+SK PCT Tools 2.5.0.0-Beta
 Release-Datum: 12.10.2026
-Status: geprüfte Beta-Testversion
-Direkte Ausgangsbasis: vollständige Version 2.4.2.0-Beta
+Status: Beta zum Testen des neuen Startseiten-Designs
+Direkte Ausgangsbasis: veröffentlichte und prüfsummenvalidierte Version 2.4.2.1
 
-NEU IN 2.4.2.1-BETA
-1. Zustandsdesign von „Suche & Filter“
-- Der mobile Klappbereich der Startseite übernimmt den vorhandenen Standard der
-  auf- und zuklappbaren Startseiten- und Wissensdatenbankbereiche.
-- Geschlossen: eckiger, kompakter Rahmen mit ausschließlich sichtbarer Kopfzeile.
-- Geöffnet: konsistent gerundeter Außenrahmen mit gerundetem Kopf und nahtlosem
-  Übergang zum Such-, Filter- und Sortierinhalt.
-- Außenkontur, innere Statuskante, Schatten, Radien und Übergänge entsprechen dem
-  bestehenden mobilen Klappdesign.
+NEU IN 2.5.0.0-BETA
+1. iOS-artiger PCT Home-Screen
+- Die bisherige Kachelansicht der Startseite ist vollständig durch ein App-Raster
+  mit PCT-Wallpaper, Statusbereich und kompakter Bedienleiste ersetzt.
+- Das Design übernimmt die dunkle PCT-Formsprache, Cyan-/Blau-/Grün-Signatur,
+  schwarze Konturen und technische Leuchteffekte des vorhandenen PCT-App-Icons.
 
-2. Zustandslogik und Barrierefreiheit
-- Der Container erhält bei jedem Wechsel eindeutig is-collapsed oder is-expanded.
-- aria-expanded, aria-label, sichtbarer Schaltertext und hidden-Zustand des Inhalts
-  werden gemeinsam aktualisiert.
-- Mobil startet der Bereich weiterhin geschlossen; auf größeren Ansichten bleibt
-  er vollständig geöffnet.
+2. Eigenständige App-Icons
+- Eigene Symbole für Analogsignal, P+F, Pt, Messstellen-Dokumentation,
+  Einheitenrechner, Einheitendatenbank, Werkstoffdatenbank, Wissensdatenbank,
+  Spannungsfall, Siemens Rohwert und E+H Device Viewer.
+- Die Symbole liegen als lokales SVG-Sprite vor und funktionieren ohne externe
+  Icon-Bibliothek oder Netzwerkzugriff.
+
+3. Verschieben mit Finger, Maus und Tastatur
+- „Anordnen“ startet den iOS-ähnlichen Bearbeitungsmodus mit visueller Wackelanzeige.
+- Alternativ startet Gedrückthalten direkt den Bearbeitungsmodus.
+- Pointer-Events unterstützen Touch, Stift und Maus.
+- Pfeiltasten verschieben fokussierte Apps barrierearm im Raster.
+- Escape oder „Fertig“ beendet den Bearbeitungsmodus.
+- Die Reihenfolge wird lokal unter skPctHomeOrderV1 gespeichert; „Standard“ löscht
+  diese Einstellung und stellt die Auslieferungsreihenfolge wieder her.
+
+4. Angepasste, erhaltene Startseitenfunktionen
+- Suche und Filter arbeiten weiterhin auf allen Apps und Wissensbeiträgen.
+- Die bestehende Sortierung bleibt erhalten; „Eigene Reihenfolge“ entspricht der
+  manuell gespeicherten Home-Screen-Reihenfolge.
+- Die frühere Kompaktansicht ist als kompakte App-Dichte weiter nutzbar.
+- Favoritensterne bleiben pro App verfügbar; Favoritendrawer und Navigationsbaum
+  bleiben vollständig erhalten.
 
 ERHALTEN UND GEPRÜFT
-- Suche über Werkzeuge und Wissensbeiträge einschließlich Werkstoffbegriffen.
-- Kategorienfilter, Standardsortierung sowie Sortierung nach Kategorie und Titel.
-- Gemeinsamer Reset von Suchtext, Filter und Sortierung.
-- Mobile Kategorien, Kompaktansicht und Viewportwechsel.
-- Favoriten, Seitennavigation und stabile interne URLs.
-- Offline-Kerncache, Dokumentcache und PWA-Manifest.
-- Alle Rechner, Datenbanken, Dokumentationsfunktionen und Wissensbeiträge.
+- Alle sechs Rechner und ihre vorhandenen Rechenlogiken.
+- Einheiten- und Werkstoffdaten, Wissensbeiträge und Messstellen-Dokumentation.
+- Alle internen Pfade, Suchindex, Navigationsbaum und externer Herstellerlink.
+- PWA-Manifest, Service Worker, Offline-Kerncache und optionaler Dokumentcache.
+- Responsive Darstellung für Desktop, Tablet, iPhone Hochformat und Querformat.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
 - Die externe ZIP-Prüfsumme wird separat bereitgestellt.
+- tests/validate_project.py prüft Version, App-Vollständigkeit, eindeutige IDs,
+  Symbolzuordnung, interne Links, Cache-Einträge und interne Prüfsummen.
