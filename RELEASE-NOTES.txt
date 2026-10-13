@@ -1,26 +1,32 @@
-SK PCT Tools 2.5.1.1-Beta
+SK PCT Tools 2.5.1.2-Beta
 Release-Datum: 13.10.2026
-Status: Startseite stabilisiert und alle Unterseiten auf das runde Design umgestellt
-Direkte Ausgangsbasis: vollständige 2.5.1.0-Beta
+Status: Einheitliche Rechteckbasis und Home-artige Kopfpositionen auf allen Seiten
+Direkte Ausgangsbasis: vollständige 2.5.1.1-Beta
 
-NEU IN 2.5.1.1-BETA
-1. Startseite korrigiert
-- Das App-Raster besitzt wieder eine feste, bei kleinen Viewports flexibel schrumpfende Bezugsfläche.
-- Die Symbole der obersten Reihe bleiben dadurch an der gewohnten Position.
-- Das Home-Rechteck reicht jetzt bis an die untere Displaykante.
-- Die iPhone-/iPad-Safe-Area liegt innerhalb des Footers, damit der Rahmen maximal groß bleibt.
+NEU IN 2.5.1.2-BETA
+1. Ein Rechteckmaß für die gesamte App
+- Home und alle 15 Unterseiten verwenden dieselbe Maximalbreite von 1240 px.
+- Höhe, Seitenabstände, obere Safe Area, Außenkontur, Rundung und Hintergrundfläche
+  werden aus einem gemeinsamen Satz zentraler CSS-Variablen gesteuert.
+- Der Rahmen reicht überall bis an den unteren Displayrand; die iOS-Safe-Area
+  bleibt innerhalb des jeweiligen Footers.
 
-2. Rundes Design auf allen Unterseiten
-- Rechner, Datenbanken, Messstellen-Dokumentation, Wissensdatenbank und Wissensbeiträge
-  verwenden durchgehend abgerundete Panels, Karten, Felder und Schalter.
-- Abgeschrägte Clip-Path-Ecken der bisherigen PCT-Bedienflächen wurden entfernt.
-- Header und Footer schließen rund an den gemeinsamen App-Rahmen an.
-- Suchfelder, Auswahllisten, Filter, Favoriten, Informationsfelder, Tabellen und
-  Aktionsschalter folgen derselben Rundungslogik.
-- Verbundene Zahlenfelder behalten ihre klare innere Trennung, sind außen aber rund.
+2. Logo konsequent oben links
+- Das originale S.K.-PCT-Logo sitzt auf Home und jeder Unterseite oben links.
+- Die Startseite nutzt die volle Kopfbreite; ihr Logo steht nicht mehr als kompakte
+  Kopfgruppe in der Mitte.
+- Logoabmessungen sind für Desktop, Smartphone und kompaktes Querformat abgestimmt.
+- Auf schmalen Bildschirmen wird nur der zusätzliche Markenname ausgeblendet;
+  das Logo selbst bleibt sichtbar und eindeutig links positioniert.
 
-3. PWA und Offline aktualisiert
-- Version, Cache-Buster, Manifest und Service-Worker wurden auf 2.5.1.1-Beta angehoben.
+3. Navigation konsequent oben rechts
+- Favoriten, Zurück und Startseite werden weiterhin gemeinsam oben rechts angeordnet.
+- Die Favoriten-Schaltfläche wird zur Laufzeit in dieselbe Aktionsgruppe übernommen.
+- Das alte vollflächige Header-Querband wurde entfernt, damit der Kopf als Teil
+  des gemeinsamen Rechtecks wirkt.
+
+4. PWA und Offline aktualisiert
+- Version, Cache-Buster, Manifest und Service-Worker wurden auf 2.5.1.2-Beta angehoben.
 - Der zentrale Rahmenstil bleibt Teil des strikten Offline-Kerncaches.
 
 ERHALTENE FUNKTIONEN UND INHALTE
@@ -29,9 +35,10 @@ ERHALTENE FUNKTIONEN UND INHALTE
 - Einheiten- und Werkstoffdatenbank sowie Messstellen-Dokumentation.
 - Hersteller-Hub, fünf Wissensbeiträge und PDF-Beitragsvorlage.
 - Suche, Filter, Sortierung, Favoriten und eigene App-Reihenfolge.
+- Runde Unterseiten-Panels und Bedienelemente aus 2.5.1.1-Beta.
 - Stabile interne URLs, externer E+H-Link und lokale PWA-Funktion.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
 - tests/validate_project.py prüft Version, Inhaltsinventar, Links, App-Rahmen,
-  interne Scrollbereiche, Startseiten-Scrollschutz, Symbole und Offline-Cache.
+  identische Rechteckbasis, Logoposition, interne Scrollbereiche, Symbole und Offline-Cache.

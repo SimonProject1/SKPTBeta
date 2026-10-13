@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.5.1.1-Beta — reduzierter PCT Home-Screen mit Long-Press-Bearbeitungsmodus. */
+/* SK PCT Tools 2.5.1.2-Beta — reduzierter PCT Home-Screen mit Long-Press-Bearbeitungsmodus. */
 (()=>{'use strict';
-const RELEASE='2.5.1.1-Beta';
+const RELEASE='2.5.1.2-Beta';
 const ORDER_KEY='skPctHomeOrderV1';
 const root=document.documentElement;
 const byId=id=>document.getElementById(id);

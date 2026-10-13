@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.1-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.2-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.1.1-Beta"
+VERSION = "2.5.1.2-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -158,6 +158,10 @@ def main() -> int:
                 fail(f"App-Rahmen auf {rel} unvollständig: {token}", errors)
         if html.count("sk-app-frame") != 1 or html.count("sk-app-scroll") != 1:
             fail(f"App-Rahmen auf {rel} ist nicht eindeutig.", errors)
+        if html.count("sk-logo-version-stack") != 1 or html.count("sk-header-logo") != 1:
+            fail(f"Logo oben links ist auf {rel} nicht eindeutig vorhanden.", errors)
+        if html.count("sk-header-home") != 1:
+            fail(f"Startseiten-Schalter fehlt oder ist auf {rel} nicht eindeutig.", errors)
 
     home_css = (ROOT / "assets" / "pct-home.css").read_text(encoding="utf-8")
     knowledge_css = (ROOT / "assets" / "knowledge-overview.css").read_text(encoding="utf-8")
@@ -212,6 +216,10 @@ def main() -> int:
         ".pct-header-actions>.sk-favorites-trigger", "@media print",
         "--sk-round-xl:26px", "--sk-round-lg:21px", "clip-path:none!important",
         ".knowledge-panel,.proposal-card,.knowledge-entry", ".kb-breadcrumb,.kb-hero",
+        "--sk-shared-frame-max:1240px", "--sk-shared-frame-bottom:0px",
+        "body[data-sk-home=\"ios\"] .pct-home-screen", "--sk-shared-logo-size:98px",
+        ".sk-logo-version-stack", ".sk-global-header .pct-header-actions",
+        "body[data-sk-home=\"ios\"] .pct-home-head",
     ):
         if token not in frame_css:
             fail(f"Gemeinsame App-Rahmenregel fehlt: {token}", errors)

@@ -2,7 +2,7 @@
   "id": "./",
   "name": "SK PCT Tools",
   "short_name": "SK PCT Tools",
-  "description": "Viewportfeste SK PCT Tools PWA mit einheitlichem App-Rechteck, intern scrollenden Unterseiten, Rechnern und Wissensdatenbanken · Version 2.5.1.1-Beta",
+  "description": "Viewportfeste SK PCT Tools PWA mit einheitlichem App-Rechteck, intern scrollenden Unterseiten, Rechnern und Wissensdatenbanken · Version 2.5.1.2-Beta",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -34,7 +34,7 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.5.1.1-Beta",
+  "version": "2.5.1.2-Beta",
   "shortcuts": [
     {
       "name": "Einheitendatenbank",
