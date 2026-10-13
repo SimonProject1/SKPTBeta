@@ -1,13 +1,14 @@
-# Testplan · SK PCT Tools 2.5.1.2-Beta
+# Testplan · SK PCT Tools 2.5.1.3-Beta
 
 ## 1. Hauptstartseite ohne Dokument-Scroll
 1. Projekt über HTTP/HTTPS öffnen und optional als iOS-PWA installieren.
 2. Im Hochformat nach oben und unten wischen: Die Startseite darf weder scrollen noch Gummibandverhalten zeigen.
 3. Im Querformat seitlich und vertikal wischen: Es darf kein Dokument-Scroll entstehen.
-4. Prüfen, dass Logo, Version `V2.5.1.2-Beta`, Suche, Favoriten, alle 11 App-Icons und Footer innerhalb des abgerundeten Rechtecks bleiben.
-5. Prüfen, dass die Symbole der obersten App-Reihe ihre gewohnte Position behalten und das Rechteck bis an die untere Displaykante reicht.
-6. iPhone/iPad prüfen: Statusleiste und Dynamic Island werden nicht überlagert; die Home-Indikator-Safe-Area liegt innerhalb des Footers.
-7. Suche öffnen: Nur das Such-Overlay darf bei Bedarf intern scrollen.
+4. Prüfen, dass Logo, Version `V2.5.1.3-Beta`, Suche, Favoriten, alle 11 App-Icons und Footer innerhalb des abgerundeten Rechtecks bleiben.
+5. Suche und Favoriten müssen in einer einzigen horizontalen Aktionsreihe oben rechts stehen; beide Oberkanten müssen exakt fluchten.
+6. Prüfen, dass die Symbole der obersten App-Reihe ihre gewohnte Position behalten und das Rechteck bis an die untere Displaykante reicht.
+7. iPhone/iPad prüfen: Statusleiste und Dynamic Island werden nicht überlagert; die Home-Indikator-Safe-Area liegt innerhalb des Footers.
+8. Suche öffnen: Nur das Such-Overlay darf bei Bedarf intern scrollen.
 
 ## 2. Einheitliches Rechteck und internes Scrollen
 1. Alle sechs Rechner, Messstellen-Dokumentation, Einheiten- und Werkstoffdatenbank öffnen.
@@ -18,10 +19,11 @@
 6. Favoriten, Zurück und Startseite bleiben gemeinsam oben rechts; kein Schalter darf auf mobilen Breiten umbrechen oder das Logo überlagern.
 7. Der Unterseitenkopf darf kein separates vollflächiges dunkles Querband mehr bilden, sondern muss optisch in der Rechteckfläche liegen.
 8. Kopf und Footer müssen während des internen Scrollens sichtbar im abgerundeten Rechteck bleiben.
-9. Rahmen, schwarze Kontur, Cyan-Innenkante und Hintergrund müssen auf allen Seiten konsistent sein.
-10. Karten, Panels, Buttons, Such-/Filterfelder, Eingaben und Wissensbeiträge auf durchgehend runde Ecken prüfen; abgeschrägte Clip-Path-Ecken dürfen nicht mehr sichtbar sein.
-11. Hochformat, Querformat, Desktop, Tablet und Smartphone testen.
-12. Am Anfang und Ende des Inhalts prüfen, dass kein Inhalt abgeschnitten oder unerreichbar ist.
+9. Den Footer jeder Unterseite direkt mit Home vergleichen: Position, Breite, Höhe, schwarze Trennkante, Cyan-Innenlinie, transparente Fläche, Text und Version müssen übereinstimmen.
+10. Rahmen, schwarze Kontur, Cyan-Innenkante und Hintergrund müssen auf allen Seiten konsistent sein.
+11. Karten, Panels, Buttons, Such-/Filterfelder, Eingaben und Wissensbeiträge auf durchgehend runde Ecken prüfen; abgeschrägte Clip-Path-Ecken dürfen nicht mehr sichtbar sein.
+12. Hochformat, Querformat, Desktop, Tablet und Smartphone testen.
+13. Am Anfang und Ende des Inhalts prüfen, dass kein Inhalt abgeschnitten oder unerreichbar ist.
 
 ## 3. Icons, Buttons und Navigation
 1. Favoriten-, Zurück- und Startseiten-Schalter in jeder Unterseiten-Kopfzeile prüfen.
@@ -52,7 +54,7 @@
 2. Offline-Modus aktivieren.
 3. Startseite, alle internen Apps, Herstelleransichten und Wissensbeiträge öffnen.
 4. Prüfen, dass `assets/pct-frame.css` offline verfügbar ist.
-5. Prüfen, dass nur Caches der Version 2.5.1.2-Beta verwendet werden.
+5. Prüfen, dass nur Caches der Version 2.5.1.3-Beta verwendet werden.
 
 ## 7. Automatische Prüfung
 ```bash

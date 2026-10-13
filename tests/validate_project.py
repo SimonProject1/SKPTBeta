@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.2-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.3-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.1.2-Beta"
+VERSION = "2.5.1.3-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -143,6 +143,7 @@ def main() -> int:
 
     # Jede echte Unterseite liegt in demselben viewportfesten Rechteck und
     # besitzt genau einen intern scrollenden Inhaltsbereich.
+    footer_text = "SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.1.3-Beta"
     framed_pages = [
         path for path in ROOT.rglob("*.html")
         if path != start_path and path.name == "index.html"
@@ -162,6 +163,10 @@ def main() -> int:
             fail(f"Logo oben links ist auf {rel} nicht eindeutig vorhanden.", errors)
         if html.count("sk-header-home") != 1:
             fail(f"Startseiten-Schalter fehlt oder ist auf {rel} nicht eindeutig.", errors)
+        if html.count("sk-footer") != 1:
+            fail(f"Footer fehlt oder ist auf {rel} nicht eindeutig.", errors)
+        if footer_text not in html:
+            fail(f"Footertext oder Versionsstand auf {rel} ist nicht vereinheitlicht.", errors)
 
     home_css = (ROOT / "assets" / "pct-home.css").read_text(encoding="utf-8")
     knowledge_css = (ROOT / "assets" / "knowledge-overview.css").read_text(encoding="utf-8")
@@ -208,6 +213,9 @@ def main() -> int:
         if token not in app_js:
             fail(f"Viewportfeste Startseitensuche unvollständig: {token}", errors)
 
+    if "grid-template-columns:repeat(2,var(--pct-home-action-size))" not in home_css:
+        fail("Die obere Home-Aktionsreihe ist nicht horizontal vereinheitlicht.", errors)
+
     frame_css = (ROOT / "assets" / "pct-frame.css").read_text(encoding="utf-8")
     for token in (
         "html.sk-home-document", "html.sk-framed-document", 'body[data-sk-layout="framed"]',
@@ -220,6 +228,7 @@ def main() -> int:
         "body[data-sk-home=\"ios\"] .pct-home-screen", "--sk-shared-logo-size:98px",
         ".sk-logo-version-stack", ".sk-global-header .pct-header-actions",
         "body[data-sk-home=\"ios\"] .pct-home-head",
+        "Home-Footer als verbindlicher Seitenstandard", "width:min(1060px,calc(100% - 10px))", "border-top:4px solid var(--pct-comic,#000)",
     ):
         if token not in frame_css:
             fail(f"Gemeinsame App-Rahmenregel fehlt: {token}", errors)

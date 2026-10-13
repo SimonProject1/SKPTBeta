@@ -1,4 +1,4 @@
-const RELEASE='2.5.1.2-Beta';
+const RELEASE='2.5.1.3-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;

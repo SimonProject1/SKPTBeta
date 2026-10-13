@@ -1,32 +1,24 @@
-SK PCT Tools 2.5.1.2-Beta
+SK PCT Tools 2.5.1.3-Beta
 Release-Datum: 13.10.2026
-Status: Einheitliche Rechteckbasis und Home-artige Kopfpositionen auf allen Seiten
-Direkte Ausgangsbasis: vollständige 2.5.1.1-Beta
+Status: Einheitliche obere Aktionsreihe und Home-Footer auf allen Unterseiten
+Direkte Ausgangsbasis: vollständige 2.5.1.2-Beta
 
-NEU IN 2.5.1.2-BETA
-1. Ein Rechteckmaß für die gesamte App
-- Home und alle 15 Unterseiten verwenden dieselbe Maximalbreite von 1240 px.
-- Höhe, Seitenabstände, obere Safe Area, Außenkontur, Rundung und Hintergrundfläche
-  werden aus einem gemeinsamen Satz zentraler CSS-Variablen gesteuert.
-- Der Rahmen reicht überall bis an den unteren Displayrand; die iOS-Safe-Area
-  bleibt innerhalb des jeweiligen Footers.
+NEU IN 2.5.1.3-BETA
+1. Obere Reihe der Startseite vereinheitlicht
+- Suche und Favoriten stehen jetzt in einer einzigen horizontalen Aktionsreihe oben rechts.
+- Logo, Versionsanzeige und Schnellzugriffe bleiben innerhalb derselben 1060-px-Kopfbasis.
+- Desktop, iPhone, iPad und kompaktes Querformat nutzen dieselbe Anordnungslogik.
+- Logo, Rasterpositionen, eigene App-Reihenfolge und alle Home-Funktionen bleiben erhalten.
 
-2. Logo konsequent oben links
-- Das originale S.K.-PCT-Logo sitzt auf Home und jeder Unterseite oben links.
-- Die Startseite nutzt die volle Kopfbreite; ihr Logo steht nicht mehr als kompakte
-  Kopfgruppe in der Mitte.
-- Logoabmessungen sind für Desktop, Smartphone und kompaktes Querformat abgestimmt.
-- Auf schmalen Bildschirmen wird nur der zusätzliche Markenname ausgeblendet;
-  das Logo selbst bleibt sichtbar und eindeutig links positioniert.
+2. Footer aller Unterseiten an die Startseite angepasst
+- Alle 15 gerahmten Unterseiten verwenden den transparenten Footer der Startseite.
+- Breite, feine Trennlinie, Schrift, Innenabstände und iOS-Safe-Area sind zentral vereinheitlicht.
+- Das bisherige vollbreite dunkle Footer-Band mit starker schwarzer Kante wurde entfernt.
+- Jeder Footer zeigt vollständig: SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.1.3-Beta.
 
-3. Navigation konsequent oben rechts
-- Favoriten, Zurück und Startseite werden weiterhin gemeinsam oben rechts angeordnet.
-- Die Favoriten-Schaltfläche wird zur Laufzeit in dieselbe Aktionsgruppe übernommen.
-- Das alte vollflächige Header-Querband wurde entfernt, damit der Kopf als Teil
-  des gemeinsamen Rechtecks wirkt.
-
-4. PWA und Offline aktualisiert
-- Version, Cache-Buster, Manifest und Service-Worker wurden auf 2.5.1.2-Beta angehoben.
+3. Vollständige Seiten- und PWA-Aktualisierung
+- Sämtliche HTML-Unterseiten, Laufzeitmodule, Cache-Buster, Manifest und Service-Worker
+  wurden auf 2.5.1.3-Beta angehoben.
 - Der zentrale Rahmenstil bleibt Teil des strikten Offline-Kerncaches.
 
 ERHALTENE FUNKTIONEN UND INHALTE
@@ -35,10 +27,9 @@ ERHALTENE FUNKTIONEN UND INHALTE
 - Einheiten- und Werkstoffdatenbank sowie Messstellen-Dokumentation.
 - Hersteller-Hub, fünf Wissensbeiträge und PDF-Beitragsvorlage.
 - Suche, Filter, Sortierung, Favoriten und eigene App-Reihenfolge.
-- Runde Unterseiten-Panels und Bedienelemente aus 2.5.1.1-Beta.
-- Stabile interne URLs, externer E+H-Link und lokale PWA-Funktion.
+- Gemeinsame Rechteckbasis, runde Unterseiten-Panels und stabile interne URLs.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
 - tests/validate_project.py prüft Version, Inhaltsinventar, Links, App-Rahmen,
-  identische Rechteckbasis, Logoposition, interne Scrollbereiche, Symbole und Offline-Cache.
+  horizontale Home-Aktionsreihe, einheitliche Footer, Symbole und Offline-Cache.

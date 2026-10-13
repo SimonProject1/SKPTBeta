@@ -1,23 +1,20 @@
-SK PCT Tools 2.5.1.2-Beta
+SK PCT Tools 2.5.1.3-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist die vollständige 2.5.1.1-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.5.1.2-Beta.
 
 Änderungen dieser Beta
-- Startseite und sämtliche Unterseiten verwenden jetzt exakt dieselbe äußere
-  Rechteckbasis: identische Maximalbreite, Höhe, Rundung, Kontur, Hintergrundfläche
-  und seitliche Safe-Area-Abstände.
-- Das Rechteck reicht auf allen Seiten bis an den unteren Displayrand. Die untere
-  iOS-Safe-Area wird innerhalb des Footers berücksichtigt.
-- Auf der Startseite und jeder Unterseite sitzt das originale S.K.-PCT-Logo
-  fest oben links. Die Startseite nutzt dafür jetzt die volle Kopfbreite.
-- Favoriten, Zurück und Startseite bleiben als gemeinsame Aktionsgruppe oben rechts.
-- Das bisherige separate dunkle Header-Querband der Unterseiten wurde entfernt.
-  Dadurch wirkt der Kopf nun wie ein Teil derselben Rechteckfläche wie auf Home.
-- Desktop, Tablet, Smartphone und kompaktes Querformat besitzen abgestimmte
-  Logo- und Schaltergrößen. Auf kleinen Displays wird der zusätzliche Markenname
-  ausgeblendet, damit Logo und drei Navigationsschalter sauber nebeneinander bleiben.
+- Die obere Aktionsreihe der Startseite ist vereinheitlicht: Suche und Favoriten
+  stehen jetzt horizontal nebeneinander oben rechts.
+- Logo, Versionsanzeige und Schnellzugriffe bleiben auf Desktop, Tablet,
+  Smartphone und im kompakten Querformat sauber in derselben Kopfbasis ausgerichtet.
+- Alle 15 gerahmten Unterseiten übernehmen den Footer der Startseite vollständig.
+- Footerbreite, Position, schwarze Trennkante mit Cyan-Innenlinie, transparente
+  Fläche, Typografie, Versionsanzeige und Safe-Area-Abstände stimmen überein.
+- Das bisherige vollbreite dunkle Footer-Band der Unterseiten wurde entfernt.
+- Die gemeinsame Rechteckbasis, das Logo oben links und die Unterseiten-Navigation
+  oben rechts aus der 2.5.1.2-Beta bleiben unverändert erhalten.
 
 Erhaltene Funktionen und Inhalte
 - Alle 11 Startseiten-Apps und ihre eindeutigen App-Icons.
@@ -31,8 +28,8 @@ Erhaltene Funktionen und Inhalte
 - Runde Formensprache der 2.5.1.1-Beta für Panels, Felder und Schalter.
 
 Version und PWA
-- Öffentliche Version: 2.5.1.2-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.1.2-Beta.
+- Öffentliche Version: 2.5.1.3-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.1.3-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen: localStorage; App-Reihenfolgen, Wissensansicht und Favoriten werden nicht übertragen.
 
