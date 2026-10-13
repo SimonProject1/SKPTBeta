@@ -1,10 +1,11 @@
-/* SK PCT Tools 2.5.1.3-Beta — Hersteller-Hub, Herstelleransichten, Suche und Kompaktansicht. */
+/* SK PCT Tools 2.5.1.4-Beta — robuster Hersteller-Hub, sichere Beitragsnavigation, Suche und Kompaktansicht. */
 (()=>{'use strict';
-  const RELEASE='2.5.1.3-Beta';
+  const RELEASE='2.5.1.4-Beta';
   const COMPACT_KEY='skKnowledgeCompactCardsV1';
   const read=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key));return value??fallback}catch{return fallback}};
   const write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
   const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9+]+/g,' ').trim();
+  const isPlainActivation=event=>!event.defaultPrevented&&event.button<=0&&!event.metaKey&&!event.ctrlKey&&!event.shiftKey&&!event.altKey;
 
   function init(){
     const input=document.getElementById('knowledgeSearch');
@@ -19,12 +20,27 @@
     const displayControls=document.getElementById('knowledgeDisplayControls');
     const compactToggle=document.getElementById('knowledgeCompactToggle');
     const compactState=document.getElementById('knowledgeCompactState');
-    if(!input||!hub||!views)return;
+    const scrollHost=document.querySelector('.knowledge-app-scroll');
+    if(!input||!hub||!views||!back)return;
 
+    /* Der Skriptpfad liefert die Projektwurzel auch unter GitHub Pages, in einer
+       installierten PWA und bei URLs ohne abschließenden Slash zuverlässig. */
+    const projectRoot=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
+    const knowledgeRoot=new URL('wissensdatenbank/',projectRoot);
     const hubCards=[...hub.querySelectorAll('.knowledge-hub-card')];
     const manufacturerViews=[...views.querySelectorAll('.knowledge-manufacturer-view')];
+    const entries=[...views.querySelectorAll('.knowledge-entry')];
     const viewBySlug=new Map(manufacturerViews.map(view=>[view.dataset.manufacturerSlug,view]));
     let activeView=null;
+
+    /* Alle Ziele werden einmal absolut normalisiert. Damit hängt kein Beitrag
+       mehr davon ab, ob die aktuelle Adresse mit /, index.html oder ?manufacturer= endet. */
+    back.href=knowledgeRoot.href;
+    hubCards.forEach(card=>{card.href=new URL(`?manufacturer=${encodeURIComponent(card.dataset.manufacturerSlug||'')}`,knowledgeRoot).href});
+    entries.forEach(entry=>{
+      const relative=(entry.getAttribute('href')||'').replace(/^(?:\.\/|\/)+/,'');
+      entry.href=new URL(relative,knowledgeRoot).href;
+    });
 
     const setCompact=(enabled,persist=true)=>{
       document.body.classList.toggle('sk-knowledge-compact-view',enabled);
@@ -43,6 +59,10 @@
     function announceCards(){
       document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-index',version:RELEASE}}));
     }
+    function resetScroll(){
+      const behavior=matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+      scrollHost?.scrollTo({top:0,behavior});
+    }
     function showMode(){
       const slug=currentSlug();
       activeView=slug?viewBySlug.get(slug):null;
@@ -52,7 +72,7 @@
       hub.hidden=!onHub;
       views.hidden=onHub;
       back.hidden=onHub;
-      displayControls.hidden=onHub;
+      if(displayControls)displayControls.hidden=onHub;
       manufacturerViews.forEach(view=>{view.hidden=view!==activeView});
       input.value='';
       if(onHub){
@@ -82,8 +102,8 @@
       if(!activeView){
         let visible=0;
         hubCards.forEach(card=>{const show=matches(card,query);card.hidden=!show;if(show)visible++});
-        empty.classList.toggle('show',visible===0);
-        empty.textContent='Keine passenden Hersteller oder Wissensbeiträge gefunden.';
+        empty?.classList.toggle('show',visible===0);
+        if(empty)empty.textContent='Keine passenden Hersteller oder Wissensbeiträge gefunden.';
         if(resultCount)resultCount.textContent=`${visible} ${visible===1?'Hersteller-Bereich':'Hersteller-Bereiche'} angezeigt`;
         return;
       }
@@ -93,28 +113,36 @@
       const permanentEmpty=activeView.querySelector('.knowledge-section-empty');
       if(permanentEmpty)permanentEmpty.hidden=cards.length>0||Boolean(query);
       const noMatch=cards.length>0&&visible===0;
-      empty.classList.toggle('show',noMatch);
-      empty.textContent='Keine passenden Wissensbeiträge gefunden.';
+      empty?.classList.toggle('show',noMatch);
+      if(empty)empty.textContent='Keine passenden Wissensbeiträge gefunden.';
       if(resultCount)resultCount.textContent=`${visible} ${visible===1?'Beitrag':'Beiträge'} angezeigt`;
     }
 
     input.addEventListener('input',applyFilter);
-    window.addEventListener('popstate',showMode);
+    window.addEventListener('popstate',()=>{showMode();resetScroll()});
     hub.addEventListener('click',event=>{
       const link=event.target.closest('.knowledge-hub-card');
-      if(!link||event.defaultPrevented||event.button>0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      if(!link||!isPlainActivation(event))return;
       event.preventDefault();
       history.pushState({},'',link.href);
       showMode();
-      title.focus?.({preventScroll:true});
-      scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+      resetScroll();
     });
     back.addEventListener('click',event=>{
-      if(event.defaultPrevented||event.button>0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      if(!isPlainActivation(event))return;
       event.preventDefault();
       history.pushState({},'',back.href);
       showMode();
-      scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+      resetScroll();
+    });
+    /* Explizite Delegation für Karten-Taps: Safari/PWA muss nicht auf das
+       verschachtelte Favoritenelement oder die relative Basis-URL vertrauen. */
+    views.addEventListener('click',event=>{
+      if(event.target.closest('.sk-favorite-button'))return;
+      const link=event.target.closest('.knowledge-entry');
+      if(!link||!isPlainActivation(event))return;
+      event.preventDefault();
+      location.assign(link.href);
     });
     showMode();
   }

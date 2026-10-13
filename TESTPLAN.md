@@ -1,62 +1,62 @@
-# Testplan · SK PCT Tools 2.5.1.3-Beta
+# Testplan · SK PCT Tools 2.5.1.4-Beta
 
 ## 1. Hauptstartseite ohne Dokument-Scroll
 1. Projekt über HTTP/HTTPS öffnen und optional als iOS-PWA installieren.
-2. Im Hochformat nach oben und unten wischen: Die Startseite darf weder scrollen noch Gummibandverhalten zeigen.
-3. Im Querformat seitlich und vertikal wischen: Es darf kein Dokument-Scroll entstehen.
-4. Prüfen, dass Logo, Version `V2.5.1.3-Beta`, Suche, Favoriten, alle 11 App-Icons und Footer innerhalb des abgerundeten Rechtecks bleiben.
-5. Suche und Favoriten müssen in einer einzigen horizontalen Aktionsreihe oben rechts stehen; beide Oberkanten müssen exakt fluchten.
-6. Prüfen, dass die Symbole der obersten App-Reihe ihre gewohnte Position behalten und das Rechteck bis an die untere Displaykante reicht.
-7. iPhone/iPad prüfen: Statusleiste und Dynamic Island werden nicht überlagert; die Home-Indikator-Safe-Area liegt innerhalb des Footers.
-8. Suche öffnen: Nur das Such-Overlay darf bei Bedarf intern scrollen.
+2. Im Hoch- und Querformat wischen: Die Startseite darf nicht als Dokument scrollen.
+3. Logo, Version `V2.5.1.4-Beta`, Suche, Favoriten, 11 App-Icons und Footer müssen im Rahmen bleiben.
+4. iPhone/iPad: Statusleiste, Dynamic Island und Home-Indikator-Safe-Area prüfen.
 
-## 2. Einheitliches Rechteck und internes Scrollen
-1. Alle sechs Rechner, Messstellen-Dokumentation, Einheiten- und Werkstoffdatenbank öffnen.
-2. Wissensdatenbank und alle fünf Wissensbeiträge öffnen.
-3. Startseite und jede Unterseite bei identischer Viewportgröße direkt vergleichen: Außenbreite, Oberkante, Unterkante, Rundung und Seitenabstand müssen exakt übereinstimmen.
-4. Auf jeder Unterseite prüfen: Der Browser-Body bleibt fest; nur der mittlere Inhaltsbereich scrollt.
-5. Logo prüfen: Das originale S.K.-PCT-Logo bleibt auf Home und jeder Unterseite oben links sichtbar; auf Desktop darf der Home-Kopf nicht mehr als kompakte Gruppe mittig stehen.
-6. Favoriten, Zurück und Startseite bleiben gemeinsam oben rechts; kein Schalter darf auf mobilen Breiten umbrechen oder das Logo überlagern.
-7. Der Unterseitenkopf darf kein separates vollflächiges dunkles Querband mehr bilden, sondern muss optisch in der Rechteckfläche liegen.
-8. Kopf und Footer müssen während des internen Scrollens sichtbar im abgerundeten Rechteck bleiben.
-9. Den Footer jeder Unterseite direkt mit Home vergleichen: Position, Breite, Höhe, schwarze Trennkante, Cyan-Innenlinie, transparente Fläche, Text und Version müssen übereinstimmen.
-10. Rahmen, schwarze Kontur, Cyan-Innenkante und Hintergrund müssen auf allen Seiten konsistent sein.
-11. Karten, Panels, Buttons, Such-/Filterfelder, Eingaben und Wissensbeiträge auf durchgehend runde Ecken prüfen; abgeschrägte Clip-Path-Ecken dürfen nicht mehr sichtbar sein.
-12. Hochformat, Querformat, Desktop, Tablet und Smartphone testen.
-13. Am Anfang und Ende des Inhalts prüfen, dass kein Inhalt abgeschnitten oder unerreichbar ist.
+## 2. Einheitlicher Rahmen und internes Scrollen
+1. Alle sechs Rechner, Datenbanken, Dokumentation und fünf Wissensbeiträge öffnen.
+2. Außenbreite, Ober-/Unterkante, Rundung und Seitenabstand mit Home vergleichen.
+3. Nur `.sk-app-scroll` darf auf Unterseiten scrollen; Header und Footer bleiben sichtbar.
+4. Favoriten-, Zurück- und Home-Schalter dürfen nicht umbrechen oder das Logo überlagern.
+5. Am Anfang und Ende jedes Inhalts prüfen, dass nichts abgeschnitten ist.
 
-## 3. Icons, Buttons und Navigation
-1. Favoriten-, Zurück- und Startseiten-Schalter in jeder Unterseiten-Kopfzeile prüfen.
-2. Favorit hinzufügen/entfernen, Zähler und Favoritendrawer testen.
-3. Berechnen-, Reset-, Druck-, Löschen-, Kopieren-, Datenbank-, Download- und Fertig-Symbole prüfen.
-4. Tastaturfokus, Enter/Leertaste und sichtbare Fokusmarkierung prüfen.
-5. Mindestgröße der Touch-Ziele auf Smartphone prüfen.
+## 3. Kritischer Test: Wissensnavigation
+1. Wissensdatenbank über die Startseite öffnen.
+2. Air Torque öffnen und den Beitrag `Drehrichtung` aufrufen.
+3. Endress+Hauser öffnen und `Einbaulage` aufrufen.
+4. Siemens öffnen und beide Beiträge nacheinander aufrufen.
+5. Vacon öffnen und den Frequenzumrichter-Beitrag aufrufen.
+6. Auf jeder Karte getrennt Kartenfläche und Favoritenstern testen.
+7. Browser-Zurück, `Alle Hersteller`, Kopf-Zurück und Home testen.
+8. Direkt mit `/wissensdatenbank/?manufacturer=siemens` starten.
+9. Falls der Server es zulässt, die Wissensdatenbank auch über `index.html` testen.
+10. Den Ablauf online, nach PWA-Installation und anschließend offline wiederholen.
 
-## 4. Startseite, Suche und App-Anordnung
-1. Desktop: sechs Spalten und zwei Icon-Reihen prüfen.
-2. Smartphones: vier Spalten und drei Reihen prüfen; kein abgeschnittenes Icon.
-3. Smartphone-Querformat: sechs kompakte Spalten und zwei Reihen prüfen.
-4. Nach `Pt100`, `316L`, `SCO` und `Siemens` suchen.
-5. Kategorienfilter, Sortierung und Zurücksetzen prüfen.
-6. Long-Press-Verschieben, Tastaturverschieben, Fertig und Anordnung zurücksetzen prüfen.
+## 4. Kompakte Rechnerseiten
+1. Analogsignal-, P+F-, Pt100/Pt1000-, Einheiten-, Spannungsfall- und Siemens-Rohwert-Rechner öffnen.
+2. Desktop ab 1000 px: Standardrechner zeigen Eingaben links und Ergebnisse rechts.
+3. Desktop: bis zu vier Eingabefelder pro Reihe prüfen; keine Überlagerung oder abgeschnittene Auswahltexte.
+4. Tablet 761–999 px: dreispaltige Eingaben und vollständig erreichbare Ergebnisse prüfen.
+5. Smartphone 341–760 px: zweispaltige Eingaben, lesbare Labels und Touch-Ziele ≥ 42 px prüfen.
+6. Sehr schmal unter 341 px: sicherer einspaltiger Rückfall ohne horizontales Scrollen.
+7. Einheitendatenbank-Leiste muss flach bleiben und vollständig bedienbar sein.
+8. Bildschirmtastatur auf iPhone prüfen: fokussiertes Feld bleibt erreichbar.
 
-## 5. Inhalte und Funktionen
-1. Alle sechs Rechner mit bekannten Eingaben testen.
-2. Einheitenfavoriten, Einheitensuche und Umrechnung prüfen.
-3. Werkstoffsuche, Gruppenfilter und Direktvergleich prüfen.
-4. Messstellen-Dokumentation einschließlich Fotos, Löschen, Reset und PDF-Druck prüfen.
-5. Hersteller-Hub prüfen: Air Torque 1, Endress+Hauser 1, Siemens 2, Vacon 1, Sonstiges 0 Beiträge.
-6. Alle fünf Wissensbeiträge und die PDF-Beitragsvorlage öffnen.
-7. E+H Device Viewer auf neuen Tab, `noopener`, `noreferrer` und externe Kennzeichnung prüfen.
+## 5. Rechner-Funktionstest
+1. Analogsignal: 0…100 °C und 4…20 mA; 50 °C muss 12 mA ergeben.
+2. P+F: (0|4) und (100|20); K-Faktor 0,16 und Nullpunkt 4 prüfen.
+3. Pt100: 0 °C muss ungefähr 100 Ω ergeben.
+4. Einheitenrechner: 1 bar in kPa muss 100 kPa ergeben.
+5. Spannungsfall: gültige Strom-, Längen- und Querschnittswerte eingeben; Status, fünf Ergebnisse, Formel und Protokoll prüfen.
+6. Siemens Rohwert: 4–20 mA, 12 mA und −50…150 °C; Rohwert 13.824 und physikalisch 50 °C prüfen.
+7. Vorzeichen-, Reset-, Berechnen- und Kopierknöpfe testen.
 
-## 6. PWA und Offline
-1. Seite einmal online laden und Service-Worker-Installation abwarten.
+## 6. Übrige Inhalte und Funktionen
+1. Einheitensuche/Favoriten, Werkstoffsuche/Gruppenfilter und Direktvergleich prüfen.
+2. Messstellen-Dokumentation einschließlich Fotos, Löschen, Reset und PDF-Druck prüfen.
+3. PDF-Beitragsvorlage herunterladen.
+4. E+H Device Viewer auf neuen Tab, `noopener`, `noreferrer` und externe Kennzeichnung prüfen.
+
+## 7. PWA und Offline
+1. Seite online laden und Service-Worker-Installation abwarten.
 2. Offline-Modus aktivieren.
-3. Startseite, alle internen Apps, Herstelleransichten und Wissensbeiträge öffnen.
-4. Prüfen, dass `assets/pct-frame.css` offline verfügbar ist.
-5. Prüfen, dass nur Caches der Version 2.5.1.3-Beta verwendet werden.
+3. Startseite, Rechner, Herstelleransichten und alle Wissensbeiträge öffnen.
+4. Prüfen, dass nur Caches der Version 2.5.1.4-Beta verwendet werden.
 
-## 7. Automatische Prüfung
+## 8. Automatische Prüfung
 ```bash
 python3 tests/validate_project.py
 ```

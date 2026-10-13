@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.3-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.4-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.1.3-Beta"
+VERSION = "2.5.1.4-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -143,7 +143,7 @@ def main() -> int:
 
     # Jede echte Unterseite liegt in demselben viewportfesten Rechteck und
     # besitzt genau einen intern scrollenden Inhaltsbereich.
-    footer_text = "SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.1.3-Beta"
+    footer_text = "SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.1.4-Beta"
     framed_pages = [
         path for path in ROOT.rglob("*.html")
         if path != start_path and path.name == "index.html"
@@ -196,12 +196,20 @@ def main() -> int:
     ):
         if token not in home_css:
             fail(f"Startseiten-Designregel fehlt: {token}", errors)
-    for token in (".knowledge-hub", ".knowledge-manufacturer-view", ".knowledge-grid", ".knowledge-view-back"):
+    for token in (
+        ".knowledge-hub", ".knowledge-manufacturer-view", ".knowledge-grid",
+        ".knowledge-view-back", ".knowledge-hub[hidden]{display:none!important}",
+    ):
         if token not in knowledge_css:
             fail(f"Hersteller-Hub-Designregel fehlt: {token}", errors)
 
     overview_js = (ROOT / "assets" / "knowledge-overview.js").read_text(encoding="utf-8")
-    for token in ("popstate", "history.pushState", "knowledge-hub-card", "knowledge-entry"):
+    for token in (
+        "popstate", "history.pushState", "knowledge-hub-card", "knowledge-entry",
+        "const knowledgeRoot=new URL('wissensdatenbank/',projectRoot)",
+        "location.assign(link.href)", "scrollHost?.scrollTo",
+        "event.target.closest('.sk-favorite-button')",
+    ):
         if token not in overview_js:
             fail(f"Herstelleransichts-Logik fehlt: {token}", errors)
     # URLSearchParams is expressed through URL(...).searchParams in the implementation.
@@ -212,6 +220,26 @@ def main() -> int:
     for token in ("pct-home-search-open", "content.append(results)"):
         if token not in app_js:
             fail(f"Viewportfeste Startseitensuche unvollständig: {token}", errors)
+
+    calculator_css = (ROOT / "assets" / "rechner-unified.css").read_text(encoding="utf-8")
+    for token in (
+        "2.5.1.4-Beta: kompakter Rechnerstandard",
+        "grid-template-columns:repeat(4,minmax(0,1fr))",
+        "grid-template-columns:repeat(2,minmax(0,1fr))",
+        "body.sk-calculator-page .calc-panel:not(.calculator)",
+        "@media(max-width:340px)",
+    ):
+        if token not in calculator_css:
+            fail(f"Kompakter Rechnerstandard fehlt: {token}", errors)
+
+    siemens_css = (ROOT / "assets" / "siemens-analogwert-rechner.css").read_text(encoding="utf-8")
+    for token in (
+        "2.5.1.4-Beta: kompakte Siemens-Rechnerfläche",
+        "grid-template-columns:repeat(12,minmax(0,1fr))",
+        ".analog-primary-panel{grid-column:1/5;grid-row:2}",
+    ):
+        if token not in siemens_css:
+            fail(f"Kompaktes Siemens-Layout fehlt: {token}", errors)
 
     if "grid-template-columns:repeat(2,var(--pct-home-action-size))" not in home_css:
         fail("Die obere Home-Aktionsreihe ist nicht horizontal vereinheitlicht.", errors)
@@ -229,6 +257,7 @@ def main() -> int:
         ".sk-logo-version-stack", ".sk-global-header .pct-header-actions",
         "body[data-sk-home=\"ios\"] .pct-home-head",
         "Home-Footer als verbindlicher Seitenstandard", "width:min(1060px,calc(100% - 10px))", "border-top:4px solid var(--pct-comic,#000)",
+        ".sr-only{", "clip-path:inset(50%)!important",
     ):
         if token not in frame_css:
             fail(f"Gemeinsame App-Rahmenregel fehlt: {token}", errors)

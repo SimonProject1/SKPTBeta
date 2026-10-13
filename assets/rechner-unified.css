@@ -1,4 +1,4 @@
-/* Rechner-Oberflächen · SK PCT Tools 2.5.1.3-Beta
+/* Rechner-Oberflächen · SK PCT Tools 2.5.1.4-Beta
    Gemeinsame Darstellung aller Rechner nach dem Siemens-Rohwert-Design.
    Diese Datei enthält ausschließlich Layout und Gestaltung; Berechnungslogik bleibt unverändert. */
 
@@ -60,7 +60,7 @@
 .voltage-result .protocol span{color:var(--muted)}
 .voltage-result .protocol b{color:var(--green);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
 
-/* V2.5.1.3-Beta: bestätigte volle nutzbare Shell-Breite auf PC und Tablet. */
+/* V2.5.1.4-Beta: bestätigte volle nutzbare Shell-Breite auf PC und Tablet. */
 @media(min-width:761px){
   .calc-page-title,.calc-panel,.calc-notice,.voltage-result{max-width:none}
 }
@@ -92,4 +92,114 @@
   .calc-value-card,.voltage-result .result-grid article{padding:9px}
   .calc-value-card>strong,.calc-value-card .calc-value,.voltage-result .result-grid strong{font-size:19px}
   .calc-value-card>span,.calc-value-card .calc-value-label{font-size:10px}
+}
+
+
+/* === 2.5.1.4-Beta: kompakter Rechnerstandard ===============================
+   Mehr Felder nebeneinander, Ergebnisse neben der Eingabe und ein flacher
+   Seitentitel verkürzen die Scrollstrecke. Touch-Ziele bleiben mindestens
+   42–44 px hoch; die Berechnungslogik wird nicht verändert. */
+body.sk-calculator-page .sk-app-scroll{padding-top:7px!important;padding-bottom:12px!important}
+body.sk-calculator-page .calc-page-title{padding:3px 0 7px!important}
+body.sk-calculator-page .calc-page-title .eyebrow{font-size:10px;letter-spacing:1.45px}
+body.sk-calculator-page .calc-page-title h1{margin:3px 0 4px!important;font-size:clamp(27px,3vw,38px)!important;line-height:1.02}
+body.sk-calculator-page .calc-page-title p{max-width:none;font-size:13px;line-height:1.32}
+body.sk-calculator-page .calc-panel.panel{padding:11px 12px}
+body.sk-calculator-page .calc-panel{gap:8px}
+body.sk-calculator-page .calc-panel-title{font-size:clamp(18px,2vw,23px)}
+body.sk-calculator-page .calc-fields,
+body.sk-calculator-page .calc-field-grid{gap:7px}
+body.sk-calculator-page .calc-field-card{padding:8px 9px 9px}
+body.sk-calculator-page .calc-field-card>span,
+body.sk-calculator-page .calc-field-label{margin-bottom:4px;font-size:10px;line-height:1.2}
+body.sk-calculator-page .calc-field-card>input,
+body.sk-calculator-page .calc-field-card>select,
+body.sk-calculator-page .calc-field-card>textarea{min-height:42px;padding:7px 8px;font-size:14px}
+body.sk-calculator-page .calc-field-card>select{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.sk-calculator-page .calc-field-card .number input{min-height:40px;padding:7px 8px;font-size:14px}
+body.sk-calculator-page .calc-field-card .number .sign{min-height:40px}
+body.sk-calculator-page .calc-results,
+body.sk-calculator-page .calc-result-grid{gap:7px}
+body.sk-calculator-page .calc-value-card{min-height:72px;padding:9px 10px}
+body.sk-calculator-page .calc-value-card>span,
+body.sk-calculator-page .calc-value-card .calc-value-label{font-size:10px}
+body.sk-calculator-page .calc-value-card>strong,
+body.sk-calculator-page .calc-value-card .calc-value{margin-top:4px;font-size:clamp(18px,2.4vw,25px)}
+body.sk-calculator-page .calc-value-card>small,
+body.sk-calculator-page .calc-value-card .calc-value-note{margin-top:3px}
+body.sk-calculator-page .calc-notice{margin-bottom:8px;padding:8px 10px}
+body.sk-calculator-page .calc-notice p{margin-top:3px;font-size:11px;line-height:1.32}
+body.sk-calculator-page .calc-actions{gap:7px;margin-top:0}
+body.sk-calculator-page .calc-actions button{min-height:42px;padding:7px 12px}
+body.sk-calculator-page .sk-unit-database-cta{margin-top:9px;padding:8px 10px;gap:10px}
+body.sk-calculator-page .sk-unit-database-cta p{margin-top:2px;font-size:11px;line-height:1.25}
+body.sk-calculator-page .sk-unit-database-button{min-height:40px;padding:8px 11px;font-size:12px}
+
+@media(min-width:1000px){
+  body.sk-calculator-page .calc-field-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  body.sk-calculator-page .calc-field-grid.cols-3{grid-template-columns:repeat(4,minmax(0,1fr))}
+  body.sk-calculator-page .calc-panel:not(.calculator){grid-template-columns:minmax(0,3fr) minmax(230px,1fr);align-items:start}
+  body.sk-calculator-page .calc-panel:not(.calculator)>.calc-panel-title{grid-column:1/-1}
+  body.sk-calculator-page .calc-panel:not(.calculator)>.calc-field-grid{grid-column:1;grid-row:2}
+  body.sk-calculator-page .calc-panel:not(.calculator)>.calc-result-grid{grid-column:2;grid-row:2;grid-template-columns:1fr;align-self:stretch}
+  body.sk-calculator-page .calc-panel:not(.calculator)>.calc-result-grid>.calc-value-card{min-height:0}
+  body.sk-calculator-page .calc-panel.calculator .calc-actions{grid-column:1/-1}
+  body.sk-calculator-page .voltage-result .result-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+  body.sk-calculator-page .voltage-result .result-grid article:last-child{grid-column:auto}
+}
+@media(min-width:761px) and (max-width:999px){
+  body.sk-calculator-page .calc-field-grid,
+  body.sk-calculator-page .calc-field-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.sk-calculator-page .voltage-result .result-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  body.sk-calculator-page .voltage-result .result-grid article:last-child{grid-column:auto}
+}
+@media(max-width:760px){
+  body.sk-calculator-page .sk-app-scroll{padding-top:4px!important;padding-bottom:8px!important}
+  body.sk-calculator-page .calc-page-title{padding:2px 0 6px!important}
+  body.sk-calculator-page .calc-page-title h1{margin:2px 0 3px!important;font-size:clamp(23px,7.2vw,30px)!important;line-height:1.04}
+  body.sk-calculator-page .calc-page-title p{display:-webkit-box;max-width:none;overflow:hidden;font-size:11px;line-height:1.25;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+  body.sk-calculator-page .calc-panel.panel,
+  body.sk-calculator-page .voltage-result.panel{padding:9px}
+  body.sk-calculator-page .calc-field-grid,
+  body.sk-calculator-page .calc-field-grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  body.sk-calculator-page .calc-field-card{padding:7px}
+  body.sk-calculator-page .calc-field-card>input,
+  body.sk-calculator-page .calc-field-card>select{min-height:44px;padding:7px;font-size:16px}
+  body.sk-calculator-page .calc-field-card .number input{min-height:42px;font-size:16px}
+  body.sk-calculator-page .calc-field-card .number .sign{min-height:42px}
+  body.sk-calculator-page .calc-results,
+  body.sk-calculator-page .calc-result-grid,
+  body.sk-calculator-page .voltage-result .result-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  body.sk-calculator-page .calc-value-card.calc-wide{grid-column:1/-1}
+  body.sk-calculator-page .voltage-result .result-grid article:last-child{grid-column:auto}
+  body.sk-calculator-page .calc-value-card,
+  body.sk-calculator-page .voltage-result .result-grid article{min-height:68px;padding:8px}
+  body.sk-calculator-page .calc-value-card>strong,
+  body.sk-calculator-page .calc-value-card .calc-value,
+  body.sk-calculator-page .voltage-result .result-grid strong{font-size:18px}
+  body.sk-calculator-page .calc-notice{margin-bottom:6px;padding:7px 8px}
+  body.sk-calculator-page .calc-notice strong{font-size:11px}
+  body.sk-calculator-page .calc-notice p{font-size:10px;line-height:1.25}
+  body.sk-calculator-page .calc-actions{grid-column:1/-1}
+  body.sk-calculator-page .calc-actions button{min-height:44px}
+  body.sk-calculator-page .voltage-result{margin-top:8px;gap:7px}
+  body.sk-calculator-page .voltage-result .result-head h2{font-size:19px}
+  body.sk-calculator-page .voltage-result .formula{padding:8px;font-size:10px;line-height:1.3}
+  body.sk-calculator-page .voltage-result .protocol{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px}
+  body.sk-calculator-page .voltage-result .protocol>strong{grid-column:1/-1}
+  body.sk-calculator-page .voltage-result .protocol div{justify-content:space-between;font-size:10px}
+  body.sk-calculator-page .sk-unit-database-cta{display:block;margin-top:7px;padding:7px 8px}
+  body.sk-calculator-page .sk-unit-database-cta>div{display:none}
+  body.sk-calculator-page .sk-unit-database-button{display:flex;width:100%;min-height:42px;padding:7px 9px;white-space:normal}
+  body.sk-calculator-page .pct-copy-host{padding-right:50px!important}
+  body.sk-calculator-page .pct-copy-button{right:4px;top:4px;width:42px;min-width:42px;height:42px;min-height:42px}
+}
+@media(max-width:340px){
+  body.sk-calculator-page .calc-field-grid,
+  body.sk-calculator-page .calc-field-grid.cols-3{grid-template-columns:1fr}
+  body.sk-calculator-page .calc-results,
+  body.sk-calculator-page .calc-result-grid,
+  body.sk-calculator-page .voltage-result .result-grid{grid-template-columns:1fr}
+  body.sk-calculator-page .calc-value-card.calc-wide{grid-column:auto}
+  body.sk-calculator-page .sk-unit-database-button{width:100%}
 }

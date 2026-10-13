@@ -1,25 +1,41 @@
-SK PCT Tools 2.5.1.3-Beta
+SK PCT Tools 2.5.1.4-Beta
 Release-Datum: 13.10.2026
-Status: Einheitliche obere Aktionsreihe und Home-Footer auf allen Unterseiten
-Direkte Ausgangsbasis: vollständige 2.5.1.2-Beta
+Status: Wissensnavigation abgesichert und Rechnerseiten kompakter gestaltet
+Direkte Ausgangsbasis: vollständige 2.5.1.3-Beta
 
-NEU IN 2.5.1.3-BETA
-1. Obere Reihe der Startseite vereinheitlicht
-- Suche und Favoriten stehen jetzt in einer einzigen horizontalen Aktionsreihe oben rechts.
-- Logo, Versionsanzeige und Schnellzugriffe bleiben innerhalb derselben 1060-px-Kopfbasis.
-- Desktop, iPhone, iPad und kompaktes Querformat nutzen dieselbe Anordnungslogik.
-- Logo, Rasterpositionen, eigene App-Reihenfolge und alle Home-Funktionen bleiben erhalten.
+NEU IN 2.5.1.4-BETA
 
-2. Footer aller Unterseiten an die Startseite angepasst
-- Alle 15 gerahmten Unterseiten verwenden den transparenten Footer der Startseite.
-- Breite, feine Trennlinie, Schrift, Innenabstände und iOS-Safe-Area sind zentral vereinheitlicht.
-- Das bisherige vollbreite dunkle Footer-Band mit starker schwarzer Kante wurde entfernt.
-- Jeder Footer zeigt vollständig: SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.1.3-Beta.
+1. Kritischer Navigationsfix der Wissensdatenbank
+- Ursache des Langzeitfehlers behoben: Die Grid-Darstellung des Hersteller-Hubs
+  überstimmt das `hidden`-Attribut nicht mehr. Gewählte Unteransichten liegen nicht
+  mehr unter dem weiterhin sichtbaren Hub.
+- Die Projektwurzel wird aus dem geladenen Laufzeitskript bestimmt und ist damit
+  auch unter GitHub Pages, in der installierten PWA und bei abweichender URL-Form stabil.
+- Hersteller-, Zurück- und Beitragsziele werden vor der Nutzung absolut normalisiert.
+- Wissensbeiträge öffnen zuverlässig nach einem Tap auf die vollständige Karte.
+- Der Favoritenstern bleibt eine getrennte Aktion und löst keinen Seitenwechsel aus.
+- Beim Wechsel zwischen Hub und Herstelleransicht wird der tatsächlich scrollende
+  Inhaltsbereich statt des feststehenden Browserfensters zurückgesetzt.
 
-3. Vollständige Seiten- und PWA-Aktualisierung
+2. Kompakter Rechnerstandard
+- Seitentitel, Panelabstände, Feldkarten und Ergebnisfelder benötigen weniger Höhe.
+- Desktop: Standardrechner zeigen Eingabefelder links und Ergebnisse rechts.
+- Desktop: Eingabemasken nutzen bis zu vier Spalten; Tablet verwendet drei Spalten.
+- Smartphone: in der Regel zwei Spalten mit weiterhin 42 bis 44 px hohen Touch-Zielen.
+- Ergebnisfelder, Kopierknöpfe und die Einheitendatenbank-Leiste wurden verdichtet.
+- Bei sehr schmalen Displays unter 341 px fällt das Layout sicher auf eine Spalte zurück.
+
+3. Siemens-Rohwert- und Spannungsfall-Rechner
+- Der Siemens-Rechner ordnet Eingabe, Ergebnisse, Messbereich, Kartenprofil und
+  Diagnose auf breiten Displays in einer gemeinsamen kompakten Rasterfläche an.
+- Der Spannungsfall-Rechner zeigt auf Desktop bis zu vier Eingabefelder und fünf
+  Ergebniswerte pro Reihe; Smartphone bleibt zweispaltig und touchfreundlich.
+- Fachliche Hinweise und sämtliche Berechnungsfunktionen bleiben vollständig erhalten.
+
+4. Vollständige Seiten- und PWA-Aktualisierung
 - Sämtliche HTML-Unterseiten, Laufzeitmodule, Cache-Buster, Manifest und Service-Worker
-  wurden auf 2.5.1.3-Beta angehoben.
-- Der zentrale Rahmenstil bleibt Teil des strikten Offline-Kerncaches.
+  wurden auf 2.5.1.4-Beta angehoben.
+- Der zentrale Rahmenstil und alle Wissensziele bleiben Teil des Offline-Kerncaches.
 
 ERHALTENE FUNKTIONEN UND INHALTE
 - 11 Startseiten-Apps und 11 eindeutige App-Symbole.
@@ -27,9 +43,9 @@ ERHALTENE FUNKTIONEN UND INHALTE
 - Einheiten- und Werkstoffdatenbank sowie Messstellen-Dokumentation.
 - Hersteller-Hub, fünf Wissensbeiträge und PDF-Beitragsvorlage.
 - Suche, Filter, Sortierung, Favoriten und eigene App-Reihenfolge.
-- Gemeinsame Rechteckbasis, runde Unterseiten-Panels und stabile interne URLs.
+- Gemeinsame Rechteckbasis, runde Unterseiten-Panels und feste Header/Footer.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
-- tests/validate_project.py prüft Version, Inhaltsinventar, Links, App-Rahmen,
-  horizontale Home-Aktionsreihe, einheitliche Footer, Symbole und Offline-Cache.
+- tests/validate_project.py prüft Version, Inventar, Links, Wissenswege,
+  Kompaktregeln, App-Rahmen, Symbole und Offline-Cache.

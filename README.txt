@@ -1,20 +1,27 @@
-SK PCT Tools 2.5.1.3-Beta
+SK PCT Tools 2.5.1.4-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist die vollständige 2.5.1.2-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.5.1.3-Beta.
 
 Änderungen dieser Beta
-- Die obere Aktionsreihe der Startseite ist vereinheitlicht: Suche und Favoriten
-  stehen jetzt horizontal nebeneinander oben rechts.
-- Logo, Versionsanzeige und Schnellzugriffe bleiben auf Desktop, Tablet,
-  Smartphone und im kompakten Querformat sauber in derselben Kopfbasis ausgerichtet.
-- Alle 15 gerahmten Unterseiten übernehmen den Footer der Startseite vollständig.
-- Footerbreite, Position, schwarze Trennkante mit Cyan-Innenlinie, transparente
-  Fläche, Typografie, Versionsanzeige und Safe-Area-Abstände stimmen überein.
-- Das bisherige vollbreite dunkle Footer-Band der Unterseiten wurde entfernt.
-- Die gemeinsame Rechteckbasis, das Logo oben links und die Unterseiten-Navigation
-  oben rechts aus der 2.5.1.2-Beta bleiben unverändert erhalten.
+- Kritischer Navigationsfix für die Wissensdatenbank: Herstelleransichten und alle
+  fünf Wissensbeiträge werden nun über eine normalisierte Projektwurzel geöffnet.
+- Die frühere Grid-Regel kann den mit `hidden` markierten Hersteller-Hub nicht mehr
+  sichtbar halten; die gewählte Hersteller-Unteransicht erscheint sofort.
+- Beitragsziele funktionieren unabhängig davon, ob die aktuelle Adresse mit /,
+  index.html oder einem Hersteller-Parameter endet.
+- Die gesamte Wissenskarte ist eine eindeutige Tap-Zone; der Favoritenstern bleibt
+  davon getrennt bedienbar.
+- Die sechs Rechnerseiten sind kompakter: flachere Seitentitel, kleinere Abstände,
+  mehr Eingabefelder nebeneinander und Ergebnisse neben der Eingabe auf Desktop.
+- Auf Smartphones werden Eingabefelder in der Regel zweispaltig dargestellt;
+  Touch-Ziele bleiben mindestens 42 bis 44 px hoch.
+- Der Siemens-Rohwert-Rechner verwendet auf Desktop eine kompakte Rasterfläche
+  für Eingabe, Ergebnisse, Messbereich, Konfiguration und Diagnose.
+- Der Spannungsfall-Rechner zeigt Eingabe- und Ergebnisfelder dichter an, ohne
+  Berechnungslogik oder fachliche Hinweise zu entfernen.
+- Der Hinweis zur Einheitendatenbank ist auf Rechnerseiten jetzt eine flache Leiste.
 
 Erhaltene Funktionen und Inhalte
 - Alle 11 Startseiten-Apps und ihre eindeutigen App-Icons.
@@ -24,12 +31,12 @@ Erhaltene Funktionen und Inhalte
 - Startseitensuche, Kategorienfilter, Sortierung, Zurücksetzen und Favoriten.
 - Long-Press-Bearbeitungsmodus mit lokaler Speicherung der App-Reihenfolge.
 - Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
-- Stabile interne Beitrags-URLs und abgesicherter externer Herstellerlink.
-- Runde Formensprache der 2.5.1.1-Beta für Panels, Felder und Schalter.
+- Gemeinsame Rechteckbasis, fester Header/Footer und interne Scrollbereiche.
+- Runde Formensprache für Panels, Felder und Schalter.
 
 Version und PWA
-- Öffentliche Version: 2.5.1.3-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.1.3-Beta.
+- Öffentliche Version: 2.5.1.4-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.1.4-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen: localStorage; App-Reihenfolgen, Wissensansicht und Favoriten werden nicht übertragen.
 

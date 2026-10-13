@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.1.3-Beta — gemeinsamer viewportfester App-Rahmen.
+/* SK PCT Tools 2.5.1.4-Beta — gemeinsamer viewportfester App-Rahmen.
    Die Dokumentseite selbst scrollt nie. Auf Unterseiten scrollt ausschließlich
    der Inhaltsbereich innerhalb des sichtbaren PCT-Rechtecks. */
 :root{
@@ -134,7 +134,7 @@ body[data-sk-page="knowledge"] .knowledge-app-scroll>.knowledge-views{max-width:
 }
 
 
-/* === 2.5.1.3-Beta: neues rundes Design auf sämtlichen Unterseiten ===
+/* === 2.5.1.4-Beta: neues rundes Design auf sämtlichen Unterseiten ===
    pct-frame.css wird auf jeder gerahmten Unterseite zuletzt geladen. Dadurch
    ersetzt dieser Block die alte abgeschrägte/eckige Formensprache zentral,
    ohne Funktionen, Inhalte oder die Startseiten-App-Icons zu verändern. */
@@ -281,7 +281,7 @@ body[data-sk-layout="framed"] .sk-favorite-entry{border-right:0!important}
   :root{--sk-round-xl:23px;--sk-round-lg:18px;--sk-round-md:13px;--sk-round-sm:10px}
 }
 
-/* === 2.5.1.3-Beta: eine gemeinsame Rechteckbasis für Start- und Unterseiten ===
+/* === 2.5.1.4-Beta: eine gemeinsame Rechteckbasis für Start- und Unterseiten ===
    Startseite und Unterseiten verwenden ab jetzt dieselben Außenmaße, dieselbe
    Rahmenfläche und dieselben Safe-Area-Abstände. Der Unterseitenkopf liegt wie
    der Home-Kopf frei im Rechteck: Logo oben links, Navigation oben rechts. */
@@ -492,7 +492,7 @@ body[data-sk-home="ios"] .pct-home-head{
   width:min(1060px,100%)!important;
 }
 
-/* === 2.5.1.3-Beta: Home-Footer als verbindlicher Seitenstandard ===
+/* === 2.5.1.4-Beta: Home-Footer als verbindlicher Seitenstandard ===
    Alle Unterseiten übernehmen Breite, Trennlinie, Transparenz, Typografie
    und Safe-Area-Abstand des Footers der Startseite. */
 body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{
@@ -532,3 +532,28 @@ body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{
     line-height:1.2!important;
   }
 }
+
+
+/* === 2.5.1.4-Beta: kompakter Rahmen nur für Berechnungsseiten ============== */
+body.sk-calculator-page{--sk-shared-logo-size:78px}
+.sr-only{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;
+  white-space:nowrap!important;border:0!important;
+}
+body.sk-calculator-page .sk-app-frame>.sk-footer{
+  width:min(1060px,calc(100% - 10px))!important;
+  margin-bottom:6px!important;
+  padding-top:6px!important;
+  padding-bottom:max(4px,env(safe-area-inset-bottom,0px))!important;
+  font-size:10px!important;
+  line-height:1.25!important;
+}
+@media(max-width:760px){
+  body.sk-calculator-page{--sk-shared-logo-size:70px}
+  body.sk-calculator-page .sk-app-frame>.sk-global-header>.sk-header-inner{padding-top:5px!important;padding-bottom:4px!important}
+  body.sk-calculator-page .sk-app-frame>.sk-footer{margin-bottom:0!important;padding-top:5px!important;font-size:9px!important}
+  body.sk-calculator-page .analog-tab.pct-tab{min-height:44px!important}
+}
+@media(max-width:380px){body.sk-calculator-page{--sk-shared-logo-size:66px}}
+@media(orientation:landscape) and (max-height:620px){body.sk-calculator-page{--sk-shared-logo-size:62px}}
