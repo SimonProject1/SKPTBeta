@@ -1,30 +1,27 @@
-SK PCT Tools 2.5.1.0-Beta
+SK PCT Tools 2.5.1.1-Beta
 Release-Datum: 13.10.2026
-Status: Einheitlicher viewportfester App-Rahmen mit intern scrollenden Unterseiten
-Direkte Ausgangsbasis: vollständige 2.5.0.7-Beta
+Status: Startseite stabilisiert und alle Unterseiten auf das runde Design umgestellt
+Direkte Ausgangsbasis: vollständige 2.5.1.0-Beta
 
-NEU IN 2.5.1.0-BETA
-1. Startseite vollständig gegen Scrollen gesperrt
-- HTML-Wurzelelement und Body sind gemeinsam auf die sichtbare Viewporthöhe begrenzt.
-- Dokument-Scrollen, Overscroll und iOS-Gummibandverhalten sind unterbunden.
-- Safe Areas und der vollständige Home-Inhalt bleiben innerhalb des sichtbaren Rechtecks.
+NEU IN 2.5.1.1-BETA
+1. Startseite korrigiert
+- Das App-Raster besitzt wieder eine feste, bei kleinen Viewports flexibel schrumpfende Bezugsfläche.
+- Die Symbole der obersten Reihe bleiben dadurch an der gewohnten Position.
+- Das Home-Rechteck reicht jetzt bis an die untere Displaykante.
+- Die iPhone-/iPad-Safe-Area liegt innerhalb des Footers, damit der Rahmen maximal groß bleibt.
 
-2. Einheitlicher App-Rahmen auf allen Unterseiten
-- Rechner, Datenbanken, Messstellen-Dokumentation, Wissensdatenbank und alle
-  Wissensbeiträge verwenden dieselbe rechteckige PCT-Oberfläche.
-- Kopfzeile, interner Inhaltsbereich und Footer liegen gemeinsam im Rahmen.
-- Nur der mittlere Inhaltsbereich scrollt; der Browser-Body bleibt fest.
-- Desktop, Tablet, Smartphone-Hochformat und Smartphone-Querformat werden unterstützt.
+2. Rundes Design auf allen Unterseiten
+- Rechner, Datenbanken, Messstellen-Dokumentation, Wissensdatenbank und Wissensbeiträge
+  verwenden durchgehend abgerundete Panels, Karten, Felder und Schalter.
+- Abgeschrägte Clip-Path-Ecken der bisherigen PCT-Bedienflächen wurden entfernt.
+- Header und Footer schließen rund an den gemeinsamen App-Rahmen an.
+- Suchfelder, Auswahllisten, Filter, Favoriten, Informationsfelder, Tabellen und
+  Aktionsschalter folgen derselben Rundungslogik.
+- Verbundene Zahlenfelder behalten ihre klare innere Trennung, sind außen aber rund.
 
-3. Icons und Buttons vereinheitlicht
-- Favoriten, Zurück und Startseite sind als kompakte PCT-Schalter in der Kopfzeile gruppiert.
-- Aktionslinks und Schaltflächen verwenden eine einheitliche rechteckige Formensprache.
-- Neue Symbole: Berechnen, Datenbank öffnen, Download und Fertig.
-- Bestehende Such-, Filter-, Favoriten-, Kopier-, Druck-, Lösch- und Reset-Symbole bleiben erhalten.
-
-4. PWA und Offline aktualisiert
-- Der gemeinsame Rahmenstil assets/pct-frame.css ist Teil des strikten Offline-Kerncaches.
-- Service-Worker- und Manifestversion wurden auf 2.5.1.0-Beta angehoben.
+3. PWA und Offline aktualisiert
+- Version, Cache-Buster, Manifest und Service-Worker wurden auf 2.5.1.1-Beta angehoben.
+- Der zentrale Rahmenstil bleibt Teil des strikten Offline-Kerncaches.
 
 ERHALTENE FUNKTIONEN UND INHALTE
 - 11 Startseiten-Apps und 11 eindeutige App-Symbole.
@@ -36,5 +33,5 @@ ERHALTENE FUNKTIONEN UND INHALTE
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
-- tests/validate_project.py prüft Version, vollständiges Inhaltsinventar, Links,
-  App-Rahmen, interne Scrollbereiche, Startseiten-Scrollschutz, Symbole und Offline-Cache.
+- tests/validate_project.py prüft Version, Inhaltsinventar, Links, App-Rahmen,
+  interne Scrollbereiche, Startseiten-Scrollschutz, Symbole und Offline-Cache.

@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.1.0-Beta — gemeinsamer viewportfester App-Rahmen.
+/* SK PCT Tools 2.5.1.1-Beta — gemeinsamer viewportfester App-Rahmen.
    Die Dokumentseite selbst scrollt nie. Auf Unterseiten scrollt ausschließlich
    der Inhaltsbereich innerhalb des sichtbaren PCT-Rechtecks. */
 :root{
@@ -43,7 +43,7 @@ body[data-sk-layout="framed"]>.knowledge-frame-host{
 }
 .sk-app-frame{
   position:relative;isolation:isolate;display:flex!important;flex:1 1 auto;flex-direction:column;
-  width:min(1240px,100%)!important;height:100%!important;min-height:0!important;max-height:100%!important;
+  width:min(1240px,100%)!important;max-width:1240px!important;height:100%!important;min-height:0!important;max-height:100%!important;
   margin:0 auto!important;padding:0!important;overflow:hidden!important;
   border:3px solid var(--sk-frame-border)!important;border-radius:var(--sk-frame-radius)!important;
   clip-path:none!important;
@@ -129,6 +129,154 @@ body[data-sk-page="knowledge"] .knowledge-app-scroll>.knowledge-views{max-width:
 }
 @media print{
   html.sk-framed-document,body[data-sk-layout="framed"]{position:static!important;width:auto!important;height:auto!important;overflow:visible!important;padding:0!important}
-  .sk-app-frame{display:block!important;width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff!important}
+  .sk-app-frame{display:block!important;width:100%!important;max-width:none!important;height:auto!important;max-height:none!important;overflow:visible!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff!important}
   .sk-app-frame>.sk-app-scroll{display:block!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:0!important}
+}
+
+
+/* === 2.5.1.1-Beta: neues rundes Design auf sämtlichen Unterseiten ===
+   pct-frame.css wird auf jeder gerahmten Unterseite zuletzt geladen. Dadurch
+   ersetzt dieser Block die alte abgeschrägte/eckige Formensprache zentral,
+   ohne Funktionen, Inhalte oder die Startseiten-App-Icons zu verändern. */
+:root{
+  --sk-round-xl:26px;
+  --sk-round-lg:21px;
+  --sk-round-md:15px;
+  --sk-round-sm:11px;
+  --sk-round-pill:999px;
+}
+
+/* Kopf und Fuß bleiben fest im Rahmen, schließen aber sauber an dessen Rundung an. */
+.sk-app-frame>.sk-global-header{
+  border-radius:calc(var(--sk-frame-radius) - 3px) calc(var(--sk-frame-radius) - 3px) 0 0!important;
+}
+.sk-app-frame>.sk-footer{
+  border-radius:0 0 calc(var(--sk-frame-radius) - 3px) calc(var(--sk-frame-radius) - 3px)!important;
+}
+
+/* Große Flächen, Module und Karten. */
+.sk-app-frame :is(
+  .hero,.panel,.card,.tool-card,.sk-unit-database-cta,.sk-tool-filter,
+  .sk-knowledge-results,.sk-search-result-card,.unit-category-card,.unit-row,
+  .unit-filter-panel,.unit-favorites-panel,.material-panel,.material-card,
+  .material-compare-panel,.material-facts,.material-safety,.material-empty,
+  .material-load-error,.photo,.result,.voltage-result,.analog-card,.calc-card,
+  .calc-panel,.calc-field-card,.calc-value-card,.calc-info-card,.calc-notice,
+  .analog-primary-panel,.analog-value-card,.analog-physical-range,
+  .analog-config-field,.analog-diagnostic,.analog-card-info,
+  .knowledge-panel,.proposal-card,.knowledge-entry,.knowledge-empty,
+  .knowledge-mobile-display-controls,.knowledge-manufacturer,
+  .kb-breadcrumb,.kb-hero,.kb-standard-bar,.kb-section,.kb-meta-card,.kb-card,
+  .kb-code,.kb-callout,.kb-source,.kb-optimal-visual,.kb-process,
+  .kb-process-node,.kb-avoid,.pct-message
+){
+  border-radius:var(--sk-round-lg)!important;
+  clip-path:none!important;
+}
+.sk-app-frame :is(
+  .calc-field-card,.calc-value-card,.calc-info-card,.calc-notice,
+  .analog-value-card,.analog-physical-range,.analog-config-field,
+  .analog-diagnostic,.analog-card-info,.material-facts,.material-safety,
+  .material-not-confuse,.kb-tag,.kb-value,.kb-steps li,.kb-checklist li,
+  .kb-riser-label,.kb-sensor-chip
+){
+  border-radius:var(--sk-round-md)!important;
+  clip-path:none!important;
+}
+
+/* Bedienelemente: keine abgeschnittenen Ecken mehr. */
+.sk-app-frame :is(
+  .pct-control,.pct-tab,.pct-chevron-slot,.sk-unit-database-button,
+  .knowledge-proposal-link,.knowledge-view-back,.material-reset,
+  .secondary,button.primary,.kb-cta,.toolbar button,.actions button,
+  .sk-filter-reset,.sk-filter-button,.material-filter,.analog-tab
+){
+  border-radius:var(--sk-round-md)!important;
+  clip-path:none!important;
+}
+.sk-app-frame :is(
+  input,select,textarea,.sk-filter-search input,.sk-sort-select,
+  .pct-search-shell>input[type="search"],select.pct-select
+){
+  border-radius:var(--sk-round-md)!important;
+  clip-path:none!important;
+}
+.sk-app-frame :is(.sk-filter-button,.material-filter,.badge,.material-number,.material-group,.material-chip,.kb-tag){
+  border-radius:var(--sk-round-pill)!important;
+}
+
+/* Zusammengehörige Zahlenfelder behalten die innere Trennkante, außen sind sie rund. */
+.sk-app-frame :is(.number,.analog-input-shell,.analog-range-input-shell){
+  border-radius:var(--sk-round-md)!important;
+  clip-path:none!important;
+  overflow:hidden!important;
+}
+.sk-app-frame .number input,
+.sk-app-frame .analog-input-shell input,
+.sk-app-frame .analog-range-input-shell input{
+  border-radius:var(--sk-round-md) 0 0 var(--sk-round-md)!important;
+}
+.sk-app-frame .number .pct-control--sign,
+.sk-app-frame .analog-range-input-shell>.pct-control--sign{
+  border-radius:0 var(--sk-round-md) var(--sk-round-md) 0!important;
+}
+.sk-app-frame .analog-input-shell>.pct-control--sign{
+  border-radius:0!important;
+}
+
+/* Favoriten und kompakte Symbolschalter werden bewusst weich bis kreisförmig. */
+.sk-app-frame :is(.sk-favorite-button.pct-control,.unit-favorite-button.pct-control,
+  .sk-favorite-remove.pct-control,.pct-control--icon){
+  border-radius:14px!important;
+  clip-path:none!important;
+}
+.sk-app-frame .pct-header-actions>.sk-favorites-trigger.pct-control,
+body[data-sk-layout="framed"]>.sk-favorites-trigger.pct-control{
+  border-radius:14px!important;
+  clip-path:none!important;
+}
+body[data-sk-layout="framed"] .sk-favorites-drawer{
+  border-radius:0 var(--sk-round-xl) var(--sk-round-xl) 0!important;
+}
+body[data-sk-layout="framed"] :is(.sk-favorite-row,.sk-favorite-entry,.sk-favorite-remove,.sk-favorites-close){
+  border-radius:var(--sk-round-md)!important;
+  clip-path:none!important;
+}
+body[data-sk-layout="framed"] .sk-favorite-entry{border-right:0!important}
+
+/* Wissensdatenbank und Wissensbeiträge vollständig auf die runde Form umstellen. */
+.sk-app-frame :is(.knowledge-manufacturer-toggle,.knowledge-manufacturer-entries>.knowledge-entry){
+  border-radius:var(--sk-round-md)!important;
+  clip-path:none!important;
+}
+.sk-app-frame .proposal-card::after{
+  border-radius:50%!important;
+}
+.sk-app-frame .kb-steps li::before,
+.sk-app-frame .kb-checklist li::before{
+  border-radius:50%!important;
+}
+.sk-app-frame .kb-callout,
+.sk-app-frame .kb-source,
+.sk-app-frame .kb-code,
+.sk-app-frame .kb-breadcrumb{
+  border-radius:var(--sk-round-md)!important;
+}
+
+/* Tabellen und aufklappbare Bereiche erhalten ebenfalls weiche Außenkanten. */
+.sk-app-frame :is(.material-comparison,.material-compare-table,.unit-list,.sk-favorites-list){
+  border-radius:var(--sk-round-md)!important;
+}
+.sk-app-frame .material-compare-table{
+  border-collapse:separate;
+  border-spacing:0;
+  overflow:hidden;
+}
+.sk-app-frame .material-compare-table thead tr:first-child th:first-child{border-top-left-radius:var(--sk-round-sm)}
+.sk-app-frame .material-compare-table thead tr:first-child th:last-child{border-top-right-radius:var(--sk-round-sm)}
+.sk-app-frame .material-compare-table tbody tr:last-child th:first-child{border-bottom-left-radius:var(--sk-round-sm)}
+.sk-app-frame .material-compare-table tbody tr:last-child td:last-child{border-bottom-right-radius:var(--sk-round-sm)}
+
+@media(max-width:760px){
+  :root{--sk-round-xl:23px;--sk-round-lg:18px;--sk-round-md:13px;--sk-round-sm:10px}
 }

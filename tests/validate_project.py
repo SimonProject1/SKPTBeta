@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.0-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.1-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.1.0-Beta"
+VERSION = "2.5.1.1-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -181,6 +181,9 @@ def main() -> int:
         ".pct-home-search-panel.is-expanded",
         "grid-template-columns:repeat(6",
         "grid-template-columns:repeat(4,minmax(55px,1fr))",
+        "flex:0 1 430px",
+        "flex-basis:500px",
+        "padding-bottom:0!important",
     ):
         if token not in home_css:
             fail(f"Startseiten-Designregel fehlt: {token}", errors)
@@ -207,6 +210,8 @@ def main() -> int:
         ".sk-app-frame", ".sk-app-scroll", "overflow-y:auto!important",
         "overscroll-behavior:contain", "safe-area-inset-top", "safe-area-inset-bottom",
         ".pct-header-actions>.sk-favorites-trigger", "@media print",
+        "--sk-round-xl:26px", "--sk-round-lg:21px", "clip-path:none!important",
+        ".knowledge-panel,.proposal-card,.knowledge-entry", ".kb-breadcrumb,.kb-hero",
     ):
         if token not in frame_css:
             fail(f"Gemeinsame App-Rahmenregel fehlt: {token}", errors)
