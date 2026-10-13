@@ -1,17 +1,20 @@
-SK PCT Tools 2.5.0.6-Beta
+SK PCT Tools 2.5.0.7-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist 2.5.0.5-Beta.
+Direkte Ausgangsbasis ist 2.5.0.6-Beta.
 
 Änderungen dieser Beta
-- Das PCT-Logo auf der Hauptstartseite ist exakt so hoch wie die beiden rechts
-  gestapelten Schnellzugriffe zusammen: 98 px auf Desktop und 89 px auf Mobilgeräten.
-- Der Startseitenfooter liegt vollständig im abgerundeten PCT-Home-Rechteck.
-- Das Rechteck wurde dafür in Höhe und unterem Innenabstand erweitert.
-- Die iOS-Safe-Area bleibt oben, unten sowie links und rechts erhalten.
-- Versionsanzeige, Suche, Favoriten, Icon-Raster, Wissensdatenbank und alle bestehenden
-  Funktionen bleiben erhalten.
+- Das abgerundete Rechteck der Hauptstartseite nutzt die verfügbare Displayhöhe jetzt
+  bis unmittelbar vor der unteren iOS-Safe-Area beziehungsweise dem Home-Indikator.
+- Die Startseite ist viewportfest und verhindert Seiten- sowie Gummiband-Scrollen.
+- Alle 11 App-Icons bleiben vollständig sichtbar; auch sehr schmale Smartphones
+  verwenden dafür weiterhin das kompakte Vier-Spalten-Raster.
+- Im Querformat werden die Apps platzsparend auf sechs Spalten und zwei Reihen verteilt.
+- Suche und Wissensfundstellen öffnen als intern scrollbareres Overlay, ohne die
+  Startseite selbst zu verschieben oder scrollbar zu machen.
+- Obere sowie seitliche iOS-Safe-Areas, großes Logo, Versionsanzeige, Suche,
+  Favoriten, integrierter Footer und alle bestehenden Funktionen bleiben erhalten.
 
 Erhaltene Funktionen und Inhalte
 - Alle sechs Rechner und sämtliche vorhandenen Berechnungslogiken.
@@ -23,8 +26,8 @@ Erhaltene Funktionen und Inhalte
 - Stabile interne Beitrags-URLs und abgesicherter externer Herstellerlink.
 
 Version und PWA
-- Öffentliche Version: 2.5.0.6-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.0.6-Beta.
+- Öffentliche Version: 2.5.0.7-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.0.7-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen: localStorage; App-Reihenfolgen, Wissensansicht und Favoriten werden nicht übertragen.
 

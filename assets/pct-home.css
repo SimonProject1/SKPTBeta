@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.0.6-Beta — fokussierter PCT Home-Screen mit integrierter Marke. */
+/* SK PCT Tools 2.5.0.7-Beta — fokussierter PCT Home-Screen mit integrierter Marke. */
 body[data-sk-home="ios"]{background:#02080d!important}
 body[data-sk-home="ios"] .shell{width:min(1240px,100%);padding-inline:clamp(8px,2vw,22px)}
 body[data-sk-home="ios"] .pct-header-actions{display:none!important}
@@ -82,7 +82,7 @@ body[data-sk-home="ios"] .pct-home-main{
   }
 }
 
-/* 2.5.0.6-Beta: größere PCT-Marke, direkte Versionsanzeige und gestapelte Schnellzugriffe. */
+/* 2.5.0.7-Beta: größere PCT-Marke, direkte Versionsanzeige und gestapelte Schnellzugriffe. */
 .pct-home-brand{gap:10px}
 .pct-home-brand-mark{
   flex-basis:68px;width:68px;height:68px;border-radius:19px;
@@ -150,7 +150,7 @@ body[data-sk-home="ios"] .pct-home-quick-actions>.sk-favorites-trigger .sk-favor
 }
 
 
-/* 2.5.0.6-Beta: deutlich größere PCT-Marke ohne weiße Wortmarke; exakt zentrierte Suchlupe. */
+/* 2.5.0.7-Beta: deutlich größere PCT-Marke ohne weiße Wortmarke; exakt zentrierte Suchlupe. */
 .pct-home-head{min-height:96px}
 .pct-home-brand{align-items:center;gap:12px}
 .pct-home-brand-mark{flex-basis:92px;width:92px;height:92px;border-radius:24px;box-shadow:inset 0 0 0 2px #347996,5px 7px 0 rgba(0,0,0,.66),0 16px 34px rgba(0,0,0,.38)}
@@ -172,7 +172,7 @@ body[data-sk-home="ios"] .pct-home-quick-actions>.sk-favorites-trigger .sk-favor
   .pct-home-version{font-size:7.5px;padding-inline:5px}
 }
 
-/* 2.5.0.6-Beta: Logo exakt so hoch wie Suche und Favoriten zusammen; Footer im Home-Rechteck. */
+/* 2.5.0.7-Beta: Logo exakt so hoch wie Suche und Favoriten zusammen; Footer im Home-Rechteck. */
 .pct-home-head{
   --pct-home-action-size:46px;
   --pct-home-action-gap:6px;
@@ -225,4 +225,130 @@ body[data-sk-home="ios"] .pct-home-quick-actions>.sk-favorites-trigger.pct-contr
     padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));
   }
   .pct-home-screen>.pct-home-footer{padding-top:15px;font-size:11px}
+}
+
+
+/* 2.5.0.7-Beta: viewportfestes Home-Rechteck bis direkt vor die untere iOS-Safe-Area. */
+body[data-sk-home="ios"]{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100vh;
+  height:100svh;
+  height:100dvh;
+  min-height:0;
+  padding:0!important;
+  overflow:hidden!important;
+  overscroll-behavior:none;
+}
+body[data-sk-home="ios"] .shell{
+  height:100%;
+  min-height:0;
+}
+body[data-sk-home="ios"] .pct-home-main{
+  display:flex;
+  height:100%;
+  min-height:0;
+  padding-top:calc(8px + constant(safe-area-inset-top));
+  padding-bottom:calc(6px + constant(safe-area-inset-bottom));
+  padding-top:calc(8px + env(safe-area-inset-top,0px));
+  padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));
+}
+body[data-sk-home="ios"] .pct-home-screen{
+  display:flex;
+  flex:1 1 auto;
+  flex-direction:column;
+  width:100%;
+  height:auto;
+  min-height:0;
+  padding-bottom:clamp(10px,1.5svh,16px);
+  overflow:hidden;
+}
+body[data-sk-home="ios"] .pct-home-head,
+body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{flex:0 0 auto}
+body[data-sk-home="ios"] .pct-home-grid.tools{
+  flex:1 1 auto;
+  min-height:0;
+  padding-top:clamp(8px,2.2svh,24px);
+  padding-bottom:clamp(8px,1.8svh,20px);
+}
+body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{
+  margin-top:0;
+  padding-top:clamp(9px,1.4svh,15px);
+  padding-bottom:0;
+}
+body[data-sk-home="ios"] .pct-home-search-panel.is-expanded{
+  position:absolute;
+  z-index:70;
+  top:calc(clamp(12px,2.2vw,26px) + 106px);
+  right:clamp(12px,2.2vw,26px);
+  bottom:clamp(48px,7svh,66px);
+  left:clamp(12px,2.2vw,26px);
+  max-width:none;
+  margin:0!important;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+body[data-sk-home="ios"] .pct-home-search-panel.is-expanded .sk-knowledge-results{
+  margin:14px 0 0;
+}
+@media(max-width:620px){
+  body[data-sk-home="ios"] .pct-home-main{
+    padding-top:calc(4px + constant(safe-area-inset-top));
+    padding-bottom:calc(4px + constant(safe-area-inset-bottom));
+    padding-top:calc(4px + env(safe-area-inset-top,0px));
+    padding-bottom:calc(4px + env(safe-area-inset-bottom,0px));
+  }
+  body[data-sk-home="ios"] .pct-home-screen{
+    min-height:0;
+    padding-bottom:9px;
+  }
+  body[data-sk-home="ios"] .pct-home-grid.tools{
+    grid-template-columns:repeat(4,minmax(58px,1fr));
+    gap:clamp(8px,1.8svh,16px) 4px;
+    min-height:0;
+    padding:clamp(7px,1.6svh,15px) 3px clamp(7px,1.4svh,13px);
+  }
+  body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{padding-top:9px;font-size:11px}
+  body[data-sk-home="ios"] .pct-home-search-panel.is-expanded{
+    top:101px;
+    right:7px;
+    bottom:43px;
+    left:7px;
+  }
+}
+@media(max-width:380px){
+  body[data-sk-home="ios"] .pct-home-grid.tools{
+    grid-template-columns:repeat(4,minmax(55px,1fr));
+    max-width:360px;
+  }
+  body[data-sk-home="ios"] .sk-home-icon{width:60px}
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card{min-height:98px}
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{max-width:72px!important;font-size:10px!important}
+}
+@media(orientation:landscape) and (max-height:620px){
+  body[data-sk-home="ios"] .pct-home-main{
+    padding-top:calc(3px + env(safe-area-inset-top,0px));
+    padding-bottom:calc(3px + env(safe-area-inset-bottom,0px));
+  }
+  body[data-sk-home="ios"] .pct-home-screen{padding:6px 8px 7px;border-radius:25px}
+  body[data-sk-home="ios"] .pct-home-head{
+    --pct-home-action-size:36px;
+    --pct-home-action-gap:4px;
+    min-height:var(--pct-home-logo-size);
+    margin-bottom:2px;
+  }
+  body[data-sk-home="ios"] .pct-home-grid.tools{
+    grid-template-columns:repeat(6,minmax(70px,1fr));
+    gap:5px 5px;
+    max-width:900px;
+    padding:4px 3px 5px;
+  }
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card{min-height:88px;gap:5px;padding-block:2px!important}
+  body[data-sk-home="ios"] .sk-home-icon{width:56px;border-width:2px}
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{font-size:10px!important;line-height:1.08!important}
+  body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{padding-top:5px;font-size:10px;line-height:1.2}
+  body[data-sk-home="ios"] .pct-home-search-panel.is-expanded{top:83px;bottom:31px}
 }

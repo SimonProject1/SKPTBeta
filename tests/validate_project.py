@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.6-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.7-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.6-Beta"
+VERSION = "2.5.0.7-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -150,7 +150,20 @@ def main() -> int:
         for inset in required_insets:
             if inset not in css:
                 fail(f"{label} berücksichtigt {inset} nicht.", errors)
-    for token in ("--pct-home-action-size:46px", "--pct-home-action-size:42px", "--pct-home-logo-size:calc((var(--pct-home-action-size) * 2) + var(--pct-home-action-gap))", ".pct-home-screen>.pct-home-footer", ".pct-home-search-trigger{display:grid;place-items:center", "grid-template-columns:repeat(6", "grid-template-columns:repeat(4", "grid-template-columns:repeat(3"):
+    for token in (
+        "--pct-home-action-size:46px",
+        "--pct-home-action-size:42px",
+        "--pct-home-logo-size:calc((var(--pct-home-action-size) * 2) + var(--pct-home-action-gap))",
+        ".pct-home-screen>.pct-home-footer",
+        ".pct-home-search-trigger{display:grid;place-items:center",
+        "position:fixed;",
+        "height:100dvh;",
+        "overflow:hidden!important;",
+        "overscroll-behavior:none;",
+        ".pct-home-search-panel.is-expanded",
+        "grid-template-columns:repeat(6",
+        "grid-template-columns:repeat(4,minmax(55px,1fr))",
+    ):
         if token not in home_css:
             fail(f"Startseiten-Designregel fehlt: {token}", errors)
     for token in (".knowledge-hub", ".knowledge-manufacturer-view", ".knowledge-grid", ".knowledge-view-back"):
@@ -164,6 +177,11 @@ def main() -> int:
     # URLSearchParams is expressed through URL(...).searchParams in the implementation.
     if "URLSearchParams" not in overview_js and ".searchParams.get('manufacturer')" not in overview_js:
         fail("Herstellerparameter wird nicht ausgewertet.", errors)
+
+    app_js = (ROOT / "assets" / "app.js").read_text(encoding="utf-8")
+    for token in ("pct-home-search-open", "content.append(results)"):
+        if token not in app_js:
+            fail(f"Viewportfeste Startseitensuche unvollständig: {token}", errors)
 
     manufacturer_svg = (ROOT / "assets" / "knowledge-manufacturer-logos.svg").read_text(encoding="utf-8")
     for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon", "logo-sonstiges"):
@@ -186,7 +204,7 @@ def main() -> int:
         text = path.read_text(encoding="utf-8")
         if VERSION not in text:
             fail(f"Versionskennung fehlt in {path.relative_to(ROOT)}.", errors)
-        if "2.5.0.5-Beta" in text:
+        if "2.5.0.5-Beta" in text or "2.5.0.6-Beta" in text:
             fail(f"Alte Laufzeitversion in {path.relative_to(ROOT)} gefunden.", errors)
 
     forbidden_tree = ("sk" + "-tree", "navigation" + "-tree", "Navigations" + "baum", "Seitennavi" + "gation")

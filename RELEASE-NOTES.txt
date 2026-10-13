@@ -1,27 +1,31 @@
-SK PCT Tools 2.5.0.6-Beta
+SK PCT Tools 2.5.0.7-Beta
 Release-Datum: 13.10.2026
-Status: Grafische Beta mit ausbalanciertem PCT-Home-Kopf und integriertem Footer
-Direkte Ausgangsbasis: 2.5.0.5-Beta
+Status: Viewportfeste Startseiten-Beta mit erweitertem Home-Rechteck
+Direkte Ausgangsbasis: 2.5.0.6-Beta
 
-NEU IN 2.5.0.6-BETA
-1. Logo proportional zu den Schnellzugriffen
-- Das PCT-Logo ist auf Desktop exakt so hoch wie Suche und Favoriten zusammen:
-  46 px + 6 px Abstand + 46 px = 98 px.
-- Mobil gilt dieselbe Proportion:
-  42 px + 5 px Abstand + 42 px = 89 px.
-- Logo und Schnellzugriffe verwenden gemeinsame CSS-Variablen, damit die Proportion
-  auch bei späteren Anpassungen konsistent bleibt.
-- Versionsanzeige und exakt zentrierte Suchlupe bleiben unverändert erhalten.
+NEU IN 2.5.0.7-BETA
+1. Abgerundetes Home-Rechteck bis nach unten erweitert
+- Das Rechteck füllt die verfügbare Viewporthöhe bis unmittelbar vor der unteren
+  iOS-Safe-Area beziehungsweise dem Home-Indikator.
+- Die obere Safe Area sowie die seitlichen Safe Areas im Querformat bleiben erhalten.
+- Der integrierte Footer bleibt vollständig innerhalb des Rechtecks.
 
-2. Footer vollständig im abgerundeten Home-Rechteck
-- Der Startseitenfooter wurde in das abgerundete PCT-Home-Rechteck verschoben.
-- Das Rechteck wurde in der Mindesthöhe und am unteren Innenabstand erweitert.
-- Eine dezente Trennlinie bindet den Footer optisch an den Inhalt an.
-- Die untere iOS-Safe-Area wird zusätzlich innerhalb des Rechtecks berücksichtigt.
+2. Kein Scrollen auf der Hauptstartseite
+- Die Hauptstartseite ist auf die sichtbare Viewporthöhe begrenzt.
+- Seiten-Scrollen, Overscroll und das iOS-Gummibandverhalten sind unterbunden.
+- Alle 11 Icons bleiben im Normalzustand vollständig sichtbar.
+- Sehr schmale Smartphones verwenden weiterhin vier Spalten statt auf drei Spalten
+  und damit vier Icon-Reihen umzubrechen.
+- Im Querformat werden sechs Spalten mit zwei kompakten Icon-Reihen verwendet.
+
+3. Suche ohne Verschieben der Startseite
+- Suche, Kategorienfilter, Sortierung und Wissensfundstellen öffnen in einem Overlay.
+- Nur das Overlay kann bei umfangreichem Inhalt intern scrollen; die Startseite selbst
+  bleibt ruhig und unverändert im Viewport.
 
 ERHALTENE FUNKTIONEN UND INHALTE
-- iOS-Safe-Area oben, unten sowie links/rechts im Hoch- und Querformat.
-- Versionsanzeige, Startseitensuche, Kategorienfilter und Sortierung.
+- Großes PCT-Logo und direkte Versionsanzeige.
+- Suche, Kategorienfilter, Sortierung und gemeinsames Zurücksetzen.
 - Favoriten, Favoritendrawer, eigene App-Reihenfolge und Long-Press-Verschieben.
 - Responsives Icon-Raster mit allen 11 Apps und 11 eindeutigen Symbolen.
 - Alle sechs Rechner einschließlich vorhandener Berechnungslogik.
@@ -32,5 +36,6 @@ ERHALTENE FUNKTIONEN UND INHALTE
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- tests/validate_project.py prüft Version, App-Inventar, Safe-Areas, Logo-Proportion,
-  integrierten Footer, Hersteller-Hub, interne Links, Offline-Cache und Prüfsummen.
+- tests/validate_project.py prüft Version, App-Inventar, Safe-Areas, Scrollschutz,
+  Viewport-Höhenlogik, Vier-Spalten-Mobilraster, integrierten Footer, Hersteller-Hub,
+  interne Links, Offline-Cache und Prüfsummen.

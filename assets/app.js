@@ -1,8 +1,8 @@
-/* SK PCT Tools 2.5.0.6-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche und Sortierung. */
+/* SK PCT Tools 2.5.0.7-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche und Sortierung. */
 /* === app.js === */
 (()=>{'use strict';
-const RELEASE='2.5.0.6-Beta';
-const DISPLAY_RELEASE='2.5.0.6-Beta';
+const RELEASE='2.5.0.7-Beta';
+const DISPLAY_RELEASE='2.5.0.7-Beta';
 const scriptUrl=document.currentScript?.src||'';
 const root=scriptUrl?new URL('../',scriptUrl):new URL('./',location.href);
 window.SK_PCT=Object.freeze({version:RELEASE,channel:'beta',name:'SK PCT Tools',root});
@@ -44,7 +44,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{'use strict';
 let searchIndex=[];
 let materialCatalog=[];
-const RELEASE='2.5.0.6-Beta';
+const RELEASE='2.5.0.7-Beta';
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9+]+/g,' ').trim();
 const isStartPage=()=>document.body?.dataset.skPage==='start';
 const root=()=>window.SK_PCT?.root||new URL('./',location.href);
@@ -62,7 +62,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 /* === mobile-start-collapse.js === */
 (()=>{'use strict';
-function init(){if(document.body?.dataset.skPage!=='start')return;const panel=document.getElementById('skToolFilter'),button=document.getElementById('skFilterToggle'),content=document.getElementById('skFilterContent'),input=document.getElementById('skToolSearch');if(!panel||!button||!content)return;const setExpanded=expanded=>{panel.classList.toggle('is-expanded',expanded);panel.classList.toggle('is-collapsed',!expanded);button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-label',expanded?'Suche und Filter schließen':'Apps und Wissensbeiträge durchsuchen');content.hidden=!expanded;if(expanded)requestAnimationFrame(()=>input?.focus())};button.addEventListener('click',()=>setExpanded(button.getAttribute('aria-expanded')!=='true'));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&button.getAttribute('aria-expanded')==='true'){setExpanded(false);button.focus()}});setExpanded(false)}
+function init(){if(document.body?.dataset.skPage!=='start')return;const panel=document.getElementById('skToolFilter'),button=document.getElementById('skFilterToggle'),content=document.getElementById('skFilterContent'),input=document.getElementById('skToolSearch'),results=document.getElementById('skKnowledgeResults');if(!panel||!button||!content)return;if(results&&!content.contains(results))content.append(results);const setExpanded=expanded=>{panel.classList.toggle('is-expanded',expanded);panel.classList.toggle('is-collapsed',!expanded);document.body.classList.toggle('pct-home-search-open',expanded);button.setAttribute('aria-expanded',String(expanded));button.setAttribute('aria-label',expanded?'Suche und Filter schließen':'Apps und Wissensbeiträge durchsuchen');content.hidden=!expanded;if(expanded)requestAnimationFrame(()=>input?.focus())};button.addEventListener('click',()=>setExpanded(button.getAttribute('aria-expanded')!=='true'));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&button.getAttribute('aria-expanded')==='true'){setExpanded(false);button.focus()}});setExpanded(false)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 
