@@ -1,4 +1,4 @@
-const RELEASE='2.5.2.3-Beta';
+const RELEASE='2.5.2.4-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -9,7 +9,23 @@ const CORE=[
   './assets/app.js',
   './assets/pct-home.css',
   './assets/pct-home.js',
-  './assets/pct-home-icons.svg',
+  './assets/navigation-icons/app-analogsignal.svg',
+  './assets/navigation-icons/app-eh-viewer.svg',
+  './assets/navigation-icons/app-einheitendatenbank.svg',
+  './assets/navigation-icons/app-einheitenrechner.svg',
+  './assets/navigation-icons/app-pf-rechner.svg',
+  './assets/navigation-icons/app-pt-rechner.svg',
+  './assets/navigation-icons/app-siemens-rohwert.svg',
+  './assets/navigation-icons/app-spannungsfall.svg',
+  './assets/navigation-icons/app-werkstoffdatenbank.svg',
+  './assets/navigation-icons/app-wissensdatenbank.svg',
+  './assets/navigation-icons/manufacturer-air-torque.svg',
+  './assets/navigation-icons/manufacturer-endress-hauser.svg',
+  './assets/navigation-icons/manufacturer-siemens.svg',
+  './assets/navigation-icons/manufacturer-sonstiges.svg',
+  './assets/navigation-icons/manufacturer-vacon.svg',
+  './assets/navigation-icons/nav-back.svg',
+  './assets/navigation-icons/nav-home.svg',
   './assets/pct-controls.css',
   './assets/pct-controls.js',
   './assets/pct-controls.svg',
@@ -26,7 +42,6 @@ const CORE=[
   './assets/knowledge-article.css',
   './assets/knowledge-compact.js',
   './assets/knowledge-cartoon.css',
-  './assets/knowledge-manufacturer-logos.svg',
   './assets/knowledge-overview.css',
   './assets/knowledge-overview.js',
   './assets/logo.webp',
@@ -63,7 +78,8 @@ const CORE=[
 ];
 const OPTIONAL_DOCUMENTS=[
   './WISSENSBEITRAGS-STANDARD.md',
-  './SIEMENS-QUELLEN-UND-GRENZWERTE.md'
+  './SIEMENS-QUELLEN-UND-GRENZWERTE.md',
+  './ICON-DESIGNRICHTLINIE.txt'
 ];
 
 async function addStrict(cacheName,urls){

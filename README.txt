@@ -1,17 +1,17 @@
-SK PCT Tools 2.5.2.3-Beta
+SK PCT Tools 2.5.2.4-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank und Werkstoffdatenbank.
-Direkte Ausgangsbasis ist die vollständige 2.5.2.2-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.5.2.3-Beta.
 
 Änderungen dieser Beta
-- Pt100/Pt1000 prüft den IEC-60751-Bereich von -200 bis 850 °C in beiden Rechenrichtungen.
-- Der Spannungsfall-Ergebnisblock respektiert das hidden-Attribut im Start- und Reset-Zustand.
-- Messstellen-Dokumentation wurde vollständig aus Startseite, Offline-Cache, Tests und Paket entfernt.
-- Die PDF-Beitragsvorlage und der zugehörige Download wurden entfernt; neue Beiträge werden über den Projektchat strukturiert.
-- Wissensbeiträge kennzeichnen Praxiswissen als „Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)“.
-- Startseite und Weiterleitungsseite besitzen eine semantische H1; Referrer-Schutz und Deployment-Hinweise wurden ergänzt.
-- Nicht mehr benötigte CSS-Regeln des entfernten Moduls wurden bereinigt.
+- Der runde Plus/Minus-Taster des Siemens-Rohwert-Rechners ist jetzt der verbindliche zentrale Standard für alle Vorzeichenfelder.
+- Einheitliche 44 × 44 px Bedienfläche, zentrierte Ausrichtung, sichtbarer Fokus, Hover-/Druckzustand und touch-action: manipulation.
+- Vorzeichenwechsel wurde per Touch auf Smartphone und Tablet sowie im responsiven Desktop-Layout geprüft.
+- 17 eigenständige SVG-Navigationsgrafiken im SK-PCT-Tools-Cartoon-Tech-Stil ersetzen die bisherigen Startseiten- und Hersteller-Sprites.
+- Startseite, Wissens-Herstellerkarten, Kopfzeilen-Navigation, Zurück-Aktion, Einheitendatenbank-CTA und Manifest-Shortcuts verwenden die neuen Grafiken.
+- ICON-DESIGNRICHTLINIE.txt dokumentiert verbindlich Form, Konturen, Farben, Licht, Abstände, Herstellerkennzeichnungen, Zustände, Größen, Formate, Transparenz, Benennung und Einbindung.
+- Sämtliche neuen Grafiken und die Richtlinie sind in die PWA-/Offline-Konfiguration aufgenommen.
 
 Erhaltene Funktionen und Inhalte
 - 10 Startseiten-Apps, vollständige Navigation, Suche, Filter, Sortierung und Favoriten.
@@ -20,7 +20,7 @@ Erhaltene Funktionen und Inhalte
 - PWA-Installation, Offline-Kerncache, lokale Einstellungen und eigene App-Reihenfolge.
 
 Version und PWA
-- Öffentliche und technische Version: 2.5.2.3-Beta.
+- Öffentliche und technische Version: 2.5.2.4-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen bleiben lokal im Browser; es erfolgt keine Übertragung durch SK PCT Tools.
 

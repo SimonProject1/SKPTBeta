@@ -1,45 +1,59 @@
-SK PCT Tools 2.5.2.3-Beta · Abnahmeergebnis
-Datum: 13.10.2026
+SK PCT Tools 2.5.2.4-Beta – Test Results
+Prüfdatum: 13.10.2026
+Prüfbasis: vollständiger Projektordner vor Paketierung
 
-Statische Vollprüfung
-PASS · 10 Apps · 6 Rechner · 14 interne Unterseiten · 5 Wissensbeiträge
-PASS · 16 HTML-Dateien, lokale Links, Versionsstände, Offline-Inventar und Dateistruktur
-PASS · genau eine H1 und Referrer-Schutz auf allen HTML-Seiten
-PASS · Messstellen-Dokumentation und PDF-Beitragsvorlage vollständig entfernt
-PASS · 864 !important-Deklarationen; bereinigter Stand deutlich unter dem Grenzwert 880
-PASS · JavaScript-Syntax und JSON-Datenbestand
-PASS · SHA-256-Prüfsummen für alle Paketdateien
+ERGEBNIS
+PASS – Freigabestand für die vollständige Beta-Paketierung.
 
-Browserprüfung (Chromium / Playwright)
-PASS · 536 Einzelprüfungen
-PASS · 15 Routen × Smartphone 390×844, Tablet 820×1180 und Desktop 1440×1000
-PASS · Reflow-Sanity bei 320×900 für Startseite, Pt-Rechner, Spannungsfall, Werkstoffdatenbank und Wissensbeitrag
-PASS · kein horizontaler Seiten-/Inhaltsüberlauf in den geprüften Profilen
-PASS · Außenrahmen, Header und Footer jeder Unterseite geometrisch gegen Home geprüft
-PASS · 10 Apps auf der Startseite; Messstellen-Dokumentation nicht mehr vorhanden
-PASS · Offline-Aufruf von Rechner- und Wissensroute nach Service-Worker-Installation
+1. Statische Struktur-/Integritätsprüfung
+Befehl: python3 tests/validate_project.py
+Ergebnis: PASS
+Umfang:
+- 10 Apps
+- 6 Rechner
+- 14 interne Unterseiten
+- 5 Wissensbeiträge
+- 17 eigenständige Navigationsgrafiken
+- vollständige interne Referenzen und Offline-Cache-Ziele
+- gültige projektweite SHA-256-Dateiliste
+- Version 2.5.2.4-Beta
 
-Fehlerkorrekturen
-PASS · Pt100 0 °C → 100 Ω
-PASS · Pt100: Temperaturen unter -200 °C und über 850 °C werden abgewiesen
-PASS · Pt100: Widerstände unter und über dem IEC-60751-Messbereich werden abgewiesen
-PASS · Pt1000: 1000 Ω → 0 °C
-PASS · Spannungsfall-Ergebnisblock ist vor der Berechnung vollständig verborgen
-PASS · Spannungsfall-Referenzfall: 6,93 V / 1,73 % / 393,07 V
-PASS · Spannungsfall-Reset leert Strom/Länge und blendet das Ergebnis wieder vollständig aus
+2. Browser-Regression
+Befehl: python3 tests/browser_regression.py
+Ergebnis: PASS – 623 Browserprüfungen
+Umfang:
+- 15 Seiten in Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
+- Reflow bei 320 × 900
+- Header, Footer, App-Rahmen, horizontale Überläufe, H1 und Referrer-Schutz
+- 10 unterschiedliche Startseiten-Grafiken und 5 Hersteller-Grafiken ohne Ladefehler
+- 44 × 44 px Plus/Minus-Taster, 13-px-Radius, Zentrierung und touch-action auf allen betroffenen Rechnerseiten
+- Vorzeichenwechsel per echtem Playwright-Tap auf Smartphone und Tablet für Analogsignal, P+F, Pt100/Pt1000, Einheitenrechner und Siemens Rohwert
+- Referenzberechnungen aller 6 Rechner
+- Einheiten- und Werkstoffdatenbank sowie Wissensbeiträge
+- Service-Worker-/Offline-Aufrufe
 
-Weitere Rechner-Referenzen
-PASS · Analogsignal: 50 → 12 mA und 50 %
-PASS · P+F: K 0,16 und Nullpunkt 4
-PASS · Einheiten: 1 bar → 100 kPa
-PASS · Siemens: 12 mA → Rohwert 13.824 und 50 °C
-PASS · Siemens-Rechner bleibt intern scrollbar; ±-Tastergeometrie erhalten
+3. Syntax- und SVG-Prüfung
+- app.js, pct-controls.js und service-worker.js: JavaScript-Syntax gültig.
+- 17/17 SVG-Navigationsgrafiken: XML-Struktur gültig.
+- Alle SVGs: 192 × 192 viewBox, Titel und schwarze Comic-Grundkontur vorhanden.
+- Frühere Startseiten- und Hersteller-Sprites sind entfernt und werden nicht mehr referenziert.
 
-Wissensdatenbank
-PASS · fünf Wissensbeiträge mit Kurzantwort, geschlossenen Fachdetails und sichtbaren Sicherheitshinweisen
-PASS · Quellenbündel kennzeichnet Praxiswissen als „Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)“
-PASS · Herstellerdokumentation, Gerätestand und betriebliche Freigaben bleiben als Gültigkeitsgrenze sichtbar
+4. Visuelle QA
+Geprüfte Ansichten:
+- Startseite Smartphone und Desktop
+- Wissensdatenbank Tablet
+- P+F Rechner Smartphone
+- Siemens Rohwert Desktop
+Ergebnis:
+- Grafiken sind klar unterscheidbar, transparent, konturiert und in der PCT-Cyan-/Blau-/Grün-Palette konsistent.
+- Plus/Minus-Taster sind feldzentriert, kontrastreich und auf den geprüften Größen ohne Layoutverschiebung.
+- Bestehende Navigation, Rechnerflächen und CTA bleiben nutzbar.
 
-Nachgelagerte reale Plattformtests
-- VoiceOver/NVDA, Safari/Firefox/Edge sowie echte iOS-/Android-Hardware bleiben manuelle Prüfungen.
-- Serverseitige CSP-, HSTS- und weitere HTTP-Header sind nach dem Deployment gemäß SECURITY-DEPLOYMENT.md zu prüfen.
+5. PWA/Offline
+- Service Worker verwendet Cacheversion 2.5.2.4-Beta.
+- Alle 17 Navigationsgrafiken liegen im CORE-Cache.
+- ICON-DESIGNRICHTLINIE.txt liegt in OPTIONAL_DOCUMENTS.
+- Offline-Test für Rechner und Wissensbeitrag bestanden.
+
+Hinweis
+Die automatisierte Browserprüfung verwendet Chromium. Nach Deployment bleiben ergänzende Smoke-Tests auf realem iPhone/iPad sowie Safari/Firefox/Edge gemäß TESTPLAN.md empfohlen.

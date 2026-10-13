@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.5.2.3-Beta
+# Testplan · SK PCT Tools 2.5.2.4-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -32,10 +32,26 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 ## 5. PWA und Offline
 1. Online laden und Service Worker aktivieren lassen.
 2. Offline Startseite, Rechner, Datenbanken und Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.5.2.3-Beta aktiv sind.
+3. Prüfen, dass nur Caches der Version 2.5.2.4-Beta aktiv sind.
 
 ## 6. Manuelle Plattformprüfung (nachgelagert)
 1. iPhone/iPad/Android: Installation, Safe Areas, Hoch-/Querformat und echter Touch.
 2. Safari/Firefox/Edge: Smoke-Test.
 3. VoiceOver/NVDA: Fokusreihenfolge, Zustände und Live-Regionen.
 4. Hosting: Sicherheitsheader gemäß SECURITY-DEPLOYMENT.md prüfen.
+
+## 7. Verbindlicher Plus/Minus-Standard
+1. Analogsignal, P+F, Pt100/Pt1000, Einheitenrechner und Siemens-Rohwert öffnen.
+2. Jeden sichtbaren ±-Taster auf 44 × 44 px, 13-px-Radius, schwarze Kontur, Cyan-Fokus und grünen Druckzustand prüfen.
+3. Ausrichtung in jedem Eingabefeld sowie unveränderte Feldhöhe bei Smartphone, Tablet und Desktop kontrollieren.
+4. Positive, negative und Nullwerte umschalten; Eingabewert und Ergebnis müssen unmittelbar aktualisiert werden.
+5. Auf Smartphone und Tablet jeden Taster per Tap auslösen; Scrollen darf nicht blockiert und Doppeltipp-Zoom nicht provoziert werden.
+
+## 8. Eigenständige Navigationsgrafiken
+1. Alle zehn Startseitenziele prüfen: zehn geladene, unterschiedliche SVG-Dateien ohne defekte Grafik.
+2. Wissens-Hub und Beitragskarten prüfen: fünf eigenständige Herstellergrafiken konsistent wiederverwendet.
+3. Startseite, Zurück-/Home-Navigation, Einheitendatenbank-CTA und externe E+H-Kachel anklicken.
+4. Externe Kachel muss den Auswärtspfeil zeigen und weiterhin abgesichert in einem neuen Tab öffnen.
+5. Grafiken bei 320, 390, 820 und 1440 px auf Kontur, Transparenz, Innenabstand und Erkennbarkeit prüfen.
+6. Offline erneut laden; alle Navigationsgrafiken müssen aus dem Version-2.5.2.4-Beta-Cache erscheinen.
+7. ICON-DESIGNRICHTLINIE.txt als verbindliche Übergabegrundlage auf Vollständigkeit prüfen.

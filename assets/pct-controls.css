@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.2.3-Beta - PCT Controls – integriertes Designsystem
+/* SK PCT Tools 2.5.2.4-Beta - PCT Controls – integriertes Designsystem
    Originale Formensprache der freigegebenen PCT-Designprobe: abgeschraegte
    Gehaeuse, Metallkante, Statuslicht und mechanischer Druckzustand.
    Frühere Signalfarben: Dunkelblau, Signalcyan und Grün. */
@@ -96,7 +96,7 @@ select.pct-select{appearance:none;-webkit-appearance:none;min-height:44px;paddin
 @media(prefers-reduced-motion:reduce){.pct-control,.pct-tab,.pct-chevron-slot .pct-icon{transition-duration:.01ms}}
 
 
-/* === 2.5.2.3-Beta: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
+/* === 2.5.2.4-Beta: sichtbare Vollintegration der freigegebenen PCT-Designprobe === */
 :root{
   --bg:#04131f;--panel:#071d2d;--panel2:#0a2639;
   --line:rgba(255,255,255,.14);--text:#f7fbff;--muted:#a8bdc9;
@@ -133,7 +133,7 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 @media(max-width:760px){.hero::after{font-size:210px;right:-24%}}
 
 
-/* === 2.5.2.3-Beta: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
+/* === 2.5.2.4-Beta: schwarze Kontur + dauerhaft feste mobile Schnellzugriffe ===
    Die schwarze Außenkontur ist unabhängig vom Zustand; Cyan/Grün erscheinen
    als innere Statuskante. Favoriten bleiben im Viewport fixiert. */
 .pct-control,.pct-tab,.pct-search-shell>input[type="search"],select.pct-select,.pct-chevron-slot{
@@ -154,7 +154,7 @@ input:focus,select:focus,textarea:focus,.sk-filter-search input:focus,.sk-sort-s
 }
 
 
-/* === 2.5.2.3-Beta: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
+/* === 2.5.2.4-Beta: Logo-Palette, Comic-Trennlinien und saubere Sternraster ===
    Ziel: Die Oberfläche übernimmt die Cyan-/Blau-/Grün-Signatur des Logos.
    Schwarze Konturen trennen Funktionsgruppen wie Comic-Panels. */
 :root{
@@ -304,7 +304,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 }
 
 
-/* 2.5.2.3-Beta QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
+/* 2.5.2.4-Beta QA-Nachschärfung: explizite Grid-Achsen ohne Pseudo-Grid-Elemente. */
 .unit-row,.sk-favorite-row{
   border-left:5px solid var(--pct-cyan);
 }
@@ -336,7 +336,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 }
 
 
-/* === 2.5.2.3-Beta: klarer, feldintegrierter Vorzeichen-Schalter === */
+/* === 2.5.2.4-Beta: klarer, feldintegrierter Vorzeichen-Schalter === */
 .pct-control--sign{
   box-sizing:border-box;align-self:stretch;width:44px;min-width:44px;height:100%;min-height:44px;
   padding:0;border:0;border-left:3px solid #000;border-radius:0;clip-path:none;
@@ -352,7 +352,7 @@ input,select,textarea,.sk-filter-search input,.sk-sort-select{
 .pct-control--sign:active{transform:none;color:var(--pct-green);background:linear-gradient(180deg,#0d302b 0 48%,#061d1a 49% 100%);box-shadow:inset 0 0 0 2px var(--pct-green),inset 0 4px 9px rgba(0,0,0,.62)}
 
 
-/* === 2.5.2.3-Beta: kleinere Favoritenfelder auf der Startseite ===
+/* === 2.5.2.4-Beta: kleinere Favoritenfelder auf der Startseite ===
    Die mechanische PCT-Optik bleibt erhalten; nur das Karten-Sternfeld wird kompakter. */
 body[data-sk-page="start"] .sk-favorite-button.pct-control{
   width:38px;
@@ -372,3 +372,47 @@ body[data-sk-page="start"] .sk-favorite-button.pct-control{
     inset-inline-end:7px;
   }
 }
+
+
+/* === 2.5.2.4-Beta: verbindlicher Plus/Minus-Standard aller Rechner ========
+   Übernimmt die freigegebene runde Siemens-Ausführung für jedes automatisch
+   oder fest erzeugte Vorzeichenfeld. 44 px sichtbare Bedienfläche plus klarer
+   Fokus, touch-action und unveränderte Feldachse auf Smartphone bis Desktop. */
+body.sk-calculator-page .calc-field-card .number{
+  grid-template-columns:minmax(0,1fr) 52px;
+}
+body.sk-calculator-page .sk-app-frame :is(.number,.analog-input-shell,.analog-range-input-shell) > button:is(.sign,.analog-sign-button).pct-control--sign{
+  box-sizing:border-box!important;align-self:center!important;
+  width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important;
+  margin:4px!important;padding:0!important;border:2px solid #000!important;border-radius:13px!important;
+  clip-path:none!important;color:var(--pct-cyan-soft,#77eff8)!important;
+  background:linear-gradient(145deg,#173f55 0%,#081b29 58%,#030a10 100%)!important;
+  box-shadow:inset 0 0 0 1px rgba(0,230,241,.58),inset 0 1px rgba(255,255,255,.10),2px 3px 0 rgba(0,0,0,.62)!important;
+  transform:none!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;
+}
+body.sk-calculator-page .sk-app-frame :is(.number,.analog-input-shell,.analog-range-input-shell) > button:is(.sign,.analog-sign-button).pct-control--sign::before,
+body.sk-calculator-page .sk-app-frame :is(.number,.analog-input-shell,.analog-range-input-shell) > button:is(.sign,.analog-sign-button).pct-control--sign::after{content:none!important;display:none!important}
+body.sk-calculator-page .sk-app-frame button:is(.sign,.analog-sign-button).pct-control--sign .pct-sign-glyph{
+  display:grid;place-items:center;width:100%;height:100%;padding:0;color:currentColor;
+  font:900 22px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:0;
+  text-shadow:0 0 9px rgba(0,230,241,.30);pointer-events:none
+}
+body.sk-calculator-page .sk-app-frame button:is(.sign,.analog-sign-button).pct-control--sign:hover{
+  color:#fff!important;background:linear-gradient(145deg,#1e5871,#0b293b 62%,#04111a)!important;
+  box-shadow:inset 0 0 0 2px var(--pct-cyan,#00e6f1),2px 3px 0 #000,0 0 14px rgba(0,230,241,.16)!important
+}
+body.sk-calculator-page .sk-app-frame button:is(.sign,.analog-sign-button).pct-control--sign:focus-visible{
+  outline:3px solid rgba(0,230,241,.42)!important;outline-offset:2px!important;color:#fff!important;
+  box-shadow:inset 0 0 0 2px var(--pct-cyan,#00e6f1),2px 3px 0 #000!important
+}
+body.sk-calculator-page .sk-app-frame button:is(.sign,.analog-sign-button).pct-control--sign:active{
+  color:var(--pct-green,#78ff32)!important;background:linear-gradient(145deg,#123c31,#071d1a 65%,#020a08)!important;
+  box-shadow:inset 0 0 0 2px var(--pct-green,#78ff32),inset 0 3px 7px rgba(0,0,0,.58)!important;
+  transform:translateY(1px)!important
+}
+
+/* Eigenständige Grafiken für Navigation zu internen/externen Seiten. */
+.pct-nav-graphic{display:block;flex:0 0 auto;width:24px;height:24px;object-fit:contain;pointer-events:none}
+.pct-header-actions .pct-nav-graphic{width:20px;height:20px}
+.sk-unit-database-button .pct-nav-graphic{width:28px;height:28px;margin:-4px 0}
+.knowledge-view-back .pct-nav-graphic{width:22px;height:22px;margin:-3px 0}

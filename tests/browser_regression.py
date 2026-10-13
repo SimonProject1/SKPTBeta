@@ -37,6 +37,11 @@ with sync_playwright() as p:
                 check(state['footerStyle'] and state['footerStyle']['borderTop']=='0px' and state['footerStyle']['outline']=='0px' and state['footerStyle']['shadow']=='none',f'{name} {route or "/"}: Footer besitzt Kontur/Schatten')
                 check(state['h1']==1,f'{name} {route or "/"}: {state["h1"]} H1 statt genau einer')
                 check(state['referrer']=='no-referrer',f'{name} {route or "/"}: Referrer-Schutz fehlt')
+                signs=page.evaluate("""()=>[...document.querySelectorAll('button.pct-control--sign')].map(button=>{const box=button.getBoundingClientRect(),style=getComputedStyle(button),parent=button.parentElement.getBoundingClientRect();return{width:box.width,height:box.height,radius:style.borderRadius,touch:style.touchAction,center:Math.abs((box.top+box.height/2)-(parent.top+parent.height/2))}})""")
+                if signs:
+                    check(all(round(s['width'])==44 and round(s['height'])==44 for s in signs),f'{name} {route}: ±-Taster nicht durchgehend 44 × 44 px: {signs}')
+                    check(all(s['radius'].startswith('13px') and s['touch']=='manipulation' for s in signs),f'{name} {route}: ±-Stil/Touchregel abweichend: {signs}')
+                    check(all(s['center']<=1 for s in signs),f'{name} {route}: ±-Taster nicht mittig ausgerichtet: {signs}')
                 if shared_reference is None: shared_reference={'header':state['h'],'footer':state['f'],'frame':state['frame']}
                 else:
                     for area,key in (('Header','header'),('Footer','footer'),('Rahmen','frame')):
@@ -54,8 +59,8 @@ with sync_playwright() as p:
         context.close()
 
         context=browser.new_context(viewport={'width':390,'height':844}); page=context.new_page();goto(page,'')
-        home=page.evaluate("""()=>{const g=document.querySelector('#pctHomeGrid'),b=document.querySelector('#pctHomeGrid .sk-favorite-button'),t=[...document.querySelectorAll('.sk-home-app-title')];return{apps:document.querySelectorAll('#pctHomeGrid .sk-home-app').length,columns:getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length,touch:b?Math.min(b.getBoundingClientRect().width,b.getBoundingClientRect().height):0,titleOverflow:t.some(x=>x.scrollWidth>x.clientWidth+2),external:document.querySelector('[data-app-id="eh-device-viewer"]')?.href,mess:!!document.querySelector('[data-app-id="messstellen-doku"]')}}""")
-        check(home['apps']==10,f'Startseite: {home["apps"]} statt 10 Apps');check(home['columns']==3,f'Smartphone-Startseite: {home["columns"]} statt 3 Spalten');check(home['touch']>=44,f'Favoriten-Touchziel nur {home["touch"]} px');check(not home['titleOverflow'],'App-Titel läuft horizontal über');check(not home['mess'],'Messstellen-Doku noch vorhanden');check(home['external']=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Ziel falsch')
+        home=page.evaluate("""()=>{const g=document.querySelector('#pctHomeGrid'),b=document.querySelector('#pctHomeGrid .sk-favorite-button'),t=[...document.querySelectorAll('.sk-home-app-title')],icons=[...document.querySelectorAll('#pctHomeGrid img.sk-nav-graphic')];return{apps:document.querySelectorAll('#pctHomeGrid .sk-home-app').length,columns:getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length,touch:b?Math.min(b.getBoundingClientRect().width,b.getBoundingClientRect().height):0,titleOverflow:t.some(x=>x.scrollWidth>x.clientWidth+2),external:document.querySelector('[data-app-id="eh-device-viewer"]')?.href,mess:!!document.querySelector('[data-app-id="messstellen-doku"]'),icons:icons.length,iconFiles:new Set(icons.map(i=>i.src.split('?')[0])).size,iconBroken:icons.some(i=>!i.complete||i.naturalWidth===0)}}""")
+        check(home['apps']==10,f'Startseite: {home["apps"]} statt 10 Apps');check(home['columns']==3,f'Smartphone-Startseite: {home["columns"]} statt 3 Spalten');check(home['touch']>=44,f'Favoriten-Touchziel nur {home["touch"]} px');check(not home['titleOverflow'],'App-Titel läuft horizontal über');check(not home['mess'],'Messstellen-Doku noch vorhanden');check(home['external']=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Ziel falsch');check(home['icons']==10 and home['iconFiles']==10 and not home['iconBroken'],f'Startseiten-Grafiken fehlerhaft: {home}')
 
         goto(page,'einheitendatenbank/');page.wait_for_selector('.unit-category-card')
         unit=page.evaluate("""()=>({open:[...document.querySelectorAll('.unit-category-card')].filter(x=>x.open).length,favorites:!!document.querySelector('#unitFavoritesPanel')})""")
@@ -66,6 +71,8 @@ with sync_playwright() as p:
         goto(page,'werkstoffdatenbank/');page.wait_for_selector('.material-compare-table td');material=page.evaluate("""()=>({row:getComputedStyle(document.querySelector('.material-compare-table tbody tr')).display,label:document.querySelector('.material-compare-table td')?.dataset.label||''})""")
         check(material['row']=='block','Werkstoffvergleich mobil nicht gestapelt');check(bool(material['label']),'Mobile Werkstoff-Schlüssel fehlen')
 
+        goto(page,'wissensdatenbank/');page.wait_for_selector('.knowledge-brand-logo');knowledge_icons=page.evaluate("""()=>{const icons=[...document.querySelectorAll('img.knowledge-brand-logo')];return{count:icons.length,files:new Set(icons.map(i=>i.src.split('?')[0])).size,broken:icons.some(i=>!i.complete||i.naturalWidth===0)}}""")
+        check(knowledge_icons['count']==10 and knowledge_icons['files']==5 and not knowledge_icons['broken'],f'Hersteller-Grafiken fehlerhaft: {knowledge_icons}')
         goto(page,'wissensdatenbank/endress-hauser-promass-einbaulage/');page.wait_for_selector('.kb-detail-group');knowledge=page.evaluate("""()=>({short:!!document.querySelector('.kb-short-answer'),closed:[...document.querySelectorAll('.kb-detail-group')].every(d=>!d.open),sources:document.querySelector('.kb-source-bundle')?.textContent||'',safety:[...document.querySelectorAll('.kb-callout.danger,.kb-callout.warning')].every(n=>n.offsetParent!==null)})""")
         check(knowledge['short'],'Kurzantwort fehlt');check(knowledge['closed'],'Details nicht initial geschlossen');check(EXPERIENCE_SOURCE in knowledge['sources'],'Erfahrungsberichte fehlen im Quellenbündel');check(knowledge['safety'],'Sicherheitshinweis ausgeblendet')
 
@@ -85,7 +92,7 @@ with sync_playwright() as p:
         page.locator('main.sk-app-scroll').hover(force=True);page.mouse.wheel(0,700);page.wait_for_timeout(150)
         check(siemens['scroll']>siemens['client'] and page.eval_on_selector('main.sk-app-scroll','e=>e.scrollTop')>0,'Siemens-Rechner: Inhalt lässt sich nicht scrollen')
         check(siemens['hostOverflow']=='scroll' and siemens['touchAction']=='pan-y','Siemens-Rechner: Touch-Scrollregeln fehlen')
-        check(round(siemens['buttonWidth'])==42 and round(siemens['buttonHeight'])==42 and siemens['buttonRadius'].startswith('13px'),'Siemens-Rechner: ±-Taster fehlerhaft')
+        check(round(siemens['buttonWidth'])==44 and round(siemens['buttonHeight'])==44 and siemens['buttonRadius'].startswith('13px'),'Siemens-Rechner: ±-Taster fehlerhaft')
 
         goto(page,'spannungsfall-rechner/')
         initial=page.evaluate("""()=>({hidden:document.querySelector('#result').hidden,display:getComputedStyle(document.querySelector('#result')).display,height:document.querySelector('#result').getBoundingClientRect().height})""")
@@ -93,6 +100,23 @@ with sync_playwright() as p:
         page.fill('#current','16');page.fill('#length','35');page.click('#calculate');page.wait_for_selector('#result:not([hidden])');check('6,93' in page.text_content('#dropV'),'Spannungsfall ΔU≈6,93 V fehlgeschlagen');check('1,73' in page.text_content('#dropPercent'),'Spannungsfall ≈1,73 % fehlgeschlagen');check('393,07' in page.text_content('#loadVoltage'),'Lastspannung ≈393,07 V fehlgeschlagen')
         page.click('#reset');reset=page.evaluate("""()=>({I:document.querySelector('#current').value,L:document.querySelector('#length').value,hidden:document.querySelector('#result').hidden,display:getComputedStyle(document.querySelector('#result')).display,height:document.querySelector('#result').getBoundingClientRect().height})""")
         check(reset['I']=='' and reset['L']=='' and reset['hidden'] and reset['display']=='none' and reset['height']==0,f'Spannungsfall-Reset fehlerhaft: {reset}')
+
+        # Reale Tap-Auslösung und Vorzeichenwechsel auf Smartphone und Tablet.
+        touch_cases=[('analogsignal/','#x'),('pf-rechner/','#x2'),('pt-rechner/','#x'),('einheitenrechner/','#x'),('siemens-analogwert-rechner/','#physicalMin')]
+        for device,width,height in (('Smartphone-Touch',390,844),('Tablet-Touch',820,1180)):
+            touch_context=browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1,has_touch=True,is_mobile=True)
+            touch_page=touch_context.new_page()
+            for route,field in touch_cases:
+                goto(touch_page,route);touch_page.fill(field,'7')
+                button=touch_page.locator(f'{field}').locator('xpath=..').locator('button.pct-control--sign')
+                check(button.count()==1,f'{device} {route}: eindeutiger ±-Taster fehlt')
+                if button.count()==1:
+                    button.tap();touch_page.wait_for_timeout(40)
+                    check(touch_page.input_value(field)=='-7',f'{device} {route}: Vorzeichenwechsel per Tap fehlgeschlagen')
+                    box=button.bounding_box();style=button.evaluate("b=>({touch:getComputedStyle(b).touchAction,radius:getComputedStyle(b).borderRadius})")
+                    check(box is not None and round(box['width'])==44 and round(box['height'])==44,f'{device} {route}: Touchziel nicht 44 × 44 px')
+                    check(style['touch']=='manipulation' and style['radius'].startswith('13px'),f'{device} {route}: Touch-/Designstandard abweichend')
+            touch_context.close()
 
         goto(page,'');page.evaluate("""async()=>{if('serviceWorker'in navigator)await navigator.serviceWorker.ready}""");page.wait_for_timeout(600);context.set_offline(True)
         for route in ('einheitenrechner/','wissensdatenbank/endress-hauser-promass-einbaulage/'):
