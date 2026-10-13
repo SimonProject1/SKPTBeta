@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.7-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.1.0-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.7-Beta"
+VERSION = "2.5.1.0-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -141,6 +141,24 @@ def main() -> int:
         if not target_exists(ref, knowledge_path):
             fail(f"Lokale Wissensdatenbank-Referenz fehlt: {ref}", errors)
 
+    # Jede echte Unterseite liegt in demselben viewportfesten Rechteck und
+    # besitzt genau einen intern scrollenden Inhaltsbereich.
+    framed_pages = [
+        path for path in ROOT.rglob("*.html")
+        if path != start_path and path.name == "index.html"
+        and "data-sk-page=\"redirect\"" not in path.read_text(encoding="utf-8")
+    ]
+    if len(framed_pages) != 15:
+        fail(f"Unerwartete Zahl gerahmter Unterseiten: {len(framed_pages)} statt 15", errors)
+    for path in framed_pages:
+        html = path.read_text(encoding="utf-8")
+        rel = path.relative_to(ROOT)
+        for token in ("sk-framed-document", 'data-sk-layout="framed"', "sk-app-frame", "sk-app-scroll", "pct-frame.css"):
+            if token not in html:
+                fail(f"App-Rahmen auf {rel} unvollständig: {token}", errors)
+        if html.count("sk-app-frame") != 1 or html.count("sk-app-scroll") != 1:
+            fail(f"App-Rahmen auf {rel} ist nicht eindeutig.", errors)
+
     home_css = (ROOT / "assets" / "pct-home.css").read_text(encoding="utf-8")
     knowledge_css = (ROOT / "assets" / "knowledge-overview.css").read_text(encoding="utf-8")
     for label, css in (("Startseite", home_css), ("Wissensdatenbank", knowledge_css)):
@@ -183,6 +201,25 @@ def main() -> int:
         if token not in app_js:
             fail(f"Viewportfeste Startseitensuche unvollständig: {token}", errors)
 
+    frame_css = (ROOT / "assets" / "pct-frame.css").read_text(encoding="utf-8")
+    for token in (
+        "html.sk-home-document", "html.sk-framed-document", 'body[data-sk-layout="framed"]',
+        ".sk-app-frame", ".sk-app-scroll", "overflow-y:auto!important",
+        "overscroll-behavior:contain", "safe-area-inset-top", "safe-area-inset-bottom",
+        ".pct-header-actions>.sk-favorites-trigger", "@media print",
+    ):
+        if token not in frame_css:
+            fail(f"Gemeinsame App-Rahmenregel fehlt: {token}", errors)
+
+    controls_js = (ROOT / "assets" / "pct-controls.js").read_text(encoding="utf-8")
+    controls_svg = (ROOT / "assets" / "pct-controls.svg").read_text(encoding="utf-8")
+    for token in (".sk-unit-database-button", ".knowledge-proposal-link", ".knowledge-view-back", "button.primary", ".pct-home-done"):
+        if token not in controls_js:
+            fail(f"Projektweite Button-Anpassung fehlt: {token}", errors)
+    for icon_name in ("database", "download", "calculate", "done"):
+        if f'id="icon-{icon_name}"' not in controls_svg:
+            fail(f"Neues PCT-Symbol fehlt: {icon_name}", errors)
+
     manufacturer_svg = (ROOT / "assets" / "knowledge-manufacturer-logos.svg").read_text(encoding="utf-8")
     for logo in ("logo-air-torque", "logo-endress-hauser", "logo-siemens", "logo-vacon", "logo-sonstiges"):
         if not re.search(rf'<symbol id="{re.escape(logo)}".*?</symbol>', manufacturer_svg, re.S):
@@ -191,7 +228,7 @@ def main() -> int:
         fail("E+H-Kurzmarke fehlt.", errors)
 
     worker = (ROOT / "service-worker.js").read_text(encoding="utf-8")
-    for required in ("./assets/pct-home.css", "./assets/pct-home.js", "./assets/pct-home-icons.svg", "./assets/knowledge-overview.css", "./assets/knowledge-overview.js", "./assets/knowledge-manufacturer-logos.svg", "./wissensdatenbank/"):
+    for required in ("./assets/pct-home.css", "./assets/pct-home.js", "./assets/pct-home-icons.svg", "./assets/pct-frame.css", "./assets/knowledge-overview.css", "./assets/knowledge-overview.js", "./assets/knowledge-manufacturer-logos.svg", "./wissensdatenbank/"):
         if required not in worker:
             fail(f"Offline-Kerncache enthält {required} nicht.", errors)
     cached_refs = re.findall(r"'\./([^']+)'", worker)
@@ -204,7 +241,7 @@ def main() -> int:
         text = path.read_text(encoding="utf-8")
         if VERSION not in text:
             fail(f"Versionskennung fehlt in {path.relative_to(ROOT)}.", errors)
-        if "2.5.0.5-Beta" in text or "2.5.0.6-Beta" in text:
+        if "2.5.0.5-Beta" in text or "2.5.0.6-Beta" in text or "2.5.0.7-Beta" in text:
             fail(f"Alte Laufzeitversion in {path.relative_to(ROOT)} gefunden.", errors)
 
     forbidden_tree = ("sk" + "-tree", "navigation" + "-tree", "Navigations" + "baum", "Seitennavi" + "gation")

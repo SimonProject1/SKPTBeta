@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.5.0.7-Beta — Hersteller-Hub, Herstelleransichten, Suche und Kompaktansicht. */
+/* SK PCT Tools 2.5.1.0-Beta — Hersteller-Hub, Herstelleransichten, Suche und Kompaktansicht. */
 (()=>{'use strict';
-  const RELEASE='2.5.0.7-Beta';
+  const RELEASE='2.5.1.0-Beta';
   const COMPACT_KEY='skKnowledgeCompactCardsV1';
   const read=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key));return value??fallback}catch{return fallback}};
   const write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};

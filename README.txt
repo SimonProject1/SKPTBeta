@@ -1,33 +1,36 @@
-SK PCT Tools 2.5.0.7-Beta
+SK PCT Tools 2.5.1.0-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist 2.5.0.6-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.5.0.7-Beta.
 
 Änderungen dieser Beta
-- Das abgerundete Rechteck der Hauptstartseite nutzt die verfügbare Displayhöhe jetzt
-  bis unmittelbar vor der unteren iOS-Safe-Area beziehungsweise dem Home-Indikator.
-- Die Startseite ist viewportfest und verhindert Seiten- sowie Gummiband-Scrollen.
-- Alle 11 App-Icons bleiben vollständig sichtbar; auch sehr schmale Smartphones
-  verwenden dafür weiterhin das kompakte Vier-Spalten-Raster.
-- Im Querformat werden die Apps platzsparend auf sechs Spalten und zwei Reihen verteilt.
-- Suche und Wissensfundstellen öffnen als intern scrollbareres Overlay, ohne die
-  Startseite selbst zu verschieben oder scrollbar zu machen.
-- Obere sowie seitliche iOS-Safe-Areas, großes Logo, Versionsanzeige, Suche,
-  Favoriten, integrierter Footer und alle bestehenden Funktionen bleiben erhalten.
+- Die Startseite ist nun am HTML-Wurzelelement und am Body viewportfest gesperrt.
+  Seitenscrollen, iOS-Overscroll und Gummiband-Scrollen sind damit vollständig unterbunden.
+- Alle Unterseiten verwenden denselben sichtbaren PCT-App-Rahmen wie die Startseite.
+- Kopfzeile, Inhaltsbereich und Footer bleiben gemeinsam in einem abgerundeten Rechteck.
+- Auf Unterseiten scrollt ausschließlich der Inhaltsbereich innerhalb dieses Rechtecks;
+  Kopfzeile, Navigation und Footer bleiben im Rahmen sichtbar.
+- Safe Areas von iPhone und iPad werden oben, unten und seitlich berücksichtigt.
+- Favoriten-, Zurück- und Startseiten-Schalter sind gemeinsam in der Kopfzeile angeordnet.
+- Aktionsschalter, Links und Symbole wurden auf den einheitlichen rechteckigen
+  PCT-Bedienstil mit schwarzer Kontur und Cyan-/Grün-Statuskante umgestellt.
+- Neue PCT-Symbole kennzeichnen Berechnen, Datenbank, Download und Fertig.
+- Der neue gemeinsame Rahmenstil ist vollständig im Offline-Kerncache enthalten.
 
 Erhaltene Funktionen und Inhalte
+- Alle 11 Startseiten-Apps und ihre eindeutigen App-Icons.
 - Alle sechs Rechner und sämtliche vorhandenen Berechnungslogiken.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
 - Alle fünf fachlichen Wissensbeiträge und die PDF-Beitragsvorlage.
-- Startseitensuche, Kategorienfilter, Sortierung, gemeinsames Zurücksetzen und Favoriten.
+- Startseitensuche, Kategorienfilter, Sortierung, Zurücksetzen und Favoriten.
 - Long-Press-Bearbeitungsmodus mit lokaler Speicherung der App-Reihenfolge.
 - Vollständig lokale Offline-Funktion mit Kern- und Dokumentcache.
 - Stabile interne Beitrags-URLs und abgesicherter externer Herstellerlink.
 
 Version und PWA
-- Öffentliche Version: 2.5.0.7-Beta.
-- Technische Versionskennung und Cache-Buster: 2.5.0.7-Beta.
+- Öffentliche Version: 2.5.1.0-Beta.
+- Technische Versionskennung und Cache-Buster: 2.5.1.0-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen: localStorage; App-Reihenfolgen, Wissensansicht und Favoriten werden nicht übertragen.
 

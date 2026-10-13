@@ -1,0 +1,134 @@
+/* SK PCT Tools 2.5.1.0-Beta — gemeinsamer viewportfester App-Rahmen.
+   Die Dokumentseite selbst scrollt nie. Auf Unterseiten scrollt ausschließlich
+   der Inhaltsbereich innerhalb des sichtbaren PCT-Rechtecks. */
+:root{
+  --sk-frame-edge:clamp(5px,1.2vw,12px);
+  --sk-frame-radius:clamp(22px,3vw,34px);
+  --sk-frame-border:#000;
+  --sk-frame-inner:#347996;
+  --sk-frame-gutter:clamp(10px,2.1vw,24px);
+}
+html.sk-home-document{
+  position:fixed!important;inset:0!important;width:100%!important;height:100%!important;
+  min-height:0!important;overflow:hidden!important;overscroll-behavior:none!important;
+  background:#02080d!important;touch-action:manipulation;
+}
+html.sk-home-document body[data-sk-home="ios"]{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  min-height:0!important;overflow:hidden!important;overscroll-behavior:none!important;
+}
+html.sk-home-document body[data-sk-home="ios"] .shell,
+html.sk-home-document body[data-sk-home="ios"] .pct-home-main,
+html.sk-home-document body[data-sk-home="ios"] .pct-home-screen{min-height:0!important;max-height:100%!important}
+html.sk-home-document body[data-sk-home="ios"] .pct-home-screen{contain:layout paint}
+html.sk-home-document body[data-sk-home="ios"] .pct-home-grid.tools{overflow:hidden!important}
+
+html.sk-framed-document{
+  position:fixed;inset:0;width:100%;height:100%;min-height:0;overflow:hidden!important;
+  overscroll-behavior:none;background:#02080d;
+}
+body[data-sk-layout="framed"]{
+  position:fixed!important;inset:0!important;display:flex!important;align-items:stretch;justify-content:center;
+  width:100%!important;height:100vh!important;height:100svh!important;height:100dvh!important;min-height:0!important;
+  margin:0!important;padding:
+    calc(var(--sk-frame-edge) + env(safe-area-inset-top,0px))
+    calc(var(--sk-frame-edge) + env(safe-area-inset-right,0px))
+    calc(var(--sk-frame-edge) + env(safe-area-inset-bottom,0px))
+    calc(var(--sk-frame-edge) + env(safe-area-inset-left,0px))!important;
+  overflow:hidden!important;overscroll-behavior:none!important;background:#02080d!important;
+}
+body[data-sk-layout="framed"]>.knowledge-frame-host{
+  display:flex!important;flex:1 1 auto;width:100%!important;height:100%!important;min-height:0!important;
+  margin:0!important;padding:0!important;
+}
+.sk-app-frame{
+  position:relative;isolation:isolate;display:flex!important;flex:1 1 auto;flex-direction:column;
+  width:min(1240px,100%)!important;height:100%!important;min-height:0!important;max-height:100%!important;
+  margin:0 auto!important;padding:0!important;overflow:hidden!important;
+  border:3px solid var(--sk-frame-border)!important;border-radius:var(--sk-frame-radius)!important;
+  clip-path:none!important;
+  background:
+    radial-gradient(circle at 84% 3%,rgba(0,230,241,.17),transparent 25%),
+    radial-gradient(circle at 10% 94%,rgba(120,255,50,.10),transparent 29%),
+    linear-gradient(145deg,rgba(0,140,255,.10),transparent 42%),
+    linear-gradient(rgba(119,239,248,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(119,239,248,.025) 1px,transparent 1px),#051521!important;
+  background-size:auto,auto,auto,46px 46px,46px 46px,auto!important;
+  box-shadow:inset 0 0 0 1px var(--sk-frame-inner),inset 0 0 80px rgba(0,0,0,.42),0 18px 48px rgba(0,0,0,.45)!important;
+}
+.sk-app-frame::before{
+  content:"";position:absolute;z-index:-1;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.045),transparent 24% 76%,rgba(0,230,241,.03));
+  pointer-events:none;
+}
+.sk-app-frame>.sk-global-header{
+  position:relative!important;top:auto!important;z-index:50;flex:0 0 auto;width:100%!important;min-height:76px!important;
+  margin:0!important;padding:0!important;border:0!important;border-bottom:3px solid #000!important;
+  border-radius:0!important;background:rgba(2,8,13,.91)!important;
+  box-shadow:inset 0 -1px 0 rgba(0,230,241,.58)!important;backdrop-filter:blur(18px) saturate(135%);
+}
+.sk-app-frame>.sk-global-header::after{bottom:0!important}
+.sk-app-frame>.sk-global-header>.sk-header-inner{
+  width:min(1120px,100%)!important;min-height:76px!important;margin:0 auto!important;padding:8px var(--sk-frame-gutter)!important;
+}
+.sk-app-frame>.sk-app-scroll{
+  position:relative;flex:1 1 auto;width:100%!important;min-width:0!important;min-height:0!important;max-height:none!important;
+  margin:0!important;padding-right:var(--sk-frame-gutter)!important;padding-left:var(--sk-frame-gutter)!important;
+  overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch;scrollbar-gutter:stable;scrollbar-color:#347996 #02080d;scrollbar-width:thin;
+}
+.sk-app-frame>.sk-app-scroll::-webkit-scrollbar{width:10px}.sk-app-frame>.sk-app-scroll::-webkit-scrollbar-track{background:#02080d}.sk-app-frame>.sk-app-scroll::-webkit-scrollbar-thumb{border:2px solid #02080d;border-radius:8px;background:linear-gradient(#008cff,#00e6f1,#78ff32)}
+.sk-app-frame>.sk-footer{
+  position:relative!important;z-index:45;flex:0 0 auto;width:100%!important;min-height:38px;margin:0!important;
+  padding:10px calc(var(--sk-frame-gutter) + 48px) 11px!important;border:0!important;border-top:3px solid #000!important;
+  background:rgba(2,8,13,.9)!important;box-shadow:inset 0 1px 0 rgba(0,230,241,.42)!important;
+  color:#9fb8c5!important;font-size:11px!important;line-height:1.35!important;text-align:center;
+}
+/* Die Wissensdatenbank nutzt dieselbe Hülle; nur ihr bestehender Inhalt scrollt. */
+body[data-sk-page="knowledge"] .knowledge-home-screen.sk-app-frame{min-height:0!important;padding:0!important}
+body[data-sk-page="knowledge"] .knowledge-app-scroll{padding-top:clamp(14px,2.2vw,26px)!important;padding-bottom:clamp(14px,2.2vw,26px)!important}
+body[data-sk-page="knowledge"] .knowledge-view-back[hidden]{display:none!important}
+body[data-sk-page="knowledge"] .knowledge-app-scroll>.knowledge-head,
+body[data-sk-page="knowledge"] .knowledge-app-scroll>.knowledge-actions,
+body[data-sk-page="knowledge"] .knowledge-app-scroll>.knowledge-hub,
+body[data-sk-page="knowledge"] .knowledge-app-scroll>.knowledge-views{max-width:1060px}
+/* Kopfaktionen und Favoriten bleiben als rechteckige Bediengruppe im Rahmen. */
+.sk-app-frame .pct-header-actions{margin-left:auto!important;display:flex!important;align-items:center!important;gap:7px!important}
+.sk-app-frame .pct-header-actions>.sk-favorites-trigger.pct-control{
+  position:relative!important;inset:auto!important;top:auto!important;right:auto!important;bottom:auto!important;left:auto!important;
+  z-index:1!important;width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;
+  margin:0!important;padding:0!important;transform:none!important;
+}
+.sk-app-frame .pct-header-actions>.sk-favorites-trigger .sk-favorites-count{top:-8px!important;right:-8px!important}
+/* Einheitliche rechteckige Aktionsschalter und Symbole. */
+.sk-app-frame :is(.sk-unit-database-button,.knowledge-proposal-link,.knowledge-view-back,.material-reset,.secondary,button.primary){
+  border:3px solid #000!important;border-radius:4px!important;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))!important;
+}
+.sk-app-frame :is(.sk-unit-database-button,.knowledge-proposal-link,.knowledge-view-back){min-height:42px;text-decoration:none!important}
+.sk-app-frame .pct-icon{filter:drop-shadow(1px 2px 0 #000) drop-shadow(0 0 5px rgba(0,230,241,.2))}
+.sk-app-frame .pct-control[data-pct-icon="database"] .pct-icon,
+.sk-app-frame .pct-control[data-pct-icon="done"] .pct-icon{color:#78ff32}
+@media(max-width:760px){
+  :root{--sk-frame-edge:4px;--sk-frame-gutter:9px;--sk-frame-radius:25px}
+  .sk-app-frame>.sk-global-header,.sk-app-frame>.sk-global-header>.sk-header-inner{min-height:66px!important}
+  .sk-app-frame>.sk-global-header>.sk-header-inner{grid-template-columns:42px minmax(0,1fr) auto!important;padding:6px 8px!important}
+  .sk-app-frame>.sk-global-header .brand{font-size:15px!important}
+  .sk-app-frame>.sk-global-header .brand small{display:block!important;font-size:8px!important}
+  .sk-app-frame .pct-header-actions{gap:5px!important}
+  .sk-app-frame .pct-header-actions .pct-control,
+  .sk-app-frame .pct-header-actions>.sk-favorites-trigger.pct-control{width:38px!important;min-width:38px!important;height:38px!important;min-height:38px!important}
+  .sk-app-frame>.sk-app-scroll{scrollbar-gutter:auto}
+  .sk-app-frame>.sk-footer{min-height:34px;padding:8px 10px 9px!important;font-size:10px!important;white-space:nowrap}
+  body[data-sk-page="knowledge"] .knowledge-app-scroll{padding-top:12px!important;padding-bottom:14px!important}
+}
+@media(orientation:landscape) and (max-height:520px){
+  :root{--sk-frame-edge:3px;--sk-frame-radius:21px}
+  .sk-app-frame>.sk-global-header,.sk-app-frame>.sk-global-header>.sk-header-inner{min-height:58px!important}
+  .sk-app-frame>.sk-global-header>.sk-header-inner{padding-block:4px!important}
+  .sk-app-frame>.sk-footer{min-height:28px;padding-block:5px!important;font-size:9px!important}
+}
+@media print{
+  html.sk-framed-document,body[data-sk-layout="framed"]{position:static!important;width:auto!important;height:auto!important;overflow:visible!important;padding:0!important}
+  .sk-app-frame{display:block!important;width:100%!important;height:auto!important;max-height:none!important;overflow:visible!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff!important}
+  .sk-app-frame>.sk-app-scroll{display:block!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:0!important}
+}

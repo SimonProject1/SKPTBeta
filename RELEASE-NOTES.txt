@@ -1,41 +1,40 @@
-SK PCT Tools 2.5.0.7-Beta
+SK PCT Tools 2.5.1.0-Beta
 Release-Datum: 13.10.2026
-Status: Viewportfeste Startseiten-Beta mit erweitertem Home-Rechteck
-Direkte Ausgangsbasis: 2.5.0.6-Beta
+Status: Einheitlicher viewportfester App-Rahmen mit intern scrollenden Unterseiten
+Direkte Ausgangsbasis: vollständige 2.5.0.7-Beta
 
-NEU IN 2.5.0.7-BETA
-1. Abgerundetes Home-Rechteck bis nach unten erweitert
-- Das Rechteck füllt die verfügbare Viewporthöhe bis unmittelbar vor der unteren
-  iOS-Safe-Area beziehungsweise dem Home-Indikator.
-- Die obere Safe Area sowie die seitlichen Safe Areas im Querformat bleiben erhalten.
-- Der integrierte Footer bleibt vollständig innerhalb des Rechtecks.
+NEU IN 2.5.1.0-BETA
+1. Startseite vollständig gegen Scrollen gesperrt
+- HTML-Wurzelelement und Body sind gemeinsam auf die sichtbare Viewporthöhe begrenzt.
+- Dokument-Scrollen, Overscroll und iOS-Gummibandverhalten sind unterbunden.
+- Safe Areas und der vollständige Home-Inhalt bleiben innerhalb des sichtbaren Rechtecks.
 
-2. Kein Scrollen auf der Hauptstartseite
-- Die Hauptstartseite ist auf die sichtbare Viewporthöhe begrenzt.
-- Seiten-Scrollen, Overscroll und das iOS-Gummibandverhalten sind unterbunden.
-- Alle 11 Icons bleiben im Normalzustand vollständig sichtbar.
-- Sehr schmale Smartphones verwenden weiterhin vier Spalten statt auf drei Spalten
-  und damit vier Icon-Reihen umzubrechen.
-- Im Querformat werden sechs Spalten mit zwei kompakten Icon-Reihen verwendet.
+2. Einheitlicher App-Rahmen auf allen Unterseiten
+- Rechner, Datenbanken, Messstellen-Dokumentation, Wissensdatenbank und alle
+  Wissensbeiträge verwenden dieselbe rechteckige PCT-Oberfläche.
+- Kopfzeile, interner Inhaltsbereich und Footer liegen gemeinsam im Rahmen.
+- Nur der mittlere Inhaltsbereich scrollt; der Browser-Body bleibt fest.
+- Desktop, Tablet, Smartphone-Hochformat und Smartphone-Querformat werden unterstützt.
 
-3. Suche ohne Verschieben der Startseite
-- Suche, Kategorienfilter, Sortierung und Wissensfundstellen öffnen in einem Overlay.
-- Nur das Overlay kann bei umfangreichem Inhalt intern scrollen; die Startseite selbst
-  bleibt ruhig und unverändert im Viewport.
+3. Icons und Buttons vereinheitlicht
+- Favoriten, Zurück und Startseite sind als kompakte PCT-Schalter in der Kopfzeile gruppiert.
+- Aktionslinks und Schaltflächen verwenden eine einheitliche rechteckige Formensprache.
+- Neue Symbole: Berechnen, Datenbank öffnen, Download und Fertig.
+- Bestehende Such-, Filter-, Favoriten-, Kopier-, Druck-, Lösch- und Reset-Symbole bleiben erhalten.
+
+4. PWA und Offline aktualisiert
+- Der gemeinsame Rahmenstil assets/pct-frame.css ist Teil des strikten Offline-Kerncaches.
+- Service-Worker- und Manifestversion wurden auf 2.5.1.0-Beta angehoben.
 
 ERHALTENE FUNKTIONEN UND INHALTE
-- Großes PCT-Logo und direkte Versionsanzeige.
-- Suche, Kategorienfilter, Sortierung und gemeinsames Zurücksetzen.
-- Favoriten, Favoritendrawer, eigene App-Reihenfolge und Long-Press-Verschieben.
-- Responsives Icon-Raster mit allen 11 Apps und 11 eindeutigen Symbolen.
-- Alle sechs Rechner einschließlich vorhandener Berechnungslogik.
-- Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-- Wissensdatenbank mit fünf Hersteller-Bereichen, fünf Fachbeiträgen und PDF-Vorlage.
-- PWA-Manifest, Service Worker, Offline-Kerncache und optionaler Dokumentcache.
-- Stabile interne URLs und abgesicherter externer Herstellerlink.
+- 11 Startseiten-Apps und 11 eindeutige App-Symbole.
+- Alle sechs Rechner samt Berechnungslogik.
+- Einheiten- und Werkstoffdatenbank sowie Messstellen-Dokumentation.
+- Hersteller-Hub, fünf Wissensbeiträge und PDF-Beitragsvorlage.
+- Suche, Filter, Sortierung, Favoriten und eigene App-Reihenfolge.
+- Stabile interne URLs, externer E+H-Link und lokale PWA-Funktion.
 
 INTEGRITÄT
-- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- tests/validate_project.py prüft Version, App-Inventar, Safe-Areas, Scrollschutz,
-  Viewport-Höhenlogik, Vier-Spalten-Mobilraster, integrierten Footer, Hersteller-Hub,
-  interne Links, Offline-Cache und Prüfsummen.
+- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
+- tests/validate_project.py prüft Version, vollständiges Inhaltsinventar, Links,
+  App-Rahmen, interne Scrollbereiche, Startseiten-Scrollschutz, Symbole und Offline-Cache.

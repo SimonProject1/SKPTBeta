@@ -1,52 +1,52 @@
-# Testplan · SK PCT Tools 2.5.0.7-Beta
+# Testplan · SK PCT Tools 2.5.1.0-Beta
 
-## 1. Hauptstartseite, Viewport und iOS-Safe-Areas
-1. Projekt über HTTP/HTTPS öffnen und als iOS-PWA zum Home-Bildschirm hinzufügen.
-2. Auf einem iPhone mit Displayausschnitt/Dynamic Island prüfen, dass die obere Kante des abgerundeten PCT-Home-Pakets vollständig unterhalb der Statusleiste beginnt.
-3. Prüfen, dass die Unterkante des Rechtecks bis unmittelbar vor die untere Safe Area beziehungsweise den Home-Indikator reicht und diesen nicht überlagert.
-4. Im Hochformat wischen: Die Hauptstartseite darf weder scrollen noch das iOS-Gummibandverhalten zeigen.
-5. Im Querformat prüfen, dass die linke und rechte Safe Area eingehalten werden und ebenfalls kein Seitenscrollen möglich ist.
-6. Desktop prüfen: Das PCT-Logo ist 98 px hoch und entspricht exakt 46 px Suche + 6 px Abstand + 46 px Favoriten.
-7. Mobil im Hochformat prüfen: Das PCT-Logo ist 89 px hoch und entspricht exakt 42 px Suche + 5 px Abstand + 42 px Favoriten.
-8. Prüfen, dass `V2.5.0.7-Beta`, Suche, Favoriten, alle 11 App-Icons und der vollständige Footer sichtbar innerhalb des Rechtecks liegen.
+## 1. Hauptstartseite ohne Dokument-Scroll
+1. Projekt über HTTP/HTTPS öffnen und optional als iOS-PWA installieren.
+2. Im Hochformat nach oben und unten wischen: Die Startseite darf weder scrollen noch Gummibandverhalten zeigen.
+3. Im Querformat seitlich und vertikal wischen: Es darf kein Dokument-Scroll entstehen.
+4. Prüfen, dass Logo, Version `V2.5.1.0-Beta`, Suche, Favoriten, alle 11 App-Icons und Footer innerhalb des Rechtecks bleiben.
+5. iPhone/iPad prüfen: Statusleiste, Dynamic Island, Home-Indikator und seitliche Safe Areas werden nicht überlagert.
+6. Suche öffnen: Nur das Such-Overlay darf bei Bedarf intern scrollen.
 
-## 2. Responsive Icon-Anordnung
-1. Desktop prüfen: sechs Spalten und zwei Icon-Reihen.
-2. Mittlere Breite prüfen: vier Spalten und drei Icon-Reihen.
-3. Smartphones bis einschließlich 380 px prüfen: weiterhin vier Spalten und drei Reihen; kein Umbruch auf vier Reihen.
-4. Smartphone-Querformat mit geringer Höhe prüfen: sechs Spalten und zwei kompakte Reihen.
-5. Bei allen geprüften Größen sicherstellen, dass kein Icon oder Titel abgeschnitten ist.
+## 2. Einheitlicher Rahmen und internes Scrollen
+1. Alle sechs Rechner, Messstellen-Dokumentation, Einheiten- und Werkstoffdatenbank öffnen.
+2. Wissensdatenbank und alle fünf Wissensbeiträge öffnen.
+3. Auf jeder Unterseite prüfen: Der Browser-Body bleibt fest; nur der mittlere Inhaltsbereich scrollt.
+4. Kopfzeile und Footer müssen während des internen Scrollens sichtbar im Rechteck bleiben.
+5. Rechteck, schwarze Kontur, Cyan-Innenkante und Hintergrund müssen auf allen Seiten konsistent sein.
+6. Hochformat, Querformat, Desktop, Tablet und Smartphone testen.
+7. Am Anfang und Ende des Inhalts prüfen, dass kein Inhalt abgeschnitten oder unerreichbar ist.
 
-## 3. Startseitensuche und Favoriten
-1. Suche öffnen: Das Overlay muss über dem unveränderten Home-Raster erscheinen; die Seite selbst darf nicht verschoben oder scrollbar werden.
-2. Bei kleinem Viewport prüfen, dass nur das Such-Overlay intern scrollt.
-3. Nach `Pt100`, `316L`, `SCO` und `Siemens` suchen; App- und Wissensfundstellen prüfen.
-4. Kategorien Rechner, Dokumentation, Wissen und Externe Dienste prüfen.
-5. Sortierung und gemeinsames Zurücksetzen prüfen; Such-Overlay mit Escape schließen.
-6. Favorit hinzufügen/entfernen, Zähler prüfen und Favoritendrawer öffnen/schließen.
-7. Favoritendrawer bei vielen Einträgen intern scrollen; die Startseite im Hintergrund muss feststehen.
-8. Long-Press-Verschieben, Tastaturverschieben, Fertig und Zurücksetzen prüfen.
+## 3. Icons, Buttons und Navigation
+1. Favoriten-, Zurück- und Startseiten-Schalter in jeder Unterseiten-Kopfzeile prüfen.
+2. Favorit hinzufügen/entfernen, Zähler und Favoritendrawer testen.
+3. Berechnen-, Reset-, Druck-, Löschen-, Kopieren-, Datenbank-, Download- und Fertig-Symbole prüfen.
+4. Tastaturfokus, Enter/Leertaste und sichtbare Fokusmarkierung prüfen.
+5. Mindestgröße der Touch-Ziele auf Smartphone prüfen.
 
-## 4. Hersteller-Hub der Wissensdatenbank
-1. Wissensdatenbank öffnen; die Startansicht muss ausschließlich die Hersteller-Icons Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges zeigen.
-2. Jedes Hersteller-Icon öffnen und URL-Parameter, Titel, Beschreibung sowie Zurück-Navigation prüfen.
-3. Zuordnung prüfen: Air Torque 1, Endress+Hauser 1, Siemens 2, Vacon 1, Sonstiges 0 Beiträge.
-4. Sonstiges öffnen; der vorbereitete Leerzustand für Beiträge ohne Hersteller muss erscheinen.
-5. Browser-Zurück/-Vorwärts zwischen Hub und Herstelleransichten prüfen.
-6. Direktaufruf `wissensdatenbank/?manufacturer=siemens` online und offline prüfen.
-7. Alle fünf Beiträge öffnen und unveränderte Inhalte sowie URLs prüfen.
-8. „Beitrag vorschlagen“ öffnen und die PDF-Beitragsvorlage prüfen.
+## 4. Startseite, Suche und App-Anordnung
+1. Desktop: sechs Spalten und zwei Icon-Reihen prüfen.
+2. Smartphones: vier Spalten und drei Reihen prüfen; kein abgeschnittenes Icon.
+3. Smartphone-Querformat: sechs kompakte Spalten und zwei Reihen prüfen.
+4. Nach `Pt100`, `316L`, `SCO` und `Siemens` suchen.
+5. Kategorienfilter, Sortierung und Zurücksetzen prüfen.
+6. Long-Press-Verschieben, Tastaturverschieben, Fertig und Anordnung zurücksetzen prüfen.
 
-## 5. Rechner, Datenbanken und externer Dienst
-1. Alle sechs Rechner mit einer bekannten Eingabe testen.
-2. Messstellen-Dokumentation sowie Einheiten- und Werkstoffdatenbank stichprobenartig prüfen.
-3. E+H Device Viewer auf neuen Tab, `noopener`, `noreferrer` und externe Kennzeichnung prüfen.
+## 5. Inhalte und Funktionen
+1. Alle sechs Rechner mit bekannten Eingaben testen.
+2. Einheitenfavoriten, Einheitensuche und Umrechnung prüfen.
+3. Werkstoffsuche, Gruppenfilter und Direktvergleich prüfen.
+4. Messstellen-Dokumentation einschließlich Fotos, Löschen, Reset und PDF-Druck prüfen.
+5. Hersteller-Hub prüfen: Air Torque 1, Endress+Hauser 1, Siemens 2, Vacon 1, Sonstiges 0 Beiträge.
+6. Alle fünf Wissensbeiträge und die PDF-Beitragsvorlage öffnen.
+7. E+H Device Viewer auf neuen Tab, `noopener`, `noreferrer` und externe Kennzeichnung prüfen.
 
 ## 6. PWA und Offline
 1. Seite einmal online laden und Service-Worker-Installation abwarten.
-2. Browser in den Offline-Modus versetzen.
+2. Offline-Modus aktivieren.
 3. Startseite, alle internen Apps, Herstelleransichten und Wissensbeiträge öffnen.
-4. Prüfen, dass nur Caches der Version 2.5.0.7-Beta verwendet werden.
+4. Prüfen, dass `assets/pct-frame.css` offline verfügbar ist.
+5. Prüfen, dass nur Caches der Version 2.5.1.0-Beta verwendet werden.
 
 ## 7. Automatische Prüfung
 ```bash

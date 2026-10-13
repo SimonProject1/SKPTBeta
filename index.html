@@ -1,81 +1,82 @@
 <!DOCTYPE html>
-<html lang="de">
+
+<html class="sk-home-document" lang="de">
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-  <meta content="#02080d" name="theme-color"/>
-  <meta content="yes" name="apple-mobile-web-app-capable"/><meta content="yes" name="mobile-web-app-capable"/>
-  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-  <meta content="SK PCT Tools" name="apple-mobile-web-app-title"/>
-  <title>PCT Home · SK PCT Tools</title>
-  <link href="./manifest.webmanifest" rel="manifest"/>
-  <link href="assets/favicon.png?v=2.5.0.7-Beta" rel="icon" sizes="64x64" type="image/png"/>
-  <link href="assets/apple-touch-icon.png?v=2.5.0.7-Beta" rel="apple-touch-icon"/>
-  <link href="assets/core.css?v=2.5.0.7-Beta" rel="stylesheet"/>
-  <link href="assets/responsive.css?v=2.5.0.7-Beta" rel="stylesheet"/>
-  <link href="assets/pct-controls.css?v=2.5.0.7-Beta" rel="stylesheet"/>
-  <link href="assets/pct-home.css?v=2.5.0.7-Beta" rel="stylesheet"/>
-</head>
-<body data-sign-controls="true" data-sk-home="ios" data-sk-page="start" data-sk-version="2.5.0.7-Beta">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="#02080d" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/><meta content="yes" name="mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="SK PCT Tools" name="apple-mobile-web-app-title"/>
+<title>PCT Home · SK PCT Tools</title>
+<link href="./manifest.webmanifest" rel="manifest"/>
+<link href="assets/favicon.png?v=2.5.1.0-Beta" rel="icon" sizes="64x64" type="image/png"/>
+<link href="assets/apple-touch-icon.png?v=2.5.1.0-Beta" rel="apple-touch-icon"/>
+<link href="assets/core.css?v=2.5.1.0-Beta" rel="stylesheet"/>
+<link href="assets/responsive.css?v=2.5.1.0-Beta" rel="stylesheet"/>
+<link href="assets/pct-controls.css?v=2.5.1.0-Beta" rel="stylesheet"/>
+<link href="assets/pct-home.css?v=2.5.1.0-Beta" rel="stylesheet"/>
+<link href="assets/pct-frame.css?v=2.5.1.0-Beta" rel="stylesheet"/></head>
+<body data-sign-controls="true" data-sk-home="ios" data-sk-page="start" data-sk-version="2.5.1.0-Beta">
 <div class="shell">
-  <main class="pct-home-main">
-    <section aria-label="PCT Home-Screen" class="pct-home-screen">
-      <div class="pct-home-head">
-        <a aria-label="SK PCT Tools – PCT Home – Version 2.5.0.7-Beta" class="pct-home-brand" href="./">
-          <span class="pct-home-brand-mark"><img alt="S.K. PCT TOOL" src="assets/icon-192.png?v=2.5.0.7-Beta"/></span>
-          <span aria-label="Aktuelle Version 2.5.0.7-Beta" class="pct-home-version">V2.5.0.7-Beta</span>
-        </a>
-        <div class="pct-home-utility">
-        <div aria-label="PCT Home Schnellzugriffe" class="pct-home-quick-actions">
-          <button aria-controls="skFilterContent" aria-expanded="false" aria-label="Apps und Wissensbeiträge durchsuchen" class="pct-home-search-trigger" id="skFilterToggle" type="button">
-            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><span>Suchen</span>
-          </button>
-          <!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" title="Favoriten öffnen" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewBox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden>0</span></button><!-- sk:controls:end -->
-        </div>
-        <div aria-label="Anordnung bearbeiten" class="pct-home-edit-actions">
-          <span class="pct-home-edit-label">Apps anordnen</span>
-          <button aria-label="Anordnung zurücksetzen" class="pct-home-edit-reset" id="pctHomeReset" title="Anordnung zurücksetzen" type="button"><span aria-hidden="true">↺</span><span class="pct-home-edit-reset-label">Zurücksetzen</span></button>
-          <button class="pct-home-done" id="pctHomeDone" type="button">Fertig</button>
-        </div>
-        </div>
-      </div>
-      <section class="sk-tool-filter pct-home-search-panel is-collapsed" id="skToolFilter">
-        <div class="sk-filter-content" hidden id="skFilterContent">
-          <div class="pct-home-search-line">
-            <label class="sk-filter-search" for="skToolSearch"><span class="visually-hidden">App oder Wissensbeitrag suchen</span><input autocomplete="off" id="skToolSearch" placeholder="App oder Wissensbeitrag suchen …" type="search"/></label>
-            <button class="sk-filter-reset" id="skFilterReset" type="button">Zurücksetzen</button>
-          </div>
-          <div class="sk-filter-controls-line">
-            <div aria-label="Apps nach Kategorie filtern" class="sk-filter-buttons" role="group">
-              <button class="sk-filter-button active" data-filter="ALLE" type="button">Alle</button><button class="sk-filter-button" data-filter="RECHNER" type="button">Rechner</button><button class="sk-filter-button" data-filter="DOKUMENTATION" type="button">Dokumentation</button><button class="sk-filter-button" data-filter="WISSEN" type="button">Wissen</button><button class="sk-filter-button" data-filter="EXTERN" type="button">Externe Dienste</button>
-            </div>
-            <div class="sk-sort-row"><label class="sk-sort-label" for="skToolSort">Sortieren</label><select class="sk-sort-select" id="skToolSort"><option value="default">Eigene Reihenfolge</option><option value="category-asc">Kategorie: A bis Z</option><option value="category-desc">Kategorie: Z bis A</option><option value="title-asc">Titel: A bis Z</option><option value="title-desc">Titel: Z bis A</option></select></div>
-          </div>
-          <div class="sk-filter-meta"><span id="skFilterResult">11 Apps angezeigt</span></div>
-          <div class="sk-filter-empty" hidden id="skFilterEmpty"><strong>Keine passenden Apps oder Wissensbeiträge gefunden.</strong><span>Ändere den Suchbegriff oder setze den Filter zurück.</span></div>
-        </div>
-      </section>
-      <div aria-label="PCT Apps" class="tools pct-home-grid" id="pctHomeGrid">
-        <a aria-label="Analogsignal-Rechner öffnen" class="card sk-home-app" data-app-id="analogsignal" data-tone="cyan" href="analogsignal/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-analog"></use></svg></span><h2 class="sk-home-app-title">Analogsignal</h2><div class="sk-card-category">RECHNER</div><p>Prozesswert und Analogsignal umrechnen.</p></a>
-        <a aria-label="P+F Rechner öffnen" class="card sk-home-app" data-app-id="pf-rechner" data-tone="blue" href="pf-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-pf"></use></svg></span><h2 class="sk-home-app-title">P+F Rechner</h2><div class="sk-card-category">RECHNER</div><p>K-Faktor und Nullpunkt berechnen.</p></a>
-        <a aria-label="Pt-Rechner öffnen" class="card sk-home-app" data-app-id="pt-rechner" data-tone="green" href="pt-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-pt"></use></svg></span><h2 class="sk-home-app-title">Pt-Rechner</h2><div class="sk-card-category">RECHNER</div><p>Pt100 und Pt1000 in beide Richtungen.</p></a>
-        <a aria-label="Messstellen-Dokumentation öffnen" class="card sk-home-app" data-app-id="messstellen-doku" data-tone="steel" href="messstellen-doku/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-doc"></use></svg></span><h2 class="sk-home-app-title">Messstellen-Doku</h2><div class="sk-card-category">DOKUMENTATION</div><p>Fotos erfassen und dokumentieren.</p></a>
-        <a aria-label="Einheitenrechner öffnen" class="card sk-home-app" data-app-id="einheitenrechner" data-tone="cyan" href="einheitenrechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-convert"></use></svg></span><h2 class="sk-home-app-title">Einheitenrechner</h2><div class="sk-card-category">RECHNER</div><p>Alle 19 Einheitenkategorien aus der zentralen Datenbasis.</p></a>
-        <a aria-label="Einheitendatenbank öffnen" class="card sk-home-app" data-app-id="einheitendatenbank" data-tone="blue" href="einheitendatenbank/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-units"></use></svg></span><h2 class="sk-home-app-title">Einheiten-DB</h2><div class="sk-card-category">WISSEN</div><p>Einheiten, Kategorien, Umrechnungen und persönliche Einheitenfavoriten zentral verwalten.</p></a>
-        <a aria-label="Werkstoffdatenbank öffnen" class="card sk-home-app" data-app-id="werkstoffdatenbank" data-tone="steel" href="werkstoffdatenbank/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-materials"></use></svg></span><h2 class="sk-home-app-title">Werkstoff-DB</h2><div class="sk-card-category">WISSEN</div><p>Werkstoffnummern, alternative Bezeichnungen, Gruppenfilter und Direktvergleiche zentral nachschlagen.</p></a>
-        <a aria-label="Wissensdatenbank öffnen" class="card sk-home-app" data-app-id="wissensdatenbank" data-tone="green" href="wissensdatenbank/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-knowledge"></use></svg></span><h2 class="sk-home-app-title">Wissensdatenbank</h2><div class="sk-card-category">WISSEN</div><p>Anleitungen und Praxistipps zu Feldgeräten.</p></a>
-        <a aria-label="Spannungsfall-Rechner öffnen" class="card sk-home-app" data-app-id="spannungsfall-rechner" data-tone="green" href="spannungsfall-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-voltage"></use></svg></span><h2 class="sk-home-app-title">Spannungsfall</h2><div class="sk-card-category">RECHNER</div><p>Spannungsfall in Volt und Prozent für 230 V, 400 V, 500 V, 690 V oder freie Nennspannung berechnen.</p></a>
-        <a aria-label="Siemens Rohwert-Rechner öffnen" class="card sk-home-app" data-app-id="siemens-rohwert" data-tone="blue" href="siemens-analogwert-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-plc"></use></svg></span><h2 class="sk-home-app-title">Siemens Rohwert</h2><div class="sk-card-category">RECHNER</div><p>4–20 mA, 0–20 mA, 0–10 V und 2–10 V direkt in Siemens-Rohwerte umrechnen – und zurück.</p></a>
-        <a aria-label="E+H Device Viewer öffnen – externer Herstellerdienst in neuem Tab" class="card sk-home-app sk-external-card" data-app-id="eh-device-viewer" data-external="true" data-tone="cyan" href="https://www.de.endress.com/de/onlinetools?store_locale=de" referrerpolicy="no-referrer" rel="external noopener noreferrer" target="_blank"><span class="sk-home-icon"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-device"></use></svg></span><h2 class="sk-home-app-title">E+H Viewer</h2><div class="sk-card-category">EXTERN</div><p>Geräteinformationen über den offiziellen Endress+Hauser-Dienst aufrufen. Seriennummern und Eingaben werden nicht in SK PCT Tools gespeichert.</p><span aria-hidden="true" class="sk-external-link-meta">Herstellerdienst öffnen ↗</span></a>
-      </div>
-      <div aria-live="polite" class="pct-home-announcement" id="pctHomeAnnouncement"></div>
-      <section class="sk-knowledge-results" hidden id="skKnowledgeResults"><div class="sk-results-heading"><div><div class="eyebrow">WISSENSBEITRÄGE</div><h2>Passende Unterseiten</h2></div><span id="skKnowledgeResultCount"></span></div><div class="sk-knowledge-result-list" id="skKnowledgeResultList"></div></section>
-      <!-- sk:footer:start --><footer class="footer sk-footer pct-home-footer">SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.0.7-Beta</footer><!-- sk:footer:end -->
-    </section>
-  </main>
+<main class="pct-home-main">
+<section aria-label="PCT Home-Screen" class="pct-home-screen">
+<div class="pct-home-head">
+<a aria-label="SK PCT Tools – PCT Home – Version 2.5.1.0-Beta" class="pct-home-brand" href="./">
+<span class="pct-home-brand-mark"><img alt="S.K. PCT TOOL" src="assets/icon-192.png?v=2.5.1.0-Beta"/></span>
+<span aria-label="Aktuelle Version 2.5.1.0-Beta" class="pct-home-version">V2.5.1.0-Beta</span>
+</a>
+<div class="pct-home-utility">
+<div aria-label="PCT Home Schnellzugriffe" class="pct-home-quick-actions">
+<button aria-controls="skFilterContent" aria-expanded="false" aria-label="Apps und Wissensbeiträge durchsuchen" class="pct-home-search-trigger" id="skFilterToggle" type="button">
+<svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><span>Suchen</span>
+</button>
+<!-- sk:controls:start --><button aria-label="Favoriten öffnen" class="sk-favorites-trigger" title="Favoriten öffnen" type="button"><span class="sk-trigger-star"><svg aria-hidden="true" class="sk-star-svg" viewbox="0 0 24 24"><path class="sk-star-fill" d="M12 2.75l2.82 5.72 6.31.92-4.57 4.45 1.08 6.29L12 17.16l-5.64 2.97 1.08-6.29-4.57-4.45 6.31-.92L12 2.75z"></path></svg></span><span class="sk-favorites-count" hidden="">0</span></button><!-- sk:controls:end -->
 </div>
-<script src="assets/pct-home.js?v=2.5.0.7-Beta"></script>
-<script src="assets/app.js?v=2.5.0.7-Beta"></script>
-<script src="assets/pct-controls.js?v=2.5.0.7-Beta"></script>
+<div aria-label="Anordnung bearbeiten" class="pct-home-edit-actions">
+<span class="pct-home-edit-label">Apps anordnen</span>
+<button aria-label="Anordnung zurücksetzen" class="pct-home-edit-reset" id="pctHomeReset" title="Anordnung zurücksetzen" type="button"><span aria-hidden="true">↺</span><span class="pct-home-edit-reset-label">Zurücksetzen</span></button>
+<button class="pct-home-done" id="pctHomeDone" type="button">Fertig</button>
+</div>
+</div>
+</div>
+<section class="sk-tool-filter pct-home-search-panel is-collapsed" id="skToolFilter">
+<div class="sk-filter-content" hidden="" id="skFilterContent">
+<div class="pct-home-search-line">
+<label class="sk-filter-search" for="skToolSearch"><span class="visually-hidden">App oder Wissensbeitrag suchen</span><input autocomplete="off" id="skToolSearch" placeholder="App oder Wissensbeitrag suchen …" type="search"/></label>
+<button class="sk-filter-reset" id="skFilterReset" type="button">Zurücksetzen</button>
+</div>
+<div class="sk-filter-controls-line">
+<div aria-label="Apps nach Kategorie filtern" class="sk-filter-buttons" role="group">
+<button class="sk-filter-button active" data-filter="ALLE" type="button">Alle</button><button class="sk-filter-button" data-filter="RECHNER" type="button">Rechner</button><button class="sk-filter-button" data-filter="DOKUMENTATION" type="button">Dokumentation</button><button class="sk-filter-button" data-filter="WISSEN" type="button">Wissen</button><button class="sk-filter-button" data-filter="EXTERN" type="button">Externe Dienste</button>
+</div>
+<div class="sk-sort-row"><label class="sk-sort-label" for="skToolSort">Sortieren</label><select class="sk-sort-select" id="skToolSort"><option value="default">Eigene Reihenfolge</option><option value="category-asc">Kategorie: A bis Z</option><option value="category-desc">Kategorie: Z bis A</option><option value="title-asc">Titel: A bis Z</option><option value="title-desc">Titel: Z bis A</option></select></div>
+</div>
+<div class="sk-filter-meta"><span id="skFilterResult">11 Apps angezeigt</span></div>
+<div class="sk-filter-empty" hidden="" id="skFilterEmpty"><strong>Keine passenden Apps oder Wissensbeiträge gefunden.</strong><span>Ändere den Suchbegriff oder setze den Filter zurück.</span></div>
+</div>
+</section>
+<div aria-label="PCT Apps" class="tools pct-home-grid" id="pctHomeGrid">
+<a aria-label="Analogsignal-Rechner öffnen" class="card sk-home-app" data-app-id="analogsignal" data-tone="cyan" href="analogsignal/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-analog"></use></svg></span><h2 class="sk-home-app-title">Analogsignal</h2><div class="sk-card-category">RECHNER</div><p>Prozesswert und Analogsignal umrechnen.</p></a>
+<a aria-label="P+F Rechner öffnen" class="card sk-home-app" data-app-id="pf-rechner" data-tone="blue" href="pf-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-pf"></use></svg></span><h2 class="sk-home-app-title">P+F Rechner</h2><div class="sk-card-category">RECHNER</div><p>K-Faktor und Nullpunkt berechnen.</p></a>
+<a aria-label="Pt-Rechner öffnen" class="card sk-home-app" data-app-id="pt-rechner" data-tone="green" href="pt-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-pt"></use></svg></span><h2 class="sk-home-app-title">Pt-Rechner</h2><div class="sk-card-category">RECHNER</div><p>Pt100 und Pt1000 in beide Richtungen.</p></a>
+<a aria-label="Messstellen-Dokumentation öffnen" class="card sk-home-app" data-app-id="messstellen-doku" data-tone="steel" href="messstellen-doku/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-doc"></use></svg></span><h2 class="sk-home-app-title">Messstellen-Doku</h2><div class="sk-card-category">DOKUMENTATION</div><p>Fotos erfassen und dokumentieren.</p></a>
+<a aria-label="Einheitenrechner öffnen" class="card sk-home-app" data-app-id="einheitenrechner" data-tone="cyan" href="einheitenrechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-convert"></use></svg></span><h2 class="sk-home-app-title">Einheitenrechner</h2><div class="sk-card-category">RECHNER</div><p>Alle 19 Einheitenkategorien aus der zentralen Datenbasis.</p></a>
+<a aria-label="Einheitendatenbank öffnen" class="card sk-home-app" data-app-id="einheitendatenbank" data-tone="blue" href="einheitendatenbank/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-units"></use></svg></span><h2 class="sk-home-app-title">Einheiten-DB</h2><div class="sk-card-category">WISSEN</div><p>Einheiten, Kategorien, Umrechnungen und persönliche Einheitenfavoriten zentral verwalten.</p></a>
+<a aria-label="Werkstoffdatenbank öffnen" class="card sk-home-app" data-app-id="werkstoffdatenbank" data-tone="steel" href="werkstoffdatenbank/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-materials"></use></svg></span><h2 class="sk-home-app-title">Werkstoff-DB</h2><div class="sk-card-category">WISSEN</div><p>Werkstoffnummern, alternative Bezeichnungen, Gruppenfilter und Direktvergleiche zentral nachschlagen.</p></a>
+<a aria-label="Wissensdatenbank öffnen" class="card sk-home-app" data-app-id="wissensdatenbank" data-tone="green" href="wissensdatenbank/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-knowledge"></use></svg></span><h2 class="sk-home-app-title">Wissensdatenbank</h2><div class="sk-card-category">WISSEN</div><p>Anleitungen und Praxistipps zu Feldgeräten.</p></a>
+<a aria-label="Spannungsfall-Rechner öffnen" class="card sk-home-app" data-app-id="spannungsfall-rechner" data-tone="green" href="spannungsfall-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-voltage"></use></svg></span><h2 class="sk-home-app-title">Spannungsfall</h2><div class="sk-card-category">RECHNER</div><p>Spannungsfall in Volt und Prozent für 230 V, 400 V, 500 V, 690 V oder freie Nennspannung berechnen.</p></a>
+<a aria-label="Siemens Rohwert-Rechner öffnen" class="card sk-home-app" data-app-id="siemens-rohwert" data-tone="blue" href="siemens-analogwert-rechner/"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-plc"></use></svg></span><h2 class="sk-home-app-title">Siemens Rohwert</h2><div class="sk-card-category">RECHNER</div><p>4–20 mA, 0–20 mA, 0–10 V und 2–10 V direkt in Siemens-Rohwerte umrechnen – und zurück.</p></a>
+<a aria-label="E+H Device Viewer öffnen – externer Herstellerdienst in neuem Tab" class="card sk-home-app sk-external-card" data-app-id="eh-device-viewer" data-external="true" data-tone="cyan" href="https://www.de.endress.com/de/onlinetools?store_locale=de" referrerpolicy="no-referrer" rel="external noopener noreferrer" target="_blank"><span class="sk-home-icon"><svg aria-hidden="true" viewbox="0 0 64 64"><use href="assets/pct-home-icons.svg#icon-device"></use></svg></span><h2 class="sk-home-app-title">E+H Viewer</h2><div class="sk-card-category">EXTERN</div><p>Geräteinformationen über den offiziellen Endress+Hauser-Dienst aufrufen. Seriennummern und Eingaben werden nicht in SK PCT Tools gespeichert.</p><span aria-hidden="true" class="sk-external-link-meta">Herstellerdienst öffnen ↗</span></a>
+</div>
+<div aria-live="polite" class="pct-home-announcement" id="pctHomeAnnouncement"></div>
+<section class="sk-knowledge-results" hidden="" id="skKnowledgeResults"><div class="sk-results-heading"><div><div class="eyebrow">WISSENSBEITRÄGE</div><h2>Passende Unterseiten</h2></div><span id="skKnowledgeResultCount"></span></div><div class="sk-knowledge-result-list" id="skKnowledgeResultList"></div></section>
+<!-- sk:footer:start --><footer class="footer sk-footer pct-home-footer">SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.1.0-Beta</footer><!-- sk:footer:end -->
+</section>
+</main>
+</div>
+<script src="assets/pct-home.js?v=2.5.1.0-Beta"></script>
+<script src="assets/app.js?v=2.5.1.0-Beta"></script>
+<script src="assets/pct-controls.js?v=2.5.1.0-Beta"></script>
 </body>
 </html>
