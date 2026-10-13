@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.5.2.1-Beta
+# Testplan · SK PCT Tools 2.5.2.2-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -39,6 +39,10 @@ Header/Footer, mobile Sonderdarstellungen, sechs Rechnerreferenzen und Offline-A
    ΔU ≈ 6,93 V, ε ≈ 1,73 %, Lastspannung ≈ 393,07 V.
 7. Vorzeichen, Einheitenwechsel, Reset, Berechnen und Kopieren prüfen.
 8. Einheitenauswahlen zeigen kurze Symbole; Feldlabels/ARIA enthalten volle Bezeichnungen.
+9. Siemens-Rechner bei 390 × 650 und 844 × 390 prüfen: Inhalt muss bis zur
+   Einheitendatenbank-CTA scrollbar sein; Header und Footer bleiben fest.
+10. Alle drei Siemens-±-Taster auf 42 × 42 px, runde Form, Fokuszustand und
+    korrekten Vorzeichenwechsel prüfen.
 
 ## 5. Einheitendatenbank
 
@@ -67,4 +71,4 @@ Header/Footer, mobile Sonderdarstellungen, sechs Rechnerreferenzen und Offline-A
 1. Online laden und Service Worker aktivieren lassen.
 2. Offline schalten und Startseite, alle Rechner, Datenbanken, Herstelleransichten und
    fünf Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.5.2.1-Beta aktiv sind.
+3. Prüfen, dass nur Caches der Version 2.5.2.2-Beta aktiv sind.

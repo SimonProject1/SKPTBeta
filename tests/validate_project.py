@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.5.2.1-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.5.2.2-Beta."""
 from __future__ import annotations
 import hashlib, json, re, sys
 from html.parser import HTMLParser
@@ -7,7 +7,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.5.2.1-Beta'
+VERSION='2.5.2.2-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','messstellen-doku','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}
@@ -107,6 +107,9 @@ def main()->int:
         check('sk-calculator-page' in text,f'Rechnerklasse fehlt: {slug}',errors)
         check('design-system.css' in text,f'Rechner nutzt Design-System nicht: {slug}',errors)
     check('minimumFractionDigits:0' in (ROOT/'assets/app.js').read_text(),'Einheitliches praxisgerechtes Zahlenformat fehlt.',errors)
+    siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text()
+    for token in ('button.analog-sign-button.pct-control--sign','width:42px!important','border-radius:13px!important','display:flex!important','overflow-y:scroll!important','touch-action:pan-y!important','flex:0 0 auto!important'):
+        check(token in siemens_css,f'Siemens-UI-/Scroll-Korrektur fehlt: {token}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
     for token in ("'./assets/design-system.css'","'./assets/knowledge-compact.js'","'./einheitendatenbank/'","'./werkstoffdatenbank/'","'./wissensdatenbank/endress-hauser-promass-einbaulage/'"):

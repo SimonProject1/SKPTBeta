@@ -1,22 +1,21 @@
-SK PCT Tools 2.5.2.1-Beta
+SK PCT Tools 2.5.2.2-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-Direkte Ausgangsbasis ist die vollständige 2.5.2.0-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.5.2.1-Beta.
 
 Änderungen dieser Beta
-- Startseite und alle 15 internen Seiten verwenden jetzt exakt dieselbe
-  Rechteckfläche, dieselbe Kopfgeometrie und dieselben Innenabstände.
-- Jeder interne Header zeigt links – wie die Startseite – Logo und Version.
-  Rechts bleiben die jeweils benötigten Aktionen erhalten.
-- Der Footer ist auf allen Seiten gleich breit und gleich hoch. Schwarze Kontur,
-  zusätzlicher Innenschatten und abweichende Hintergrundfläche wurden entfernt.
-- Das Bemerkungsfeld der Messstellen-Dokumentation wurde deutlich verkleinert;
-  auch die übrigen Formularabstände sind kompakter.
-- Die Layoutregeln liegen abschließend in assets/design-system.css, damit ältere
-  seitenspezifische Regeln Header und Footer nicht erneut überschreiben.
-- Die Browserprüfung vergleicht Header, Footer und Außenrahmen jeder Unterseite
-  direkt mit der Startseite und prüft den Footer zusätzlich auf Kontur/Schatten.
+- Der ±-Taster des Siemens-Rohwertrechners ist jetzt ein kompakter runder
+  42-px-Schalter im gemeinsamen Cyan-/Grün-Design statt einer vollflächigen Wippe.
+- Hauptwert, Minimum und Maximum verwenden dieselbe Tastergeometrie mit klaren
+  Fokus-, Hover- und Aktivzuständen.
+- Der Siemens-Rechner besitzt einen eindeutigen internen vertikalen Scrollbereich.
+  Kopf und Footer bleiben im App-Rahmen stehen, während der vollständige Inhalt
+  per Touch, Mausrad oder Tastatur bewegt werden kann.
+- Die Scrollkorrektur verhindert besonders auf kleinen iPhone-/iPad-Höhen und im
+  Querformat, dass Rechnerbereiche zusammengedrückt oder abgeschnitten werden.
+- Statische Prüfung und Browser-Regression kontrollieren Tastergeometrie,
+  Vorzeichenfunktion, Inhaltsüberlauf und tatsächliche Scrollbewegung.
 
 Erhaltene Funktionen und Inhalte
 - 11 Startseiten-Apps, vollständige Navigation, Suche, Filter, Sortierung und Favoriten.
@@ -26,7 +25,7 @@ Erhaltene Funktionen und Inhalte
 - PWA-Installation, Offline-Kerncache, lokale Einstellungen und eigene App-Reihenfolge.
 
 Version und PWA
-- Öffentliche und technische Version: 2.5.2.1-Beta.
+- Öffentliche und technische Version: 2.5.2.2-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen bleiben lokal im Browser; es erfolgt keine Übertragung durch SK PCT Tools.
 

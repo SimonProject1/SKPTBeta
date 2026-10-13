@@ -60,7 +60,7 @@ with sync_playwright() as p:
         goto(page,'messstellen-doku/');mess=page.evaluate("""()=>{const n=document.querySelector('#note'),i=document.querySelector('#tag');return{note:n.getBoundingClientRect().height,input:i.getBoundingClientRect().height,version:document.querySelector('.sk-header-version')?.textContent.trim()||''}}""")
         check(mess['note']<=60,f'Messstellen-Doku: Bemerkungsfeld mit {mess["note"]} px zu hoch')
         check(mess['input']<=44,f'Messstellen-Doku: Eingabefeld mit {mess["input"]} px zu hoch')
-        check(mess['version']=='V2.5.2.1-Beta','Messstellen-Doku: gemeinsamer Versionskopf fehlt')
+        check(mess['version']=='V2.5.2.2-Beta','Messstellen-Doku: gemeinsamer Versionskopf fehlt')
 
         goto(page,'wissensdatenbank/endress-hauser-promass-einbaulage/');page.wait_for_selector('.kb-detail-group');knowledge=page.evaluate("""()=>({short:!!document.querySelector('.kb-short-answer'),closed:[...document.querySelectorAll('.kb-detail-group')].every(d=>!d.open),sources:!!document.querySelector('.kb-source-bundle'),safety:[...document.querySelectorAll('.kb-callout.danger,.kb-callout.warning')].every(n=>n.offsetParent!==null)})""")
         check(knowledge['short'],'Kurzantwort fehlt');check(knowledge['closed'],'Details nicht initial geschlossen');check(knowledge['sources'],'Quellenbündel fehlt');check(knowledge['safety'],'Sicherheitshinweis ausgeblendet')
@@ -70,6 +70,12 @@ with sync_playwright() as p:
         goto(page,'pt-rechner/');check('100' in page.text_content('#out') and 'Ω' in page.text_content('#out'),'Pt100 0 °C → 100 Ω fehlgeschlagen')
         goto(page,'einheitenrechner/');check('100' in page.text_content('#out') and 'kPa' in page.text_content('#out'),'1 bar → 100 kPa fehlgeschlagen')
         goto(page,'siemens-analogwert-rechner/');check('13.824' in page.text_content('#rawResult').replace(' ',''),'Siemens 12 mA → 13.824 fehlgeschlagen');check('50' in page.text_content('#physicalResult'),'Siemens 12 mA → 50 °C fehlgeschlagen')
+        siemens=page.evaluate("""()=>{const host=document.querySelector('main.sk-app-scroll'),button=document.querySelector('#physicalMinSignToggle'),style=getComputedStyle(button),box=button.getBoundingClientRect();return{client:host.clientHeight,scroll:host.scrollHeight,top:host.scrollTop,overflow:style.overflowY,hostOverflow:getComputedStyle(host).overflowY,touchAction:getComputedStyle(host).touchAction,buttonWidth:box.width,buttonHeight:box.height,buttonRadius:style.borderRadius}}""")
+        page.locator('main.sk-app-scroll').hover(force=True);page.mouse.wheel(0,700);page.wait_for_timeout(150)
+        check(siemens['scroll']>siemens['client'] and page.eval_on_selector('main.sk-app-scroll','e=>e.scrollTop')>0,'Siemens-Rechner: interner Inhalt lässt sich nicht scrollen')
+        check(siemens['hostOverflow']=='scroll' and siemens['touchAction']=='pan-y','Siemens-Rechner: Touch-Scrollregeln fehlen')
+        check(round(siemens['buttonWidth'])==42 and round(siemens['buttonHeight'])==42 and siemens['buttonRadius'].startswith('13px'),'Siemens-Rechner: ±-Taster entspricht nicht dem runden 42-px-Design')
+        before=page.input_value('#physicalMin');page.click('#physicalMinSignToggle');check(page.input_value('#physicalMin')!=before,'Siemens-Rechner: ±-Taster wechselt das Vorzeichen nicht')
         goto(page,'spannungsfall-rechner/');page.fill('#current','16');page.fill('#length','35');page.click('#calculate');page.wait_for_selector('#result:not([hidden])');check('6,93' in page.text_content('#dropV'),'Spannungsfall ΔU≈6,93 V fehlgeschlagen');check('1,73' in page.text_content('#dropPercent'),'Spannungsfall ≈1,73 % fehlgeschlagen');check('393,07' in page.text_content('#loadVoltage'),'Lastspannung ≈393,07 V fehlgeschlagen')
 
         goto(page,'');page.evaluate("""async()=>{if('serviceWorker'in navigator)await navigator.serviceWorker.ready}""");page.wait_for_timeout(600);context.set_offline(True)

@@ -1,44 +1,36 @@
-SK PCT Tools 2.5.2.1-Beta
+SK PCT Tools 2.5.2.2-Beta
 Release-Datum: 13.10.2026
-Status: Header-/Footer-Konsolidierung und kompaktere Messstellen-Dokumentation
-Direkte Ausgangsbasis: vollständige 2.5.2.0-Beta
+Status: UI-Korrektur am Vorzeichen-Taster und Scroll-Fix im Siemens-Rohwertrechner
+Direkte Ausgangsbasis: vollständige 2.5.2.1-Beta
 
 TATSÄCHLICH UMGESETZT
 
-1. Einheitlicher App-Rahmen
-- Startseite und alle internen Unterseiten verwenden dieselben Außenmaße,
-  Rundungen, Hintergründe, Safe-Area-Abstände und Schatten.
-- Die Innenabstände des Home-Rechtecks gelten nun auch auf Unterseiten.
+1. Plus/Minus-Taster neu gestaltet
+- Der bisherige vollflächige Wippschalter wurde durch einen kompakten,
+  eigenständigen ±-Taster ersetzt.
+- Runde Form, dunkle PCT-Fläche, Cyan-Kontur und grüner Druckzustand fügen sich
+  jetzt in Tabs, Eingabefelder und Kopfaktionen ein.
+- Einheitliche 42-px-Bedienfläche in Hauptwert sowie Messbereich Minimum und
+  Maximum; Fokus-, Hover- und Aktivzustände bleiben eindeutig sichtbar.
+- Vorzeichenwechsel, Tastaturbedienung und Beschriftungen bleiben funktional
+  unverändert.
 
-2. Einheitlicher Header
-- Gemeinsame Höhe und Inhaltsbreite in Smartphone-, Tablet-, Desktop- und
-  Querformat-Darstellung.
-- Links stehen auf jeder Seite Logo und Versionsplakette V2.5.2.1-Beta.
-- Rechts bleiben Suche/Favoriten auf Home sowie Favoriten/Zurück/Home auf
-  Unterseiten in der gemeinsamen Aktionsreihe.
-- Der abweichende dunkle Querbalken der Unterseiten wurde entfernt.
+2. Siemens-Rohwertrechner wieder scrollbar
+- Der Rechnerinhalt erhält innerhalb des festen App-Rahmens eine eindeutige
+  Flex-Nullbasis und einen eigenen vertikalen Scrollbereich.
+- Touch-Scroll auf iPhone/iPad, Mausrad und Tastaturscroll werden explizit
+  unterstützt.
+- Kopfzeile und Footer bleiben fest im App-Rahmen; nur der Inhalt scrollt.
+- Zusätzlicher unterer Scrollabstand berücksichtigt die Geräte-Safe-Area.
 
-3. Einheitlicher Footer
-- Exakt gleiche Breite, Höhe, Position, Typografie und Safe-Area-Behandlung.
-- Schwarze Oberkante, Outline, Innenschatten und separate dunkle Fläche entfernt.
-- Einheitlicher Text: SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.2.1-Beta.
-
-4. Messstellen-Dokumentation
-- Bemerkungsfeld auf 52 px (Desktop/Tablet) beziehungsweise 58 px (Smartphone)
-  reduziert statt der vorher erzwungenen mobilen Mindesthöhe von 112 px.
-- Eingabefelder auf 42 px und Abstände, Überschriften sowie Werkzeugleiste
-  kompakter abgestimmt.
-- Druckansicht und bestehende Foto-/Reset-Funktionen bleiben erhalten.
-
-5. Qualitätssicherung
-- Statische Vollprüfung für 17 HTML-Dateien und 15 gerahmte Unterseiten.
-- 454 Browserprüfungen über 16 Routen und drei Viewports.
-- Header, Footer und Rahmen jeder Unterseite werden geometrisch direkt mit der
-  Startseite verglichen.
-- Footer wird automatisiert auf fehlende Kontur, Outline und Schatten geprüft.
-- Sechs Rechnerreferenzen und zwei Offline-Aufrufe weiterhin erfolgreich.
+3. Version und Offline-Stand
+- Projektweit konsistent auf V2.5.2.2-Beta angehoben.
+- Cache-Buster, Manifest, Service Worker, sichtbare Versionsangaben und
+  Prüfscripte wurden gemeinsam aktualisiert.
 
 ERHALTEN
 - Alle 11 Apps, sechs Rechner, Datenbanken, Messstellen-Dokumentation,
   Wissens-Herstellerwege, Suche, Filter, Favoriten, lokale Reihenfolge,
   PWA-Installation und Offline-Funktion.
+- Der vollständige Funktionsumfang und sämtliche Siemens-Rechenregeln aus
+  V2.5.2.1-Beta bleiben unverändert.
