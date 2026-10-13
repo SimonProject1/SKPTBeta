@@ -1,13 +1,15 @@
-# Testplan · SK PCT Tools 2.5.0.5-Beta
+# Testplan · SK PCT Tools 2.5.0.6-Beta
 
 ## 1. Hauptstartseite, Kopf und iOS-Safe-Area
 1. Projekt über HTTP/HTTPS öffnen und als iOS-PWA zum Home-Bildschirm hinzufügen.
 2. Auf einem iPhone mit Displayausschnitt/Dynamic Island prüfen, dass die obere Kante des abgerundeten PCT-Home-Pakets vollständig unterhalb der Statusleiste beginnt.
 3. Im Querformat prüfen, dass zusätzlich die linke und rechte Safe Area eingehalten werden.
-4. Prüfen, dass das PCT-Logo gegenüber V2.5.0.4-Beta deutlich größer ist.
-5. Prüfen, dass der sichtbare weiße Text „SK PCT Tools“ neben dem Logo entfernt ist und `V2.5.0.5-Beta` weiterhin sinnvoll direkt am Logo steht.
+4. Desktop prüfen: Das PCT-Logo ist 98 px hoch und entspricht damit exakt 46 px Suche + 6 px Abstand + 46 px Favoriten.
+5. Prüfen, dass der sichtbare weiße Text „SK PCT Tools“ neben dem Logo entfernt ist und `V2.5.0.6-Beta` weiterhin sinnvoll direkt am Logo steht.
 6. Prüfen, dass die Suchlupe horizontal und vertikal exakt in ihrer 46 × 46 px beziehungsweise mobilen 42 × 42 px Schaltfläche zentriert ist.
-7. Prüfen, dass Suche, Favoriten und alle 11 App-Icons innerhalb des abgerundeten Pakets liegen.
+7. Mobil prüfen: Das PCT-Logo ist 89 px hoch und entspricht damit exakt 42 px Suche + 5 px Abstand + 42 px Favoriten.
+8. Prüfen, dass Suche, Favoriten, alle 11 App-Icons und der vollständige Footer innerhalb des abgerundeten Pakets liegen.
+9. Prüfen, dass das Rechteck bis unter den Footer reicht und die untere iOS-Safe-Area im Innenabstand berücksichtigt wird.
 
 ## 2. Hersteller-Hub der Wissensdatenbank
 1. Wissensdatenbank öffnen; die Startansicht muss ausschließlich die Hersteller-Icons Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges zeigen.
@@ -40,7 +42,7 @@
 1. Seite einmal online laden und Service-Worker-Installation abwarten.
 2. Browser in den Offline-Modus versetzen.
 3. Startseite, alle internen Apps, Herstelleransichten und Wissensbeiträge öffnen.
-4. Prüfen, dass nur Caches der Version 2.5.0.5-Beta verwendet werden.
+4. Prüfen, dass nur Caches der Version 2.5.0.6-Beta verwendet werden.
 
 ## 6. Automatische Prüfung
 ```bash

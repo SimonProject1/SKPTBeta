@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.0.5-Beta — Wissensdatenbank im PCT Cartoon-Tech-Design.
+/* SK PCT Tools 2.5.0.6-Beta — Wissensdatenbank im PCT Cartoon-Tech-Design.
    Diese Ebene verändert ausschließlich Darstellung und responsive Anordnung.
    Inhalte, Routen und Laufzeitfunktionen bleiben im bestehenden Markup/JavaScript. */
 
@@ -473,7 +473,7 @@ body[data-sk-page="module"][data-knowledge-standard] .sk-favorites-drawer{
   .proposal-card,.knowledge-entry{transition-duration:.01ms!important}
 }
 
-/* SK PCT Tools 2.5.0.5-Beta — Cleaner Hauptheader der Wissensdatenbank.
+/* SK PCT Tools 2.5.0.6-Beta — Cleaner Hauptheader der Wissensdatenbank.
    Der Aufbau folgt dem zurückhaltenden Standard der Werkstoffdatenbank:
    kleine Kategoriezeile, einzeiliger Titel, Beschreibung und dezentes PCT-Logo.
    Der übrige Cartoon-Tech-Auftritt und die Beitragsdarstellung bleiben unverändert. */
@@ -553,7 +553,7 @@ body[data-sk-page="knowledge"] .knowledge-hero>.sk-page-heading-logo{
 }
 
 
-/* === 2.5.0.5-Beta: kompakte Wissensbeiträge wie kompakte Startseiten-Karten === */
+/* === 2.5.0.6-Beta: kompakte Wissensbeiträge wie kompakte Startseiten-Karten === */
 @media (max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   body[data-sk-page="knowledge"].sk-knowledge-compact-view .knowledge-manufacturer-entries{
     gap:6px!important;

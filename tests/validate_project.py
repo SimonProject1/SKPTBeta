@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.5-Beta."""
+"""Struktur- und Integritätsprüfung für SK PCT Tools 2.5.0.6-Beta."""
 from __future__ import annotations
 import hashlib
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "2.5.0.5-Beta"
+VERSION = "2.5.0.6-Beta"
 EXPECTED_APPS = {
     "analogsignal", "pf-rechner", "pt-rechner", "messstellen-doku",
     "einheitenrechner", "einheitendatenbank", "werkstoffdatenbank",
@@ -103,6 +103,8 @@ def main() -> int:
             fail(f"Erforderliches Startseitenelement fehlt: {required}", errors)
     if start_html.count('class="sk-favorites-trigger"') != 1:
         fail("Die Startseite muss genau einen Favoriten-Schnellzugriff enthalten.", errors)
+    if not re.search(r'<section[^>]*class="pct-home-screen".*?<footer[^>]*class="[^"]*pct-home-footer[^"]*".*?</footer>.*?</section>', start_html, re.S):
+        fail("Der Startseitenfooter liegt nicht vollständig im abgerundeten Home-Rechteck.", errors)
 
     knowledge_path = ROOT / "wissensdatenbank" / "index.html"
     knowledge_html = knowledge_path.read_text(encoding="utf-8")
@@ -142,10 +144,13 @@ def main() -> int:
     home_css = (ROOT / "assets" / "pct-home.css").read_text(encoding="utf-8")
     knowledge_css = (ROOT / "assets" / "knowledge-overview.css").read_text(encoding="utf-8")
     for label, css in (("Startseite", home_css), ("Wissensdatenbank", knowledge_css)):
-        for inset in ("safe-area-inset-top", "safe-area-inset-left", "safe-area-inset-right"):
+        required_insets = ("safe-area-inset-top", "safe-area-inset-left", "safe-area-inset-right")
+        if label == "Startseite":
+            required_insets += ("safe-area-inset-bottom",)
+        for inset in required_insets:
             if inset not in css:
                 fail(f"{label} berücksichtigt {inset} nicht.", errors)
-    for token in ("flex-basis:92px;width:92px;height:92px", "flex-basis:72px;width:72px;height:72px", ".pct-home-search-trigger{display:grid;place-items:center", "grid-template-columns:repeat(6", "grid-template-columns:repeat(4", "grid-template-columns:repeat(3"):
+    for token in ("--pct-home-action-size:46px", "--pct-home-action-size:42px", "--pct-home-logo-size:calc((var(--pct-home-action-size) * 2) + var(--pct-home-action-gap))", ".pct-home-screen>.pct-home-footer", ".pct-home-search-trigger{display:grid;place-items:center", "grid-template-columns:repeat(6", "grid-template-columns:repeat(4", "grid-template-columns:repeat(3"):
         if token not in home_css:
             fail(f"Startseiten-Designregel fehlt: {token}", errors)
     for token in (".knowledge-hub", ".knowledge-manufacturer-view", ".knowledge-grid", ".knowledge-view-back"):
@@ -181,7 +186,7 @@ def main() -> int:
         text = path.read_text(encoding="utf-8")
         if VERSION not in text:
             fail(f"Versionskennung fehlt in {path.relative_to(ROOT)}.", errors)
-        if "2.5.0.4-Beta" in text:
+        if "2.5.0.5-Beta" in text:
             fail(f"Alte Laufzeitversion in {path.relative_to(ROOT)} gefunden.", errors)
 
     forbidden_tree = ("sk" + "-tree", "navigation" + "-tree", "Navigations" + "baum", "Seitennavi" + "gation")

@@ -1,43 +1,36 @@
-SK PCT Tools 2.5.0.5-Beta
-Release-Datum: 12.10.2026
-Status: Beta mit Hersteller-Hub und überarbeitetem PCT-Home-Kopf
-Direkte Ausgangsbasis: 2.5.0.4-Beta
+SK PCT Tools 2.5.0.6-Beta
+Release-Datum: 13.10.2026
+Status: Grafische Beta mit ausbalanciertem PCT-Home-Kopf und integriertem Footer
+Direkte Ausgangsbasis: 2.5.0.5-Beta
 
-NEU IN 2.5.0.5-BETA
-1. Wissensdatenbank als Hersteller-Hub
-- Auf der Startansicht erscheinen ausschließlich Hersteller-Icons für Air Torque,
-  Endress+Hauser, Siemens und Vacon sowie das zusätzliche Icon Sonstiges.
-- Sonstiges nimmt künftig Wissensbeiträge ohne Herstellerzuordnung auf.
-- Jede Auswahl öffnet eine eigene, per URL adressierbare Herstelleransicht.
-- In der Herstelleransicht werden die zugehörigen Wissensbeiträge erneut als Icons dargestellt.
-- Die bestehenden fünf Wissensbeiträge behalten ihre stabilen URLs.
+NEU IN 2.5.0.6-BETA
+1. Logo proportional zu den Schnellzugriffen
+- Das PCT-Logo ist auf Desktop exakt so hoch wie Suche und Favoriten zusammen:
+  46 px + 6 px Abstand + 46 px = 98 px.
+- Mobil gilt dieselbe Proportion:
+  42 px + 5 px Abstand + 42 px = 89 px.
+- Logo und Schnellzugriffe verwenden gemeinsame CSS-Variablen, damit die Proportion
+  auch bei späteren Anpassungen konsistent bleibt.
+- Versionsanzeige und exakt zentrierte Suchlupe bleiben unverändert erhalten.
 
-2. Suche, Favoriten und Beitragsvorlage erhalten
-- Die Suche filtert im Hub Hersteller anhand von Hersteller-, Geräte- und Themenbegriffen.
-- In einer Herstelleransicht filtert dieselbe Suche die dortigen Beiträge.
-- Favoritensterne bleiben an allen fünf Wissensbeiträgen verfügbar.
-- Favoritendrawer und globale Favoriten bleiben unverändert kompatibel.
-- Die PDF-Beitragsvorlage ist weiterhin über „Beitrag vorschlagen“ erreichbar.
-- Die mobile Kompaktansicht bleibt in Herstelleransichten verfügbar.
-
-3. Hauptstartseite überarbeitet
-- Das PCT-Logo wurde auf Desktop und Mobil deutlich vergrößert.
-- Der sichtbare weiße Produkttext „SK PCT Tools“ wurde aus dem Startseitenkopf entfernt.
-- Die Version V2.5.0.5-Beta bleibt direkt und kompakt beim Logo.
-- Die Suchlupe ist über Grid-Zentrierung exakt horizontal und vertikal in ihrer Schaltfläche ausgerichtet.
+2. Footer vollständig im abgerundeten Home-Rechteck
+- Der Startseitenfooter wurde in das abgerundete PCT-Home-Rechteck verschoben.
+- Das Rechteck wurde in der Mindesthöhe und am unteren Innenabstand erweitert.
+- Eine dezente Trennlinie bindet den Footer optisch an den Inhalt an.
+- Die untere iOS-Safe-Area wird zusätzlich innerhalb des Rechtecks berücksichtigt.
 
 ERHALTENE FUNKTIONEN UND INHALTE
-- iOS-Safe-Area oben sowie links/rechts im Hoch- und Querformat.
+- iOS-Safe-Area oben, unten sowie links/rechts im Hoch- und Querformat.
+- Versionsanzeige, Startseitensuche, Kategorienfilter und Sortierung.
+- Favoriten, Favoritendrawer, eigene App-Reihenfolge und Long-Press-Verschieben.
 - Responsives Icon-Raster mit allen 11 Apps und 11 eindeutigen Symbolen.
 - Alle sechs Rechner einschließlich vorhandener Berechnungslogik.
 - Einheitendatenbank, Werkstoffdatenbank und Messstellen-Dokumentation.
-- Fünf fachliche Wissensbeiträge und die PDF-Beitragsvorlage.
-- Favoriten, eigene App-Reihenfolge, Long-Press-Verschieben, Filter und Sortierung.
+- Wissensdatenbank mit fünf Hersteller-Bereichen, fünf Fachbeiträgen und PDF-Vorlage.
 - PWA-Manifest, Service Worker, Offline-Kerncache und optionaler Dokumentcache.
 - Stabile interne URLs und abgesicherter externer Herstellerlink.
 
 INTEGRITÄT
 - SHA256SUMS.txt enthält die Prüfsummen aller weiteren Dateien im Projektordner.
-- tests/validate_project.py prüft Version, App-Inventar, Safe-Area, Hersteller-Hub,
-  Herstelleransichten, Beitragszuordnung, Startseitenlogo, Suchlupe, interne Links,
-  Cache-Einträge und Prüfsummen.
+- tests/validate_project.py prüft Version, App-Inventar, Safe-Areas, Logo-Proportion,
+  integrierten Footer, Hersteller-Hub, interne Links, Offline-Cache und Prüfsummen.
