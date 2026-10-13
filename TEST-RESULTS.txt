@@ -1,44 +1,45 @@
-SK PCT Tools 2.5.2.2-Beta · Abnahmeergebnis
+SK PCT Tools 2.5.2.3-Beta · Abnahmeergebnis
 Datum: 13.10.2026
 
 Statische Vollprüfung
-PASS · 11 Apps · 6 Rechner · 15 interne Unterseiten · 5 Wissensbeiträge
-PASS · 17 HTML-Dateien, lokale Links, Versionsstände, Offline-Inventar und Dateistruktur
-PASS · alle 15 gerahmten Unterseiten mit genau einem gemeinsamen Header und Footer
-PASS · 893 !important-Deklarationen; weiterhin unter dem Grenzwert 900 und dem Ausgangsbestand 1.355
-PASS · JavaScript-Syntax aller Projektdateien
+PASS · 10 Apps · 6 Rechner · 14 interne Unterseiten · 5 Wissensbeiträge
+PASS · 16 HTML-Dateien, lokale Links, Versionsstände, Offline-Inventar und Dateistruktur
+PASS · genau eine H1 und Referrer-Schutz auf allen HTML-Seiten
+PASS · Messstellen-Dokumentation und PDF-Beitragsvorlage vollständig entfernt
+PASS · 864 !important-Deklarationen; bereinigter Stand deutlich unter dem Grenzwert 880
+PASS · JavaScript-Syntax und JSON-Datenbestand
+PASS · SHA-256-Prüfsummen für alle Paketdateien
 
 Browserprüfung (Chromium / Playwright)
-PASS · 458 Einzelprüfungen
-PASS · 16 Routen × Smartphone 390×844, Tablet 820×1180 und Desktop 1440×1000
+PASS · 536 Einzelprüfungen
+PASS · 15 Routen × Smartphone 390×844, Tablet 820×1180 und Desktop 1440×1000
+PASS · Reflow-Sanity bei 320×900 für Startseite, Pt-Rechner, Spannungsfall, Werkstoffdatenbank und Wissensbeitrag
 PASS · kein horizontaler Seiten-/Inhaltsüberlauf in den geprüften Profilen
 PASS · Außenrahmen, Header und Footer jeder Unterseite geometrisch gegen Home geprüft
-PASS · Footer ohne Border, Outline oder Box-Shadow
-PASS · Messstellen-Bemerkungsfeld mobil höchstens 60 px; Eingabefelder höchstens 44 px
-PASS · 3-Spalten-Startseite bis 430 px und 44-px-Favoriten-Touchziele
-PASS · Einheitendatenbank, mobile Werkstoffdarstellung und Wissensverdichtung
+PASS · 10 Apps auf der Startseite; Messstellen-Dokumentation nicht mehr vorhanden
 PASS · Offline-Aufruf von Rechner- und Wissensroute nach Service-Worker-Installation
 
-Siemens-Rohwertrechner
-PASS · interner Rechnerinhalt überläuft auf Smartphone kontrolliert und reagiert auf Mausradscroll
-PASS · Touch-Regel pan-y, eigener vertikaler Scrollbereich und feste Flex-Nullbasis aktiv
-PASS · zusätzlicher Kurzbildschirm 390×650 und Querformat 844×390 vollständig scrollbar
-PASS · ±-Taster in Smartphone, Kurzbildschirm, Querformat und Desktop mit 42×42 px und 13 px Rundung
-PASS · Vorzeichenwechsel funktional; Minimum −50 wird korrekt zu 50
+Fehlerkorrekturen
+PASS · Pt100 0 °C → 100 Ω
+PASS · Pt100: Temperaturen unter -200 °C und über 850 °C werden abgewiesen
+PASS · Pt100: Widerstände unter und über dem IEC-60751-Messbereich werden abgewiesen
+PASS · Pt1000: 1000 Ω → 0 °C
+PASS · Spannungsfall-Ergebnisblock ist vor der Berechnung vollständig verborgen
+PASS · Spannungsfall-Referenzfall: 6,93 V / 1,73 % / 393,07 V
+PASS · Spannungsfall-Reset leert Strom/Länge und blendet das Ergebnis wieder vollständig aus
 
-Rechner-Referenzen
-PASS · Analogsignal: 0…100 / 4…20 mA / Eingabe 50 → 12 mA und 50 %
-PASS · P+F: (0|4), (100|20) → K 0,16 und Nullpunkt 4
-PASS · Pt100: 0 °C → 100 Ω
+Weitere Rechner-Referenzen
+PASS · Analogsignal: 50 → 12 mA und 50 %
+PASS · P+F: K 0,16 und Nullpunkt 4
 PASS · Einheiten: 1 bar → 100 kPa
-PASS · Siemens: 4–20 mA, 12 mA, −50…150 °C → Rohwert 13.824 und 50 °C
-PASS · Spannungsfall: 400 V Drehstrom, 16 A, 35 m, 2,5 mm² Cu, cos φ 1 → 6,93 V / 1,73 % / 393,07 V
+PASS · Siemens: 12 mA → Rohwert 13.824 und 50 °C
+PASS · Siemens-Rechner bleibt intern scrollbar; ±-Tastergeometrie erhalten
 
-Visuelle Kontrolle
-PASS · Siemens-Rohwertrechner in Smartphone-, Kurzbildschirm-, Querformat- und Desktopansicht gerendert
-PASS · neuer ±-Taster fügt sich als kompakter runder Cyan-/Grün-Schalter in die Eingabefelder ein
-PASS · oberer und unterer Scrollzustand zeigen alle Rechnerbereiche ohne gequetschte oder abgeschnittene Inhalte
+Wissensdatenbank
+PASS · fünf Wissensbeiträge mit Kurzantwort, geschlossenen Fachdetails und sichtbaren Sicherheitshinweisen
+PASS · Quellenbündel kennzeichnet Praxiswissen als „Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)“
+PASS · Herstellerdokumentation, Gerätestand und betriebliche Freigaben bleiben als Gültigkeitsgrenze sichtbar
 
-Externer Dienst
-PASS · offizielles Ziel geprüft: https://www.de.endress.com/de/onlinetools/device-viewer
-PASS · sichtbare Kennzeichnung als externer Onlinedienst sowie _blank, external, noopener, noreferrer und no-referrer
+Nachgelagerte reale Plattformtests
+- VoiceOver/NVDA, Safari/Firefox/Edge sowie echte iOS-/Android-Hardware bleiben manuelle Prüfungen.
+- Serverseitige CSP-, HSTS- und weitere HTTP-Header sind nach dem Deployment gemäß SECURITY-DEPLOYMENT.md zu prüfen.

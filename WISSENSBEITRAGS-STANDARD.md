@@ -1,4 +1,4 @@
-# SK PCT Tools - Wissensbeitragsstandard V2.5.2.2-Beta
+# SK PCT Tools - Wissensbeitragsstandard V2.5.2.3-Beta
 
 Stand: 13.10.2026
 Status: verbindlicher Release-Standard für alle Wissensbeiträge im Projekt
@@ -13,7 +13,7 @@ Jeder Wissensbeitrag enthält in dieser Reihenfolge:
 4. Sichtbare Kurzantwort und Fachinhalt in klar benannten, aufklappbaren Detailabschnitten.
 5. Prüf-, Handlungs- oder Zuordnungsfolge, sofern fachlich sinnvoll.
 6. Jeder Sicherheitshinweis bleibt sichtbar; Quellen- und Gültigkeitshinweise werden am Beitragsende gebündelt.
-7. Technische Standardzuordnung über `data-knowledge-standard="2.5.2.2-Beta"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
+7. Technische Standardzuordnung über `data-knowledge-standard="2.5.2.3-Beta"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
 
 ## 2. Darstellungsregeln
 
@@ -32,10 +32,11 @@ Jeder Wissensbeitrag enthält in dieser Reihenfolge:
 - Sicherheitsrelevante Änderungen immer an Herstellerunterlagen und betriebliche Freigaben binden.
 - Keine vertraulichen Anlagen-Passwörter oder personenbezogenen Daten aufnehmen.
 - Bestehende Fachinhalte bei Layout-Migration inhaltlich erhalten.
+- Praxiswissen wird als „Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)“ gekennzeichnet; Herstellerunterlagen und konkrete Gerätestände bleiben maßgeblich.
 
-## 4. Beitragsvorlage
+## 4. Beitragsweg
 
-Die PDF-Vorlage erfasst Kurzfassung, Geltungsbereich/Voraussetzungen, Vorgehen, Ergebnis/Merksatz, Warnhinweise, Quellen und Anhänge. Sie ist gemeinsam mit den genannten Anhängen einzureichen.
+Neue Inhalte und Korrekturen werden direkt über den Projektchat strukturiert. Eine separate PDF-Beitragsvorlage ist nicht Bestandteil des Projekts.
 
 ## 5. Abnahme
 

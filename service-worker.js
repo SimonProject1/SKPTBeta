@@ -1,4 +1,4 @@
-const RELEASE='2.5.2.2-Beta';
+const RELEASE='2.5.2.3-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -47,7 +47,6 @@ const CORE=[
   './einheitendatenbank/',
   './einheitenrechner/',
   './manifest.webmanifest',
-  './messstellen-doku/',
   './pf-rechner/',
   './pt-rechner/',
   './siemens-analogwert-rechner/',
@@ -64,8 +63,7 @@ const CORE=[
 ];
 const OPTIONAL_DOCUMENTS=[
   './WISSENSBEITRAGS-STANDARD.md',
-  './SIEMENS-QUELLEN-UND-GRENZWERTE.md',
-  './wissensdatenbank/vorlagen/Wissensdatenbank_Beitragsvorlage.pdf'
+  './SIEMENS-QUELLEN-UND-GRENZWERTE.md'
 ];
 
 async function addStrict(cacheName,urls){

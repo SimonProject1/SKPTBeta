@@ -1,36 +1,36 @@
-SK PCT Tools 2.5.2.2-Beta
+SK PCT Tools 2.5.2.3-Beta
 Release-Datum: 13.10.2026
-Status: UI-Korrektur am Vorzeichen-Taster und Scroll-Fix im Siemens-Rohwertrechner
-Direkte Ausgangsbasis: vollständige 2.5.2.1-Beta
+Status: Fehlerkorrektur, Bereinigung und Quellenkennzeichnung
+Direkte Ausgangsbasis: vollständige 2.5.2.2-Beta
 
 TATSÄCHLICH UMGESETZT
 
-1. Plus/Minus-Taster neu gestaltet
-- Der bisherige vollflächige Wippschalter wurde durch einen kompakten,
-  eigenständigen ±-Taster ersetzt.
-- Runde Form, dunkle PCT-Fläche, Cyan-Kontur und grüner Druckzustand fügen sich
-  jetzt in Tabs, Eingabefelder und Kopfaktionen ein.
-- Einheitliche 42-px-Bedienfläche in Hauptwert sowie Messbereich Minimum und
-  Maximum; Fokus-, Hover- und Aktivzustände bleiben eindeutig sichtbar.
-- Vorzeichenwechsel, Tastaturbedienung und Beschriftungen bleiben funktional
-  unverändert.
+1. Pt100/Pt1000 sicher begrenzt
+- Temperatur- und Widerstandseingaben werden gegen den IEC-60751-Bereich -200 bis 850 °C geprüft.
+- Außerhalb des Bereichs wird keine scheinbar gültige Grenztemperatur bzw. kein Widerstand mehr ausgegeben.
+- Pt100 und Pt1000 sowie beide Einheitenrichtungen werden berücksichtigt.
 
-2. Siemens-Rohwertrechner wieder scrollbar
-- Der Rechnerinhalt erhält innerhalb des festen App-Rahmens eine eindeutige
-  Flex-Nullbasis und einen eigenen vertikalen Scrollbereich.
-- Touch-Scroll auf iPhone/iPad, Mausrad und Tastaturscroll werden explizit
-  unterstützt.
-- Kopfzeile und Footer bleiben fest im App-Rahmen; nur der Inhalt scrollt.
-- Zusätzlicher unterer Scrollabstand berücksichtigt die Geräte-Safe-Area.
+2. Spannungsfall-Ergebnis korrekt verborgen
+- Eine zentrale hidden-Regel verhindert, dass Layoutregeln das HTML-hidden-Attribut überschreiben.
+- Ergebnisblock bleibt vor der ersten Berechnung und nach Zurücksetzen vollständig ausgeblendet.
 
-3. Version und Offline-Stand
-- Projektweit konsistent auf V2.5.2.2-Beta angehoben.
-- Cache-Buster, Manifest, Service Worker, sichtbare Versionsangaben und
-  Prüfscripte wurden gemeinsam aktualisiert.
+3. Messstellen-Dokumentation entfernt
+- App-Kachel, Seite, Offline-Route, Tests und modulbezogene CSS-Regeln wurden entfernt.
+- Startseite enthält jetzt 10 Apps.
+
+4. Beitragsweg vereinfacht
+- PDF-Beitragsvorlage und Download-Aktion wurden entfernt.
+- Neue Beiträge werden direkt über den Projektchat strukturiert.
+
+5. Quellen klarer bezeichnet
+- Praxiswissen trägt die Quellenart „Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)“.
+- Herstellerdokumentation, Gerätestand und betriebliche Freigaben bleiben als maßgebliche Gültigkeitsgrenze sichtbar.
+
+6. Barrierefreiheit und Sicherheit
+- Startseite und Weiterleitungs-Fallback besitzen eine semantische H1.
+- Referrer-Schutz ist auf allen HTML-Seiten gesetzt.
+- Serverseitige CSP-, HSTS- und weitere Header sind in SECURITY-DEPLOYMENT.md dokumentiert.
 
 ERHALTEN
-- Alle 11 Apps, sechs Rechner, Datenbanken, Messstellen-Dokumentation,
-  Wissens-Herstellerwege, Suche, Filter, Favoriten, lokale Reihenfolge,
-  PWA-Installation und Offline-Funktion.
-- Der vollständige Funktionsumfang und sämtliche Siemens-Rechenregeln aus
-  V2.5.2.1-Beta bleiben unverändert.
+- Sechs Rechner, Einheiten- und Werkstoffdatenbank, fünf Wissensbeiträge,
+  Suche, Filter, Favoriten, lokale Reihenfolge, PWA-Installation und Offline-Funktion.

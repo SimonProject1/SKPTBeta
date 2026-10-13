@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.5.2.2-Beta
+# Testplan · SK PCT Tools 2.5.2.3-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -7,68 +7,35 @@ python3 tests/validate_project.py
 python3 tests/browser_regression.py
 ```
 
-Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000.
-Der Browsertest öffnet 16 interne Seiten in allen drei Profilen, prüft Überläufe,
-Header/Footer, mobile Sonderdarstellungen, sechs Rechnerreferenzen und Offline-Aufrufe.
+Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 sowie Reflow 320 × 900.
 
-## 2. Header, Footer und Navigation
+## 2. Navigation und Semantik
+1. Startseite sowie alle internen Unterseiten öffnen.
+2. Lokale Links, gemeinsamer Header/Footer, genau eine H1 und Referrer-Schutz prüfen.
+3. Startseite zeigt 10 Apps; Messstellen-Dokumentation und PDF-Vorlage dürfen nirgends verlinkt sein.
 
-1. Startseite sowie alle 15 internen Unterseiten öffnen.
-2. Gleiche Header-/Footer-Höhe, Breite, Innenabstände, Safe-Area-Abstände und Touchziele prüfen.
-3. Header links immer mit Logo und Versionsplakette kontrollieren.
-4. Footer ohne schwarze Kontur, Outline, Schatten oder separate dunkle Fläche prüfen.
-5. Zurück, Startseite und Favoriten testen; kein Element darf Logo oder Text überlagern.
-6. Nur der interne Inhaltsbereich darf auf Unterseiten vertikal scrollen.
-
-## 3. Startseite
-
-1. Bei 390, 414 und 430 px drei Spalten prüfen; ab 431 px responsive Erweiterung prüfen.
-2. App-Titel dürfen nicht mitten im Wort umbrechen oder abgeschnitten werden.
-3. Favoritenstern jeder App mit Finger und Tastatur bedienen.
-4. Suche, Kategorien, Sortierung, Zurücksetzen, Long-Press-Anordnung und Fertig testen.
-5. E+H Viewer: konkrete Device-Viewer-Adresse, neuer Tab und externe Kennzeichnung prüfen.
-
-## 4. Rechner-Referenzwerte
-
+## 3. Rechner-Referenzwerte
 1. Analogsignal: 0…100 und 4…20 mA; 50 ergibt 12 mA und 50 %.
 2. P+F: (0|4) und (100|20); K-Faktor 0,16, Nullpunkt 4.
 3. Pt100: 0 °C ergibt ungefähr 100 Ω.
-4. Einheiten: 1 bar ergibt 100 kPa.
-5. Siemens: 4–20 mA, 12 mA, −50…150 °C; Rohwert 13.824 und 50 °C.
-6. Spannungsfall: Drehstrom, 400 V, 16 A, 35 m, 2,5 mm² Cu, cos φ 1:
-   ΔU ≈ 6,93 V, ε ≈ 1,73 %, Lastspannung ≈ 393,07 V.
-7. Vorzeichen, Einheitenwechsel, Reset, Berechnen und Kopieren prüfen.
-8. Einheitenauswahlen zeigen kurze Symbole; Feldlabels/ARIA enthalten volle Bezeichnungen.
-9. Siemens-Rechner bei 390 × 650 und 844 × 390 prüfen: Inhalt muss bis zur
-   Einheitendatenbank-CTA scrollbar sein; Header und Footer bleiben fest.
-10. Alle drei Siemens-±-Taster auf 42 × 42 px, runde Form, Fokuszustand und
-    korrekten Vorzeichenwechsel prüfen.
+4. Pt100/Pt1000: Werte unter -200 °C, über 850 °C sowie Widerstände außerhalb des jeweiligen Sensorbereichs werden abgewiesen.
+5. Einheiten: 1 bar ergibt 100 kPa.
+6. Siemens: 4–20 mA, 12 mA, -50…150 °C; Rohwert 13.824 und 50 °C.
+7. Spannungsfall: Ergebnis vor Berechnung und nach Reset verborgen; Referenzfall ergibt ungefähr 6,93 V / 1,73 % / 393,07 V.
 
-## 5. Einheitendatenbank
-
-1. Ohne Suche müssen alle 19 Kategorien eingeklappt sein.
-2. Suche nach „Fahrenheit“ öffnet den passenden Treffer automatisch.
-3. Favorit setzen/entfernen und Favoritenbereich oben prüfen.
-4. Kompakte Zeile und aufklappbare Formel/Aliase prüfen.
-
-## 6. Werkstoffe und Wissensbeiträge
-
-1. Werkstoffsuche, Gruppenfilter, Kartendetails und Quellenlinks prüfen.
-2. Vergleich mobil als gestapelte Schlüssel-Wert-Karten ohne horizontales Scrollen prüfen.
+## 4. Datenbanken und Wissen
+1. Einheitensuche, Favoriten und 19 Kategorien prüfen.
+2. Werkstoffsuche, Gruppenfilter, Kartendetails und Quellenlinks prüfen.
 3. Jeden der fünf Wissensbeiträge öffnen: Kurzantwort sichtbar, Fachdetails geschlossen.
-4. Gefahren-/Warnhinweise müssen trotz geschlossener Details sichtbar bleiben.
-5. Quellen-/Gültigkeitsbündel und alle Herstellerwege prüfen.
+4. Quellenblock nennt bei Praxiswissen „Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)“ und hält Gültigkeitsgrenzen sichtbar.
 
-## 7. Messstellen-Dokumentation
-
-1. Fotos hinzufügen, anzeigen und löschen.
-2. Eingaben zurücksetzen und Druck-/PDF-Ansicht prüfen.
-3. Bemerkungsfeld kontrollieren: Smartphone höchstens 60 px hoch, reguläre Eingaben höchstens 44 px.
-4. Lokale Datenhaltung und Bedienung auf Smartphone/Tablet/Desktop prüfen.
-
-## 8. PWA und Offline
-
+## 5. PWA und Offline
 1. Online laden und Service Worker aktivieren lassen.
-2. Offline schalten und Startseite, alle Rechner, Datenbanken, Herstelleransichten und
-   fünf Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.5.2.2-Beta aktiv sind.
+2. Offline Startseite, Rechner, Datenbanken und Wissensbeiträge öffnen.
+3. Prüfen, dass nur Caches der Version 2.5.2.3-Beta aktiv sind.
+
+## 6. Manuelle Plattformprüfung (nachgelagert)
+1. iPhone/iPad/Android: Installation, Safe Areas, Hoch-/Querformat und echter Touch.
+2. Safari/Firefox/Edge: Smoke-Test.
+3. VoiceOver/NVDA: Fokusreihenfolge, Zustände und Live-Regionen.
+4. Hosting: Sicherheitsheader gemäß SECURITY-DEPLOYMENT.md prüfen.
