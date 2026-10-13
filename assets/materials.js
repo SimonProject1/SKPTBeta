@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const RELEASE='2.5.1.4-Beta';
+const RELEASE='2.5.2.0-Beta';
 const normalize=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'');
 const searchable=material=>[material.materialNumber,material.shortName,material.uns,...(material.internationalDesignations||[]),...(material.searchTerms||[])].map(normalize).join(' ');
 const matches=(material,query)=>{const terms=String(query||'').trim().split(/\s+/).map(normalize).filter(Boolean);if(!terms.length)return true;const haystack=searchable(material);return terms.every(term=>haystack.includes(term))};
@@ -55,7 +55,7 @@ function renderComparison(){
   const left=materialById(comparison.left),right=materialById(comparison.right);
   const title=create('h3','',comparison.title),summary=create('p','material-compare-summary',comparison.summary),table=create('table','material-compare-table');
   const thead=create('thead'),headRow=create('tr');headRow.append(create('th','','Merkmal'),create('th','',left?.materialNumber||'Links'),create('th','',right?.materialNumber||'Rechts'));thead.append(headRow);
-  const tbody=create('tbody');comparison.rows.forEach(row=>{const tr=create('tr');tr.append(create('th','',row.label),create('td','',row.left),create('td','',row.right));tbody.append(tr)});table.append(thead,tbody);
+  const tbody=create('tbody');comparison.rows.forEach(row=>{const tr=create('tr'),leftCell=create('td','',row.left),rightCell=create('td','',row.right);leftCell.dataset.label=left?.materialNumber||'Links';rightCell.dataset.label=right?.materialNumber||'Rechts';tr.append(create('th','',row.label),leftCell,rightCell);tbody.append(tr)});table.append(thead,tbody);
   target.replaceChildren(title,summary,table,create('p','material-safety',data.safetyNotice));
 }
 function setFromQuery(){const query=new URLSearchParams(location.search).get('q');if(query&&byId('materialSearch'))byId('materialSearch').value=query}

@@ -1,63 +1,67 @@
-# Testplan · SK PCT Tools 2.5.1.4-Beta
+# Testplan · SK PCT Tools 2.5.2.0-Beta
 
-## 1. Hauptstartseite ohne Dokument-Scroll
-1. Projekt über HTTP/HTTPS öffnen und optional als iOS-PWA installieren.
-2. Im Hoch- und Querformat wischen: Die Startseite darf nicht als Dokument scrollen.
-3. Logo, Version `V2.5.1.4-Beta`, Suche, Favoriten, 11 App-Icons und Footer müssen im Rahmen bleiben.
-4. iPhone/iPad: Statusleiste, Dynamic Island und Home-Indikator-Safe-Area prüfen.
+## 1. Automatische Prüfungen
 
-## 2. Einheitlicher Rahmen und internes Scrollen
-1. Alle sechs Rechner, Datenbanken, Dokumentation und fünf Wissensbeiträge öffnen.
-2. Außenbreite, Ober-/Unterkante, Rundung und Seitenabstand mit Home vergleichen.
-3. Nur `.sk-app-scroll` darf auf Unterseiten scrollen; Header und Footer bleiben sichtbar.
-4. Favoriten-, Zurück- und Home-Schalter dürfen nicht umbrechen oder das Logo überlagern.
-5. Am Anfang und Ende jedes Inhalts prüfen, dass nichts abgeschnitten ist.
-
-## 3. Kritischer Test: Wissensnavigation
-1. Wissensdatenbank über die Startseite öffnen.
-2. Air Torque öffnen und den Beitrag `Drehrichtung` aufrufen.
-3. Endress+Hauser öffnen und `Einbaulage` aufrufen.
-4. Siemens öffnen und beide Beiträge nacheinander aufrufen.
-5. Vacon öffnen und den Frequenzumrichter-Beitrag aufrufen.
-6. Auf jeder Karte getrennt Kartenfläche und Favoritenstern testen.
-7. Browser-Zurück, `Alle Hersteller`, Kopf-Zurück und Home testen.
-8. Direkt mit `/wissensdatenbank/?manufacturer=siemens` starten.
-9. Falls der Server es zulässt, die Wissensdatenbank auch über `index.html` testen.
-10. Den Ablauf online, nach PWA-Installation und anschließend offline wiederholen.
-
-## 4. Kompakte Rechnerseiten
-1. Analogsignal-, P+F-, Pt100/Pt1000-, Einheiten-, Spannungsfall- und Siemens-Rohwert-Rechner öffnen.
-2. Desktop ab 1000 px: Standardrechner zeigen Eingaben links und Ergebnisse rechts.
-3. Desktop: bis zu vier Eingabefelder pro Reihe prüfen; keine Überlagerung oder abgeschnittene Auswahltexte.
-4. Tablet 761–999 px: dreispaltige Eingaben und vollständig erreichbare Ergebnisse prüfen.
-5. Smartphone 341–760 px: zweispaltige Eingaben, lesbare Labels und Touch-Ziele ≥ 42 px prüfen.
-6. Sehr schmal unter 341 px: sicherer einspaltiger Rückfall ohne horizontales Scrollen.
-7. Einheitendatenbank-Leiste muss flach bleiben und vollständig bedienbar sein.
-8. Bildschirmtastatur auf iPhone prüfen: fokussiertes Feld bleibt erreichbar.
-
-## 5. Rechner-Funktionstest
-1. Analogsignal: 0…100 °C und 4…20 mA; 50 °C muss 12 mA ergeben.
-2. P+F: (0|4) und (100|20); K-Faktor 0,16 und Nullpunkt 4 prüfen.
-3. Pt100: 0 °C muss ungefähr 100 Ω ergeben.
-4. Einheitenrechner: 1 bar in kPa muss 100 kPa ergeben.
-5. Spannungsfall: gültige Strom-, Längen- und Querschnittswerte eingeben; Status, fünf Ergebnisse, Formel und Protokoll prüfen.
-6. Siemens Rohwert: 4–20 mA, 12 mA und −50…150 °C; Rohwert 13.824 und physikalisch 50 °C prüfen.
-7. Vorzeichen-, Reset-, Berechnen- und Kopierknöpfe testen.
-
-## 6. Übrige Inhalte und Funktionen
-1. Einheitensuche/Favoriten, Werkstoffsuche/Gruppenfilter und Direktvergleich prüfen.
-2. Messstellen-Dokumentation einschließlich Fotos, Löschen, Reset und PDF-Druck prüfen.
-3. PDF-Beitragsvorlage herunterladen.
-4. E+H Device Viewer auf neuen Tab, `noopener`, `noreferrer` und externe Kennzeichnung prüfen.
-
-## 7. PWA und Offline
-1. Seite online laden und Service-Worker-Installation abwarten.
-2. Offline-Modus aktivieren.
-3. Startseite, Rechner, Herstelleransichten und alle Wissensbeiträge öffnen.
-4. Prüfen, dass nur Caches der Version 2.5.1.4-Beta verwendet werden.
-
-## 8. Automatische Prüfung
 ```bash
 python3 tests/validate_project.py
+python3 tests/browser_regression.py
 ```
-Erwartung: `PASS` ohne Fehler.
+
+Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000.
+Der Browsertest öffnet 16 interne Seiten in allen drei Profilen, prüft Überläufe,
+Header/Footer, mobile Sonderdarstellungen, sechs Rechnerreferenzen und Offline-Aufrufe.
+
+## 2. Header, Footer und Navigation
+
+1. Startseite sowie alle 15 internen Unterseiten öffnen.
+2. Gleiche Header-/Footer-Höhe, Außenkanten, Safe-Area-Abstände und Touchziele prüfen.
+3. Zurück, Startseite und Favoriten testen; kein Element darf Logo oder Text überlagern.
+4. Nur der interne Inhaltsbereich darf auf Unterseiten vertikal scrollen.
+
+## 3. Startseite
+
+1. Bei 390, 414 und 430 px drei Spalten prüfen; ab 431 px responsive Erweiterung prüfen.
+2. App-Titel dürfen nicht mitten im Wort umbrechen oder abgeschnitten werden.
+3. Favoritenstern jeder App mit Finger und Tastatur bedienen.
+4. Suche, Kategorien, Sortierung, Zurücksetzen, Long-Press-Anordnung und Fertig testen.
+5. E+H Viewer: konkrete Device-Viewer-Adresse, neuer Tab und externe Kennzeichnung prüfen.
+
+## 4. Rechner-Referenzwerte
+
+1. Analogsignal: 0…100 und 4…20 mA; 50 ergibt 12 mA und 50 %.
+2. P+F: (0|4) und (100|20); K-Faktor 0,16, Nullpunkt 4.
+3. Pt100: 0 °C ergibt ungefähr 100 Ω.
+4. Einheiten: 1 bar ergibt 100 kPa.
+5. Siemens: 4–20 mA, 12 mA, −50…150 °C; Rohwert 13.824 und 50 °C.
+6. Spannungsfall: Drehstrom, 400 V, 16 A, 35 m, 2,5 mm² Cu, cos φ 1:
+   ΔU ≈ 6,93 V, ε ≈ 1,73 %, Lastspannung ≈ 393,07 V.
+7. Vorzeichen, Einheitenwechsel, Reset, Berechnen und Kopieren prüfen.
+8. Einheitenauswahlen zeigen kurze Symbole; Feldlabels/ARIA enthalten volle Bezeichnungen.
+
+## 5. Einheitendatenbank
+
+1. Ohne Suche müssen alle 19 Kategorien eingeklappt sein.
+2. Suche nach „Fahrenheit“ öffnet den passenden Treffer automatisch.
+3. Favorit setzen/entfernen und Favoritenbereich oben prüfen.
+4. Kompakte Zeile und aufklappbare Formel/Aliase prüfen.
+
+## 6. Werkstoffe und Wissensbeiträge
+
+1. Werkstoffsuche, Gruppenfilter, Kartendetails und Quellenlinks prüfen.
+2. Vergleich mobil als gestapelte Schlüssel-Wert-Karten ohne horizontales Scrollen prüfen.
+3. Jeden der fünf Wissensbeiträge öffnen: Kurzantwort sichtbar, Fachdetails geschlossen.
+4. Gefahren-/Warnhinweise müssen trotz geschlossener Details sichtbar bleiben.
+5. Quellen-/Gültigkeitsbündel und alle Herstellerwege prüfen.
+
+## 7. Messstellen-Dokumentation
+
+1. Fotos hinzufügen, anzeigen und löschen.
+2. Eingaben zurücksetzen und Druck-/PDF-Ansicht prüfen.
+3. Lokale Datenhaltung und Bedienung auf Smartphone/Tablet/Desktop prüfen.
+
+## 8. PWA und Offline
+
+1. Online laden und Service Worker aktivieren lassen.
+2. Offline schalten und Startseite, alle Rechner, Datenbanken, Herstelleransichten und
+   fünf Wissensbeiträge öffnen.
+3. Prüfen, dass nur Caches der Version 2.5.2.0-Beta aktiv sind.

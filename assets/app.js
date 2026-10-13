@@ -1,14 +1,14 @@
-/* SK PCT Tools 2.5.1.4-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche und Sortierung. */
+/* SK PCT Tools 2.5.2.0-Beta — gemeinsame Laufzeitmodule: Basis, Favoriten, Suche und Sortierung. */
 /* === app.js === */
 (()=>{'use strict';
-const RELEASE='2.5.1.4-Beta';
-const DISPLAY_RELEASE='2.5.1.4-Beta';
+const RELEASE='2.5.2.0-Beta';
+const DISPLAY_RELEASE='2.5.2.0-Beta';
 const scriptUrl=document.currentScript?.src||'';
 const root=scriptUrl?new URL('../',scriptUrl):new URL('./',location.href);
 window.SK_PCT=Object.freeze({version:RELEASE,channel:'beta',name:'SK PCT Tools',root});
 window.$=id=>document.getElementById(id);
 window.num=value=>Number.parseFloat(String(value).replace(',','.'));
-window.de=(value,digits=3)=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:digits,maximumFractionDigits:digits}):'–';
+window.de=(value,digits=3)=>{if(!Number.isFinite(value))return'–';const absolute=Math.abs(value),maximum=absolute!==0&&absolute<0.01?Math.max(digits,6):digits;return value.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:maximum,useGrouping:true})};
 function syncVersion(){document.querySelectorAll('.badge').forEach(node=>{const text=(node.textContent||'').trim();if(/^Version\s+/i.test(text))node.textContent=`Version ${DISPLAY_RELEASE}`;})}
 function addSignControls(){if(document.body?.dataset.signControls!=='true')return;document.querySelectorAll('input[type=number]').forEach(input=>{if(input.dataset.s)return;input.dataset.s='1';const wrapper=document.createElement('div');wrapper.className='number';input.parentNode.insertBefore(wrapper,input);wrapper.append(input);const button=document.createElement('button');button.type='button';button.className='sign';button.textContent='±';button.setAttribute('aria-label','Vorzeichen wechseln');button.addEventListener('click',()=>{const value=window.num(input.value);input.value=Number.isFinite(value)?(value===0?0:-value):'-';input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}))});wrapper.append(button)})}
 function registerWorker(){if(!('serviceWorker' in navigator))return;navigator.serviceWorker.register(new URL('service-worker.js',root),{updateViaCache:'none'}).then(registration=>registration.update()).catch(error=>console.warn('Service Worker konnte nicht registriert werden.',error));}
@@ -44,7 +44,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{'use strict';
 let searchIndex=[];
 let materialCatalog=[];
-const RELEASE='2.5.1.4-Beta';
+const RELEASE='2.5.2.0-Beta';
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/[^a-z0-9+]+/g,' ').trim();
 const isStartPage=()=>document.body?.dataset.skPage==='start';
 const root=()=>window.SK_PCT?.root||new URL('./',location.href);

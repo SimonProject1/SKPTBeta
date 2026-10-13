@@ -1,51 +1,55 @@
-SK PCT Tools 2.5.1.4-Beta
+SK PCT Tools 2.5.2.0-Beta
 Release-Datum: 13.10.2026
-Status: Wissensnavigation abgesichert und Rechnerseiten kompakter gestaltet
-Direkte Ausgangsbasis: vollständige 2.5.1.3-Beta
+Status: vollständige Responsive-, Bedien- und Strukturüberarbeitung
+Direkte Ausgangsbasis: vollständige 2.5.1.4-Beta
 
-NEU IN 2.5.1.4-BETA
+TATSÄCHLICH UMGESETZT
 
-1. Kritischer Navigationsfix der Wissensdatenbank
-- Ursache des Langzeitfehlers behoben: Die Grid-Darstellung des Hersteller-Hubs
-  überstimmt das `hidden`-Attribut nicht mehr. Gewählte Unteransichten liegen nicht
-  mehr unter dem weiterhin sichtbaren Hub.
-- Die Projektwurzel wird aus dem geladenen Laufzeitskript bestimmt und ist damit
-  auch unter GitHub Pages, in der installierten PWA und bei abweichender URL-Form stabil.
-- Hersteller-, Zurück- und Beitragsziele werden vor der Nutzung absolut normalisiert.
-- Wissensbeiträge öffnen zuverlässig nach einem Tap auf die vollständige Karte.
-- Der Favoritenstern bleibt eine getrennte Aktion und löst keinen Seitenwechsel aus.
-- Beim Wechsel zwischen Hub und Herstelleransicht wird der tatsächlich scrollende
-  Inhaltsbereich statt des feststehenden Browserfensters zurückgesetzt.
+1. Externer E+H Device Viewer
+- Ziel auf https://www.de.endress.com/de/onlinetools/device-viewer korrigiert.
+- Sichtbare Kennzeichnung als „Externer Onlinedienst“ ergänzt.
+- Neuer Tab, external, noopener, noreferrer und no-referrer beibehalten.
 
-2. Kompakter Rechnerstandard
-- Seitentitel, Panelabstände, Feldkarten und Ergebnisfelder benötigen weniger Höhe.
-- Desktop: Standardrechner zeigen Eingabefelder links und Ergebnisse rechts.
-- Desktop: Eingabemasken nutzen bis zu vier Spalten; Tablet verwendet drei Spalten.
-- Smartphone: in der Regel zwei Spalten mit weiterhin 42 bis 44 px hohen Touch-Zielen.
-- Ergebnisfelder, Kopierknöpfe und die Einheitendatenbank-Leiste wurden verdichtet.
-- Bei sehr schmalen Displays unter 341 px fällt das Layout sicher auf eine Spalte zurück.
+2. Gemeinsamer Seitenrahmen
+- Zentrale Design-Tokens für Farben, Abstände, Radien, Touchziele, Header und Footer.
+- Startseite und interne Seiten verwenden dieselben Header-/Footer-Höhen und Abstände.
+- Kurze Modulnamen im Header verhindern abgeschnittene Texte.
+- Kleine Touchziele auf mindestens 44 × 44 px vergrößert.
 
-3. Siemens-Rohwert- und Spannungsfall-Rechner
-- Der Siemens-Rechner ordnet Eingabe, Ergebnisse, Messbereich, Kartenprofil und
-  Diagnose auf breiten Displays in einer gemeinsamen kompakten Rasterfläche an.
-- Der Spannungsfall-Rechner zeigt auf Desktop bis zu vier Eingabefelder und fünf
-  Ergebniswerte pro Reihe; Smartphone bleibt zweispaltig und touchfreundlich.
-- Fachliche Hinweise und sämtliche Berechnungsfunktionen bleiben vollständig erhalten.
+3. Rechner und Zahlenformate
+- Zweispaltige mobile Felder ab 361 px, einspaltiger Sicherheitsrückfall darunter.
+- Vollständige Feldlabels bleiben sichtbar; Einheitenauswahlen zeigen kompakte Symbole.
+- Vollständige Einheitenbezeichnungen stehen als Titel und zugängliche Beschriftung bereit.
+- Deutsche Zahlenformate ohne unnötige Endnullen; kleine Werte behalten nötige Präzision.
 
-4. Vollständige Seiten- und PWA-Aktualisierung
-- Sämtliche HTML-Unterseiten, Laufzeitmodule, Cache-Buster, Manifest und Service-Worker
-  wurden auf 2.5.1.4-Beta angehoben.
-- Der zentrale Rahmenstil und alle Wissensziele bleiben Teil des Offline-Kerncaches.
+4. Startseite
+- Bis einschließlich 430 px dreispaltiges App-Raster.
+- Normale, balancierte Wortumbrüche ohne Trennung mitten im Wort.
+- Favoritensterne als echte 44-px-Touchziele.
 
-ERHALTENE FUNKTIONEN UND INHALTE
-- 11 Startseiten-Apps und 11 eindeutige App-Symbole.
-- Alle sechs Rechner samt Berechnungslogik.
-- Einheiten- und Werkstoffdatenbank sowie Messstellen-Dokumentation.
-- Hersteller-Hub, fünf Wissensbeiträge und PDF-Beitragsvorlage.
-- Suche, Filter, Sortierung, Favoriten und eigene App-Reihenfolge.
-- Gemeinsame Rechteckbasis, runde Unterseiten-Panels und feste Header/Footer.
+5. Einheitendatenbank
+- Kategorien sind initial eingeklappt.
+- Suchtreffer und gewählte Kategorien öffnen sich automatisch.
+- Eigener Favoritenbereich oberhalb aller Kategorien.
+- Kompakte Listenzeilen; Formel, Aliase und Kategorie über „Details“ abrufbar.
 
-INTEGRITÄT
-- SHA256SUMS.txt enthält die Prüfsummen aller weiteren Projektdateien.
-- tests/validate_project.py prüft Version, Inventar, Links, Wissenswege,
-  Kompaktregeln, App-Rahmen, Symbole und Offline-Cache.
+6. Werkstoffdatenbank
+- Direktvergleich mobil ohne horizontale Tabelle.
+- Jede Vergleichszeile wird als gestapelte Schlüssel-Wert-Karte mit Werkstoffnummern gezeigt.
+
+7. Wissensbeiträge
+- Sichtbare Kurzantwort und kompaktere Abstände.
+- Weitere Fachabschnitte als native, tastaturbedienbare Details.
+- Gefahren- und Warnhinweise bleiben außerhalb geschlossener Details sichtbar.
+- Quellen, Gültigkeit und Anwendungshinweise sind am Beitragsende gebündelt.
+- Keine fachlichen Inhalte entfernt.
+
+8. CSS, PWA und Qualität
+- Neue zentrale Datei assets/design-system.css und gemeinsame Wissenslogik.
+- Unnötige !important-Eskalationen in alten Kaskadenebenen entfernt.
+- Neue Dateien und sämtliche Seiten im Offline-Kerncache berücksichtigt.
+- Strukturprüfung, 16 Seiten in drei Viewports, sechs Rechnerreferenzen und Offline-Aufrufe geprüft.
+
+ERHALTEN
+- Alle 11 Apps, sechs Rechner, Datenbanken, Messstellen-Dokumentation, Wissens-Herstellerwege,
+  Suche, Filter, Favoriten, lokale Reihenfolge, PWA und Offline-Funktion.

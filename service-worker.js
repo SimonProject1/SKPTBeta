@@ -1,4 +1,4 @@
-const RELEASE='2.5.1.4-Beta';
+const RELEASE='2.5.2.0-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
 const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
@@ -16,6 +16,7 @@ const CORE=[
   './assets/pct-frame.css',
   './assets/apple-touch-icon.png',
   './assets/core.css',
+  './assets/design-system.css',
   './assets/einheitenrechner.js',
   './assets/favicon.png',
   './assets/icon-192.png',
@@ -23,6 +24,7 @@ const CORE=[
   './assets/icon-maskable-192.png',
   './assets/icon-maskable-512.png',
   './assets/knowledge-article.css',
+  './assets/knowledge-compact.js',
   './assets/knowledge-cartoon.css',
   './assets/knowledge-manufacturer-logos.svg',
   './assets/knowledge-overview.css',

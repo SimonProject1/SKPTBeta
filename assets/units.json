@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "2.5.1.4-Beta",
+  "release": "2.5.2.0-Beta",
   "conversionModel": {
     "toBase": "base = value × factor + offset",
     "fromBase": "value = (base − offset) ÷ factor",
@@ -12,7 +12,7 @@
       "id": "pressure",
       "name": "Druck",
       "defaultUnit": "bar",
-      "calculatorTargetUnit": "millibar",
+      "calculatorTargetUnit": "kilopascal",
       "description": "Basiseinheit der Anwendung: bar.",
       "units": [
         {

@@ -1,0 +1,354 @@
+/* SK PCT Tools 2.5.2.0-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
+   Diese letzte, kleine Kaskadenebene ersetzt verteilte Seitenkorrekturen. */
+:root{
+  --sk-color-bg:#02080d;
+  --sk-color-surface:#071a29;
+  --sk-color-surface-2:#0a2639;
+  --sk-color-line:#347996;
+  --sk-color-text:#f8fbff;
+  --sk-color-muted:#a9c2cf;
+  --sk-color-blue:#008cff;
+  --sk-color-cyan:#00e6f1;
+  --sk-color-green:#78ff32;
+  --sk-color-gold:#ffd24c;
+  --sk-color-danger:#ff6f82;
+  --sk-radius-frame:26px;
+  --sk-radius-panel:18px;
+  --sk-radius-control:12px;
+  --sk-space-1:4px;
+  --sk-space-2:8px;
+  --sk-space-3:12px;
+  --sk-space-4:16px;
+  --sk-space-5:24px;
+  --sk-touch-min:44px;
+  --sk-header-size:76px;
+  --sk-footer-size:38px;
+  --sk-content-max:1060px;
+  --sk-number-font:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+}
+
+/* Gemeinsamer, exakt gleich hoher Kopf/Fuß auf allen internen Seiten. */
+body[data-sk-layout="framed"]{--sk-shared-logo-size:56px!important}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header,
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header>.sk-header-inner{
+  min-height:var(--sk-header-size)!important;
+  height:var(--sk-header-size)!important;
+}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header{
+  border:0!important;
+  border-bottom:1px solid rgba(52,121,150,.72)!important;
+  border-radius:calc(var(--sk-frame-radius) - 3px) calc(var(--sk-frame-radius) - 3px) 0 0!important;
+  background:rgba(2,8,13,.82)!important;
+  box-shadow:inset 0 -1px 0 rgba(0,230,241,.32)!important;
+  backdrop-filter:blur(16px) saturate(135%)!important;
+}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header>.sk-header-inner{
+  box-sizing:border-box!important;
+  align-items:center!important;
+  width:min(var(--sk-content-max),100%)!important;
+  padding:8px 10px!important;
+  gap:10px!important;
+}
+body[data-sk-layout="framed"] .sk-logo-version-stack{
+  flex:0 0 56px!important;
+  width:56px!important;
+  height:56px!important;
+  border-width:2px!important;
+  border-radius:16px!important;
+  box-shadow:inset 0 0 0 1px var(--sk-color-line),3px 4px 0 rgba(0,0,0,.55)!important;
+}
+body[data-sk-layout="framed"] .sk-logo-version-stack .sk-header-logo{
+  width:50px!important;
+  height:50px!important;
+  border-radius:14px!important;
+}
+body[data-sk-layout="framed"] .sk-global-header .brand{
+  display:block!important;
+  align-self:center!important;
+  overflow:hidden;
+  color:var(--sk-color-text);
+  font-size:17px!important;
+  line-height:1.05;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+body[data-sk-layout="framed"] .sk-global-header .brand small{
+  display:block!important;
+  max-width:36ch;
+  margin-top:4px;
+  overflow:hidden;
+  color:var(--sk-color-green);
+  font-size:9px!important;
+  line-height:1.1;
+  letter-spacing:.85px!important;
+  text-overflow:ellipsis;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+body[data-sk-layout="framed"] .sk-global-header .pct-header-actions{
+  align-self:center!important;
+  gap:6px!important;
+}
+body[data-sk-layout="framed"] .sk-global-header .pct-header-actions .pct-control{
+  width:var(--sk-touch-min)!important;
+  min-width:var(--sk-touch-min)!important;
+  height:var(--sk-touch-min)!important;
+  min-height:var(--sk-touch-min)!important;
+  border-radius:var(--sk-radius-control)!important;
+}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{
+  box-sizing:border-box!important;
+  width:min(var(--sk-content-max),calc(100% - 20px))!important;
+  min-height:var(--sk-footer-size)!important;
+  margin:0 auto!important;
+  padding:9px 8px max(7px,env(safe-area-inset-bottom,0px))!important;
+  border:0!important;
+  border-top:1px solid rgba(52,121,150,.72)!important;
+  border-radius:0!important;
+  background:rgba(2,8,13,.46)!important;
+  box-shadow:inset 0 1px 0 rgba(0,230,241,.22)!important;
+  color:var(--sk-color-muted)!important;
+  font-size:11px!important;
+  line-height:1.25!important;
+  white-space:normal!important;
+}
+
+/* Gemeinsame Basiskomponenten. */
+.sk-app-frame :where(button,a,summary,input,select,textarea){-webkit-tap-highlight-color:transparent}
+.sk-app-frame :where(button,a,summary){touch-action:manipulation}
+.sk-app-frame :where(button,.pct-control,.material-filter,.sk-filter-button,.unit-favorite-button,summary){min-height:var(--sk-touch-min)}
+.sk-app-frame :where(input,select,textarea,button){font-size:max(16px,1em)}
+.sk-app-frame :where(.panel,.calc-panel,.material-panel,.material-compare-panel,.unit-category-card,.unit-favorites-panel,.kb-section){border-radius:var(--sk-radius-panel)}
+.sk-app-frame :where(input,select,textarea,.pct-search-shell,.number){border-radius:var(--sk-radius-control)}
+.sk-app-frame :where(.calc-value-card,.result-grid article,strong[id$="Result"],strong[id="out"]){font-variant-numeric:tabular-nums}
+.sk-app-frame :where(.pct-control,.unit-favorite-button,.material-card-toggle,summary):focus-visible{outline:3px solid rgba(0,230,241,.54);outline-offset:2px}
+
+/* Kurze Untertitel werden vollständig gezeigt statt abgeschnitten. */
+body.sk-calculator-page .calc-page-title p{
+  display:block;
+  overflow:visible;
+  font-size:12px;
+  line-height:1.35;
+  -webkit-line-clamp:unset;
+}
+
+/* Rechner: kompakte Zweispalten-Felder, klare Labels, kurze Einheiten im Select. */
+body.sk-calculator-page .calc-field-card>span,
+body.sk-calculator-page .calc-field-label,
+body.sk-calculator-page .analog-physical-field>label,
+body.sk-calculator-page .analog-config-field>span{
+  min-height:2.35em;
+  margin-bottom:4px;
+  color:var(--sk-color-muted);
+  font-size:11px;
+  font-weight:850;
+  line-height:1.18;
+  overflow-wrap:normal;
+  word-break:normal;
+  hyphens:auto;
+}
+body.sk-calculator-page .calc-field-card>select,
+body.sk-calculator-page .analog-physical-field>select,
+body.sk-calculator-page .analog-config-field>select{
+  overflow:hidden;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-weight:850;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+body.sk-calculator-page .calc-field-card>input,
+body.sk-calculator-page .number input,
+body.sk-calculator-page .analog-input-shell input,
+body.sk-calculator-page .analog-range-input-shell input{
+  font-family:var(--sk-number-font);
+  font-variant-numeric:tabular-nums;
+}
+
+/* Einheitendatenbank: Favoriten zuerst, kompakte Zeilen und progressive Details. */
+.unit-favorites-panel{margin-bottom:12px;padding:14px}
+.unit-favorites-head,.unit-category-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0}
+.unit-favorites-head h2,.unit-category-head h2{margin:3px 0;font-size:clamp(18px,2.5vw,24px)}
+.unit-favorites-head>span,.unit-category-count{flex:none;padding:4px 8px;border:1px solid var(--sk-color-line);border-radius:999px;color:var(--sk-color-cyan);font-size:12px;font-weight:900}
+.unit-favorites-empty{margin:8px 0 0;color:var(--sk-color-muted);font-size:13px}
+.unit-category-card{padding:0;overflow:hidden}
+.unit-category-card>summary{padding:12px 14px;cursor:pointer;list-style:none}
+.unit-category-card>summary::-webkit-details-marker{display:none}
+.unit-category-card>summary::after{content:"+";display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border:1px solid var(--sk-color-line);border-radius:9px;color:var(--sk-color-green);font-size:20px;font-weight:900}
+.unit-category-card[open]>summary::after{content:"−"}
+.unit-category-description{margin:2px 0 0;color:var(--sk-color-muted);font-size:12px}
+.unit-category-card>.unit-list{padding:0 10px 10px}
+.unit-category-list{gap:10px}
+.unit-row{grid-template-columns:44px minmax(0,1fr) auto;padding:7px 9px;gap:9px}
+.unit-main{gap:9px}
+.unit-main strong{min-width:62px;font-size:1rem}
+.unit-row-details{justify-self:end}
+.unit-row-details summary{display:flex;align-items:center;padding:5px 8px;border:1px solid var(--sk-color-line);border-radius:9px;color:var(--sk-color-muted);font-size:12px;font-weight:850;cursor:pointer}
+.unit-row-details[open]{grid-column:2/-1;justify-self:stretch;padding:7px 9px;border-radius:10px;background:rgba(4,21,34,.7)}
+.unit-row-details[open] summary{width:max-content;margin-bottom:6px;color:var(--sk-color-cyan)}
+.unit-detail-grid{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 9px;margin:0;font-size:12px}
+.unit-detail-grid dt{color:var(--sk-color-green);font-weight:850}.unit-detail-grid dd{margin:0;color:var(--sk-color-muted)}
+.unit-favorites-list:empty{display:none}
+
+/* Werkstoffvergleich: Desktoptabelle, mobil gestapelte Schlüssel-Wert-Karten. */
+@media(max-width:780px){
+  .material-comparison .material-compare-table,.material-comparison .material-compare-table tbody{display:block;overflow:visible}
+  .material-comparison .material-compare-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .material-comparison .material-compare-table tr{display:block;margin:8px 0;padding:10px;border:1px solid var(--sk-color-line);border-radius:12px;background:#061b2a}
+  .material-comparison .material-compare-table th,.material-comparison .material-compare-table td{display:grid;grid-template-columns:minmax(92px,.8fr) minmax(0,1.2fr);min-width:0;padding:6px 2px;border:0;gap:9px}
+  .material-comparison .material-compare-table tbody th{width:auto;color:var(--sk-color-green);background:transparent;font-size:13px}
+  .material-comparison .material-compare-table td::before{content:attr(data-label);color:var(--sk-color-cyan);font-size:11px;font-weight:900}
+}
+
+/* Wissensbeiträge: Kurzantwort sichtbar, Details auf Abruf, Quellen gebündelt. */
+body[data-knowledge-standard] .knowledge-standard{padding-top:12px;padding-bottom:24px}
+body[data-knowledge-standard] .kb-breadcrumb{margin-bottom:9px;font-size:12px}
+body[data-knowledge-standard] .kb-hero{padding:18px 20px}
+body[data-knowledge-standard] .kb-hero h1{margin:7px 0 8px;font-size:clamp(29px,5vw,46px)}
+body[data-knowledge-standard] .kb-lead{font-size:15px;line-height:1.42}
+body[data-knowledge-standard] .kb-tags{margin-top:12px;gap:6px}
+body[data-knowledge-standard] .kb-tag{padding:5px 8px;font-size:11px}
+body[data-knowledge-standard] .kb-section{margin-top:10px;padding:14px 16px}
+body[data-knowledge-standard] .kb-section h2{margin:5px 0 8px;font-size:clamp(21px,3vw,28px)}
+body[data-knowledge-standard] .kb-meta-grid{gap:7px}
+body[data-knowledge-standard] .kb-meta-card{padding:9px 11px}
+body[data-knowledge-standard] .kb-meta-card strong{margin-top:4px;font-size:15px}
+.kb-short-answer{border-color:rgba(120,255,50,.52)}
+.kb-short-answer-label{display:inline-flex;margin-bottom:5px;padding:4px 8px;border-radius:999px;background:rgba(120,255,50,.14);color:var(--sk-color-green);font-size:11px;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
+.kb-collapsible{padding:0!important;overflow:hidden}
+.kb-detail-group>summary,.kb-source-bundle>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:var(--sk-touch-min);padding:12px 15px;cursor:pointer;list-style:none;color:var(--sk-color-text);font-weight:900}
+.kb-detail-group>summary::-webkit-details-marker,.kb-source-bundle>summary::-webkit-details-marker{display:none}
+.kb-detail-group>summary::after,.kb-source-bundle>summary::after{content:"+";display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border:1px solid var(--sk-color-line);border-radius:9px;color:var(--sk-color-green);font-size:20px}
+.kb-detail-group[open]>summary::after,.kb-source-bundle[open]>summary::after{content:"−"}
+.kb-detail-summary-copy{display:grid;gap:2px}.kb-detail-summary-copy small{color:var(--sk-color-cyan);font-size:10px;letter-spacing:.8px;text-transform:uppercase}.kb-detail-summary-copy strong{font-size:16px}
+.kb-detail-content{padding:0 15px 15px}
+.kb-visible-safety{margin:0 15px 15px}
+.kb-source-bundle{margin-top:10px;border:1px solid var(--sk-color-line);border-radius:var(--sk-radius-panel);background:var(--sk-color-surface)}
+.kb-source-bundle-body{display:grid;gap:8px;padding:0 14px 14px}.kb-source-bundle .kb-source{margin:0;padding:12px 14px}
+
+/* Home bis 430 px: drei Spalten, saubere Titel und echte 44-px-Favoritenziele. */
+@media(max-width:430px){
+  body[data-sk-home="ios"] .pct-home-grid.tools{
+    flex:1 1 auto!important;
+    align-content:space-evenly!important;
+    grid-template-columns:repeat(3,minmax(82px,1fr))!important;
+    max-width:410px!important;
+    gap:clamp(8px,1.5svh,14px) 7px!important;
+    padding-inline:5px!important;
+  }
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card{min-height:108px!important;gap:6px!important}
+  body[data-sk-home="ios"] .sk-home-icon{width:62px!important}
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
+    max-width:110px!important;
+    font-size:11px!important;
+    line-height:1.14!important;
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+    hyphens:auto!important;
+    text-wrap:balance;
+  }
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control{
+    top:-4px!important;
+    right:calc(50% - 45px)!important;
+    inset:auto calc(50% - 45px) auto auto!important;
+    width:44px!important;
+    min-width:44px!important;
+    height:44px!important;
+    min-height:44px!important;
+    border-radius:14px!important;
+  }
+}
+
+@media(max-width:760px){
+  :root{--sk-header-size:66px;--sk-footer-size:34px}
+  body[data-sk-layout="framed"]{--sk-shared-logo-size:48px!important}
+  body[data-sk-layout="framed"] .sk-logo-version-stack{flex-basis:48px!important;width:48px!important;height:48px!important;border-radius:14px!important}
+  body[data-sk-layout="framed"] .sk-logo-version-stack .sk-header-logo{width:44px!important;height:44px!important;border-radius:12px!important}
+  body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header>.sk-header-inner{padding:7px 8px!important}
+  body[data-sk-layout="framed"] .sk-global-header .brand{font-size:15px!important}
+  body[data-sk-layout="framed"] .sk-global-header .brand small{max-width:20ch;font-size:8px!important}
+  body[data-sk-layout="framed"] .sk-global-header .pct-header-actions .pct-control{width:44px!important;min-width:44px!important;height:44px!important;min-height:44px!important}
+  body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{font-size:10px!important}
+  body.sk-calculator-page .calc-field-grid,body.sk-calculator-page .calc-field-grid.cols-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.sk-calculator-page .calc-field-card{padding:7px}
+  body.sk-calculator-page .calc-field-card>input,body.sk-calculator-page .calc-field-card>select{min-height:44px;padding:7px;font-size:16px}
+  .unit-filter{gap:10px;margin-bottom:10px}.unit-filter-grid{gap:8px}.unit-filter-actions{align-items:center;flex-direction:row}
+  .unit-category-card>summary{padding:10px}.unit-category-description{display:none}
+  .unit-row{grid-template-columns:44px minmax(0,1fr);align-items:center}
+  .unit-main{display:grid;gap:1px}.unit-main strong{min-width:0}.unit-row-details{grid-column:2;justify-self:start}
+  .unit-row-details[open]{grid-column:1/-1}
+  .unit-category-card>.unit-list{padding:0 7px 7px}
+  body[data-knowledge-standard] .kb-hero{padding:15px 14px}
+  body[data-knowledge-standard] .kb-section{padding:12px}
+  body[data-knowledge-standard] .kb-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kb-detail-content{padding:0 12px 12px}.kb-visible-safety{margin:0 12px 12px}
+}
+
+@media(max-width:360px){
+  body.sk-calculator-page .calc-field-grid,body.sk-calculator-page .calc-field-grid.cols-3{grid-template-columns:1fr}
+  body[data-sk-layout="framed"] .sk-global-header .brand{display:none!important}
+  .unit-filter-actions{align-items:stretch;flex-direction:column}
+}
+
+@media(orientation:landscape) and (max-height:520px){
+  :root{--sk-header-size:58px;--sk-footer-size:28px}
+  body[data-sk-layout="framed"] .sk-logo-version-stack{width:42px!important;height:42px!important;flex-basis:42px!important}
+  body[data-sk-layout="framed"] .sk-logo-version-stack .sk-header-logo{width:38px!important;height:38px!important}
+}
+
+/* Startseite nutzt dieselben Header-/Footer-Maße wie alle Unterseiten. */
+body[data-sk-home="ios"] .pct-home-head{
+  width:min(var(--sk-content-max),100%)!important;
+  min-height:var(--sk-header-size)!important;
+  height:var(--sk-header-size)!important;
+  margin:0 auto!important;
+  padding:8px 10px!important;
+  border-bottom:1px solid rgba(52,121,150,.72);
+}
+body[data-sk-home="ios"] .pct-home-brand-mark{
+  flex-basis:56px!important;width:56px!important;height:56px!important;border-radius:16px!important;
+}
+body[data-sk-home="ios"] .pct-home-brand-mark img{width:50px!important;height:50px!important;border-radius:14px!important}
+body[data-sk-home="ios"] .pct-home-version{font-size:8px!important}
+body[data-sk-home="ios"] .pct-home-head{--pct-home-action-size:44px!important;--pct-home-action-gap:6px!important}
+body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{
+  box-sizing:border-box!important;
+  width:min(var(--sk-content-max),calc(100% - 20px))!important;
+  min-height:var(--sk-footer-size)!important;
+  margin:0 auto!important;
+  padding:9px 8px max(7px,env(safe-area-inset-bottom,0px))!important;
+  border:0!important;
+  border-top:1px solid rgba(52,121,150,.72)!important;
+  background:rgba(2,8,13,.46)!important;
+  color:var(--sk-color-muted)!important;
+  font-size:11px!important;
+  line-height:1.25!important;
+}
+@media(max-width:760px){
+  body[data-sk-home="ios"] .pct-home-head{padding:7px 8px!important}
+  body[data-sk-home="ios"] .pct-home-brand-mark{flex-basis:48px!important;width:48px!important;height:48px!important;border-radius:14px!important}
+  body[data-sk-home="ios"] .pct-home-brand-mark img{width:44px!important;height:44px!important;border-radius:12px!important}
+  body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{font-size:10px!important}
+}
+
+/* Abschließende Lesbarkeitskorrekturen aus der visuellen Abnahme. */
+body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{margin:0 auto 0!important;margin-top:auto!important}
+body[data-sk-layout="framed"] .pct-header-actions .pct-label{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important;
+}
+body.sk-calculator-page .calc-notice.pct-message{padding-left:48px}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
+  overflow-wrap:normal!important;word-break:normal!important;hyphens:auto!important;text-wrap:balance;
+}
+@media(max-width:430px){
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control{
+    border:0!important;background:transparent!important;box-shadow:none!important;
+  }
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control::after{
+    content:"";position:absolute;inset:8px;border:2px solid #000;border-radius:50%;
+    background:#071a29;box-shadow:inset 0 0 0 1px #347996,2px 3px 0 #000;
+  }
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control>.pct-icon{position:relative;z-index:1;width:14px!important;height:14px!important}
+  body[data-knowledge-standard] .kb-meta-grid{grid-template-columns:1fr}
+  body[data-knowledge-standard] .kb-meta-card strong{overflow-wrap:normal;word-break:normal;hyphens:auto}
+}

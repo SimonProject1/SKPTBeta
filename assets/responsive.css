@@ -1,4 +1,4 @@
-/* === V2.5.1.4-Beta · responsive application shell ===
+/* === V2.5.2.0-Beta · responsive application shell ===
    Zentrale Mobile-/Tablet-Regeln für Safe Areas, Touch-Bedienung,
    kompakte Seitentitel, Karten, Formulare und beide Seitendrawer. */
 :root{
@@ -42,7 +42,7 @@ html{background-color:#04131f}
     min-height:74px;
     margin-left:calc(50% - 50vw);
     margin-right:calc(50% - 50vw);
-    padding-top:env(safe-area-inset-top,0px)!important;
+    padding-top:env(safe-area-inset-top,0px);
     border-bottom-color:rgba(44,98,124,.72);
     background:var(--sk-header-surface);
     -webkit-backdrop-filter:blur(16px) saturate(135%);
@@ -101,13 +101,13 @@ html{background-color:#04131f}
   .article-intro h1,
   .material-hero h1{
     max-width:100%;
-    font-size:clamp(32px,10.4vw,44px)!important;
-    line-height:1.02!important;
+    font-size:clamp(32px,10.4vw,44px);
+    line-height:1.02;
     overflow-wrap:anywhere;
   }
   .page-title p,.article-intro>p,.material-hero>p{
-    font-size:16px!important;
-    line-height:1.45!important;
+    font-size:16px;
+    line-height:1.45;
   }
   .eyebrow,.article-kicker,.material-kicker{letter-spacing:1.35px}
 
@@ -131,13 +131,13 @@ html{background-color:#04131f}
 
   .tools,.grid2,.grid3,.device-grid,.guide-grid{grid-template-columns:1fr;gap:10px}
   .tools .card,.start-tools .tool-card{
-    min-height:0!important;
-    padding:18px 58px 17px 16px!important;
-    border-radius:17px!important;
+    min-height:0;
+    padding:18px 58px 17px 16px;
+    border-radius:17px;
   }
   .tools .card h2,.tools .card h3,.start-tools .tool-card h2,.start-tools .tool-card h3{
-    font-size:clamp(23px,7.4vw,29px)!important;
-    line-height:1.1!important;
+    font-size:clamp(23px,7.4vw,29px);
+    line-height:1.1;
   }
   .tools .card p,.start-tools .tool-card p{font-size:15px;line-height:1.45}
   .sk-card-category{margin-bottom:10px}
@@ -168,7 +168,7 @@ html{background-color:#04131f}
   .checkrow input{width:22px;height:22px;min-height:22px}
   .result{border-radius:14px}
 
-  .sk-tool-filter{margin:14px 0;padding:14px!important;border-radius:18px}
+  .sk-tool-filter{margin:14px 0;padding:14px;border-radius:18px}
   .sk-filter-heading,.sk-results-heading{gap:9px}
   .sk-filter-heading h2,.sk-results-heading h2{font-size:28px}
   .sk-filter-reset{align-self:stretch}
@@ -234,11 +234,11 @@ html{background-color:#04131f}
 }
 
 @media (display-mode:standalone) and (max-width:760px){
-  .sk-global-header{padding-top:max(4px,env(safe-area-inset-top,0px))!important}
+  .sk-global-header{padding-top:max(4px,env(safe-area-inset-top,0px))}
 }
 
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+  *,*::before,*::after{scroll-behavior:auto;transition-duration:.01ms;animation-duration:.01ms;animation-iteration-count:1}
 }
 
 
@@ -259,7 +259,7 @@ html{background-color:#04131f}
     min-height:62px;
     margin-left:calc(50% - 50vw);
     margin-right:calc(50% - 50vw);
-    padding-top:env(safe-area-inset-top,0px)!important;
+    padding-top:env(safe-area-inset-top,0px);
     background:var(--sk-header-surface);
     -webkit-backdrop-filter:blur(16px) saturate(135%);
     backdrop-filter:blur(16px) saturate(135%);
@@ -291,11 +291,11 @@ html{background-color:#04131f}
 
 
 
-/* === V2.5.1.4-Beta · einheitliche, ohne JavaScript lesbare Seitentitel === */
+/* === V2.5.2.0-Beta · einheitliche, ohne JavaScript lesbare Seitentitel === */
 .sk-page-heading{
-  position:relative!important;
+  position:relative;
   isolation:isolate;
-  overflow:hidden!important;
+  overflow:hidden;
 }
 .sk-page-heading>.sk-page-heading-logo{
   position:absolute;
@@ -314,25 +314,25 @@ html{background-color:#04131f}
 .sk-page-heading>*:not(.sk-page-heading-logo){position:relative;z-index:1}
 html body .sk-page-heading.sk-page-heading h1{
   box-sizing:border-box;
-  width:100%!important;
-  max-width:100%!important;
+  width:100%;
+  max-width:100%;
   margin-block:10px 13px;
-  font-size:clamp(42px,5vw,58px)!important;
-  line-height:1.05!important;
-  white-space:normal!important;
-  overflow-wrap:break-word!important;
-  word-break:normal!important;
-  hyphens:auto!important;
+  font-size:clamp(42px,5vw,58px);
+  line-height:1.05;
+  white-space:normal;
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:auto;
   text-wrap:balance;
 }
-.knowledge-hero.sk-page-heading::after{display:none!important}
-.kb-hero.sk-page-heading::before{content:none!important;display:none!important}
+.knowledge-hero.sk-page-heading::after{display:none}
+.kb-hero.sk-page-heading::before{content:none;display:none}
 @media(max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
   .sk-page-heading>.sk-page-heading-logo{right:-12px;width:clamp(104px,34vw,148px);opacity:.1}
   html body .sk-page-heading.sk-page-heading h1{
-    padding-right:0!important;
-    font-size:clamp(30px,9vw,40px)!important;
-    line-height:1.08!important;
+    padding-right:0;
+    font-size:clamp(30px,9vw,40px);
+    line-height:1.08;
   }
 }
 @media(prefers-contrast:more){.sk-page-heading>.sk-page-heading-logo{opacity:.07}}

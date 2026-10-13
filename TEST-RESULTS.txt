@@ -1,0 +1,28 @@
+SK PCT Tools 2.5.2.0-Beta · Abnahmeergebnis
+Datum: 13.10.2026
+
+Statische Vollprüfung
+PASS · 11 Apps · 6 Rechner · 15 interne Unterseiten · 5 Wissensbeiträge
+PASS · lokale Links, Versionsstände, Header/Footer, Offline-Inventar und Dateistruktur
+PASS · CSS-Bereinigung: 705 verbleibende !important-Deklarationen (Ausgangsbestand 1.355)
+
+Browserprüfung (Chromium / Playwright)
+PASS · 268 Einzelprüfungen
+PASS · 16 interne Seiten × Smartphone 390×844, Tablet 820×1180 und Desktop 1440×1000
+PASS · kein horizontaler Seiten-/Inhaltsüberlauf in den geprüften Profilen
+PASS · Header und Footer innerhalb der Viewports
+PASS · 3-Spalten-Startseite bis 430 px und 44-px-Favoriten-Touchziele
+PASS · Einheitendatenbank, mobile Werkstoffdarstellung und Wissensverdichtung
+PASS · Offline-Aufruf von Rechner- und Wissensroute nach Service-Worker-Installation
+
+Rechner-Referenzen
+PASS · Analogsignal: 0…100 / 4…20 mA / Eingabe 50 → 12 mA und 50 %
+PASS · P+F: (0|4), (100|20) → K 0,16 und Nullpunkt 4
+PASS · Pt100: 0 °C → 100 Ω
+PASS · Einheiten: 1 bar → 100 kPa
+PASS · Siemens: 4–20 mA, 12 mA, −50…150 °C → Rohwert 13.824 und 50 °C
+PASS · Spannungsfall: 400 V Drehstrom, 16 A, 35 m, 2,5 mm² Cu, cos φ 1 → 6,93 V / 1,73 % / 393,07 V
+
+Externer Dienst
+PASS · offizielles Ziel geprüft: https://www.de.endress.com/de/onlinetools/device-viewer
+PASS · sichtbare Kennzeichnung als externer Onlinedienst sowie _blank, external, noopener, noreferrer und no-referrer

@@ -1,6 +1,6 @@
-# SK PCT Tools - Wissensbeitragsstandard V2.5.1.4-Beta
+# SK PCT Tools - Wissensbeitragsstandard V2.5.2.0-Beta
 
-Stand: 11.10.2026
+Stand: 13.10.2026
 Status: verbindlicher Release-Standard für alle Wissensbeiträge im Projekt
 
 ## 1. Pflichtstruktur
@@ -10,10 +10,10 @@ Jeder Wissensbeitrag enthält in dieser Reihenfolge:
 1. Eindeutige Brotkrümelnavigation.
 2. Hero-Bereich mit Hersteller/Gerätefamilie, Titel und Kurzfassung.
 3. Metadaten: Hersteller, Gerät/Familie, Thema und Beitragstyp.
-4. Fachinhalt in klar benannten Abschnitten.
+4. Sichtbare Kurzantwort und Fachinhalt in klar benannten, aufklappbaren Detailabschnitten.
 5. Prüf-, Handlungs- oder Zuordnungsfolge, sofern fachlich sinnvoll.
-6. Sicherheits-, Gültigkeits- und Quellenhinweis.
-7. Technische Standardzuordnung über `data-knowledge-standard="2.5.1.4-Beta"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
+6. Jeder Sicherheitshinweis bleibt sichtbar; Quellen- und Gültigkeitshinweise werden am Beitragsende gebündelt.
+7. Technische Standardzuordnung über `data-knowledge-standard="2.5.2.0-Beta"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
 
 ## 2. Darstellungsregeln
 

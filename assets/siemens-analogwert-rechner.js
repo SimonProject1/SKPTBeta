@@ -93,7 +93,7 @@ const elements={profile:$('cardProfile'),signalType:$('signalType'),tabs:[...doc
 if(Object.values(elements).some(value=>!value||(Array.isArray(value)&&value.length===0)))return;
 let activeMode='signal',currentRaw=13824;
 const parse=value=>Number.parseFloat(String(value).replace(',','.'));
-const format=(value,digits=3)=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:digits,maximumFractionDigits:digits}):'–';
+const format=(value,digits=3)=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:digits,useGrouping:true}):'–';
 const formatRaw=value=>Number.isFinite(value)?Math.round(value).toLocaleString('de-DE'):'–';
 const inputNumber=value=>Number.isFinite(value)?String(Number(value.toFixed(9))):'';
 const physicalRange=()=>normalizePhysicalRange({min:parse(elements.physicalMin.value),max:parse(elements.physicalMax.value),unit:elements.physicalUnit.value});
@@ -163,5 +163,5 @@ elements.profile.addEventListener('change',()=>{try{syncSupportedTypes();const p
 bindSignButtons();syncSupportedTypes();setMode('signal');
 })();
 
-/* Physikalische Einheiten im Siemens-Rohwert-Rechner · 2.5.1.4-Beta */
+/* Physikalische Einheiten im Siemens-Rohwert-Rechner · 2.5.2.0-Beta */
 (()=>{'use strict';const $=id=>document.getElementById(id);function options(){return SK_UNITS.model.categories.map(category=>`<option value="${category.id}">${SK_UNITS.escape(category.name)}</option>`).join('')}function syncHidden(){const unit=SK_UNITS.unit($('physicalCategory').value,$('physicalUnitSelect').value);$('physicalUnit').value=unit.symbol;$('physicalUnit').dispatchEvent(new Event('input',{bubbles:true}));$('physicalUnit').dispatchEvent(new Event('change',{bubbles:true}))}function convertRange(category,oldUnit,newUnit){['physicalMin','physicalMax'].forEach(id=>{const input=$(id),value=window.num(input.value);if(Number.isFinite(value))input.value=SK_UNITS.inputValue(SK_UNITS.convert(value,category,oldUnit,newUnit))})}async function init(){await SK_UNITS.ready;$('physicalCategory').innerHTML=options();$('physicalCategory').value='temperature';SK_UNITS.populateSelect($('physicalUnitSelect'),'temperature','celsius',{includeAll:true});$('physicalCategory').addEventListener('change',()=>{const category=SK_UNITS.category($('physicalCategory').value);SK_UNITS.populateSelect($('physicalUnitSelect'),category.id,category.defaultUnit,{includeAll:true});syncHidden()});$('physicalUnitSelect').addEventListener('sk:unit-change',event=>{convertRange(event.detail.categoryId,event.detail.oldUnit,event.detail.newUnit);syncHidden()});syncHidden()}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init,{once:true}):init()})();
