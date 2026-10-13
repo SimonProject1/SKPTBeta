@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.6.0.0-Beta
+# Testplan · SK PCT Tools 2.6.0.1-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -32,7 +32,7 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 ## 5. PWA und Offline
 1. Online laden und Service Worker aktivieren lassen.
 2. Offline Startseite, Rechner, Datenbanken und Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.6.0.0-Beta aktiv sind.
+3. Prüfen, dass nur Caches der Version 2.6.0.1-Beta aktiv sind.
 
 ## 6. Manuelle Plattformprüfung (nachgelagert)
 1. iPhone/iPad/Android: Installation, Safe Areas, Hoch-/Querformat und echter Touch.
@@ -51,11 +51,13 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 1. Alle zehn Startseitenziele prüfen: zehn geladene PNG-Dateien ohne defekte Grafik; jede Datei 512 × 512 px, RGBA und transparent.
 2. Motivklassen prüfen: sechs Rechner/Umrechnungen mit Taschenrechner, drei interne Datenbanken mit Buch, externer E+H-Dienst mit WWW-Weltkugel und Auswärtspfeil.
 3. Bereichsfelder prüfen: Rechner, Einheitendatenbank, Wissensdatenbank und externer Dienst = PCT; Werkstoffdatenbank = PIPING. CSA und EQP dürfen nirgends als aktives Iconfeld erscheinen.
-4. Wissens-Hub prüfen: fünf weiße Hersteller-/Kurzmarken ohne zusätzliche Motivgrafik, jeweils mit PCT-Feld.
-5. Beitragskarten prüfen: alle fünf Wissensbeiträge verwenden das Buch mit PCT-Feld; alte Gerätefelder wie PROMASS, P320, SPS, VFD oder SCO/SCC dürfen das Fachbereichsfeld nicht ersetzen.
-6. Startseite, Zurück-/Home-Navigation, Einheitendatenbank-CTA und externe E+H-Kachel anklicken.
-7. Grafiken bei 320, 390, 820 und 1440 px auf Kontur, Transparenz, Innenabstand und Erkennbarkeit prüfen.
-8. Manifest-Shortcuts auf image/png und sizes 512x512 prüfen.
-9. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.0.0-Beta-Cache erscheinen.
-10. Prüfen, dass assets/navigation-icons/ keine SVG-Datei mehr enthält und als einzige technische SVG-Ausnahme assets/pct-controls.svg verbleibt.
-11. ICON-DESIGNRICHTLINIE.txt als verbindliche Übergabegrundlage auf Vollständigkeit prüfen.
+4. Jedes fachlich gekennzeichnete Icon darf genau ein Bereichsfeld zeigen. Das sichtbare Feld muss Bestandteil der PNG-Datei sein; HTML, CSS und JavaScript dürfen kein zweites Feld erzeugen.
+5. Im Browser die berechneten ::before-/::after-Inhalte der Icon-Container prüfen: PCT, PIPING, CSA und EQP dürfen dort nicht vorkommen.
+6. Wissens-Hub prüfen: fünf weiße Hersteller-/Kurzmarken ohne zusätzliche Motivgrafik, jeweils mit genau einem integrierten PCT-Feld.
+7. Beitragskarten prüfen: alle fünf Wissensbeiträge verwenden das Buch mit integriertem PCT-Feld; alte Gerätefelder wie PROMASS, P320, SPS, VFD oder SCO/SCC dürfen das Fachbereichsfeld nicht ersetzen.
+8. Startseite, Zurück-/Home-Navigation, Einheitendatenbank-CTA und externe E+H-Kachel anklicken.
+9. Grafiken bei 320, 390, 820 und 1440 px auf Kontur, Transparenz, Innenabstand, Erkennbarkeit und einfache Bereichskennzeichnung prüfen.
+10. Manifest-Shortcuts auf image/png und sizes 512x512 prüfen.
+11. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.0.1-Beta-Cache erscheinen.
+12. Prüfen, dass assets/navigation-icons/ keine SVG-Datei mehr enthält und als einzige technische SVG-Ausnahme assets/pct-controls.svg verbleibt.
+13. ICON-DESIGNRICHTLINIE.txt als verbindliche Übergabegrundlage auf Vollständigkeit prüfen.

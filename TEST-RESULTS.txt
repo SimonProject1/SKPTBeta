@@ -1,4 +1,4 @@
-SK PCT Tools 2.6.0.0-Beta – Test Results
+SK PCT Tools 2.6.0.1-Beta – Test Results
 Prüfdatum: 13.10.2026
 Prüfbasis: vollständiger Projektordner vor Paketierung
 
@@ -18,54 +18,70 @@ Umfang:
 - einzige verbleibende technische SVG-Datei: assets/pct-controls.svg
 - vollständige interne Referenzen und Offline-Cache-Ziele
 - gültige projektweite SHA-256-Dateiliste
-- Version 2.6.0.0-Beta
+- Version 2.6.0.1-Beta
 
-2. Browser-Regression
+2. Prüfung auf doppelte Fachbereichs-Overlays
+Ergebnis: PASS
+- .sk-home-icon::after als Fachbereichsfeld entfernt.
+- Das frühere externe PCT-↗-Pseudoelement entfernt.
+- .knowledge-home-icon::after und .knowledge-icon-badge entfernt.
+- Keine bekannten Overlay-Elemente oder Overlay-Datenattribute in HTML, CSS oder JavaScript vorhanden.
+- Browserprüfung meldet weder PCT, PIPING, CSA noch EQP im berechneten ::after-Inhalt der Startseiten-, Wissens- oder Herstellericons.
+- Pro sichtbarem Navigationsicon stammt das Fachbereichsfeld ausschließlich aus der PNG-Datei.
+
+3. Browser-Regression
 Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS – 623 Browserprüfungen
+Ergebnis: PASS – 667 Browserprüfungen
 Umfang:
 - 15 Seiten in Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
 - Reflow bei 320 × 900
 - Header, Footer, App-Rahmen, horizontale Überläufe, H1 und Referrer-Schutz
 - 10 PNG-Startseitengrafiken ohne Ladefehler
+- 10 Favoritensterne auf der Startseite und 5 Favoritensterne an den Wissensbeiträgen
+- Interne Home-/Zurück-Navigation auf allen 14 Unterseiten als geladene PNG-Dateien
 - Hersteller-Hub: 5 weiße Hersteller-/Kurzmarken als PNG
 - Wissensbeiträge: 5 Karten mit gemeinsamem Buch/PCT-PNG
+- Externer E+H Device Viewer mit WWW-PNG und unverändertem abgesichertem Ziel
 - 44 × 44 px Plus/Minus-Taster, 13-px-Radius, Zentrierung und touch-action auf allen betroffenen Rechnerseiten
-- Vorzeichenwechsel per echtem Playwright-Tap auf Smartphone und Tablet für Analogsignal, P+F, Pt100/Pt1000, Einheitenrechner und Siemens Rohwert
+- Vorzeichenwechsel per echtem Playwright-Tap auf Smartphone und Tablet
 - Referenzberechnungen aller 6 Rechner
 - Einheiten- und Werkstoffdatenbank sowie Wissensbeiträge
 - Service-Worker-/Offline-Aufrufe
 
-3. PNG- und SVG-Prüfung
+4. PNG-, Manifest- und Cache-Prüfung
 - 17/17 Navigationsgrafiken: gültige PNG-Signatur, 512 × 512 px und PNG-Farbtyp mit Alphakanal.
+- SHA-256-Vergleich bestätigt: Der vollständige PNG-Bestand ist gegenüber V2.6.0.0-Beta unverändert.
 - Startseite und Wissensdatenbank laden nur .png-Dateien aus assets/navigation-icons/.
 - Manifest-Shortcuts verwenden image/png und sizes 512x512.
 - Service Worker enthält alle 17 PNG-Navigationsgrafiken im CORE-Cache.
-- Frühere 17 SVG-Navigationsdateien sind entfernt und werden nicht mehr referenziert.
-- assets/pct-controls.svg bleibt ausschließlich für kleine, nicht navigierende Bedienpiktogramme bestehen.
+- Service-Worker-RELEASE und Manifest-Version lauten 2.6.0.1-Beta.
+- Frühere SVG-Navigationsdateien bleiben entfernt.
 
-4. Fachliche Icon-Zuordnung
-- Rechner und Umrechnungen: Taschenrechner · PCT.
-- Einheitendatenbank: aufgeschlagenes Buch · PCT.
-- Werkstoffdatenbank: aufgeschlagenes Buch · PIPING.
-- Wissensdatenbank und Wissensbeiträge: aufgeschlagenes Buch · PCT.
-- E+H Device Viewer: WWW-Weltkugel mit Auswärtspfeil · PCT.
-- Hersteller-Hub: AIR TORQUE, E+H, SIEMENS, VACON und ALLG. als weiße Kurzmarken · PCT.
+5. Fachliche Icon-Zuordnung
+- Rechner und Umrechnungen: Taschenrechner · integriertes PCT-Feld.
+- Einheitendatenbank: aufgeschlagenes Buch · integriertes PCT-Feld.
+- Werkstoffdatenbank: aufgeschlagenes Buch · integriertes PIPING-Feld.
+- Wissensdatenbank und Wissensbeiträge: aufgeschlagenes Buch · integriertes PCT-Feld.
+- E+H Device Viewer: WWW-Weltkugel mit Auswärtspfeil · integriertes PCT-Feld.
+- Hersteller-Hub: AIR TORQUE, E+H, SIEMENS, VACON und ALLG. als weiße Kurzmarken · jeweils integriertes PCT-Feld.
+- Home und Zurück: PNG-Piktogramme ohne Fachbereichsfeld.
 - CSA und EQP werden nicht als aktive Iconfelder verwendet.
 
-5. Visuelle QA
+6. Visuelle QA
 Geprüfte Ansichten:
 - Startseite Smartphone 390 × 844
+- Startseite Tablet 820 × 1180
 - Startseite Desktop 1440 × 1000
 - Wissensdatenbank-Hersteller-Hub Tablet 820 × 1180
 - Siemens-Herstelleransicht mit Wissensbeiträgen Tablet 820 × 1180
+- Kontaktbogen aller 17 PNG-Navigationsgrafiken
 Ergebnis:
-- Taschenrechner, Bücher, PIPING-Feld, WWW-Weltkugel, Hersteller-Kurzmarken sowie Home-/Zurück-Navigation werden vollständig und ohne defekte Bilder dargestellt.
-- Fachbereichsfelder sind in den geprüften Ansichten sichtbar; die vergrößerte Beschriftung verbessert die mobile Lesbarkeit.
-- PNGs besitzen transparente Außenbereiche und bleiben innerhalb der vorhandenen PCT-App-Rahmen sauber skaliert.
+- Nach vollständiger PNG-Dekodierung werden alle Motive angezeigt.
+- Jedes fachlich gekennzeichnete Icon zeigt genau ein integriertes Bereichsfeld; kein zweites CSS-/HTML-Feld liegt darüber.
+- Favoritensterne, Titel, interne Navigation und externe WWW-Grafik bleiben sichtbar und bedienbar.
 
-6. PWA/Offline
-- Service Worker verwendet Cacheversion 2.6.0.0-Beta.
+7. PWA/Offline
+- Service Worker verwendet Cacheversion 2.6.0.1-Beta.
 - Alle 17 Navigations-PNGs liegen im CORE-Cache.
 - ICON-DESIGNRICHTLINIE.txt liegt in OPTIONAL_DOCUMENTS.
 - Offline-Test für Rechner und Wissensbeitrag bestanden.

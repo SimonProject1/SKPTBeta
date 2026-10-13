@@ -1,5 +1,5 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.0.0-Beta · 13.10.2026
+Stand: V2.6.0.1-Beta · 13.10.2026
 
 ZWECK UND VERBINDLICHKEIT
 Diese Richtlinie gilt für alle grafischen Navigationsziele in SK PCT Tools. Der verbindliche Auslieferungsstandard ist eine eigenständige, transparente PNG-Datei. Neue Ziele dürfen nur mit einem der nachfolgend festgelegten Hauptmotive und mit einem inhaltlich zutreffenden Bereichsfeld angelegt werden.
@@ -41,6 +41,12 @@ E. ALLGEMEINE NAVIGATION
 
 3. BEREICHSFELD
 - Das kleine farbige Textfeld im Icon kennzeichnet ausschließlich den Fachbereich, nicht Hersteller, Gerät, Funktion oder Status.
+- Das Bereichsfeld ist ein fest gerenderter Bestandteil der transparenten PNG-Datei und wird gemeinsam mit dem Icon ausgeliefert.
+- Pro fachlich gekennzeichnetem Icon darf genau ein Bereichsfeld sichtbar sein: ausschließlich das in der PNG-Datei integrierte Feld.
+- Zusätzliche Fachbereichstexte, Badges oder Overlays in HTML sind verboten.
+- CSS darf kein PCT-, PIPING-, CSA- oder EQP-Feld durch Pseudoelemente, content-Regeln, Hintergründe oder andere Überlagerungen erzeugen.
+- JavaScript darf kein Bereichsfeld erzeugen, ergänzen, kopieren oder über eine PNG-Grafik legen.
+- Home- und Zurück-Icons besitzen bewusst kein Bereichsfeld; auch dort darf kein Feld nachträglich ergänzt werden.
 - Aktuell aktiv: PCT und PIPING.
 - PCT wird für Prozessleittechnik, Rechner, Umrechnungen, Wissensdatenbank, Wissensbeiträge, Einheitendatenbank und die derzeitigen externen PCT-Dienste verwendet.
 - PIPING wird aktuell für die Werkstoffdatenbank verwendet.
@@ -90,6 +96,8 @@ E. ALLGEMEINE NAVIGATION
   <img class="sk-nav-graphic" src="assets/navigation-icons/app-ziel.png?v=<VERSION>" alt="" decoding="async">
 - Bei bereits vorhandenem Linktext bleibt das Bild dekorativ: alt="" und gegebenenfalls aria-hidden="true".
 - Das Bild liegt innerhalb des klickbaren Links oder Buttons; keine konkurrierende Tap-Zone über das Motiv legen.
+- Das img-Element ist die alleinige Quelle der Fachbereichskennzeichnung. Umgebende Elemente dürfen kein zweites PCT-, PIPING-, CSA- oder EQP-Feld enthalten oder erzeugen.
+- Verboten sind insbesondere Icon-Badge-Elemente, data-Attribute zur Overlay-Erzeugung sowie ::before-/::after-Regeln mit Fachbereichstext.
 - Jede neue PNG-Datei in service-worker.js in CORE aufnehmen.
 - Manifest-Shortcuts verwenden type image/png und sizes 512x512.
 - Bei Versionswechsel Cache-Parameter, Manifest-Version und Service-Worker-RELEASE aktualisieren.
@@ -105,6 +113,9 @@ E. ALLGEMEINE NAVIGATION
 - Motiv bei 24, 56, 64, 94, 192 und 512 px prüfen.
 - Rechner = Taschenrechner; Wissen/Nachschlagewerk = Buch; extern = WWW-Weltkugel; Hersteller-Hub = nur weiße Kurzmarke.
 - Bereichsfeld auf fachliche Richtigkeit prüfen: aktuell nur PCT oder PIPING.
+- Sichtprüfung: genau ein Bereichsfeld pro fachlich gekennzeichnetem Icon; dieses Feld muss aus den PNG-Pixeln stammen.
+- Quellprüfung: HTML, CSS und JavaScript dürfen keine zusätzlichen PCT-, PIPING-, CSA- oder EQP-Overlays für Icons enthalten.
+- Computed-Style-Prüfung: Icon-Container dürfen über ::before oder ::after keinen Fachbereichstext ausgeben.
 - CSA und EQP dürfen ohne tatsächlichen Inhalt nicht verwendet werden.
 - Smartphone, Tablet und Desktop prüfen; Fokusrahmen und 44-px-Touchziel messen.
 - Interne Links, externe Links, Manifest, Offline-Cache und fehlende Dateien automatisiert testen.

@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.6.0.0-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
+/* SK PCT Tools 2.6.0.1-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
    Diese letzte, kleine Kaskadenebene ersetzt verteilte Seitenkorrekturen. */
 :root{
   --sk-color-bg:#02080d;
@@ -356,7 +356,7 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
   body[data-knowledge-standard] .kb-meta-card strong{overflow-wrap:normal;word-break:normal;hyphens:auto}
 }
 
-/* === V2.6.0.0-Beta: verbindlicher Header-/Footer-Standard ==================
+/* === V2.6.0.1-Beta: verbindlicher Header-/Footer-Standard ==================
    Dieser Block ist absichtlich die letzte Kaskadenebene. Startseite und alle
    internen Seiten nutzen damit dieselbe Rahmenfläche, dieselbe Kopfgeometrie
    und denselben randlosen Footer. */

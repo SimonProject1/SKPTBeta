@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.0-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.1-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -7,7 +7,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.0.0-Beta'
+VERSION='2.6.0.1-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}
@@ -107,6 +107,11 @@ def main()->int:
     check(knowledge_home.count('app-wissensdatenbank.png')==5,'Wissensbeiträge verwenden nicht vollständig Buch/PCT.',errors)
     check('knowledge-icon-badge' not in knowledge_home,'Alte Geräte-/Beitragsfelder überlagern das Bereichsfeld.',errors)
     check('knowledge-manufacturer-logos.svg' not in knowledge_home and not (ROOT/'assets/knowledge-manufacturer-logos.svg').exists(),'Altes Hersteller-Icon-Sprite ist noch aktiv.',errors)
+
+    overlay_sources='\n'.join(path.read_text(encoding='utf-8') for suffix in ('*.html','*.css','*.js') for path in ROOT.rglob(suffix))
+    for token in ('.sk-home-icon::after','.knowledge-home-icon::after','.knowledge-icon-badge','data-icon-area','data-discipline-overlay'):
+        check(token not in overlay_sources,f'Doppeltes Fachbereichs-Overlay noch vorhanden: {token}',errors)
+    check(not re.search(r'content\s*:\s*[\"\'](?:PCT|PIPING|CSA|EQP)(?:\s*↗)?[\"\']', (ROOT/'assets/pct-home.css').read_text(), re.I),'CSS erzeugt noch ein Fachbereichsfeld auf Startseiten-/WWW-Icons.',errors)
 
     design=(ROOT/'assets/design-system.css').read_text(); core=(ROOT/'assets/core.css').read_text(); controls=(ROOT/'assets/pct-controls.css').read_text(); siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text()
     for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','--sk-content-max:1060px','@media(max-width:430px)','grid-template-columns:repeat(3','unit-favorites-panel','unit-row-details','material-compare-table td::before','kb-short-answer','kb-source-bundle'):

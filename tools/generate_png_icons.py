@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt die transparenten PNG-Navigationsicons für SK PCT Tools 2.6.0.0-Beta."""
+"""Erzeugt die transparenten PNG-Navigationsicons für SK PCT Tools 2.6.0.1-Beta."""
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
