@@ -1,55 +1,44 @@
-SK PCT Tools 2.5.2.0-Beta
+SK PCT Tools 2.5.2.1-Beta
 Release-Datum: 13.10.2026
-Status: vollständige Responsive-, Bedien- und Strukturüberarbeitung
-Direkte Ausgangsbasis: vollständige 2.5.1.4-Beta
+Status: Header-/Footer-Konsolidierung und kompaktere Messstellen-Dokumentation
+Direkte Ausgangsbasis: vollständige 2.5.2.0-Beta
 
 TATSÄCHLICH UMGESETZT
 
-1. Externer E+H Device Viewer
-- Ziel auf https://www.de.endress.com/de/onlinetools/device-viewer korrigiert.
-- Sichtbare Kennzeichnung als „Externer Onlinedienst“ ergänzt.
-- Neuer Tab, external, noopener, noreferrer und no-referrer beibehalten.
+1. Einheitlicher App-Rahmen
+- Startseite und alle internen Unterseiten verwenden dieselben Außenmaße,
+  Rundungen, Hintergründe, Safe-Area-Abstände und Schatten.
+- Die Innenabstände des Home-Rechtecks gelten nun auch auf Unterseiten.
 
-2. Gemeinsamer Seitenrahmen
-- Zentrale Design-Tokens für Farben, Abstände, Radien, Touchziele, Header und Footer.
-- Startseite und interne Seiten verwenden dieselben Header-/Footer-Höhen und Abstände.
-- Kurze Modulnamen im Header verhindern abgeschnittene Texte.
-- Kleine Touchziele auf mindestens 44 × 44 px vergrößert.
+2. Einheitlicher Header
+- Gemeinsame Höhe und Inhaltsbreite in Smartphone-, Tablet-, Desktop- und
+  Querformat-Darstellung.
+- Links stehen auf jeder Seite Logo und Versionsplakette V2.5.2.1-Beta.
+- Rechts bleiben Suche/Favoriten auf Home sowie Favoriten/Zurück/Home auf
+  Unterseiten in der gemeinsamen Aktionsreihe.
+- Der abweichende dunkle Querbalken der Unterseiten wurde entfernt.
 
-3. Rechner und Zahlenformate
-- Zweispaltige mobile Felder ab 361 px, einspaltiger Sicherheitsrückfall darunter.
-- Vollständige Feldlabels bleiben sichtbar; Einheitenauswahlen zeigen kompakte Symbole.
-- Vollständige Einheitenbezeichnungen stehen als Titel und zugängliche Beschriftung bereit.
-- Deutsche Zahlenformate ohne unnötige Endnullen; kleine Werte behalten nötige Präzision.
+3. Einheitlicher Footer
+- Exakt gleiche Breite, Höhe, Position, Typografie und Safe-Area-Behandlung.
+- Schwarze Oberkante, Outline, Innenschatten und separate dunkle Fläche entfernt.
+- Einheitlicher Text: SK PCT Tools · Entwickelt von Simon Kiesler · V2.5.2.1-Beta.
 
-4. Startseite
-- Bis einschließlich 430 px dreispaltiges App-Raster.
-- Normale, balancierte Wortumbrüche ohne Trennung mitten im Wort.
-- Favoritensterne als echte 44-px-Touchziele.
+4. Messstellen-Dokumentation
+- Bemerkungsfeld auf 52 px (Desktop/Tablet) beziehungsweise 58 px (Smartphone)
+  reduziert statt der vorher erzwungenen mobilen Mindesthöhe von 112 px.
+- Eingabefelder auf 42 px und Abstände, Überschriften sowie Werkzeugleiste
+  kompakter abgestimmt.
+- Druckansicht und bestehende Foto-/Reset-Funktionen bleiben erhalten.
 
-5. Einheitendatenbank
-- Kategorien sind initial eingeklappt.
-- Suchtreffer und gewählte Kategorien öffnen sich automatisch.
-- Eigener Favoritenbereich oberhalb aller Kategorien.
-- Kompakte Listenzeilen; Formel, Aliase und Kategorie über „Details“ abrufbar.
-
-6. Werkstoffdatenbank
-- Direktvergleich mobil ohne horizontale Tabelle.
-- Jede Vergleichszeile wird als gestapelte Schlüssel-Wert-Karte mit Werkstoffnummern gezeigt.
-
-7. Wissensbeiträge
-- Sichtbare Kurzantwort und kompaktere Abstände.
-- Weitere Fachabschnitte als native, tastaturbedienbare Details.
-- Gefahren- und Warnhinweise bleiben außerhalb geschlossener Details sichtbar.
-- Quellen, Gültigkeit und Anwendungshinweise sind am Beitragsende gebündelt.
-- Keine fachlichen Inhalte entfernt.
-
-8. CSS, PWA und Qualität
-- Neue zentrale Datei assets/design-system.css und gemeinsame Wissenslogik.
-- Unnötige !important-Eskalationen in alten Kaskadenebenen entfernt.
-- Neue Dateien und sämtliche Seiten im Offline-Kerncache berücksichtigt.
-- Strukturprüfung, 16 Seiten in drei Viewports, sechs Rechnerreferenzen und Offline-Aufrufe geprüft.
+5. Qualitätssicherung
+- Statische Vollprüfung für 17 HTML-Dateien und 15 gerahmte Unterseiten.
+- 454 Browserprüfungen über 16 Routen und drei Viewports.
+- Header, Footer und Rahmen jeder Unterseite werden geometrisch direkt mit der
+  Startseite verglichen.
+- Footer wird automatisiert auf fehlende Kontur, Outline und Schatten geprüft.
+- Sechs Rechnerreferenzen und zwei Offline-Aufrufe weiterhin erfolgreich.
 
 ERHALTEN
-- Alle 11 Apps, sechs Rechner, Datenbanken, Messstellen-Dokumentation, Wissens-Herstellerwege,
-  Suche, Filter, Favoriten, lokale Reihenfolge, PWA und Offline-Funktion.
+- Alle 11 Apps, sechs Rechner, Datenbanken, Messstellen-Dokumentation,
+  Wissens-Herstellerwege, Suche, Filter, Favoriten, lokale Reihenfolge,
+  PWA-Installation und Offline-Funktion.

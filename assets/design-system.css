@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.5.2.0-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
+/* SK PCT Tools 2.5.2.1-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
    Diese letzte, kleine Kaskadenebene ersetzt verteilte Seitenkorrekturen. */
 :root{
   --sk-color-bg:#02080d;
@@ -351,4 +351,223 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
   body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control>.pct-icon{position:relative;z-index:1;width:14px!important;height:14px!important}
   body[data-knowledge-standard] .kb-meta-grid{grid-template-columns:1fr}
   body[data-knowledge-standard] .kb-meta-card strong{overflow-wrap:normal;word-break:normal;hyphens:auto}
+}
+
+/* === V2.5.2.1-Beta: verbindlicher Header-/Footer-Standard ==================
+   Dieser Block ist absichtlich die letzte Kaskadenebene. Startseite und alle
+   internen Seiten nutzen damit dieselbe Rahmenfläche, dieselbe Kopfgeometrie
+   und denselben randlosen Footer. */
+:root{
+  --sk-header-size:76px;
+  --sk-footer-size:32px;
+  --sk-header-logo-size:56px;
+  --sk-shared-content-width:1060px;
+}
+
+/* Der äußere App-Rahmen ist auf Home und Unterseiten pixelgleich. */
+body[data-sk-home="ios"] .pct-home-screen,
+body[data-sk-layout="framed"] .sk-app-frame{
+  width:100%!important;
+  max-width:var(--sk-shared-frame-max,1240px)!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  border:3px solid #000!important;
+  border-radius:var(--sk-frame-radius)!important;
+  background:
+    radial-gradient(circle at 84% 3%,rgba(0,230,241,.17),transparent 25%),
+    radial-gradient(circle at 10% 94%,rgba(120,255,50,.10),transparent 29%),
+    linear-gradient(145deg,rgba(0,140,255,.10),transparent 42%),
+    linear-gradient(rgba(119,239,248,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(119,239,248,.025) 1px,transparent 1px),#051521!important;
+  background-size:auto,auto,auto,46px 46px,46px 46px,auto!important;
+  box-shadow:inset 0 0 0 1px var(--sk-frame-inner),inset 0 0 80px rgba(0,0,0,.42),0 18px 48px rgba(0,0,0,.45)!important;
+}
+
+/* Unterseiten besitzen nur noch einen transparenten Host. Die sichtbare
+   Kopfzeile liegt – wie auf Home – als 1060-px-Innenzeile im Rechteck. */
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header{
+  flex:0 0 var(--sk-header-size)!important;
+  width:100%!important;
+  min-height:var(--sk-header-size)!important;
+  height:var(--sk-header-size)!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header>.sk-header-inner,
+body[data-sk-home="ios"] .pct-home-head{
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  width:min(var(--sk-shared-content-width),100%)!important;
+  min-height:var(--sk-header-size)!important;
+  height:var(--sk-header-size)!important;
+  margin:0 auto!important;
+  padding:8px 10px!important;
+  gap:10px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(52,121,150,.62)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body[data-sk-layout="framed"] .sk-logo-version-stack,
+body[data-sk-home="ios"] .pct-home-brand-mark{
+  box-sizing:border-box!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 var(--sk-header-logo-size)!important;
+  width:var(--sk-header-logo-size)!important;
+  height:var(--sk-header-logo-size)!important;
+  margin:0!important;
+  border:2px solid #000!important;
+  border-radius:16px!important;
+  background:linear-gradient(145deg,#153f57,#061521 55%,#02080d)!important;
+  box-shadow:inset 0 0 0 1px #347996,3px 4px 0 rgba(0,0,0,.55)!important;
+  overflow:hidden!important;
+}
+body[data-sk-layout="framed"] .sk-logo-version-stack .sk-header-logo,
+body[data-sk-home="ios"] .pct-home-brand-mark img{
+  display:block!important;
+  width:calc(var(--sk-header-logo-size) - 6px)!important;
+  height:calc(var(--sk-header-logo-size) - 6px)!important;
+  min-width:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  border-radius:14px!important;
+  object-fit:contain!important;
+  filter:none!important;
+}
+body[data-sk-home="ios"] .pct-home-brand{gap:10px!important}
+body[data-sk-layout="framed"] .sk-header-version,
+body[data-sk-home="ios"] .pct-home-version{
+  box-sizing:border-box!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+  min-height:28px!important;
+  margin:0!important;
+  padding:6px 9px!important;
+  border:2px solid #000!important;
+  border-radius:9px!important;
+  background:linear-gradient(145deg,#12384d,#04131f 70%)!important;
+  box-shadow:inset 0 0 0 1px #347996,2px 3px 0 rgba(0,0,0,.68)!important;
+  color:#77eff8!important;
+  font:900 10px/1 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace!important;
+  letter-spacing:.035em!important;
+  white-space:nowrap!important;
+}
+body[data-sk-layout="framed"] .sk-global-header .pct-header-actions,
+body[data-sk-home="ios"] .pct-home-utility{
+  align-self:center!important;
+  margin-left:auto!important;
+}
+
+/* Ein Footer ohne schwarze Kontur oder zweite Innenumrandung. */
+body[data-sk-layout="framed"] .sk-app-frame>.sk-footer,
+body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{
+  box-sizing:border-box!important;
+  flex:0 0 auto!important;
+  width:min(var(--sk-shared-content-width),calc(100% - 20px))!important;
+  min-height:var(--sk-footer-size)!important;
+  margin:0 auto!important;
+  margin-top:auto!important;
+  padding:8px 8px max(7px,env(safe-area-inset-bottom,0px))!important;
+  border:0!important;
+  border-radius:0!important;
+  outline:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:var(--sk-color-muted)!important;
+  font-size:11px!important;
+  line-height:1.2!important;
+  text-align:center!important;
+  white-space:normal!important;
+}
+
+/* Messstellen-Dokumentation: Eingabebereich und insbesondere Bemerkung kompakt. */
+body.sk-documentation-page .sk-app-scroll{padding-bottom:12px!important}
+body.sk-documentation-page .page-title{padding:12px 0 8px!important}
+body.sk-documentation-page .page-title h1{margin:3px 0 5px!important;font-size:clamp(28px,4vw,42px)!important}
+body.sk-documentation-page .messstellen-panel{padding:12px!important}
+body.sk-documentation-page .messstellen-grid{gap:8px!important}
+body.sk-documentation-page .messstellen-grid input{min-height:42px!important;height:42px!important;padding:7px 10px!important}
+body.sk-documentation-page #note{
+  min-height:52px!important;
+  height:52px!important;
+  padding:8px 10px!important;
+  resize:vertical;
+}
+body.sk-documentation-page .messstellen-panel h2{margin:12px 0 5px!important;font-size:20px!important}
+body.sk-documentation-page .checkrow{min-height:34px!important;margin:5px 0!important}
+body.sk-documentation-page .toolbar{margin-top:9px!important;padding-top:9px!important}
+body.sk-documentation-page .muted{margin:8px 0 0!important;font-size:12px!important}
+
+@media(max-width:760px){
+  :root{--sk-header-size:66px;--sk-footer-size:28px;--sk-header-logo-size:48px}
+  body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header>.sk-header-inner,
+  body[data-sk-home="ios"] .pct-home-head{padding:7px 8px!important;gap:7px!important}
+  body[data-sk-layout="framed"] .sk-logo-version-stack,
+  body[data-sk-home="ios"] .pct-home-brand-mark{border-radius:14px!important}
+  body[data-sk-layout="framed"] .sk-logo-version-stack .sk-header-logo,
+  body[data-sk-home="ios"] .pct-home-brand-mark img{border-radius:12px!important}
+  body[data-sk-layout="framed"] .sk-header-version,
+  body[data-sk-home="ios"] .pct-home-version{min-height:24px!important;padding:5px 7px!important;font-size:8.5px!important}
+  body[data-sk-layout="framed"] .sk-app-frame>.sk-footer,
+  body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{padding-top:6px!important;font-size:10px!important}
+  body.sk-documentation-page .page-title{padding:9px 0 6px!important}
+  body.sk-documentation-page .page-title h1{font-size:clamp(28px,9vw,36px)!important}
+  body.sk-documentation-page .messstellen-panel{padding:10px!important}
+  body.sk-documentation-page .messstellen-grid{gap:7px!important}
+  body.sk-documentation-page .messstellen-grid input{min-height:42px!important;height:42px!important}
+  body.sk-documentation-page #note{min-height:58px!important;height:58px!important}
+  body.sk-documentation-page .messstellen-panel h2{margin-top:10px!important;font-size:19px!important}
+}
+@media(max-width:380px){
+  body[data-sk-layout="framed"] .sk-header-version,
+  body[data-sk-home="ios"] .pct-home-version{padding-inline:5px!important;font-size:7.5px!important}
+}
+@media(orientation:landscape) and (max-height:520px){
+  :root{--sk-header-size:58px;--sk-footer-size:24px;--sk-header-logo-size:42px}
+  body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header>.sk-header-inner,
+  body[data-sk-home="ios"] .pct-home-head{padding-block:6px!important}
+  body[data-sk-layout="framed"] .sk-app-frame>.sk-footer,
+  body[data-sk-home="ios"] .pct-home-screen>.pct-home-footer{padding-block:4px!important;font-size:9px!important}
+}
+
+
+/* Innenabstände des Home-Rechtecks gelten auch für Unterseiten. */
+:root{
+  --sk-frame-inner-x:clamp(12px,2.2vw,26px);
+  --sk-frame-inner-top:clamp(12px,2.2vw,26px);
+  --sk-frame-inner-bottom:clamp(10px,1.5svh,16px);
+}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header{
+  flex-basis:calc(var(--sk-header-size) + var(--sk-frame-inner-top))!important;
+  min-height:calc(var(--sk-header-size) + var(--sk-frame-inner-top))!important;
+  height:calc(var(--sk-header-size) + var(--sk-frame-inner-top))!important;
+}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-global-header>.sk-header-inner{
+  width:min(var(--sk-shared-content-width),calc(100% - var(--sk-frame-inner-x) - var(--sk-frame-inner-x)))!important;
+  margin:var(--sk-frame-inner-top) auto 0!important;
+}
+body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{
+  width:min(var(--sk-shared-content-width),calc(100% - var(--sk-frame-inner-x) - var(--sk-frame-inner-x) - 20px))!important;
+  margin-bottom:var(--sk-frame-inner-bottom)!important;
+}
+@media(max-width:620px){
+  :root{--sk-frame-inner-x:5px;--sk-frame-inner-top:8px;--sk-frame-inner-bottom:0px}
+}
+@media(orientation:landscape) and (max-height:620px){
+  :root{--sk-frame-inner-x:8px;--sk-frame-inner-top:6px;--sk-frame-inner-bottom:7px}
+}
+@media(orientation:landscape) and (max-height:520px){
+  :root{--sk-frame-inner-top:6px;--sk-frame-inner-bottom:7px}
 }

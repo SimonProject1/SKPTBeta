@@ -25,14 +25,23 @@ with sync_playwright() as p:
         for name,width,height in VIEWPORTS:
             context=browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1)
             page=context.new_page()
+            shared_reference=None
             for route in ROUTES:
                 response=goto(page,route)
                 check(response is not None and response.ok,f'{name} {route or "/"}: HTTP {response.status if response else "keine Antwort"}')
-                state=page.evaluate("""()=>{const s=document.querySelector('.sk-app-scroll'),h=document.querySelector('.sk-global-header,.pct-home-head'),f=document.querySelector('.sk-footer'),r=n=>n?({top:n.getBoundingClientRect().top,right:n.getBoundingClientRect().right,bottom:n.getBoundingClientRect().bottom,left:n.getBoundingClientRect().left}):null;return{doc:document.documentElement.scrollWidth>innerWidth+2,scroll:s?s.scrollWidth>s.clientWidth+2:false,h:r(h),f:r(f),vw:innerWidth,vh:innerHeight}}""")
+                state=page.evaluate("""()=>{const s=document.querySelector('.sk-app-scroll'),h=document.querySelector('.pct-home-head,.sk-header-inner'),f=document.querySelector('.sk-footer'),frame=document.querySelector('.pct-home-screen,.sk-app-frame'),r=n=>n?({top:n.getBoundingClientRect().top,right:n.getBoundingClientRect().right,bottom:n.getBoundingClientRect().bottom,left:n.getBoundingClientRect().left,width:n.getBoundingClientRect().width,height:n.getBoundingClientRect().height}):null,fs=f?getComputedStyle(f):null;return{doc:document.documentElement.scrollWidth>innerWidth+2,scroll:s?s.scrollWidth>s.clientWidth+2:false,h:r(h),f:r(f),frame:r(frame),footerStyle:fs?{borderTop:fs.borderTopWidth,outline:fs.outlineWidth,shadow:fs.boxShadow,background:fs.backgroundColor}:null,vw:innerWidth,vh:innerHeight}}""")
                 check(not state['doc'],f'{name} {route or "/"}: horizontaler Dokumentüberlauf')
                 check(not state['scroll'],f'{name} {route or "/"}: horizontaler Inhaltsüberlauf')
                 check(state['h'] and state['h']['top']>=-1 and state['h']['right']<=state['vw']+1,f'{name} {route or "/"}: Header außerhalb des Viewports')
                 check(state['f'] and state['f']['bottom']<=state['vh']+1 and state['f']['left']>=-1,f'{name} {route or "/"}: Footer außerhalb des Viewports')
+                check(state['footerStyle'] and state['footerStyle']['borderTop']=='0px' and state['footerStyle']['outline']=='0px' and state['footerStyle']['shadow']=='none',f'{name} {route or "/"}: Footer besitzt noch Kontur/Schatten {state["footerStyle"]}')
+                if shared_reference is None:
+                    shared_reference={'header':state['h'],'footer':state['f'],'frame':state['frame']}
+                else:
+                    for area,key in (('Header','header'),('Footer','footer'),('Rahmen','frame')):
+                        current=state['h'] if key=='header' else state['f'] if key=='footer' else state['frame']
+                        reference=shared_reference[key]
+                        check(current is not None and reference is not None and abs(current['width']-reference['width'])<=1 and abs(current['height']-reference['height'])<=1,f'{name} {route}: {area} weicht von Startseite ab ({current} statt {reference})')
             context.close()
 
         context=browser.new_context(viewport={'width':390,'height':844}); page=context.new_page();goto(page,'')
@@ -47,6 +56,11 @@ with sync_playwright() as p:
 
         goto(page,'werkstoffdatenbank/');page.wait_for_selector('.material-compare-table td');material=page.evaluate("""()=>({row:getComputedStyle(document.querySelector('.material-compare-table tbody tr')).display,label:document.querySelector('.material-compare-table td')?.dataset.label||''})""")
         check(material['row']=='block','Werkstoffvergleich mobil nicht gestapelt');check(bool(material['label']),'Mobile Werkstoff-Schlüssel fehlen')
+
+        goto(page,'messstellen-doku/');mess=page.evaluate("""()=>{const n=document.querySelector('#note'),i=document.querySelector('#tag');return{note:n.getBoundingClientRect().height,input:i.getBoundingClientRect().height,version:document.querySelector('.sk-header-version')?.textContent.trim()||''}}""")
+        check(mess['note']<=60,f'Messstellen-Doku: Bemerkungsfeld mit {mess["note"]} px zu hoch')
+        check(mess['input']<=44,f'Messstellen-Doku: Eingabefeld mit {mess["input"]} px zu hoch')
+        check(mess['version']=='V2.5.2.1-Beta','Messstellen-Doku: gemeinsamer Versionskopf fehlt')
 
         goto(page,'wissensdatenbank/endress-hauser-promass-einbaulage/');page.wait_for_selector('.kb-detail-group');knowledge=page.evaluate("""()=>({short:!!document.querySelector('.kb-short-answer'),closed:[...document.querySelectorAll('.kb-detail-group')].every(d=>!d.open),sources:!!document.querySelector('.kb-source-bundle'),safety:[...document.querySelectorAll('.kb-callout.danger,.kb-callout.warning')].every(n=>n.offsetParent!==null)})""")
         check(knowledge['short'],'Kurzantwort fehlt');check(knowledge['closed'],'Details nicht initial geschlossen');check(knowledge['sources'],'Quellenbündel fehlt');check(knowledge['safety'],'Sicherheitshinweis ausgeblendet')

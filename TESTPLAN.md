@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.5.2.0-Beta
+# Testplan · SK PCT Tools 2.5.2.1-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -14,9 +14,11 @@ Header/Footer, mobile Sonderdarstellungen, sechs Rechnerreferenzen und Offline-A
 ## 2. Header, Footer und Navigation
 
 1. Startseite sowie alle 15 internen Unterseiten öffnen.
-2. Gleiche Header-/Footer-Höhe, Außenkanten, Safe-Area-Abstände und Touchziele prüfen.
-3. Zurück, Startseite und Favoriten testen; kein Element darf Logo oder Text überlagern.
-4. Nur der interne Inhaltsbereich darf auf Unterseiten vertikal scrollen.
+2. Gleiche Header-/Footer-Höhe, Breite, Innenabstände, Safe-Area-Abstände und Touchziele prüfen.
+3. Header links immer mit Logo und Versionsplakette kontrollieren.
+4. Footer ohne schwarze Kontur, Outline, Schatten oder separate dunkle Fläche prüfen.
+5. Zurück, Startseite und Favoriten testen; kein Element darf Logo oder Text überlagern.
+6. Nur der interne Inhaltsbereich darf auf Unterseiten vertikal scrollen.
 
 ## 3. Startseite
 
@@ -57,11 +59,12 @@ Header/Footer, mobile Sonderdarstellungen, sechs Rechnerreferenzen und Offline-A
 
 1. Fotos hinzufügen, anzeigen und löschen.
 2. Eingaben zurücksetzen und Druck-/PDF-Ansicht prüfen.
-3. Lokale Datenhaltung und Bedienung auf Smartphone/Tablet/Desktop prüfen.
+3. Bemerkungsfeld kontrollieren: Smartphone höchstens 60 px hoch, reguläre Eingaben höchstens 44 px.
+4. Lokale Datenhaltung und Bedienung auf Smartphone/Tablet/Desktop prüfen.
 
 ## 8. PWA und Offline
 
 1. Online laden und Service Worker aktivieren lassen.
 2. Offline schalten und Startseite, alle Rechner, Datenbanken, Herstelleransichten und
    fünf Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.5.2.0-Beta aktiv sind.
+3. Prüfen, dass nur Caches der Version 2.5.2.1-Beta aktiv sind.
