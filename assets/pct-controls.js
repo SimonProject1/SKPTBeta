@@ -1,9 +1,9 @@
-/* SK PCT Tools 2.5.2.4-Beta - Adapter fuer PCT Industrial Controls. */
+/* SK PCT Tools 2.6.0.0-Beta - Adapter fuer PCT Industrial Controls. */
 (()=>{'use strict';
-const RELEASE='2.5.2.4-Beta';
+const RELEASE='2.6.0.0-Beta';
 const root=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
 const sprite=new URL('assets/pct-controls.svg',root).href;
-const navGraphic=name=>`<img class="pct-nav-graphic" src="${new URL(`assets/navigation-icons/${name}.svg`,root).href}" alt="" aria-hidden="true" decoding="async">`;
+const navGraphic=name=>`<img class="pct-nav-graphic" src="${new URL(`assets/navigation-icons/${name}.png`,root).href}" alt="" aria-hidden="true" decoding="async">`;
 const icon=(name,small=false)=>`<svg class="pct-icon${small?' pct-icon--small':''}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="${sprite}#icon-${name}"></use></svg>`;
 const normalized=value=>String(value||'').trim().toLocaleLowerCase('de-DE');
 const graphicPrefix=(node,name)=>{if(!node||node.querySelector(':scope > .pct-nav-graphic'))return;node.dataset.pctGraphic=name;node.insertAdjacentHTML('afterbegin',navGraphic(name))};

@@ -1,4 +1,4 @@
-SK PCT Tools 2.5.2.4-Beta – Test Results
+SK PCT Tools 2.6.0.0-Beta – Test Results
 Prüfdatum: 13.10.2026
 Prüfbasis: vollständiger Projektordner vor Paketierung
 
@@ -13,10 +13,12 @@ Umfang:
 - 6 Rechner
 - 14 interne Unterseiten
 - 5 Wissensbeiträge
-- 17 eigenständige Navigationsgrafiken
+- 17 transparente PNG-Navigationsgrafiken, jeweils 512 × 512 px mit Alphakanal
+- keine SVG-Datei mehr unter assets/navigation-icons/
+- einzige verbleibende technische SVG-Datei: assets/pct-controls.svg
 - vollständige interne Referenzen und Offline-Cache-Ziele
 - gültige projektweite SHA-256-Dateiliste
-- Version 2.5.2.4-Beta
+- Version 2.6.0.0-Beta
 
 2. Browser-Regression
 Befehl: python3 tests/browser_regression.py
@@ -25,33 +27,46 @@ Umfang:
 - 15 Seiten in Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
 - Reflow bei 320 × 900
 - Header, Footer, App-Rahmen, horizontale Überläufe, H1 und Referrer-Schutz
-- 10 unterschiedliche Startseiten-Grafiken und 5 Hersteller-Grafiken ohne Ladefehler
+- 10 PNG-Startseitengrafiken ohne Ladefehler
+- Hersteller-Hub: 5 weiße Hersteller-/Kurzmarken als PNG
+- Wissensbeiträge: 5 Karten mit gemeinsamem Buch/PCT-PNG
 - 44 × 44 px Plus/Minus-Taster, 13-px-Radius, Zentrierung und touch-action auf allen betroffenen Rechnerseiten
 - Vorzeichenwechsel per echtem Playwright-Tap auf Smartphone und Tablet für Analogsignal, P+F, Pt100/Pt1000, Einheitenrechner und Siemens Rohwert
 - Referenzberechnungen aller 6 Rechner
 - Einheiten- und Werkstoffdatenbank sowie Wissensbeiträge
 - Service-Worker-/Offline-Aufrufe
 
-3. Syntax- und SVG-Prüfung
-- app.js, pct-controls.js und service-worker.js: JavaScript-Syntax gültig.
-- 17/17 SVG-Navigationsgrafiken: XML-Struktur gültig.
-- Alle SVGs: 192 × 192 viewBox, Titel und schwarze Comic-Grundkontur vorhanden.
-- Frühere Startseiten- und Hersteller-Sprites sind entfernt und werden nicht mehr referenziert.
+3. PNG- und SVG-Prüfung
+- 17/17 Navigationsgrafiken: gültige PNG-Signatur, 512 × 512 px und PNG-Farbtyp mit Alphakanal.
+- Startseite und Wissensdatenbank laden nur .png-Dateien aus assets/navigation-icons/.
+- Manifest-Shortcuts verwenden image/png und sizes 512x512.
+- Service Worker enthält alle 17 PNG-Navigationsgrafiken im CORE-Cache.
+- Frühere 17 SVG-Navigationsdateien sind entfernt und werden nicht mehr referenziert.
+- assets/pct-controls.svg bleibt ausschließlich für kleine, nicht navigierende Bedienpiktogramme bestehen.
 
-4. Visuelle QA
+4. Fachliche Icon-Zuordnung
+- Rechner und Umrechnungen: Taschenrechner · PCT.
+- Einheitendatenbank: aufgeschlagenes Buch · PCT.
+- Werkstoffdatenbank: aufgeschlagenes Buch · PIPING.
+- Wissensdatenbank und Wissensbeiträge: aufgeschlagenes Buch · PCT.
+- E+H Device Viewer: WWW-Weltkugel mit Auswärtspfeil · PCT.
+- Hersteller-Hub: AIR TORQUE, E+H, SIEMENS, VACON und ALLG. als weiße Kurzmarken · PCT.
+- CSA und EQP werden nicht als aktive Iconfelder verwendet.
+
+5. Visuelle QA
 Geprüfte Ansichten:
-- Startseite Smartphone und Desktop
-- Wissensdatenbank Tablet
-- P+F Rechner Smartphone
-- Siemens Rohwert Desktop
+- Startseite Smartphone 390 × 844
+- Startseite Desktop 1440 × 1000
+- Wissensdatenbank-Hersteller-Hub Tablet 820 × 1180
+- Siemens-Herstelleransicht mit Wissensbeiträgen Tablet 820 × 1180
 Ergebnis:
-- Grafiken sind klar unterscheidbar, transparent, konturiert und in der PCT-Cyan-/Blau-/Grün-Palette konsistent.
-- Plus/Minus-Taster sind feldzentriert, kontrastreich und auf den geprüften Größen ohne Layoutverschiebung.
-- Bestehende Navigation, Rechnerflächen und CTA bleiben nutzbar.
+- Taschenrechner, Bücher, PIPING-Feld, WWW-Weltkugel, Hersteller-Kurzmarken sowie Home-/Zurück-Navigation werden vollständig und ohne defekte Bilder dargestellt.
+- Fachbereichsfelder sind in den geprüften Ansichten sichtbar; die vergrößerte Beschriftung verbessert die mobile Lesbarkeit.
+- PNGs besitzen transparente Außenbereiche und bleiben innerhalb der vorhandenen PCT-App-Rahmen sauber skaliert.
 
-5. PWA/Offline
-- Service Worker verwendet Cacheversion 2.5.2.4-Beta.
-- Alle 17 Navigationsgrafiken liegen im CORE-Cache.
+6. PWA/Offline
+- Service Worker verwendet Cacheversion 2.6.0.0-Beta.
+- Alle 17 Navigations-PNGs liegen im CORE-Cache.
 - ICON-DESIGNRICHTLINIE.txt liegt in OPTIONAL_DOCUMENTS.
 - Offline-Test für Rechner und Wissensbeitrag bestanden.
 

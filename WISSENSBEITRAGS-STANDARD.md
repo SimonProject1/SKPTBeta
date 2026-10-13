@@ -1,4 +1,4 @@
-# SK PCT Tools - Wissensbeitragsstandard V2.5.2.4-Beta
+# SK PCT Tools - Wissensbeitragsstandard V2.6.0.0-Beta
 
 Stand: 13.10.2026
 Status: verbindlicher Release-Standard für alle Wissensbeiträge im Projekt
@@ -13,7 +13,7 @@ Jeder Wissensbeitrag enthält in dieser Reihenfolge:
 4. Sichtbare Kurzantwort und Fachinhalt in klar benannten, aufklappbaren Detailabschnitten.
 5. Prüf-, Handlungs- oder Zuordnungsfolge, sofern fachlich sinnvoll.
 6. Jeder Sicherheitshinweis bleibt sichtbar; Quellen- und Gültigkeitshinweise werden am Beitragsende gebündelt.
-7. Technische Standardzuordnung über `data-knowledge-standard="2.5.2.4-Beta"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
+7. Technische Standardzuordnung über `data-knowledge-standard="2.6.0.0-Beta"`; keine sichtbare Versions- oder Standardleiste im Beitrag.
 
 ## 2. Darstellungsregeln
 

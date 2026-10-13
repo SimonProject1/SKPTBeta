@@ -1,35 +1,39 @@
-SK PCT Tools 2.5.2.4-Beta
+SK PCT Tools 2.6.0.0-Beta
 Release-Datum: 13.10.2026
-Status: Vollständige Beta · vereinheitlichte Vorzeichentaster und eigenständige Navigationsgrafiken
-Direkte Ausgangsbasis: vollständige 2.5.2.3-Beta
+Status: Vollständige Beta · verbindlicher PNG-Iconstandard
+Direkte Ausgangsbasis: vollständige 2.5.2.4-Beta
 
 TATSÄCHLICH UMGESETZT
 
-1. Plus/Minus-Taster projektweit vereinheitlicht
-- Die bereits passende runde PCT-Ausführung des Siemens-Rohwert-Rechners wurde in pct-controls.css zum verbindlichen Standard erhoben.
-- Automatisch erzeugte Taster der Rechner Analogsignal, P+F, Pt100/Pt1000 und Einheitenrechner sowie die drei festen Siemens-Taster nutzen dieselbe Darstellung.
-- Einheitlich sind 44 × 44 px, 13 px Radius, schwarze Comic-Kontur, Cyan-Fokus, grüner Druckzustand, mittige Ausrichtung und touch-action: manipulation.
-- Die vorhandene Vorzeichenlogik bleibt erhalten; Eingaben und Ergebnisse aktualisieren sich weiter über input/change.
+1. Neuer verbindlicher Iconstandard
+- Sämtliche 17 eigenständigen Navigationsgrafiken unter assets/navigation-icons/ liegen als transparente PNG-Dateien mit 512 × 512 px und RGBA-Alphakanal vor.
+- Rechner und Umrechnungen verwenden einheitlich den Taschenrechner als Hauptmotiv.
+- Wissensdatenbanken und interne Nachschlagewerke verwenden einheitlich ein aufgeschlagenes Buch.
+- Externe Webseiten und Onlinedienste verwenden eine WWW-Weltkugel mit Auswärtspfeil.
+- Das kleine Bereichsfeld kennzeichnet ausschließlich den Fachbereich.
+- Aktiv verwendet werden PCT und PIPING; CSA und EQP sind nur als spätere Kategorien in der Richtlinie vorbereitet.
 
-2. Eigenständige Cartoon-Tech-Navigationsgrafiken
-- 17 transparente SVG-Dateien unter assets/navigation-icons/ wurden neu erstellt.
-- Zehn eindeutige App-Grafiken decken alle internen und externen Ziele der Startseite ab.
-- Fünf Hersteller-Grafiken ersetzen den bisherigen Hersteller-Sprite im Wissens-Hub und in den Beitragskarten.
-- nav-home.svg und nav-back.svg werden in Kopfzeilen und Zurück-Aktionen verwendet.
-- Die Einheitendatenbank-CTA nutzt die passende eigenständige Datenbankgrafik.
-- Die drei Manifest-Shortcuts verwenden jetzt zielbezogene SVG-Grafiken.
-- Nicht mehr verwendete Startseiten- und Hersteller-Sprites wurden entfernt.
+2. Fachlich korrekte Zuordnung
+- Analogsignal, P+F, Pt100/Pt1000, Einheitenrechner, Spannungsfall und Siemens Rohwert: Taschenrechner · PCT.
+- Einheitendatenbank: Buch · PCT.
+- Werkstoffdatenbank: Buch · PIPING.
+- Wissensdatenbank und alle fünf Wissensbeiträge: Buch · PCT.
+- E+H Device Viewer: WWW-Weltkugel · PCT.
+- Hersteller-Hub: nur weiße Kurzmarken AIR TORQUE, E+H, SIEMENS, VACON und ALLG. plus Bereichsfeld PCT; keine zusätzliche Motivgrafik.
 
-3. Verbindliche Übergaberichtlinie
-- ICON-DESIGNRICHTLINIE.txt beschreibt Form, schwarze Comic-Konturen, Farbpalette, Lichtwirkung, Innenabstände, Symbolstil, Herstellerkennzeichnungen, Zustände, Größen, Dateiformate, Transparenz, Benennung, Einbindung und Abnahme.
-- Die Richtlinie ist als optionale PWA-Dokumentation offline verfügbar.
+3. Integration und Bereinigung
+- Startseite und Wissensdatenbank referenzieren ausschließlich die neuen PNG-Navigationsgrafiken.
+- Home-, Zurück- und Einheitendatenbank-Navigation laden PNG-Dateien über pct-controls.js.
+- Manifest-Shortcuts verwenden image/png mit sizes 512x512.
+- Alle 17 PNG-Dateien liegen im Service-Worker-Kerncache.
+- Die 17 bisherigen SVG-Navigationsdateien und sämtliche Referenzen darauf wurden entfernt.
+- Als einzige vorläufige SVG-Ausnahme verbleibt assets/pct-controls.svg für kleine, nicht navigierende Bedienpiktogramme.
 
-4. PWA, Offline und Qualitätssicherung
-- Alle neuen Navigationsgrafiken sind im Offline-Kerncache eingetragen.
-- Service-Worker- und Manifest-Version sind auf 2.5.2.4-Beta aktualisiert.
-- Automatische Tests prüfen eigenständige Dateien, fehlende Sprites, SVG-Grundstandard, Linkziele, 44-px-Taster, Ausrichtung, Touchregeln, Vorzeichenwechsel auf Smartphone/Tablet, Responsive-Layouts, Rechnerreferenzen und Offline-Aufrufe.
+4. Verbindliche Richtlinie und Reproduzierbarkeit
+- ICON-DESIGNRICHTLINIE.txt wurde vollständig auf PNG, Motivklassen, Fachbereichsfelder und die Regeln für PCT/PIPING sowie die nur vorbereiteten Bereiche CSA/EQP umgestellt.
+- tools/generate_png_icons.py erzeugt den vollständigen transparenten PNG-Bestand reproduzierbar.
 
-ERHALTEN
-- Zehn Startseiten-Apps, sechs Rechner, Einheiten- und Werkstoffdatenbank, fünf Wissensbeiträge.
-- Suche, Filter, Favoriten, lokale Reihenfolge, Navigation, PWA-Installation und Offline-Funktion.
-- Bestehende Rechenlogik und lokale Datenspeicherung.
+5. PWA und Versionierung
+- Öffentliche und technische Version: 2.6.0.0-Beta.
+- Cache-Version, sichtbare Versionsangaben, Manifest und Dateiverweise sind konsistent aktualisiert.
+- Suche, Filter, Favoriten, lokale Reihenfolge, Rechnerlogik, Datenbanken, Wissensbeiträge und Offline-Betrieb bleiben erhalten.

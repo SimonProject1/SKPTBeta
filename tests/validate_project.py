@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.5.2.4-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.0-Beta."""
 from __future__ import annotations
-import hashlib, json, re, sys
+import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.5.2.4-Beta'
+VERSION='2.6.0.0-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}
@@ -65,20 +65,23 @@ def main()->int:
         check(app.get('target')=='_blank' and {'external','noopener','noreferrer'}<=set(app.get('rel','').split()),'Externe E+H-Kennzeichnung/Absicherung fehlt.',errors)
         check(app.get('data-external')=='true','E+H Dienst ist nicht als extern markiert.',errors)
     check(FOOTER in start,'Startseitenfooter ist nicht vereinheitlicht.',errors)
-    nav_dir=ROOT/'assets/navigation-icons'; nav_icons=sorted(nav_dir.glob('*.svg'))
-    check(len(nav_icons)==17,f'Eigenständige Navigationsgrafiken: {len(nav_icons)} statt 17.',errors)
+    nav_dir=ROOT/'assets/navigation-icons'; nav_icons=sorted(nav_dir.glob('*.png'))
+    check(len(nav_icons)==17,f'PNG-Navigationsgrafiken: {len(nav_icons)} statt 17.',errors)
+    check(not list(nav_dir.glob('*.svg')),'SVG-Navigationsgrafiken sind noch vorhanden.',errors)
     check(start.count('class="sk-nav-graphic"')==10,'Startseite verwendet nicht für alle 10 Ziele eigenständige Grafiken.',errors)
     check('pct-home-icons.svg' not in start and not (ROOT/'assets/pct-home-icons.svg').exists(),'Altes Startseiten-Icon-Sprite ist noch aktiv.',errors)
     for icon in nav_icons:
-        content=icon.read_text(encoding='utf-8')
-        check('viewBox="0 0 192 192"' in content,f'Icon-Mastergröße falsch: {icon.name}',errors)
-        check('stroke:#000' in content,f'Schwarze Comic-Kontur fehlt: {icon.name}',errors)
-        check('<title ' in content,f'Icon-Titel fehlt: {icon.name}',errors)
+        raw=icon.read_bytes()
+        check(raw[:8]==b'\x89PNG\r\n\x1a\n',f'PNG-Signatur fehlt: {icon.name}',errors)
+        if len(raw)>=26 and raw[:8]==b'\x89PNG\r\n\x1a\n':
+            width,height=struct.unpack('>II',raw[16:24]); color_type=raw[25]
+            check((width,height)==(512,512),f'PNG-Mastergröße falsch: {icon.name} = {width}x{height}',errors)
+            check(color_type in {4,6},f'PNG besitzt keinen Alphakanal: {icon.name}',errors)
     guideline=(ROOT/'ICON-DESIGNRICHTLINIE.txt')
     check(guideline.is_file(),'ICON-DESIGNRICHTLINIE.txt fehlt.',errors)
     if guideline.is_file():
         guide=guideline.read_text(encoding='utf-8')
-        for token in ('FORM','SCHWARZE COMIC-KONTUREN','FARBPALETTE','LICHTWIRKUNG','INNENABSTÄNDE','SYMBOLSTIL','HERSTELLERKENNZEICHNUNGEN','ZUSTÄNDE','GRÖSSEN','DATEIFORMATE UND TRANSPARENZ','BENENNUNG','EINBINDUNG'):
+        for token in ('DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE','VERBINDLICHE MOTIVKLASSEN','BEREICHSFELD','FORM UND LESBARKEIT','SCHWARZE COMIC-KONTUREN','FARBPALETTE','LICHTWIRKUNG','BENENNUNG UND ABLAGE','EINBINDUNG','ZUSTÄNDE UND BEDIENUNG','ABNAHME VOR EINBAU','CSA','EQP','PIPING'):
             check(token in guide,f'Icon-Richtlinie unvollständig: {token}',errors)
 
     framed=[]
@@ -99,7 +102,10 @@ def main()->int:
     check(not list(ROOT.rglob('*.pdf')),'PDF-Dateien sind noch im Projekt vorhanden.',errors)
     knowledge_home=(ROOT/'wissensdatenbank/index.html').read_text()
     check('Beitrag vorschlagen' not in knowledge_home and 'Beitragsvorlage.pdf' not in knowledge_home,'PDF-Vorlagenaktion ist noch vorhanden.',errors)
-    check(knowledge_home.count('class="knowledge-brand-logo"')==10,'Wissensnavigation besitzt nicht 10 eigenständige Herstellergrafiken.',errors)
+    check(knowledge_home.count('class="knowledge-brand-logo"')==10,'Wissensnavigation besitzt nicht 10 PNG-Grafiken.',errors)
+    check(knowledge_home.count('manufacturer-')>=5,'Hersteller-Hub verwendet die weißen Kurzmarken nicht vollständig.',errors)
+    check(knowledge_home.count('app-wissensdatenbank.png')==5,'Wissensbeiträge verwenden nicht vollständig Buch/PCT.',errors)
+    check('knowledge-icon-badge' not in knowledge_home,'Alte Geräte-/Beitragsfelder überlagern das Bereichsfeld.',errors)
     check('knowledge-manufacturer-logos.svg' not in knowledge_home and not (ROOT/'assets/knowledge-manufacturer-logos.svg').exists(),'Altes Hersteller-Icon-Sprite ist noch aktiv.',errors)
 
     design=(ROOT/'assets/design-system.css').read_text(); core=(ROOT/'assets/core.css').read_text(); controls=(ROOT/'assets/pct-controls.css').read_text(); siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text()
@@ -137,11 +143,18 @@ def main()->int:
         check('design-system.css' in text,f'Rechner nutzt Design-System nicht: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    for token in ("'./assets/design-system.css'","'./assets/knowledge-compact.js'","'./assets/navigation-icons/app-analogsignal.svg'","'./assets/navigation-icons/nav-home.svg'","'./einheitendatenbank/'","'./werkstoffdatenbank/'","'./wissensdatenbank/endress-hauser-promass-einbaulage/'","'./ICON-DESIGNRICHTLINIE.txt'"):
+    for token in ("'./assets/design-system.css'","'./assets/knowledge-compact.js'","'./assets/navigation-icons/app-analogsignal.png'","'./assets/navigation-icons/nav-home.png'","'./einheitendatenbank/'","'./werkstoffdatenbank/'","'./wissensdatenbank/endress-hauser-promass-einbaulage/'","'./ICON-DESIGNRICHTLINIE.txt'"):
         check(token in worker,f'Offline-Kerncache unvollständig: {token}',errors)
     for icon in nav_icons:
         check(f"'./assets/navigation-icons/{icon.name}'" in worker,f'Navigationsgrafik fehlt im Offline-Cache: {icon.name}',errors)
     check('messstellen-doku' not in worker and 'Beitragsvorlage.pdf' not in worker and 'pct-home-icons.svg' not in worker and 'knowledge-manufacturer-logos.svg' not in worker,'Entfernte Inhalte/Sprites sind noch im Service Worker.',errors)
+    check(".svg'" not in '\n'.join(line for line in worker.splitlines() if 'navigation-icons/' in line),'Service Worker referenziert noch SVG-Navigationsgrafiken.',errors)
+    remaining_svg={str(x.relative_to(ROOT)) for x in ROOT.rglob('*.svg')}
+    check(remaining_svg=={'assets/pct-controls.svg'},f'Unerwartete SVG-Dateien vorhanden: {sorted(remaining_svg)}',errors)
+    check((ROOT/'tools/generate_png_icons.py').is_file(),'PNG-Icon-Generator fehlt.',errors)
+    for shortcut in manifest.get('shortcuts',[]):
+        for item in shortcut.get('icons',[]):
+            check(item.get('type')=='image/png' and item.get('sizes')=='512x512' and item.get('src','').endswith('.png'),f'Manifest-Shortcut nicht auf PNG umgestellt: {item}',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
     check((ROOT/'SECURITY-DEPLOYMENT.md').is_file(),'Deployment-Sicherheitsdokument fehlt.',errors)

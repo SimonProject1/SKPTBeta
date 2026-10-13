@@ -1,17 +1,19 @@
-SK PCT Tools 2.5.2.4-Beta
+SK PCT Tools 2.6.0.0-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank und Werkstoffdatenbank.
-Direkte Ausgangsbasis ist die vollständige 2.5.2.3-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.5.2.4-Beta.
 
 Änderungen dieser Beta
-- Der runde Plus/Minus-Taster des Siemens-Rohwert-Rechners ist jetzt der verbindliche zentrale Standard für alle Vorzeichenfelder.
-- Einheitliche 44 × 44 px Bedienfläche, zentrierte Ausrichtung, sichtbarer Fokus, Hover-/Druckzustand und touch-action: manipulation.
-- Vorzeichenwechsel wurde per Touch auf Smartphone und Tablet sowie im responsiven Desktop-Layout geprüft.
-- 17 eigenständige SVG-Navigationsgrafiken im SK-PCT-Tools-Cartoon-Tech-Stil ersetzen die bisherigen Startseiten- und Hersteller-Sprites.
-- Startseite, Wissens-Herstellerkarten, Kopfzeilen-Navigation, Zurück-Aktion, Einheitendatenbank-CTA und Manifest-Shortcuts verwenden die neuen Grafiken.
-- ICON-DESIGNRICHTLINIE.txt dokumentiert verbindlich Form, Konturen, Farben, Licht, Abstände, Herstellerkennzeichnungen, Zustände, Größen, Formate, Transparenz, Benennung und Einbindung.
-- Sämtliche neuen Grafiken und die Richtlinie sind in die PWA-/Offline-Konfiguration aufgenommen.
+- Neuer verbindlicher PNG-Iconstandard mit 17 transparenten Navigationsgrafiken in 512 × 512 px.
+- Alle Rechner und Umrechnungen verwenden einen Taschenrechner mit Bereichsfeld PCT.
+- Wissensdatenbank, Wissensbeiträge und Einheitendatenbank verwenden ein Buch mit Bereichsfeld PCT.
+- Die Werkstoffdatenbank verwendet ein Buch mit Bereichsfeld PIPING.
+- Externe Dienste verwenden eine WWW-Weltkugel mit Auswärtspfeil und fachlich passendem Bereichsfeld.
+- Im Hersteller-Hub bleiben ausschließlich weiße Herstellernamen/Kurzmarken plus PCT-Feld sichtbar.
+- Startseite, Wissensdatenbank, Navigation, Manifest und Offline-Cache sind auf PNG umgestellt.
+- Nicht mehr benötigte SVG-Navigationsdateien und Referenzen wurden entfernt.
+- CSA und EQP sind nur in ICON-DESIGNRICHTLINIE.txt als zukünftige Kategorien dokumentiert und werden ohne echte Inhalte nicht verwendet.
 
 Erhaltene Funktionen und Inhalte
 - 10 Startseiten-Apps, vollständige Navigation, Suche, Filter, Sortierung und Favoriten.
@@ -19,8 +21,14 @@ Erhaltene Funktionen und Inhalte
 - Einheiten- und Werkstoffdatenbank sowie fünf Wissensbeiträge.
 - PWA-Installation, Offline-Kerncache, lokale Einstellungen und eigene App-Reihenfolge.
 
+Iconpflege
+- Ausgelieferte Navigationsicons: assets/navigation-icons/*.png
+- Reproduzierbarer Generator: tools/generate_png_icons.py
+- Verbindliche Vorgaben: ICON-DESIGNRICHTLINIE.txt
+- Die einzige vorläufig verbleibende SVG-Datei ist assets/pct-controls.svg für kleine, nicht navigierende Bedienpiktogramme.
+
 Version und PWA
-- Öffentliche und technische Version: 2.5.2.4-Beta.
+- Öffentliche und technische Version: 2.6.0.0-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen bleiben lokal im Browser; es erfolgt keine Übertragung durch SK PCT Tools.
 

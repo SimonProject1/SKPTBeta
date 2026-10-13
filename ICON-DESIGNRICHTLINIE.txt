@@ -1,102 +1,116 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.5.2.4-Beta · 13.10.2026
+Stand: V2.6.0.0-Beta · 13.10.2026
 
 ZWECK UND VERBINDLICHKEIT
-Diese Richtlinie gilt für jedes neue Icon, das innerhalb von SK PCT Tools zu einer internen oder externen Seite führt. Neue Navigationsicons werden als eigenständige Dateien angelegt; Sammel-Sprites oder nur typografische Platzhalter sind für neue Navigationsziele nicht zulässig.
+Diese Richtlinie gilt für alle grafischen Navigationsziele in SK PCT Tools. Der verbindliche Auslieferungsstandard ist eine eigenständige, transparente PNG-Datei. Neue Ziele dürfen nur mit einem der nachfolgend festgelegten Hauptmotive und mit einem inhaltlich zutreffenden Bereichsfeld angelegt werden.
 
-1. FORM
-- Grundformat: quadratisch, SVG-viewBox 0 0 192 192.
-- Motiv als klar erkennbare technische Mini-Illustration, frontal oder leicht isometrisch.
-- Hauptsilhouette kompakt und auch bei 56–64 px eindeutig lesbar.
-- Ecken technisch abgerundet; keine weichen, beliebigen App-Store-Standardglyphen.
-- Externe Ziele erhalten im Motiv oben rechts einen sichtbaren Auswärtspfeil.
+1. DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE
+- Primär- und Auslieferungsformat: PNG mit Alphakanal (RGBA), 512 × 512 px.
+- Hintergrund außerhalb des Motivs bleibt vollständig transparent.
+- Keine externen Bilder, Schriften oder Laufzeitabhängigkeiten im Icon.
+- Navigationsgrafiken werden nicht als SVG ausgeliefert. Dadurch können sie einzeln wieder hochgeladen, geprüft und offline gespeichert werden.
+- Die einzige vorläufig zulässige SVG-Ausnahme ist assets/pct-controls.svg für kleine, nicht navigierende Bedienpiktogramme wie Suche, Stern, Kopieren oder Warnung. Diese Ausnahme ist kein Muster für neue App-, Wissens-, Hersteller- oder Navigationsicons.
 
-2. SCHWARZE COMIC-KONTUREN
-- Äußere Hauptkontur: Schwarz #000000, 8–10 SVG-Einheiten, runde Kappen und Verbindungen.
-- Innere Trennlinien: #000000 oder #071018, 5–7 SVG-Einheiten.
-- Konturen bleiben in jeder Farb- und Zustandsvariante sichtbar.
-- Kleine Details unter 5 SVG-Einheiten vermeiden, damit das Motiv mobil nicht zuläuft.
+2. VERBINDLICHE MOTIVKLASSEN
+A. RECHNER UND UMRECHNUNGEN
+- Hauptmotiv immer: Taschenrechner.
+- Dies gilt auch für Analogsignal-, Pt-, P+F-, Einheiten-, Spannungsfall- und Rohwertberechnungen.
+- Einzelne Rechner erhalten keine abweichenden Sensor-, Geräte-, Kabel- oder Hersteller-Hauptmotive.
 
-3. FARBPALETTE
+B. WISSENSDATENBANKEN UND INTERNE NACHSCHLAGEWERKE
+- Hauptmotiv immer: aufgeschlagenes Buch.
+- Wissensdatenbank und alle Wissensbeiträge: Buch mit Bereichsfeld PCT.
+- Einheitendatenbank: Buch mit Bereichsfeld PCT.
+- Werkstoffdatenbank: Buch mit Bereichsfeld PIPING.
+
+C. EXTERNE WEBSEITEN UND ONLINEDIENSTE
+- Hauptmotiv immer: WWW-Weltkugel.
+- Ein klarer Auswärtspfeil bleibt sichtbar.
+- Der aktuell eingebundene E+H Device Viewer verwendet die WWW-Weltkugel mit Bereichsfeld PCT.
+
+D. HERSTELLER-HUB DER WISSENSDATENBANK
+- Nur Herstellername oder reduzierte weiße Kurzmarke verwenden.
+- Keine zusätzliche Geräte-, Buch-, Rechner-, Weltkugel- oder sonstige Motivgrafik.
+- Das Bereichsfeld lautet PCT.
+- Aktuelle Kurzmarken: AIR TORQUE, E+H, SIEMENS, VACON und ALLG. für Sonstiges.
+- Markenkennzeichnungen dienen ausschließlich der Navigation und behaupten keine Freigabe, Zertifizierung oder Partnerschaft.
+
+E. ALLGEMEINE NAVIGATION
+- Home und Zurück erhalten einfache, kontrastreiche PNG-Piktogramme ohne Bereichsfeld.
+- Bei 20–28 CSS-px müssen Silhouette und Richtung eindeutig erkennbar bleiben.
+
+3. BEREICHSFELD
+- Das kleine farbige Textfeld im Icon kennzeichnet ausschließlich den Fachbereich, nicht Hersteller, Gerät, Funktion oder Status.
+- Aktuell aktiv: PCT und PIPING.
+- PCT wird für Prozessleittechnik, Rechner, Umrechnungen, Wissensdatenbank, Wissensbeiträge, Einheitendatenbank und die derzeitigen externen PCT-Dienste verwendet.
+- PIPING wird aktuell für die Werkstoffdatenbank verwendet.
+- CSA und EQP sind ausschließlich vorbereitete Kategorien dieser Richtlinie. Sie dürfen erst dann auf einem Icon erscheinen, wenn tatsächlich ein Ziel oder Inhalt eindeutig diesem Bereich zugeordnet und im Projekt umgesetzt ist.
+- Keine erfundenen oder vorsorglich sichtbaren CSA-/EQP-Icons anlegen.
+
+4. FORM UND LESBARKEIT
+- Zeichenfläche: 512 × 512 px, transparent.
+- Sicherheitsabstand zum Rand: mindestens 36 px; Glows und Konturen dürfen 24 px nicht unterschreiten.
+- Hauptsilhouette kompakt, frontal oder leicht isometrisch und bereits bei 56–64 px erkennbar.
+- Bereichsfeld so groß anlegen, dass PCT beziehungsweise PIPING auf dem Smartphone lesbar bleibt.
+- Keine Details verwenden, die bei 24 px zu Rauschen oder geschlossenen Flächen werden.
+
+5. SCHWARZE COMIC-KONTUREN
+- Äußere Hauptkontur: Schwarz #000000, auf dem 512er-Master typischerweise 18–28 px.
+- Innere Trennlinien: Schwarz #000000 oder Dunkel #071A29, typischerweise 12–18 px.
+- Runde Kappen und Verbindungen verwenden.
+- Konturen müssen in jeder Farbvariante sichtbar bleiben.
+
+6. FARBPALETTE
 - Hintergrund/Dunkel: #02080D, #071A29, #12384D, #173F55.
 - PCT-Cyan: #00E6F1; Lichtcyan: #77EFF8.
 - PCT-Blau: #008CFF.
 - PCT-Grün: #78FF32; dunkles Funktionsgrün: #18A865.
 - Stahl: #F7FBFF, #A9C2CF, #347996.
 - Warnfarben nur bei echter Bedeutung: Gelb #F3C64F, Rot #FF7B83.
-- Pro Icon höchstens zwei Signalhauptfarben plus Stahl/Dunkelwerte.
+- Pro Icon höchstens zwei Signalhauptfarben plus Stahl- und Dunkelwerte.
 
-4. LICHTWIRKUNG
-- Licht kommt verbindlich von links oben.
+7. LICHTWIRKUNG
+- Licht kommt von links oben.
 - Eine kurze weiße Glanzkante mit 45–60 % Deckkraft genügt.
-- Cyan-/Grün-Leuchten dürfen einen kleinen Glow besitzen; kein großflächiger Neon-Nebel.
-- Schlagschatten und Kontur müssen das Motiv vom dunklen Hintergrund trennen.
-- Verläufe verlaufen hell links oben nach dunkel rechts unten.
+- Cyan-/Grün-Leuchten nur klein und kontrolliert einsetzen.
+- Verläufe von hell links oben nach dunkel rechts unten führen.
+- Keine großflächigen Neonwolken und keine fotografischen Effekte.
 
-5. INNENABSTÄNDE
-- Sicherheitsabstand zur 192er-Zeichenfläche: mindestens 18 px, bei Glows mindestens 14 px.
-- Wichtige Teile nicht in den äußeren 12 px platzieren.
-- Herstellertext und Statusleuchten benötigen rundum mindestens 8 px Luft.
-- Das Motiv wird optisch, nicht nur mathematisch, zentriert.
-
-6. SYMBOLSTIL
-- Stil: SK-PCT-Tools-Cartoon-Tech – technisch korrekt erkennbar, bewusst vereinfacht, kräftig und leicht comicartig.
-- Ein Icon zeigt genau ein Hauptobjekt oder eine eindeutige Funktionsgruppe.
-- Reale Funktion vor Dekoration: Signalverlauf, Sensor, Datenbank, Gerät oder Pfeil muss sofort verständlich sein.
-- Keine Emojis, Cliparts, Fotos, dünnen Outline-Standardicons oder uneinheitlichen Fremdsets.
-- Text im Icon auf kurze Kennungen begrenzen, zum Beispiel Pt, S7, E+H, UNIT oder DB.
-
-7. HERSTELLERKENNZEICHNUNGEN
-- Hersteller nur kennzeichnen, wenn Ziel oder Inhalt tatsächlich herstellerspezifisch ist.
-- Kurze, sachliche Kennung verwenden; keine erfundene Herstellerfreigabe oder Zertifizierung andeuten.
-- Kennzeichnung bleibt der Geräteillustration untergeordnet und muss bei 64 px noch lesbar sein.
-- Herstellerunabhängige Inhalte tragen ALLG. oder keine Herstellerkennung.
-- Markenfarben dürfen akzentuieren, die PCT-Grundpalette und schwarzen Comic-Konturen bleiben jedoch verbindlich.
-
-8. ZUSTÄNDE
-- Normal: Cyan/Blau mit Stahl und schwarzer Kontur.
-- Hover/Fokus: höherer Kontrast und Cyan-Leuchtkante; Form und Motiv dürfen nicht springen.
-- Aktiv/Ausgewählt: PCT-Grün als eindeutiger Statusakzent.
-- Gedrückt: leicht dunkler, mechanisch eingesenkt; maximal 1 px optische Verschiebung.
-- Deaktiviert: reduzierte Sättigung und ca. 42 % Deckkraft, Kontur bleibt erkennbar.
-- Extern: Auswärtspfeil bleibt in allen Zuständen sichtbar.
-
-9. GRÖSSEN
-- Master: SVG viewBox 0 0 192 192.
-- Startseite Desktop/Tablet: Anzeige typischerweise 72–94 px.
-- Startseite Smartphone: Anzeige mindestens 56–64 px.
-- Wissenskarten: 68–104 px.
-- Navigations-/CTA-Grafik: 20–28 px; deshalb besonders wenige Details verwenden.
-- Touchziel des umgebenden Links oder Buttons: mindestens 44 × 44 CSS-px.
-- Falls PNG zwingend erforderlich ist: 192 × 192 und 512 × 512 aus demselben SVG-Master exportieren.
-
-10. DATEIFORMATE UND TRANSPARENZ
-- Primärformat: eigenständiges SVG, UTF-8, ohne Skripte, externe Fonts oder eingebettete Fremdressourcen.
-- Transparenter Hintergrund außerhalb des Motivs; keine weiße oder vollflächig undurchsichtige Zeichenfläche.
-- SVG enthält title/role, wenn es eigenständig informativ verwendet wird.
-- Im HTML ist das Bild bei bereits vorhandenem Linktext dekorativ: alt="" und aria-hidden bzw. leerer Alt-Text.
-- PNG/WebP nur als technisch notwendige Ableitung, nicht als alleinige editierbare Quelle.
-
-11. BENENNUNG
+8. BENENNUNG UND ABLAGE
 - Kleinbuchstaben und kebab-case, keine Leerzeichen, Umlaute oder Versionsnummern im Dateinamen.
-- Apps: app-<ziel>.svg, z. B. app-spannungsfall.svg.
-- Hersteller: manufacturer-<name>.svg, z. B. manufacturer-siemens.svg.
-- Allgemeine Navigation: nav-<aktion>.svg, z. B. nav-home.svg oder nav-back.svg.
+- Apps: app-<ziel>.png, zum Beispiel app-spannungsfall.png.
+- Hersteller: manufacturer-<name>.png, zum Beispiel manufacturer-siemens.png.
+- Allgemeine Navigation: nav-<aktion>.png, zum Beispiel nav-home.png oder nav-back.png.
 - Ablageort: assets/navigation-icons/.
+- Der Generator tools/generate_png_icons.py ist die reproduzierbare Quelle der aktuell ausgelieferten PNG-Dateien.
 
-12. EINBINDUNG
+9. EINBINDUNG
 - Immer relativen Projektpfad verwenden; keine extern gehosteten Icondateien.
 - Beispiel Startseite:
-  <img class="sk-nav-graphic" src="assets/navigation-icons/app-ziel.svg?v=<VERSION>" alt="" decoding="async">
-- Für Unterseiten den relativen Pfad korrekt anpassen.
-- Das Icon liegt innerhalb des klickbaren Links; niemals ein zweites, konkurrierendes Klickziel über das Motiv legen.
-- Neue Dateien in service-worker.js in CORE aufnehmen, damit sie offline verfügbar sind.
-- Bei Versionswechsel Cache-Parameter und Service-Worker-RELEASE aktualisieren.
-- Manifest-Shortcuts verwenden das passende eigenständige SVG mit type image/svg+xml und sizes any.
+  <img class="sk-nav-graphic" src="assets/navigation-icons/app-ziel.png?v=<VERSION>" alt="" decoding="async">
+- Bei bereits vorhandenem Linktext bleibt das Bild dekorativ: alt="" und gegebenenfalls aria-hidden="true".
+- Das Bild liegt innerhalb des klickbaren Links oder Buttons; keine konkurrierende Tap-Zone über das Motiv legen.
+- Jede neue PNG-Datei in service-worker.js in CORE aufnehmen.
+- Manifest-Shortcuts verwenden type image/png und sizes 512x512.
+- Bei Versionswechsel Cache-Parameter, Manifest-Version und Service-Worker-RELEASE aktualisieren.
 
-13. ABNAHME VOR EINBAU
-- Motiv bei 24, 56, 64, 94 und 192 px prüfen.
-- Transparenz, schwarze Kontur, Kontrast und Innenabstand kontrollieren.
+10. ZUSTÄNDE UND BEDIENUNG
+- Hover/Fokus werden durch die umgebende Kachel oder Schaltfläche erzeugt; die PNG-Datei springt oder verformt sich nicht.
+- Aktiv/Ausgewählt: PCT-Grün als eindeutiger Statusakzent in der Oberfläche.
+- Deaktiviert: reduzierte Sättigung/Deckkraft der umgebenden Komponente; die Kontur bleibt erkennbar.
+- Touchziel des umgebenden Links oder Buttons: mindestens 44 × 44 CSS-px.
+
+11. ABNAHME VOR EINBAU
+- PNG-Dimension 512 × 512, RGBA und echte transparente Pixel automatisiert prüfen.
+- Motiv bei 24, 56, 64, 94, 192 und 512 px prüfen.
+- Rechner = Taschenrechner; Wissen/Nachschlagewerk = Buch; extern = WWW-Weltkugel; Hersteller-Hub = nur weiße Kurzmarke.
+- Bereichsfeld auf fachliche Richtigkeit prüfen: aktuell nur PCT oder PIPING.
+- CSA und EQP dürfen ohne tatsächlichen Inhalt nicht verwendet werden.
 - Smartphone, Tablet und Desktop prüfen; Fokusrahmen und 44-px-Touchziel messen.
-- Interne Links, externe Links, Offline-Cache und fehlende Dateien automatisiert testen.
-- Neue Grafik erst übernehmen, wenn sie ohne Begleittext erkennbar und mit den bestehenden Icons visuell konsistent ist.
+- Interne Links, externe Links, Manifest, Offline-Cache und fehlende Dateien automatisiert testen.
+
+12. AKTUELLER VERBINDLICHER BESTAND
+- 10 App-/Ziel-PNGs: 6 Taschenrechner, 3 Bücher und 1 WWW-Weltkugel.
+- 5 Hersteller-PNGs: ausschließlich weiße Kurzmarke plus PCT-Bereichsfeld.
+- 2 allgemeine Navigations-PNGs: Home und Zurück.
+- Gesamt: 17 transparente PNG-Navigationsgrafiken.
