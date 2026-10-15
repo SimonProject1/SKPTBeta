@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
-"""Generate the controlled V2.6.1.2-Beta PNG navigation icon series.
+"""Generate the controlled V2.6.1.3-Beta PNG navigation icon series.
 
-Each 512 × 512 RGBA file is a complete icon tile: transparent outer canvas,
-subtle mechanical depth, a strong black rounded comic contour, a soft area
-background that starts green at the left and transitions to blue toward the
-upper right, and exactly one simple white symbol with a visible black outline.
-Favorite stars remain interactive CSS/HTML controls and are never baked in.
+The V2.6.1.2 green-left / blue-upper-right background master is preserved
+pixel-for-pixel. Only the white foreground motifs are rebuilt on one shared
+symbol grid. Favorite stars remain interactive CSS/HTML controls and are never
+baked into the PNG files.
 """
 from __future__ import annotations
 
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageDraw, ImageFont
 
 SIZE = 512
 SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-1-2-"
+PREFIX = "v2-6-1-3-"
 WHITE = (255, 255, 255, 255)
-SOFT = (238, 244, 247, 255)
 BLACK = (0, 0, 0, 255)
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_CONDENSED = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
+
+# Binding foreground grid in final 512 px coordinates.
+SYMBOL_CENTER = (256, 246)
+SYMBOL_BOX = (112, 106, 400, 386)  # 288 × 280 px, star-independent.
+SYMBOL_MAX_WIDTH = SYMBOL_BOX[2] - SYMBOL_BOX[0]
+SYMBOL_MAX_HEIGHT = SYMBOL_BOX[3] - SYMBOL_BOX[1]
+MOTIF_CONTOUR = 16                # Identical visible outer comic contour.
+DETAIL_CONTOUR = 10               # Closed internal white surfaces.
 _FRAME_MASTER: Image.Image | None = None
 
 
@@ -49,13 +55,13 @@ def font(size: int, condensed: bool = False):
 def fit_font(text: str, max_width: int, start: int, minimum: int = 18):
     for size in range(start, minimum - 1, -1):
         candidate = font(size, condensed=True)
-        if candidate.getbbox(text)[2] <= sc(max_width):
+        if candidate.getbbox(text, stroke_width=sc(MOTIF_CONTOUR))[2] <= sc(max_width):
             return candidate
     return font(minimum, condensed=True)
 
 
 def area_gradient() -> Image.Image:
-    """Muted green-left to blue-upper-right gradient without neon clipping."""
+    """V2.6.1.2 background master — do not change."""
     w = h = sc(410)
     image = Image.new("RGBA", (w, h))
     pixels = image.load()
@@ -68,7 +74,6 @@ def area_gradient() -> Image.Image:
         yn = y / max(1, h - 1)
         for x in range(w):
             xn = x / max(1, w - 1)
-            # The left edge remains green; the strongest blue is upper right.
             t = max(0.0, min(1.0, 0.76 * xn + 0.24 * (1.0 - yn)))
             for index in range(len(stops) - 1):
                 p0, c0 = stops[index]
@@ -77,32 +82,32 @@ def area_gradient() -> Image.Image:
                     f = (t - p0) / (p1 - p0)
                     rgb = tuple(round(c0[i] + (c1[i] - c0[i]) * f) for i in range(3))
                     break
-            # Gentle depth: slightly lighter above, slightly quieter below.
             lift = round(9 * (1.0 - yn) - 7 * yn)
             pixels[x, y] = tuple(max(0, min(255, v + lift)) for v in rgb) + (255,)
     return image
 
 
 def frame() -> Image.Image:
-    """Complete icon body with outer comic contour and soft depth."""
+    """Pixel-identical V2.6.1.2 tile body, contour, depth, and gradient."""
     global _FRAME_MASTER
     if _FRAME_MASTER is not None:
         return _FRAME_MASTER.copy()
     image = canvas()
     draw = ImageDraw.Draw(image)
-    # Mechanical shadow remains inside the transparent 512 px master.
     draw.rounded_rectangle(box((30, 32, 486, 488)), radius=sc(112), fill=(0, 0, 0, 150))
     draw.rounded_rectangle(box((16, 12, 470, 466)), radius=sc(112), fill=BLACK)
 
     inner_rect = box((38, 34, 448, 444))
     mask = Image.new("L", (CANVAS, CANVAS), 0)
     ImageDraw.Draw(mask).rounded_rectangle(inner_rect, radius=sc(82), fill=255)
-    gradient = area_gradient().resize((inner_rect[2] - inner_rect[0], inner_rect[3] - inner_rect[1]), Image.Resampling.BICUBIC)
+    gradient = area_gradient().resize(
+        (inner_rect[2] - inner_rect[0], inner_rect[3] - inner_rect[1]),
+        Image.Resampling.BICUBIC,
+    )
     layer = canvas()
     layer.paste(gradient, (inner_rect[0], inner_rect[1]))
     image.alpha_composite(Image.composite(layer, canvas(), mask))
 
-    # Broad translucent highlight; it is not a second frame or short accent line.
     sheen = canvas()
     sd = ImageDraw.Draw(sheen)
     sd.ellipse(box((14, -130, 390, 244)), fill=(255, 255, 255, 20))
@@ -113,89 +118,107 @@ def frame() -> Image.Image:
     return image
 
 
-def outlined_line(draw: ImageDraw.ImageDraw, coords, white_width: int, black_width: int | None = None):
-    black_width = black_width or white_width + 20
-    draw.line(points(coords), fill=BLACK, width=sc(black_width), joint="curve")
-    draw.line(points(coords), fill=WHITE, width=sc(white_width), joint="curve")
+def closed_round_rect(draw: ImageDraw.ImageDraw, rect, radius: int, contour: int = MOTIF_CONTOUR):
+    """Closed white surface with one centered, rounded black contour."""
+    draw.rounded_rectangle(box(rect), radius=sc(radius), fill=WHITE, outline=BLACK, width=sc(contour))
 
 
-def outlined_round_rect(draw: ImageDraw.ImageDraw, rect, radius: int, white_width: int, black_width: int | None = None):
-    black_width = black_width or white_width + 20
-    draw.rounded_rectangle(box(rect), radius=sc(radius), outline=BLACK, width=sc(black_width))
-    draw.rounded_rectangle(box(rect), radius=sc(radius), outline=WHITE, width=sc(white_width))
+def closed_polygon(draw: ImageDraw.ImageDraw, vertices, contour: int = MOTIF_CONTOUR):
+    """Closed white polygon with rounded line joins and one black contour."""
+    pts = points(vertices)
+    draw.polygon(pts, fill=WHITE)
+    draw.line(pts + [pts[0]], fill=BLACK, width=sc(contour), joint="curve")
 
 
 def calculator() -> Image.Image:
+    """Symmetric calculator: one display, six equal buttons, no tiny details."""
     image = frame()
     draw = ImageDraw.Draw(image)
-    outlined_round_rect(draw, (126, 90, 386, 394), 44, 22, 46)
-    outlined_round_rect(draw, (157, 124, 355, 188), 15, 14, 32)
-    outlined_line(draw, [(182, 156), (330, 156)], 12, 28)
-    centers = [(176, 245), (256, 245), (336, 245), (176, 326), (256, 326), (336, 326)]
-    for cx, cy in centers:
-        draw.rounded_rectangle(box((cx - 25, cy - 22, cx + 25, cy + 22)), radius=sc(10), fill=BLACK)
-        draw.rounded_rectangle(box((cx - 14, cy - 12, cx + 14, cy + 12)), radius=sc(6), fill=SOFT)
+    closed_round_rect(draw, (138, 106, 374, 386), 38)
+    closed_round_rect(draw, (174, 146, 338, 204), 12, DETAIL_CONTOUR)
+    for cy in (258, 326):
+        for cx in (188, 256, 324):
+            closed_round_rect(draw, (cx - 19, cy - 18, cx + 19, cy + 18), 9, DETAIL_CONTOUR)
     return image
 
 
 def book() -> Image.Image:
+    """Two closed, mirror-symmetric white pages with a clear center fold."""
     image = frame()
     draw = ImageDraw.Draw(image)
-    left = [(92, 142), (166, 110), (244, 145), (244, 390), (169, 362), (92, 390), (92, 142)]
-    right = [(420, 142), (346, 110), (268, 145), (268, 390), (343, 362), (420, 390), (420, 142)]
-    outlined_line(draw, left, 24, 50)
-    outlined_line(draw, right, 24, 50)
-    outlined_line(draw, [(256, 142), (256, 391)], 21, 45)
+    left = [(120, 144), (180, 120), (248, 148), (248, 370), (182, 344), (120, 370)]
+    right = [(392, 144), (332, 120), (264, 148), (264, 370), (330, 344), (392, 370)]
+    closed_polygon(draw, left)
+    closed_polygon(draw, right)
+    # Single rounded center fold, same visual contour family, no double outline.
+    draw.line(points([(256, 146), (256, 368)]), fill=BLACK, width=sc(MOTIF_CONTOUR), joint="curve")
+    draw.ellipse(box((248, 138, 264, 154)), fill=BLACK)
+    draw.ellipse(box((248, 360, 264, 376)), fill=BLACK)
     return image
 
 
 def globe() -> Image.Image:
+    """Symmetric globe with few grid lines and a legible closed WWW band."""
     image = frame()
     draw = ImageDraw.Draw(image)
-    sphere = box((108, 108, 404, 404))
-    draw.ellipse(sphere, outline=BLACK, width=sc(44))
-    draw.ellipse(sphere, outline=WHITE, width=sc(22))
-    for rect in ((178, 116, 334, 396), (126, 184, 386, 328)):
-        draw.ellipse(box(rect), outline=BLACK, width=sc(30))
-        draw.ellipse(box(rect), outline=WHITE, width=sc(14))
-    outlined_line(draw, [(256, 119), (256, 393)], 14, 30)
-    outlined_line(draw, [(119, 256), (393, 256)], 14, 30)
+    sphere = (118, 108, 394, 384)
+    draw.ellipse(box(sphere), fill=WHITE, outline=BLACK, width=sc(MOTIF_CONTOUR))
+    # Two meridian arcs and two latitude arcs are enough at small sizes.
+    draw.ellipse(box((196, 108, 316, 384)), outline=BLACK, width=sc(DETAIL_CONTOUR))
+    draw.ellipse(box((118, 170, 394, 322)), outline=BLACK, width=sc(DETAIL_CONTOUR))
+    # The white band closes the grid cleanly and keeps WWW readable at 64–80 px.
+    closed_round_rect(draw, (126, 216, 386, 276), 14, DETAIL_CONTOUR)
+    draw.text(
+        (sc(256), sc(246)), "WWW", font=font(39, condensed=True), fill=BLACK,
+        anchor="mm",
+    )
     return image
 
 
 def manufacturer(mark: str) -> Image.Image:
+    """One standardized closed white nameplate; black text is an inner detail."""
     image = frame()
     draw = ImageDraw.Draw(image)
+    closed_round_rect(draw, (112, 174, 400, 318), 32)
     lines = mark.split("\n")
-    start_y = 256 if len(lines) == 1 else 214
-    step = 84
-    fnt = fit_font(max(lines, key=len), 320, 88 if len(lines) == 1 else 69, 34)
-    for index, text in enumerate(lines):
-        draw.text((sc(256), sc(start_y + index * step)), text, font=fnt, fill=WHITE,
-                  stroke_width=sc(10), stroke_fill=BLACK, anchor="mm")
+    if len(lines) == 1:
+        fnt = fit_font(lines[0], 244, 86, 36)
+        draw.text(
+            (sc(SYMBOL_CENTER[0]), sc(SYMBOL_CENTER[1])), lines[0], font=fnt,
+            fill=BLACK, anchor="mm",
+        )
+    else:
+        fnt = fit_font(max(lines, key=len), 244, 49, 36)
+        for y, text in zip((220, 272), lines):
+            draw.text(
+                (sc(SYMBOL_CENTER[0]), sc(y)), text, font=fnt,
+                fill=BLACK, anchor="mm",
+            )
     return image
 
 
 def home_icon() -> Image.Image:
+    """Closed, symmetric home pictogram on the shared 288 × 280 grid."""
     image = frame()
     draw = ImageDraw.Draw(image)
-    roof = [(120, 258), (256, 126), (392, 258), (354, 296), (256, 202), (158, 296)]
-    draw.polygon(points(roof), fill=BLACK)
-    inner_roof = [(148, 255), (256, 151), (364, 255), (349, 270), (256, 183), (163, 270)]
-    draw.polygon(points(inner_roof), fill=WHITE)
-    draw.rounded_rectangle(box((169, 252, 343, 390)), radius=sc(25), fill=BLACK)
-    draw.rounded_rectangle(box((190, 273, 322, 371)), radius=sc(17), fill=WHITE)
-    draw.rounded_rectangle(box((231, 318, 281, 390)), radius=sc(9), fill=BLACK)
+    house = [
+        (112, 236), (256, 106), (400, 236), (374, 264),
+        (354, 246), (354, 386), (158, 386), (158, 246), (138, 264),
+    ]
+    closed_polygon(draw, house)
+    closed_round_rect(draw, (226, 298, 286, 386), 10, DETAIL_CONTOUR)
     return image
 
 
 def back_icon() -> Image.Image:
+    """Closed white back arrow with a single rounded black contour."""
     image = frame()
     draw = ImageDraw.Draw(image)
-    arrow = [(229, 115), (91, 256), (229, 397), (305, 322), (267, 284), (411, 284), (411, 228), (267, 228), (305, 190)]
-    draw.polygon(points(arrow), fill=BLACK)
-    inner = [(230, 151), (126, 256), (230, 361), (268, 323), (220, 273), (382, 273), (382, 239), (220, 239), (268, 189)]
-    draw.polygon(points(inner), fill=WHITE)
+    arrow = [
+        (228, 106), (112, 246), (228, 386), (270, 344),
+        (232, 304), (400, 304), (400, 188), (232, 188), (270, 148),
+    ]
+    closed_polygon(draw, arrow)
     return image
 
 
@@ -233,7 +256,10 @@ def main():
     save("manufacturer-vacon", manufacturer("VACON"))
     save("nav-back", back_icon())
     save("nav-home", home_icon())
-    print(f"Generated {len(list(OUT.glob('*.png')))} controlled icons in {OUT}")
+    print(
+        f"Generated {len(list(OUT.glob('*.png')))} controlled icons in {OUT} · "
+        f"grid={SYMBOL_BOX} · center={SYMBOL_CENTER} · contour={MOTIF_CONTOUR}px"
+    )
 
 
 if __name__ == "__main__":

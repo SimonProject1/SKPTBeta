@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.6.1.2-Beta — robuster Hersteller-Hub, sichere Beitragsnavigation, Suche und Kompaktansicht. */
+/* SK PCT Tools 2.6.1.3-Beta — robuster Hersteller-Hub, sichere Beitragsnavigation, Suche und Kompaktansicht. */
 (()=>{'use strict';
-  const RELEASE='2.6.1.2-Beta';
+  const RELEASE='2.6.1.3-Beta';
   const COMPACT_KEY='skKnowledgeCompactCardsV1';
   const read=(key,fallback)=>{try{const value=JSON.parse(localStorage.getItem(key));return value??fallback}catch{return fallback}};
   const write=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};

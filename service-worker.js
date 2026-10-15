@@ -1,34 +1,34 @@
-const RELEASE='2.6.1.2-Beta';
+const RELEASE='2.6.1.3-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
-const CACHE_EPOCH='v2-6-1-2-icons-r1';
+const CACHE_EPOCH='v2-6-1-3-icons-r1';
 const CORE_CACHE=`${CACHE_PREFIX}core-${CACHE_EPOCH}`;
 const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-${CACHE_EPOCH}`;
 const CORE=[
   './',
   './analogsignal/',
   './assets/analogsignal-rechner.js',
-  './assets/app-v2-6-1-2.js',
-  './assets/pct-home-v2-6-1-2.css',
-  './assets/pct-home-v2-6-1-2.js',
-  './assets/navigation-icons/v2-6-1-2-app-analogsignal.png',
-  './assets/navigation-icons/v2-6-1-2-app-eh-viewer.png',
-  './assets/navigation-icons/v2-6-1-2-app-einheitendatenbank.png',
-  './assets/navigation-icons/v2-6-1-2-app-einheitenrechner.png',
-  './assets/navigation-icons/v2-6-1-2-app-pf-rechner.png',
-  './assets/navigation-icons/v2-6-1-2-app-pt-rechner.png',
-  './assets/navigation-icons/v2-6-1-2-app-siemens-rohwert.png',
-  './assets/navigation-icons/v2-6-1-2-app-spannungsfall.png',
-  './assets/navigation-icons/v2-6-1-2-app-werkstoffdatenbank.png',
-  './assets/navigation-icons/v2-6-1-2-app-wissensdatenbank.png',
-  './assets/navigation-icons/v2-6-1-2-manufacturer-air-torque.png',
-  './assets/navigation-icons/v2-6-1-2-manufacturer-endress-hauser.png',
-  './assets/navigation-icons/v2-6-1-2-manufacturer-siemens.png',
-  './assets/navigation-icons/v2-6-1-2-manufacturer-sonstiges.png',
-  './assets/navigation-icons/v2-6-1-2-manufacturer-vacon.png',
-  './assets/navigation-icons/v2-6-1-2-nav-back.png',
-  './assets/navigation-icons/v2-6-1-2-nav-home.png',
-  './assets/pct-controls-v2-6-1-2.css',
-  './assets/pct-controls-v2-6-1-2.js',
+  './assets/app-v2-6-1-3.js',
+  './assets/pct-home-v2-6-1-3.css',
+  './assets/pct-home-v2-6-1-3.js',
+  './assets/navigation-icons/v2-6-1-3-app-analogsignal.png',
+  './assets/navigation-icons/v2-6-1-3-app-eh-viewer.png',
+  './assets/navigation-icons/v2-6-1-3-app-einheitendatenbank.png',
+  './assets/navigation-icons/v2-6-1-3-app-einheitenrechner.png',
+  './assets/navigation-icons/v2-6-1-3-app-pf-rechner.png',
+  './assets/navigation-icons/v2-6-1-3-app-pt-rechner.png',
+  './assets/navigation-icons/v2-6-1-3-app-siemens-rohwert.png',
+  './assets/navigation-icons/v2-6-1-3-app-spannungsfall.png',
+  './assets/navigation-icons/v2-6-1-3-app-werkstoffdatenbank.png',
+  './assets/navigation-icons/v2-6-1-3-app-wissensdatenbank.png',
+  './assets/navigation-icons/v2-6-1-3-manufacturer-air-torque.png',
+  './assets/navigation-icons/v2-6-1-3-manufacturer-endress-hauser.png',
+  './assets/navigation-icons/v2-6-1-3-manufacturer-siemens.png',
+  './assets/navigation-icons/v2-6-1-3-manufacturer-sonstiges.png',
+  './assets/navigation-icons/v2-6-1-3-manufacturer-vacon.png',
+  './assets/navigation-icons/v2-6-1-3-nav-back.png',
+  './assets/navigation-icons/v2-6-1-3-nav-home.png',
+  './assets/pct-controls-v2-6-1-3.css',
+  './assets/pct-controls-v2-6-1-3.js',
   './assets/pct-controls.svg',
   './assets/pct-frame.css',
   './assets/apple-touch-icon.png',
@@ -52,7 +52,7 @@ const CORE=[
   './assets/pt-rechner.js',
   './assets/rechner-unified.css',
   './assets/responsive.css',
-  './assets/search-index-v2-6-1-2.json',
+  './assets/search-index-v2-6-1-3.json',
   './assets/siemens-analogwert-rechner.css',
   './assets/siemens-analogwert-rechner.js',
   './assets/unit-database-page.js',
@@ -61,7 +61,7 @@ const CORE=[
   './assets/units.json',
   './einheitendatenbank/',
   './einheitenrechner/',
-  './manifest-v2-6-1-2.webmanifest',
+  './manifest-v2-6-1-3.webmanifest',
   './pf-rechner/',
   './pt-rechner/',
   './siemens-analogwert-rechner/',
@@ -141,14 +141,14 @@ function canonicalAsset(request){
 }
 function isReleaseCritical(request){
   const path=new URL(request.url).pathname;
-  return path.includes('/assets/navigation-icons/v2-6-1-2-')||
-    path.endsWith('/assets/app-v2-6-1-2.js')||
-    path.endsWith('/assets/pct-controls-v2-6-1-2.js')||
-    path.endsWith('/assets/pct-controls-v2-6-1-2.css')||
-    path.endsWith('/assets/pct-home-v2-6-1-2.js')||
-    path.endsWith('/assets/pct-home-v2-6-1-2.css')||
-    path.endsWith('/assets/search-index-v2-6-1-2.json')||
-    path.endsWith('/manifest-v2-6-1-2.webmanifest');
+  return path.includes('/assets/navigation-icons/v2-6-1-3-')||
+    path.endsWith('/assets/app-v2-6-1-3.js')||
+    path.endsWith('/assets/pct-controls-v2-6-1-3.js')||
+    path.endsWith('/assets/pct-controls-v2-6-1-3.css')||
+    path.endsWith('/assets/pct-home-v2-6-1-3.js')||
+    path.endsWith('/assets/pct-home-v2-6-1-3.css')||
+    path.endsWith('/assets/search-index-v2-6-1-3.json')||
+    path.endsWith('/manifest-v2-6-1-3.webmanifest');
 }
 async function optionalDocument(request){
   const cache=await caches.open(DOCUMENT_CACHE);

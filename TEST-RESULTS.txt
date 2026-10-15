@@ -1,41 +1,63 @@
-SK PCT Tools 2.6.1.2-Beta – Prüfergebnis
+SK PCT Tools 2.6.1.3-Beta – Prüfergebnis
 Datum: 15.10.2026
 Status: PASS
 
-AUSGANGSBASIS
-- Vollständiges Paket SK-PCT-Tools-V2.6.1.1-Beta entpackt und als direkte Basis verwendet.
-- Sämtliche Inhalte und Funktionen übernommen; Änderungen auf Icon-Serie, zugehörige Einbindung, Versions-/Cachedateien, Dokumentation und Tests begrenzt.
+AUSGANGSBASIS UND ÄNDERUNGSRAHMEN
+- Vollständiges Paket SK-PCT-Tools-V2.6.1.2-Beta entpackt und als direkte Basis verwendet.
+- 60 Nicht-Icon-Projektdateien nach Normalisierung der Versionsbezeichner byte-/inhaltsgleich zur Ausgangsbasis.
+- Keine unbeabsichtigte Änderung an Rechnerlogik, Datenbanken, Wissensbeiträgen oder Navigation festgestellt.
+- Änderungen auf neue weiße PNG-Hauptsymbole, notwendige Versions-/Cacheverweise, Dokumentation und erweiterte Prüfungen begrenzt.
+
+ICON-INVENTAR UND HINTERGRUND
+- PASS: genau 17 PNG-Dateien unter assets/navigation-icons/.
+- PASS: ausschließlich Präfix v2-6-1-3-; keine alte oder unversionierte Navigationsgrafik.
+- PASS: alle Dateien 512 × 512 px, RGBA, echte Transparenz und deckende Iconfläche.
+- PASS: identische Alpha-Außenmaße, Außenform, Rundung und Schattenlage.
+- PASS: V2.6.1.2-Hintergrundmaster unverändert; geschützte Randzone bei allen 17 Dateien SHA-256 63f387a45785714c19b416ffbabe702908b9b873e4918f4cd846a3bd638aad10.
+- PASS: linke Hintergrundprobe grünbetont, obere rechte Hintergrundprobe blaubetont.
+
+SYMBOLRASTER UND MOTIVE
+- PASS: gemeinsames Raster x=112…400 / y=106…386, maximal 288 × 280 px.
+- PASS: Zielmittelpunkt (256, 246); maximale gemessene Weißflächen-Abweichung 3 px.
+- PASS: gemessene geschlossene Weißflächen 21.922…45.429 Pixel und damit vollständig im Zielbereich 20.000…55.000.
+- PASS: äußere Comic-Kontur 16 px, geschlossene Innendetailkontur 10 px.
+- PASS: keine versetzten Motivschatten, Doppelkonturen, Altflächen oder zusätzlichen Motivfarben.
+- PASS: sechs Rechner-PNGs pixelidentisch; symmetrischer Körper, ein Display, sechs gleich große Tasten.
+- PASS: drei Buch-PNGs pixelidentisch; zwei spiegelgleiche geschlossene Seiten und klare Mittelfalte.
+- PASS: WWW-Globus symmetrisch, wenige Rasterlinien, geschlossenes weißes Mittelband; WWW bei kleinster Startseitendarstellung erkennbar.
+- PASS: fünf Herstellerfelder besitzen identische Außenmaße, Mittelpunkt und Kontur.
+- PASS: Home und Zurück verwenden geschlossene weiße Motive auf demselben Raster.
 
 STATISCHE VALIDIERUNG
 - PASS: 10 Apps, 6 Rechner, 14 interne Unterseiten, 5 Wissensbeiträge.
 - PASS: 16 HTML-Seiten, lokale Referenzen, genau eine H1, Referrer-Schutz und einheitliche Version.
-- PASS: genau 17 PNG-Dateien in assets/navigation-icons/.
-- PASS: ausschließlich Präfix v2-6-1-2-; keine v2-6-1-1- oder unversionierten Navigationsgrafiken.
-- PASS: alle 17 Dateien 512 × 512 px, RGBA, echte Außen-Transparenz und deckende Iconfläche.
-- PASS: identische Alpha-Außenmaße, Rundung, Kontur und Schattenlage.
-- PASS: linke Hintergrundprobe grünbetont, obere rechte Hintergrundprobe blaubetont.
-- PASS: schwarze Comic-Außenkontur sowie weiße, schwarz konturierte Hauptmotive vorhanden.
-- PASS: sechs Rechner-PNGs pixelidentisch; drei Buch-PNGs pixelidentisch.
-- PASS: keine inneren CSS-Rahmenlinien, Kategoriefelder oder Navigations-SVG-Fallbacks.
-- PASS: Manifest, Suchindex, Service Worker, Cache-Epoch und Offline-Kerncache auf V2.6.1.2.
+- PASS: Manifest, Suchindex, HTML, CSS, JavaScript, JSON, Service Worker und Offline-Kerncache auf V2.6.1.3.
+- PASS: keine operativen v2-6-1-2-Altverweise, Navigations-SVGs oder dynamischen PNG-Fallbacks.
+- PASS: CACHE_EPOCH v2-6-1-3-icons-r1; alte sk-pct-tools-Caches werden bei Aktivierung entfernt.
 - PASS: SHA256SUMS.txt deckt alle Projektdateien außer sich selbst ab.
 
-BROWSER- UND FUNKTIONSPRÜFUNG
+BROWSER-, FUNKTIONS- UND OFFLINEPRÜFUNG
 - PASS: 691 automatisierte Browserprüfungen.
 - PASS: 15 Seiten × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000.
 - PASS: Reflow 320 × 900 ohne horizontalen Dokument- oder Bedienüberlauf.
-- PASS: Startseite, Wissensdatenbank, Hersteller-Hub und Navigation mit vollständiger neuer PNG-Serie.
-- PASS: 44 × 44 px Favoriten-Touchfläche, sichtbarer 22-px-Kreis, einheitliche Position oben rechts.
-- PASS: inaktiver Stern hell ohne grünes Leuchten; aktiver Stern grün mit dezentem Leuchtring.
-- PASS: sechs Rechnerreferenzen und Vorzeichen-Taps auf Smartphone und Tablet.
-- PASS: Einheitendatenbank, Werkstoffvergleich und fünf Wissensbeiträge.
+- PASS: 6 Rechnerreferenzen, Vorzeichen-Taps auf Smartphone und Tablet, Datenbank- und Wissensfunktionen.
 - PASS: Service-Worker-Aktualisierung, Entfernung simulierter Alt-Caches und Offline-Aufrufe.
+- PASS: aktive und inaktive Favoritenzustände.
 
-VISUELLE RESPONSIVE KONTROLLE
-- Startseite und Wissensdatenbank bei Smartphone, Tablet und Desktop als Screenshots kontrolliert.
-- Kritische Navigations-PNGs werden synchron dekodiert, damit die vollständige Serie bereits beim ersten gerenderten Zustand sichtbar ist.
-- Außenmaße, Titelabstände, Sternpositionen, Hersteller-Kurzmarken, Home und Zurück sind konsistent.
+VISUELLE NEBENEINANDERKONTROLLE
+- PASS: vollständige Startseitenserie als Raster auf Smartphone, Tablet und Desktop verglichen.
+- PASS: 3 / 4 / 6 Spalten in den Zielprofilen; alle Iconrahmen innerhalb eines Profils exakt gleich groß.
+- PASS: Icongrößen 62 × 62 px / 72 × 72 px / 94 × 94 px.
+- PASS: Favoriten-Touchfläche 44 × 44 px, sichtbarer Kreis 22 × 22 px.
+- PASS: Sternposition in jedem Profil identisch; maximale gemessene Abweichung 0,016 CSS-px.
+- PASS: Hauptsymbole bleiben bei aktivem und inaktivem Stern unverändert zentriert.
+- PASS: Konturstärke, geschlossene Weißflächen, Größenverhältnis, WWW-Band und Herstellerfelder visuell konsistent.
 
 FINALE ZIP-ABNAHME
-- Nach der ZIP-Erstellung wird das Archiv in ein leeres Verzeichnis entpackt.
-- Statische Validierung, Browserregression, Icon-Inventar, Altpfadprüfung und SHA-256 werden gegen den entpackten Inhalt erneut ausgeführt.
+- PASS: Archiv reproduzierbar mit normalisierten Einträgen erstellt.
+- PASS: Archiv in ein leeres Verzeichnis entpackt; oberster Ordner und vollständige Projektstruktur korrekt.
+- PASS: entpackter Bestand enthält genau 17 Navigations-PNGs und ausschließlich die Serie v2-6-1-3-.
+- PASS: keine operativen Altverweise oder ersetzten Symbolgrafiken im entpackten Paket.
+- PASS: interne SHA256SUMS.txt vollständig und korrekt.
+- PASS: statische Validierung gegen den entpackten Bestand erneut bestanden.
+- PASS: 691 Browser-, Responsive-, Funktions-, Favoriten-, Service-Worker- und Offlineprüfungen gegen den entpackten Bestand erneut bestanden.

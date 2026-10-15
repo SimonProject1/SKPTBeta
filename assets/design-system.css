@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.6.1.2-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
+/* SK PCT Tools 2.6.1.3-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
    Diese letzte, kleine Kaskadenebene ersetzt verteilte Seitenkorrekturen. */
 :root{
   --sk-color-bg:#02080d;
@@ -356,7 +356,7 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
   body[data-knowledge-standard] .kb-meta-card strong{overflow-wrap:normal;word-break:normal;hyphens:auto}
 }
 
-/* === V2.6.1.2-Beta: verbindlicher Header-/Footer-Standard ==================
+/* === V2.6.1.3-Beta: verbindlicher Header-/Footer-Standard ==================
    Dieser Block ist absichtlich die letzte Kaskadenebene. Startseite und alle
    internen Seiten nutzen damit dieselbe Rahmenfläche, dieselbe Kopfgeometrie
    und denselben randlosen Footer. */
@@ -551,7 +551,7 @@ body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{
 }
 
 
-/* === V2.6.1.2-Beta: vollständige PNG-Icon-Komponente ======================
+/* === V2.6.1.3-Beta: vollständige PNG-Icon-Komponente ======================
    Jedes PNG trägt selbst den kräftigen schwarzen Comic-Außenrahmen, die
    dezente Tiefe, den weichen flächigen Grün→Blau-Verlauf und genau ein
    weißes, schwarz konturiertes Hauptmotiv. Es gibt keine innere Rahmenlinie. */
@@ -638,7 +638,7 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-con
 @media(max-width:430px){body[data-sk-home="ios"] .pct-home-grid .sk-home-app{--sk-home-icon-box:62px}}
 
 
-/* === V2.6.1.2-Beta: identischer Favoritenstern an Wissens-App-Icons ======== */
+/* === V2.6.1.3-Beta: identischer Favoritenstern an Wissens-App-Icons ======== */
 body[data-sk-page="knowledge"] .knowledge-entry{--sk-knowledge-icon-box:clamp(82px,9vw,104px)}
 body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control{
   top:-6px;

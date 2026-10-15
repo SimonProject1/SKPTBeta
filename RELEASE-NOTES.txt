@@ -1,34 +1,47 @@
-SK PCT Tools 2.6.1.2-Beta
+SK PCT Tools 2.6.1.3-Beta
 Release-Datum: 15.10.2026
 Status: Vollständige kontrollierte Beta
-Direkte Ausgangsbasis: SK-PCT-Tools-V2.6.1.1-Beta
+Direkte Ausgangsbasis: SK-PCT-Tools-V2.6.1.2-Beta
 
-ICON-ÜBERARBEITUNG
-1. Alle 17 aktiven Navigations-PNGs als vollständige Iconkacheln neu erzeugt.
-2. Bisherige kurze blau-grüne Innenlinien und Rahmenbögen vollständig entfernt.
-3. Einheitlichen weichen Flächenverlauf in jedes PNG integriert: links Grün, harmonischer Türkisübergang, nach oben rechts Blau.
-4. Sättigung kontrolliert und ohne Neonüberladung abgestimmt.
-5. Kräftige schwarze äußere Comic-Kontur, identische Maße, Rundungen, Perspektive und dezente Tiefe beibehalten.
-6. Weiße Rechner-, Buch-/Nachschlagewerk-, WWW-, Hersteller- und Navigationsmotive mit deutlich sichtbarer schwarzer Comic-Umrandung vereinheitlicht.
-7. Kategoriefelder, Kleinstbeschriftungen und zusätzliche Motivfarben weiterhin ausgeschlossen.
-8. Hersteller-Kurzmarken und Home-/Zurück-Icons nach demselben Hintergrund- und Konturprinzip überarbeitet.
-9. Favoritenstern unverändert als eigenständige 44-px-Touchfläche oben rechts: inaktiv weiß/hellgrau, aktiv grün mit dezentem Leuchtring.
+ÄNDERUNGSRAHMEN
+- Sämtliche Inhalte und Funktionen der V2.6.1.2 wurden erhalten.
+- Der neue flächige Grün–Türkis–Blau-Hintergrundmaster der V2.6.1.2 wurde unverändert übernommen.
+- Fachliche Designänderungen betreffen ausschließlich die weißen Hauptsymbole der vollständigen 17-teiligen PNG-Navigationsserie.
 
-TECHNISCHE KONTROLLE
-- Ersetzte v2-6-1-1-Navigationsgrafiken physisch entfernt; im Paket verbleiben genau 17 Dateien mit Präfix v2-6-1-2-.
-- HTML, JavaScript-Whitelist, Manifest, Suchindex, CSS, Service Worker, Offline-Kerncache, Tests und Dokumentation auf V2.6.1.2 umgestellt.
-- Geänderte Kernressourcen und Manifest mit eindeutigen V2.6.1.2-Dateinamen versehen.
-- Service-Worker-CACHE_EPOCH v2-6-1-2-icons-r1; alte sk-pct-tools-Caches werden bei Aktivierung gelöscht.
-- Assets verwenden kein ignoreSearch:true; kritische Release-Ressourcen werden network-first mit exakt benanntem Offline-Fallback geladen.
-- ICON-DESIGNRICHTLINIE.txt und reproduzierbarer PNG-Generator aktualisiert.
-- SHA256SUMS.txt nach Abschluss über den vollständigen Projektbestand neu erzeugt.
+SYMBOLRASTER UND KONTUR
+1. Gemeinsames Symbolraster x=112…400 / y=106…386 eingeführt.
+2. Einheitlicher optischer Mittelpunkt (256, 246) mit maximal 3 px Prüftoleranz.
+3. Gemeinsame maximale Symbolabmessung 288 × 280 px und einheitliche sternunabhängige Zentrierung.
+4. Einheitliche 16-px-Comic-Außenkontur; geschlossene Innendetails mit 10 px.
+5. Alle weißen Motivflächen geschlossen und rein weiß; keine versetzten Schatten, Doppelkonturen oder wechselnden schwarzen Flächen.
+6. Vergleichbare visuelle Masse über einen verbindlichen Weißflächen-Zielbereich von 20.000…55.000 Pixeln abgesichert.
+
+ÜBERARBEITETE MOTIVE
+- Rechner: symmetrischer weißer Grundkörper, klares Display und sechs gleich große unbeschriftete Tasten; sechs Dateien pixelidentisch.
+- Buch: zwei spiegelgleiche geschlossene Seiten, klare einzelne Mittelfalte; drei Dateien pixelidentisch.
+- WWW: symmetrischer Kreis mit wenigen Längen-/Breitengraden und geschlossenem weißem WWW-Band für kleine Darstellungen.
+- Hersteller: fünf identische geschlossene weiße Namensfelder mit klaren schwarzen Kurzmarken.
+- Navigation: Home und Zurück als geschlossene weiße Piktogramme auf demselben Raster.
+- Favoritenstern unverändert als eigener Button exakt oben rechts; Zentrierung der PNG-Hauptsymbole bleibt davon unabhängig.
+
+TECHNISCHE AKTUALISIERUNG
+- Ersetzte v2-6-1-2-Navigationsgrafiken physisch entfernt; genau 17 Dateien mit Präfix v2-6-1-3- verbleiben.
+- HTML, CSS, JavaScript, JSON, Navigationswhitelists, Manifest, Suchindex, Service Worker, Offline-Kerncache, Tests und Dokumentation auf V2.6.1.3 umgestellt.
+- Eindeutige V2.6.1.3-Dateinamen beziehungsweise Query-Cache-Busting auf allen Release-Ressourcen.
+- Service-Worker-CACHE_EPOCH v2-6-1-3-icons-r1; ältere sk-pct-tools-Caches werden entfernt.
+- Reproduzierbarer PNG-Generator und verbindliche ICON-DESIGNRICHTLINIE.txt aktualisiert.
+- Hintergrund-Randzonenhash gegen V2.6.1.2 abgesichert.
+- SHA256SUMS.txt nach Abschluss über alle Projektdateien außer sich selbst neu erzeugt.
 
 ERHALTEN
-- Sämtliche Inhalte, Rechnerlogiken, Datenbanken, Wissensbeiträge, Such-/Filter-/Sortierfunktionen, Favoriten und lokale App-Reihenfolge.
-- 10 Startseitenziele, fünf Herstellerbereiche, fünf Wissensbeiträge und alle Unterseiten.
+- 10 Startseitenziele, sechs Rechner und deren Logik.
+- Einheiten- und Werkstoffdatenbank, Hersteller-Hub und fünf Wissensbeiträge.
+- Suche, Filter, Sortierung, Favoriten, aktive/inaktive Favoritenzustände und eigene App-Reihenfolge.
+- Interne und externe Navigation, Manifest-/PWA-Funktion und Offline-Betrieb.
 
 ABNAHME
-- Statische Pfad-, Struktur-, Bild-, Versions-, Cache- und Prüfsummenprüfung.
-- Browserprüfung bei 390 × 844, 320 × 900, 820 × 1180 und 1440 × 1000.
-- Startseite, Wissensdatenbank, Hersteller-Hub, Navigation, Favoriten, Online/Offline und Service-Worker-Neuaufbau.
-- Finales ZIP wird nach Erstellung in ein leeres Verzeichnis entpackt und erneut vollständig geprüft.
+- Statische Struktur-, Pfad-, Versions-, Bild-, Raster-, Mittelpunkt-, Weißflächen-, Cache- und Prüfsummenprüfung.
+- Browserprüfung auf Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000.
+- Reflow-Prüfung 320 × 900.
+- Nebeneinandervergleich der vollständigen Serie mit Fokus auf Zentrierung, Konturstärke, geschlossene Weißflächen, Größenverhältnis, WWW-Lesbarkeit und Sternposition.
+- Finale ZIP-Datei in ein leeres Verzeichnis entpacken und sämtliche Prüfungen erneut ausführen.

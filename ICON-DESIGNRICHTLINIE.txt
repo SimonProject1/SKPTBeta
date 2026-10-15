@@ -1,113 +1,121 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.1.2-Beta · 15.10.2026
+Stand: V2.6.1.3-Beta · 15.10.2026
 
 ZWECK UND VERBINDLICHKEIT
-Freigabestatus: verbindlicher Auslieferungsstandard der V2.6.1.2-Beta.
-Diese Richtlinie ersetzt die V2.6.1.1-Serie mit dunkler CSS-Grundfläche und kurzen blau-grünen inneren Rahmenlinien vollständig.
+Freigabestatus: verbindlicher Auslieferungsstandard der V2.6.1.3-Beta.
+Diese Fassung übernimmt den flächigen Hintergrundmaster der V2.6.1.2-Beta unverändert und ersetzt ausschließlich deren uneinheitliche weiße Hauptsymbole. Abweichende Symbolgrößen, optische Mittelpunkte, Konturstärken, Schatten oder Altgrafiken sind nicht zulässig.
 
 VERBINDLICHE LEITREGEL
-Ein Icon ist ein vollständiges PNG-Icon mit transparenter Außenfläche, identischer abgerundeter Grundform, kräftiger schwarzer Comic-Außenkontur, dezentem mechanischem Schatten, einem weichen flächigen Grün-Blau-Verlauf und genau einem einfachen weißen, schwarz konturierten Hauptmotiv. Der sichtbare Titel steht ausschließlich unter dem Icon. Der Favoritenstern bleibt ein eigenständiger interaktiver Button und wird nicht in das PNG eingebrannt.
+Jedes Navigationsicon ist ein vollständiges PNG mit transparenter Außenfläche, identischer abgerundeter Grundform, kräftiger schwarzer Rahmenkontur, dezentem mechanischem Schatten und dem unveränderten weichen Flächenverlauf von Grün links über Türkis nach Blau oben rechts. Darauf liegt genau ein vereinfachtes, geschlossenes weißes Hauptsymbol mit einer einzelnen, rund geführten schwarzen Comic-Außenkontur. Der Favoritenstern ist ein eigenständiger interaktiver Button und niemals Bestandteil des PNGs.
 
-1. KATEGORIEFELDER SIND VERBOTEN
-- RECHNER, WISSEN, MATERIAL und EXTERN dürfen weder in PNGs noch als sichtbare HTML-, CSS- oder JavaScript-Überlagerung erscheinen.
-- PCT, PIPING und andere Bereichsplaketten sind in Navigationsicons verboten.
-- Kleinstbeschriftungen, Zahlenanzeigen, Gerätedetails, Leiterbahnen und dekorative Mini-Elemente sind verboten.
-- Unsichtbare Metadaten wie .sk-card-category bleiben ausschließlich für Suche, Filter, Sortierung und Barrierefreiheit erhalten.
+1. UNVERÄNDERTER HINTERGRUNDMASTER
+- Der V2.6.1.2-Flächenverlauf bleibt pixelgleich erhalten: Grün links, ruhiges Türkis in der Mitte und Blau oben rechts.
+- Außenform, Rundung, schwarze Rahmenkontur, Schattenlage, Transparenz und dezente Lichtflächen bleiben unverändert.
+- Keine zweite CSS-Rahmenebene, keine kurzen Akzentlinien, keine Farbplaketten, kein Neonleuchten.
+- Automatische Referenzprüfung: SHA-256 der geschützten Hintergrund-Randzone = 63f387a45785714c19b416ffbabe702908b9b873e4918f4cd846a3bd638aad10.
 
-2. FLÄCHIGER GRÜN-BLAU-VERLAUF
-- Der Hintergrund liegt innerhalb jedes PNG-Icons und füllt die gesamte innere Iconfläche harmonisch aus.
-- Der Verlauf beginnt links grün, geht weich über einen ruhigen Türkisbereich und endet nach oben rechts blau.
-- Der Übergang ist deutlich sichtbar, hochwertig und weich; keine harten Farbkanten, kein Neonleuchten und keine Übersteuerung.
-- Alle App-, Wissens-, Hersteller- und Navigationsicons verwenden exakt denselben Verlaufsmaster.
-- Kurze blau-grüne Linien, Rahmenbögen, Innenrahmen und CSS-generierte Verlaufsleisten sind unzulässig.
+2. VERBINDLICHES SYMBOLRASTER
+- Masterformat: 512 × 512 px, RGBA.
+- Gemeinsamer Symbolbereich: x = 112…400 px, y = 106…386 px.
+- Maximale Symbolbreite: 288 px; maximale Symbolhöhe: 280 px.
+- Gemeinsamer optischer Mittelpunkt: x = 256 px, y = 246 px.
+- Zulässige Abweichung des ermittelten weißen Motivmittelpunkts: höchstens 3 px je Achse.
+- Die schwarze Außenkontur darf durch ihre mittige Strichlage bis zu 8 px über das Symbolraster hinausreichen; Motivteile außerhalb dieses Konturbereichs sind unzulässig.
+- Alle Motive verwenden denselben Mittelpunkt unabhängig von Form, Titel, Kategorie oder Favoritenstatus.
+- Der Bereich oben rechts wird nicht für den Stern freigehalten. Dadurch bleibt das Hauptsymbol auch bei aktivem oder inaktivem Favoriten geometrisch unverändert zentriert.
 
-3. CARTOON-AUSSENFORM UND TIEFE
-- Alle 17 Icons verwenden identische Außenmaße, Rundungen, Perspektive und Schattenlage.
-- Außen liegt eine kräftige, vollständig geschlossene schwarze Comic-Kontur.
-- Die Tiefe bleibt dezent: ein kompakter dunkler Schatten ohne zusätzliche Motivfarbe.
-- Die umgebenden CSS-Komponenten sind transparent; Rahmen, Verlauf und Tiefe stammen aus dem PNG-Master.
+3. INNENABSTAND, MASSE UND GRUNDLINIE
+- Jedes Motiv bleibt vollständig innerhalb des gemeinsamen Symbolrasters einschließlich definierter Konturzugabe.
+- Freie Flächen werden symmetrisch verteilt; einseitiges Verschieben zur Sternposition ist verboten.
+- Funktionssymbole dürfen das Raster formbedingt nicht vollständig ausfüllen, müssen aber eine vergleichbare optische Masse besitzen.
+- Zielbereich der geschlossenen weißen Motivfläche: 20.000 bis 55.000 deckende Pixel im 512-px-Master. Dies verhindert zu dünne beziehungsweise übergroße Symbole.
+- Einzeilige Herstellerbezeichnungen verwenden die gemeinsame horizontale Achse y = 246 px. Zweizeilige Marken werden symmetrisch um diese Achse gesetzt.
+- Rechner, Buch, Weltkugel, Herstellerfeld, Home und Zurück werden nach demselben Mittelpunkt beurteilt; geometrische Mittigkeit allein reicht bei asymmetrischen Formen nicht aus.
 
-4. HAUPTMOTIVE
+4. EINHEITLICHE COMIC-KONTUR
+- Verbindliche äußere Motivkontur: 16 px im 512-px-Master.
+- Konturfarbe: reines Schwarz; Motivfläche: reines Weiß.
+- Außenkonturen sind geschlossen und mit runden Ecken, Rundungen beziehungsweise runden Linienverbindungen zu führen.
+- Interne geschlossene Details dürfen 10 px Konturstärke verwenden, wenn 16 px die Lesbarkeit kleiner Elemente zerstören würde.
+- Keine versetzten Drop-Shadows, keine Doppelkonturen, keine nebeneinanderliegenden konkurrierenden Außenlinien und keine ungleichmäßigen schwarzen Schattenflächen.
+- Schwarze Flächen sind nur als gleichmäßige Kontur oder klar definiertes Innendetail erlaubt.
+- Weiße Innenflächen müssen sauber geschlossen sein; der Grün-Blau-Hintergrund darf nicht unbeabsichtigt durch eine weiße Symbolfläche scheinen.
+
+5. VERBINDLICHE HAUPTSYMBOLE
 A. Rechner und Umrechnungen
-- Einfaches weißes Taschenrechnersymbol mit großem Displayfeld und sechs großen, unbeschrifteten Tasten.
-- Deutlich sichtbare schwarze Comic-Umrandung um alle wesentlichen weißen Flächen.
-- Keine Zahlen, Kleinstzeichen, Sensoren, Kabel, Herstellerkennzeichen oder farbigen Tasten.
-- Alle sechs Rechnerdateien werden aus demselben Master erzeugt und sind pixelidentisch.
+- Symmetrischer weißer Rechnerkörper mit einem klaren Display und genau sechs gleich großen Tasten in einem 3×2-Raster.
+- Keine Zahlen, Rechenzeichen, Kabel, Sensoren, Herstellerkennzeichen oder farbigen Tasten.
+- Alle sechs Rechnerdateien entstehen aus demselben Master und sind pixelidentisch.
 
 B. Wissen, Einheiten und Werkstoffe
-- Einfaches weißes Symbol eines aufgeschlagenen Buchs beziehungsweise Nachschlagewerks.
-- Deutlich sichtbare schwarze Comic-Umrandung.
-- Keine farbigen Seiten, Texte, Seitenzeilen oder Fachbereichsfelder.
-- Einheitendatenbank, Werkstoffdatenbank und Wissensdatenbank verwenden denselben Master.
+- Aufgeschlagenes Buch mit zwei spiegelgleichen, vollständig weißen Seiten.
+- Klare einzelne Mittelfalte, gleichmäßige Außenkontur, keine Seitenzeilen, Texte oder farbigen Teilflächen.
+- Einheitendatenbank, Werkstoffdatenbank und Wissensdatenbank verwenden denselben pixelidentischen Master.
 
 C. Externe WWW-Ziele
-- Einfache weiße Weltkugel mit wenigen Längen- und Breitengraden.
-- Schwarze Comic-Umrandung; keine farbige Kugel und keine EXTERN-Plakette.
+- Symmetrischer weißer Kreis mit einer Außenkontur, wenigen klaren Längen- und Breitengraden und ohne dekorative Mini-Linien.
+- Ein geschlossenes weißes Mittelband sichert die Erkennbarkeit bei kleinen Darstellungen.
+- WWW wird nur verwendet, wenn es im Band sauber lesbar bleibt; andernfalls bleibt das weiße Band ohne Kleinsttext bestehen.
 
 D. Hersteller-Hub
-- Großer klarer weißer Herstellername beziehungsweise weiße Kurzmarke mit schwarzer Comic-Umrandung.
-- Der gemeinsame flächige Verlauf und die identische Außenform bleiben vollständig erhalten.
-- Keine farbigen Markenleisten, Gerätesilhouetten, PCT-Felder oder Kleinstbeschriftungen.
+- Einheitliches geschlossenes weißes Namensfeld mit derselben 16-px-Außenkontur, identischer Größe und identischem Mittelpunkt.
+- Herstellername beziehungsweise Kurzmarke ist ein schwarzes, klar lesbares Innendetail mit konstantem Innenabstand.
+- Keine farbigen Markenleisten, Gerätebilder, PCT-Felder, Schatten oder frei schwebenden Wortmarken mit wechselnder Kontur.
 
 E. Allgemeine Navigation
-- Home und Zurück verwenden je ein einziges großes weißes, schwarz konturiertes Piktogramm.
-- Beide nutzen denselben Verlauf, dieselbe Außenkontur, Rundung und Tiefe wie die restliche Serie.
-- Keine Beschriftungsfelder und keine alternativen SVG-/CSS-Fallbackgrafiken.
+- Home und Zurück verwenden jeweils ein einziges geschlossenes weißes Piktogramm mit der 16-px-Außenkontur.
+- Beide Motive liegen auf dem gemeinsamen Raster und optischen Mittelpunkt.
+- Keine Beschriftungsfelder, Pfeilschatten oder SVG-/CSS-Fallbackgrafiken.
 
-5. FAVORITENSTERN UND TOUCHFLÄCHE
-- Der Favoritenstern ist nie Bestandteil der PNG-Datei.
-- Position: an jedem favorisierbaren Icon einheitlich oben rechts, analog zur Position des Favoritenzählers.
-- Unsichtbare Touchfläche: mindestens 44 × 44 CSS-px.
-- Sichtbarer Kreis: 22 × 22 CSS-px.
-- Inaktiv: ruhiger weißer beziehungsweise hellgrauer Stern, dunkler Kreis, kein grünes Leuchten.
+6. KATEGORIEFELDER UND ZUSATZELEMENTE SIND VERBOTEN
+- RECHNER, WISSEN, MATERIAL, EXTERN, PCT, PIPING und ähnliche Plaketten dürfen nicht im PNG oder als sichtbare Überlagerung erscheinen.
+- Kleinstbeschriftungen, Zahlenanzeigen, Gerätedetails, Leiterbahnen und dekorative Mini-Elemente sind verboten.
+- Unsichtbare Metadaten wie .sk-card-category bleiben nur für Suche, Filter, Sortierung und Barrierefreiheit erhalten.
+- Der sichtbare Zielname steht genau einmal zentriert unter dem Icon.
+
+7. FAVORITENSTERN UND TOUCHFLÄCHE
+- Der Favoritenstern ist nie Bestandteil einer PNG-Datei und verändert weder Raster noch Zentrierung des Hauptsymbols.
+- Position: bei allen favorisierbaren Icons exakt oben rechts.
+- Unsichtbare Touchfläche: mindestens 44 × 44 CSS-px; sichtbarer Kreis: 22 × 22 CSS-px.
+- Inaktiv: heller Stern, dunkler Kreis, kein grünes Leuchten.
 - Aktiv: grüner Stern, grüne Innenkante und dezenter kontrollierter Leuchtring.
-- Tastaturfokus bleibt sichtbar; der Button darf weder Titel noch Nachbarkachel blockieren.
+- Sternposition und -größe müssen auf Smartphone, Tablet und Desktop innerhalb einer Toleranz von 1 CSS-px übereinstimmen.
 
-6. TITELTYPOGRAFIE
-- Der Zielname erscheint genau einmal sichtbar und zentriert unter dem Icon.
-- Keine Kategoriefelder und keine Kleinstbeschriftungen im Icon.
-- Die kurzen Startseitentitel Umrechnen, Siemens RAW, Werkstoffe und Wissen bleiben verbindlich.
-- Smartphone-Raster dürfen nicht horizontal überlaufen.
-
-7. FARBE UND DATEIFORMAT
+8. DATEIFORMAT, BESTAND UND QUELLE
 - Auslieferungsformat: PNG, RGBA, 512 × 512 px, echte Transparenz außerhalb der Iconform.
-- Hintergrundfarben: ausschließlich der gemeinsame gedämpfte Grün-Türkis-Blau-Verlauf.
-- Hauptmotiv: Weiß/Hellgrau mit schwarzer Comic-Umrandung.
-- Außenkontur und mechanischer Schatten: Schwarz beziehungsweise transparentes Schwarz.
-- Keine zusätzlichen Motivfarben.
 - Ablage: assets/navigation-icons/.
-- Verbindlicher Dateipräfix dieser Serie: v2-6-1-2-.
-- Genau 17 aktive PNG-Navigationsgrafiken: 10 App-/Zielgrafiken, 5 Hersteller-Kurzmarken, Home und Zurück.
+- Verbindlicher Dateipräfix: v2-6-1-3-.
+- Genau 17 aktive PNG-Navigationsgrafiken: 10 App-/Zielgrafiken, 5 Herstellerfelder, Home und Zurück.
 - Reproduzierbare Quelle: tools/generate_png_icons.py.
-- Alte v2-6-1-1-*.png- und unversionierte app-*.png-, manufacturer-*.png- sowie nav-*.png-Dateien sind nicht Bestandteil des Pakets.
+- Alte v2-6-1-2-*.png-, v2-6-1-1-*.png- und unversionierte app-*.png-, manufacturer-*.png- sowie nav-*.png-Dateien sind vollständig zu entfernen.
 - Einzige aktive SVG-Datei: assets/pct-controls.svg für kleine Bedienpiktogramme; sie ist kein Navigationsgrafik-Fallback.
 
-8. EINBINDUNG UND OFFLINE-CACHE
-- Alle Verweise verwenden die eindeutigen V2.6.1.2-Dateinamen.
-- Dynamische Zuordnungen verwenden eine explizite Whitelist; es gibt keinen ${name}.png-Fallback.
-- Manifest, Suchindex und geänderte Kern-CSS-/JavaScript-Dateien besitzen eindeutige V2.6.1.2-Dateinamen.
-- Der Service Worker verwendet CACHE_EPOCH v2-6-1-2-icons-r1, löscht ältere sk-pct-tools-Caches bei Aktivierung und verwendet für Assets kein ignoreSearch:true.
-- Versionskritische Ressourcen werden network-first mit exakt benanntem Offline-Fallback geladen.
-- Jede gültige Navigations-PNG ist im Offline-Kerncache enthalten.
+9. EINBINDUNG, CACHE UND OFFLINE
+- HTML, CSS, JavaScript, JSON, Navigation, Manifest und Service Worker verwenden nur die eindeutigen V2.6.1.3-Dateinamen.
+- Dynamische Zuordnungen verwenden eine explizite Whitelist; kein ${name}.png-Fallback.
+- Manifest, Suchindex sowie geänderte Kern-CSS-/JavaScript-Dateien tragen eindeutige V2.6.1.3-Dateinamen.
+- Service-Worker-CACHE_EPOCH: v2-6-1-3-icons-r1.
+- Ältere sk-pct-tools-Caches werden bei Aktivierung entfernt; Assets verwenden kein ignoreSearch:true.
+- Jede gültige Navigations-PNG ist Bestandteil des Offline-Kerncaches.
 
-9. ABNAHME
-- 17 Dateien, 512 × 512 px, RGBA, transparente und deckende Pixel.
-- Linke Hintergrundprobe grünbetont, obere rechte Hintergrundprobe blaubetont; weicher Übergang dazwischen.
-- Identische Außenkontur, Rundung, Tiefe und Alpha-Außenmaße in allen 17 Dateien.
-- Sechs Rechnerdateien und drei Buchdateien jeweils pixelidentisch.
-- Weiße Motive und Herstellernamen mit deutlich sichtbarer schwarzer Umrandung.
-- Keine inneren Linien, Rahmenbögen, Kategoriefelder, Kleinstbeschriftungen oder zusätzlichen Motivfarben.
-- Keine alten Dateinamen oder unreferenzierten Navigationsgrafiken im entpackten ZIP.
-- Keine Referenzen auf alte SVG-, PNG-, CSS- oder JavaScript-Fallbackpfade.
-- 44-px-Touchfläche, 22-px-Kreis, inaktiv hell und aktiv grün leuchtend.
-- Smartphone 390 × 844, Reflow 320 × 900, Tablet 820 × 1180 und Desktop 1440 × 1000 prüfen.
-- Startseite, Wissensdatenbank, Hersteller-Hub, Kopfzeilennavigation, Favoriten, Manifest, Service Worker, Offline-Aufrufe und Neuinstallation automatisiert prüfen.
-- SHA256SUMS.txt enthält alle Projektdateien außer sich selbst.
+10. VERBINDLICHE ABNAHME
+- Genau 17 neue Dateien, 512 × 512 px, RGBA, transparente und deckende Pixel.
+- Hintergrund-Randzonenhash stimmt mit dem unveränderten V2.6.1.2-Master überein.
+- Alle weißen Motivmittelpunkte liegen höchstens 3 px vom Zielpunkt (256, 246) entfernt.
+- Weiße Motivfläche jeder Iconklasse liegt im Zielbereich 20.000…55.000 Pixel.
+- Sechs Rechnerdateien und drei Buchdateien sind gruppenweise pixelidentisch.
+- Rechner, Buch, WWW-Band, Herstellerfelder, Home und Zurück besitzen saubere geschlossene Weißflächen.
+- Außenkontur 16 px, Innendetailkontur 10 px; keine Drop-Shadows oder Doppelkonturen.
+- Keine Altdateien, Altpfade, Navigations-SVGs oder unreferenzierten Symbolvarianten.
+- Favoritenstern: 44-px-Touchfläche, 22-px-Kreis, identische Position, aktive und inaktive Zustände.
+- Vergleich aller Icons nebeneinander bei Smartphone 390 × 844, Reflow 320 × 900, Tablet 820 × 1180 und Desktop 1440 × 1000.
+- Prüffokus: Zentrierung, Konturstärke, geschlossene Weißflächen, Größenverhältnis, WWW-Lesbarkeit und Sternposition.
+- Nach ZIP-Erstellung in ein leeres Verzeichnis entpacken, vollständige Tests wiederholen und SHA-256 neu bilden.
 
-10. AKTUELLER BESTAND
-- 6 Rechner-PNGs aus einem Master.
-- 3 Buch-/Nachschlagewerk-PNGs aus einem Master.
-- 1 WWW-Weltkugel.
-- 5 Hersteller-Kurzmarken.
+11. AKTUELLER BESTAND
+- 6 pixelidentische Rechner-PNGs.
+- 3 pixelidentische Buch-/Nachschlagewerk-PNGs.
+- 1 WWW-Weltkugel mit geschlossenem Mittelband.
+- 5 Hersteller-Namensfelder.
 - 2 Navigationspiktogramme für Home und Zurück.
-- Gesamt: 17 gültige vollständige PNG-Navigationsicons der Serie v2-6-1-2-.
+- Gesamt: 17 gültige PNG-Navigationsicons der Serie v2-6-1-3-.

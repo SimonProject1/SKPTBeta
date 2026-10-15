@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.1.2-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.1.3-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,15 +8,18 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.1.2-Beta'
+VERSION='2.6.1.3-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}
 CALCULATOR_ICON_FILES={
-    'v2-6-1-2-app-analogsignal.png','v2-6-1-2-app-pf-rechner.png','v2-6-1-2-app-pt-rechner.png',
-    'v2-6-1-2-app-einheitenrechner.png','v2-6-1-2-app-spannungsfall.png','v2-6-1-2-app-siemens-rohwert.png'
+    'v2-6-1-3-app-analogsignal.png','v2-6-1-3-app-pf-rechner.png','v2-6-1-3-app-pt-rechner.png',
+    'v2-6-1-3-app-einheitenrechner.png','v2-6-1-3-app-spannungsfall.png','v2-6-1-3-app-siemens-rohwert.png'
 }
 LEGACY_OVERSIZED_CALCULATOR_SHA256='9e019b856ce2bad92c027830efdb10a23483cae0b91f782090e5d9c4649720df'
+BACKGROUND_PERIMETER_SHA256='63f387a45785714c19b416ffbabe702908b9b873e4918f4cd846a3bd638aad10'
+SYMBOL_CENTER=(256,246)
+WHITE_MASS_RANGE=(20000,55000)
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
 EXPERIENCE_SOURCE='Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)'
 
@@ -43,11 +46,11 @@ def check(condition:bool,message:str,errors:list[str]):
 def main()->int:
     errors=[]
     check((ROOT/'VERSION').read_text().strip()==VERSION,'VERSION stimmt nicht.',errors)
-    manifest=json.loads((ROOT/'manifest-v2-6-1-2.webmanifest').read_text())
+    manifest=json.loads((ROOT/'manifest-v2-6-1-3.webmanifest').read_text())
     check(manifest.get('version')==VERSION,'Manifest-Version stimmt nicht.',errors)
     check(not (ROOT/'manifest.webmanifest').exists(),'Altes Manifest ist noch vorhanden.',errors)
-    check((ROOT/'assets/search-index-v2-6-1-2.json').is_file(),'Versionierter Suchindex fehlt.',errors)
-    search_index=json.loads((ROOT/'assets/search-index-v2-6-1-2.json').read_text())
+    check((ROOT/'assets/search-index-v2-6-1-3.json').is_file(),'Versionierter Suchindex fehlt.',errors)
+    search_index=json.loads((ROOT/'assets/search-index-v2-6-1-3.json').read_text())
     check(all(item.get('release')==VERSION for item in search_index),'Suchindex ist nicht vollständig auf die Release-Version markiert.',errors)
     check(VERSION in manifest.get('description',''),'Manifest-Beschreibung enthält die Version nicht.',errors)
 
@@ -79,9 +82,13 @@ def main()->int:
         check(app.get('target')=='_blank' and {'external','noopener','noreferrer'}<=set(app.get('rel','').split()),'Externe E+H-Kennzeichnung/Absicherung fehlt.',errors)
         check(app.get('data-external')=='true','E+H Dienst ist nicht als extern markiert.',errors)
     check(FOOTER in start,'Startseitenfooter ist nicht vereinheitlicht.',errors)
+    operational=[]
+    for suffix in ('*.html','*.css','*.js','*.json','*.webmanifest'):
+        operational.extend(path.read_text(encoding='utf-8') for path in ROOT.rglob(suffix))
+    check('v2-6-1-2' not in '\n'.join(operational),'Operative Altverweise auf v2-6-1-2 sind noch vorhanden.',errors)
     nav_dir=ROOT/'assets/navigation-icons'; nav_icons=sorted(nav_dir.glob('*.png'))
     check(len(nav_icons)==17,f'PNG-Navigationsgrafiken: {len(nav_icons)} statt 17.',errors)
-    check(all(icon.name.startswith('v2-6-1-2-') for icon in nav_icons),'Nicht versionierte oder alte Navigations-PNG vorhanden.',errors)
+    check(all(icon.name.startswith('v2-6-1-3-') for icon in nav_icons),'Nicht versionierte oder alte Navigations-PNG vorhanden.',errors)
     check(not list(nav_dir.glob('*.svg')),'SVG-Navigationsgrafiken sind noch vorhanden.',errors)
     check(start.count('class="sk-nav-graphic"')==10,'Startseite verwendet nicht für alle 10 Ziele eigenständige Grafiken.',errors)
     check('pct-home-icons.svg' not in start and not (ROOT/'assets/pct-home-icons.svg').exists(),'Altes Startseiten-Icon-Sprite ist noch aktiv.',errors)
@@ -99,11 +106,27 @@ def main()->int:
             pixels=list(rgba.get_flattened_data())
             colored=sum(1 for r,g,b,a in pixels if a and not (r==g==b))
             black=sum(1 for r,g,b,a in pixels if a>240 and r<18 and g<18 and b<18)
-            white=sum(1 for r,g,b,a in pixels if a>240 and r>232 and g>232 and b>232)
+            strict_white=[i for i,(r,g,b,a) in enumerate(pixels) if a>240 and r>245 and g>245 and b>245]
+            white=len(strict_white)
+            xs=[i%512 for i in strict_white]; ys=[i//512 for i in strict_white]
+            white_bbox=(min(xs),min(ys),max(xs)+1,max(ys)+1) if strict_white else None
+            if white_bbox:
+                center=((white_bbox[0]+white_bbox[2]-1)/2,(white_bbox[1]+white_bbox[3]-1)/2)
+                check(abs(center[0]-SYMBOL_CENTER[0])<=3 and abs(center[1]-SYMBOL_CENTER[1])<=3,
+                      f'Optischer Motivmittelpunkt abweichend: {icon.name} = {center}',errors)
+            check(WHITE_MASS_RANGE[0]<=white<=WHITE_MASS_RANGE[1],
+                  f'Weiße Motivmasse außerhalb Zielbereich: {icon.name} = {white}',errors)
+            perimeter=bytearray()
+            for i,pixel in enumerate(pixels):
+                x=i%512; y=i//512
+                if x<80 or x>=432 or y<72 or y>=420: perimeter.extend(pixel)
+            perimeter_hash=hashlib.sha256(perimeter).hexdigest()
+            check(perimeter_hash==BACKGROUND_PERIMETER_SHA256,
+                  f'V2.6.1.2-Hintergrundmaster verändert: {icon.name} = {perimeter_hash}',errors)
             left=rgba.getpixel((60,256)); upper_right=rgba.getpixel((400,90))
             check(colored>60000,f'Flächiger Grün-Blau-Verlauf fehlt: {icon.name} = {colored} Farbpixel',errors)
             check(black>12000,f'Kräftige schwarze Comic-Kontur fehlt: {icon.name} = {black} Schwarzpixel',errors)
-            check(white>2500,f'Weißes Hauptmotiv fehlt oder ist zu klein: {icon.name} = {white} Weißpixel',errors)
+            check(white>=WHITE_MASS_RANGE[0],f'Weißes Hauptmotiv fehlt oder ist zu klein: {icon.name} = {white} Weißpixel',errors)
             check(left[3]>240 and left[1]>left[2],f'Linke Verlaufsseite ist nicht grünbetont: {icon.name} = {left}',errors)
             check(upper_right[3]>240 and upper_right[2]>upper_right[1],f'Oberer rechter Verlauf ist nicht blaubetont: {icon.name} = {upper_right}',errors)
             check(rgba.getpixel((0,0))[3]==0,f'Äußere PNG-Transparenz fehlt: {icon.name}',errors)
@@ -112,6 +135,10 @@ def main()->int:
     calculator_hashes={hashlib.sha256(path.read_bytes()).hexdigest() for path in calculator_icons if path.is_file()}
     check(len(calculator_hashes)==1,'Rechner-PNGs sind nicht einheitlich erzeugt.',errors)
     check(LEGACY_OVERSIZED_CALCULATOR_SHA256 not in calculator_hashes,'Veraltetes übergroßes Taschenrechner-PNG ist noch aktiv.',errors)
+    book_icons=[nav_dir/f'v2-6-1-3-app-{name}.png' for name in ('einheitendatenbank','werkstoffdatenbank','wissensdatenbank')]
+    check(all(path.is_file() for path in book_icons),'Buch-PNG-Bestand ist unvollständig.',errors)
+    check(len({hashlib.sha256(path.read_bytes()).hexdigest() for path in book_icons if path.is_file()})==1,
+          'Buch-PNGs sind nicht pixelidentisch.',errors)
     icon_boxes=[]
     for icon in nav_icons:
         with Image.open(icon) as image:
@@ -123,9 +150,10 @@ def main()->int:
     check(guideline.is_file(),'ICON-DESIGNRICHTLINIE.txt fehlt.',errors)
     if guideline.is_file():
         guide=guideline.read_text(encoding='utf-8')
-        for token in ('VERBINDLICHE LEITREGEL','vollständiges PNG-Icon','KATEGORIEFELDER SIND VERBOTEN','FLÄCHIGER GRÜN-BLAU-VERLAUF','HAUPTMOTIVE','FAVORITENSTERN UND TOUCHFLÄCHE','TITELTYPOGRAFIE','DATEIFORMAT','EINBINDUNG UND OFFLINE-CACHE','ABNAHME'):
+        for token in ('VERBINDLICHE LEITREGEL','UNVERÄNDERTER HINTERGRUNDMASTER','VERBINDLICHES SYMBOLRASTER','INNENABSTAND, MASSE UND GRUNDLINIE','EINHEITLICHE COMIC-KONTUR','VERBINDLICHE HAUPTSYMBOLE','KATEGORIEFELDER UND ZUSATZELEMENTE SIND VERBOTEN','FAVORITENSTERN UND TOUCHFLÄCHE','DATEIFORMAT, BESTAND UND QUELLE','EINBINDUNG, CACHE UND OFFLINE','VERBINDLICHE ABNAHME'):
             check(token in guide,f'Icon-Richtlinie unvollständig: {token}',errors)
-        check('RECHNER, WISSEN, MATERIAL und EXTERN' in guide,'Verbot der alten Kategoriefelder fehlt in der Icon-Richtlinie.',errors)
+        for token in ('x = 112…400 px','y = 106…386 px','x = 256 px, y = 246 px','16 px im 512-px-Master','20.000 bis 55.000'):
+            check(token in guide,f'Konkrete Raster-/Konturregel fehlt: {token}',errors)
 
     framed=[]
     for page in html_pages:
@@ -154,9 +182,9 @@ def main()->int:
     overlay_sources='\n'.join(path.read_text(encoding='utf-8') for suffix in ('*.html','*.css','*.js') for path in ROOT.rglob(suffix))
     for token in ('.sk-home-icon::after','.knowledge-home-icon::after','.knowledge-icon-badge','data-icon-area','data-discipline-overlay'):
         check(token not in overlay_sources,f'Doppeltes Fachbereichs-Overlay noch vorhanden: {token}',errors)
-    check(not re.search(r'content\s*:\s*[\"\'](?:PCT|PIPING|CSA|EQP)(?:\s*↗)?[\"\']', (ROOT/'assets/pct-home-v2-6-1-2.css').read_text(), re.I),'CSS erzeugt noch ein Fachbereichsfeld auf Startseiten-/WWW-Icons.',errors)
+    check(not re.search(r'content\s*:\s*[\"\'](?:PCT|PIPING|CSA|EQP)(?:\s*↗)?[\"\']', (ROOT/'assets/pct-home-v2-6-1-3.css').read_text(), re.I),'CSS erzeugt noch ein Fachbereichsfeld auf Startseiten-/WWW-Icons.',errors)
 
-    design=(ROOT/'assets/design-system.css').read_text(); core=(ROOT/'assets/core.css').read_text(); controls=(ROOT/'assets/pct-controls-v2-6-1-2.css').read_text(); siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text()
+    design=(ROOT/'assets/design-system.css').read_text(); core=(ROOT/'assets/core.css').read_text(); controls=(ROOT/'assets/pct-controls-v2-6-1-3.css').read_text(); siemens_css=(ROOT/'assets/siemens-analogwert-rechner.css').read_text()
     for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','--sk-content-max:1060px','@media(max-width:430px)','grid-template-columns:repeat(3','unit-favorites-panel','unit-row-details','material-compare-table td::before','kb-short-answer','kb-source-bundle'):
         check(token in design,f'Design-System-Regel fehlt: {token}',errors)
     check('[hidden]{display:none!important}' in core,'Zentrale hidden-Regel fehlt.',errors)
@@ -193,13 +221,13 @@ def main()->int:
         check('design-system.css' in text,f'Rechner nutzt Design-System nicht: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    for token in ("'./assets/design-system.css'","'./assets/knowledge-compact.js'","'./assets/navigation-icons/v2-6-1-2-app-analogsignal.png'","'./assets/navigation-icons/v2-6-1-2-nav-home.png'","'./einheitendatenbank/'","'./werkstoffdatenbank/'","'./wissensdatenbank/endress-hauser-promass-einbaulage/'","'./ICON-DESIGNRICHTLINIE.txt'"):
+    for token in ("'./assets/design-system.css'","'./assets/knowledge-compact.js'","'./assets/navigation-icons/v2-6-1-3-app-analogsignal.png'","'./assets/navigation-icons/v2-6-1-3-nav-home.png'","'./einheitendatenbank/'","'./werkstoffdatenbank/'","'./wissensdatenbank/endress-hauser-promass-einbaulage/'","'./ICON-DESIGNRICHTLINIE.txt'"):
         check(token in worker,f'Offline-Kerncache unvollständig: {token}',errors)
     for icon in nav_icons:
         check(f"'./assets/navigation-icons/{icon.name}'" in worker,f'Navigationsgrafik fehlt im Offline-Cache: {icon.name}',errors)
     check('messstellen-doku' not in worker and 'Beitragsvorlage.pdf' not in worker and 'pct-home-icons.svg' not in worker and 'knowledge-manufacturer-logos.svg' not in worker,'Entfernte Inhalte/Sprites sind noch im Service Worker.',errors)
     check(".svg'" not in '\n'.join(line for line in worker.splitlines() if 'navigation-icons/' in line),'Service Worker referenziert noch SVG-Navigationsgrafiken.',errors)
-    for token in ("CACHE_EPOCH='v2-6-1-2-icons-r1'",'isReleaseCritical','cache:\'reload\'','key.startsWith(CACHE_PREFIX)'):
+    for token in ("CACHE_EPOCH='v2-6-1-3-icons-r1'",'isReleaseCritical','cache:\'reload\'','key.startsWith(CACHE_PREFIX)'):
         check(token in worker,f'Service-Worker-Neuaufbau unvollständig: {token}',errors)
     asset_block=worker[worker.index('async function asset'):]
     check('ignoreSearch:true' not in asset_block,'Asset-Cache verwendet noch ignoreSearch:true.',errors)
@@ -207,9 +235,9 @@ def main()->int:
     check(remaining_svg=={'assets/pct-controls.svg'},f'Unerwartete SVG-Dateien vorhanden: {sorted(remaining_svg)}',errors)
     check((ROOT/'tools/generate_png_icons.py').is_file(),'PNG-Icon-Generator fehlt.',errors)
     generator=(ROOT/'tools/generate_png_icons.py').read_text(encoding='utf-8')
-    for token in ('PREFIX = "v2-6-1-2-"','calculator_master = calculator()','book_master = book()','save("app-eh-viewer", globe())','manufacturer("AIR\\nTORQUE")'):
+    for token in ('PREFIX = "v2-6-1-3-"','SYMBOL_CENTER = (256, 246)','SYMBOL_BOX = (112, 106, 400, 386)','MOTIF_CONTOUR = 16','DETAIL_CONTOUR = 10','calculator_master = calculator()','book_master = book()','save("app-eh-viewer", globe())','manufacturer("AIR\\nTORQUE")'):
         check(token in generator,f'PNG-Generator enthält das verbindliche Hauptmotiv nicht: {token}',errors)
-    check('${name}.png' not in (ROOT/'assets/pct-controls-v2-6-1-2.js').read_text(), 'Dynamischer Navigationsdatei-Fallback ist noch aktiv.',errors)
+    check('${name}.png' not in (ROOT/'assets/pct-controls-v2-6-1-3.js').read_text(), 'Dynamischer Navigationsdatei-Fallback ist noch aktiv.',errors)
     check('def category_badge' not in generator and 'category_badge(' not in generator,'Kategoriefeld-Funktion ist im PNG-Generator noch aktiv.',errors)
     check('calculator("' not in generator and 'book("' not in generator and 'globe("' not in generator,'App-Motive erhalten noch eingebrannte Kategorieparameter.',errors)
     for shortcut in manifest.get('shortcuts',[]):
