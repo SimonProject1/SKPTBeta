@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.6.0.3-Beta
+# Testplan · SK PCT Tools 2.6.0.4-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -32,7 +32,7 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 ## 5. PWA und Offline
 1. Online laden und Service Worker aktivieren lassen.
 2. Offline Startseite, Rechner, Datenbanken und Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.6.0.3-Beta aktiv sind.
+3. Prüfen, dass nur Caches der Version 2.6.0.4-Beta aktiv sind.
 
 ## 6. Manuelle Plattformprüfung
 1. iPhone/iPad/Android: Installation, Safe Areas, Hoch-/Querformat und echter Touch.
@@ -47,22 +47,22 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 4. Positive, negative und Nullwerte umschalten; Eingabewert und Ergebnis müssen unmittelbar aktualisiert werden.
 5. Auf Smartphone und Tablet jeden Taster per Tap auslösen.
 
-## 8. Alternative PNG-Navigationsgrafiken
-1. Alle zehn Startseitenziele prüfen: zehn geladene PNG-Dateien ohne defekte Grafik; jede Datei 512 × 512 px, RGBA und transparent.
-2. Dreistufige Bedeutung prüfen: Hauptmotiv = Funktion, integriertes Textfeld = Kategorie, HTML-Titel unter dem Icon = konkretes Ziel.
-3. Motivklassen prüfen: sechs Taschenrechner, drei Bücher und eine WWW-Weltkugel mit Auswärtspfeil.
-4. Kategorien prüfen: sechs Rechner = RECHNER; Einheitendatenbank und Wissensdatenbank/Wissensbeiträge = WISSEN; Werkstoffdatenbank = MATERIAL; externer E+H-Dienst = EXTERN.
-5. Die sechs Rechner-PNGs müssen pixelidentisch sein und denselben SHA-256-Wert besitzen.
-6. Rechnergeometrie prüfen: Frontkörper x=108…392 px/y=42…346 px, sichtbare Tiefe bis x=407 px/y=362 px, Kategoriefeld ab y=382 px.
-7. Auf Smartphone, Tablet und Desktop Außenmaß, Rahmenstärke, Eckenradius, Perspektive, CSS-Schatten, PNG-Innenmaß und Favoritensternposition aller zehn App-Kacheln vergleichen.
-8. Jedes fachlich gekennzeichnete Icon darf genau ein Kategoriefeld zeigen. Das sichtbare Feld muss Bestandteil der PNG-Pixel sein.
-9. HTML, CSS und JavaScript dürfen kein zusätzliches RECHNER-, WISSEN-, EXTERN-, MATERIAL-, PCT- oder PIPING-Overlay erzeugen.
-10. Im Browser ::before-/::after-Inhalte der Icon-Container auf verbotenen Kategorietext prüfen.
-11. Wissens-Hub prüfen: fünf weiße Hersteller-/Kurzmarken ohne zusätzliche Motivgrafik, jeweils mit genau einem integrierten PCT-Feld.
-12. Beitragskarten prüfen: alle fünf Wissensbeiträge verwenden das Buch mit integriertem WISSEN-Feld.
-13. Grafiken bei 24, 56, 64, 94, 192 und 512 px auf Kontur, Transparenz, Plastizität und Lesbarkeit prüfen.
-14. Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900 prüfen.
+## 8. Entschlackte PNG-Navigationsgrafiken
+1. Alle 17 Navigations-PNGs prüfen: 512 × 512 px, RGBA, echte transparente und deckende Pixel, keine defekte Grafik.
+2. Verbindliche Leitregel prüfen: ein gemeinsamer Rahmen, ein klares Hauptmotiv, ein kleiner Favoritenstern; die Erklärung steht ausschließlich im Titel darunter.
+3. Sicherstellen, dass RECHNER, WISSEN, MATERIAL, EXTERN und PCT nicht als integrierte Kategoriefelder in den PNGs erscheinen.
+4. Sicherstellen, dass HTML, CSS und JavaScript kein sichtbares Kategoriefeld über dem Icon erzeugen.
+5. Motive prüfen: sechs Taschenrechner mit Display, sechs großen Tasten und ±; drei Bücher mit zwei Farbseiten und schwarzer Mittelfalte; eine Weltkugel mit klaren Längen-/Breitengraden und kleinem WWW.
+6. Hersteller-Hub prüfen: fünf ruhige Kurzmarken ohne PCT-Plakette; Home und Zurück als klare Einzelmotive.
+7. Die sechs Rechner-PNGs und die drei Buch-PNGs müssen je Gruppe pixelidentisch sein.
+8. Außenrahmen prüfen: kräftige schwarze Kontur, genau ein Blau-Cyan-Grün-Bogen, keine zweite Leuchtkontur und kein doppelter Schatten.
+9. Favoriten prüfen: 44 × 44 px Touchfläche, sichtbarer Kreis 22 px, vollständig innerhalb des Außenrahmens.
+10. Favorit inaktiv ohne grünes Leuchten; nach Aktivierung mit kleinem kontrollierten grünen Leuchten.
+11. Titel prüfen: Umrechnen, Siemens RAW, Werkstoffe und Wissen; andere eindeutige Titel unverändert.
+12. Titelkontur fein und ohne horizontales Überlaufen prüfen.
+13. Drei Spalten bei 390 × 844 und 320 × 900 prüfen; zusätzlich Tablet 820 × 1180 und Desktop 1440 × 1000.
+14. Grafiken bei 24, 56, 64, 94, 192 und 512 px auf klare Silhouette und reduzierte Details prüfen.
 15. Manifest-Shortcuts auf image/png und sizes 512x512 prüfen.
-16. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.0.3-Beta-Cache erscheinen.
+16. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.0.4-Beta-Cache erscheinen.
 17. Prüfen, dass assets/navigation-icons/ keine SVG-Datei enthält und als einzige technische SVG-Ausnahme assets/pct-controls.svg verbleibt.
 18. ICON-DESIGNRICHTLINIE.txt als verbindliche Übergabegrundlage auf Vollständigkeit prüfen.

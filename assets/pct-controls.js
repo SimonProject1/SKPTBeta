@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.6.0.3-Beta - Adapter fuer PCT Industrial Controls. */
+/* SK PCT Tools 2.6.0.4-Beta - Adapter fuer PCT Industrial Controls. */
 (()=>{'use strict';
-const RELEASE='2.6.0.3-Beta';
+const RELEASE='2.6.0.4-Beta';
 const root=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
 const sprite=new URL('assets/pct-controls.svg',root).href;
 const navGraphic=name=>`<img class="pct-nav-graphic" src="${new URL(`assets/navigation-icons/${name}.png`,root).href}" alt="" aria-hidden="true" decoding="async">`;

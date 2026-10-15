@@ -1,51 +1,53 @@
-SK PCT Tools 2.6.0.3-Beta
+SK PCT Tools 2.6.0.4-Beta
 Release-Datum: 15.10.2026
-Status: Vollständige alternative Beta · komplett neue plastische PNG-Iconserie
-Direkte Ausgangsbasis: vollständige 2.6.0.2-Beta
+Status: Vollständige Beta · entschlackte PNG-Iconserie
+Direkte Ausgangsbasis: vollständige 2.6.0.3-Beta
 
 TATSÄCHLICH UMGESETZT
 
-1. Vollständig alternative PNG-Grafikserie
-- Alle 17 Navigations-PNGs wurden als zusammengehörige alternative Cartoon-Tech-Serie neu erzeugt.
-- Die zehn App-/Zielgrafiken verwenden hochwertigere Verläufe, klare schwarze Konturen, Glanzkanten, kontrollierte Schlagschatten und eine einheitliche leichte 3D-Wirkung.
-- Home und Zurück wurden im gleichen plastischen Stil neu gezeichnet.
-- Die fünf Herstellerziele bleiben bewusst reine weiße Kurzmarken beziehungsweise Herstellernamen ohne zusätzliche Motivgrafik.
+1. Alle Navigations-PNGs neu erzeugt
+- Alle 17 Navigations-PNGs wurden aus tools/generate_png_icons.py neu erzeugt.
+- 10 App-/Zielgrafiken, 5 Hersteller-Kurzmarken sowie Home und Zurück bilden eine zusammengehörige Serie.
+- Masterformat bleibt 512 × 512 px RGBA mit echter Transparenz.
 
-2. Funktionsmotiv und Kategorie konsequent getrennt
-- Hauptmotiv beschreibt die Funktion: Taschenrechner, aufgeschlagenes Buch oder WWW-Weltkugel.
-- Genau ein in das PNG integriertes Textfeld beschreibt die Kategorie.
-- Der vorhandene Titel unter dem Icon beschreibt weiterhin das konkrete Ziel.
-- Rechner und Umrechnungen verwenden RECHNER.
-- Wissensdatenbank, Wissensbeiträge und Einheitendatenbank verwenden WISSEN.
-- Der E+H Device Viewer verwendet EXTERN.
-- Die Werkstoffdatenbank verwendet MATERIAL.
-- Nur die Hersteller-Icons verwenden weiterhin PCT.
-- Das frühere pauschale PCT-/PIPING-Schema ist für App-/Zielgrafiken entfernt.
+2. Kategoriefelder vollständig entfernt
+- RECHNER, WISSEN, MATERIAL und EXTERN sind nicht mehr in den App-PNGs enthalten.
+- Die Hersteller-Kurzmarken besitzen kein zusätzliches PCT-Feld.
+- Keine sichtbaren Kategorie-Overlays aus HTML, CSS oder JavaScript.
+- Verdeckte Metadaten bleiben nur für Suche, Filter und Sortierung erhalten.
 
-3. Gemeinsamer Rahmen und Bediengeometrie bewahrt
-- Der gemeinsame grün-blaue, kräftig schwarz konturierte Cartoon-Tech-Außenrahmen bleibt unverändert zentral in .sk-home-icon.
-- Außenmaße, Eckenradius, Perspektive, CSS-Schatten, object-fit und Innenabstand bleiben für alle zehn App-Kacheln identisch.
-- Position und Größe des Favoritensterns bleiben unverändert; der Stern ist weiterhin kein Bestandteil der PNG-Dateien.
-- Alle PNG-Master bleiben 512 × 512 px, RGBA und besitzen echte transparente Randpixel.
+3. Klare Einzelmotive
+- Taschenrechner: Display, sechs große Tasten und ±.
+- Buch: blaue/cyanfarbene linke Seite, grüne rechte Seite, schwarze Mittelfalte.
+- Weltkugel: klare Längen- und Breitengrade, kleines WWW.
+- Hersteller, Home und Zurück: jeweils ein ruhiges Einzelmotiv.
+- Innere Linien, Reflexe, Schatten, Leiterbahnen und Zierelemente wurden deutlich reduziert.
 
-4. Reproduzierbare Quelle und Richtlinie
-- tools/generate_png_icons.py erzeugt alle 17 Grafiken reproduzierbar aus einer gemeinsamen Geometrie.
-- Dreifache Überabtastung und hochwertige Lanczos-Reduktion verbessern Konturen und Textkanten.
-- Die sechs Rechner-PNGs sind pixelidentisch und besitzen denselben SHA-256-Wert.
-- ICON-DESIGNRICHTLINIE.txt dokumentiert die neue verbindliche Dreiteilung: Funktionsmotiv, Kategoriefeld, Zieltitel.
+4. Rahmen und Favoriten
+- Gemeinsamer kräftig schwarzer Cartoon-Tech-Außenrahmen.
+- Genau ein Blau-Cyan-Grün-Rahmenbogen.
+- Nur ein dezenter Tiefenversatz und ein ruhiger Schlagschatten.
+- Sichtbarer Favoritenkreis: 22 px statt 28 px, rund 21 Prozent kleiner.
+- Touchfläche bleibt 44 × 44 px.
+- Der sichtbare Kreis bleibt innerhalb des Außenrahmens.
+- Inaktiv ohne grünes Leuchten; aktiv mit kontrolliertem grünen Leuchten.
 
-5. Keine zusätzlichen Overlays
-- Jedes fachlich gekennzeichnete PNG enthält genau ein fest gerendertes Kategoriefeld.
-- HTML, CSS und JavaScript erzeugen kein zusätzliches RECHNER-, WISSEN-, EXTERN-, MATERIAL-, PCT- oder PIPING-Overlay.
-- Der Offline-Kerncache enthält weiterhin alle 17 Navigations-PNGs.
+5. Titel und iPhone-Raster
+- Feinere schwarze Kontur der Titeltypografie.
+- Einheitenrechner → Umrechnen.
+- Siemens Rohwert → Siemens RAW.
+- Werkstoff-DB → Werkstoffe.
+- Wissens-DB → Wissen.
+- Alle anderen eindeutigen Titel bleiben erhalten.
+- Drei Spalten auf dem iPhone bleiben verbindlich.
 
-6. Qualitätssicherung
-- Statische Prüfungen kontrollieren Dimension, RGBA, Transparenz, Kategorienzuordnung, Rechner-Pixelgleichheit, Safe-Zone, Dateiverweise, Offline-Cache und vollständige Prüfsummen.
-- Browser-Regression vergleicht Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900.
-- Außenmaß, Rahmen, Schatten, PNG-Innenmaß und Favoritensternposition werden geräteübergreifend verglichen.
+6. PWA, Cache und Versionierung
+- Öffentliche und technische Version: 2.6.0.4-Beta.
+- Manifest, Service-Worker-RELEASE, Cache-Namensraum, Cache-Busting-Parameter und sichtbare Versionsangaben aktualisiert.
+- Alle 17 Navigations-PNGs sind weiterhin im Offline-Kerncache enthalten.
+- Navigation, Suche, Filter, Sortierung, Favoriten, Rechner, Datenbanken und lokale App-Reihenfolge bleiben erhalten.
 
-7. PWA und Versionierung
-- Öffentliche und technische Version: 2.6.0.3-Beta.
-- Manifest-Version, Service-Worker-RELEASE, Cache-Busting-Parameter, sichtbare Versionsangaben und Dokumentation wurden konsistent aktualisiert.
-- Der neue Cache-Namensraum trennt 2.6.0.3-Beta sauber von 2.6.0.2-Beta.
-- SHA256SUMS.txt enthält die Prüfsumme jeder weiteren Projektdatei.
+7. Qualitätssicherung
+- Statische Prüfung: Dateiverweise, Version, PNG-Dimensionen, RGBA, Transparenz, Motivmaster, Richtlinie, Offline-Cache und SHA-256.
+- Browserprüfung: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900.
+- Zusätzliche Prüfungen: drei iPhone-Spalten, 22-px-Favoritenkreis, 44-px-Touchfläche, Rahmenbegrenzung, inaktiver/aktiver Favoritenzustand und kurze Titel.

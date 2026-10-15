@@ -1,4 +1,4 @@
-/* Rechner-Oberflächen · SK PCT Tools 2.6.0.3-Beta
+/* Rechner-Oberflächen · SK PCT Tools 2.6.0.4-Beta
    Gemeinsame Darstellung aller Rechner nach dem Siemens-Rohwert-Design.
    Diese Datei enthält ausschließlich Layout und Gestaltung; Berechnungslogik bleibt unverändert. */
 
@@ -60,7 +60,7 @@
 .voltage-result .protocol span{color:var(--muted)}
 .voltage-result .protocol b{color:var(--green);font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
 
-/* V2.6.0.3-Beta: bestätigte volle nutzbare Shell-Breite auf PC und Tablet. */
+/* V2.6.0.4-Beta: bestätigte volle nutzbare Shell-Breite auf PC und Tablet. */
 @media(min-width:761px){
   .calc-page-title,.calc-panel,.calc-notice,.voltage-result{max-width:none}
 }
@@ -95,7 +95,7 @@
 }
 
 
-/* === 2.6.0.3-Beta: kompakter Rechnerstandard ===============================
+/* === 2.6.0.4-Beta: kompakter Rechnerstandard ===============================
    Mehr Felder nebeneinander, Ergebnisse neben der Eingabe und ein flacher
    Seitentitel verkürzen die Scrollstrecke. Touch-Ziele bleiben mindestens
    42–44 px hoch; die Berechnungslogik wird nicht verändert. */

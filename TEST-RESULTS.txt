@@ -1,40 +1,48 @@
-SK PCT Tools 2.6.0.3-Beta · Testprotokoll
+SK PCT Tools 2.6.0.4-Beta · Testprotokoll
 Stand: 15.10.2026
 
 ERGEBNIS: BESTANDEN
 
 1. Statische Struktur-/Integritätsprüfung
 - PASS: 10 Apps, 6 Rechner, 14 interne Unterseiten und 5 Wissensbeiträge.
-- PASS: Version 2.6.0.3-Beta in VERSION, Manifest, HTML, Cache-Busting und Service Worker konsistent.
+- PASS: Version 2.6.0.4-Beta in VERSION, Manifest, HTML, Cache-Busting und Service Worker konsistent.
 - PASS: 17 Navigations-PNGs mit 512 × 512 px, RGBA, transparenten und deckenden Pixeln.
-- PASS: alle lokalen Verweise, Offline-Kerncache-Einträge und projektinternen SHA-256-Prüfsummen vollständig.
-- PASS: 866 !important-Deklarationen und damit innerhalb des bestehenden Grenzwerts von 900.
+- PASS: alle lokalen Verweise und Offline-Kerncache-Einträge vollständig.
+- PASS: projektinterne SHA-256-Prüfsummen nach Abschluss vollständig neu erzeugt.
+- PASS: 888 !important-Deklarationen und damit innerhalb des bestehenden Grenzwerts von 900.
 
-2. Alternative Iconserie
-- PASS: sechs pixelidentische Taschenrechner-PNGs mit integriertem Feld RECHNER.
-- PASS: Einheitendatenbank und Wissensdatenbank/Wissensbeiträge als Buch mit WISSEN.
-- PASS: Werkstoffdatenbank als Buch mit MATERIAL.
-- PASS: externer E+H Device Viewer als WWW-Weltkugel mit Auswärtspfeil und EXTERN.
-- PASS: fünf Hersteller-PNGs als reine weiße Kurzmarken beziehungsweise Namen mit PCT, ohne zusätzliche Motivgrafik.
-- PASS: Home und Zurück als transparente plastische PNG-Piktogramme ohne Kategoriefeld.
-- PASS: Generator erneut ausgeführt; die erzeugten PNG-Prüfsummen sind reproduzierbar identisch.
+2. Entschlackte Iconserie
+- PASS: sechs pixelidentische Taschenrechner-PNGs mit Display, sechs großen Tasten und ±.
+- PASS: drei pixelidentische Buch-PNGs mit blauer/cyanfarbener linker Seite, grüner rechter Seite und schwarzer Mittelfalte.
+- PASS: Weltkugel mit klaren Längen-/Breitengraden und kleinem WWW.
+- PASS: fünf Hersteller-Kurzmarken ohne PCT-Plakette.
+- PASS: Home und Zurück als klare transparente Einzelmotive.
+- PASS: keine PNG-Generatorfunktion für integrierte Kategoriefelder.
+- PASS: Generator erneut ausgeführt; die erzeugten PNGs sind reproduzierbar.
 
-3. Overlay- und Kategorienprüfung
-- PASS: pro fachlich gekennzeichnetem PNG genau ein integriertes Kategoriefeld im Generator definiert.
-- PASS: keine zusätzlichen HTML-, CSS- oder JavaScript-Overlays für RECHNER, WISSEN, EXTERN, MATERIAL, PCT oder PIPING.
-- PASS: alte pauschale PCT-/PIPING-Zuordnungen sind für App-/Zielgrafiken nicht mehr aktiv.
+3. Rahmen, Favorit und Titel
+- PASS: kräftiger schwarzer Cartoon-Tech-Außenrahmen mit genau einem Blau-Cyan-Grün-Rahmenbogen.
+- PASS: reduzierte Innenlinien, eine kurze Lichtkante, ein dezenter Tiefenversatz und nur ein ruhiger Schlagschatten.
+- PASS: Favoriten-Touchfläche durchgehend mindestens 44 × 44 px.
+- PASS: sichtbarer Favoritenkreis 22 px und vollständig innerhalb des Außenrahmens.
+- PASS: inaktiver Favorit ohne grünes Leuchten; aktiver Favorit mit kontrolliertem grünem Leuchten.
+- PASS: kurze Titel Umrechnen, Siemens RAW, Werkstoffe und Wissen vorhanden.
+- PASS: Titelkontur feiner und ohne horizontales Überlaufen.
 
 4. Browser-Regression
-- PASS: 679 automatisierte Browserprüfungen.
+- PASS: 689 automatisierte Browserprüfungen.
 - PASS: 15 Seiten in Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000.
 - PASS: Reflow-Prüfung 320 × 900.
-- PASS: Außenmaß, gemeinsamer Rahmen, CSS-Schatten, PNG-Innenmaß und Favoritensternposition aller zehn App-Kacheln konsistent.
-- PASS: sechs Rechnerreferenzen, Touch-Prüfungen, Navigation und Offline-Aufrufe.
+- PASS: iPhone-Startseite mit drei Spalten.
+- PASS: Außenmaß, Rahmen, Rahmenbogen, PNG-Innenmaß, Touchfläche und Favoritenposition aller zehn App-Kacheln konsistent.
+- PASS: sechs Rechnerreferenzen, reale Touch-Auslösung, Navigation, Suche, Filter, Sortierung und Favoriten.
+- PASS: Offline-Aufrufe für Rechner und Wissensbeitrag nach aktivem Service Worker.
 
 5. Visuelle Abnahme
-- PASS: Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert und nach vollständigem PNG-Decoding kontrolliert.
-- PASS: Wissensdatenbank-Hub bei 390 × 844 kontrolliert.
-- PASS: Hauptmotive klar unterscheidbar, Kategoriefelder kontrastreich, Außenrahmen und Favoritensterne unverändert einheitlich.
+- PASS: Startseite bei 390 × 844, 320 × 900, 820 × 1180 und 1440 × 1000 nach vollständigem PNG-Decoding gerendert und kontrolliert.
+- PASS: Wissensdatenbank-Hub bei 390 × 844 gerendert und kontrolliert.
+- PASS: alle Hauptmotive sind auf Smartphone, Tablet und Desktop sichtbar und klar unterscheidbar.
+- PASS: sichtbare Favoritenkreise ragen nicht über den Außenrahmen hinaus.
 
 Hinweis
 - Die Viewport-Prüfungen wurden automatisiert in Chromium durchgeführt. Reale Safari-/iOS-, Firefox- und Edge-Geräte-Smoke-Tests bleiben wie im TESTPLAN.md als nachgelagerte Hosting-/Geräteabnahme dokumentiert.

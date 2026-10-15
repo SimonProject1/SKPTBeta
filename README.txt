@@ -1,41 +1,46 @@
-SK PCT Tools 2.6.0.3-Beta
+SK PCT Tools 2.6.0.4-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank und Werkstoffdatenbank.
-Direkte Ausgangsbasis ist die vollständige 2.6.0.2-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.6.0.3-Beta.
 
 Änderungen dieser Beta
-- Vollständig alternative, neu gezeichnete Serie aller 17 transparenten PNG-Navigationsgrafiken.
-- Hochwertigere Cartoon-Tech-Motive mit schwarzer Kontur, klaren Verläufen, Glanzkante, Schatten und plastischer Tiefenwirkung.
-- Funktionsmotiv: Taschenrechner für Rechner, aufgeschlagenes Buch für interne Nachschlagewerke, WWW-Weltkugel mit Auswärtspfeil für externe Ziele.
-- Genau ein integriertes Kategoriefeld je fachlich gekennzeichnetem PNG: RECHNER, WISSEN, EXTERN, MATERIAL oder bei Hersteller-Kurzmarken PCT.
-- Keine zusätzlichen HTML-, CSS- oder JavaScript-Overlays für Kategoriefelder.
-- Gemeinsamer grün-blauer Außenrahmen, Außenmaße, Perspektive, Schatten, Innenabstand und Favoritensternposition bleiben unverändert in der Oberfläche vereinheitlicht.
-- Icon-Designrichtlinie, statische Prüfung, Browser-Regression, Offline-Cache, Cache-Busting-Parameter und Prüfsummen wurden aktualisiert.
+- Alle 17 transparenten PNG-Navigationsgrafiken wurden als deutlich entschlackte Cartoon-Tech-Serie neu erzeugt.
+- Die integrierten Felder RECHNER, WISSEN, MATERIAL, EXTERN und PCT wurden aus den PNGs entfernt.
+- Ein Icon besteht verbindlich aus einem gemeinsamen schwarzen Außenrahmen, einem klaren Hauptmotiv und einem kleinen Favoritenstern; die Erklärung steht ausschließlich im Titel darunter.
+- Taschenrechner: großes Display, sechs große Tasten und deutliches ±.
+- Buch: zwei klare farbige Seiten und schwarze Mittelfalte.
+- Weltkugel: klare Längen-/Breitengrade und kleines WWW.
+- Hersteller-Kurzmarken, Home und Zurück wurden ebenfalls ohne Kategoriefelder neu erzeugt.
+- Nur ein Blau-Cyan-Grün-Rahmenbogen, ein dezenter Tiefenversatz und ein ruhiger Schlagschatten; keine doppelte Leuchtkontur oder Leiterbahndetails.
+- Sichtbarer Favoritenkreis von 28 auf 22 px verkleinert; unsichtbare Touchfläche bleibt 44 × 44 px.
+- Favorit inaktiv ruhig, aktiv grün leuchtend.
+- Titelkontur feiner; Startseitentitel Umrechnen, Siemens RAW, Werkstoffe und Wissen gekürzt.
+- Drei-Spalten-Raster auf dem iPhone bleibt erhalten.
 
 Erhaltene Funktionen und Inhalte
-- 10 Startseiten-Apps, vollständige interne und externe Navigation, Suche, Filter, Sortierung und Favoritensterne.
+- 10 Startseiten-Apps, vollständige interne und externe Navigation, Suche, Filter, Sortierung und Favoriten.
 - Alle sechs Rechner und ihre Berechnungslogik.
 - Einheiten- und Werkstoffdatenbank sowie fünf Wissensbeiträge.
 - Hersteller-Hub mit fünf Herstellerzielen.
-- PWA-Installation, Offline-Kerncache, lokale Einstellungen und eigene App-Reihenfolge.
-- 17 transparente PNG-Navigationsgrafiken in 512 × 512 px.
+- Eigene App-Reihenfolge und lokale Einstellungen.
+- PWA-Installation und Offline-Kerncache.
+- Smartphone-, Tablet-, Desktop- und 320-px-Reflow-Unterstützung.
 
 Iconpflege
-- Ausgelieferte Navigationsicons: assets/navigation-icons/*.png
+- Navigationsicons: assets/navigation-icons/*.png
 - Reproduzierbarer Generator: tools/generate_png_icons.py
 - Verbindliche Vorgaben: ICON-DESIGNRICHTLINIE.txt
-- Sechs Rechner-PNGs: identischer Taschenrechner mit integriertem Feld RECHNER.
-- app-einheitendatenbank.png und app-wissensdatenbank.png: Buch mit WISSEN.
-- app-werkstoffdatenbank.png: Buch mit MATERIAL.
-- app-eh-viewer.png: WWW-Weltkugel mit EXTERN.
-- Hersteller-PNGs: ausschließlich weiße Kurzmarke beziehungsweise Name mit PCT.
-- Das Kategoriefeld wird ausschließlich in den PNG-Pixeln erzeugt.
-- Einzige zulässige SVG-Datei: assets/pct-controls.svg für kleine, nicht navigierende Bedienpiktogramme.
+- Format: 512 × 512 px, RGBA, transparenter Hintergrund.
+- Sechs Rechner-PNGs sind pixelidentisch.
+- Drei Buch-PNGs sind pixelidentisch.
+- Kategoriefelder dürfen weder in PNGs noch als sichtbare HTML-/CSS-/JavaScript-Overlays erscheinen.
+- Einzige zulässige SVG-Datei: assets/pct-controls.svg für kleine Bedienpiktogramme.
 
 Version und PWA
-- Öffentliche und technische Version: 2.6.0.3-Beta.
+- Öffentliche und technische Version: 2.6.0.4-Beta.
 - Laufzeitkanal: beta.
+- Service-Worker-Cache: sk-pct-tools-*-v2.6.0.4-Beta.
 - Einstellungen bleiben lokal im Browser; es erfolgt keine Übertragung durch SK PCT Tools.
 
 Deployment

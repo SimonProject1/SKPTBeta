@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.6.0.3-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
+/* SK PCT Tools 2.6.0.4-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
    Diese letzte, kleine Kaskadenebene ersetzt verteilte Seitenkorrekturen. */
 :root{
   --sk-color-bg:#02080d;
@@ -356,7 +356,7 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
   body[data-knowledge-standard] .kb-meta-card strong{overflow-wrap:normal;word-break:normal;hyphens:auto}
 }
 
-/* === V2.6.0.3-Beta: verbindlicher Header-/Footer-Standard ==================
+/* === V2.6.0.4-Beta: verbindlicher Header-/Footer-Standard ==================
    Dieser Block ist absichtlich die letzte Kaskadenebene. Startseite und alle
    internen Seiten nutzen damit dieselbe Rahmenfläche, dieselbe Kopfgeometrie
    und denselben randlosen Footer. */
@@ -548,4 +548,97 @@ body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{
 }
 @media(orientation:landscape) and (max-height:520px){
   :root{--sk-frame-inner-top:6px;--sk-frame-inner-bottom:7px}
+}
+
+
+/* === V2.6.0.4-Beta: entschlackte Icon-Komponente ==========================
+   Ein kräftiger schwarzer Außenrahmen, ein einzelner Blau-Cyan-Grün-Bogen,
+   genau ein PNG-Hauptmotiv und ein kleiner Favoritenstern. */
+body[data-sk-home="ios"] .sk-home-icon,
+body[data-sk-layout="framed"] .knowledge-home-icon{
+  isolation:isolate;
+  border:4px solid #000;
+  background:linear-gradient(145deg,#12384d 0%,#071a29 50%,#02080d 100%);
+  box-shadow:inset 0 0 0 1px rgba(52,121,150,.72),4px 5px 0 rgba(0,0,0,.72),0 9px 16px rgba(0,0,0,.24);
+}
+body[data-sk-home="ios"] .sk-home-icon::before,
+body[data-sk-layout="framed"] .knowledge-home-icon::before{
+  content:"";
+  position:absolute;
+  z-index:2;
+  inset:5px;
+  border:0;
+  border-radius:20%;
+  background:
+    linear-gradient(90deg,#008cff 0%,#00e6f1 58%,#78ff32 100%) left top/78% 3px no-repeat,
+    linear-gradient(0deg,#008cff 0%,#00e6f1 100%) left top/3px 78% no-repeat;
+  box-shadow:none;
+  pointer-events:none;
+}
+body[data-sk-home="ios"] .sk-home-icon>.sk-nav-graphic,
+body[data-sk-layout="framed"] .knowledge-home-icon>.knowledge-brand-logo{
+  z-index:1!important;
+  width:92%;
+  height:92%;
+  margin:0;
+  filter:none!important;
+}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
+  font-weight:720;
+  text-shadow:-.55px -.55px 0 #000,.55px -.55px 0 #000,-.55px .55px 0 #000,.55px .55px 0 #000;
+}
+
+/* 44-px-Touchfläche bleibt erhalten; sichtbar sind nur 22 px (ca. 21 % kleiner). */
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control{
+  top:0!important;
+  right:calc(50% - 47px)!important;
+  inset:auto calc(50% - 47px) auto auto!important;
+  width:44px!important;
+  min-width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#a9c2cf!important;
+}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control::before{display:none!important}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:11px;
+  border:2px solid #000;
+  border-radius:50%;
+  background:#071a29;
+  box-shadow:inset 0 0 0 1px #347996,1px 2px 0 #000;
+  opacity:1;
+}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control>.pct-icon{
+  position:relative;
+  z-index:1;
+  width:12px!important;
+  height:12px!important;
+  color:currentColor;
+  filter:none;
+}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control[data-active="true"]{
+  color:#78ff32!important;
+}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control[data-active="true"]::after{
+  border-color:#78ff32;
+  box-shadow:inset 0 0 0 1px #78ff32,0 0 8px rgba(120,255,50,.58),1px 2px 0 #000;
+}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control:focus-visible{
+  outline:2px solid rgba(0,230,241,.72);
+  outline-offset:-7px;
+}
+@media(max-width:430px){
+  body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control{
+    top:-3px!important;
+    right:calc(50% - 42px)!important;
+    inset:auto calc(50% - 42px) auto auto!important;
+  }
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.3-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.4-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.0.3-Beta'
+VERSION='2.6.0.4-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}
@@ -63,6 +63,10 @@ def main()->int:
     check(len(ids)==10 and set(ids)==APPS and len(ids)==len(set(ids)),f'App-Inventar fehlerhaft: {ids}',errors)
     check('messstellen-doku' not in start.lower(),'Messstellen-App ist noch auf der Startseite.',errors)
     check('10 Apps angezeigt' in start,'Startseiten-Zähler ist nicht auf 10 Apps aktualisiert.',errors)
+    for title in ('Umrechnen','Siemens RAW','Werkstoffe','Wissen'):
+        check(f'<h2 class="sk-home-app-title">{title}</h2>' in start,f'Verkürzter Startseitentitel fehlt: {title}',errors)
+    for old_title in ('Einheitenrechner</h2>','Siemens Rohwert</h2>','Werkstoff-DB</h2>','Wissens-DB</h2>'):
+        check(old_title not in start,f'Alter langer Startseitentitel noch vorhanden: {old_title}',errors)
     e=[app for app in p.apps if app.get('data-app-id')=='eh-device-viewer']
     check(len(e)==1,'E+H Viewer fehlt oder ist doppelt.',errors)
     if e:
@@ -105,8 +109,9 @@ def main()->int:
     check(guideline.is_file(),'ICON-DESIGNRICHTLINIE.txt fehlt.',errors)
     if guideline.is_file():
         guide=guideline.read_text(encoding='utf-8')
-        for token in ('LEITREGEL DER DREISTUFIGEN BEDEUTUNG','DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE','VERBINDLICHE MOTIVKLASSEN UND KATEGORIEFELDER','INTEGRIERTES KATEGORIEFELD','GEMEINSAMER CARTOON-TECH-RAHMEN UND GEOMETRIE','FORM, PERSPEKTIVE UND LESBARKEIT','SCHWARZE COMIC-KONTUREN','FARBPALETTE','LICHTWIRKUNG UND PLASTIZITÄT','BENENNUNG UND ABLAGE','EINBINDUNG','ZUSTÄNDE UND BEDIENUNG','ABNAHME VOR EINBAU','RECHNER','WISSEN','EXTERN','MATERIAL','PCT'):
+        for token in ('VERBINDLICHE LEITREGEL','Ein Icon besteht aus einem Rahmen, einem klaren Hauptmotiv und einem kleinen Favoritenstern','KATEGORIEFELDER SIND VERBOTEN','CARTOON-TECH-AUSSENRAHMEN','HAUPTMOTIVE','FAVORITENSTERN UND TOUCHFLÄCHE','TITELTYPOGRAFIE','DATEIFORMAT','EINBINDUNG UND OFFLINE-CACHE','ABNAHME'):
             check(token in guide,f'Icon-Richtlinie unvollständig: {token}',errors)
+        check('RECHNER, WISSEN, MATERIAL und EXTERN' in guide,'Verbot der alten Kategoriefelder fehlt in der Icon-Richtlinie.',errors)
 
     framed=[]
     for page in html_pages:
@@ -128,7 +133,7 @@ def main()->int:
     check('Beitrag vorschlagen' not in knowledge_home and 'Beitragsvorlage.pdf' not in knowledge_home,'PDF-Vorlagenaktion ist noch vorhanden.',errors)
     check(knowledge_home.count('class="knowledge-brand-logo"')==10,'Wissensnavigation besitzt nicht 10 PNG-Grafiken.',errors)
     check(knowledge_home.count('manufacturer-')>=5,'Hersteller-Hub verwendet die weißen Kurzmarken nicht vollständig.',errors)
-    check(knowledge_home.count('app-wissensdatenbank.png')==5,'Wissensbeiträge verwenden nicht vollständig Buch/WISSEN.',errors)
+    check(knowledge_home.count('app-wissensdatenbank.png')==5,'Wissensbeiträge verwenden nicht vollständig das klare Buchmotiv.',errors)
     check('knowledge-icon-badge' not in knowledge_home,'Alte Geräte-/Beitragsfelder überlagern das Bereichsfeld.',errors)
     check('knowledge-manufacturer-logos.svg' not in knowledge_home and not (ROOT/'assets/knowledge-manufacturer-logos.svg').exists(),'Altes Hersteller-Icon-Sprite ist noch aktiv.',errors)
 
@@ -141,6 +146,8 @@ def main()->int:
     for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','--sk-content-max:1060px','@media(max-width:430px)','grid-template-columns:repeat(3','unit-favorites-panel','unit-row-details','material-compare-table td::before','kb-short-answer','kb-source-bundle'):
         check(token in design,f'Design-System-Regel fehlt: {token}',errors)
     check('[hidden]{display:none!important}' in core,'Zentrale hidden-Regel fehlt.',errors)
+    for token in ('einzelner Blau-Cyan-Grün-Bogen','inset:11px','width:44px!important','text-shadow:-.55px'):
+        check(token in design,f'Entschlackte Startseiten-Iconregel fehlt: {token}',errors)
     check('sk-documentation-page' not in design,'Veraltete Messstellen-CSS-Regeln sind noch vorhanden.',errors)
     for token in ('verbindlicher Plus/Minus-Standard','width:44px!important','height:44px!important','touch-action:manipulation!important',':is(.number,.analog-input-shell,.analog-range-input-shell)'):
         check(token in controls,f'Zentraler Vorzeichenstandard unvollständig: {token}',errors)
@@ -182,9 +189,10 @@ def main()->int:
     check(remaining_svg=={'assets/pct-controls.svg'},f'Unerwartete SVG-Dateien vorhanden: {sorted(remaining_svg)}',errors)
     check((ROOT/'tools/generate_png_icons.py').is_file(),'PNG-Icon-Generator fehlt.',errors)
     generator=(ROOT/'tools/generate_png_icons.py').read_text(encoding='utf-8')
-    for token in ('calculator("RECHNER")','book("WISSEN")','book("MATERIAL")','globe("EXTERN")','manufacturer("AIR\\nTORQUE")','category_badge(im, category'):
-        check(token in generator,f'PNG-Generator enthält die verbindliche Kategoriezuordnung nicht: {token}',errors)
-    check('calculator("PCT")' not in generator and 'book("PCT")' not in generator and 'book("PIPING")' not in generator and 'globe("PCT")' not in generator,'Veraltete pauschale PCT-/PIPING-Felder sind noch im App-Icon-Generator aktiv.',errors)
+    for token in ('master_calculator = calculator()','master_book = book()','save("app-eh-viewer.png", globe())','manufacturer("AIR\\nTORQUE")'):
+        check(token in generator,f'PNG-Generator enthält das verbindliche Hauptmotiv nicht: {token}',errors)
+    check('def category_badge' not in generator and 'category_badge(' not in generator,'Kategoriefeld-Funktion ist im PNG-Generator noch aktiv.',errors)
+    check('calculator("' not in generator and 'book("' not in generator and 'globe("' not in generator,'App-Motive erhalten noch eingebrannte Kategorieparameter.',errors)
     for shortcut in manifest.get('shortcuts',[]):
         for item in shortcut.get('icons',[]):
             check(item.get('type')=='image/png' and item.get('sizes')=='512x512' and item.get('src','').endswith('.png'),f'Manifest-Shortcut nicht auf PNG umgestellt: {item}',errors)

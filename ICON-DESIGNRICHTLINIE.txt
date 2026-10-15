@@ -1,144 +1,116 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.0.3-Beta · 15.10.2026
+Stand: V2.6.0.4-Beta · 15.10.2026
 
 ZWECK UND VERBINDLICHKEIT
-Diese Richtlinie gilt für alle grafischen Navigationsziele in SK PCT Tools. Der verbindliche Auslieferungsstandard ist eine eigenständige, transparente PNG-Datei. V2.6.0.3-Beta führt eine vollständig alternative, plastischere Grafikserie ein.
+Diese Richtlinie gilt für alle grafischen Navigationsziele in SK PCT Tools. Sie ersetzt die kategoriebeschriftete Serie aus V2.6.0.3-Beta vollständig. Auslieferungsstandard bleibt eine eigenständige transparente PNG-Datei; Außenrahmen und Favoritenbedienung werden zentral von der Oberfläche ergänzt.
 
-LEITREGEL DER DREISTUFIGEN BEDEUTUNG
-1. Das Hauptmotiv beschreibt die Funktion: Taschenrechner, aufgeschlagenes Buch oder WWW-Weltkugel.
-2. Das genau einmal in die PNG-Pixel integrierte Textfeld beschreibt die Funktionskategorie: RECHNER, WISSEN, EXTERN oder MATERIAL.
-3. Der sichtbare Titel unter dem Icon beschreibt das konkrete Ziel, zum Beispiel Analogsignal, Wissens-DB oder E+H Viewer.
-Hauptmotiv, Kategoriefeld und Zieltitel dürfen nicht dieselbe Information unnötig wiederholen.
+VERBINDLICHE LEITREGEL
+Ein Icon besteht aus einem Rahmen, einem klaren Hauptmotiv und einem kleinen Favoritenstern; die gesamte Erklärung steht ausschließlich im Titel darunter.
 
-1. DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE
-- Primär- und Auslieferungsformat: PNG mit Alphakanal (RGBA), 512 × 512 px.
-- Hintergrund außerhalb des Motivs bleibt vollständig transparent.
-- Keine externen Bilder, Schriften oder Laufzeitabhängigkeiten im ausgelieferten Icon.
-- Navigationsgrafiken werden nicht als SVG ausgeliefert.
-- Einzige SVG-Ausnahme bleibt assets/pct-controls.svg für kleine, nicht navigierende Bedienpiktogramme.
+1. KATEGORIEFELDER SIND VERBOTEN
+- Die integrierten Felder RECHNER, WISSEN, MATERIAL und EXTERN werden vollständig aus den PNGs entfernt.
+- Auch PCT, PIPING oder andere Kategorie-, Bereichs- und Disziplinfelder dürfen nicht in App-/Ziel-PNGs eingebrannt werden.
+- HTML, CSS und JavaScript dürfen kein sichtbares Kategoriefeld über oder in das Icon legen.
+- Unsichtbare Metadaten wie .sk-card-category dürfen ausschließlich für Suche, Filter, Sortierung und Barrierefreiheit erhalten bleiben.
+- Der konkrete Zielname erscheint genau einmal sichtbar: als Titel unter dem Icon.
+- Das kleine WWW ist Teil des Weltkugelmotivs und kein Kategoriefeld.
+- Hersteller-Kurzmarken sind das Hauptmotiv der Hersteller-Hub-PNGs; sie erhalten kein zusätzliches PCT-Feld.
 
-2. VERBINDLICHE MOTIVKLASSEN UND KATEGORIEFELDER
+2. CARTOON-TECH-AUSSENRAHMEN
+- Alle App-Icons verwenden denselben zentralen Außenrahmen der Oberfläche (.sk-home-icon).
+- Der Außenrahmen ist kräftig schwarz konturiert, dunkel und kompakt.
+- Innerhalb des Rahmens ist genau ein klarer Blau-Cyan-Grün-Rahmenbogen zulässig.
+- Keine zweite Leuchtkontur, kein doppelter Schatten und keine dekorativen Leiterbahnen.
+- Zulässig sind eine dezente Innenkante, ein kurzer mechanischer Tiefenversatz und ein ruhiger Schlagschatten.
+- Rahmenmaß, Eckenradius, Innenabstand und Schatten sind für Smartphone, Tablet und Desktop identisch skaliert.
+
+3. HAUPTMOTIVE
 A. RECHNER UND UMRECHNUNGEN
-- Hauptmotiv immer: hochwertiger, plastischer Taschenrechner.
-- Integriertes Kategoriefeld immer: RECHNER.
-- Gilt für Analogsignal, P+F, Pt100/Pt1000, Einheiten, Spannungsfall und Siemens-Rohwert.
-- Einzelne Rechner erhalten keine abweichenden Sensor-, Kabel-, Geräte- oder Hersteller-Hauptmotive.
+- Ein großer Taschenrechner mit Display.
+- Wenige große Tasten; das Zeichen ± muss klar erkennbar sein.
+- Keine Sensor-, Kabel-, Geräte- oder Herstellerdetails im Rechner-Icon.
+- Die sechs Rechner-PNGs werden aus demselben Master erzeugt und sind pixelidentisch.
 
-B. WISSENSDATENBANKEN UND INTERNE NACHSCHLAGEWERKE
-- Hauptmotiv immer: hochwertiges, plastisches, aufgeschlagenes Buch.
-- Wissensdatenbank und Wissensbeiträge: Kategoriefeld WISSEN.
-- Einheitendatenbank: Kategoriefeld WISSEN.
-- Werkstoffdatenbank: Kategoriefeld MATERIAL.
-- Das frühere pauschale Feld PIPING ist für die Werkstoffdatenbank nicht mehr aktiv.
+B. WISSEN, EINHEITEN UND WERKSTOFFE
+- Ein großes aufgeschlagenes Buch.
+- Zwei klar getrennte farbige Seiten: links Blau/Cyan, rechts Grün.
+- Eine kräftige schwarze Mittelfalte.
+- Keine Seitenbeschriftung, keine Textzeilen und keine kleinteiligen Seitendetails.
+- Einheitendatenbank, Werkstoffdatenbank und Wissensdatenbank verwenden denselben Buch-Master; der Titel darunter unterscheidet das Ziel.
 
-C. EXTERNE WEBSEITEN UND ONLINEDIENSTE
-- Hauptmotiv immer: plastische WWW-Weltkugel.
-- Ein klarer Auswärtspfeil bleibt sichtbar.
-- Integriertes Kategoriefeld immer: EXTERN.
-- Der E+H Device Viewer verwendet diese Klasse.
+C. EXTERNE WEBZIELE
+- Eine große Weltkugel mit klaren schwarzen Längen- und Breitengraden.
+- Kleines WWW als Teil des Hauptmotivs.
+- Keine integrierte EXTERN-Plakette; der Titel darunter erklärt das Ziel.
 
-D. HERSTELLER-HUB DER WISSENSDATENBANK
-- Nur Herstellername oder reduzierte weiße Kurzmarke verwenden.
-- Keine zusätzliche Geräte-, Buch-, Rechner-, Weltkugel- oder sonstige Motivgrafik.
-- Das einzige integrierte Kategoriefeld darf hier PCT lauten.
-- Aktuelle Kurzmarken: AIR TORQUE, E+H, SIEMENS, VACON und ALLG.
-- Markenkennzeichnungen dienen nur der Navigation und behaupten keine Freigabe, Zertifizierung oder Partnerschaft.
+D. HERSTELLER-HUB
+- Eine ruhige weiße Kurzmarke beziehungsweise der Herstellername als Hauptmotiv.
+- Ein kleiner gerader Blau-Cyan-Grün-Akzent ist zulässig.
+- Kein PCT-Feld, keine Gerätesilhouette und keine zusätzliche Kategorie.
 
 E. ALLGEMEINE NAVIGATION
-- Home und Zurück erhalten einfache plastische, kontrastreiche PNG-Piktogramme ohne Kategoriefeld.
-- Bei 20–28 CSS-px müssen Silhouette und Richtung eindeutig erkennbar bleiben.
+- Home und Zurück verwenden jeweils ein einziges großes, schwarz konturiertes Piktogramm.
+- Keine Beschriftungsfelder und keine zusätzlichen Innendetails.
 
-3. INTEGRIERTES KATEGORIEFELD
-- Pro fachlich gekennzeichnetem PNG ist genau ein Kategoriefeld zulässig.
-- Das Feld ist fest in die PNG-Pixel gerendert und wird gemeinsam mit dem Icon ausgeliefert.
-- App-/Ziel-Icons verwenden ausschließlich RECHNER, WISSEN, EXTERN oder MATERIAL.
-- Hersteller-Icons dürfen PCT verwenden.
-- PCT oder PIPING dürfen nicht pauschal auf App-/Ziel-Icons verwendet werden.
-- Zusätzliche Kategorien, Badges oder Overlays in HTML sind verboten.
-- CSS darf kein Kategoriefeld durch Pseudoelemente, content-Regeln, Hintergründe oder Überlagerungen erzeugen.
-- JavaScript darf kein Kategoriefeld erzeugen, ergänzen, kopieren oder über eine PNG-Grafik legen.
-- Home- und Zurück-Icons besitzen bewusst kein Kategoriefeld.
+4. FAVORITENSTERN UND TOUCHFLÄCHE
+- Der Favoritenstern ist kein Bestandteil der PNG-Datei, sondern ein eigenständiger Button der Icon-Komponente.
+- Die unsichtbare Touchfläche beträgt mindestens 44 × 44 CSS-px.
+- Der sichtbare Kreis beträgt 22 px und ist damit gegenüber 28 px um rund 21 Prozent verkleinert.
+- Der sichtbare Kreis muss vollständig innerhalb des Außenrahmens liegen und darf ihn nicht überragen.
+- Inaktiv: dunkler, ruhiger Kreis, gedämpfter Stern, kein grünes Leuchten.
+- Aktiv: grüner Stern, grüne Innenkante und kleines kontrolliertes Leuchten.
+- Fokus bleibt sichtbar, ohne den Kreis optisch zu vergrößern.
 
-4. GEMEINSAMER CARTOON-TECH-RAHMEN UND GEOMETRIE
-- Alle zehn App-Icons verwenden denselben grün-blauen, kräftig schwarz konturierten Außenrahmen der Oberfläche (.sk-home-icon).
-- Außenmaß, Rahmenstärke, Eckenradius, Perspektive, Innenrahmen, Schatten sowie Hover- und Fokusverhalten werden zentral durch CSS festgelegt und nicht in einzelnen PNGs nachgebaut.
-- Der Favoritenstern gehört zur gemeinsamen App-Kachel. Position, Abstand und Größe bleiben für Rechner-, Buch- und WWW-Icons identisch; die PNG-Datei enthält keinen Stern.
-- Alle PNGs werden mit identischem CSS-Außenmaß, object-fit und Innenabstand eingebunden.
-- Die alternative Serie verwendet in den PNGs eine einheitliche leichte 3D-Perspektive, Licht von links oben, schwarze Comic-Konturen und einen kontrollierten Schlagschatten.
-- Rechner-Frontkörper im 512er-Master: x=108…392 px und y=42…346 px; sichtbare Gehäusetiefe bis x=407 px und y=362 px.
-- Das integrierte RECHNER-Feld beginnt einheitlich bei y=382 px; sein Grundkörper endet bei y=460 px. Weiche Schlagschatten dürfen bis y=488 px reichen.
-- Die vollständige sichtbare Rechnergrafik einschließlich Antialiasing und Schatten bleibt innerhalb x=84…444 px und y=30…488 px.
-- Die sechs Rechner-PNGs werden aus derselben Masterfunktion erzeugt und müssen pixelidentisch sein.
+5. TITELTYPOGRAFIE
+- Titel stehen zentriert unter dem Icon.
+- Schwarze Kontur nur sehr fein; keine schwere Doppelkontur und kein großer Textschatten.
+- Auf der Startseite gelten verbindlich die kurzen Titel Umrechnen, Siemens RAW, Werkstoffe und Wissen.
+- Andere bereits eindeutige Titel bleiben unverändert.
+- Das Drei-Spalten-Raster auf dem iPhone muss ohne horizontales Überlaufen erhalten bleiben.
 
-5. FORM, PERSPEKTIVE UND LESBARKEIT
-- Zeichenfläche: 512 × 512 px, transparent.
-- Motiv kompakt, frontal bis leicht isometrisch und bereits bei 56–64 CSS-px eindeutig.
-- Kontur und Schlagschatten schaffen Tiefe, ohne den gemeinsamen CSS-Rahmen zu überdecken.
-- Kategoriefeld maximal breit und kontrastreich anlegen; die kurzen Begriffe müssen auf Smartphone, Tablet und Desktop unterscheidbar bleiben.
-- Keine Details verwenden, die bei 24 px zu Rauschen oder geschlossenen Flächen werden.
-- Titel des konkreten Ziels bleibt als HTML-Text unter dem Icon und wird niemals in das PNG eingebrannt.
+6. FORM, KONTUREN UND FARBE
+- Äußere Motivkontur: Schwarz #000000, im 512er-Master typischerweise 20–26 px.
+- Innere Trennlinien nur, wenn sie das Hauptmotiv erklären.
+- Palette: #02080D, #071A29, #12384D, #008CFF, #00E6F1, #77EFF8, #78FF32, #18A865, #F7FBFF, #A9C2CF.
+- Pro Motiv höchstens zwei Signalhauptfarben plus Stahl- und Dunkelwerte.
+- Licht von links oben; nur eine kurze Lichtkante.
+- Keine Neonwolken, doppelten Schatten, Leiterbahndetails oder kleinteiligen Zierelemente.
 
-6. SCHWARZE COMIC-KONTUREN
-- Äußere Hauptkontur: Schwarz #000000, im 512er-Master typischerweise 18–28 px.
-- Innere Trennlinien: Schwarz #000000 oder Dunkel #071A29, typischerweise 10–18 px.
-- Runde Kappen und Verbindungen verwenden.
-- Konturen müssen in jeder Farbvariante sichtbar bleiben.
-
-7. FARBPALETTE
-- Hintergrund/Dunkel: #02080D, #071A29, #12384D, #173F55.
-- Cyan: #00E6F1; Lichtcyan: #77EFF8.
-- Blau: #008CFF.
-- Grün: #78FF32; dunkles Funktionsgrün: #18A865.
-- Stahl: #F7FBFF, #A9C2CF, #5F8FA4, #347996.
-- Warnfarben nur bei echter Bedeutung.
-- Pro Icon höchstens zwei Signalhauptfarben plus Stahl- und Dunkelwerte.
-
-8. LICHTWIRKUNG UND PLASTIZITÄT
-- Licht kommt von links oben.
-- Eine kurze weiße Glanzkante und eine dunkle rechte beziehungsweise untere Tiefenkante verwenden.
-- Kontrollierte Schlagschatten bleiben Bestandteil des transparenten PNGs, dürfen aber den CSS-Außenrahmen nicht ersetzen.
-- Cyan-/Grün-Leuchten nur klein und kontrolliert einsetzen.
-- Verläufe von hell oben/links nach dunkel unten/rechts führen.
-- Keine fotografischen Effekte und keine großflächigen Neonwolken.
-
-9. BENENNUNG UND ABLAGE
-- Kleinbuchstaben und kebab-case, keine Leerzeichen, Umlaute oder Versionsnummern im Dateinamen.
-- Apps: app-<ziel>.png.
-- Hersteller: manufacturer-<name>.png.
-- Allgemeine Navigation: nav-<aktion>.png.
-- Ablageort: assets/navigation-icons/.
+7. DATEIFORMAT
+- Auslieferungsformat: PNG mit Alphakanal, RGBA, 512 × 512 px.
+- Hintergrund außerhalb des Motivs vollständig transparent.
+- Keine externen Bilder, Schriften oder Laufzeitabhängigkeiten im ausgelieferten PNG.
+- Navigationsgrafiken werden nicht als SVG ausgeliefert.
+- Einzige SVG-Ausnahme: assets/pct-controls.svg für kleine Bedienpiktogramme.
+- Ablage: assets/navigation-icons/.
 - Reproduzierbare Quelle: tools/generate_png_icons.py.
+- Dateinamen: klein, kebab-case, ohne Leerzeichen, Umlaute oder Versionsnummern.
 
-10. EINBINDUNG
-- Immer relative Projektpfade verwenden; keine extern gehosteten Icondateien.
-- Beispiel: <img class="sk-nav-graphic" src="assets/navigation-icons/app-ziel.png?v=<VERSION>" alt="" decoding="async">
-- Bei vorhandenem Linktext bleibt das Bild dekorativ: alt="" und gegebenenfalls aria-hidden="true".
-- Das img-Element ist die alleinige grafische Quelle des Kategoriefeldes.
-- Keine Icon-Badge-Elemente, data-Attribute zur Overlay-Erzeugung oder ::before-/::after-Fachtexte.
-- Jede neue PNG-Datei in service-worker.js in CORE aufnehmen.
-- Manifest-Shortcuts verwenden type image/png und sizes 512x512.
-- Bei Versionswechsel Cache-Parameter, Manifest-Version und Service-Worker-RELEASE aktualisieren.
+8. EINBINDUNG UND OFFLINE-CACHE
+- Immer relative Projektpfade verwenden.
+- Bilder mit leerem alt-Text einbinden, wenn der sichtbare Linktitel die Bedeutung bereits nennt.
+- Jede PNG-Datei muss im Offline-Kerncache von service-worker.js enthalten sein.
+- Bei Versionswechsel RELEASE, Cache-Namensraum, Manifest-Version und Cache-Busting-Parameter aktualisieren.
+- PWA-Shortcuts verwenden image/png und 512x512.
 
-11. ZUSTÄNDE UND BEDIENUNG
-- Hover/Fokus werden durch die umgebende Kachel erzeugt; die PNG-Datei springt oder verformt sich nicht.
-- Aktiv/Ausgewählt: PCT-Grün als Statusakzent in der Oberfläche.
-- Deaktiviert: reduzierte Sättigung/Deckkraft der umgebenden Komponente; die Kontur bleibt erkennbar.
-- Touchziel des umgebenden Links oder Buttons: mindestens 44 × 44 CSS-px.
+9. ABNAHME
+- Alle 17 Navigations-PNGs: 512 × 512 px, RGBA, echte transparente und deckende Pixel.
+- App-PNGs enthalten kein Kategoriefeld.
+- Rechner: Display, sechs große Tasten und ±.
+- Buch: zwei farbige Seiten und schwarze Mittelfalte.
+- Weltkugel: klare Längen-/Breitengrade und kleines WWW.
+- Hersteller: Kurzmarke ohne PCT-Plakette.
+- Home und Zurück: klares Einzelmotiv.
+- Favoriten-Touchfläche mindestens 44 × 44 px; sichtbarer Kreis 22 px; vollständig innerhalb des Außenrahmens.
+- Inaktiv ohne grünes Leuchten, aktiv grün leuchtend.
+- Titel Umrechnen, Siemens RAW, Werkstoffe und Wissen vorhanden.
+- Drei Spalten auf dem iPhone; keine Titel- oder Rahmenüberläufe.
+- Smartphone 390 × 844, Reflow 320 × 900, Tablet 820 × 1180 und Desktop 1440 × 1000 prüfen.
+- Interne Links, externe Links, Navigation, Favoriten, Manifest, Service Worker und Offline-Aufrufe automatisiert testen.
+- SHA256SUMS.txt muss alle Projektdateien außer sich selbst enthalten.
 
-12. ABNAHME VOR EINBAU
-- PNG-Dimension 512 × 512, RGBA und echte transparente Pixel automatisiert prüfen.
-- Motiv bei 24, 56, 64, 94, 192 und 512 px prüfen.
-- Rechner = Taschenrechner + RECHNER; Wissen = Buch + WISSEN; Werkstoffe = Buch + MATERIAL; extern = WWW-Weltkugel + EXTERN.
-- Hersteller-Hub = nur weiße Kurzmarke/Name + PCT.
-- Genau ein integriertes Kategoriefeld pro fachlich gekennzeichnetem PNG prüfen.
-- Die sechs Rechner-PNGs müssen denselben SHA-256-Wert besitzen.
-- Außenmaß, CSS-Rahmen, Rahmenstärke, Perspektive, Schatten, Innenabstand und Favoritensternposition auf Smartphone, Tablet und Desktop vergleichen.
-- HTML, CSS und JavaScript auf zusätzliche RECHNER-, WISSEN-, EXTERN-, MATERIAL-, PCT- oder PIPING-Overlays prüfen.
-- Computed Styles der Icon-Container prüfen: ::before und ::after dürfen keinen Kategorietext ausgeben.
-- Interne Links, externe Links, Manifest, Offline-Cache und fehlende Dateien automatisiert testen.
-
-13. AKTUELLER VERBINDLICHER BESTAND
-- 10 App-/Ziel-PNGs: 6 Taschenrechner mit RECHNER, 2 Bücher mit WISSEN, 1 Buch mit MATERIAL und 1 WWW-Weltkugel mit EXTERN.
-- 5 Hersteller-PNGs: ausschließlich weiße Kurzmarke beziehungsweise Herstellername plus PCT.
-- 2 allgemeine Navigations-PNGs: Home und Zurück ohne Kategoriefeld.
+10. AKTUELLER BESTAND
+- 10 App-/Ziel-PNGs: 6 Taschenrechner, 3 Bücher und 1 WWW-Weltkugel.
+- 5 Hersteller-PNGs: reine Kurzmarken ohne Kategoriefeld.
+- 2 Navigations-PNGs: Home und Zurück.
 - Gesamt: 17 transparente PNG-Navigationsgrafiken.
