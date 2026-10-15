@@ -1,51 +1,41 @@
-SK PCT Tools 2.6.1.1-Beta · Testprotokoll
-Stand: 15.10.2026
+SK PCT Tools 2.6.1.2-Beta – Prüfergebnis
+Datum: 15.10.2026
+Status: PASS
 
-ERGEBNIS: BESTANDEN
+AUSGANGSBASIS
+- Vollständiges Paket SK-PCT-Tools-V2.6.1.1-Beta entpackt und als direkte Basis verwendet.
+- Sämtliche Inhalte und Funktionen übernommen; Änderungen auf Icon-Serie, zugehörige Einbindung, Versions-/Cachedateien, Dokumentation und Tests begrenzt.
 
-1. Ursache und Altpfade
-- BESTANDEN: Die farbigen Motive wurden als tatsächlicher Inhalt der V2.6.1.0-Dateien assets/navigation-icons/app-*.png nachgewiesen.
-- BESTANDEN: Zusätzliches Cache-Risiko durch cache-first plus ignoreSearch:true bei unveränderten Dateinamen nachgewiesen.
-- BESTANDEN: Alte Navigations-PNGs physisch entfernt; genau 17 Dateien mit Präfix v2-6-1-1- vorhanden.
-- BESTANDEN: Keine alten app-*.png-, manufacturer-*.png-, nav-*.png-, Manifest-, Suchindex-, CSS- oder JavaScript-Pfade verbleiben.
-- BESTANDEN: Keine Navigations-SVGs oder dynamischen ${name}.png-Fallbacks verbleiben.
+STATISCHE VALIDIERUNG
+- PASS: 10 Apps, 6 Rechner, 14 interne Unterseiten, 5 Wissensbeiträge.
+- PASS: 16 HTML-Seiten, lokale Referenzen, genau eine H1, Referrer-Schutz und einheitliche Version.
+- PASS: genau 17 PNG-Dateien in assets/navigation-icons/.
+- PASS: ausschließlich Präfix v2-6-1-2-; keine v2-6-1-1- oder unversionierten Navigationsgrafiken.
+- PASS: alle 17 Dateien 512 × 512 px, RGBA, echte Außen-Transparenz und deckende Iconfläche.
+- PASS: identische Alpha-Außenmaße, Rundung, Kontur und Schattenlage.
+- PASS: linke Hintergrundprobe grünbetont, obere rechte Hintergrundprobe blaubetont.
+- PASS: schwarze Comic-Außenkontur sowie weiße, schwarz konturierte Hauptmotive vorhanden.
+- PASS: sechs Rechner-PNGs pixelidentisch; drei Buch-PNGs pixelidentisch.
+- PASS: keine inneren CSS-Rahmenlinien, Kategoriefelder oder Navigations-SVG-Fallbacks.
+- PASS: Manifest, Suchindex, Service Worker, Cache-Epoch und Offline-Kerncache auf V2.6.1.2.
+- PASS: SHA256SUMS.txt deckt alle Projektdateien außer sich selbst ab.
 
-2. Statische Struktur-/Integritätsprüfung
-- PASS: 10 Apps, 6 Rechner, 14 interne Unterseiten und 5 Wissensbeiträge.
-- PASS: Version 2.6.1.1-Beta in VERSION, HTML, Manifest, JavaScript und Service Worker konsistent.
-- PASS: 17 Navigations-PNGs mit 512 × 512 px, RGBA, transparenten und deckenden Pixeln.
-- PASS: Null farbige Pixel in allen 17 Navigationsmotiven; Motive bestehen nur aus Schwarz, Weiß/Hellgrau und Transparenz.
-- PASS: sechs Rechner-PNGs und drei Buch-PNGs je Gruppe pixelidentisch.
-- PASS: alle lokalen Verweise, Manifest-Shortcuts und Offline-Kerncache-Einträge vollständig.
-- PASS: 886 !important-Deklarationen und damit innerhalb des bestehenden Grenzwerts von 900.
-
-3. Rahmen und Favoriten
-- PASS: gemeinsamer kräftiger schwarzer Cartoon-Tech-Außenrahmen mit einem Blau-Cyan-Grün-Rahmenbogen.
-- PASS: einfache weiße Rechner-, Buch-/Nachschlagewerk- und WWW-Symbole ohne Kategoriefelder oder Kleinstbeschriftungen.
-- PASS: Favoriten-Touchfläche durchgehend mindestens 44 × 44 px.
-- PASS: sichtbarer Kreis 22 px, einheitlich oben rechts und vollständig innerhalb des Icon-Rahmens.
-- PASS: inaktiver Favorit weiß/hellgrau ohne grünes Leuchten; aktiver Favorit grün mit kontrolliertem Leuchtring.
-
-4. PWA, Cache und Neuinstallation
-- PASS: Manifest manifest-v2-6-1-1.webmanifest und versionierter Suchindex aktiv.
-- PASS: Cache-Epoch v2-6-1-1-icons-r1 aktiv; simulierte V2.6.1.0-Caches werden beim Aktivieren gelöscht.
-- PASS: versionskritische Dateien network-first; keine ignoreSearch:true-Zuordnung im Asset-Handler.
-- PASS: frischer Installationskontext, Upgrade-Kontext und Offline-Start getestet.
-- PASS: Offline-Aufrufe für Rechner und Wissensbeitrag nach aktivem Service Worker.
-
-5. Browser-Regression
+BROWSER- UND FUNKTIONSPRÜFUNG
 - PASS: 691 automatisierte Browserprüfungen.
-- PASS: 15 Seiten bei Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000.
-- PASS: zusätzliche Reflow-Prüfung bei 320 × 900.
-- PASS: Startseite, Wissensdatenbank, Hersteller-Hub, Home-/Zurück-Navigation, Suche, Filter, Sortierung und Favoriten.
-- PASS: sechs Rechnerreferenzen, Datenbanken, Wissensbeiträge und reale Touch-Auslösung.
-- PASS: keine horizontalen Überläufe und keine gebrochenen Bildressourcen.
+- PASS: 15 Seiten × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000.
+- PASS: Reflow 320 × 900 ohne horizontalen Dokument- oder Bedienüberlauf.
+- PASS: Startseite, Wissensdatenbank, Hersteller-Hub und Navigation mit vollständiger neuer PNG-Serie.
+- PASS: 44 × 44 px Favoriten-Touchfläche, sichtbarer 22-px-Kreis, einheitliche Position oben rechts.
+- PASS: inaktiver Stern hell ohne grünes Leuchten; aktiver Stern grün mit dezentem Leuchtring.
+- PASS: sechs Rechnerreferenzen und Vorzeichen-Taps auf Smartphone und Tablet.
+- PASS: Einheitendatenbank, Werkstoffvergleich und fünf Wissensbeiträge.
+- PASS: Service-Worker-Aktualisierung, Entfernung simulierter Alt-Caches und Offline-Aufrufe.
 
-6. Visuelle Kontrolle
-- PASS: Startseite bei 390 × 844, 320 × 900, 820 × 1180 und 1440 × 1000 nach vollständigem Bild-Decoding gerendert.
-- PASS: Wissensdatenbank-Hub bei 390 × 844 und 820 × 1180 gerendert.
-- PASS: Siemens-Herstelleransicht bei 390 × 844 gerendert.
-- PASS: alle weißen Motive, Rahmen, Titel und Favoritenpositionen sichtbar und konsistent.
+VISUELLE RESPONSIVE KONTROLLE
+- Startseite und Wissensdatenbank bei Smartphone, Tablet und Desktop als Screenshots kontrolliert.
+- Kritische Navigations-PNGs werden synchron dekodiert, damit die vollständige Serie bereits beim ersten gerenderten Zustand sichtbar ist.
+- Außenmaße, Titelabstände, Sternpositionen, Hersteller-Kurzmarken, Home und Zurück sind konsistent.
 
-Hinweis
-- Die automatisierten Browser- und Offline-Prüfungen wurden in Chromium durchgeführt. Ein realer Safari-/iOS-Geräte-Smoke-Test nach Hosting bleibt als zusätzliche Plattformabnahme empfohlen; die iPhone-Geometrie, Touchflächen, Safe Areas, Cache-Aktualisierung und Offline-Funktion wurden automatisiert mit den entsprechenden Viewports und Touchprofilen geprüft.
+FINALE ZIP-ABNAHME
+- Nach der ZIP-Erstellung wird das Archiv in ein leeres Verzeichnis entpackt.
+- Statische Validierung, Browserregression, Icon-Inventar, Altpfadprüfung und SHA-256 werden gegen den entpackten Inhalt erneut ausgeführt.

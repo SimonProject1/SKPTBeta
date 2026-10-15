@@ -1,25 +1,27 @@
-SK PCT Tools 2.6.1.1-Beta
+SK PCT Tools 2.6.1.2-Beta
 Release-Datum: 15.10.2026
 Status: Vollständige kontrollierte Beta
-Direkte Ausgangsbasis: SK-PCT-Tools-V2.6.1.0-Beta
+Direkte Ausgangsbasis: SK-PCT-Tools-V2.6.1.1-Beta
 
-URSACHE
-- Die V2.6.1.0 referenzierte assets/navigation-icons/app-*.png. Diese Dateien enthielten tatsächlich noch die farbigen Taschenrechner-, Buch- und Weltkugelgrafiken; die neue Versionsnummer änderte den Bildinhalt nicht.
-- Der Service Worker verwendete cache-first und cache.match(..., {ignoreSearch:true}). Dadurch war ein geänderter ?v=-Parameter bei gleichbleibendem Dateinamen kein zuverlässiger Cache-Buster.
+ICON-ÜBERARBEITUNG
+1. Alle 17 aktiven Navigations-PNGs als vollständige Iconkacheln neu erzeugt.
+2. Bisherige kurze blau-grüne Innenlinien und Rahmenbögen vollständig entfernt.
+3. Einheitlichen weichen Flächenverlauf in jedes PNG integriert: links Grün, harmonischer Türkisübergang, nach oben rechts Blau.
+4. Sättigung kontrolliert und ohne Neonüberladung abgestimmt.
+5. Kräftige schwarze äußere Comic-Kontur, identische Maße, Rundungen, Perspektive und dezente Tiefe beibehalten.
+6. Weiße Rechner-, Buch-/Nachschlagewerk-, WWW-, Hersteller- und Navigationsmotive mit deutlich sichtbarer schwarzer Comic-Umrandung vereinheitlicht.
+7. Kategoriefelder, Kleinstbeschriftungen und zusätzliche Motivfarben weiterhin ausgeschlossen.
+8. Hersteller-Kurzmarken und Home-/Zurück-Icons nach demselben Hintergrund- und Konturprinzip überarbeitet.
+9. Favoritenstern unverändert als eigenständige 44-px-Touchfläche oben rechts: inaktiv weiß/hellgrau, aktiv grün mit dezentem Leuchtring.
 
-KORREKTUR
-1. Alle 17 Navigations-PNGs aus einem kontrollierten Generator neu erzeugt.
-2. Innenmotive auf einfache weiße/hellgraue Symbole mit schwarzer Kontur reduziert.
-3. Gemeinsamen Blau-Cyan-Grün-Cartoon-Tech-Rahmen zentral in CSS vereinheitlicht.
-4. Alte Icon-Dateien physisch gelöscht; nur v2-6-1-1-*.png bleibt im Ordner assets/navigation-icons/.
-5. Alle statischen und dynamischen Referenzen in HTML, JavaScript, Manifest, Service Worker und Tests auf die neuen Namen umgestellt.
-6. Dynamische Navigation verwendet eine explizite Whitelist statt eines ${name}.png-Fallbacks.
-7. Manifest, Suchindex und geänderte Kern-CSS/-JS-Dateien mit eindeutigen V2.6.1.1-Dateinamen versehen.
-8. Service-Worker-CACHE_EPOCH v2-6-1-1-icons-r1 eingeführt; alte sk-pct-tools-Caches werden gelöscht.
-9. ignoreSearch:true für Assets entfernt; kritische Release-Ressourcen werden network-first mit exakt benanntem Offline-Fallback geladen.
-10. Service-Worker-Registrierung erzwingt Updateprüfung und aktiviert einen wartenden Worker kontrolliert.
-11. Favoritenstern auf 44 × 44 px Touchfläche und 22-px-Kreis oben rechts vereinheitlicht; inaktiv hell, aktiv grün leuchtend.
-12. Suchindex, Offline-Cache, Manifest, Prüfsummen und ICON-DESIGNRICHTLINIE.txt aktualisiert.
+TECHNISCHE KONTROLLE
+- Ersetzte v2-6-1-1-Navigationsgrafiken physisch entfernt; im Paket verbleiben genau 17 Dateien mit Präfix v2-6-1-2-.
+- HTML, JavaScript-Whitelist, Manifest, Suchindex, CSS, Service Worker, Offline-Kerncache, Tests und Dokumentation auf V2.6.1.2 umgestellt.
+- Geänderte Kernressourcen und Manifest mit eindeutigen V2.6.1.2-Dateinamen versehen.
+- Service-Worker-CACHE_EPOCH v2-6-1-2-icons-r1; alte sk-pct-tools-Caches werden bei Aktivierung gelöscht.
+- Assets verwenden kein ignoreSearch:true; kritische Release-Ressourcen werden network-first mit exakt benanntem Offline-Fallback geladen.
+- ICON-DESIGNRICHTLINIE.txt und reproduzierbarer PNG-Generator aktualisiert.
+- SHA256SUMS.txt nach Abschluss über den vollständigen Projektbestand neu erzeugt.
 
 ERHALTEN
 - Sämtliche Inhalte, Rechnerlogiken, Datenbanken, Wissensbeiträge, Such-/Filter-/Sortierfunktionen, Favoriten und lokale App-Reihenfolge.
@@ -29,4 +31,4 @@ ABNAHME
 - Statische Pfad-, Struktur-, Bild-, Versions-, Cache- und Prüfsummenprüfung.
 - Browserprüfung bei 390 × 844, 320 × 900, 820 × 1180 und 1440 × 1000.
 - Startseite, Wissensdatenbank, Hersteller-Hub, Navigation, Favoriten, Online/Offline und Service-Worker-Neuaufbau.
-- Finales ZIP wird nach Erstellung erneut entpackt und auf ausschließlich gültige Navigationsicons geprüft.
+- Finales ZIP wird nach Erstellung in ein leeres Verzeichnis entpackt und erneut vollständig geprüft.

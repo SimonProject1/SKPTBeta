@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.6.1.1-Beta
+# Testplan · SK PCT Tools 2.6.1.2-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -11,20 +11,23 @@ Profile: Smartphone 390 × 844, Reflow 320 × 900, Tablet 820 × 1180 und Deskto
 
 ## 2. Dateibestand und Altpfade
 1. Genau 17 Dateien unter `assets/navigation-icons/` prüfen.
-2. Jeder Dateiname muss mit `v2-6-1-1-` beginnen; alte `app-*.png`, `manufacturer-*.png` und `nav-*.png` ohne Präfix dürfen nicht vorhanden sein.
+2. Jeder Dateiname muss mit `v2-6-1-2-` beginnen; Dateien der Serie `v2-6-1-1-` und unversionierte Altdateien dürfen nicht vorhanden sein.
 3. Keine Navigations-SVGs, Daten-URIs, CSS-Hintergrundbilder oder JavaScript-Fallbackpfade zulassen.
 4. Einzige SVG-Datei im Paket: `assets/pct-controls.svg` für aktive Bedienpiktogramme.
 5. Alle lokalen HTML-/CSS-/JS-/JSON-/Manifest-Verweise müssen auf vorhandene Dateien zeigen.
 
-## 3. Icon-Inhalt und Rahmen
+## 3. Icon-Inhalt und Außenform
 1. Alle 17 PNGs: 512 × 512 px, RGBA, transparente und deckende Pixel.
-2. In den Navigations-PNGs dürfen keine farbigen Pixel vorkommen; zulässig sind Transparenz, Weiß/Hellgrau und Schwarz.
-3. Sechs Rechnerdateien müssen pixelidentisch sein; drei Buchdateien ebenfalls.
-4. Rechner: Displayfeld und sechs große unbeschriftete Tasten, ohne Zahlen oder Kleinsttext.
-5. Buch: einfaches weißes Nachschlagewerk, ohne farbige Seiten oder Textzeilen.
-6. WWW: weiße Weltkugel mit wenigen Koordinatenlinien und WWW.
-7. Gemeinsamer Rahmen: kräftige schwarze Außenkontur und ein Blau-Cyan-Grün-Rahmenbogen aus CSS.
-8. Keine sichtbaren Kategoriefelder in PNG, HTML, CSS oder JavaScript.
+2. Identische Alpha-Außenmaße, Rundung, Schattenlage und kräftige schwarze Außenkontur.
+3. Hintergrundprobe links grünbetont und oben rechts blaubetont; weicher sichtbarer Verlauf ohne Neonüberladung.
+4. Keine kurzen inneren Linien, Rahmenbögen oder zweite CSS-Rahmenebene.
+5. Weiße/hellgraue Funktionsmotive mit deutlich sichtbarer schwarzer Comic-Umrandung.
+6. Sechs Rechnerdateien müssen pixelidentisch sein; drei Buchdateien ebenfalls.
+7. Rechner: Displayfeld und sechs große unbeschriftete Tasten, ohne Zahlen oder Kleinsttext.
+8. Buch: einfaches weißes Nachschlagewerk, ohne farbige Seiten oder Textzeilen.
+9. WWW: weiße Weltkugel mit wenigen Koordinatenlinien.
+10. Hersteller-, Home- und Zurück-Icons verwenden denselben Hintergrund- und Konturmaster.
+11. Keine sichtbaren Kategoriefelder in PNG, HTML, CSS oder JavaScript.
 
 ## 4. Favoriten
 1. Startseite und Wissens-App-Karten: Touchfläche mindestens 44 × 44 px.
@@ -34,9 +37,9 @@ Profile: Smartphone 390 × 844, Reflow 320 × 900, Tablet 820 × 1180 und Deskto
 5. Tap, Tastaturfokus, Hinzufügen, Entfernen, Zähler und Favoritenleiste prüfen.
 
 ## 5. PWA, Manifest und Cache
-1. `manifest-v2-6-1-1.webmanifest`, Version und drei Shortcut-Icons prüfen.
+1. `manifest-v2-6-1-2.webmanifest`, Version und drei Shortcut-Icons prüfen.
 2. Service Worker über die releasebezogene Registrierungs-URL laden.
-3. Nur Caches mit Epoch `v2-6-1-1-icons-r1` behalten; ältere `sk-pct-tools-*`-Caches müssen gelöscht werden.
+3. Nur Caches mit Epoch `v2-6-1-2-icons-r1` behalten; ältere `sk-pct-tools-*`-Caches müssen gelöscht werden.
 4. Prüfen, dass `ignoreSearch:true` nicht für Assets verwendet wird.
 5. Online laden, Worker aktivieren, anschließend Startseite, Rechner, Wissensdatenbank und Wissensbeitrag offline öffnen.
 6. Neuinstallation mit leerem Storage sowie Aktualisierung aus einem simulierten Alt-Cache prüfen.

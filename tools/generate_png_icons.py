@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
-"""Generate the controlled V2.6.1.1-Beta navigation icon series.
+"""Generate the controlled V2.6.1.2-Beta PNG navigation icon series.
 
-The PNG files contain only transparent pixels plus simple white/neutral symbols
-with a black cartoon outline. The common blue-cyan-green tech frame and every
-favorite state are rendered centrally by CSS, never embedded in a PNG.
+Each 512 × 512 RGBA file is a complete icon tile: transparent outer canvas,
+subtle mechanical depth, a strong black rounded comic contour, a soft area
+background that starts green at the left and transitions to blue toward the
+upper right, and exactly one simple white symbol with a visible black outline.
+Favorite stars remain interactive CSS/HTML controls and are never baked in.
 """
 from __future__ import annotations
 
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 SIZE = 512
 SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-1-1-"
+PREFIX = "v2-6-1-2-"
 WHITE = (255, 255, 255, 255)
-SOFT = (222, 222, 222, 255)
+SOFT = (238, 244, 247, 255)
 BLACK = (0, 0, 0, 255)
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_CONDENSED = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
+_FRAME_MASTER: Image.Image | None = None
 
 
 def sc(value: float) -> int:
@@ -51,6 +54,65 @@ def fit_font(text: str, max_width: int, start: int, minimum: int = 18):
     return font(minimum, condensed=True)
 
 
+def area_gradient() -> Image.Image:
+    """Muted green-left to blue-upper-right gradient without neon clipping."""
+    w = h = sc(410)
+    image = Image.new("RGBA", (w, h))
+    pixels = image.load()
+    stops = (
+        (0.00, (47, 158, 96)),
+        (0.46, (22, 137, 143)),
+        (1.00, (25, 99, 177)),
+    )
+    for y in range(h):
+        yn = y / max(1, h - 1)
+        for x in range(w):
+            xn = x / max(1, w - 1)
+            # The left edge remains green; the strongest blue is upper right.
+            t = max(0.0, min(1.0, 0.76 * xn + 0.24 * (1.0 - yn)))
+            for index in range(len(stops) - 1):
+                p0, c0 = stops[index]
+                p1, c1 = stops[index + 1]
+                if p0 <= t <= p1:
+                    f = (t - p0) / (p1 - p0)
+                    rgb = tuple(round(c0[i] + (c1[i] - c0[i]) * f) for i in range(3))
+                    break
+            # Gentle depth: slightly lighter above, slightly quieter below.
+            lift = round(9 * (1.0 - yn) - 7 * yn)
+            pixels[x, y] = tuple(max(0, min(255, v + lift)) for v in rgb) + (255,)
+    return image
+
+
+def frame() -> Image.Image:
+    """Complete icon body with outer comic contour and soft depth."""
+    global _FRAME_MASTER
+    if _FRAME_MASTER is not None:
+        return _FRAME_MASTER.copy()
+    image = canvas()
+    draw = ImageDraw.Draw(image)
+    # Mechanical shadow remains inside the transparent 512 px master.
+    draw.rounded_rectangle(box((30, 32, 486, 488)), radius=sc(112), fill=(0, 0, 0, 150))
+    draw.rounded_rectangle(box((16, 12, 470, 466)), radius=sc(112), fill=BLACK)
+
+    inner_rect = box((38, 34, 448, 444))
+    mask = Image.new("L", (CANVAS, CANVAS), 0)
+    ImageDraw.Draw(mask).rounded_rectangle(inner_rect, radius=sc(82), fill=255)
+    gradient = area_gradient().resize((inner_rect[2] - inner_rect[0], inner_rect[3] - inner_rect[1]), Image.Resampling.BICUBIC)
+    layer = canvas()
+    layer.paste(gradient, (inner_rect[0], inner_rect[1]))
+    image.alpha_composite(Image.composite(layer, canvas(), mask))
+
+    # Broad translucent highlight; it is not a second frame or short accent line.
+    sheen = canvas()
+    sd = ImageDraw.Draw(sheen)
+    sd.ellipse(box((14, -130, 390, 244)), fill=(255, 255, 255, 20))
+    sd.ellipse(box((120, 294, 520, 610)), fill=(0, 0, 0, 22))
+    sheen.putalpha(Image.composite(sheen.getchannel("A"), Image.new("L", (CANVAS, CANVAS), 0), mask))
+    image.alpha_composite(sheen)
+    _FRAME_MASTER = image.copy()
+    return image
+
+
 def outlined_line(draw: ImageDraw.ImageDraw, coords, white_width: int, black_width: int | None = None):
     black_width = black_width or white_width + 20
     draw.line(points(coords), fill=BLACK, width=sc(black_width), joint="curve")
@@ -64,86 +126,75 @@ def outlined_round_rect(draw: ImageDraw.ImageDraw, rect, radius: int, white_widt
 
 
 def calculator() -> Image.Image:
-    """Simple white calculator: display, six keys and a readable plus/minus."""
-    image = canvas()
+    image = frame()
     draw = ImageDraw.Draw(image)
-    outlined_round_rect(draw, (102, 46, 410, 466), 52, 24, 46)
-    outlined_round_rect(draw, (142, 94, 370, 186), 18, 18, 36)
-    # A single quiet display mark; no numbers or micro labels.
-    outlined_line(draw, [(176, 140), (336, 140)], 16, 32)
-    centers = [(164, 264), (256, 264), (348, 264), (164, 368), (256, 368), (348, 368)]
+    outlined_round_rect(draw, (126, 90, 386, 394), 44, 22, 46)
+    outlined_round_rect(draw, (157, 124, 355, 188), 15, 14, 32)
+    outlined_line(draw, [(182, 156), (330, 156)], 12, 28)
+    centers = [(176, 245), (256, 245), (336, 245), (176, 326), (256, 326), (336, 326)]
     for cx, cy in centers:
-        draw.rounded_rectangle(box((cx - 28, cy - 24, cx + 28, cy + 24)), radius=sc(11), fill=BLACK)
-        draw.rounded_rectangle(box((cx - 17, cy - 14, cx + 17, cy + 14)), radius=sc(7), fill=SOFT)
+        draw.rounded_rectangle(box((cx - 25, cy - 22, cx + 25, cy + 22)), radius=sc(10), fill=BLACK)
+        draw.rounded_rectangle(box((cx - 14, cy - 12, cx + 14, cy + 12)), radius=sc(6), fill=SOFT)
     return image
 
 
 def book() -> Image.Image:
-    """Simple white open book / reference-work symbol."""
-    image = canvas()
+    image = frame()
     draw = ImageDraw.Draw(image)
-    left = [(62, 112), (156, 78), (244, 118), (244, 432), (157, 397), (62, 430), (62, 112)]
-    right = [(450, 112), (356, 78), (268, 118), (268, 432), (355, 397), (450, 430), (450, 112)]
-    outlined_line(draw, left, 27, 51)
-    outlined_line(draw, right, 27, 51)
-    outlined_line(draw, [(256, 116), (256, 433)], 24, 48)
-    # One broad page cue per side, deliberately without writing or tiny lines.
-    outlined_line(draw, [(112, 158), (182, 134)], 15, 31)
-    outlined_line(draw, [(400, 158), (330, 134)], 15, 31)
+    left = [(92, 142), (166, 110), (244, 145), (244, 390), (169, 362), (92, 390), (92, 142)]
+    right = [(420, 142), (346, 110), (268, 145), (268, 390), (343, 362), (420, 390), (420, 142)]
+    outlined_line(draw, left, 24, 50)
+    outlined_line(draw, right, 24, 50)
+    outlined_line(draw, [(256, 142), (256, 391)], 21, 45)
     return image
 
 
 def globe() -> Image.Image:
-    """Simple white WWW globe."""
-    image = canvas()
+    image = frame()
     draw = ImageDraw.Draw(image)
-    sphere = box((58, 58, 454, 454))
-    draw.ellipse(sphere, outline=BLACK, width=sc(46))
-    draw.ellipse(sphere, outline=WHITE, width=sc(24))
-    for rect in ((154, 68, 358, 444), (86, 150, 426, 362)):
-        draw.ellipse(box(rect), outline=BLACK, width=sc(34))
-        draw.ellipse(box(rect), outline=WHITE, width=sc(16))
-    outlined_line(draw, [(256, 70), (256, 442)], 16, 34)
-    outlined_line(draw, [(72, 256), (440, 256)], 16, 34)
-    draw.text((sc(256), sc(258)), "WWW", font=font(38, condensed=True), fill=WHITE,
-              stroke_width=sc(7), stroke_fill=BLACK, anchor="mm")
+    sphere = box((108, 108, 404, 404))
+    draw.ellipse(sphere, outline=BLACK, width=sc(44))
+    draw.ellipse(sphere, outline=WHITE, width=sc(22))
+    for rect in ((178, 116, 334, 396), (126, 184, 386, 328)):
+        draw.ellipse(box(rect), outline=BLACK, width=sc(30))
+        draw.ellipse(box(rect), outline=WHITE, width=sc(14))
+    outlined_line(draw, [(256, 119), (256, 393)], 14, 30)
+    outlined_line(draw, [(119, 256), (393, 256)], 14, 30)
     return image
 
 
 def manufacturer(mark: str) -> Image.Image:
-    """Large quiet white manufacturer mark without category plaques."""
-    image = canvas()
+    image = frame()
     draw = ImageDraw.Draw(image)
     lines = mark.split("\n")
-    start_y = 256 if len(lines) == 1 else 205
-    step = 102
-    fnt = fit_font(max(lines, key=len), 405, 105 if len(lines) == 1 else 83, 38)
+    start_y = 256 if len(lines) == 1 else 214
+    step = 84
+    fnt = fit_font(max(lines, key=len), 320, 88 if len(lines) == 1 else 69, 34)
     for index, text in enumerate(lines):
         draw.text((sc(256), sc(start_y + index * step)), text, font=fnt, fill=WHITE,
-                  stroke_width=sc(11), stroke_fill=BLACK, anchor="mm")
+                  stroke_width=sc(10), stroke_fill=BLACK, anchor="mm")
     return image
 
 
 def home_icon() -> Image.Image:
-    image = canvas()
+    image = frame()
     draw = ImageDraw.Draw(image)
-    roof = [(58, 244), (256, 62), (454, 244), (405, 293), (256, 158), (107, 293)]
-    body = (135, 239, 377, 452)
+    roof = [(120, 258), (256, 126), (392, 258), (354, 296), (256, 202), (158, 296)]
     draw.polygon(points(roof), fill=BLACK)
-    inset_roof = [(91, 242), (256, 91), (421, 242), (398, 265), (256, 137), (114, 265)]
-    draw.polygon(points(inset_roof), fill=WHITE)
-    draw.rounded_rectangle(box(body), radius=sc(31), fill=BLACK)
-    draw.rounded_rectangle(box((158, 261, 354, 430)), radius=sc(22), fill=WHITE)
-    draw.rounded_rectangle(box((224, 324, 288, 452)), radius=sc(12), fill=BLACK)
+    inner_roof = [(148, 255), (256, 151), (364, 255), (349, 270), (256, 183), (163, 270)]
+    draw.polygon(points(inner_roof), fill=WHITE)
+    draw.rounded_rectangle(box((169, 252, 343, 390)), radius=sc(25), fill=BLACK)
+    draw.rounded_rectangle(box((190, 273, 322, 371)), radius=sc(17), fill=WHITE)
+    draw.rounded_rectangle(box((231, 318, 281, 390)), radius=sc(9), fill=BLACK)
     return image
 
 
 def back_icon() -> Image.Image:
-    image = canvas()
+    image = frame()
     draw = ImageDraw.Draw(image)
-    arrow = [(224, 56), (34, 256), (224, 456), (307, 374), (237, 304), (474, 304), (474, 208), (237, 208), (307, 138)]
+    arrow = [(229, 115), (91, 256), (229, 397), (305, 322), (267, 284), (411, 284), (411, 228), (267, 228), (305, 190)]
     draw.polygon(points(arrow), fill=BLACK)
-    inner = [(225, 96), (75, 256), (225, 416), (270, 372), (185, 286), (442, 286), (442, 226), (185, 226), (270, 140)]
+    inner = [(230, 151), (126, 256), (230, 361), (268, 323), (220, 273), (382, 273), (382, 239), (220, 239), (268, 189)]
     draw.polygon(points(inner), fill=WHITE)
     return image
 
