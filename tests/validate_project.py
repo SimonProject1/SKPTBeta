@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.4-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.1.0-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.0.4-Beta'
+VERSION='2.6.1.0-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}

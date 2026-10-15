@@ -1,7 +1,8 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.0.4-Beta · 15.10.2026
+Stand: V2.6.1.0-Beta · 15.10.2026
 
 ZWECK UND VERBINDLICHKEIT
+Freigabestatus: verbindlicher Auslieferungsstandard der V2.6.1-Linie.
 Diese Richtlinie gilt für alle grafischen Navigationsziele in SK PCT Tools. Sie ersetzt die kategoriebeschriftete Serie aus V2.6.0.3-Beta vollständig. Auslieferungsstandard bleibt eine eigenständige transparente PNG-Datei; Außenrahmen und Favoritenbedienung werden zentral von der Oberfläche ergänzt.
 
 VERBINDLICHE LEITREGEL

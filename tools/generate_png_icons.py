@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Erzeugt die entschlackte transparente PNG-Navigationsserie für 2.6.0.4-Beta.
+"""Erzeugt die entschlackte transparente PNG-Navigationsserie für 2.6.1.0-Beta.
 
 Verbindliches Prinzip der App-Icon-Komponente:
 - ein gemeinsamer Cartoon-Tech-Außenrahmen in CSS,

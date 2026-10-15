@@ -1,11 +1,11 @@
-SK PCT Tools 2.6.0.4-Beta · Testprotokoll
+SK PCT Tools 2.6.1.0-Beta · Testprotokoll
 Stand: 15.10.2026
 
 ERGEBNIS: BESTANDEN
 
 1. Statische Struktur-/Integritätsprüfung
 - PASS: 10 Apps, 6 Rechner, 14 interne Unterseiten und 5 Wissensbeiträge.
-- PASS: Version 2.6.0.4-Beta in VERSION, Manifest, HTML, Cache-Busting und Service Worker konsistent.
+- PASS: Version 2.6.1.0-Beta in VERSION, Manifest, HTML, Cache-Busting und Service Worker konsistent.
 - PASS: 17 Navigations-PNGs mit 512 × 512 px, RGBA, transparenten und deckenden Pixeln.
 - PASS: alle lokalen Verweise und Offline-Kerncache-Einträge vollständig.
 - PASS: projektinterne SHA-256-Prüfsummen nach Abschluss vollständig neu erzeugt.
@@ -18,7 +18,7 @@ ERGEBNIS: BESTANDEN
 - PASS: fünf Hersteller-Kurzmarken ohne PCT-Plakette.
 - PASS: Home und Zurück als klare transparente Einzelmotive.
 - PASS: keine PNG-Generatorfunktion für integrierte Kategoriefelder.
-- PASS: Generator erneut ausgeführt; die erzeugten PNGs sind reproduzierbar.
+- PASS: Generator erneut ausgeführt; alle 17 PNG-Dateien wurden byteidentisch reproduziert.
 
 3. Rahmen, Favorit und Titel
 - PASS: kräftiger schwarzer Cartoon-Tech-Außenrahmen mit genau einem Blau-Cyan-Grün-Rahmenbogen.

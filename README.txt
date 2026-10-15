@@ -1,10 +1,12 @@
-SK PCT Tools 2.6.0.4-Beta
+SK PCT Tools 2.6.1.0-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank und Werkstoffdatenbank.
-Direkte Ausgangsbasis ist die vollständige 2.6.0.3-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.6.0.4-Beta.
+Diese Version erhebt den neuen Icon-Standard zur verbindlichen Basis der 2.6.1-Linie.
 
 Änderungen dieser Beta
+- Der in 2.6.0.4-Beta vorbereitete Icon-Standard ist jetzt verbindlicher Auslieferungsstandard der 2.6.1-Linie.
 - Alle 17 transparenten PNG-Navigationsgrafiken wurden als deutlich entschlackte Cartoon-Tech-Serie neu erzeugt.
 - Die integrierten Felder RECHNER, WISSEN, MATERIAL, EXTERN und PCT wurden aus den PNGs entfernt.
 - Ein Icon besteht verbindlich aus einem gemeinsamen schwarzen Außenrahmen, einem klaren Hauptmotiv und einem kleinen Favoritenstern; die Erklärung steht ausschließlich im Titel darunter.
@@ -38,9 +40,9 @@ Iconpflege
 - Einzige zulässige SVG-Datei: assets/pct-controls.svg für kleine Bedienpiktogramme.
 
 Version und PWA
-- Öffentliche und technische Version: 2.6.0.4-Beta.
+- Öffentliche und technische Version: 2.6.1.0-Beta.
 - Laufzeitkanal: beta.
-- Service-Worker-Cache: sk-pct-tools-*-v2.6.0.4-Beta.
+- Service-Worker-Cache: sk-pct-tools-*-v2.6.1.0-Beta.
 - Einstellungen bleiben lokal im Browser; es erfolgt keine Übertragung durch SK PCT Tools.
 
 Deployment

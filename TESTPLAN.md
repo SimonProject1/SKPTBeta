@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.6.0.4-Beta
+# Testplan · SK PCT Tools 2.6.1.0-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -32,7 +32,7 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 ## 5. PWA und Offline
 1. Online laden und Service Worker aktivieren lassen.
 2. Offline Startseite, Rechner, Datenbanken und Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.6.0.4-Beta aktiv sind.
+3. Prüfen, dass nur Caches der Version 2.6.1.0-Beta aktiv sind.
 
 ## 6. Manuelle Plattformprüfung
 1. iPhone/iPad/Android: Installation, Safe Areas, Hoch-/Querformat und echter Touch.
@@ -63,6 +63,6 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 13. Drei Spalten bei 390 × 844 und 320 × 900 prüfen; zusätzlich Tablet 820 × 1180 und Desktop 1440 × 1000.
 14. Grafiken bei 24, 56, 64, 94, 192 und 512 px auf klare Silhouette und reduzierte Details prüfen.
 15. Manifest-Shortcuts auf image/png und sizes 512x512 prüfen.
-16. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.0.4-Beta-Cache erscheinen.
+16. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.1.0-Beta-Cache erscheinen.
 17. Prüfen, dass assets/navigation-icons/ keine SVG-Datei enthält und als einzige technische SVG-Ausnahme assets/pct-controls.svg verbleibt.
 18. ICON-DESIGNRICHTLINIE.txt als verbindliche Übergabegrundlage auf Vollständigkeit prüfen.

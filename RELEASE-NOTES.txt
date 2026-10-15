@@ -1,9 +1,13 @@
-SK PCT Tools 2.6.0.4-Beta
+SK PCT Tools 2.6.1.0-Beta
 Release-Datum: 15.10.2026
-Status: Vollständige Beta · entschlackte PNG-Iconserie
-Direkte Ausgangsbasis: vollständige 2.6.0.3-Beta
+Status: Vollständige Beta · verbindlicher Icon-Standard der 2.6.1-Linie
+Direkte Ausgangsbasis: vollständige 2.6.0.4-Beta
 
 TATSÄCHLICH UMGESETZT
+
+0. Versionsfreigabe des Icon-Standards
+- Der in 2.6.0.4-Beta vorbereitete Cartoon-Tech-Icon-Standard wird als verbindliche Basis der 2.6.1-Linie übernommen.
+- Funktionsumfang, Datenbestände und Berechnungslogik bleiben unverändert erhalten.
 
 1. Alle Navigations-PNGs neu erzeugt
 - Alle 17 Navigations-PNGs wurden aus tools/generate_png_icons.py neu erzeugt.
@@ -42,7 +46,7 @@ TATSÄCHLICH UMGESETZT
 - Drei Spalten auf dem iPhone bleiben verbindlich.
 
 6. PWA, Cache und Versionierung
-- Öffentliche und technische Version: 2.6.0.4-Beta.
+- Öffentliche und technische Version: 2.6.1.0-Beta.
 - Manifest, Service-Worker-RELEASE, Cache-Namensraum, Cache-Busting-Parameter und sichtbare Versionsangaben aktualisiert.
 - Alle 17 Navigations-PNGs sind weiterhin im Offline-Kerncache enthalten.
 - Navigation, Suche, Filter, Sortierung, Favoriten, Rechner, Datenbanken und lokale App-Reihenfolge bleiben erhalten.
