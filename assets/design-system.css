@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.6.1.0-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
+/* SK PCT Tools 2.6.1.1-Beta — zentrale Design-Tokens und gemeinsame Basiskomponenten.
    Diese letzte, kleine Kaskadenebene ersetzt verteilte Seitenkorrekturen. */
 :root{
   --sk-color-bg:#02080d;
@@ -356,7 +356,7 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
   body[data-knowledge-standard] .kb-meta-card strong{overflow-wrap:normal;word-break:normal;hyphens:auto}
 }
 
-/* === V2.6.1.0-Beta: verbindlicher Header-/Footer-Standard ==================
+/* === V2.6.1.1-Beta: verbindlicher Header-/Footer-Standard ==================
    Dieser Block ist absichtlich die letzte Kaskadenebene. Startseite und alle
    internen Seiten nutzen damit dieselbe Rahmenfläche, dieselbe Kopfgeometrie
    und denselben randlosen Footer. */
@@ -551,9 +551,11 @@ body[data-sk-layout="framed"] .sk-app-frame>.sk-footer{
 }
 
 
-/* === V2.6.1.0-Beta: entschlackte Icon-Komponente ==========================
+/* === V2.6.1.1-Beta: entschlackte Icon-Komponente ==========================
    Ein kräftiger schwarzer Außenrahmen, ein einzelner Blau-Cyan-Grün-Bogen,
    genau ein PNG-Hauptmotiv und ein kleiner Favoritenstern. */
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app{--sk-home-icon-box:clamp(72px,8vw,94px)}
+body[data-sk-home="ios"] .pct-home-grid .sk-home-app>.sk-home-icon{width:var(--sk-home-icon-box)!important}
 body[data-sk-home="ios"] .sk-home-icon,
 body[data-sk-layout="framed"] .knowledge-home-icon{
   isolation:isolate;
@@ -578,8 +580,8 @@ body[data-sk-layout="framed"] .knowledge-home-icon::before{
 body[data-sk-home="ios"] .sk-home-icon>.sk-nav-graphic,
 body[data-sk-layout="framed"] .knowledge-home-icon>.knowledge-brand-logo{
   z-index:1!important;
-  width:92%;
-  height:92%;
+  width:76%;
+  height:76%;
   margin:0;
   filter:none!important;
 }
@@ -590,9 +592,9 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app.card h2.sk-home-app-title{
 
 /* 44-px-Touchfläche bleibt erhalten; sichtbar sind nur 22 px (ca. 21 % kleiner). */
 body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control{
-  top:0!important;
-  right:calc(50% - 47px)!important;
-  inset:auto calc(50% - 47px) auto auto!important;
+  top:-5px!important;
+  right:calc(50% - (var(--sk-home-icon-box) * .5) - 11px)!important;
+  inset:auto calc(50% - (var(--sk-home-icon-box) * .5) - 11px) auto auto!important;
   width:44px!important;
   min-width:44px!important;
   height:44px!important;
@@ -635,10 +637,35 @@ body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-con
   outline:2px solid rgba(0,230,241,.72);
   outline-offset:-7px;
 }
-@media(max-width:430px){
-  body[data-sk-home="ios"] .pct-home-grid .sk-home-app .sk-favorite-button.pct-control{
-    top:-3px!important;
-    right:calc(50% - 42px)!important;
-    inset:auto calc(50% - 42px) auto auto!important;
-  }
+@media(max-width:620px){body[data-sk-home="ios"] .pct-home-grid .sk-home-app{--sk-home-icon-box:64px}}
+@media(max-width:430px){body[data-sk-home="ios"] .pct-home-grid .sk-home-app{--sk-home-icon-box:62px}}
+
+
+/* === V2.6.1.1-Beta: identischer Favoritenstern an Wissens-App-Icons ======== */
+body[data-sk-page="knowledge"] .knowledge-entry{--sk-knowledge-icon-box:clamp(82px,9vw,104px)}
+body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control{
+  top:-6px;
+  right:calc(50% - (var(--sk-knowledge-icon-box) * .5) - 11px);
+  inset:auto calc(50% - (var(--sk-knowledge-icon-box) * .5) - 11px) auto auto;
+  width:44px;min-width:44px;height:44px;min-height:44px;
+  padding:0;border:0;border-radius:50%;clip-path:none;
+  background:transparent;box-shadow:none;color:#d8edf3;
+}
+body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control::before{display:none}
+body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control::after{
+  content:"";position:absolute;z-index:0;inset:11px;border:2px solid #000;border-radius:50%;
+  background:#071a29;box-shadow:inset 0 0 0 1px #347996,1px 2px 0 #000;
+}
+body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control>.pct-icon{
+  position:relative;z-index:1;width:12px;height:12px;color:currentColor;filter:none;
+}
+body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control[data-active="true"]{color:#78ff32}
+body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control[data-active="true"]::after{
+  border-color:#78ff32;box-shadow:inset 0 0 0 1px #78ff32,0 0 8px rgba(120,255,50,.58),1px 2px 0 #000;
+}
+body[data-sk-page="knowledge"] .knowledge-entry .sk-favorite-button.pct-control:focus-visible{
+  outline:2px solid rgba(0,230,241,.72);outline-offset:-7px;
+}
+@media(max-width:760px), (min-width:761px) and (max-width:932px) and (orientation:landscape) and (max-height:520px){
+  body[data-sk-page="knowledge"] .knowledge-entry{--sk-knowledge-icon-box:68px}
 }

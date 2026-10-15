@@ -1,117 +1,102 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.1.0-Beta · 15.10.2026
+Stand: V2.6.1.1-Beta · 15.10.2026
 
 ZWECK UND VERBINDLICHKEIT
-Freigabestatus: verbindlicher Auslieferungsstandard der V2.6.1-Linie.
-Diese Richtlinie gilt für alle grafischen Navigationsziele in SK PCT Tools. Sie ersetzt die kategoriebeschriftete Serie aus V2.6.0.3-Beta vollständig. Auslieferungsstandard bleibt eine eigenständige transparente PNG-Datei; Außenrahmen und Favoritenbedienung werden zentral von der Oberfläche ergänzt.
+Freigabestatus: verbindlicher Auslieferungsstandard der V2.6.1.1-Beta.
+Diese Richtlinie ersetzt die farbigen Taschenrechner-, Buch- und Weltkugelgrafiken sowie alle älteren kategoriebeschrifteten Serien vollständig.
 
 VERBINDLICHE LEITREGEL
-Ein Icon besteht aus einem Rahmen, einem klaren Hauptmotiv und einem kleinen Favoritenstern; die gesamte Erklärung steht ausschließlich im Titel darunter.
+Ein Icon besteht aus einem gemeinsamen Cartoon-Tech-Rahmen, genau einem einfachen weißen Funktionssymbol und – sofern das Ziel favorisiert werden kann – einem eigenständigen Favoritenbutton oben rechts. Der sichtbare Titel steht ausschließlich unter dem Icon.
 
 1. KATEGORIEFELDER SIND VERBOTEN
-- Die integrierten Felder RECHNER, WISSEN, MATERIAL und EXTERN werden vollständig aus den PNGs entfernt.
-- Auch PCT, PIPING oder andere Kategorie-, Bereichs- und Disziplinfelder dürfen nicht in App-/Ziel-PNGs eingebrannt werden.
-- HTML, CSS und JavaScript dürfen kein sichtbares Kategoriefeld über oder in das Icon legen.
-- Unsichtbare Metadaten wie .sk-card-category dürfen ausschließlich für Suche, Filter, Sortierung und Barrierefreiheit erhalten bleiben.
-- Der konkrete Zielname erscheint genau einmal sichtbar: als Titel unter dem Icon.
-- Das kleine WWW ist Teil des Weltkugelmotivs und kein Kategoriefeld.
-- Hersteller-Kurzmarken sind das Hauptmotiv der Hersteller-Hub-PNGs; sie erhalten kein zusätzliches PCT-Feld.
+- RECHNER, WISSEN, MATERIAL und EXTERN dürfen weder in PNGs noch als sichtbare HTML-, CSS- oder JavaScript-Überlagerung erscheinen.
+- PCT, PIPING und andere Bereichsplaketten sind in Navigationsicons verboten.
+- Kleinstbeschriftungen, Displays mit Zahlen, Gerätedetails, Leiterbahnen und dekorative Mini-Elemente sind verboten.
+- Unsichtbare Metadaten wie .sk-card-category bleiben ausschließlich für Suche, Filter, Sortierung und Barrierefreiheit erhalten.
 
 2. CARTOON-TECH-AUSSENRAHMEN
-- Alle App-Icons verwenden denselben zentralen Außenrahmen der Oberfläche (.sk-home-icon).
-- Der Außenrahmen ist kräftig schwarz konturiert, dunkel und kompakt.
-- Innerhalb des Rahmens ist genau ein klarer Blau-Cyan-Grün-Rahmenbogen zulässig.
-- Keine zweite Leuchtkontur, kein doppelter Schatten und keine dekorativen Leiterbahnen.
-- Zulässig sind eine dezente Innenkante, ein kurzer mechanischer Tiefenversatz und ein ruhiger Schlagschatten.
-- Rahmenmaß, Eckenradius, Innenabstand und Schatten sind für Smartphone, Tablet und Desktop identisch skaliert.
+- Alle App-, Wissens- und Herstellerziele verwenden zentral dieselbe .sk-home-icon-Komponente.
+- Außen: kräftige schwarze Kontur, kompakte dunkle Grundfläche und mechanischer Schlagschatten.
+- Innen: genau ein ruhiger Blau-Cyan-Grün-Rahmenbogen.
+- Keine abweichenden Rahmenfarben je Kategorie und keine eingebrannten Rahmen in den PNG-Dateien.
+- Der Rahmen wird in CSS erzeugt; die PNG-Dateien enthalten ausschließlich das Funktionssymbol auf Transparenz.
 
 3. HAUPTMOTIVE
-A. RECHNER UND UMRECHNUNGEN
-- Ein großer Taschenrechner mit Display.
-- Wenige große Tasten; das Zeichen ± muss klar erkennbar sein.
-- Keine Sensor-, Kabel-, Geräte- oder Herstellerdetails im Rechner-Icon.
-- Die sechs Rechner-PNGs werden aus demselben Master erzeugt und sind pixelidentisch.
+A. Rechner und Umrechnungen
+- Einfaches weißes Taschenrechnersymbol mit großem Displayfeld und sechs großen, unbeschrifteten Tasten.
+- Keine Zahlen, Kleinstzeichen, Sensoren, Kabel, Herstellerkennzeichen oder farbigen Tasten.
+- Alle sechs Rechnerdateien werden aus demselben Master erzeugt und sind pixelidentisch.
 
-B. WISSEN, EINHEITEN UND WERKSTOFFE
-- Ein großes aufgeschlagenes Buch.
-- Zwei klar getrennte farbige Seiten: links Blau/Cyan, rechts Grün.
-- Eine kräftige schwarze Mittelfalte.
-- Keine Seitenbeschriftung, keine Textzeilen und keine kleinteiligen Seitendetails.
-- Einheitendatenbank, Werkstoffdatenbank und Wissensdatenbank verwenden denselben Buch-Master; der Titel darunter unterscheidet das Ziel.
+B. Wissen, Einheiten und Werkstoffe
+- Einfaches weißes Symbol eines aufgeschlagenen Buchs beziehungsweise Nachschlagewerks.
+- Keine farbigen Seiten, Texte, Seitenzeilen oder Fachbereichsfelder.
+- Einheitendatenbank, Werkstoffdatenbank und Wissensdatenbank verwenden denselben Master.
 
-C. EXTERNE WEBZIELE
-- Eine große Weltkugel mit klaren schwarzen Längen- und Breitengraden.
-- Kleines WWW als Teil des Hauptmotivs.
-- Keine integrierte EXTERN-Plakette; der Titel darunter erklärt das Ziel.
+C. Externe WWW-Ziele
+- Einfache weiße Weltkugel mit wenigen Längen- und Breitengraden und groß lesbarem WWW.
+- Keine farbige Kugel und keine EXTERN-Plakette.
 
-D. HERSTELLER-HUB
-- Eine ruhige weiße Kurzmarke beziehungsweise der Herstellername als Hauptmotiv.
-- Ein kleiner gerader Blau-Cyan-Grün-Akzent ist zulässig.
-- Kein PCT-Feld, keine Gerätesilhouette und keine zusätzliche Kategorie.
+D. Hersteller-Hub
+- Ruhige große weiße Kurzmarke beziehungsweise Herstellername als Hauptmotiv.
+- Keine farbigen Akzentleisten, Gerätesilhouetten, PCT-Felder oder Kleinstbeschriftungen.
 
-E. ALLGEMEINE NAVIGATION
-- Home und Zurück verwenden jeweils ein einziges großes, schwarz konturiertes Piktogramm.
-- Keine Beschriftungsfelder und keine zusätzlichen Innendetails.
+E. Allgemeine Navigation
+- Home und Zurück verwenden je ein einziges großes weißes, schwarz konturiertes Piktogramm.
+- Keine Beschriftungsfelder und keine alternativen SVG-/CSS-Fallbackgrafiken.
 
 4. FAVORITENSTERN UND TOUCHFLÄCHE
-- Der Favoritenstern ist kein Bestandteil der PNG-Datei, sondern ein eigenständiger Button der Icon-Komponente.
-- Die unsichtbare Touchfläche beträgt mindestens 44 × 44 CSS-px.
-- Der sichtbare Kreis beträgt 22 px und ist damit gegenüber 28 px um rund 21 Prozent verkleinert.
-- Der sichtbare Kreis muss vollständig innerhalb des Außenrahmens liegen und darf ihn nicht überragen.
-- Inaktiv: dunkler, ruhiger Kreis, gedämpfter Stern, kein grünes Leuchten.
-- Aktiv: grüner Stern, grüne Innenkante und kleines kontrolliertes Leuchten.
-- Fokus bleibt sichtbar, ohne den Kreis optisch zu vergrößern.
+- Der Favoritenstern ist nie Bestandteil der PNG-Datei.
+- Position: an jedem favorisierbaren App-Icon einheitlich oben rechts, analog zum Zähler des Favoritenbuttons.
+- Unsichtbare Touchfläche: mindestens 44 × 44 CSS-px.
+- Sichtbarer Kreis: 22 × 22 CSS-px und vollständig kontrolliert über CSS.
+- Inaktiv: weißer beziehungsweise hellgrauer Stern, dunkler ruhiger Kreis, kein grünes Leuchten.
+- Aktiv: grüner Stern, grüne Innenkante und dezenter kontrollierter Leuchtring.
+- Tastaturfokus bleibt sichtbar; der Button darf weder Titel noch Nachbarkachel blockieren.
 
 5. TITELTYPOGRAFIE
-- Titel stehen zentriert unter dem Icon.
-- Schwarze Kontur nur sehr fein; keine schwere Doppelkontur und kein großer Textschatten.
-- Auf der Startseite gelten verbindlich die kurzen Titel Umrechnen, Siemens RAW, Werkstoffe und Wissen.
-- Andere bereits eindeutige Titel bleiben unverändert.
-- Das Drei-Spalten-Raster auf dem iPhone muss ohne horizontales Überlaufen erhalten bleiben.
+- Der Zielname erscheint genau einmal sichtbar und zentriert unter dem Icon.
+- Keine Kategoriefelder und keine Kleinstbeschriftungen im Icon.
+- Die kurzen Startseitentitel Umrechnen, Siemens RAW, Werkstoffe und Wissen bleiben verbindlich.
+- Smartphone-Raster dürfen nicht horizontal überlaufen.
 
 6. FORM, KONTUREN UND FARBE
-- Äußere Motivkontur: Schwarz #000000, im 512er-Master typischerweise 20–26 px.
-- Innere Trennlinien nur, wenn sie das Hauptmotiv erklären.
-- Palette: #02080D, #071A29, #12384D, #008CFF, #00E6F1, #77EFF8, #78FF32, #18A865, #F7FBFF, #A9C2CF.
-- Pro Motiv höchstens zwei Signalhauptfarben plus Stahl- und Dunkelwerte.
-- Licht von links oben; nur eine kurze Lichtkante.
-- Keine Neonwolken, doppelten Schatten, Leiterbahndetails oder kleinteiligen Zierelemente.
+- Im PNG-Hauptmotiv zulässig: transparent, Weiß/Hellgrau und schwarze Kontur.
+- Farbige Pixel sind in den App-, Hersteller- und Navigationsmotiven nicht zulässig.
+- Die Farben #008CFF, #00E6F1 und #78FF32 dürfen ausschließlich im gemeinsamen CSS-Rahmen beziehungsweise im aktiven Favoritenzustand erscheinen.
+- Außenkontur des Rahmens: #000000.
 
-7. DATEIFORMAT
-- Auslieferungsformat: PNG mit Alphakanal, RGBA, 512 × 512 px.
-- Hintergrund außerhalb des Motivs vollständig transparent.
-- Keine externen Bilder, Schriften oder Laufzeitabhängigkeiten im ausgelieferten PNG.
-- Navigationsgrafiken werden nicht als SVG ausgeliefert.
-- Einzige SVG-Ausnahme: assets/pct-controls.svg für kleine Bedienpiktogramme.
+7. DATEIFORMAT UND DATEINAMEN
+- Auslieferungsformat: PNG, RGBA, 512 × 512 px, echte Transparenz.
 - Ablage: assets/navigation-icons/.
+- Verbindlicher Dateipräfix dieser Serie: v2-6-1-1-.
+- Genau 17 aktive PNG-Navigationsgrafiken: 10 App-/Zielgrafiken, 5 Hersteller-Kurzmarken, Home und Zurück.
 - Reproduzierbare Quelle: tools/generate_png_icons.py.
-- Dateinamen: klein, kebab-case, ohne Leerzeichen, Umlaute oder Versionsnummern.
+- Alte app-*.png-, manufacturer-*.png- und nav-*.png-Dateien ohne V2.6.1.1-Präfix sind nicht Bestandteil des Pakets.
+- Einzige aktive SVG-Datei: assets/pct-controls.svg für kleine Bedienpiktogramme; sie ist kein Navigationsgrafik-Fallback.
 
 8. EINBINDUNG UND OFFLINE-CACHE
-- Immer relative Projektpfade verwenden.
-- Bilder mit leerem alt-Text einbinden, wenn der sichtbare Linktitel die Bedeutung bereits nennt.
-- Jede PNG-Datei muss im Offline-Kerncache von service-worker.js enthalten sein.
-- Bei Versionswechsel RELEASE, Cache-Namensraum, Manifest-Version und Cache-Busting-Parameter aktualisieren.
-- PWA-Shortcuts verwenden image/png und 512x512.
+- Alle Verweise verwenden die eindeutigen V2.6.1.1-Dateinamen.
+- Dynamische Zuordnungen verwenden eine explizite Whitelist; es gibt keinen `${name}.png`-Fallback.
+- Manifest, Suchindex und die geänderten CSS-/JavaScript-Dateien besitzen ebenfalls eindeutige V2.6.1.1-Dateinamen.
+- Der Service Worker verwendet CACHE_EPOCH v2-6-1-1-icons-r1, löscht ältere sk-pct-tools-Caches bei Aktivierung und gleicht Cacheeinträge nicht mehr über ignoreSearch:true ab.
+- Versionskritische Ressourcen werden network-first mit Offline-Fallback geladen.
+- Jede gültige Navigations-PNG ist im Offline-Kerncache enthalten.
 
 9. ABNAHME
-- Alle 17 Navigations-PNGs: 512 × 512 px, RGBA, echte transparente und deckende Pixel.
-- App-PNGs enthalten kein Kategoriefeld.
-- Rechner: Display, sechs große Tasten und ±.
-- Buch: zwei farbige Seiten und schwarze Mittelfalte.
-- Weltkugel: klare Längen-/Breitengrade und kleines WWW.
-- Hersteller: Kurzmarke ohne PCT-Plakette.
-- Home und Zurück: klares Einzelmotiv.
-- Favoriten-Touchfläche mindestens 44 × 44 px; sichtbarer Kreis 22 px; vollständig innerhalb des Außenrahmens.
-- Inaktiv ohne grünes Leuchten, aktiv grün leuchtend.
-- Titel Umrechnen, Siemens RAW, Werkstoffe und Wissen vorhanden.
-- Drei Spalten auf dem iPhone; keine Titel- oder Rahmenüberläufe.
+- 17 Dateien, 512 × 512 px, RGBA, transparente und deckende Pixel.
+- Keine farbigen Pixel in den 17 Navigationsmotiven.
+- Sechs Rechnerdateien und drei Buchdateien jeweils pixelidentisch.
+- Keine alten Dateinamen oder unreferenzierten Navigationsgrafiken im entpackten ZIP.
+- Keine Referenzen auf alte SVG-, PNG-, CSS- oder JavaScript-Fallbackpfade.
+- 44-px-Touchfläche, 22-px-Kreis, inaktiv hell und aktiv grün leuchtend.
 - Smartphone 390 × 844, Reflow 320 × 900, Tablet 820 × 1180 und Desktop 1440 × 1000 prüfen.
-- Interne Links, externe Links, Navigation, Favoriten, Manifest, Service Worker und Offline-Aufrufe automatisiert testen.
-- SHA256SUMS.txt muss alle Projektdateien außer sich selbst enthalten.
+- Startseite, Wissensdatenbank, Hersteller-Hub, Kopfzeilennavigation, Favoriten, Manifest, Service Worker, Offline-Aufrufe und Neuinstallation automatisiert prüfen.
+- SHA256SUMS.txt enthält alle Projektdateien außer sich selbst.
 
 10. AKTUELLER BESTAND
-- 10 App-/Ziel-PNGs: 6 Taschenrechner, 3 Bücher und 1 WWW-Weltkugel.
-- 5 Hersteller-PNGs: reine Kurzmarken ohne Kategoriefeld.
-- 2 Navigations-PNGs: Home und Zurück.
-- Gesamt: 17 transparente PNG-Navigationsgrafiken.
+- 6 weiße Rechner-PNGs aus einem Master.
+- 3 weiße Buch-/Nachschlagewerk-PNGs aus einem Master.
+- 1 weiße WWW-Weltkugel.
+- 5 weiße Hersteller-Kurzmarken.
+- 2 weiße Navigationspiktogramme für Home und Zurück.
+- Gesamt: 17 gültige transparente PNG-Navigationsgrafiken der Serie v2-6-1-1-.

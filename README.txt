@@ -1,59 +1,53 @@
-SK PCT Tools 2.6.1.0-Beta
+SK PCT Tools 2.6.1.1-Beta
 
-Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
+Vollständige kontrollierte Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank und Werkstoffdatenbank.
-Direkte Ausgangsbasis ist die vollständige 2.6.0.4-Beta.
-Diese Version erhebt den neuen Icon-Standard zur verbindlichen Basis der 2.6.1-Linie.
+Direkte Ausgangsbasis ist die vollständige SK-PCT-Tools-V2.6.1.0-Beta.
 
-Änderungen dieser Beta
-- Der in 2.6.0.4-Beta vorbereitete Icon-Standard ist jetzt verbindlicher Auslieferungsstandard der 2.6.1-Linie.
-- Alle 17 transparenten PNG-Navigationsgrafiken wurden als deutlich entschlackte Cartoon-Tech-Serie neu erzeugt.
-- Die integrierten Felder RECHNER, WISSEN, MATERIAL, EXTERN und PCT wurden aus den PNGs entfernt.
-- Ein Icon besteht verbindlich aus einem gemeinsamen schwarzen Außenrahmen, einem klaren Hauptmotiv und einem kleinen Favoritenstern; die Erklärung steht ausschließlich im Titel darunter.
-- Taschenrechner: großes Display, sechs große Tasten und deutliches ±.
-- Buch: zwei klare farbige Seiten und schwarze Mittelfalte.
-- Weltkugel: klare Längen-/Breitengrade und kleines WWW.
-- Hersteller-Kurzmarken, Home und Zurück wurden ebenfalls ohne Kategoriefelder neu erzeugt.
-- Nur ein Blau-Cyan-Grün-Rahmenbogen, ein dezenter Tiefenversatz und ein ruhiger Schlagschatten; keine doppelte Leuchtkontur oder Leiterbahndetails.
-- Sichtbarer Favoritenkreis von 28 auf 22 px verkleinert; unsichtbare Touchfläche bleibt 44 × 44 px.
-- Favorit inaktiv ruhig, aktiv grün leuchtend.
-- Titelkontur feiner; Startseitentitel Umrechnen, Siemens RAW, Werkstoffe und Wissen gekürzt.
-- Drei-Spalten-Raster auf dem iPhone bleibt erhalten.
+Behobene Ursache
+- In V2.6.1.0-Beta zeigten die HTML-Verweise zwar auf die erwarteten Dateien, die zehn ausgelieferten App-PNGs enthielten jedoch selbst weiterhin die farbigen Taschenrechner-, Buch- und Weltkugelmotive.
+- Zusätzlich verwendete der Service Worker cache-first mit ignoreSearch:true. Dadurch konnten gleichnamige Dateien trotz neuer ?v=-Parameter aus einem älteren PWA-Cache geliefert werden.
+- V2.6.1.1-Beta beseitigt beide Ursachen: neu erzeugte Quelldateien und eindeutige Dateinamen sowie ein neuer Cache-Epoch ohne ignoreSearch-Fallback.
 
-Erhaltene Funktionen und Inhalte
-- 10 Startseiten-Apps, vollständige interne und externe Navigation, Suche, Filter, Sortierung und Favoriten.
+Icon-Standard V2.6.1.1
+- 17 aktive Navigations-PNGs, 512 × 512 px, RGBA, transparente Hintergründe.
+- Alle Dateinamen beginnen mit v2-6-1-1-; alte app-*.png-, manufacturer-*.png- und nav-*.png-Dateien wurden entfernt.
+- Gemeinsamer dunkler Cartoon-Tech-Rahmen mit schwarzer Außenkontur und einem Blau-Cyan-Grün-Rahmenbogen wird zentral in CSS erzeugt.
+- Innen ausschließlich einfache weiße beziehungsweise hellgraue Funktionssymbole mit schwarzer Kontur: Rechner, Buch/Nachschlagewerk und WWW-Weltkugel.
+- Hersteller-Hub, Home und Zurück verwenden ruhige weiße Einzelmotive.
+- Keine Kategoriefelder, Kleinstbeschriftungen, alten Farbmotive oder dynamischen Dateinamen-Fallbacks.
+- Favoriten: 44 × 44 px Touchfläche, sichtbarer 22-px-Kreis oben rechts; inaktiv hell/ruhig, aktiv grün mit dezentem Leuchtring.
+
+Cache- und PWA-Kontrolle
+- Eindeutige Dateinamen für Manifest, Suchindex und geänderte CSS-/JavaScript-Ressourcen.
+- Service-Worker-Cache-Epoch: v2-6-1-1-icons-r1.
+- Alte sk-pct-tools-Caches werden bei Aktivierung vollständig gelöscht.
+- Versionskritische Ressourcen werden network-first geladen und offline aus dem exakt benannten Cache bedient.
+- Der Service Worker wird mit releasebezogener URL und updateViaCache:none registriert.
+- Manifest-Shortcuts und Offline-Kerncache verwenden nur die neue Icon-Serie.
+
+Erhaltene Inhalte und Funktionen
+- 10 Startseiten-Apps, Hersteller-Hub, fünf Wissensbeiträge und alle internen/externalen Navigationsziele.
 - Alle sechs Rechner und ihre Berechnungslogik.
-- Einheiten- und Werkstoffdatenbank sowie fünf Wissensbeiträge.
-- Hersteller-Hub mit fünf Herstellerzielen.
-- Eigene App-Reihenfolge und lokale Einstellungen.
-- PWA-Installation und Offline-Kerncache.
+- Einheiten- und Werkstoffdatenbank, Suche, Filter, Sortierung, Favoriten und eigene App-Reihenfolge.
 - Smartphone-, Tablet-, Desktop- und 320-px-Reflow-Unterstützung.
 
-Iconpflege
-- Navigationsicons: assets/navigation-icons/*.png
+Wichtige Dateien
+- Manifest: manifest-v2-6-1-1.webmanifest
+- Service Worker: service-worker.js
+- Navigationsicons: assets/navigation-icons/v2-6-1-1-*.png
 - Reproduzierbarer Generator: tools/generate_png_icons.py
 - Verbindliche Vorgaben: ICON-DESIGNRICHTLINIE.txt
-- Format: 512 × 512 px, RGBA, transparenter Hintergrund.
-- Sechs Rechner-PNGs sind pixelidentisch.
-- Drei Buch-PNGs sind pixelidentisch.
-- Kategoriefelder dürfen weder in PNGs noch als sichtbare HTML-/CSS-/JavaScript-Overlays erscheinen.
-- Einzige zulässige SVG-Datei: assets/pct-controls.svg für kleine Bedienpiktogramme.
-
-Version und PWA
-- Öffentliche und technische Version: 2.6.1.0-Beta.
-- Laufzeitkanal: beta.
-- Service-Worker-Cache: sk-pct-tools-*-v2.6.1.0-Beta.
-- Einstellungen bleiben lokal im Browser; es erfolgt keine Übertragung durch SK PCT Tools.
+- Interne Prüfsummen: SHA256SUMS.txt
 
 Deployment
 1. Den vollständigen Ordnerinhalt unverändert auf einen HTTPS-Webserver kopieren.
-2. manifest.webmanifest und service-worker.js im Projektstamm belassen.
-3. SECURITY-DEPLOYMENT.md für serverseitige Sicherheitsheader beachten.
-4. Lokaler Test: python3 -m http.server 8080
-5. Anschließend http://localhost:8080/ öffnen.
-6. SHA256SUMS.txt enthält die SHA-256-Prüfsumme jeder weiteren Projektdatei.
+2. Alle Dateien einschließlich service-worker.js und manifest-v2-6-1-1.webmanifest im gelieferten Pfad belassen.
+3. Nach dem ersten Online-Aufruf die einmalige Service-Worker-Aktualisierung/Neuladung abwarten.
+4. Für eine vollständige Neuinstallation die alte PWA entfernen und anschließend V2.6.1.1-Beta neu installieren.
+5. SECURITY-DEPLOYMENT.md für serverseitige Sicherheitsheader beachten.
 
 Tests
-- Statische Struktur-/Integritätsprüfung: python3 tests/validate_project.py
-- Browser-Regression (Playwright): python3 tests/browser_regression.py
-- Manueller Abnahmeplan: TESTPLAN.md
+- Statisch: python3 tests/validate_project.py
+- Browser/Offline: python3 tests/browser_regression.py
+- Manuelle Geräteabnahme: TESTPLAN.md

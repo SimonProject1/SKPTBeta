@@ -1,57 +1,32 @@
-SK PCT Tools 2.6.1.0-Beta
+SK PCT Tools 2.6.1.1-Beta
 Release-Datum: 15.10.2026
-Status: Vollständige Beta · verbindlicher Icon-Standard der 2.6.1-Linie
-Direkte Ausgangsbasis: vollständige 2.6.0.4-Beta
+Status: Vollständige kontrollierte Beta
+Direkte Ausgangsbasis: SK-PCT-Tools-V2.6.1.0-Beta
 
-TATSÄCHLICH UMGESETZT
+URSACHE
+- Die V2.6.1.0 referenzierte assets/navigation-icons/app-*.png. Diese Dateien enthielten tatsächlich noch die farbigen Taschenrechner-, Buch- und Weltkugelgrafiken; die neue Versionsnummer änderte den Bildinhalt nicht.
+- Der Service Worker verwendete cache-first und cache.match(..., {ignoreSearch:true}). Dadurch war ein geänderter ?v=-Parameter bei gleichbleibendem Dateinamen kein zuverlässiger Cache-Buster.
 
-0. Versionsfreigabe des Icon-Standards
-- Der in 2.6.0.4-Beta vorbereitete Cartoon-Tech-Icon-Standard wird als verbindliche Basis der 2.6.1-Linie übernommen.
-- Funktionsumfang, Datenbestände und Berechnungslogik bleiben unverändert erhalten.
+KORREKTUR
+1. Alle 17 Navigations-PNGs aus einem kontrollierten Generator neu erzeugt.
+2. Innenmotive auf einfache weiße/hellgraue Symbole mit schwarzer Kontur reduziert.
+3. Gemeinsamen Blau-Cyan-Grün-Cartoon-Tech-Rahmen zentral in CSS vereinheitlicht.
+4. Alte Icon-Dateien physisch gelöscht; nur v2-6-1-1-*.png bleibt im Ordner assets/navigation-icons/.
+5. Alle statischen und dynamischen Referenzen in HTML, JavaScript, Manifest, Service Worker und Tests auf die neuen Namen umgestellt.
+6. Dynamische Navigation verwendet eine explizite Whitelist statt eines ${name}.png-Fallbacks.
+7. Manifest, Suchindex und geänderte Kern-CSS/-JS-Dateien mit eindeutigen V2.6.1.1-Dateinamen versehen.
+8. Service-Worker-CACHE_EPOCH v2-6-1-1-icons-r1 eingeführt; alte sk-pct-tools-Caches werden gelöscht.
+9. ignoreSearch:true für Assets entfernt; kritische Release-Ressourcen werden network-first mit exakt benanntem Offline-Fallback geladen.
+10. Service-Worker-Registrierung erzwingt Updateprüfung und aktiviert einen wartenden Worker kontrolliert.
+11. Favoritenstern auf 44 × 44 px Touchfläche und 22-px-Kreis oben rechts vereinheitlicht; inaktiv hell, aktiv grün leuchtend.
+12. Suchindex, Offline-Cache, Manifest, Prüfsummen und ICON-DESIGNRICHTLINIE.txt aktualisiert.
 
-1. Alle Navigations-PNGs neu erzeugt
-- Alle 17 Navigations-PNGs wurden aus tools/generate_png_icons.py neu erzeugt.
-- 10 App-/Zielgrafiken, 5 Hersteller-Kurzmarken sowie Home und Zurück bilden eine zusammengehörige Serie.
-- Masterformat bleibt 512 × 512 px RGBA mit echter Transparenz.
+ERHALTEN
+- Sämtliche Inhalte, Rechnerlogiken, Datenbanken, Wissensbeiträge, Such-/Filter-/Sortierfunktionen, Favoriten und lokale App-Reihenfolge.
+- 10 Startseitenziele, fünf Herstellerbereiche, fünf Wissensbeiträge und alle Unterseiten.
 
-2. Kategoriefelder vollständig entfernt
-- RECHNER, WISSEN, MATERIAL und EXTERN sind nicht mehr in den App-PNGs enthalten.
-- Die Hersteller-Kurzmarken besitzen kein zusätzliches PCT-Feld.
-- Keine sichtbaren Kategorie-Overlays aus HTML, CSS oder JavaScript.
-- Verdeckte Metadaten bleiben nur für Suche, Filter und Sortierung erhalten.
-
-3. Klare Einzelmotive
-- Taschenrechner: Display, sechs große Tasten und ±.
-- Buch: blaue/cyanfarbene linke Seite, grüne rechte Seite, schwarze Mittelfalte.
-- Weltkugel: klare Längen- und Breitengrade, kleines WWW.
-- Hersteller, Home und Zurück: jeweils ein ruhiges Einzelmotiv.
-- Innere Linien, Reflexe, Schatten, Leiterbahnen und Zierelemente wurden deutlich reduziert.
-
-4. Rahmen und Favoriten
-- Gemeinsamer kräftig schwarzer Cartoon-Tech-Außenrahmen.
-- Genau ein Blau-Cyan-Grün-Rahmenbogen.
-- Nur ein dezenter Tiefenversatz und ein ruhiger Schlagschatten.
-- Sichtbarer Favoritenkreis: 22 px statt 28 px, rund 21 Prozent kleiner.
-- Touchfläche bleibt 44 × 44 px.
-- Der sichtbare Kreis bleibt innerhalb des Außenrahmens.
-- Inaktiv ohne grünes Leuchten; aktiv mit kontrolliertem grünen Leuchten.
-
-5. Titel und iPhone-Raster
-- Feinere schwarze Kontur der Titeltypografie.
-- Einheitenrechner → Umrechnen.
-- Siemens Rohwert → Siemens RAW.
-- Werkstoff-DB → Werkstoffe.
-- Wissens-DB → Wissen.
-- Alle anderen eindeutigen Titel bleiben erhalten.
-- Drei Spalten auf dem iPhone bleiben verbindlich.
-
-6. PWA, Cache und Versionierung
-- Öffentliche und technische Version: 2.6.1.0-Beta.
-- Manifest, Service-Worker-RELEASE, Cache-Namensraum, Cache-Busting-Parameter und sichtbare Versionsangaben aktualisiert.
-- Alle 17 Navigations-PNGs sind weiterhin im Offline-Kerncache enthalten.
-- Navigation, Suche, Filter, Sortierung, Favoriten, Rechner, Datenbanken und lokale App-Reihenfolge bleiben erhalten.
-
-7. Qualitätssicherung
-- Statische Prüfung: Dateiverweise, Version, PNG-Dimensionen, RGBA, Transparenz, Motivmaster, Richtlinie, Offline-Cache und SHA-256.
-- Browserprüfung: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900.
-- Zusätzliche Prüfungen: drei iPhone-Spalten, 22-px-Favoritenkreis, 44-px-Touchfläche, Rahmenbegrenzung, inaktiver/aktiver Favoritenzustand und kurze Titel.
+ABNAHME
+- Statische Pfad-, Struktur-, Bild-, Versions-, Cache- und Prüfsummenprüfung.
+- Browserprüfung bei 390 × 844, 320 × 900, 820 × 1180 und 1440 × 1000.
+- Startseite, Wissensdatenbank, Hersteller-Hub, Navigation, Favoriten, Online/Offline und Service-Worker-Neuaufbau.
+- Finales ZIP wird nach Erstellung erneut entpackt und auf ausschließlich gültige Navigationsicons geprüft.

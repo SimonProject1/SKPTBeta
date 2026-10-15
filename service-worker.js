@@ -1,33 +1,34 @@
-const RELEASE='2.6.1.0-Beta';
+const RELEASE='2.6.1.1-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
-const CORE_CACHE=`${CACHE_PREFIX}core-v${RELEASE}`;
-const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-v${RELEASE}`;
+const CACHE_EPOCH='v2-6-1-1-icons-r1';
+const CORE_CACHE=`${CACHE_PREFIX}core-${CACHE_EPOCH}`;
+const DOCUMENT_CACHE=`${CACHE_PREFIX}documents-${CACHE_EPOCH}`;
 const CORE=[
   './',
   './analogsignal/',
   './assets/analogsignal-rechner.js',
-  './assets/app.js',
-  './assets/pct-home.css',
-  './assets/pct-home.js',
-  './assets/navigation-icons/app-analogsignal.png',
-  './assets/navigation-icons/app-eh-viewer.png',
-  './assets/navigation-icons/app-einheitendatenbank.png',
-  './assets/navigation-icons/app-einheitenrechner.png',
-  './assets/navigation-icons/app-pf-rechner.png',
-  './assets/navigation-icons/app-pt-rechner.png',
-  './assets/navigation-icons/app-siemens-rohwert.png',
-  './assets/navigation-icons/app-spannungsfall.png',
-  './assets/navigation-icons/app-werkstoffdatenbank.png',
-  './assets/navigation-icons/app-wissensdatenbank.png',
-  './assets/navigation-icons/manufacturer-air-torque.png',
-  './assets/navigation-icons/manufacturer-endress-hauser.png',
-  './assets/navigation-icons/manufacturer-siemens.png',
-  './assets/navigation-icons/manufacturer-sonstiges.png',
-  './assets/navigation-icons/manufacturer-vacon.png',
-  './assets/navigation-icons/nav-back.png',
-  './assets/navigation-icons/nav-home.png',
-  './assets/pct-controls.css',
-  './assets/pct-controls.js',
+  './assets/app-v2-6-1-1.js',
+  './assets/pct-home-v2-6-1-1.css',
+  './assets/pct-home-v2-6-1-1.js',
+  './assets/navigation-icons/v2-6-1-1-app-analogsignal.png',
+  './assets/navigation-icons/v2-6-1-1-app-eh-viewer.png',
+  './assets/navigation-icons/v2-6-1-1-app-einheitendatenbank.png',
+  './assets/navigation-icons/v2-6-1-1-app-einheitenrechner.png',
+  './assets/navigation-icons/v2-6-1-1-app-pf-rechner.png',
+  './assets/navigation-icons/v2-6-1-1-app-pt-rechner.png',
+  './assets/navigation-icons/v2-6-1-1-app-siemens-rohwert.png',
+  './assets/navigation-icons/v2-6-1-1-app-spannungsfall.png',
+  './assets/navigation-icons/v2-6-1-1-app-werkstoffdatenbank.png',
+  './assets/navigation-icons/v2-6-1-1-app-wissensdatenbank.png',
+  './assets/navigation-icons/v2-6-1-1-manufacturer-air-torque.png',
+  './assets/navigation-icons/v2-6-1-1-manufacturer-endress-hauser.png',
+  './assets/navigation-icons/v2-6-1-1-manufacturer-siemens.png',
+  './assets/navigation-icons/v2-6-1-1-manufacturer-sonstiges.png',
+  './assets/navigation-icons/v2-6-1-1-manufacturer-vacon.png',
+  './assets/navigation-icons/v2-6-1-1-nav-back.png',
+  './assets/navigation-icons/v2-6-1-1-nav-home.png',
+  './assets/pct-controls-v2-6-1-1.css',
+  './assets/pct-controls-v2-6-1-1.js',
   './assets/pct-controls.svg',
   './assets/pct-frame.css',
   './assets/apple-touch-icon.png',
@@ -44,7 +45,6 @@ const CORE=[
   './assets/knowledge-cartoon.css',
   './assets/knowledge-overview.css',
   './assets/knowledge-overview.js',
-  './assets/logo.webp',
   './assets/materials.css',
   './assets/materials.js',
   './assets/materials.json',
@@ -52,7 +52,7 @@ const CORE=[
   './assets/pt-rechner.js',
   './assets/rechner-unified.css',
   './assets/responsive.css',
-  './assets/search-index.json',
+  './assets/search-index-v2-6-1-1.json',
   './assets/siemens-analogwert-rechner.css',
   './assets/siemens-analogwert-rechner.js',
   './assets/unit-database-page.js',
@@ -61,7 +61,7 @@ const CORE=[
   './assets/units.json',
   './einheitendatenbank/',
   './einheitenrechner/',
-  './manifest.webmanifest',
+  './manifest-v2-6-1-1.webmanifest',
   './pf-rechner/',
   './pt-rechner/',
   './siemens-analogwert-rechner/',
@@ -110,8 +110,10 @@ self.addEventListener('activate',event=>{
   event.waitUntil((async()=>{
     const keep=new Set([CORE_CACHE,DOCUMENT_CACHE]);
     const keys=await caches.keys();
-    await Promise.all(keys.filter(key=>key.startsWith('sk-')&&key.includes('-tools-')&&!keep.has(key)).map(key=>caches.delete(key)));
+    await Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&!keep.has(key)).map(key=>caches.delete(key)));
     await self.clients.claim();
+    const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    clients.forEach(client=>client.postMessage({type:'SK_PCT_RELEASE_READY',release:RELEASE,cache:CACHE_EPOCH}));
   })());
 });
 function canonicalNavigation(request){
@@ -131,22 +133,53 @@ async function navigation(request){
     return await cache.match(canonicalNavigation(request),{ignoreSearch:true})||await cache.match('./');
   }
 }
+function canonicalAsset(request){
+  const url=new URL(request.url);
+  url.search='';
+  url.hash='';
+  return new Request(url.href,{method:'GET',headers:request.headers,credentials:request.credentials,mode:request.mode});
+}
+function isReleaseCritical(request){
+  const path=new URL(request.url).pathname;
+  return path.includes('/assets/navigation-icons/v2-6-1-1-')||
+    path.endsWith('/assets/app-v2-6-1-1.js')||
+    path.endsWith('/assets/pct-controls-v2-6-1-1.js')||
+    path.endsWith('/assets/pct-controls-v2-6-1-1.css')||
+    path.endsWith('/assets/pct-home-v2-6-1-1.js')||
+    path.endsWith('/assets/pct-home-v2-6-1-1.css')||
+    path.endsWith('/assets/search-index-v2-6-1-1.json')||
+    path.endsWith('/manifest-v2-6-1-1.webmanifest');
+}
 async function optionalDocument(request){
   const cache=await caches.open(DOCUMENT_CACHE);
-  const cached=await cache.match(request,{ignoreSearch:true});
+  const key=canonicalAsset(request);
+  const cached=await cache.match(key);
   if(cached)return cached;
-  const response=await fetch(request);
-  if(response.ok)await cache.put(request,response.clone());
+  const response=await fetch(request,{cache:'no-store'});
+  if(response.ok)await cache.put(key,response.clone());
   return response;
 }
 async function asset(request){
   const cache=await caches.open(CORE_CACHE);
-  const cached=await cache.match(request,{ignoreSearch:true});
+  const key=canonicalAsset(request);
+  if(isReleaseCritical(request)){
+    try{
+      const response=await fetch(request,{cache:'reload'});
+      if(response.ok)await cache.put(key,response.clone());
+      return response;
+    }catch{
+      return await cache.match(key)||Response.error();
+    }
+  }
+  const cached=await cache.match(key);
   if(cached)return cached;
   const response=await fetch(request);
-  if(response.ok)await cache.put(request,response.clone());
+  if(response.ok)await cache.put(key,response.clone());
   return response;
 }
+self.addEventListener('message',event=>{
+  if(event.data?.type==='SKIP_WAITING')self.skipWaiting();
+});
 self.addEventListener('fetch',event=>{
   const request=event.request;
   if(request.method!=='GET'||new URL(request.url).origin!==self.location.origin)return;
