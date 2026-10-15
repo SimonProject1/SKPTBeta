@@ -1,0 +1,45 @@
+SK PCT Tools V2.6.1.4-Beta – Release Notes
+Stand: 15.10.2026
+
+Ziel
+Technische Konsolidierung der vollständigen V2.6.1.3-Beta ohne beabsichtigte
+visuelle oder funktionale Änderung.
+
+Optimierungen
+- 13 operative CSS-Dateien zu assets/app-v2-6-1-4.css zusammengeführt.
+- Seitenspezifische Regeln im Zentralstil gekapselt; doppelte Kaskadenebenen entfernt.
+- !important von 895 auf 1 reduziert. Die verbleibende Regel setzt das standardisierte
+  HTML-hidden-Verhalten gegen komponentenspezifische display-Regeln durch.
+- Drei gemeinsame Laufzeitdateien zu assets/app-v2-6-1-4.js zusammengeführt.
+- Header, Footer, Versionsanzeige, Navigation, Buttons, SVG-Steuerelemente,
+  Favoritenlogik, Suche, Sortierung und gemeinsame Hilfsfunktionen zentralisiert.
+- Veraltete Favoriten-Key-Migration entfernt; der aktuelle Speicher-Key bleibt erhalten.
+- 17 Navigations-PNGs auf 10 aktive PNGs reduziert, indem pixelidentische Rechner-
+  und Buchmotive als gemeinsame Master verwendet werden.
+- Alte CSS-/JavaScript-Dateivarianten, alte Icon-Namen und tote Versionsverweise entfernt.
+- Service Worker auf einen einzigen Release-Cache mit ausschließlich aktiven
+  Laufzeitressourcen umgestellt; Dokumentations- und Altdateien werden nicht vorgecached.
+
+Unverändert erhalten
+- Grün-Türkis-Blau-Verlauf, weiße Symbole und schwarze Comic-Konturen der Icons
+- 10 Apps, sechs Rechner, Hersteller-Hub, fünf Wissensbeiträge
+- Suche, Filter, Sortierung, Favoriten und eigene Startseitenreihenfolge
+- internes Scrollen, iOS-Safe-Areas, PWA-Installation und Offline-Betrieb
+
+Qualitätssicherung
+- 691 automatisierte Browserprüfungen bestanden.
+- 15 Seiten in Smartphone-, Tablet- und Desktop-Viewport geprüft.
+- 320-px-Reflow, Touchbedienung, alle sechs Rechnerreferenzen und Offline-Upgrade geprüft.
+- 45 Vorher-/Nachher-Screenshotpaare und DOM-Geometrie verglichen.
+- Keine DOM-Geometrieabweichung in den geprüften Ansichten.
+- Verbleibende Pixelunterschiede beschränken sich auf die aktualisierte Versionsanzeige
+  und minimale zustands-/rasterungsbedingte Antialiasing-Differenzen.
+
+Gemessene Reduktion
+- Dateianzahl: 85 → 65 (20 Dateien beziehungsweise 23,5 % weniger)
+- Summe der Dateigrößen im Projektordner: 1.809.186 → 1.509.849 Byte
+- Die exakte ZIP-Größe und Paket-Prüfsumme werden in der begleitenden Prüfsummendatei ausgewiesen.
+
+Integrität
+- Interne Einzeldatei-Prüfsummen: SHA256SUMS.txt
+- Paket-Prüfsumme: wird zusammen mit SK-PCT-Tools-V2.6.1.4-Beta.zip ausgeliefert.

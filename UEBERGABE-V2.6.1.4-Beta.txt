@@ -1,0 +1,38 @@
+SK PCT TOOLS – ÜBERGABE V2.6.1.4-Beta
+Erstellt: 15.10.2026
+Projektinhaber: Simon Kiesler
+
+Verbindlicher Stand
+- Vollständiges Paket: SK-PCT-Tools-V2.6.1.4-Beta.zip
+- Version: 2.6.1.4-Beta
+- Zentraler Stil: assets/app-v2-6-1-4.css
+- Zentrale Laufzeit: assets/app-v2-6-1-4.js
+- Manifest: manifest-v2-6-1-4.webmanifest
+- Suchindex: assets/search-index-v2-6-1-4.json
+- Cache-Epoch: v2-6-1-4-core-r1
+
+Architekturregeln für Folgestände
+1. Wiederkehrende Layout-, Header-, Footer-, Navigations-, Button- und
+   Favoritenänderungen zuerst in den beiden zentralen App-Dateien umsetzen.
+2. Rechnerfachlogik nur in der jeweiligen Rechnerdatei ändern.
+3. Keine neue globale CSS-Datei anlegen; Module im Zentralstil klar kennzeichnen
+   und mit data-sk-style kapseln.
+4. Keine identischen PNG-Kopien pro App erzeugen. Gemeinsame Motive als Master nutzen.
+5. Neue operative Dateien in Manifest/HTML nach Bedarf und zwingend im
+   Service-Worker-Kernbestand ergänzen, wenn sie offline benötigt werden.
+6. Versionsnummer, Manifest, Service Worker, Suchindex, Dokumentation,
+   Tests und SHA256SUMS.txt gemeinsam aktualisieren.
+7. Vor Freigabe beide automatisierten Tests sowie den Vorher-/Nachher-
+   Screenshotvergleich für Smartphone, Tablet und Desktop ausführen.
+
+Erhaltungsregeln
+- Icon-Hintergrund und Außenform nicht verändern.
+- Weiße Hauptsymbole mit schwarzer Comic-Kontur beibehalten.
+- App-Rahmen, internes Scrollen und iOS-Safe-Areas beibehalten.
+- Keine Seite darf horizontal überlaufen.
+- Favoriten-Touchziel mindestens 44 × 44 px.
+- Offline-Upgrade muss alte sk-pct-tools-Caches entfernen.
+
+Abnahmebefehle
+python3 tests/validate_project.py
+python3 tests/browser_regression.py

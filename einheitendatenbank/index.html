@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html class="sk-framed-document" lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="#02080d" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/><meta content="yes" name="mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="SK PCT Tools" name="apple-mobile-web-app-title"/>
+<title>Einheitendatenbank · SK PCT Tools</title>
+<link href="../manifest-v2-6-1-4.webmanifest" rel="manifest"/>
+<link href="../assets/favicon.png?v=2.6.1.4-Beta" rel="icon" sizes="64x64" type="image/png"/>
+<link href="../assets/apple-touch-icon.png?v=2.6.1.4-Beta" rel="apple-touch-icon"/>
+<link href="../assets/app-v2-6-1-4.css?v=2.6.1.4-Beta" rel="stylesheet"/>
+<meta content="no-referrer" name="referrer"/></head>
+<body data-sk-layout="framed" data-sk-module="Einheitendatenbank" data-sk-page="module" data-sk-style="unit-db" data-sk-version="2.6.1.4-Beta">
+<div class="shell sk-app-frame">
+<!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized" data-sk-shared-header=""></header><!-- sk:header:end -->
+<main class="sk-app-scroll">
+<section class="page-title sk-page-heading"><span aria-hidden="true" class="sk-page-heading-logo"></span><div class="eyebrow">ZENTRALE EINHEITEN</div><h1>Einheitendatenbank</h1><p>Einheiten suchen, favorisieren und Details bei Bedarf öffnen.</p></section>
+<section aria-labelledby="unit-filter-title" class="panel unit-filter"><div><div class="eyebrow">SUCHE UND FILTER</div><h2 id="unit-filter-title">Einheiten finden</h2></div><div class="unit-filter-grid"><label for="unitSearch">Name, Symbol oder Kategorie<input autocomplete="off" id="unitSearch" placeholder="z. B. bar, m³/h, Fahrenheit oder Leistung" type="search"/></label><label for="unitCategoryFilter">Kategorie<select id="unitCategoryFilter"><option value="all">Alle Kategorien</option></select></label></div><div class="unit-filter-actions"><strong id="unitResult">Einheiten werden geladen …</strong><button id="unitReset" type="button">Zurücksetzen</button></div></section>
+<section aria-labelledby="unitFavoritesTitle" class="panel unit-favorites-panel" id="unitFavoritesPanel"><div class="unit-favorites-head"><div><div class="eyebrow">SCHNELLZUGRIFF</div><h2 id="unitFavoritesTitle">Favorisierte Einheiten</h2></div><span id="unitFavoriteCount">0</span></div><ul class="unit-list unit-favorites-list" id="unitFavoritesList"></ul><p class="unit-favorites-empty" id="unitFavoritesEmpty">Noch keine Einheiten favorisiert.</p></section><div class="unit-empty" hidden="" id="unitEmpty"><strong>Keine passende Einheit gefunden.</strong><p>Suchbegriff ändern oder Filter zurücksetzen.</p></div>
+<div class="unit-category-list" id="unitCategoryList"></div>
+<p class="unit-model-note">Umrechnungen verwenden zentral die Formel <strong>Basis = Wert × Faktor + Offset</strong>. Dadurch werden auch affine Einheiten wie °C, K und °F korrekt behandelt.</p>
+</main>
+<!-- sk:footer:start --><footer class="footer sk-footer" data-sk-shared-footer=""></footer><!-- sk:footer:end -->
+</div>
+<script src="../assets/app-v2-6-1-4.js?v=2.6.1.4-Beta"></script>
+<script src="../assets/unit-system.js?v=2.6.1.4-Beta"></script>
+<script src="../assets/unit-database-page.js?v=2.6.1.4-Beta"></script>
+<!-- sk:controls:start --><!-- sk:controls:end -->
+</body>
+</html>

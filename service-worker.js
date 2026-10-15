@@ -1,0 +1,120 @@
+const RELEASE='2.6.1.4-Beta';
+const CACHE_PREFIX='sk-pct-tools-';
+const CACHE_EPOCH='v2-6-1-4-core-r1';
+const CACHE_NAME=`${CACHE_PREFIX}${CACHE_EPOCH}`;
+
+// Ausschließlich aktive Laufzeitressourcen. Dokumentation, Tests, Generatoren und
+// ersetzte Versionsdateien gehören bewusst nicht in den Offline-Cache.
+const CORE=[
+  './',
+  './analogsignal/',
+  './einheitendatenbank/',
+  './einheitenrechner/',
+  './pf-rechner/',
+  './pt-rechner/',
+  './siemens-analogwert-rechner/',
+  './spannungsfall-rechner/',
+  './werkstoffdatenbank/',
+  './wissensdatenbank/',
+  './wissensdatenbank/air-torque-antrieb-drehrichtung/',
+  './wissensdatenbank/endress-hauser-promass-einbaulage/',
+  './wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/',
+  './wissensdatenbank/siemens-sps-rohwert/',
+  './wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/',
+  './wissensdatenbank/werkstoff-nachschlagewerk/',
+  './manifest-v2-6-1-4.webmanifest',
+  './assets/app-v2-6-1-4.css',
+  './assets/app-v2-6-1-4.js',
+  './assets/analogsignal-rechner.js',
+  './assets/einheitenrechner.js',
+  './assets/knowledge-compact.js',
+  './assets/knowledge-overview.js',
+  './assets/materials.js',
+  './assets/pf-rechner.js',
+  './assets/pt-rechner.js',
+  './assets/siemens-analogwert-rechner.js',
+  './assets/unit-database-page.js',
+  './assets/unit-system.js',
+  './spannungsfall-rechner/calculator.js',
+  './assets/materials.json',
+  './assets/units.json',
+  './assets/search-index-v2-6-1-4.json',
+  './assets/pct-controls.svg',
+  './assets/favicon.png',
+  './assets/apple-touch-icon.png',
+  './assets/icon-192.png',
+  './assets/icon-512.png',
+  './assets/icon-maskable-192.png',
+  './assets/icon-maskable-512.png',
+  './assets/navigation-icons/v2-6-1-4-app-calculator.png',
+  './assets/navigation-icons/v2-6-1-4-app-database.png',
+  './assets/navigation-icons/v2-6-1-4-app-eh-viewer.png',
+  './assets/navigation-icons/v2-6-1-4-manufacturer-air-torque.png',
+  './assets/navigation-icons/v2-6-1-4-manufacturer-endress-hauser.png',
+  './assets/navigation-icons/v2-6-1-4-manufacturer-siemens.png',
+  './assets/navigation-icons/v2-6-1-4-manufacturer-sonstiges.png',
+  './assets/navigation-icons/v2-6-1-4-manufacturer-vacon.png',
+  './assets/navigation-icons/v2-6-1-4-nav-back.png',
+  './assets/navigation-icons/v2-6-1-4-nav-home.png'
+];
+
+const canonicalRequest=request=>{
+  const url=new URL(request.url);
+  url.search='';
+  url.hash='';
+  if(request.mode==='navigate'){
+    if(url.pathname.endsWith('/index.html'))url.pathname=url.pathname.slice(0,-'index.html'.length);
+    else if(!url.pathname.endsWith('/')&&!url.pathname.split('/').pop().includes('.'))url.pathname+='/';
+  }
+  return new Request(url.href,{method:'GET',credentials:request.credentials,mode:request.mode==='navigate'?'same-origin':request.mode});
+};
+
+async function precache(){
+  const cache=await caches.open(CACHE_NAME);
+  await Promise.all(CORE.map(async url=>{
+    const request=new Request(url,{cache:'reload'});
+    const response=await fetch(request);
+    if(!response.ok)throw new Error(`Precache fehlgeschlagen: ${url} (${response.status})`);
+    await cache.put(canonicalRequest(request),response);
+  }));
+}
+
+self.addEventListener('install',event=>event.waitUntil(precache().then(()=>self.skipWaiting())));
+
+self.addEventListener('activate',event=>event.waitUntil((async()=>{
+  const keys=await caches.keys();
+  await Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE_NAME).map(key=>caches.delete(key)));
+  await self.clients.claim();
+  const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+  clients.forEach(client=>client.postMessage({type:'SK_PCT_RELEASE_READY',release:RELEASE,cache:CACHE_EPOCH}));
+})()));
+
+async function navigate(request){
+  const cache=await caches.open(CACHE_NAME);
+  const key=canonicalRequest(request);
+  try{
+    const response=await fetch(request,{cache:'no-store'});
+    if(response.ok)await cache.put(key,response.clone());
+    return response;
+  }catch{
+    const home=new Request(new URL('./',self.registration.scope).href);
+    return await cache.match(key)||await cache.match(canonicalRequest(home));
+  }
+}
+
+async function asset(request){
+  const cache=await caches.open(CACHE_NAME);
+  const key=canonicalRequest(request);
+  const cached=await cache.match(key);
+  if(cached)return cached;
+  const response=await fetch(request);
+  if(response.ok)await cache.put(key,response.clone());
+  return response;
+}
+
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting()});
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  if(request.method!=='GET'||new URL(request.url).origin!==self.location.origin)return;
+  event.respondWith(request.mode==='navigate'?navigate(request):asset(request));
+});

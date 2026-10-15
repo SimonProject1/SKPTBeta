@@ -1,0 +1,44 @@
+SK PCT Tools 2.6.1.4-Beta – Testergebnisse
+Stand: 15.10.2026
+
+1. Statische Struktur- und Integritätsprüfung
+Befehl: python3 tests/validate_project.py
+Ergebnis: PASS
+Abdeckung:
+- 10 Apps, sechs Rechner und 14 gerahmte Unterseiten
+- ein zentraler CSS-Bestand und eine zentrale gemeinsame Laufzeit
+- lokale Verweise, Manifest, Suchindex, Service Worker und Offline-Ziele
+- 10 Navigations-PNGs einschließlich Verlauf, Transparenz und Comic-Kontur
+- interne SHA-256-Prüfsummen
+
+2. Browser-, Responsive- und Offlineprüfung
+Befehl: SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
+Ergebnis: PASS · 691 Prüfungen
+Abdeckung:
+- 15 Seiten × Smartphone, Tablet und Desktop
+- 320-px-Reflow
+- sechs Rechnerreferenzen
+- Touchbedienung und ±-Taster
+- Suche, Filter, Hersteller-Hub, Einheiten- und Werkstoffdatenbank
+- internes Scrollen
+- PWA-Cache-Neuaufbau und Offline-Navigation
+
+3. Visueller Vorher-/Nachher-Vergleich
+Ausgang: V2.6.1.3-Beta
+Ziel: V2.6.1.4-Beta
+Ergebnis:
+- 45 Screenshotpaare verglichen
+- 0 DOM-Geometrieabweichungen
+- höchste geänderte Pixelfläche eines Einzelbilds: 1,528 %
+- Median der geänderten Pixelfläche: 0,022 %
+- höchste mittlere absolute Farbabweichung: 0,159 von 255
+- keine festgestellte Layout-, Rahmen-, Navigations- oder Funktionsregression
+
+Die verbleibenden Pixeldifferenzen liegen vor allem an der aktualisierten
+Versionszeichenfolge sowie an minimalen Antialiasing-/Zustandsunterschieden.
+Geometrie, internes Scrollen, Bedienelementgrößen und Funktionswege blieben gleich.
+
+4. CSS-Bereinigung
+- Ausgang: 895 !important-Deklarationen
+- Ziel: 1 notwendige hidden-Regel
+- Ergebnis: zentrale Kaskade ohne festgestellte Layoutregression

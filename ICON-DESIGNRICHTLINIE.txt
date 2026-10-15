@@ -1,0 +1,62 @@
+SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
+Stand: V2.6.1.4-Beta · 15.10.2026
+
+VERBINDLICHE LEITREGEL
+Der visuelle Icon-Standard der V2.6.1.3-Beta bleibt unverändert. Optimierungen
+betreffen nur Bestand, Benennung, Wiederverwendung und Offline-Einbindung.
+
+UNVERÄNDERTER HINTERGRUNDMASTER
+- Vollständiges transparentes PNG, 512 × 512 px, RGBA.
+- Äußere Form, Schatten und schwarzer Rand bleiben identisch.
+- Verlauf links grün, über türkis, nach oben rechts blau.
+- Keine zusätzliche CSS-Innenkontur und kein Fachbereichs-Overlay.
+
+VERBINDLICHES SYMBOLRASTER
+- Symbolbox: x = 112…400 px, y = 106…386 px.
+- Optischer Mittelpunkt: x = 256 px, y = 246 px.
+- Maximale Mittelpunkttoleranz: 3 px.
+- Weiße Motivmasse: 20.000 bis 55.000 vollständig weiße Pixel.
+
+INNENABSTAND, MASSE UND GRUNDLINIE
+Hauptmotive müssen innerhalb der Symbolbox optisch gleich groß erscheinen.
+Innenräume bleiben geschlossen und lesbar. Kleine Details dürfen das Motiv
+nicht überladen oder dessen Grundlinie verschieben.
+
+EINHEITLICHE COMIC-KONTUR
+- Äußere Motivkontur: 16 px im 512-px-Master.
+- Geschlossene Innendetails: 10 px.
+- Reines Weiß als Hauptfläche, kräftiges Schwarz als Kontur.
+- Keine versetzten Drop-Shadows, Doppelkonturen oder grauen Ersatzflächen.
+
+VERBINDLICHE HAUPTSYMBOLE
+- app-calculator: gemeinsamer Master für sechs Rechner.
+- app-database: gemeinsamer Buch-Master für Einheiten-, Werkstoff- und Wissensdatenbank.
+- app-eh-viewer: eigenständiger WWW-Globus.
+- Hersteller: fünf eigenständige weiße Namensfelder.
+- nav-home und nav-back: eigenständige Navigationsmotive.
+
+KATEGORIEFELDER UND ZUSATZELEMENTE SIND VERBOTEN
+Keine eingebrannten Kürzel wie RECHNER, WISSEN, PCT, MATERIAL oder EXTERN.
+Semantik liegt im HTML, nicht im PNG. Favoritensterne gehören nicht in das PNG.
+
+FAVORITENSTERN UND TOUCHFLÄCHE
+- Favoritenstern separat oben rechts über dem Icon.
+- Touchfläche mindestens 44 × 44 px.
+- Sichtbarer Kreis rund 22 px.
+- Inaktiv neutral; aktiv mit grünem Leuchten.
+
+DATEIFORMAT, BESTAND UND QUELLE
+- Genau 10 aktive Navigations-PNGs im Ordner assets/navigation-icons.
+- Alle Namen beginnen mit v2-6-1-4-.
+- Reproduzierbare Quelle: tools/generate_png_icons.py.
+- Keine alten Versionsvarianten, SVG-Duplikate oder identischen App-Kopien ausliefern.
+
+EINBINDUNG, CACHE UND OFFLINE
+HTML, Manifest, zentrale Laufzeit und Service Worker referenzieren nur die aktive Serie.
+Alle 10 PNGs gehören in den Release-Kerncache v2-6-1-4-core-r1.
+
+VERBINDLICHE ABNAHME
+- PNG-Signatur, 512 × 512, Alphakanal und Transparenz prüfen.
+- Verlauf, weiße Motivmasse, schwarze Kontur und unveränderten Außenmaster prüfen.
+- Smartphone, Tablet und Desktop visuell vergleichen.
+- Favoritenposition, 44-px-Touchziel, Navigation und Offline-Betrieb testen.
