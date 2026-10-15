@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.1-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.2-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
+from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.0.1-Beta'
+VERSION='2.6.0.2-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}
+CALCULATOR_ICON_FILES={
+    'app-analogsignal.png','app-pf-rechner.png','app-pt-rechner.png',
+    'app-einheitenrechner.png','app-spannungsfall.png','app-siemens-rohwert.png'
+}
+LEGACY_OVERSIZED_CALCULATOR_SHA256='9e019b856ce2bad92c027830efdb10a23483cae0b91f782090e5d9c4649720df'
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
 EXPERIENCE_SOURCE='Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)'
 
@@ -77,11 +83,26 @@ def main()->int:
             width,height=struct.unpack('>II',raw[16:24]); color_type=raw[25]
             check((width,height)==(512,512),f'PNG-Mastergröße falsch: {icon.name} = {width}x{height}',errors)
             check(color_type in {4,6},f'PNG besitzt keinen Alphakanal: {icon.name}',errors)
+    calculator_icons=[nav_dir/name for name in sorted(CALCULATOR_ICON_FILES)]
+    check(all(path.is_file() for path in calculator_icons),'Rechner-PNG-Bestand ist unvollständig.',errors)
+    calculator_hashes={hashlib.sha256(path.read_bytes()).hexdigest() for path in calculator_icons if path.is_file()}
+    check(len(calculator_hashes)==1,'Rechner-PNGs sind nicht einheitlich erzeugt.',errors)
+    check(LEGACY_OVERSIZED_CALCULATOR_SHA256 not in calculator_hashes,'Veraltetes übergroßes Taschenrechner-PNG ist noch aktiv.',errors)
+    for icon in calculator_icons:
+        if not icon.is_file():continue
+        with Image.open(icon) as image:
+            alpha=image.convert('RGBA').getchannel('A')
+            bbox=alpha.getbbox()
+            check(bbox is not None,f'Rechner-PNG ist vollständig transparent: {icon.name}',errors)
+            if bbox:
+                left,top,right,bottom=bbox
+                check(left>=96 and top>=48 and right<=416 and bottom<=458,
+                      f'Rechner-Innenmotiv verlässt die definierte Safe-Zone: {icon.name} = {bbox}',errors)
     guideline=(ROOT/'ICON-DESIGNRICHTLINIE.txt')
     check(guideline.is_file(),'ICON-DESIGNRICHTLINIE.txt fehlt.',errors)
     if guideline.is_file():
         guide=guideline.read_text(encoding='utf-8')
-        for token in ('DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE','VERBINDLICHE MOTIVKLASSEN','BEREICHSFELD','FORM UND LESBARKEIT','SCHWARZE COMIC-KONTUREN','FARBPALETTE','LICHTWIRKUNG','BENENNUNG UND ABLAGE','EINBINDUNG','ZUSTÄNDE UND BEDIENUNG','ABNAHME VOR EINBAU','CSA','EQP','PIPING'):
+        for token in ('DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE','VERBINDLICHE MOTIVKLASSEN','BEREICHSFELD','GEMEINSAMER APP-RAHMEN UND RECHNER-SAFE-ZONE','FORM UND LESBARKEIT','SCHWARZE COMIC-KONTUREN','FARBPALETTE','LICHTWIRKUNG','BENENNUNG UND ABLAGE','EINBINDUNG','ZUSTÄNDE UND BEDIENUNG','ABNAHME VOR EINBAU','CSA','EQP','PIPING'):
             check(token in guide,f'Icon-Richtlinie unvollständig: {token}',errors)
 
     framed=[]

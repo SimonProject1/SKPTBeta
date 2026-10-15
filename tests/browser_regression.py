@@ -38,6 +38,14 @@ with sync_playwright() as p:
                 check(state['h1']==1,f'{name} {route or "/"}: {state["h1"]} H1 statt genau einer')
                 check(state['referrer']=='no-referrer',f'{name} {route or "/"}: Referrer-Schutz fehlt')
                 if route: check(state['nav']['count']==2 and state['nav']['png'] and not state['nav']['broken'],f'{name} {route}: interne Home-/Zurück-PNG-Navigation fehlerhaft: {state["nav"]}')
+                if not route:
+                    app_icons=page.evaluate("""()=>[...document.querySelectorAll('#pctHomeGrid .sk-home-app')].map(app=>{const frame=app.querySelector('.sk-home-icon'),image=app.querySelector('img.sk-nav-graphic'),star=app.querySelector('.sk-favorite-button'),fr=frame.getBoundingClientRect(),ir=image.getBoundingClientRect(),sr=star.getBoundingClientRect(),fs=getComputedStyle(frame);return{fw:fr.width,fh:fr.height,iw:ir.width,ih:ir.height,border:fs.borderTopWidth,shadow:fs.boxShadow,transform:fs.transform,starX:sr.left-fr.right,starY:sr.top-fr.top,natural:[image.naturalWidth,image.naturalHeight],broken:!image.complete||image.naturalWidth===0}})""")
+                    check(len(app_icons)==10,f'{name} Startseite: {len(app_icons)} statt 10 Icon-Rahmen')
+                    if app_icons:
+                        first=app_icons[0]
+                        check(all(abs(x['fw']-first['fw'])<=1 and abs(x['fh']-first['fh'])<=1 and x['border']==first['border'] and x['shadow']==first['shadow'] and x['transform']==first['transform'] for x in app_icons),f'{name} Startseite: Außenmaß, Rahmen, Perspektive oder Schatten der Icons uneinheitlich')
+                        check(all(abs(x['iw']-first['iw'])<=1 and abs(x['ih']-first['ih'])<=1 and x['natural']==[512,512] and not x['broken'] for x in app_icons),f'{name} Startseite: PNG-Innenmaß oder natürliche Größe uneinheitlich')
+                        check(all(abs(x['starX']-first['starX'])<=1 and abs(x['starY']-first['starY'])<=1 for x in app_icons),f'{name} Startseite: Favoritensternposition uneinheitlich')
                 signs=page.evaluate("""()=>[...document.querySelectorAll('button.pct-control--sign')].map(button=>{const box=button.getBoundingClientRect(),style=getComputedStyle(button),parent=button.parentElement.getBoundingClientRect();return{width:box.width,height:box.height,radius:style.borderRadius,touch:style.touchAction,center:Math.abs((box.top+box.height/2)-(parent.top+parent.height/2))}})""")
                 if signs:
                     check(all(round(s['width'])==44 and round(s['height'])==44 for s in signs),f'{name} {route}: ±-Taster nicht durchgehend 44 × 44 px: {signs}')

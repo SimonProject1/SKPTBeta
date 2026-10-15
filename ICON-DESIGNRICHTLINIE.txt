@@ -1,5 +1,5 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.0.1-Beta · 13.10.2026
+Stand: V2.6.0.2-Beta · 15.10.2026
 
 ZWECK UND VERBINDLICHKEIT
 Diese Richtlinie gilt für alle grafischen Navigationsziele in SK PCT Tools. Der verbindliche Auslieferungsstandard ist eine eigenständige, transparente PNG-Datei. Neue Ziele dürfen nur mit einem der nachfolgend festgelegten Hauptmotive und mit einem inhaltlich zutreffenden Bereichsfeld angelegt werden.
@@ -53,20 +53,31 @@ E. ALLGEMEINE NAVIGATION
 - CSA und EQP sind ausschließlich vorbereitete Kategorien dieser Richtlinie. Sie dürfen erst dann auf einem Icon erscheinen, wenn tatsächlich ein Ziel oder Inhalt eindeutig diesem Bereich zugeordnet und im Projekt umgesetzt ist.
 - Keine erfundenen oder vorsorglich sichtbaren CSA-/EQP-Icons anlegen.
 
-4. FORM UND LESBARKEIT
+4. GEMEINSAMER APP-RAHMEN UND RECHNER-SAFE-ZONE
+- Alle zehn App-Icons verwenden denselben grün-blauen, schwarz konturierten Außenrahmen der Oberfläche (.sk-home-icon).
+- Außenmaß, Rahmenstärke, Eckenradius, Perspektive, Innenrahmen, Schatten und Hover-/Fokusverhalten werden ausschließlich zentral durch CSS festgelegt und dürfen nicht in einzelnen PNGs nachgebaut werden.
+- Der Favoritenstern gehört zur gemeinsamen App-Kachel. Position, Abstand und Größe müssen für Rechner-, Buch- und WWW-Icons identisch bleiben; die PNG-Datei enthält keinen Stern.
+- Das PNG wird in jeder App-Kachel mit identischem Außenmaß und identischem object-fit eingebunden. Unterschiedliche Motive dürfen die gemeinsame Rahmensilhouette nicht überdecken.
+- Rechner-Safe-Zone im 512er-Master: Der eigentliche Taschenrechner liegt vollständig innerhalb x=102…410 px und y=56…374 px.
+- Das einmalige PCT-Bereichsfeld liegt bei Rechner-PNGs einheitlich unterhalb des Taschenrechners ab y=385 px und bleibt vollständig innerhalb der PNG-Zeichenfläche.
+- Außerhalb der Safe-Zone bleiben die Pixel transparent. Dadurch entsteht zwischen Taschenrechner und gemeinsamem Kachelrahmen ein deutlich sichtbarer Innenabstand.
+- Die sechs Rechner-PNGs werden aus derselben Masterfunktion erzeugt und müssen pixelidentisch sein. Abweichende Skalierungen, Rahmenstärken, Schatten oder PCT-Felder pro Rechner sind unzulässig.
+- Buch- und WWW-Motive bleiben die optische Referenz für die freie Innenwirkung des gemeinsamen App-Rahmens.
+
+5. FORM UND LESBARKEIT
 - Zeichenfläche: 512 × 512 px, transparent.
 - Sicherheitsabstand zum Rand: mindestens 36 px; Glows und Konturen dürfen 24 px nicht unterschreiten.
 - Hauptsilhouette kompakt, frontal oder leicht isometrisch und bereits bei 56–64 px erkennbar.
 - Bereichsfeld so groß anlegen, dass PCT beziehungsweise PIPING auf dem Smartphone lesbar bleibt.
 - Keine Details verwenden, die bei 24 px zu Rauschen oder geschlossenen Flächen werden.
 
-5. SCHWARZE COMIC-KONTUREN
+6. SCHWARZE COMIC-KONTUREN
 - Äußere Hauptkontur: Schwarz #000000, auf dem 512er-Master typischerweise 18–28 px.
 - Innere Trennlinien: Schwarz #000000 oder Dunkel #071A29, typischerweise 12–18 px.
 - Runde Kappen und Verbindungen verwenden.
 - Konturen müssen in jeder Farbvariante sichtbar bleiben.
 
-6. FARBPALETTE
+7. FARBPALETTE
 - Hintergrund/Dunkel: #02080D, #071A29, #12384D, #173F55.
 - PCT-Cyan: #00E6F1; Lichtcyan: #77EFF8.
 - PCT-Blau: #008CFF.
@@ -75,14 +86,14 @@ E. ALLGEMEINE NAVIGATION
 - Warnfarben nur bei echter Bedeutung: Gelb #F3C64F, Rot #FF7B83.
 - Pro Icon höchstens zwei Signalhauptfarben plus Stahl- und Dunkelwerte.
 
-7. LICHTWIRKUNG
+8. LICHTWIRKUNG
 - Licht kommt von links oben.
 - Eine kurze weiße Glanzkante mit 45–60 % Deckkraft genügt.
 - Cyan-/Grün-Leuchten nur klein und kontrolliert einsetzen.
 - Verläufe von hell links oben nach dunkel rechts unten führen.
 - Keine großflächigen Neonwolken und keine fotografischen Effekte.
 
-8. BENENNUNG UND ABLAGE
+9. BENENNUNG UND ABLAGE
 - Kleinbuchstaben und kebab-case, keine Leerzeichen, Umlaute oder Versionsnummern im Dateinamen.
 - Apps: app-<ziel>.png, zum Beispiel app-spannungsfall.png.
 - Hersteller: manufacturer-<name>.png, zum Beispiel manufacturer-siemens.png.
@@ -90,7 +101,7 @@ E. ALLGEMEINE NAVIGATION
 - Ablageort: assets/navigation-icons/.
 - Der Generator tools/generate_png_icons.py ist die reproduzierbare Quelle der aktuell ausgelieferten PNG-Dateien.
 
-9. EINBINDUNG
+10. EINBINDUNG
 - Immer relativen Projektpfad verwenden; keine extern gehosteten Icondateien.
 - Beispiel Startseite:
   <img class="sk-nav-graphic" src="assets/navigation-icons/app-ziel.png?v=<VERSION>" alt="" decoding="async">
@@ -102,16 +113,19 @@ E. ALLGEMEINE NAVIGATION
 - Manifest-Shortcuts verwenden type image/png und sizes 512x512.
 - Bei Versionswechsel Cache-Parameter, Manifest-Version und Service-Worker-RELEASE aktualisieren.
 
-10. ZUSTÄNDE UND BEDIENUNG
+11. ZUSTÄNDE UND BEDIENUNG
 - Hover/Fokus werden durch die umgebende Kachel oder Schaltfläche erzeugt; die PNG-Datei springt oder verformt sich nicht.
 - Aktiv/Ausgewählt: PCT-Grün als eindeutiger Statusakzent in der Oberfläche.
 - Deaktiviert: reduzierte Sättigung/Deckkraft der umgebenden Komponente; die Kontur bleibt erkennbar.
 - Touchziel des umgebenden Links oder Buttons: mindestens 44 × 44 CSS-px.
 
-11. ABNAHME VOR EINBAU
+12. ABNAHME VOR EINBAU
 - PNG-Dimension 512 × 512, RGBA und echte transparente Pixel automatisiert prüfen.
 - Motiv bei 24, 56, 64, 94, 192 und 512 px prüfen.
 - Rechner = Taschenrechner; Wissen/Nachschlagewerk = Buch; extern = WWW-Weltkugel; Hersteller-Hub = nur weiße Kurzmarke.
+- Bei allen Rechner-PNGs die definierte Safe-Zone und den freien Abstand zum gemeinsamen App-Rahmen prüfen.
+- Außenmaß, CSS-Rahmen, Rahmenstärke, Perspektive, Schatten und Favoritensternposition auf Smartphone, Tablet und Desktop gegen Buch- und WWW-Icons vergleichen.
+- Die sechs Rechner-PNGs müssen denselben SHA-256-Wert besitzen; der Taschenrechner darf den gemeinsamen Außenrahmen nicht berühren oder überdecken.
 - Bereichsfeld auf fachliche Richtigkeit prüfen: aktuell nur PCT oder PIPING.
 - Sichtprüfung: genau ein Bereichsfeld pro fachlich gekennzeichnetem Icon; dieses Feld muss aus den PNG-Pixeln stammen.
 - Quellprüfung: HTML, CSS und JavaScript dürfen keine zusätzlichen PCT-, PIPING-, CSA- oder EQP-Overlays für Icons enthalten.
@@ -120,7 +134,7 @@ E. ALLGEMEINE NAVIGATION
 - Smartphone, Tablet und Desktop prüfen; Fokusrahmen und 44-px-Touchziel messen.
 - Interne Links, externe Links, Manifest, Offline-Cache und fehlende Dateien automatisiert testen.
 
-12. AKTUELLER VERBINDLICHER BESTAND
+13. AKTUELLER VERBINDLICHER BESTAND
 - 10 App-/Ziel-PNGs: 6 Taschenrechner, 3 Bücher und 1 WWW-Weltkugel.
 - 5 Hersteller-PNGs: ausschließlich weiße Kurzmarke plus PCT-Bereichsfeld.
 - 2 allgemeine Navigations-PNGs: Home und Zurück.

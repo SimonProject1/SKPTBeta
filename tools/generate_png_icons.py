@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Erzeugt die transparenten PNG-Navigationsicons für SK PCT Tools 2.6.0.1-Beta."""
+"""Erzeugt die transparenten PNG-Navigationsicons für SK PCT Tools 2.6.0.2-Beta.
+
+Die äußere grün-blaue, schwarz konturierte App-Kachel wird zentral durch
+``.sk-home-icon`` gerendert. Die PNG-Dateien enthalten ausschließlich das
+Innenmotiv und genau ein integriertes Bereichsfeld. Rechner verwenden deshalb
+bewusst eine kompaktere Safe-Zone, damit der Taschenrechner den gemeinsamen
+Kachelrahmen auch auf kleinen Displays nicht optisch überlagert.
+"""
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -18,6 +25,12 @@ LIGHT_CYAN = "#77EFF8"
 BLUE = "#008CFF"
 GREEN = "#78FF32"
 GREEN_DARK = "#18A865"
+
+# Gemeinsame Geometrie für fachlich gekennzeichnete App-PNGs. Das Bereichsfeld
+# bleibt als Teil der PNG-Datei erhalten und wird nicht per HTML/CSS ergänzt.
+APP_BADGE_Y = 385
+CALCULATOR_BODY = (102, 56, 410, 374)
+CALCULATOR_SCREEN = (132, 101, 380, 186)
 
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 FONT_CONDENSED = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
@@ -59,7 +72,7 @@ def center_text(draw, xy, text, fnt, fill=STEEL, stroke_width=0, stroke_fill=BLA
     draw.text(xy, text, font=fnt, fill=fill, stroke_width=stroke_width, stroke_fill=stroke_fill, anchor=anchor)
 
 
-def badge(im: Image.Image, label: str, y=382, wide=False):
+def badge(im: Image.Image, label: str, y=APP_BADGE_Y, wide=False):
     draw = ImageDraw.Draw(im)
     width = 242 if wide or len(label) > 3 else 160
     x0 = (SIZE - width) // 2
@@ -72,18 +85,21 @@ def badge(im: Image.Image, label: str, y=382, wide=False):
 def calculator(area="PCT"):
     im = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
     draw = ImageDraw.Draw(im)
-    rounded_gradient(im, (62, 30, 450, 474), 70, "#BDE8F4", "#347996", width=20)
-    # linke obere Glanzkante
-    draw.line((112, 63, 287, 63), fill=(255, 255, 255, 175), width=13)
-    rounded_gradient(im, (104, 91, 408, 199), 24, "#12384D", DARK, width=16)
-    center_text(draw, (256, 145), "123.4", font(60), fill=GREEN, stroke_width=5)
+    # Kompaktes Innenmotiv: gegenüber V2.6.0.1 deutlich verkleinert. Der
+    # Taschenrechner bleibt vollständig innerhalb des gemeinsamen App-Rahmens;
+    # dessen Außenmaße, Kontur, Perspektive und Schatten kommen aus dem CSS.
+    rounded_gradient(im, CALCULATOR_BODY, 54, "#BDE8F4", "#347996", width=20)
+    # Linke obere Glanzkante gemäß gemeinsamer Lichtrichtung.
+    draw.line((141, 83, 277, 83), fill=(255, 255, 255, 175), width=11)
+    rounded_gradient(im, CALCULATOR_SCREEN, 21, "#12384D", DARK, width=15)
+    center_text(draw, (256, 144), "123.4", font(48), fill=GREEN, stroke_width=4)
     colors = [LIGHT_CYAN, STEEL_2, CYAN, STEEL, GREEN, BLUE]
-    centers = [(138, 258), (256, 258), (374, 258), (138, 342), (256, 342), (374, 342)]
+    centers = [(153, 237), (256, 237), (359, 237), (153, 309), (256, 309), (359, 309)]
     labels = ["7", "8", "9", "4", "5", "+"]
     for (cx, cy), color, label in zip(centers, colors, labels):
-        draw.rounded_rectangle((cx-42, cy-30, cx+42, cy+30), radius=17, fill=color, outline=BLACK, width=13)
-        center_text(draw, (cx, cy+1), label, font(29), fill=DARK)
-    badge(im, area, y=389, wide=len(area) > 3)
+        draw.rounded_rectangle((cx-34, cy-24, cx+34, cy+24), radius=14, fill=color, outline=BLACK, width=11)
+        center_text(draw, (cx, cy+1), label, font(25), fill=DARK)
+    badge(im, area, y=APP_BADGE_Y, wide=len(area) > 3)
     return im
 
 
@@ -103,7 +119,7 @@ def book(area="PCT"):
         draw.line((99, y, end, y+24), fill=DEEP, width=14)
         draw.line((413, y, 512-end, y+24), fill=DEEP, width=14)
     draw.line((256, 107, 256, 408), fill=BLACK, width=22)
-    badge(im, area, y=385, wide=len(area) > 3)
+    badge(im, area, y=APP_BADGE_Y, wide=len(area) > 3)
     return im
 
 

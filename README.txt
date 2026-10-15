@@ -1,17 +1,18 @@
-SK PCT Tools 2.6.0.1-Beta
+SK PCT Tools 2.6.0.2-Beta
 
 Vollständige Beta der statischen PWA für Rechner, Wissensdatenbank,
 Einheitendatenbank und Werkstoffdatenbank.
-Direkte Ausgangsbasis ist die vollständige 2.6.0.0-Beta.
+Direkte Ausgangsbasis ist die vollständige 2.6.0.1-Beta.
 
 Änderungen dieser Beta
-- Doppelte Fachbereichskennzeichnungen auf den neuen PNG-Navigationsicons entfernt.
-- Startseite und externer E+H Device Viewer erzeugen kein zusätzliches PCT-Feld mehr per CSS-Pseudoelement.
-- Wissensdatenbank und Hersteller-Hub enthalten weder CSS-, HTML- noch JavaScript-Badges für PCT, PIPING, CSA oder EQP.
-- Pro Navigationsicon ist ausschließlich das fest in der PNG-Datei integrierte Fachbereichsfeld sichtbar.
-- Die Icon-Designrichtlinie verbietet zusätzliche Bereichsfelder per HTML, CSS und JavaScript verbindlich.
-- Statische und browserbasierte Regressionstests erkennen künftige Icon-Overlays automatisch.
-- Öffentliche Version, Manifest, Cacheversion und alle Cache-Busting-Parameter wurden auf 2.6.0.1-Beta aktualisiert.
+- Alle sechs PNG-Rechner-Icons wurden aus einer gemeinsamen Mastergeometrie neu erzeugt.
+- Der Taschenrechner ist deutlich kleiner und liegt vollständig innerhalb der definierten PNG-Safe-Zone.
+- Zwischen Taschenrechner und gemeinsamem grün-blauen, schwarz konturierten App-Rahmen besteht nun ein klarer Innenabstand.
+- Außenmaß, Rahmenstärke, Perspektive, Schatten und Favoritensternposition werden für Rechner-, Buch- und WWW-Icons unverändert zentral durch dieselbe App-Kachel gesteuert.
+- Das PCT-Bereichsfeld ist genau einmal sichtbar, fest in die PNG-Datei integriert und nicht als HTML-/CSS-/JavaScript-Overlay vorhanden.
+- Die Icon-Designrichtlinie enthält jetzt die verbindliche Rechner-Safe-Zone und gemeinsame Rahmenregeln.
+- Statische und browserbasierte Regressionstests prüfen zusätzlich Rechner-Pixelgleichheit, Safe-Zone, Rahmengeometrie, Schatten und Sternposition.
+- Öffentliche Version, Manifest, Offline-Cache, Cache-Busting-Parameter und Prüfsummen wurden auf 2.6.0.2-Beta aktualisiert.
 
 Erhaltene Funktionen und Inhalte
 - 10 Startseiten-Apps, vollständige interne und externe Navigation, Suche, Filter, Sortierung und Favoritensterne.
@@ -19,17 +20,18 @@ Erhaltene Funktionen und Inhalte
 - Einheiten- und Werkstoffdatenbank sowie fünf Wissensbeiträge.
 - Hersteller-Hub mit fünf Herstellerzielen.
 - PWA-Installation, Offline-Kerncache, lokale Einstellungen und eigene App-Reihenfolge.
-- 17 transparente PNG-Navigationsgrafiken in 512 × 512 px; die PNG-Dateien selbst wurden nicht verändert.
+- 17 transparente PNG-Navigationsgrafiken in 512 × 512 px.
 
 Iconpflege
 - Ausgelieferte Navigationsicons: assets/navigation-icons/*.png
 - Reproduzierbarer Generator: tools/generate_png_icons.py
 - Verbindliche Vorgaben: ICON-DESIGNRICHTLINIE.txt
+- Betroffene Rechner-PNGs: app-analogsignal.png, app-pf-rechner.png, app-pt-rechner.png, app-einheitenrechner.png, app-spannungsfall.png und app-siemens-rohwert.png.
 - Das Fachbereichsfeld wird ausschließlich in der PNG-Datei erzeugt.
-- Die einzige vorläufig verbleibende SVG-Datei ist assets/pct-controls.svg für kleine, nicht navigierende Bedienpiktogramme.
+- Die einzige zulässige SVG-Datei ist assets/pct-controls.svg für kleine, nicht navigierende Bedienpiktogramme.
 
 Version und PWA
-- Öffentliche und technische Version: 2.6.0.1-Beta.
+- Öffentliche und technische Version: 2.6.0.2-Beta.
 - Laufzeitkanal: beta.
 - Einstellungen bleiben lokal im Browser; es erfolgt keine Übertragung durch SK PCT Tools.
 

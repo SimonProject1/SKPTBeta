@@ -1,38 +1,40 @@
-SK PCT Tools 2.6.0.1-Beta
-Release-Datum: 13.10.2026
-Status: Vollständige Beta · bereinigte PNG-Fachbereichskennzeichnung
-Direkte Ausgangsbasis: vollständige 2.6.0.0-Beta
+SK PCT Tools 2.6.0.2-Beta
+Release-Datum: 15.10.2026
+Status: Vollständige Beta · vereinheitlichte, verkleinerte PNG-Rechner-Icons
+Direkte Ausgangsbasis: vollständige 2.6.0.1-Beta
 
 TATSÄCHLICH UMGESETZT
 
-1. Doppelte Fachbereichsfelder entfernt
-- Die 17 transparenten PNG-Navigationsgrafiken enthalten ihr vorgesehenes Fachbereichsfeld bereits als festen Bestandteil der Bilddatei.
-- Das zusätzliche CSS-Feld PCT auf allen Startseitenicons wurde vollständig entfernt.
-- Das zusätzliche CSS-Feld PCT ↗ auf dem externen E+H Device Viewer wurde vollständig entfernt.
-- Veraltete Overlay-Regeln der Wissensdatenbank und des Hersteller-Hubs wurden vollständig aus dem CSS entfernt.
-- HTML und JavaScript erzeugen keine zusätzlichen PCT-, PIPING-, CSA- oder EQP-Felder.
-- Pro Icon bleibt genau ein Fachbereichsfeld sichtbar: das in der PNG-Datei integrierte Feld.
+1. Rechner-Innenmotiv deutlich verkleinert
+- Alle sechs Rechnerziele wurden aus derselben überarbeiteten Masterfunktion neu erzeugt.
+- Der Taschenrechner liegt im 512 × 512 px großen PNG vollständig innerhalb der verbindlichen Safe-Zone x=102…410 px und y=56…374 px.
+- Der bisher optisch zu große Taschenrechner überdeckt den gemeinsamen App-Rahmen nicht mehr.
+- Das Innenmotiv besitzt auf allen Seiten einen klaren transparenten Abstand zur Rahmenwirkung der App-Kachel.
 
-2. Vollständiger Integrationsumfang
-- Startseite: 10 App-PNGs ohne zusätzliches Fachbereichs-Overlay.
-- Wissensdatenbank: fünf Beitragskarten mit Buch/PCT-PNG ohne Zusatzbadge.
-- Hersteller-Hub: fünf Hersteller-PNGs mit integriertem PCT-Feld ohne Zusatzbadge.
-- Externer WWW-Dienst: Weltkugel, Auswärtspfeil und PCT stammen vollständig aus der PNG-Datei.
-- Interne Navigation: Home und Zurück bleiben eigenständige PNGs ohne Fachbereichsfeld.
-- Favoritensterne, Titel, Suche, Filter, Sortierung, Herstelleransichten und sämtliche Navigationsziele bleiben erhalten.
+2. Gemeinsames Icon-System bewahrt
+- Rechner-, Buch- und WWW-Icons verwenden weiterhin denselben grün-blauen, schwarz konturierten Außenrahmen der Oberfläche.
+- Außenmaß, Rahmenstärke, Eckenradius, Perspektive, Schatten und Hover-/Fokusverhalten stammen zentral aus .sk-home-icon.
+- Die Favoritensterne bleiben als gemeinsames Bedienelement identisch positioniert und sind nicht Teil der PNG-Dateien.
+- Alle PNG-Master behalten 512 × 512 px, RGBA und transparente Randpixel.
 
-3. Verbindliche Richtlinie
-- ICON-DESIGNRICHTLINIE.txt legt fest, dass das Fachbereichsfeld Bestandteil der PNG-Masterdatei ist.
-- Zusätzliche Fachbereichstexte, Badges, Pseudoelemente oder dynamisch erzeugte Overlays per HTML, CSS oder JavaScript sind verboten.
-- Abnahmebedingung: genau ein Fachbereichsfeld pro fachlich gekennzeichnetem Icon und kein Feld auf Home-/Zurück-Icons.
+3. PCT-Bereichsfeld eindeutig integriert
+- Jedes Rechner-PNG enthält genau ein fest gerendertes PCT-Bereichsfeld.
+- Das PCT-Feld beginnt bei allen Rechner-PNGs einheitlich ab y=385 px und bleibt Bestandteil der PNG-Datei.
+- HTML, CSS und JavaScript erzeugen kein zusätzliches PCT-, PIPING-, CSA- oder EQP-Overlay.
 
-4. Qualitätssicherung
-- Die statische Projektprüfung kontrolliert, dass keine bekannten Icon-Overlay-Selektoren oder -Attribute vorhanden sind.
-- Die Browser-Regression kontrolliert zusätzlich die berechneten ::after-Inhalte der Startseiten-, Wissens- und Herstellericons.
-- Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900 sind Bestandteil der Regression.
-- Manifest-Shortcuts, Service-Worker-Kerncache und Offline-Navigation bleiben Teil der automatischen Prüfung.
+4. Verbindliche Richtlinie und reproduzierbare Quelle
+- ICON-DESIGNRICHTLINIE.txt dokumentiert die gemeinsame App-Rahmenlogik, Rechner-Safe-Zone, Innenabstände und Abnahmebedingungen.
+- tools/generate_png_icons.py bleibt die reproduzierbare Quelle aller 17 Navigations-PNGs.
+- Die sechs Rechner-PNGs sind pixelidentisch und besitzen denselben SHA-256-Wert.
 
-5. PWA und Versionierung
-- Öffentliche und technische Version: 2.6.0.1-Beta.
+5. Qualitätssicherung
+- Die statische Projektprüfung erkennt das veraltete übergroße Rechner-PNG, prüft die Safe-Zone und verlangt identische Rechnerdateien.
+- Die Browser-Regression vergleicht auf Smartphone, Tablet und Desktop Außenmaß, Rahmenstärke, Schatten, Perspektive, PNG-Innenmaß und Favoritensternposition aller zehn App-Icons.
+- Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900 bleiben Bestandteil der Regression.
+- Rechner-Referenzwerte, Navigation, Wissensinhalte und Offline-Aufrufe bleiben vollständig geprüft.
+
+6. PWA und Versionierung
+- Öffentliche und technische Version: 2.6.0.2-Beta.
 - Manifest-Version, Service-Worker-RELEASE, Cache-Busting-Parameter, sichtbare Versionsangaben und Dokumentation sind konsistent aktualisiert.
-- Der neue Cache-Namensraum trennt 2.6.0.1-Beta sauber von 2.6.0.0-Beta; alte SK-PCT-Tools-Caches werden bei Aktivierung entfernt.
+- Der neue Cache-Namensraum trennt 2.6.0.2-Beta sauber von 2.6.0.1-Beta; alte SK-PCT-Tools-Caches werden bei Aktivierung entfernt.
+- Alle 17 PNG-Navigationsgrafiken bleiben im Offline-Kerncache enthalten.
