@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.2-Beta."""
+"""Struktur-, Inhalt- und Integritätsprüfung für SK PCT Tools 2.6.0.3-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.0.2-Beta'
+VERSION='2.6.0.3-Beta'
 FOOTER=f'SK PCT Tools · Entwickelt von Simon Kiesler · V{VERSION}'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 CALCULATORS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','spannungsfall-rechner','siemens-analogwert-rechner'}
@@ -83,6 +83,9 @@ def main()->int:
             width,height=struct.unpack('>II',raw[16:24]); color_type=raw[25]
             check((width,height)==(512,512),f'PNG-Mastergröße falsch: {icon.name} = {width}x{height}',errors)
             check(color_type in {4,6},f'PNG besitzt keinen Alphakanal: {icon.name}',errors)
+        with Image.open(icon) as image:
+            alpha_extrema=image.convert('RGBA').getchannel('A').getextrema()
+            check(alpha_extrema==(0,255),f'PNG besitzt keine echte Transparenz oder keine deckenden Pixel: {icon.name} = {alpha_extrema}',errors)
     calculator_icons=[nav_dir/name for name in sorted(CALCULATOR_ICON_FILES)]
     check(all(path.is_file() for path in calculator_icons),'Rechner-PNG-Bestand ist unvollständig.',errors)
     calculator_hashes={hashlib.sha256(path.read_bytes()).hexdigest() for path in calculator_icons if path.is_file()}
@@ -96,13 +99,13 @@ def main()->int:
             check(bbox is not None,f'Rechner-PNG ist vollständig transparent: {icon.name}',errors)
             if bbox:
                 left,top,right,bottom=bbox
-                check(left>=96 and top>=48 and right<=416 and bottom<=458,
+                check(left>=84 and top>=30 and right<=444 and bottom<=488,
                       f'Rechner-Innenmotiv verlässt die definierte Safe-Zone: {icon.name} = {bbox}',errors)
     guideline=(ROOT/'ICON-DESIGNRICHTLINIE.txt')
     check(guideline.is_file(),'ICON-DESIGNRICHTLINIE.txt fehlt.',errors)
     if guideline.is_file():
         guide=guideline.read_text(encoding='utf-8')
-        for token in ('DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE','VERBINDLICHE MOTIVKLASSEN','BEREICHSFELD','GEMEINSAMER APP-RAHMEN UND RECHNER-SAFE-ZONE','FORM UND LESBARKEIT','SCHWARZE COMIC-KONTUREN','FARBPALETTE','LICHTWIRKUNG','BENENNUNG UND ABLAGE','EINBINDUNG','ZUSTÄNDE UND BEDIENUNG','ABNAHME VOR EINBAU','CSA','EQP','PIPING'):
+        for token in ('LEITREGEL DER DREISTUFIGEN BEDEUTUNG','DATEIFORMAT UND TECHNISCHE MASTERGRÖSSE','VERBINDLICHE MOTIVKLASSEN UND KATEGORIEFELDER','INTEGRIERTES KATEGORIEFELD','GEMEINSAMER CARTOON-TECH-RAHMEN UND GEOMETRIE','FORM, PERSPEKTIVE UND LESBARKEIT','SCHWARZE COMIC-KONTUREN','FARBPALETTE','LICHTWIRKUNG UND PLASTIZITÄT','BENENNUNG UND ABLAGE','EINBINDUNG','ZUSTÄNDE UND BEDIENUNG','ABNAHME VOR EINBAU','RECHNER','WISSEN','EXTERN','MATERIAL','PCT'):
             check(token in guide,f'Icon-Richtlinie unvollständig: {token}',errors)
 
     framed=[]
@@ -125,7 +128,7 @@ def main()->int:
     check('Beitrag vorschlagen' not in knowledge_home and 'Beitragsvorlage.pdf' not in knowledge_home,'PDF-Vorlagenaktion ist noch vorhanden.',errors)
     check(knowledge_home.count('class="knowledge-brand-logo"')==10,'Wissensnavigation besitzt nicht 10 PNG-Grafiken.',errors)
     check(knowledge_home.count('manufacturer-')>=5,'Hersteller-Hub verwendet die weißen Kurzmarken nicht vollständig.',errors)
-    check(knowledge_home.count('app-wissensdatenbank.png')==5,'Wissensbeiträge verwenden nicht vollständig Buch/PCT.',errors)
+    check(knowledge_home.count('app-wissensdatenbank.png')==5,'Wissensbeiträge verwenden nicht vollständig Buch/WISSEN.',errors)
     check('knowledge-icon-badge' not in knowledge_home,'Alte Geräte-/Beitragsfelder überlagern das Bereichsfeld.',errors)
     check('knowledge-manufacturer-logos.svg' not in knowledge_home and not (ROOT/'assets/knowledge-manufacturer-logos.svg').exists(),'Altes Hersteller-Icon-Sprite ist noch aktiv.',errors)
 
@@ -178,6 +181,10 @@ def main()->int:
     remaining_svg={str(x.relative_to(ROOT)) for x in ROOT.rglob('*.svg')}
     check(remaining_svg=={'assets/pct-controls.svg'},f'Unerwartete SVG-Dateien vorhanden: {sorted(remaining_svg)}',errors)
     check((ROOT/'tools/generate_png_icons.py').is_file(),'PNG-Icon-Generator fehlt.',errors)
+    generator=(ROOT/'tools/generate_png_icons.py').read_text(encoding='utf-8')
+    for token in ('calculator("RECHNER")','book("WISSEN")','book("MATERIAL")','globe("EXTERN")','manufacturer("AIR\\nTORQUE")','category_badge(im, category'):
+        check(token in generator,f'PNG-Generator enthält die verbindliche Kategoriezuordnung nicht: {token}',errors)
+    check('calculator("PCT")' not in generator and 'book("PCT")' not in generator and 'book("PIPING")' not in generator and 'globe("PCT")' not in generator,'Veraltete pauschale PCT-/PIPING-Felder sind noch im App-Icon-Generator aktiv.',errors)
     for shortcut in manifest.get('shortcuts',[]):
         for item in shortcut.get('icons',[]):
             check(item.get('type')=='image/png' and item.get('sizes')=='512x512' and item.get('src','').endswith('.png'),f'Manifest-Shortcut nicht auf PNG umgestellt: {item}',errors)

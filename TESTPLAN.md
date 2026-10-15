@@ -1,4 +1,4 @@
-# Testplan · SK PCT Tools 2.6.0.2-Beta
+# Testplan · SK PCT Tools 2.6.0.3-Beta
 
 ## 1. Automatische Prüfungen
 
@@ -32,9 +32,9 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 ## 5. PWA und Offline
 1. Online laden und Service Worker aktivieren lassen.
 2. Offline Startseite, Rechner, Datenbanken und Wissensbeiträge öffnen.
-3. Prüfen, dass nur Caches der Version 2.6.0.2-Beta aktiv sind.
+3. Prüfen, dass nur Caches der Version 2.6.0.3-Beta aktiv sind.
 
-## 6. Manuelle Plattformprüfung (nachgelagert)
+## 6. Manuelle Plattformprüfung
 1. iPhone/iPad/Android: Installation, Safe Areas, Hoch-/Querformat und echter Touch.
 2. Safari/Firefox/Edge: Smoke-Test.
 3. VoiceOver/NVDA: Fokusreihenfolge, Zustände und Live-Regionen.
@@ -45,22 +45,24 @@ Browserprofile: Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 
 2. Jeden sichtbaren ±-Taster auf 44 × 44 px, 13-px-Radius, schwarze Kontur, Cyan-Fokus und grünen Druckzustand prüfen.
 3. Ausrichtung in jedem Eingabefeld sowie unveränderte Feldhöhe bei Smartphone, Tablet und Desktop kontrollieren.
 4. Positive, negative und Nullwerte umschalten; Eingabewert und Ergebnis müssen unmittelbar aktualisiert werden.
-5. Auf Smartphone und Tablet jeden Taster per Tap auslösen; Scrollen darf nicht blockiert und Doppeltipp-Zoom nicht provoziert werden.
+5. Auf Smartphone und Tablet jeden Taster per Tap auslösen.
 
-## 8. Verbindliche PNG-Navigationsgrafiken
+## 8. Alternative PNG-Navigationsgrafiken
 1. Alle zehn Startseitenziele prüfen: zehn geladene PNG-Dateien ohne defekte Grafik; jede Datei 512 × 512 px, RGBA und transparent.
-2. Motivklassen prüfen: sechs Rechner/Umrechnungen mit Taschenrechner, drei interne Datenbanken mit Buch, externer E+H-Dienst mit WWW-Weltkugel und Auswärtspfeil.
-3. Alle sechs Rechner-PNGs müssen pixelidentisch sein und denselben SHA-256-Wert besitzen.
-4. Rechner-Safe-Zone prüfen: Taschenrechner x=102…410 px und y=56…374 px; außerhalb bis zum gemeinsamen Rahmen bleibt ein sichtbarer transparenter Innenabstand.
-5. Auf Smartphone, Tablet und Desktop Außenmaß, Rahmenstärke, Eckenradius, Perspektive, Schatten, PNG-Innenmaß und Favoritensternposition aller zehn App-Kacheln vergleichen.
-6. Bereichsfelder prüfen: Rechner, Einheitendatenbank, Wissensdatenbank und externer Dienst = PCT; Werkstoffdatenbank = PIPING. CSA und EQP dürfen nirgends als aktives Iconfeld erscheinen.
-7. Jedes fachlich gekennzeichnete Icon darf genau ein Bereichsfeld zeigen. Das sichtbare Feld muss Bestandteil der PNG-Datei sein; HTML, CSS und JavaScript dürfen kein zweites Feld erzeugen.
-8. Im Browser die berechneten ::before-/::after-Inhalte der Icon-Container prüfen: PCT, PIPING, CSA und EQP dürfen dort nicht vorkommen.
-9. Wissens-Hub prüfen: fünf weiße Hersteller-/Kurzmarken ohne zusätzliche Motivgrafik, jeweils mit genau einem integrierten PCT-Feld.
-10. Beitragskarten prüfen: alle fünf Wissensbeiträge verwenden das Buch mit integriertem PCT-Feld; alte Gerätefelder wie PROMASS, P320, SPS, VFD oder SCO/SCC dürfen das Fachbereichsfeld nicht ersetzen.
-11. Startseite, Zurück-/Home-Navigation, Einheitendatenbank-CTA und externe E+H-Kachel anklicken.
-12. Grafiken bei 320, 390, 820 und 1440 px auf Kontur, Transparenz, Innenabstand, Erkennbarkeit und einfache Bereichskennzeichnung prüfen.
-13. Manifest-Shortcuts auf image/png und sizes 512x512 prüfen.
-14. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.0.2-Beta-Cache erscheinen.
-15. Prüfen, dass assets/navigation-icons/ keine SVG-Datei mehr enthält und als einzige technische SVG-Ausnahme assets/pct-controls.svg verbleibt.
-16. ICON-DESIGNRICHTLINIE.txt als verbindliche Übergabegrundlage auf Vollständigkeit prüfen.
+2. Dreistufige Bedeutung prüfen: Hauptmotiv = Funktion, integriertes Textfeld = Kategorie, HTML-Titel unter dem Icon = konkretes Ziel.
+3. Motivklassen prüfen: sechs Taschenrechner, drei Bücher und eine WWW-Weltkugel mit Auswärtspfeil.
+4. Kategorien prüfen: sechs Rechner = RECHNER; Einheitendatenbank und Wissensdatenbank/Wissensbeiträge = WISSEN; Werkstoffdatenbank = MATERIAL; externer E+H-Dienst = EXTERN.
+5. Die sechs Rechner-PNGs müssen pixelidentisch sein und denselben SHA-256-Wert besitzen.
+6. Rechnergeometrie prüfen: Frontkörper x=108…392 px/y=42…346 px, sichtbare Tiefe bis x=407 px/y=362 px, Kategoriefeld ab y=382 px.
+7. Auf Smartphone, Tablet und Desktop Außenmaß, Rahmenstärke, Eckenradius, Perspektive, CSS-Schatten, PNG-Innenmaß und Favoritensternposition aller zehn App-Kacheln vergleichen.
+8. Jedes fachlich gekennzeichnete Icon darf genau ein Kategoriefeld zeigen. Das sichtbare Feld muss Bestandteil der PNG-Pixel sein.
+9. HTML, CSS und JavaScript dürfen kein zusätzliches RECHNER-, WISSEN-, EXTERN-, MATERIAL-, PCT- oder PIPING-Overlay erzeugen.
+10. Im Browser ::before-/::after-Inhalte der Icon-Container auf verbotenen Kategorietext prüfen.
+11. Wissens-Hub prüfen: fünf weiße Hersteller-/Kurzmarken ohne zusätzliche Motivgrafik, jeweils mit genau einem integrierten PCT-Feld.
+12. Beitragskarten prüfen: alle fünf Wissensbeiträge verwenden das Buch mit integriertem WISSEN-Feld.
+13. Grafiken bei 24, 56, 64, 94, 192 und 512 px auf Kontur, Transparenz, Plastizität und Lesbarkeit prüfen.
+14. Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900 prüfen.
+15. Manifest-Shortcuts auf image/png und sizes 512x512 prüfen.
+16. Offline erneut laden; alle 17 PNG-Navigationsgrafiken müssen aus dem Version-2.6.0.3-Beta-Cache erscheinen.
+17. Prüfen, dass assets/navigation-icons/ keine SVG-Datei enthält und als einzige technische SVG-Ausnahme assets/pct-controls.svg verbleibt.
+18. ICON-DESIGNRICHTLINIE.txt als verbindliche Übergabegrundlage auf Vollständigkeit prüfen.

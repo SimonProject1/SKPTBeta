@@ -1,88 +1,40 @@
-SK PCT Tools 2.6.0.2-Beta – Test Results
-Prüfdatum: 15.10.2026
-Prüfbasis: vollständiger Projektordner vor Paketierung
+SK PCT Tools 2.6.0.3-Beta · Testprotokoll
+Stand: 15.10.2026
 
-ERGEBNIS
-PASS – Freigabestand für die vollständige Beta-Paketierung.
+ERGEBNIS: BESTANDEN
 
 1. Statische Struktur-/Integritätsprüfung
-Befehl: python3 tests/validate_project.py
-Ergebnis: PASS
-Umfang:
-- 10 Apps
-- 6 Rechner
-- 14 interne Unterseiten
-- 5 Wissensbeiträge
-- 17 transparente PNG-Navigationsgrafiken, jeweils 512 × 512 px mit Alphakanal
-- keine SVG-Datei unter assets/navigation-icons/
-- einzige verbleibende technische SVG-Datei: assets/pct-controls.svg
-- vollständige interne Referenzen und Offline-Cache-Ziele
-- gültige projektweite SHA-256-Dateiliste
-- Version 2.6.0.2-Beta
+- PASS: 10 Apps, 6 Rechner, 14 interne Unterseiten und 5 Wissensbeiträge.
+- PASS: Version 2.6.0.3-Beta in VERSION, Manifest, HTML, Cache-Busting und Service Worker konsistent.
+- PASS: 17 Navigations-PNGs mit 512 × 512 px, RGBA, transparenten und deckenden Pixeln.
+- PASS: alle lokalen Verweise, Offline-Kerncache-Einträge und projektinternen SHA-256-Prüfsummen vollständig.
+- PASS: 866 !important-Deklarationen und damit innerhalb des bestehenden Grenzwerts von 900.
 
-2. Überarbeitete Rechner-PNGs
-Ergebnis: PASS
-- Genau sechs PNG-Dateien wurden gegenüber der vollständigen V2.6.0.1-Beta geändert:
-  app-analogsignal.png, app-einheitenrechner.png, app-pf-rechner.png,
-  app-pt-rechner.png, app-siemens-rohwert.png und app-spannungsfall.png.
-- Die übrigen elf Navigations-PNGs blieben binär unverändert.
-- Alle sechs Rechner-PNGs sind pixelidentisch.
-- Gemeinsamer SHA-256-Wert der sechs Rechner-PNGs:
-  14048d7c83a1618873946fd3e95e739eda062dacae0a43ad911e0000775821a2
-- Transparente Alpha-Begrenzung aller Rechner-PNGs: (102, 56, 411, 456).
-- Der eigentliche Taschenrechner liegt innerhalb x=102…410 px und y=56…374 px.
-- Das integrierte PCT-Bereichsfeld beginnt einheitlich ab y=385 px.
-- Das veraltete übergroße Rechner-PNG wird von der statischen Prüfung ausdrücklich abgewiesen.
+2. Alternative Iconserie
+- PASS: sechs pixelidentische Taschenrechner-PNGs mit integriertem Feld RECHNER.
+- PASS: Einheitendatenbank und Wissensdatenbank/Wissensbeiträge als Buch mit WISSEN.
+- PASS: Werkstoffdatenbank als Buch mit MATERIAL.
+- PASS: externer E+H Device Viewer als WWW-Weltkugel mit Auswärtspfeil und EXTERN.
+- PASS: fünf Hersteller-PNGs als reine weiße Kurzmarken beziehungsweise Namen mit PCT, ohne zusätzliche Motivgrafik.
+- PASS: Home und Zurück als transparente plastische PNG-Piktogramme ohne Kategoriefeld.
+- PASS: Generator erneut ausgeführt; die erzeugten PNG-Prüfsummen sind reproduzierbar identisch.
 
-3. Gemeinsamer App-Rahmen und Favoritenstern
-Ergebnis: PASS
-- Alle zehn Startseiten-Apps verwenden denselben zentralen .sk-home-icon-Rahmen.
-- Außenmaß, Rahmenstärke, Eckenradius, Perspektive, Schatten und PNG-Innenmaß wurden je Viewport gegeneinander geprüft.
-- Die relative Favoritensternposition wurde für alle zehn App-Icons je Viewport verglichen.
-- Rechner-, Buch- und WWW-Icons bleiben vollständig innerhalb derselben grün-blauen, schwarz konturierten Kachel.
-- Der kleinere Taschenrechner besitzt einen sichtbaren Innenabstand zum gemeinsamen Rahmen.
+3. Overlay- und Kategorienprüfung
+- PASS: pro fachlich gekennzeichnetem PNG genau ein integriertes Kategoriefeld im Generator definiert.
+- PASS: keine zusätzlichen HTML-, CSS- oder JavaScript-Overlays für RECHNER, WISSEN, EXTERN, MATERIAL, PCT oder PIPING.
+- PASS: alte pauschale PCT-/PIPING-Zuordnungen sind für App-/Zielgrafiken nicht mehr aktiv.
 
-4. Prüfung auf doppelte Fachbereichs-Overlays
-Ergebnis: PASS
-- Jedes Rechner-PNG enthält genau ein integriertes PCT-Bereichsfeld.
-- Keine bekannten Overlay-Elemente oder Overlay-Datenattribute in HTML, CSS oder JavaScript vorhanden.
-- Browserprüfung meldet weder PCT, PIPING, CSA noch EQP im berechneten ::after-Inhalt der Startseiten-, Wissens- oder Herstellericons.
-- Pro sichtbarem Navigationsicon stammt das Fachbereichsfeld ausschließlich aus der PNG-Datei.
+4. Browser-Regression
+- PASS: 679 automatisierte Browserprüfungen.
+- PASS: 15 Seiten in Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000.
+- PASS: Reflow-Prüfung 320 × 900.
+- PASS: Außenmaß, gemeinsamer Rahmen, CSS-Schatten, PNG-Innenmaß und Favoritensternposition aller zehn App-Kacheln konsistent.
+- PASS: sechs Rechnerreferenzen, Touch-Prüfungen, Navigation und Offline-Aufrufe.
 
-5. Browser-Regression
-Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS – 679 Browserprüfungen
-Umfang:
-- 15 Seiten in Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
-- Reflow bei 320 × 900
-- Header, Footer, App-Rahmen, horizontale Überläufe, H1 und Referrer-Schutz
-- 10 PNG-Startseitengrafiken ohne Ladefehler
-- identische Rahmen-/Schatten-/Perspektivgeometrie und Sternposition aller Startseitenicons
-- 10 Favoritensterne auf der Startseite und 5 Favoritensterne an den Wissensbeiträgen
-- interne Home-/Zurück-Navigation auf allen 14 Unterseiten
-- Hersteller-Hub und fünf Wissensbeiträge
-- 44 × 44 px Plus/Minus-Taster und Touch-Auslösung auf Smartphone und Tablet
-- Referenzberechnungen aller 6 Rechner
-- Einheiten- und Werkstoffdatenbank sowie Wissensbeiträge
-- Service-Worker-/Offline-Aufrufe
-
-6. Visuelle QA der Zielgrößen
-Geprüfte Chromium-Ansichten:
-- Smartphone 390 × 844
-- Tablet 820 × 1180
-- Desktop 1440 × 1000
-Ergebnis:
-- Alle zehn App-PNGs wurden vor der Aufnahme vollständig dekodiert.
-- Die verkleinerten Taschenrechner liegen auf allen drei Zielgrößen klar innerhalb des gemeinsamen Rahmens.
-- PCT-Felder, Buch- und WWW-Motive, Titel und Favoritensterne bleiben sichtbar und ohne Überlagerung.
-- Keine horizontale Überbreite oder abgeschnittene App-Kachel festgestellt.
-
-7. PWA/Offline
-- Service Worker verwendet Cacheversion 2.6.0.2-Beta.
-- Alle 17 Navigations-PNGs liegen im CORE-Cache.
-- ICON-DESIGNRICHTLINIE.txt liegt in OPTIONAL_DOCUMENTS.
-- Offline-Test für Einheitenrechner und Wissensbeitrag bestanden.
-- Aktivierung entfernt ältere SK-PCT-Tools-Caches außerhalb der aktuellen Kern- und Dokumentcaches.
+5. Visuelle Abnahme
+- PASS: Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert und nach vollständigem PNG-Decoding kontrolliert.
+- PASS: Wissensdatenbank-Hub bei 390 × 844 kontrolliert.
+- PASS: Hauptmotive klar unterscheidbar, Kategoriefelder kontrastreich, Außenrahmen und Favoritensterne unverändert einheitlich.
 
 Hinweis
-Die automatisierte Browser- und visuelle Prüfung verwendet Chromium mit den genannten Viewports. Ergänzende Smoke-Tests auf realem iPhone/iPad sowie Safari/Firefox/Edge bleiben nach Deployment gemäß TESTPLAN.md empfohlen.
+- Die Viewport-Prüfungen wurden automatisiert in Chromium durchgeführt. Reale Safari-/iOS-, Firefox- und Edge-Geräte-Smoke-Tests bleiben wie im TESTPLAN.md als nachgelagerte Hosting-/Geräteabnahme dokumentiert.

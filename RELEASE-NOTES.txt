@@ -1,40 +1,51 @@
-SK PCT Tools 2.6.0.2-Beta
+SK PCT Tools 2.6.0.3-Beta
 Release-Datum: 15.10.2026
-Status: Vollständige Beta · vereinheitlichte, verkleinerte PNG-Rechner-Icons
-Direkte Ausgangsbasis: vollständige 2.6.0.1-Beta
+Status: Vollständige alternative Beta · komplett neue plastische PNG-Iconserie
+Direkte Ausgangsbasis: vollständige 2.6.0.2-Beta
 
 TATSÄCHLICH UMGESETZT
 
-1. Rechner-Innenmotiv deutlich verkleinert
-- Alle sechs Rechnerziele wurden aus derselben überarbeiteten Masterfunktion neu erzeugt.
-- Der Taschenrechner liegt im 512 × 512 px großen PNG vollständig innerhalb der verbindlichen Safe-Zone x=102…410 px und y=56…374 px.
-- Der bisher optisch zu große Taschenrechner überdeckt den gemeinsamen App-Rahmen nicht mehr.
-- Das Innenmotiv besitzt auf allen Seiten einen klaren transparenten Abstand zur Rahmenwirkung der App-Kachel.
+1. Vollständig alternative PNG-Grafikserie
+- Alle 17 Navigations-PNGs wurden als zusammengehörige alternative Cartoon-Tech-Serie neu erzeugt.
+- Die zehn App-/Zielgrafiken verwenden hochwertigere Verläufe, klare schwarze Konturen, Glanzkanten, kontrollierte Schlagschatten und eine einheitliche leichte 3D-Wirkung.
+- Home und Zurück wurden im gleichen plastischen Stil neu gezeichnet.
+- Die fünf Herstellerziele bleiben bewusst reine weiße Kurzmarken beziehungsweise Herstellernamen ohne zusätzliche Motivgrafik.
 
-2. Gemeinsames Icon-System bewahrt
-- Rechner-, Buch- und WWW-Icons verwenden weiterhin denselben grün-blauen, schwarz konturierten Außenrahmen der Oberfläche.
-- Außenmaß, Rahmenstärke, Eckenradius, Perspektive, Schatten und Hover-/Fokusverhalten stammen zentral aus .sk-home-icon.
-- Die Favoritensterne bleiben als gemeinsames Bedienelement identisch positioniert und sind nicht Teil der PNG-Dateien.
-- Alle PNG-Master behalten 512 × 512 px, RGBA und transparente Randpixel.
+2. Funktionsmotiv und Kategorie konsequent getrennt
+- Hauptmotiv beschreibt die Funktion: Taschenrechner, aufgeschlagenes Buch oder WWW-Weltkugel.
+- Genau ein in das PNG integriertes Textfeld beschreibt die Kategorie.
+- Der vorhandene Titel unter dem Icon beschreibt weiterhin das konkrete Ziel.
+- Rechner und Umrechnungen verwenden RECHNER.
+- Wissensdatenbank, Wissensbeiträge und Einheitendatenbank verwenden WISSEN.
+- Der E+H Device Viewer verwendet EXTERN.
+- Die Werkstoffdatenbank verwendet MATERIAL.
+- Nur die Hersteller-Icons verwenden weiterhin PCT.
+- Das frühere pauschale PCT-/PIPING-Schema ist für App-/Zielgrafiken entfernt.
 
-3. PCT-Bereichsfeld eindeutig integriert
-- Jedes Rechner-PNG enthält genau ein fest gerendertes PCT-Bereichsfeld.
-- Das PCT-Feld beginnt bei allen Rechner-PNGs einheitlich ab y=385 px und bleibt Bestandteil der PNG-Datei.
-- HTML, CSS und JavaScript erzeugen kein zusätzliches PCT-, PIPING-, CSA- oder EQP-Overlay.
+3. Gemeinsamer Rahmen und Bediengeometrie bewahrt
+- Der gemeinsame grün-blaue, kräftig schwarz konturierte Cartoon-Tech-Außenrahmen bleibt unverändert zentral in .sk-home-icon.
+- Außenmaße, Eckenradius, Perspektive, CSS-Schatten, object-fit und Innenabstand bleiben für alle zehn App-Kacheln identisch.
+- Position und Größe des Favoritensterns bleiben unverändert; der Stern ist weiterhin kein Bestandteil der PNG-Dateien.
+- Alle PNG-Master bleiben 512 × 512 px, RGBA und besitzen echte transparente Randpixel.
 
-4. Verbindliche Richtlinie und reproduzierbare Quelle
-- ICON-DESIGNRICHTLINIE.txt dokumentiert die gemeinsame App-Rahmenlogik, Rechner-Safe-Zone, Innenabstände und Abnahmebedingungen.
-- tools/generate_png_icons.py bleibt die reproduzierbare Quelle aller 17 Navigations-PNGs.
+4. Reproduzierbare Quelle und Richtlinie
+- tools/generate_png_icons.py erzeugt alle 17 Grafiken reproduzierbar aus einer gemeinsamen Geometrie.
+- Dreifache Überabtastung und hochwertige Lanczos-Reduktion verbessern Konturen und Textkanten.
 - Die sechs Rechner-PNGs sind pixelidentisch und besitzen denselben SHA-256-Wert.
+- ICON-DESIGNRICHTLINIE.txt dokumentiert die neue verbindliche Dreiteilung: Funktionsmotiv, Kategoriefeld, Zieltitel.
 
-5. Qualitätssicherung
-- Die statische Projektprüfung erkennt das veraltete übergroße Rechner-PNG, prüft die Safe-Zone und verlangt identische Rechnerdateien.
-- Die Browser-Regression vergleicht auf Smartphone, Tablet und Desktop Außenmaß, Rahmenstärke, Schatten, Perspektive, PNG-Innenmaß und Favoritensternposition aller zehn App-Icons.
-- Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900 bleiben Bestandteil der Regression.
-- Rechner-Referenzwerte, Navigation, Wissensinhalte und Offline-Aufrufe bleiben vollständig geprüft.
+5. Keine zusätzlichen Overlays
+- Jedes fachlich gekennzeichnete PNG enthält genau ein fest gerendertes Kategoriefeld.
+- HTML, CSS und JavaScript erzeugen kein zusätzliches RECHNER-, WISSEN-, EXTERN-, MATERIAL-, PCT- oder PIPING-Overlay.
+- Der Offline-Kerncache enthält weiterhin alle 17 Navigations-PNGs.
 
-6. PWA und Versionierung
-- Öffentliche und technische Version: 2.6.0.2-Beta.
-- Manifest-Version, Service-Worker-RELEASE, Cache-Busting-Parameter, sichtbare Versionsangaben und Dokumentation sind konsistent aktualisiert.
-- Der neue Cache-Namensraum trennt 2.6.0.2-Beta sauber von 2.6.0.1-Beta; alte SK-PCT-Tools-Caches werden bei Aktivierung entfernt.
-- Alle 17 PNG-Navigationsgrafiken bleiben im Offline-Kerncache enthalten.
+6. Qualitätssicherung
+- Statische Prüfungen kontrollieren Dimension, RGBA, Transparenz, Kategorienzuordnung, Rechner-Pixelgleichheit, Safe-Zone, Dateiverweise, Offline-Cache und vollständige Prüfsummen.
+- Browser-Regression vergleicht Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000 und Reflow 320 × 900.
+- Außenmaß, Rahmen, Schatten, PNG-Innenmaß und Favoritensternposition werden geräteübergreifend verglichen.
+
+7. PWA und Versionierung
+- Öffentliche und technische Version: 2.6.0.3-Beta.
+- Manifest-Version, Service-Worker-RELEASE, Cache-Busting-Parameter, sichtbare Versionsangaben und Dokumentation wurden konsistent aktualisiert.
+- Der neue Cache-Namensraum trennt 2.6.0.3-Beta sauber von 2.6.0.2-Beta.
+- SHA256SUMS.txt enthält die Prüfsumme jeder weiteren Projektdatei.
