@@ -1,12 +1,13 @@
-SK PCT Tools 2.6.2.0-Beta – Testergebnisse
+SK PCT Tools 2.6.2.1-Beta – Testergebnisse
 Ausgeführt: 16.10.2026
-Ziel: vollständiges Release-Paket V2.6.2.0-Beta
+Ziel: vollständiges Release-Paket V2.6.2.1-Beta
+Basis: vollständige V2.6.2.0-Beta
 
 1. SYNTAX- UND FORMATPRÜFUNG
 PASS
 - Python-Syntax: App-Icon-Generator, Markenlogo-Generator und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-2-0.js und service-worker.js
-- JSON: Manifest und Suchindex
+- JavaScript-Syntax: assets/app-v2-6-2-1.js und service-worker.js
+- JSON: Manifest, Suchindex, Material- und Einheitendaten
 - XML: assets/pct-controls.svg
 
 2. STRUKTUR-, REFERENZ- UND INTEGRITÄTSPRÜFUNG
@@ -18,26 +19,38 @@ Ergebnis: PASS
 - 22 aktive Navigationsicons
 - 7 Marken-/PWA-PNGs
 - 1 Vorkommen von !important im zentralen CSS
-- Version 2.6.2.0-Beta konsistent
+- Version 2.6.2.1-Beta konsistent
+- keine operativen V2.6.1.x- oder V2.6.2.0-Referenzen
 - lokale Referenzen, Manifest, Suchindex und Service Worker vollständig
 - SHA256SUMS.txt vollständig und korrekt
 
-3. NEUE MARKEN-/PWA-FAMILIE
+3. ANGEPASSTE MARKEN-/PWA-FAMILIE
 PASS
+- oberer kleiner „SK“-Textblock im Generator und Markenaufbau entfernt
+- Zahnrad-Außendurchmesser im 512-px-Master auf 302 Designpixel vergrößert
+- PCT-Schrift von 78 auf 92 Designpixel vergrößert
+- Herkunftsfeld auf 280 × 70 Designpixel und Schrift auf 29 Designpixel vergrößert
 - logo-sk-pct-tools.png und icon-512.png: 512 × 512, RGBA, transparent
 - icon-192.png: 192 × 192, RGBA, transparent
 - favicon.png: 64 × 64, RGBA, transparente Außenkanten
 - apple-touch-icon.png: 180 × 180, vollständig opak
 - icon-maskable-192.png und icon-maskable-512.png: vollständig opak/full-bleed
-- PCT bleibt in der 64-px-Favicon-Prüfung eindeutig erkennbar
+- PCT bleibt in 16-, 32- und 64-px-Browser-Tab-Simulationen erkennbar
 - schwarze Konturen, weiße Motivflächen sowie Cyan-/Blau-/Grün-Akzente vorhanden
-- 11.198 kontrastreiche weiße Markenpixel innerhalb und nur 120 dekorative weiße
+- 12.440 kontrastreiche weiße Markenpixel innerhalb und nur 120 dekorative weiße
   Rail-/Knotenpixel außerhalb des 80-%-Safe-Zone-Kreises der 512-px-Maskable-Datei
 - Manifest-Purpose `any` und `maskable` korrekt
-- sichtbares Startseiten-, Header- und Seitenkopf-Logo auf neuen Markenmaster umgestellt
 - alle 7 Marken-/PWA-Dateien im Offline-Kerncache
 
-4. UNVERÄNDERTER APP-ICON-STANDARD
+4. RAHMENLOSE SICHTBARE LOGO-EINBINDUNG
+PASS
+- Startseiten- und alle internen Headerlogos verwenden assets/logo-sk-pct-tools.png
+- Logo-Hosts im Browser: 0-px-Rahmen, transparenter Hintergrund, kein Box-Shadow
+- Overflow sichtbar; PNG-Außenmaß entspricht dem Host-Außenmaß
+- keine zusätzliche schwarze/dunkle Logokachel
+- kein Beschnitt und keine Kollision mit Version, Suche, Favoriten oder Navigation
+
+5. UNVERÄNDERTER APP-ICON-STANDARD
 PASS
 - 22 von 22 PNGs vorhanden
 - 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons
@@ -45,10 +58,10 @@ PASS
 - tatsächliche Alpha-Grenze aller Icons: (13, 9, 489, 491)
 - 22 unterschiedliche SHA-256-Dateihashes
 - jeder PNG-Dateihash entspricht dem freigegebenen Referenzsatz
-- Bilddaten gegenüber V2.6.1.9-Beta bitidentisch; kein App-Icon neu gerendert
+- Binärvergleich mit V2.6.2.0-Beta: 22 von 22 Bilddateien unverändert
 - alle 22 Icons im Offline-Kerncache
 
-5. FAVORITENKOPPLUNG UND GEOMETRIE
+6. FAVORITENKOPPLUNG UND GEOMETRIE
 PASS
 - alle 10 Startseiten- und 5 Wissens-Favoritenbuttons direkt im jeweiligen
   `.sk-app-icon-wrapper`
@@ -58,29 +71,32 @@ PASS
 - aktive und inaktive Favoriten geometrisch identisch
 - App-Kachel, Wrapper und PNG in Ruhe, Hover, Fokus, Press und Aktivzustand stabil
 
-6. BROWSER-REGRESSION
+7. BROWSER-REGRESSION
 Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS · 958 Browserprüfungen
+Ergebnis: PASS · 1001 Browserprüfungen
 - 15 Seiten × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
-- neues 512-px-Startseiten- und Headerlogo vollständig geladen
+- 512-px-Startseiten- und Headerlogo vollständig geladen
+- transparente, rahmenlose Logo-Hosts auf allen Viewports geprüft
 - Manifest-Version und PWA-Icon-Purpose im Browser geprüft
 - 320-px-Reflow
 - 6 Rechnerreferenzen und Grenzwertprüfungen
 - Touchprüfung für Smartphone und Tablet
 - Header, Footer, Rahmen, interne Scrollbereiche und horizontaler Überlauf
 - Start-, Wissens-, Hersteller- und Navigationsicons vollständig geladen
-- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-2-0-core-r1
+- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-2-1-core-r1
 
-7. VISUELLE BROWSERABNAHME
+8. VISUELLE BROWSERABNAHME
 PASS
 - Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert
 - interne Rechnerseite bei 390 × 844 gerendert
+- Wissensdatenbank bei 1440 × 1000 gerendert
 - neues Logo in Startseiten- und internem Header ohne Beschnitt oder Defekt
-- PCT in kleiner Darstellung erkennbar; reguläre 192/512-px-Markenvarianten lesbar
+- kein oberer „SK“-Block und keine zusätzliche dunkle Logo-Hostkachel sichtbar
+- PCT in kleiner Darstellung erkennbar; reguläre 180/192/512-px-Varianten lesbar
 - keine Kollision mit Suche, Favoriten, Navigation, Titel oder Nachbarkacheln
 - keine abgeschnittenen App-Symbole, defekten Bilder oder horizontalen Überläufe
 - App-Icon-Design und Favoritenposition optisch unverändert
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.2.0-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.2.1-Beta.zip freigegeben.

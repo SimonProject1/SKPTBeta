@@ -1,62 +1,66 @@
-SK PCT Tools V2.6.2.0-Beta – Release Notes
+SK PCT Tools V2.6.2.1-Beta – Release Notes
 Stand: 16.10.2026
-Basis: vollständige V2.6.1.9-Beta
+Basis: vollständige V2.6.2.0-Beta
 
 ZIEL
-SK PCT Tools erhält eine vollständig neue Marken-/PWA-Logo-Familie, die gestalterisch
-mit den freigegebenen App-Icons geschlossen zusammenarbeitet, ohne deren Design oder
-die feste Favoritenkopplung zu verändern.
+Die bestehende Markenfamilie wird gezielt vereinfacht und besser lesbar, ohne den
+freigegebenen technisch-industriellen Cyan-/Blau-/Grün-Stil, die App-Icons oder die
+feste Favoritenkopplung zu verändern.
 
-NEUES MARKENLOGO
-- Neuer industrieller Außenmaster mit kräftigem schwarzem Tiefenrahmen und dem
-  identischen Grün-Türkis-Blau-Verlauf der App-Icons.
-- Großes weißes PCT-Hauptzeichen mit schwarzer Kontur für sichere Erkennung bei
-  kleinen Größen.
-- Technisches Zahnrad, cyanfarbener und grüner Signalring sowie SK-Typenschild.
-- Herkunftszeile "TOOL'S BY S.K." als konturiertes Maschinenschild.
-- Räumliche Tiefe durch Schatten, gestaffelte Konturen, Stahlflächen und Rails.
+LOGO-KORREKTUR
+- Redundanten oberen „SK“-Textblock vollständig entfernt.
+- Zahnrad deutlich auf 302 px Außendurchmesser im 512-px-Master vergrößert und neu
+  zentriert.
+- PCT-Schrift von 78 auf 92 Designpixel vergrößert.
+- Unteres weißes Feld von 260 × 64 auf 280 × 70 Designpixel vergrößert; Beschriftung
+  „TOOL'S BY S.K.“ von 25 auf 29 Designpixel angehoben.
+- Proportionen, Abstände, schwarze Konturen, Stahlflächen, Signalringe, Rails und
+  Cyan-/Blau-/Grün-Farbwelt harmonisch beibehalten.
 - Reproduzierbare Quelle: tools/generate_brand_assets.py.
 
+SICHTBARES HEADER-/STARTSEITENLOGO
+- Zusätzliche schwarze Kontur, dunkle Hintergrundkachel, Innenschatten und äußerer
+  Kachelschatten am Logo-Host entfernt.
+- Logo-Host ist transparent, rahmenlos und schattenfrei.
+- Das eigentliche PNG nutzt das vollständige Header-Logo-Außenmaß; kein künstlicher
+  3-px-Innenabstand mehr.
+- Gilt einheitlich für Startseite und gemeinsame Header aller internen Seiten.
+
 ERSETZTE LOGO- UND PWA-VARIANTEN
-- sichtbares Startseitenlogo
-- gemeinsames Headerlogo aller internen Seiten
-- dezentes Seitenkopf-Wasserzeichen
 - assets/logo-sk-pct-tools.png
 - assets/favicon.png
 - assets/apple-touch-icon.png
 - assets/icon-192.png und assets/icon-512.png
 - assets/icon-maskable-192.png und assets/icon-maskable-512.png
-- Manifest-Icons und PWA-Shortcuts
-- Service-Worker-/Offline-Cache-Referenzen
-- Browser-/Apple-/Manifest-Metadaten aller 16 HTML-Dokumente
-- Dokumentation, Tests und Prüfsummen
+- sichtbares Startseitenlogo, gemeinsames Headerlogo und Seitenkopf-Wasserzeichen
+- Manifest-, Browser-, Apple-, PWA-, Metadaten- und Offline-Cache-Referenzen
+- Dokumentation, Tests, Prüfsummen und Übergabeprotokoll
 
 TRANSPARENZ UND MASKABLE
 - Standardlogo, Favicon sowie icon-192/icon-512 besitzen echte transparente
-  Außenkanten und eine kontrollierte sichtbare Alpha-Grenze.
+  Außenkanten.
 - Apple-Touch- und Maskable-Dateien sind vollständig opak und full-bleed.
-- Die zentrale SK/PCT/Tool's-by-S.K.-Bildmarke liegt innerhalb des 80-%-Safe-Zone-
-  Kreises; ausschließlich dekorative Außenrails dürfen maskenabhängig beschnitten
-  werden.
-- Manifest-Purpose ist für Standardvarianten `any` und für beide Maskable-Dateien
-  ausschließlich `maskable`.
+- Die zentrale PCT-/Zahnrad-/Herkunftsmarke liegt im 80-%-Safe-Zone-Kreis;
+  ausschließlich dekorative Außenrails dürfen maskenabhängig beschnitten werden.
+- Manifest-Purpose bleibt `any` für Standardvarianten und `maskable` für beide
+  Maskable-Dateien.
 
 UNVERÄNDERTE FREIGEGEBENE APP-ICONS
-- Alle 22 Navigations-PNGs sind gegenüber V2.6.1.9-Beta binär identisch.
-- Nur Dateinamen und operative Referenzen wechselten von v2-6-1-9- auf v2-6-2-0-.
+- Alle 22 Navigations-PNGs behalten exakt die freigegebenen Bilddaten.
+- Nur Dateinamen und operative Referenzen wechselten auf v2-6-2-1-.
 - Hauptsymbole, Rahmen, Konturen, Verläufe, Rails, Schatten und Alpha-Grenzen wurden
   nicht verändert.
 - Die strukturelle Favoritenkopplung im `.sk-app-icon-wrapper`, 44-px-Touchfläche,
-  22-px-Kreis und die exakte obere rechte Ankerposition bleiben unverändert.
+  22-px-Kreis und exakte obere rechte Ankerposition bleiben unverändert.
 
 VERSIONIERUNG
-- Version: 2.6.2.0-Beta
-- Zentraler Stil: assets/app-v2-6-2-0.css
-- Zentrale Laufzeit: assets/app-v2-6-2-0.js
-- Manifest: manifest-v2-6-2-0.webmanifest
-- Suchindex: assets/search-index-v2-6-2-0.json
-- Cache-Epoch: v2-6-2-0-core-r1
-- Übergabe: UEBERGABE-V2.6.2.0-Beta.txt
+- Version: 2.6.2.1-Beta
+- Zentraler Stil: assets/app-v2-6-2-1.css
+- Zentrale Laufzeit: assets/app-v2-6-2-1.js
+- Manifest: manifest-v2-6-2-1.webmanifest
+- Suchindex: assets/search-index-v2-6-2-1.json
+- Cache-Epoch: v2-6-2-1-core-r1
+- Übergabe: UEBERGABE-V2.6.2.1-Beta.txt
 
 QUALITÄTSSICHERUNG
 - Statische Struktur-, Referenz-, Versions-, Logo-, Icon-, Offline- und

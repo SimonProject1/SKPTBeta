@@ -1,0 +1,57 @@
+ÜBERGABE – SK PCT Tools V2.6.2.1-Beta
+Stand: 16.10.2026
+Basis: vollständige V2.6.2.0-Beta
+
+STATUS
+- vollständige neue Version, kein Patchpaket
+- redundanter oberer „SK“-Textblock aus allen Marken-/PWA-Varianten entfernt
+- Zahnrad, PCT-Schrift und unteres „TOOL'S BY S.K.“-Feld vergrößert
+- zusätzliche dunkle/schwarze Logo-Hostkachel in Startseite und Headern entfernt
+- alle sichtbaren Logo-, Browser-, Apple- und PWA-Varianten ersetzt
+- Versionierung, Manifest, Service Worker, Suchindex, Dokumentation und Tests auf
+  V2.6.2.1-Beta angehoben
+- Prüfsummen und Testergebnisse Bestandteil des Pakets
+
+LOGOFAMILIE
+- assets/logo-sk-pct-tools.png: sichtbarer 512-px-Markenmaster
+- assets/favicon.png: 64 px, transparent
+- assets/apple-touch-icon.png: 180 px, opak
+- assets/icon-192.png und icon-512.png: Standard-PWA
+- assets/icon-maskable-192.png und icon-maskable-512.png: opak/full-bleed
+- tools/generate_brand_assets.py: reproduzierbare Quelle
+
+DESIGN
+- dominantes PCT und vergrößertes Zahnrad
+- kein separates oberes „SK“-Typenschild
+- vergrößertes weißes Herkunftsfeld „TOOL'S BY S.K.“
+- schwarze Motivkonturen, Stahlflächen, Cyan-/Blau-/Grün-Akzente, Rails und Tiefe
+- zentrale Markeninformation innerhalb der Maskable-Safe-Zone
+- sichtbarer Logo-Host transparent, rahmenlos und schattenfrei
+
+WICHTIGER SCHUTZSTAND
+- Die 22 freigegebenen App-/Wissens-/Hersteller-/Navigationsicons bleiben gegenüber
+  V2.6.2.0-Beta bildlich unverändert; nur ihre Versionspräfixe wurden aktualisiert.
+- Die feste Favoritenkopplung an `.sk-app-icon-wrapper`, 44-px-Touchfläche,
+  22-px-Kreis und exakte obere rechte Ankerposition wurden nicht verändert.
+- Bei künftigen Versionen darf das Markenlogo separat weiterentwickelt werden;
+  App-Icons und Favoritengeometrie nur nach ausdrücklicher Freigabe ändern.
+
+ZENTRALE DATEIEN
+- assets/app-v2-6-2-1.css
+- assets/app-v2-6-2-1.js
+- assets/search-index-v2-6-2-1.json
+- manifest-v2-6-2-1.webmanifest
+- service-worker.js · Cache-Epoch v2-6-2-1-core-r1
+- tests/validate_project.py
+- tests/browser_regression.py
+- TESTPLAN.md und TEST-RESULTS.txt
+- SHA256SUMS.txt
+
+PRÜFUNG
+- python3 tools/generate_brand_assets.py
+- python3 tests/validate_project.py
+- python3 tests/browser_regression.py
+
+AUSLIEFERUNG
+Vollständiger Projektordner: SK-PCT-Tools-V2.6.2.1-Beta
+Vollständiges ZIP: SK-PCT-Tools-V2.6.2.1-Beta.zip

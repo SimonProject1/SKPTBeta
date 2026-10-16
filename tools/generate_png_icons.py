@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the complete SK PCT Tools V2.6.2.0-Beta icon system.
+"""Generate the complete SK PCT Tools V2.6.2.1-Beta icon system.
 
 Design goal: combine the clear, large white/black-contoured motifs of V2.6.1.4
 with the industrial depth, cyan/green accent rails and technical character of
@@ -15,7 +15,7 @@ SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-2-0-"
+PREFIX = "v2-6-2-1-"
 WHITE = (255, 255, 255, 255)
 BLACK = (0, 0, 0, 255)
 DARK = (3, 15, 24, 255)
@@ -414,7 +414,7 @@ def main():
         "nav-home": nav_home,
     }
     for name, factory in icons.items(): save(name, factory())
-    print(f"Generated {len(icons)} V2.6.2.0 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
+    print(f"Generated {len(icons)} V2.6.2.1 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
 
 
 if __name__ == "__main__":

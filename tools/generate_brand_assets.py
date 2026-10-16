@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Generate the SK PCT Tools V2.6.2.0-Beta brand and PWA logo family.
+"""Generate the SK PCT Tools V2.6.2.1-Beta brand and PWA logo family.
 
 The mark deliberately reuses the exact industrial frame language of the approved
-navigation icons while keeping the PCT / SK / Tool's by S.K. identity. Standard
-icons retain transparent outer corners; maskable/iOS variants use an opaque,
-full-bleed background and keep the complete brand mark in the central safe zone.
+navigation icons while keeping the PCT / Tool's by S.K. identity. The redundant
+small SK nameplate above the gear is intentionally absent because the ownership
+line is already present below. Standard icons retain transparent outer corners;
+maskable/iOS variants use an opaque, full-bleed background and keep the complete
+brand mark in the central safe zone.
 """
 from __future__ import annotations
 
@@ -26,7 +28,7 @@ SCALE = nav.SCALE
 CANVAS = nav.CANVAS
 
 
-def gear_points(cx: float, cy: float, root_radius: float = 104, tooth_radius: float = 126, teeth: int = 12):
+def gear_points(cx: float, cy: float, root_radius: float = 123, tooth_radius: float = 151, teeth: int = 12):
     result = []
     for index in range(teeth * 4):
         angle = -math.pi / 2 + index * 2 * math.pi / (teeth * 4)
@@ -38,28 +40,25 @@ def gear_points(cx: float, cy: float, root_radius: float = 104, tooth_radius: fl
 def add_brand_mark(image: Image.Image) -> Image.Image:
     """Draw only the protected central brand mark; all geometry stays mask-safe."""
     draw = ImageDraw.Draw(image)
-    gear = nav.points(gear_points(256, 232))
+    # The gear is deliberately larger after removing the redundant upper SK block.
+    gear = nav.points(gear_points(256, 220))
     draw.polygon(gear, fill=(207, 220, 230, 255))
     draw.line(gear + [gear[0]], fill=nav.BLACK, width=nav.sc(15), joint="curve")
 
     # Industrial dark core and two function-colored signal arcs.
-    draw.ellipse(nav.box((166, 142, 346, 322)), fill=nav.BLACK)
-    draw.ellipse(nav.box((181, 157, 331, 307)), fill=(5, 23, 36, 255), outline=(32, 65, 84, 255), width=nav.sc(9))
-    draw.arc(nav.box((178, 154, 334, 310)), 188, 302, fill=nav.CYAN, width=nav.sc(8))
-    draw.arc(nav.box((178, 154, 334, 310)), 8, 122, fill=nav.GREEN, width=nav.sc(8))
-
-    # SK ownership badge, designed like an industrial machine nameplate.
-    nav.rr(draw, (214, 92, 298, 145), 14, fill=nav.WHITE, contour=10)
-    nav.text_center(draw, (256, 118), "SK", 28, fill=nav.BLACK)
+    draw.ellipse(nav.box((151, 115, 361, 325)), fill=nav.BLACK)
+    draw.ellipse(nav.box((168, 132, 344, 308)), fill=(5, 23, 36, 255), outline=(32, 65, 84, 255), width=nav.sc(9))
+    draw.arc(nav.box((165, 129, 347, 311)), 188, 302, fill=nav.CYAN, width=nav.sc(9))
+    draw.arc(nav.box((165, 129, 347, 311)), 8, 122, fill=nav.GREEN, width=nav.sc(9))
 
     # Dominant product identity remains readable down to favicon size.
-    nav.text_center(draw, (256, 234), "PCT", 78, fill=nav.WHITE, stroke=4, stroke_fill=nav.BLACK)
+    nav.text_center(draw, (256, 221), "PCT", 92, fill=nav.WHITE, stroke=4, stroke_fill=nav.BLACK)
 
-    # Legacy identity remains explicit at regular app/PWA sizes.
-    nav.rr(draw, (126, 338, 386, 402), 16, fill=nav.WHITE, contour=11)
-    nav.text_center(draw, (256, 366), "TOOL'S BY S.K.", 25, fill=nav.BLACK)
-    nav.accent_bar(draw, [(148, 389), (248, 389)], nav.CYAN, 5)
-    nav.accent_bar(draw, [(264, 389), (364, 389)], nav.GREEN, 5)
+    # The ownership field grows with the main mark and remains inside the safe zone.
+    nav.rr(draw, (116, 342, 396, 412), 18, fill=nav.WHITE, contour=12)
+    nav.text_center(draw, (256, 374), "TOOL'S BY S.K.", 29, fill=nav.BLACK)
+    nav.accent_bar(draw, [(140, 399), (248, 399)], nav.CYAN, 5)
+    nav.accent_bar(draw, [(264, 399), (372, 399)], nav.GREEN, 5)
     return image
 
 
@@ -112,7 +111,7 @@ def main() -> None:
     save_resized(maskable, "apple-touch-icon.png", 180)
     save_resized(maskable, "icon-maskable-192.png", 192)
     save_resized(maskable, "icon-maskable-512.png", 512)
-    print("Generated 7 SK PCT Tools V2.6.2.0-Beta brand/PWA assets")
+    print("Generated 7 SK PCT Tools V2.6.2.1-Beta brand/PWA assets")
 
 
 if __name__ == "__main__":
