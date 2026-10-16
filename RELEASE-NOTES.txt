@@ -1,40 +1,44 @@
-SK PCT Tools V2.6.1.5-Beta – Release Notes
+SK PCT Tools V2.6.1.6-Beta – Release Notes
 Stand: 16.10.2026
-Basis: vollständige V2.6.1.4-Beta
+Basis: vollständige V2.6.1.5-Beta
 
 ZIEL
-Vollständige grafische Neufassung des Icon-Systems nach der freigegebenen
-Kombination aus V2.6.1.4-Klarheit und V2.6.0.3-Techniktiefe, ohne beabsichtigte
-Änderung an Rechnerlogik, Wissensinhalten oder Datenbeständen.
+Die Startseiten-Icons bleiben in jedem üblichen Interaktionszustand geometrisch
+stabil. Die Favoritensterne sitzen als Eck-Badges exakt an der oberen rechten
+Außenkante. Das in V2.6.1.5-Beta ausdrücklich freigegebene Icon-Design bleibt
+inhaltlich und grafisch unverändert.
 
-NEUES ICON-SYSTEM
-- 22 Icons reproduzierbar neu erzeugt.
-- 10 eigenständige App-Icons statt drei gemeinsam wiederverwendeter App-Master.
-- 5 eigenständige Wissensicons statt eines gemeinsamen Buch-Platzhalters.
-- 5 technisch vereinheitlichte Herstellericons.
-- 2 neue Navigationsicons für Startseite und Zurück.
-- Große weiße Hauptsymbole mit schwarzer Kontur beibehalten.
-- Technische Cyan-/Grün-Akzentrails, Signalknoten und industrielle Tiefe ergänzt.
-- Transparente RGBA-PNGs, 512 × 512 px, ohne alte Versionsduplikate.
+STARTSEITE
+- Aufwärtsbewegung der App-Kacheln bei Mouse-Hover entfernt.
+- Transformationsbewegung bei Hover, Touch/Press, Fokus und Aktivzustand zentral
+  neutralisiert.
+- Transformationsübergang von App-Kachel und Icon entfernt, damit auch kein
+  verzögertes Zurückfedern auftreten kann.
+- Favoritenschalter bleiben ebenfalls in allen Zuständen positionsfest.
+- Sichtbarer 22-px-Favoritenkreis: Mittelpunkt exakt auf der oberen rechten
+  Außenkante des PNG-Icons.
+- Unsichtbare Favoriten-Touchfläche weiterhin mindestens 44 × 44 px.
 
-REKONSTRUKTION UND EINBINDUNG
-- assets/pct-controls.svg passend zur bestehenden Laufzeit vollständig rekonstruiert.
-- Startseite, Wissensdatenbank, Manifest, Laufzeit und Service Worker auf die
-  neue Icon-Serie v2-6-1-5 umgestellt.
-- Alle 22 Icon-Dateien in den Offline-Kerncache aufgenommen.
-- tools/generate_png_icons.py als deterministische Quelle aktualisiert.
+ICON-SCHUTZ
+- Alle 22 PNG-Dateien aus V2.6.1.5-Beta ohne Neurendering übernommen.
+- Dateiinhalt jedes Icons per festem SHA-256-Referenzwert gegen V2.6.1.5-Beta
+  abgesichert.
+- Nur Dateipräfix und Referenzen auf v2-6-1-6 aktualisiert.
+- Keine Änderung an Hauptsymbolen, Konturen, Farben, Rails, Schatten oder Tiefe.
 
 VERSIONIERUNG
-- Version: 2.6.1.5-Beta
-- Zentraler Stil: assets/app-v2-6-1-5.css
-- Zentrale Laufzeit: assets/app-v2-6-1-5.js
-- Manifest: manifest-v2-6-1-5.webmanifest
-- Suchindex: assets/search-index-v2-6-1-5.json
-- Cache-Epoch: v2-6-1-5-core-r1
-- Übergabe: UEBERGABE-V2.6.1.5-Beta.txt
+- Version: 2.6.1.6-Beta
+- Zentraler Stil: assets/app-v2-6-1-6.css
+- Zentrale Laufzeit: assets/app-v2-6-1-6.js
+- Manifest: manifest-v2-6-1-6.webmanifest
+- Suchindex: assets/search-index-v2-6-1-6.json
+- Cache-Epoch: v2-6-1-6-core-r1
+- Übergabe: UEBERGABE-V2.6.1.6-Beta.txt
 
 QUALITÄTSSICHERUNG
 - Struktur-, Referenz-, Versions-, Icon-, Offline- und Prüfsummenprüfung.
+- Geometrische Eckausrichtung aller zehn Favoritensterne in drei Viewports.
+- Positionsvergleich jedes App-Icons in Ruhe, Hover, Fokus, Press und Aktivzustand.
 - Browserprüfung für 15 Seiten auf Smartphone, Tablet und Desktop.
 - Zusätzliche 320-px-Reflow-, Touch-, Rechner-, Wissens- und Offline-Tests.
-- Tatsächliche Ergebnisse und eventuelle Korrekturen: TEST-RESULTS.txt.
+- Tatsächliche Ergebnisse: TEST-RESULTS.txt.

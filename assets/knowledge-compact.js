@@ -1,4 +1,4 @@
-/* SK PCT Tools 2.6.1.5-Beta — progressive Verdichtung langer Wissensbeiträge. */
+/* SK PCT Tools 2.6.1.6-Beta — progressive Verdichtung langer Wissensbeiträge. */
 (()=>{'use strict';
 function compact(){
   const article=document.querySelector('.knowledge-standard article');if(!article||article.dataset.compactReady==='true')return;article.dataset.compactReady='true';

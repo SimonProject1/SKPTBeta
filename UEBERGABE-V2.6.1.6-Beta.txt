@@ -1,0 +1,63 @@
+SK PCT TOOLS – ÜBERGABE V2.6.1.6-Beta
+Erstellt: 16.10.2026
+Projektinhaber: Simon Kiesler
+
+VERBINDLICHER STAND
+- Vollständiges Paket: SK-PCT-Tools-V2.6.1.6-Beta.zip
+- Version: 2.6.1.6-Beta
+- Basis: vollständige V2.6.1.5-Beta
+- Zentraler Stil: assets/app-v2-6-1-6.css
+- Zentrale Laufzeit: assets/app-v2-6-1-6.js
+- Control-Sprite: assets/pct-controls.svg
+- Manifest: manifest-v2-6-1-6.webmanifest
+- Suchindex: assets/search-index-v2-6-1-6.json
+- Cache-Epoch: v2-6-1-6-core-r1
+
+ÄNDERUNG V2.6.1.6
+- Startseiten-App-Icons bewegen sich bei Mouse-Hover, Antippen, Drücken,
+  Fokus und Aktivzustand nicht mehr.
+- App-Kachel und PNG bleiben geometrisch fest; Transformationsübergänge wurden
+  für diese Komponente entfernt.
+- Favoritensterne: sichtbarer Kreismittelpunkt exakt auf der oberen rechten
+  Außenkante des jeweiligen App-Icons.
+- Favoriten-Touchziel weiterhin 44 × 44 px, sichtbarer Kreis rund 22 px.
+- Keine Änderung an Rechnerlogik, Wissensinhalten oder Datenbeständen.
+
+VERBINDLICHER ICON-STANDARD
+- Der vom Benutzer ausdrücklich freigegebene V2.6.1.5-Icon-Satz bleibt erhalten.
+- 22 aktive, eigenständige Navigations-PNGs in assets/navigation-icons.
+- Präfix der aktiven Dateien: v2-6-1-6-
+- 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
+- Alle PNG-Bilddaten sind gegenüber V2.6.1.5-Beta bitidentisch; der statische Test
+  enthält die 22 SHA-256-Referenzwerte des Ausgangspakets.
+- Große weiße Hauptsymbole, schwarze Konturen, Grün-/Türkis-/Blau-Master und
+  Cyan-/Grün-Akzentrails unverändert beibehalten.
+- Reproduzierbare Quelle: tools/generate_png_icons.py
+
+ARCHITEKTURREGELN FÜR FOLGESTÄNDE
+1. Wiederkehrende Layout-, Header-, Footer-, Navigations-, Button- und
+   Favoritenänderungen zuerst in den zentralen App-Dateien umsetzen.
+2. Rechnerfachlogik nur in der jeweiligen Rechnerdatei ändern.
+3. Keine zusätzliche globale CSS-Datei anlegen.
+4. Semantik und zugängliche Namen in HTML belassen, nicht ins PNG einbrennen.
+5. Neue operative Dateien in Manifest/HTML und bei Offlinebedarf im
+   Service-Worker-Kernbestand ergänzen.
+6. Version, Manifest, Service Worker, Suchindex, Dokumentation, Tests,
+   Prüfsummen und Übergabeprotokoll immer gemeinsam aktualisieren.
+7. Vor Freigabe Struktur- und Browserprüfung vollständig ausführen.
+
+ERHALTUNGSREGELN
+- Startseiten-Icons in Hover-, Fokus-, Press- und Aktivzuständen positionsfest halten.
+- Favoritenkreis mit seinem Mittelpunkt an der oberen rechten Icon-Außenkante halten.
+- Gemeinsamen Icon-Außenmaster und Cyan-/Grün-Rails nicht verändern.
+- App-Rahmen, internes Scrollen und iOS-Safe-Areas beibehalten.
+- Keine Seite darf horizontal überlaufen.
+- Favoriten-Touchziel mindestens 44 × 44 px.
+- Offline-Upgrade muss alte sk-pct-tools-Caches entfernen.
+
+ABNAHMEBEFEHLE
+python3 tests/validate_project.py
+python3 tests/browser_regression.py
+
+Ergebnisse: TEST-RESULTS.txt
+Prüfsummen: SHA256SUMS.txt

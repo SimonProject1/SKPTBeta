@@ -1,10 +1,10 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.1.5-Beta · 16.10.2026
+Stand: V2.6.1.6-Beta · 16.10.2026
 
 FREIGEGEBENER VISUELLER STANDARD
-V2.6.1.5 verbindet die klare Lesbarkeit und die großen weißen, schwarz
-konturierten Hauptsymbole der V2.6.1.4-Beta mit der technischen Tiefe, den
-Cyan-/Grün-Akzentkanten und dem industriellen Charakter der V2.6.0.3-Beta.
+V2.6.1.6 übernimmt den vom Benutzer ausdrücklich freigegebenen Icon-Satz der
+V2.6.1.5-Beta ohne grafische Änderung. Hauptsymbole, Konturen, Farben, Rails,
+Schatten und industrielle Tiefe bleiben unverändert.
 
 GEMEINSAMER AUSSENMASTER
 - Transparentes PNG, 512 × 512 px, RGBA.
@@ -35,20 +35,30 @@ VOLLSTÄNDIGER AKTIVER BESTAND
 
 DATEIFORMAT UND QUELLE
 - Pfad: assets/navigation-icons/
-- Dateipräfix: v2-6-1-5-
+- Dateipräfix: v2-6-1-6-
 - Reproduzierbare Quelle: tools/generate_png_icons.py
 - Keine SVG-Duplikate und keine alten Versionsvarianten im Release.
 - Alle 22 PNG-Dateien besitzen unterschiedliche SHA-256-Prüfsummen.
+- Jeder Dateihash muss dem korrespondierenden PNG aus V2.6.1.5-Beta entsprechen.
+
+STARTSEITEN-INTERAKTION
+- App-Kachel und PNG-Icon dürfen sich bei Hover, Antippen, Drücken, Fokus oder
+  Aktivzustand nicht bewegen, anheben, absenken oder zurückfedern.
+- `transform` und `translate` bleiben für diese Zustände neutral.
+- Die Funktion zum bewussten Anordnen der Apps bleibt davon unberührt.
 
 FAVORITEN UND BEDIENELEMENTE
 - Favoritensterne bleiben separate HTML-/SVG-Bedienelemente.
 - Touchfläche mindestens 44 × 44 px; sichtbarer Kreis rund 22 px.
-- assets/pct-controls.svg ist der zentrale, rekonstruierte Control-Sprite.
+- Auf der Startseite liegt der Mittelpunkt des sichtbaren Favoritenkreises exakt
+  auf der oberen rechten Außenkante des jeweiligen App-Icons.
+- Der sichtbare Kreis überlappt die obere und rechte Kante gleichmäßig.
+- Zustandswechsel des Favoritensterns dürfen seine Position nicht verändern.
+- assets/pct-controls.svg ist der zentrale Control-Sprite.
 
 OFFLINE UND ABNAHME
-- Alle 22 PNGs gehören in den Kerncache v2-6-1-5-core-r1.
-- PNG-Signatur, 512 × 512, RGBA und Transparenz automatisiert prüfen.
-- Einheitlichen Rahmen, weiße Motivmasse, schwarze Kontur und Akzentfarben prüfen.
+- Alle 22 PNGs gehören in den Kerncache v2-6-1-6-core-r1.
+- PNG-Signatur, 512 × 512, RGBA, Transparenz und Referenzhash automatisiert prüfen.
 - Startseite: 10 unterschiedliche App-Icons.
 - Wissensdatenbank: 5 Hersteller- und 5 unterschiedliche Wissensicons.
 - Smartphone, Tablet, Desktop, 320-px-Reflow und Offline-Upgrade prüfen.
