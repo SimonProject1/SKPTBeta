@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <!-- V2.6.3.1 control sprite. All IDs match app-v2-6-3-1.js. -->
+  <!-- V2.6.3.2 control sprite. All IDs match app-v2-6-3-2.js. -->
   <symbol id="icon-sign" viewBox="0 0 24 24">
     <path d="M4 6.5h7M7.5 3v7M4 17.5h7M15 6h5m-2.3-2.3L20 6l-2.3 2.3M20 18h-5m2.3-2.3L15 18l2.3 2.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>

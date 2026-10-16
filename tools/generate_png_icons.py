@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Generate the complete SK PCT Tools V2.6.3.1-Beta icon system.
+"""Generate the complete SK PCT Tools V2.6.3.2-Beta icon system.
 
-Design goal: combine the clear, large white/black-contoured motifs of V2.6.1.4
-with the industrial depth, cyan/green accent rails and technical character of
-V2.6.0.3. The source is deterministic and regenerates all navigation PNGs.
+Design goal: retain the approved application/knowledge icon family while giving
+the four header/navigation controls a deliberately calmer body: one compact
+cyan/blue/green surface, no second black tile, no decorative circuit rails and
+large white symbols with one clean black contour.
 """
 from __future__ import annotations
 
@@ -16,7 +17,7 @@ SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-3-1-"
+PREFIX = "v2-6-3-2-"
 WHITE = (255, 255, 255, 255)
 BLACK = (0, 0, 0, 255)
 DARK = (3, 15, 24, 255)
@@ -134,6 +135,33 @@ def frame() -> Image.Image:
         draw.ellipse(box((x-9,y-9,x+9,y+9)), fill=BLACK)
         draw.ellipse(box((x-5,y-5,x+5,y+5)), fill=c)
     _FRAME_MASTER = image.copy()
+    return image
+
+
+def navigation_frame() -> Image.Image:
+    """Clean single-body frame used only by Home/Back/Search/Favorites.
+
+    The outer transparent canvas is the complete touch graphic.  The visible
+    body has one slim black contour and no shadow tile, circuit rails, colored
+    strokes or dark inner panel.
+    """
+    image = canvas()
+    draw = ImageDraw.Draw(image)
+    outer = box((28, 28, 484, 484))
+    inner = box((40, 40, 472, 472))
+    draw.rounded_rectangle(outer, radius=sc(116), fill=BLACK)
+    mask = Image.new("L", (CANVAS, CANVAS), 0)
+    ImageDraw.Draw(mask).rounded_rectangle(inner, radius=sc(104), fill=255)
+    gradient = area_gradient().resize((inner[2]-inner[0], inner[3]-inner[1]), Image.Resampling.BICUBIC)
+    layer = canvas()
+    layer.paste(gradient, (inner[0], inner[1]))
+    image.alpha_composite(Image.composite(layer, canvas(), mask))
+    # Restrained depth only; no decorative lines or additional container.
+    sheen = canvas()
+    sd = ImageDraw.Draw(sheen)
+    sd.ellipse(box((44, -92, 430, 252)), fill=(255, 255, 255, 22))
+    sheen.putalpha(Image.composite(sheen.getchannel("A"), Image.new("L", (CANVAS, CANVAS), 0), mask))
+    image.alpha_composite(sheen)
     return image
 
 
@@ -362,45 +390,38 @@ def manufacturer(mark: str):
 
 
 def nav_home():
-    image=frame(); d=ImageDraw.Draw(image)
-    polygon(d,[(104,244),(256,104),(408,244),(374,278),(354,260),(354,388),(158,388),(158,260),(138,278)],fill=WHITE)
-    rr(d,(224,292,288,388),9,fill=WHITE,contour=DETAIL_CONTOUR)
-    accent_bar(d,[(140,236),(256,130)],CYAN,6); accent_bar(d,[(256,130),(372,236)],GREEN,6)
-    node(d,256,130,CYAN,5)
+    image=navigation_frame(); d=ImageDraw.Draw(image)
+    polygon(d,[(94,238),(256,92),(418,238),(382,278),(360,258),(360,398),(152,398),(152,258),(130,278)],fill=WHITE,contour=17)
+    rr(d,(222,294,290,398),10,fill=WHITE,contour=11)
     return image
 
 
 def nav_back():
-    image=frame(); d=ImageDraw.Draw(image)
-    polygon(d,[(224,104),(104,246),(224,388),(270,344),(232,304),(408,304),(408,188),(232,188),(270,148)],fill=WHITE)
-    accent_bar(d,[(208,140),(122,246),(208,352)],CYAN,6)
-    accent_bar(d,[(258,218),(378,218)],GREEN,6)
+    image=navigation_frame(); d=ImageDraw.Draw(image)
+    polygon(d,[(230,90),(82,256),(230,422),(284,368),(244,326),(424,326),(424,186),(244,186),(284,144)],fill=WHITE,contour=17)
     return image
 
 
 def nav_search():
-    """Standalone header search button in the approved industrial icon frame."""
-    image=frame(); d=ImageDraw.Draw(image)
-    ellipse(d,(116,102,328,314),fill=WHITE,contour=MOTIF_CONTOUR)
-    ellipse(d,(153,139,291,277),fill=DARK,contour=DETAIL_CONTOUR)
-    thick_line(d,[(296,282),(398,384)],WHITE,32,52)
-    accent_bar(d,[(169,126),(246,126)],CYAN,6)
-    accent_bar(d,[(320,324),(378,382)],GREEN,6)
+    """Large white magnifier without the former black inner disc."""
+    image=navigation_frame(); d=ImageDraw.Draw(image)
+    # Two nested outline strokes leave the center open to the common body.
+    d.ellipse(box((92,84,338,330)), outline=BLACK, width=sc(38))
+    d.ellipse(box((92,84,338,330)), outline=WHITE, width=sc(21))
+    thick_line(d,[(304,296),(414,406)],WHITE,34,58)
     return image
 
 
 def nav_favorite():
-    """Standalone header favorites button in the approved industrial icon frame."""
-    image=frame(); d=ImageDraw.Draw(image)
+    """Large white star on the clean shared body."""
+    image=navigation_frame(); d=ImageDraw.Draw(image)
     star=[]
     cx=256; cy=246
     for index in range(10):
         angle=-math.pi/2+index*math.pi/5
-        radius=151 if index%2==0 else 70
+        radius=166 if index%2==0 else 78
         star.append((cx+math.cos(angle)*radius,cy+math.sin(angle)*radius))
-    polygon(d,star,fill=WHITE,contour=MOTIF_CONTOUR)
-    accent_bar(d,[(174,179),(210,225)],CYAN,6)
-    accent_bar(d,[(302,226),(338,180)],GREEN,6)
+    polygon(d,star,fill=WHITE,contour=17)
     return image
 
 
@@ -443,7 +464,7 @@ def main():
         "nav-favorite": nav_favorite,
     }
     for name, factory in icons.items(): save(name, factory())
-    print(f"Generated {len(icons)} V2.6.3.1 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
+    print(f"Generated {len(icons)} V2.6.3.2 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
 
 
 if __name__ == "__main__":

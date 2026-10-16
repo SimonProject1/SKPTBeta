@@ -1,0 +1,43 @@
+ÜBERGABE – SK PCT Tools V2.6.3.2-Beta
+Stand: 16.10.2026
+Basis: vollständige V2.6.3.1-Beta
+
+STATUS
+- vollständige neue Version, kein Patchpaket
+- separate sichtbare Headerlogo-Variante mit kleinerem, exakt zentriertem PCT-Zahnrad
+- freigegebene App-/Homescreen-Iconfamilie bytegenau unverändert
+- Versionsfeld vollständig neu und kompakt ohne alte Panel-/Zierleistenoptik
+- Home, Zurück, Suche und Favoriten bereinigt; keine Innenkachel oder Leiterbahndekoration
+- Lupe ohne schwarze Innenfläche; große weiße, schwarz konturierte Symbole
+- gemeinsame optische Höhe und vertikale Mittellinie aller Headerobjekte
+- Touch, Fokus, Zustände, Zähler, Navigation und Offlinebetrieb erhalten
+
+SCHUTZSTAND
+- sieben freigegebene Logo-/Browser-/Apple-/PWA-Dateien per SHA-256 unverändert
+- 20 App-/Wissens-/Hersteller-PNGs binär unverändert; nur v2-6-3-2-Präfix
+- separate Headerlogo-Datei besitzt eigenen festen Referenzhash
+- App-Favoritenkopplung an .sk-app-icon-wrapper unverändert
+- 24 aktive App-/Wissens-/Hersteller-/Header-PNGs
+
+ZENTRALE DATEIEN
+- assets/app-v2-6-3-2.css
+- assets/app-v2-6-3-2.js
+- assets/logo-sk-pct-tools-header.png
+- assets/search-index-v2-6-3-2.json
+- manifest-v2-6-3-2.webmanifest
+- service-worker.js · Cache-Epoch v2-6-3-2-core-r1
+- tools/generate_png_icons.py
+- tools/generate_brand_assets.py
+- tests/validate_project.py
+- tests/browser_regression.py
+- TESTPLAN.md, TEST-RESULTS.txt und SHA256SUMS.txt
+
+PRÜFSTAND
+- Struktur/Integrität: PASS · 82 Dateien einschließlich Prüfsummendatei
+- Browser: PASS · 1257 Prüfungen · 15 Routen × Smartphone/Tablet/Desktop
+- visuell: Start- und Unterseite auf iPhone, Tablet und Desktop geprüft
+- zusätzlich: 320-px-Reflow, Zustände, Touch, sechs Rechner, Navigation und Offlineupgrade
+
+AUSLIEFERUNG
+Vollständiger Projektordner: SK-PCT-Tools-V2.6.3.2-Beta
+Vollständiges ZIP: SK-PCT-Tools-V2.6.3.2-Beta.zip

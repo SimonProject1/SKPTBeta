@@ -1,49 +1,48 @@
-SK PCT Tools V2.6.3.1-Beta – Release Notes
+SK PCT Tools V2.6.3.2-Beta – Release Notes
 Stand: 16.10.2026
-Basis: vollständige V2.6.3.0-Beta
+Basis: vollständige V2.6.3.1-Beta
 
 ZIEL
-Die Headerfamilie nutzt pro Bedienelement genau ein eigenständiges Gehäuse im
-freigegebenen technisch-industriellen Design. Funktionen und App-Icon-Favoritenanker
-bleiben unverändert.
+Startseite und Unterseiten erhalten eine ruhigere, konsistente Headerfamilie. Die
+freigegebenen App-/Homescreen-Icons und alle Funktionen bleiben erhalten.
 
-HEADER UND NAVIGATION
-- Zusätzliche schwarze CSS-Außenkacheln bei Home und Zurück entfernt.
-- Neue eigenständige PNGs für Suche und Favoriten erstellt:
-  v2-6-3-1-nav-search.png und v2-6-3-1-nav-favorite.png.
-- Suche, Favoriten, Zurück und Home zeigen jeweils eine 512 × 512 RGBA-Grafik mit
-  großem weißem, schwarz konturiertem Symbol und Cyan-/Blau-/Grün-Akzenten.
-- Logo, Versionsschild und Aktionen besitzen eine gemeinsame vertikale Mittellinie.
-- 52-px-Geometrie auf Desktop/Tablet, 44-px-Touchfläche auf Smartphones.
-- Hover, Fokus, Press, Aktiv und aria-Zustände sind geometrisch stabil.
+SICHTBARES HEADERLOGO
+- Neue, ausschließlich im Header verwendete Datei: logo-sk-pct-tools-header.png.
+- PCT-Zahnrad von root/tooth 145/176 auf 112/138 verkleinert.
+- Mathematische Mitte unverändert bei 256/256.
+- Gleichmäßiger Freiraum zu Außenkante und Leiterbahndetails.
+- Keine Änderung an PWA-, Apple-Touch-, Maskable-, Favicon- oder App-Icon-Dateien.
 
 VERSIONSFELD
-- Sichtbarer Wert: V2.6.3.1-Beta.
-- Sichtbarer Herkunftstext: „Tool by S.K.“.
-- Stahlverlauf, Tiefenwirkung und Cyan-/Blau-/Grün-Akzentkanten.
-- Ein einziges sichtbares Gehäuse ohne zusätzliche schwarze Außenkachel.
+- Sichtbarer Wert: V2.6.3.2-Beta; Herkunftstext: „Tool by S.K.“.
+- Vollständig neue kompakte Fläche auf derselben Bauhöhe wie Logo und Buttons.
+- Keine alte breite Paneloptik, keine schwarze Doppelkontur, kein innerer Rahmen und
+  keine dekorative Farblinie am unteren Rand.
+- Zurückhaltende Cyan-/Blau-/Grün-Akzente über linke/rechte Akzentkante und Fläche.
 
-LOGO UND PWA
-- „TOOL'S BY S.K.“ beziehungsweise „Tool by SK“ vollständig aus der Grafik entfernt.
-- PCT-Zahnrad deutlich vergrößert und exakt horizontal/vertikal bei 256/256 zentriert.
-- Rahmen, Schaltkreisdetails, Verläufe, transparente Außenbereiche und Farbwelt erhalten.
-- logo-sk-pct-tools.png, favicon.png, apple-touch-icon.png, Standard- und Maskable-PWA-
-  Icons neu erzeugt und in Manifest, HTML und Offlinecache referenziert.
+HEADERBUTTONS
+- Home, Zurück, Suche und Favoriten neu als bereinigte 512 × 512 RGBA-PNGs.
+- Ein einzelner Cyan-/Blau-/Grün-Grundkörper, keine zusätzliche CSS-Außenkachel.
+- Keine dekorativen Leiterbahnen oder Farbstreifen in den vier Headergrafiken.
+- Große weiße Symbole mit klarer schwarzer Kontur.
+- Lupe ohne schwarze Innenfläche; Favoritenstern ohne unnötige Innenfläche.
+- Favoritenzähler, Fokus, Touch, Aktivzustände und Navigation bleiben erhalten.
 
-UNVERÄNDERTE APP-ICON-FAMILIE
-- 22 bestehende App-/Wissens-/Hersteller-/Home-/Zurück-PNGs sind binär unverändert.
-- Die feste Kopplung der App-Favoritenbuttons an .sk-app-icon-wrapper bleibt erhalten.
-- Insgesamt 24 aktive Header-/Navigationsgrafiken einschließlich Suche und Favoriten.
+GESCHÜTZTE BESTÄNDE
+- Sieben freigegebene Logo-/Browser-/Apple-/PWA-Dateien bytegenau unverändert.
+- 20 App-, Wissens- und Hersteller-PNGs bytegenau unverändert; nur Dateipräfix und
+  Referenzen wurden auf v2-6-3-2 aktualisiert.
+- Feste App-Favoritenkopplung an .sk-app-icon-wrapper unverändert.
 
 VERSIONIERUNG
-- assets/app-v2-6-3-1.css
-- assets/app-v2-6-3-1.js
-- assets/search-index-v2-6-3-1.json
-- manifest-v2-6-3-1.webmanifest
-- Cache-Epoch v2-6-3-1-core-r1
-- UEBERGABE-V2.6.3.1-Beta.txt
+- assets/app-v2-6-3-2.css
+- assets/app-v2-6-3-2.js
+- assets/search-index-v2-6-3-2.json
+- manifest-v2-6-3-2.webmanifest
+- Cache-Epoch v2-6-3-2-core-r1
+- UEBERGABE-V2.6.3.2-Beta.txt
 
 QUALITÄTSSICHERUNG
-Struktur, Referenzen, Hashes, Bildgeometrie, 15 Routen, drei Viewports, 320-px-Reflow,
-Interaktionszustände, sechs Rechner, reale Touch-Auslösung und Offlineupgrade werden
-automatisiert geprüft. Ergebnisse: TEST-RESULTS.txt.
+Struktur, Referenzen, Hashes, geschützte App-Icons, Bildgeometrie, 15 Routen, drei
+Viewports, 320-px-Reflow, Zustände, sechs Rechner, reale Touch-Auslösung, Navigation,
+Offlinebetrieb und Cache-Upgrade wurden geprüft. Details: TEST-RESULTS.txt.

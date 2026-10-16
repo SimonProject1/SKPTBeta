@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Generate the SK PCT Tools V2.6.3.1-Beta brand and PWA logo family.
+"""Generate the SK PCT Tools V2.6.3.2-Beta brand and PWA logo family.
 
-The mark deliberately reuses the exact industrial frame language of the approved
-navigation icons. V2.6.3.1 removes every ownership line from the image itself and
-uses one substantially enlarged PCT gear, centered exactly at (256, 256).
-Standard icons retain transparent outer corners; maskable/iOS variants use an
-opaque, full-bleed background and keep the complete mark in the central safe zone.
+The approved application/PWA family is reproduced byte-identically.  A separate
+header-only variant keeps the same frame but uses a smaller PCT gear, centered
+exactly at (256, 256), so it has even clearance to the outer edge and circuit
+details.  The header variant is never used as favicon, Apple touch, maskable or
+application icon.
 """
 from __future__ import annotations
 
@@ -59,6 +59,21 @@ def standard_master() -> Image.Image:
     return nav.finalize(add_brand_mark(nav.frame()))
 
 
+def header_master() -> Image.Image:
+    """Header-only logo with a centered, optically quieter PCT gear."""
+    image = nav.frame()
+    draw = ImageDraw.Draw(image)
+    gear = nav.points(gear_points(256, 256, root_radius=112, tooth_radius=138))
+    draw.polygon(gear, fill=(207, 220, 230, 255))
+    draw.line(gear + [gear[0]], fill=nav.BLACK, width=nav.sc(14), joint="curve")
+    draw.ellipse(nav.box((157, 157, 355, 355)), fill=nav.BLACK)
+    draw.ellipse(nav.box((174, 174, 338, 338)), fill=(5, 23, 36, 255), outline=(32, 65, 84, 255), width=nav.sc(8))
+    draw.arc(nav.box((170, 170, 342, 342)), 188, 302, fill=nav.CYAN, width=nav.sc(8))
+    draw.arc(nav.box((170, 170, 342, 342)), 8, 122, fill=nav.GREEN, width=nav.sc(8))
+    nav.text_center(draw, (256, 257), "PCT", 79, fill=nav.WHITE, stroke=4, stroke_fill=nav.BLACK)
+    return nav.finalize(image)
+
+
 def maskable_master() -> Image.Image:
     # Full-bleed, opaque base: crop-safe for circle, squircle and rounded-square masks.
     background = nav.area_gradient().resize((CANVAS, CANVAS), Image.Resampling.BICUBIC)
@@ -96,15 +111,17 @@ def save_resized(source: Image.Image, filename: str, size: int) -> None:
 def main() -> None:
     ASSETS.mkdir(parents=True, exist_ok=True)
     standard = standard_master()
+    header = header_master()
     maskable = maskable_master()
     save_resized(standard, "logo-sk-pct-tools.png", 512)
+    save_resized(header, "logo-sk-pct-tools-header.png", 512)
     save_resized(standard, "icon-512.png", 512)
     save_resized(standard, "icon-192.png", 192)
     save_resized(standard, "favicon.png", 64)
     save_resized(maskable, "apple-touch-icon.png", 180)
     save_resized(maskable, "icon-maskable-192.png", 192)
     save_resized(maskable, "icon-maskable-512.png", 512)
-    print("Generated 7 SK PCT Tools V2.6.3.1-Beta brand/PWA assets")
+    print("Generated 7 unchanged app/PWA assets and 1 separate V2.6.3.2-Beta header logo")
 
 
 if __name__ == "__main__":
