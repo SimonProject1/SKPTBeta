@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the SK PCT Tools V2.6.2.1-Beta brand and PWA logo family.
+"""Generate the SK PCT Tools V2.6.3.0-Beta brand and PWA logo family.
 
 The mark deliberately reuses the exact industrial frame language of the approved
 navigation icons while keeping the PCT / Tool's by S.K. identity. The redundant
@@ -111,7 +111,7 @@ def main() -> None:
     save_resized(maskable, "apple-touch-icon.png", 180)
     save_resized(maskable, "icon-maskable-192.png", 192)
     save_resized(maskable, "icon-maskable-512.png", 512)
-    print("Generated 7 SK PCT Tools V2.6.2.1-Beta brand/PWA assets")
+    print("Generated 7 SK PCT Tools V2.6.3.0-Beta brand/PWA assets")
 
 
 if __name__ == "__main__":

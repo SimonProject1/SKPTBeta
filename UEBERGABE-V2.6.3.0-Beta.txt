@@ -1,0 +1,53 @@
+ÜBERGABE – SK PCT Tools V2.6.3.0-Beta
+Stand: 16.10.2026
+Basis: vollständige V2.6.2.1-Beta
+
+STATUS
+- vollständige neue Version, kein Patchpaket
+- Header- und Navigationsfamilie im freigegebenen technisch-industriellen Design
+- Versionsschild auf Startseite und sämtlichen Unterseiten
+- exakter sichtbarer Herkunftstext „Tool by S.K.“
+- Suche, Favoritenübersicht, Home, Zurück und weitere Headeraktionen vereinheitlicht
+- Touchflächen, Fokus, Zustände, Zähler, Navigation und Offlinebetrieb erhalten
+- Versionierung, Manifest, Service Worker, Suchindex, Dokumentation und Tests aktuell
+- Prüfsummen und reale Testergebnisse Bestandteil des Pakets
+
+DESIGN
+- klare große Formen und 3-px-Schwarzkonturen
+- Stahlverläufe und räumliche Schatten
+- Cyan-Kante oben, Blau-Kante rechts, Grün-Kante unten
+- zweizeiliges flexibles Versionsschild mit umbruchfähigem Versionswert
+- 48-px-Headertaster auf Desktop, mindestens 44 px auf Smartphone/Tablet
+- keine Positions- oder Größenänderung bei Hover, Fokus, Press oder Aktivzustand
+
+WICHTIGER SCHUTZSTAND
+- Freigegebenes Logo und 6 weitere Browser-/Apple-/PWA-Varianten: binär unverändert.
+- Alle 22 freigegebenen App-/Wissens-/Hersteller-/Navigationsicons: binär unverändert;
+  ausschließlich Präfix und Referenzen wurden auf v2-6-3-0- aktualisiert.
+- Favoritenkopplung an `.sk-app-icon-wrapper`, 44-px-Touchfläche, 22-px-Kreis und
+  obere rechte Ankerposition sind unverändert.
+- Diese geschützten Bestände nur nach ausdrücklicher Freigabe verändern.
+
+ZENTRALE DATEIEN
+- assets/app-v2-6-3-0.css
+- assets/app-v2-6-3-0.js
+- assets/search-index-v2-6-3-0.json
+- manifest-v2-6-3-0.webmanifest
+- service-worker.js · Cache-Epoch v2-6-3-0-core-r1
+- tests/validate_project.py
+- tests/browser_regression.py
+- TESTPLAN.md und TEST-RESULTS.txt
+- SHA256SUMS.txt
+
+PRÜFSTAND
+- Syntax/Format: PASS
+- Bild-Binärvergleich: PASS · 29 von 29 geschützten PNGs unverändert
+- Browser: PASS · 1166 Prüfungen
+- Routen/Viewports: 15 × Smartphone, Tablet und Desktop
+- zusätzlich: Headerzustände, 320-px-Reflow, Touch, Suche, Favoritenübersicht,
+  sechs Rechnerreferenzen, Offlinebetrieb und Cache-Upgrade
+- vollständige Details: TEST-RESULTS.txt
+
+AUSLIEFERUNG
+Vollständiger Projektordner: SK-PCT-Tools-V2.6.3.0-Beta
+Vollständiges ZIP: SK-PCT-Tools-V2.6.3.0-Beta.zip

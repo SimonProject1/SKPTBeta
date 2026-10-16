@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.2.1-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.0-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.2.1-Beta'
-VERSION_SLUG='v2-6-2-1'
+VERSION='2.6.3.0-Beta'
+VERSION_SLUG='v2-6-3-0'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -19,6 +19,15 @@ BRAND_ASSETS={
  'apple-touch-icon.png':(180,180,False),'icon-192.png':(192,192,True),
  'icon-512.png':(512,512,True),'icon-maskable-192.png':(192,192,False),
  'icon-maskable-512.png':(512,512,False)
+}
+BRAND_SHA256={
+ 'logo-sk-pct-tools.png':'e72fd479a8f77adf8b64f9f1dcdb94fd3d6b442cf39afecccbb9d73f8c695251',
+ 'favicon.png':'3e13f5718673c76721993a97f7dfb1d6324aaf16bd205e231b33504dbf716542',
+ 'apple-touch-icon.png':'954bc237ca661f91c472fa2f8eed941ebad1dc6b6edc36585486f6864cd1f328',
+ 'icon-192.png':'3e945f5ce85a95580dbac5c27499fa38bfea9275a4538e3b1ede7ce89451d4cd',
+ 'icon-512.png':'e72fd479a8f77adf8b64f9f1dcdb94fd3d6b442cf39afecccbb9d73f8c695251',
+ 'icon-maskable-192.png':'d41c6acb69508583895a9afa0fe66a8541043468dd06f809eabc32948cdc7280',
+ 'icon-maskable-512.png':'b706e0b8adc118a398cab9657afae1db317b968c4fb66c7118e27f3a1159a762'
 }
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
@@ -102,7 +111,7 @@ def main()->int:
         ('assets/icon-192.png','192x192','any'),('assets/icon-512.png','512x512','any'),
         ('assets/icon-maskable-192.png','192x192','maskable'),('assets/icon-maskable-512.png','512x512','maskable')
     },f'Manifest-Iconbestand oder Purpose falsch: {manifest_icons}',errors)
-    check(not list(ROOT.glob('manifest-v2-6-1-*.webmanifest')),'Altes Manifest vorhanden.',errors)
+    check(not list(ROOT.glob('manifest-v2-6-[12]-*.webmanifest')),'Altes Manifest vorhanden.',errors)
     index=json.loads((ROOT/SEARCH_INDEX).read_text())
     check(index and all(item.get('release')==VERSION for item in index),'Suchindex besitzt falsche Release-Markierungen.',errors)
 
@@ -137,7 +146,7 @@ def main()->int:
     check(len(external)==1 and external[0].get('href')=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Viewer-Ziel fehlerhaft.',errors)
 
     operational='\n'.join(p.read_text(encoding='utf-8') for suffix in ('*.html','*.css','*.js','*.json','*.webmanifest') for p in ROOT.rglob(suffix))
-    check(not re.search(r'2\.6\.1\.[0-9](?:-Beta)?|v2-6-1-[0-9]|2\.6\.2\.0(?:-Beta)?|v2-6-2-0',operational),'Operative Altversionsverweise vorhanden.',errors)
+    check(not re.search(r'2\.6\.[12]\.[0-9](?:-Beta)?|v2-6-[12]-[0-9]',operational),'Operative Altversionsverweise vorhanden.',errors)
     for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-5.css','pct-home-v2-6-1-5.css','app-v2-6-1-5.css','app-v2-6-1-5.js','app-v2-6-1-6.css','app-v2-6-1-6.js','app-v2-6-1-7.css','app-v2-6-1-7.js','app-v2-6-1-8.css','app-v2-6-1-8.js'):
         check(not (ROOT/'assets'/removed).exists(),f'Ersetzte Datei noch vorhanden: {removed}',errors)
     check(len(list((ROOT/'assets').glob('*.css')))==1,'Mehr als ein CSS-Bestand vorhanden.',errors)
@@ -145,15 +154,17 @@ def main()->int:
 
     css=(ROOT/SHARED_CSS).read_text();js=(ROOT/SHARED_JS).read_text()
     check(css.count('!important')<=5,f'Zu viele !important: {css.count("!important")}',errors)
-    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','strukturell icongebundene Favoriten','sk-app-icon-wrapper','tatsächlichen sichtbaren','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-ring-inset:11px','inset-block-start:-22px','inset-inline-end:-22px','translate:none'):
+    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','strukturell icongebundene Favoriten','sk-app-icon-wrapper','tatsächlichen sichtbaren','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-ring-inset:11px','inset-block-start:-22px','inset-inline-end:-22px','translate:none','technisch-industrielle Header- und Navigationsfamilie','--sk-industrial-cyan:#00e6f1','--sk-industrial-blue:#008cff','--sk-industrial-green:#78ff32','--sk-industrial-control-size:48px','.pct-version-plate .sk-version-value','.pct-version-plate .sk-version-byline','overflow-wrap:anywhere','border-top-color:var(--sk-industrial-cyan)','border-right-color:var(--sk-industrial-blue)','border-bottom-color:var(--sk-industrial-green)'):
         check(token in css,f'Zentrale CSS-Regel fehlt: {token}',errors)
+    check(css.count('transform:none')>=15 and css.count('translate:none')>=15,'Bewegungsfreie Interaktionszustände sind nicht ausreichend abgesichert.',errors)
     check('sk-home-app.card:hover{transform:translateY' not in css,'Startseiten-Hover verschiebt App-Icons noch.',errors)
     check('--sk-favorite-circle-outset' not in css,'Alte 25/75-Favoritenposition ist noch aktiv.',errors)
-    final_css=css.split('/* === V2.6.2.1-Beta: strukturell icongebundene Favoriten',1)[-1]
+    final_css=css.split('/* === V2.6.3.0-Beta: strukturell icongebundene Favoriten',1)[-1]
     check(final_css.count('>.sk-app-icon-wrapper>.sk-favorite-button.pct-control')>=10,'Direkte Wrapper-Verankerung des Favoritenbuttons fehlt.',errors)
     check('calc(50%' not in final_css and '--sk-home-icon-top' not in final_css and '--sk-knowledge-icon-top' not in final_css,'Finale Favoritenposition hängt noch von Kachelmitte oder Geräteabständen ab.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-2-1.json','logo-sk-pct-tools.png','v2-6-2-1-nav-home.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'"):
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-0.json','logo-sk-pct-tools.png','v2-6-3-0-nav-home.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-version-plate','sk-version-value','sk-version-byline','Tool by S.K.'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
+    check(start.count('Tool by S.K.')==2 and 'class="pct-home-version pct-version-plate"' in start,'Startseiten-Versionsschild oder exakter Herkunftstext fehlt.',errors)
     check('Object.keys(localStorage).find' not in js,'Veraltete Favoriten-Key-Migration noch vorhanden.',errors)
 
     nav_dir=ROOT/'assets/navigation-icons';icons=sorted(nav_dir.glob('*.png'))
@@ -183,6 +194,7 @@ def main()->int:
         path=ROOT/'assets'/name
         check(path.is_file(),f'Marken-/PWA-Datei fehlt: {name}',errors)
         if not path.is_file():continue
+        check(hashlib.sha256(path.read_bytes()).hexdigest()==BRAND_SHA256[name],f'Freigegebenes Logo-/PWA-Bild wurde verändert: {name}',errors)
         with Image.open(path) as image:
             rgba=image.convert('RGBA');alpha=rgba.getchannel('A')
             check(rgba.size==(width,height),f'Marken-/PWA-Größe falsch: {name} {rgba.size}',errors)
@@ -216,7 +228,7 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-2-1-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-3-0-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -226,7 +238,7 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-2-1-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
+    for token in ('PREFIX = "v2-6-3-0-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     brand_generator=(ROOT/'tools/generate_brand_assets.py').read_text()
     for token in ('def standard_master()','def maskable_master()','gear_points(256, 220)','"PCT", 92','(116, 342, 396, 412)','TOOL\'S BY S.K.','result.putalpha(255)'):
@@ -236,7 +248,7 @@ def main()->int:
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.2.1-Beta.txt'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.0-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'

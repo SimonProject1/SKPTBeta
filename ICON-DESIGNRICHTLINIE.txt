@@ -1,5 +1,5 @@
 SK PCT TOOLS – VERBINDLICHE ICON- UND MARKENRICHTLINIE
-Stand: V2.6.2.1-Beta · 16.10.2026
+Stand: V2.6.3.0-Beta · 16.10.2026
 
 1. GEMEINSAME DESIGNSPRACHE
 - Technisch-industrieller Charakter mit großen, sofort erkennbaren Formen.
@@ -8,7 +8,7 @@ Stand: V2.6.2.1-Beta · 16.10.2026
 - Weiße Hauptmotive mit klaren schwarzen Innenkonturen.
 - Technische Rails, Knoten und Befestigungspunkte als gemeinsame Familiensignatur.
 
-2. MARKENFAMILIE AB V2.6.2.1
+2. MARKENFAMILIE V2.6.3.0 (BILDDATEN UNVERÄNDERT ZUR FREIGEGEBENEN BASIS)
 - Pflichtbestandteile: dominantes PCT, großes Zahnrad-/Technikmotiv und das vergrößerte
   Herkunftsfeld „TOOL'S BY S.K.“.
 - Der frühere kleine obere Textblock „SK“ ist ausdrücklich nicht mehr Bestandteil der
@@ -37,7 +37,7 @@ Stand: V2.6.2.1-Beta · 16.10.2026
 - Der vollständige Bestand umfasst unverändert genau 22 PNGs:
   10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
 - Pfad: assets/navigation-icons/
-- Dateipräfix: v2-6-2-1-
+- Dateipräfix: v2-6-3-0-
 - Reproduzierbare Quelle: tools/generate_png_icons.py
 - Bilddaten, Hauptsymbole, Konturen, Farben, Rails, Schatten, Alpha-Grenzen und
   industrielle Tiefe bleiben gegenüber V2.6.2.0-Beta unverändert.
@@ -55,7 +55,7 @@ Stand: V2.6.2.1-Beta · 16.10.2026
 
 7. OFFLINE UND ABNAHME
 - Alle 22 Navigationsicons und alle 7 Marken-/PWA-PNGs gehören in den Kerncache
-  v2-6-2-1-core-r1.
+  v2-6-3-0-core-r1.
 - Browser-Tab, iPhone/iPad, Smartphone, Tablet, Desktop und installierte PWA prüfen.
 - PNG-Signatur, Größe, Alpha, Safe-Zone, Referenzhash und lokale Referenzen werden
   automatisiert geprüft.
