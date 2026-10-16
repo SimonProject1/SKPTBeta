@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Generate the complete SK PCT Tools V2.6.3.0-Beta icon system.
+"""Generate the complete SK PCT Tools V2.6.3.1-Beta icon system.
 
 Design goal: combine the clear, large white/black-contoured motifs of V2.6.1.4
 with the industrial depth, cyan/green accent rails and technical character of
-V2.6.0.3. The source is deterministic and regenerates all 22 navigation PNGs.
+V2.6.0.3. The source is deterministic and regenerates all navigation PNGs.
 """
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -15,7 +16,7 @@ SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-3-0-"
+PREFIX = "v2-6-3-1-"
 WHITE = (255, 255, 255, 255)
 BLACK = (0, 0, 0, 255)
 DARK = (3, 15, 24, 255)
@@ -377,6 +378,32 @@ def nav_back():
     return image
 
 
+def nav_search():
+    """Standalone header search button in the approved industrial icon frame."""
+    image=frame(); d=ImageDraw.Draw(image)
+    ellipse(d,(116,102,328,314),fill=WHITE,contour=MOTIF_CONTOUR)
+    ellipse(d,(153,139,291,277),fill=DARK,contour=DETAIL_CONTOUR)
+    thick_line(d,[(296,282),(398,384)],WHITE,32,52)
+    accent_bar(d,[(169,126),(246,126)],CYAN,6)
+    accent_bar(d,[(320,324),(378,382)],GREEN,6)
+    return image
+
+
+def nav_favorite():
+    """Standalone header favorites button in the approved industrial icon frame."""
+    image=frame(); d=ImageDraw.Draw(image)
+    star=[]
+    cx=256; cy=246
+    for index in range(10):
+        angle=-math.pi/2+index*math.pi/5
+        radius=151 if index%2==0 else 70
+        star.append((cx+math.cos(angle)*radius,cy+math.sin(angle)*radius))
+    polygon(d,star,fill=WHITE,contour=MOTIF_CONTOUR)
+    accent_bar(d,[(174,179),(210,225)],CYAN,6)
+    accent_bar(d,[(302,226),(338,180)],GREEN,6)
+    return image
+
+
 def finalize(image: Image.Image) -> Image.Image:
     return image.resize((SIZE, SIZE), Image.Resampling.LANCZOS)
 
@@ -412,9 +439,11 @@ def main():
         "manufacturer-vacon": lambda: manufacturer("VACON"),
         "nav-back": nav_back,
         "nav-home": nav_home,
+        "nav-search": nav_search,
+        "nav-favorite": nav_favorite,
     }
     for name, factory in icons.items(): save(name, factory())
-    print(f"Generated {len(icons)} V2.6.3.0 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
+    print(f"Generated {len(icons)} V2.6.3.1 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
 
 
 if __name__ == "__main__":

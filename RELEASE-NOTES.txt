@@ -1,58 +1,49 @@
-SK PCT Tools V2.6.3.0-Beta – Release Notes
+SK PCT Tools V2.6.3.1-Beta – Release Notes
 Stand: 16.10.2026
-Basis: vollständige V2.6.2.1-Beta
+Basis: vollständige V2.6.3.0-Beta
 
 ZIEL
-Logo, Versionsschild, App-Icons und sämtliche Header-/Navigationsbedienelemente bilden
-eine einheitliche technisch-industrielle Designfamilie. Funktion, Barrierefreiheit,
-Touchflächen, aktive Zustände, Zähler und Navigation bleiben erhalten.
+Die Headerfamilie nutzt pro Bedienelement genau ein eigenständiges Gehäuse im
+freigegebenen technisch-industriellen Design. Funktionen und App-Icon-Favoritenanker
+bleiben unverändert.
 
-VERSIONS- UND HERKUNFTSSCHILD
-- Neues zweizeiliges Schild auf Startseite und allen internen Seiten.
-- Versionswert: V2.6.3.0-Beta.
-- Exakter Herkunftstext: „Tool by S.K.“.
-- 3-px-Schwarzrahmen, Stahlverlauf, räumliche Tiefe, innere Cyan-/Blau-/Grün-Kanten
-  und dreifarbige untere Signalrail.
-- Flexible Breite, umbruchfähiger Versionswert und responsive Typografie für lange
-  Bezeichnungen und kleine Viewports.
+HEADER UND NAVIGATION
+- Zusätzliche schwarze CSS-Außenkacheln bei Home und Zurück entfernt.
+- Neue eigenständige PNGs für Suche und Favoriten erstellt:
+  v2-6-3-1-nav-search.png und v2-6-3-1-nav-favorite.png.
+- Suche, Favoriten, Zurück und Home zeigen jeweils eine 512 × 512 RGBA-Grafik mit
+  großem weißem, schwarz konturiertem Symbol und Cyan-/Blau-/Grün-Akzenten.
+- Logo, Versionsschild und Aktionen besitzen eine gemeinsame vertikale Mittellinie.
+- 52-px-Geometrie auf Desktop/Tablet, 44-px-Touchfläche auf Smartphones.
+- Hover, Fokus, Press, Aktiv und aria-Zustände sind geometrisch stabil.
 
-HEADER- UND NAVIGATIONSBUTTONS
-- Suche und Favoritenübersicht auf der Startseite neu im gemeinsamen Design.
-- Favoritenzähler als kontrastreiches, konturiertes grünes Statusfeld.
-- Home- und Zurück-Taster auf allen Unterseiten im identischen mechanischen Gehäuse.
-- Freigegebene Home-/Zurück-PNGs bleiben unverändert und werden im neuen Gehäuse
-  dargestellt.
-- Favoritenübersicht einschließlich Kopf, Schließen-Taster und Eintragsrahmen an die
-  Designfamilie angeglichen.
-- Bearbeitungsaktionen der Startseite verwenden denselben stabilen Gehäusestandard.
+VERSIONSFELD
+- Sichtbarer Wert: V2.6.3.1-Beta.
+- Sichtbarer Herkunftstext: „Tool by S.K.“.
+- Stahlverlauf, Tiefenwirkung und Cyan-/Blau-/Grün-Akzentkanten.
+- Ein einziges sichtbares Gehäuse ohne zusätzliche schwarze Außenkachel.
 
-INTERAKTION UND BARRIEREFREIHEIT
-- Smartphone/Tablet mindestens 44 × 44 px, Desktop 48 × 48 px.
-- touch-action: manipulation und sichtbare Fokusmarkierung.
-- Hover, Fokus, Press, Aktiv und aria-Zustände ohne transform/translate und ohne
-  Positions- oder Größenänderung.
-- Bestehende ARIA-Bezeichnungen, aria-expanded, aria-pressed, Zähler und
-  Tastaturnavigation bleiben wirksam.
+LOGO UND PWA
+- „TOOL'S BY S.K.“ beziehungsweise „Tool by SK“ vollständig aus der Grafik entfernt.
+- PCT-Zahnrad deutlich vergrößert und exakt horizontal/vertikal bei 256/256 zentriert.
+- Rahmen, Schaltkreisdetails, Verläufe, transparente Außenbereiche und Farbwelt erhalten.
+- logo-sk-pct-tools.png, favicon.png, apple-touch-icon.png, Standard- und Maskable-PWA-
+  Icons neu erzeugt und in Manifest, HTML und Offlinecache referenziert.
 
-UNVERÄNDERTE FREIGEGEBENE BILDDATEN
-- 7 von 7 Logo-/Browser-/Apple-/PWA-PNGs binär identisch zur Basis.
-- 22 von 22 App-/Wissens-/Hersteller-/Navigations-PNGs binär identisch zur Basis.
-- App-Icons und feste Favoritenkopplung wurden weder neu gerendert noch geometrisch
-  verändert; nur Dateinamen und Referenzen wechselten auf v2-6-3-0-.
+UNVERÄNDERTE APP-ICON-FAMILIE
+- 22 bestehende App-/Wissens-/Hersteller-/Home-/Zurück-PNGs sind binär unverändert.
+- Die feste Kopplung der App-Favoritenbuttons an .sk-app-icon-wrapper bleibt erhalten.
+- Insgesamt 24 aktive Header-/Navigationsgrafiken einschließlich Suche und Favoriten.
 
 VERSIONIERUNG
-- Zentraler Stil: assets/app-v2-6-3-0.css
-- Zentrale Laufzeit: assets/app-v2-6-3-0.js
-- Manifest: manifest-v2-6-3-0.webmanifest
-- Suchindex: assets/search-index-v2-6-3-0.json
-- Cache-Epoch: v2-6-3-0-core-r1
-- Übergabe: UEBERGABE-V2.6.3.0-Beta.txt
+- assets/app-v2-6-3-1.css
+- assets/app-v2-6-3-1.js
+- assets/search-index-v2-6-3-1.json
+- manifest-v2-6-3-1.webmanifest
+- Cache-Epoch v2-6-3-1-core-r1
+- UEBERGABE-V2.6.3.1-Beta.txt
 
 QUALITÄTSSICHERUNG
-- Syntax- und Formatprüfung für Python, JavaScript, JSON und SVG.
-- Statische Struktur-, Referenz-, Versions-, Bild-, Cache- und Prüfsummenprüfung.
-- Browserprüfung aller 15 aktiven Routen auf Smartphone, Tablet und Desktop.
-- 320-px-Reflow, Touch, Rechnerreferenzen, Offlinebetrieb und Cache-Upgrade.
-- Geometrische Prüfung der Headerzustände sowie aller App- und Wissensfavoriten.
-- Funktionsprüfung von Suche und Favoritenübersicht.
-- Ergebnisse: TEST-RESULTS.txt.
+Struktur, Referenzen, Hashes, Bildgeometrie, 15 Routen, drei Viewports, 320-px-Reflow,
+Interaktionszustände, sechs Rechner, reale Touch-Auslösung und Offlineupgrade werden
+automatisiert geprüft. Ergebnisse: TEST-RESULTS.txt.

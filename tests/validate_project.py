@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.0-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.1-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.3.0-Beta'
-VERSION_SLUG='v2-6-3-0'
+VERSION='2.6.3.1-Beta'
+VERSION_SLUG='v2-6-3-1'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -21,13 +21,13 @@ BRAND_ASSETS={
  'icon-maskable-512.png':(512,512,False)
 }
 BRAND_SHA256={
- 'logo-sk-pct-tools.png':'e72fd479a8f77adf8b64f9f1dcdb94fd3d6b442cf39afecccbb9d73f8c695251',
- 'favicon.png':'3e13f5718673c76721993a97f7dfb1d6324aaf16bd205e231b33504dbf716542',
- 'apple-touch-icon.png':'954bc237ca661f91c472fa2f8eed941ebad1dc6b6edc36585486f6864cd1f328',
- 'icon-192.png':'3e945f5ce85a95580dbac5c27499fa38bfea9275a4538e3b1ede7ce89451d4cd',
- 'icon-512.png':'e72fd479a8f77adf8b64f9f1dcdb94fd3d6b442cf39afecccbb9d73f8c695251',
- 'icon-maskable-192.png':'d41c6acb69508583895a9afa0fe66a8541043468dd06f809eabc32948cdc7280',
- 'icon-maskable-512.png':'b706e0b8adc118a398cab9657afae1db317b968c4fb66c7118e27f3a1159a762'
+ 'logo-sk-pct-tools.png':'232bfe68bd3985f793c6f0c62eb4393686a2fbbd5fd90790b979b91f6da34c2e',
+ 'favicon.png':'7e2eb34f36ac8764e78549663b8c8387b609c4ad52c79b01848d40326a161d99',
+ 'apple-touch-icon.png':'b9e8f9ca3ad5f661439a19d58ff2499ed0a5c5015832d40f98599868e1c6fc32',
+ 'icon-192.png':'7a7bc6cc6641fd0bc34372ae954f5f2383a206bb52d8e1b4ceb2d4b9d1e70c60',
+ 'icon-512.png':'232bfe68bd3985f793c6f0c62eb4393686a2fbbd5fd90790b979b91f6da34c2e',
+ 'icon-maskable-192.png':'d886b66da8024688d80385c5fa71e60826fa07808fa109d861126ff568a9e93b',
+ 'icon-maskable-512.png':'b6e7fd947838c2be5852f9ec909aa41895710fa753dffa4c3846e11ffdb7af4f',
 }
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
@@ -40,7 +40,7 @@ APP_ICON_MAP={
 KNOWLEDGE_ICON_MAP={slug:f'knowledge-{slug}' for slug in KNOWLEDGE_ARTICLES}
 ICON_STEMS=set(APP_ICON_MAP.values())|set(KNOWLEDGE_ICON_MAP.values())|{
  'manufacturer-air-torque','manufacturer-endress-hauser','manufacturer-siemens',
- 'manufacturer-sonstiges','manufacturer-vacon','nav-back','nav-home'
+ 'manufacturer-sonstiges','manufacturer-vacon','nav-back','nav-home','nav-search','nav-favorite'
 }
 NAV_ICONS={f'{VERSION_SLUG}-{stem}.png' for stem in ICON_STEMS}
 BACKGROUND_PERIMETER_SHA256='58a873d04834f9ecbc7c831803d9183dcb5c21c0cb034955642c6dc829a28773'
@@ -66,7 +66,9 @@ ICON_SHA256={
  'manufacturer-sonstiges':'fc556b32927f7ad15741308f2b3cc663356c77852c03b213fab6ed80e8671b95',
  'manufacturer-vacon':'851a27f15e4638d4423706d18825a703f245a0b2bb73521fb529398135b2f9e0',
  'nav-back':'15d767d5f452365c6b81af1d7b674ebabb3eed1c344182a6bef08e06914f829f',
- 'nav-home':'d3434a58f707423cc5c93192db5deed0edc63654bddf4cdb8cb0f2d074580d04'
+ 'nav-home':'d3434a58f707423cc5c93192db5deed0edc63654bddf4cdb8cb0f2d074580d04',
+ 'nav-search':'825059a858bdeb6040411a3c7db1fcd121fefbbc579da180ef33f31a90e80e49',
+ 'nav-favorite':'d562925a903978dbf7adbbade6dd65a50c9d5c056c16dca66446c4c4f782ffef'
 }
 EXPERIENCE_SOURCE='Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)'
 
@@ -154,15 +156,15 @@ def main()->int:
 
     css=(ROOT/SHARED_CSS).read_text();js=(ROOT/SHARED_JS).read_text()
     check(css.count('!important')<=5,f'Zu viele !important: {css.count("!important")}',errors)
-    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','strukturell icongebundene Favoriten','sk-app-icon-wrapper','tatsächlichen sichtbaren','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-ring-inset:11px','inset-block-start:-22px','inset-inline-end:-22px','translate:none','technisch-industrielle Header- und Navigationsfamilie','--sk-industrial-cyan:#00e6f1','--sk-industrial-blue:#008cff','--sk-industrial-green:#78ff32','--sk-industrial-control-size:48px','.pct-version-plate .sk-version-value','.pct-version-plate .sk-version-byline','overflow-wrap:anywhere','border-top-color:var(--sk-industrial-cyan)','border-right-color:var(--sk-industrial-blue)','border-bottom-color:var(--sk-industrial-green)'):
+    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','strukturell icongebundene Favoriten','sk-app-icon-wrapper','tatsächlichen sichtbaren','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-ring-inset:11px','inset-block-start:-22px','inset-inline-end:-22px','translate:none','konsolidierte Header-, Logo- und Navigationsfamilie','--sk-industrial-cyan:#00e6f1','--sk-industrial-blue:#008cff','--sk-industrial-green:#78ff32','--sk-industrial-control-size:52px','.pct-version-plate .sk-version-value','.pct-version-plate .sk-version-byline','overflow-wrap:anywhere','border-top-color:var(--sk-industrial-cyan)','border-right-color:var(--sk-industrial-blue)','border-bottom-color:var(--sk-industrial-green)','Ein zweites schwarzes CSS-Gehäuse existiert bewusst nicht'):
         check(token in css,f'Zentrale CSS-Regel fehlt: {token}',errors)
     check(css.count('transform:none')>=15 and css.count('translate:none')>=15,'Bewegungsfreie Interaktionszustände sind nicht ausreichend abgesichert.',errors)
     check('sk-home-app.card:hover{transform:translateY' not in css,'Startseiten-Hover verschiebt App-Icons noch.',errors)
     check('--sk-favorite-circle-outset' not in css,'Alte 25/75-Favoritenposition ist noch aktiv.',errors)
-    final_css=css.split('/* === V2.6.3.0-Beta: strukturell icongebundene Favoriten',1)[-1]
+    final_css=css.split('/* === V2.6.3.1-Beta: strukturell icongebundene Favoriten',1)[-1]
     check(final_css.count('>.sk-app-icon-wrapper>.sk-favorite-button.pct-control')>=10,'Direkte Wrapper-Verankerung des Favoritenbuttons fehlt.',errors)
     check('calc(50%' not in final_css and '--sk-home-icon-top' not in final_css and '--sk-knowledge-icon-top' not in final_css,'Finale Favoritenposition hängt noch von Kachelmitte oder Geräteabständen ab.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-0.json','logo-sk-pct-tools.png','v2-6-3-0-nav-home.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-version-plate','sk-version-value','sk-version-byline','Tool by S.K.'):
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-1.json','logo-sk-pct-tools.png','v2-6-3-1-nav-home.png','v2-6-3-1-nav-search.png','v2-6-3-1-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-version-plate','sk-version-value','sk-version-byline','Tool by S.K.'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     check(start.count('Tool by S.K.')==2 and 'class="pct-home-version pct-version-plate"' in start,'Startseiten-Versionsschild oder exakter Herkunftstext fehlt.',errors)
     check('Object.keys(localStorage).find' not in js,'Veraltete Favoriten-Key-Migration noch vorhanden.',errors)
@@ -215,8 +217,8 @@ def main()->int:
             if r>245 and g>245 and b>245:
                 if ((x-255.5)**2+(y-255.5)**2)**.5<=205:safe_white+=1
                 else:unsafe_white+=1
-    check(safe_white>12000 and unsafe_white<500,f'Maskable-Safe-Zone fehlerhaft: innen={safe_white}, außen={unsafe_white}',errors)
-    check('logo-sk-pct-tools.png' in start and "alt=\"SK PCT Tools · Tool's by S.K.\"" in start,'Neues sichtbares Startseitenlogo fehlt.',errors)
+    check(safe_white>6000 and unsafe_white<500,f'Maskable-Safe-Zone fehlerhaft: innen={safe_white}, außen={unsafe_white}',errors)
+    check('logo-sk-pct-tools.png' in start and 'alt="SK PCT Tools"' in start and "Tool's by S.K." not in start,'Textfreies sichtbares Startseitenlogo fehlt.',errors)
     for token in ('border:0;','background:transparent;','box-shadow:none;','overflow:visible;','width:var(--sk-header-logo-size);','height:var(--sk-header-logo-size);'):
         check(token in css,f'Rahmenloser Header-/Startseitenlogo-Standard fehlt: {token}',errors)
 
@@ -228,7 +230,7 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-3-0-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-3-1-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -238,17 +240,17 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-3-0-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
+    for token in ('PREFIX = "v2-6-3-1-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     brand_generator=(ROOT/'tools/generate_brand_assets.py').read_text()
-    for token in ('def standard_master()','def maskable_master()','gear_points(256, 220)','"PCT", 92','(116, 342, 396, 412)','TOOL\'S BY S.K.','result.putalpha(255)'):
+    for token in ('def standard_master()','def maskable_master()','gear_points(256, 256)','root_radius: float = 145','tooth_radius: float = 176','"PCT", 108','result.putalpha(255)'):
         check(token in brand_generator,f'Markenlogo-Generator unvollständig: {token}',errors)
-    check('nav.text_center(draw, (256, 118), "SK"' not in brand_generator,'Redundanter oberer SK-Textblock ist noch im Markenlogo-Generator vorhanden.',errors)
-    check(len({hashlib.sha256(p.read_bytes()).hexdigest() for p in icons})==22,'Icons sind nicht vollständig eigenständig.',errors)
+    check("TOOL'S BY S.K." not in brand_generator and 'Tool by SK' not in brand_generator,'Entfernter Herkunftstext ist noch im Markenlogo-Generator vorhanden.',errors)
+    check(len({hashlib.sha256(p.read_bytes()).hexdigest() for p in icons})==24,'Icons sind nicht vollständig eigenständig.',errors)
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.0-Beta.txt'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.1-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'
@@ -265,7 +267,7 @@ def main()->int:
     if errors:
         print('FAIL');[print(f'- {e}') for e in errors];return 1
     files=sum(1 for p in ROOT.rglob('*') if p.is_file())
-    print(f'PASS · {files} Dateien · 10 Apps · 6 Rechner · 14 interne Unterseiten · 22 Navigationsicons · {css.count("!important")} !important · Version {VERSION}')
+    print(f'PASS · {files} Dateien · 10 Apps · 6 Rechner · 14 interne Unterseiten · 24 Navigationsicons · {css.count("!important")} !important · Version {VERSION}')
     return 0
 
 if __name__=='__main__':sys.exit(main())

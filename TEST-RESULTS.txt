@@ -1,89 +1,80 @@
-SK PCT Tools 2.6.3.0-Beta – Testergebnisse
+SK PCT Tools 2.6.3.1-Beta – Testergebnisse
 Ausgeführt: 16.10.2026
-Ziel: vollständiges Release-Paket V2.6.3.0-Beta
-Basis: vollständige V2.6.2.1-Beta
+Ziel: vollständiges Release-Paket V2.6.3.1-Beta
+Basis: vollständige V2.6.3.0-Beta
 
-1. SYNTAX- UND FORMATPRÜFUNG
+1. SYNTAX UND FORMAT
 PASS
-- Python-Syntax: App-Icon-Generator, Markenlogo-Generator und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-3-0.js und service-worker.js
+- Python-Syntax: beide Generatoren und beide Tests
+- JavaScript-Syntax: assets/app-v2-6-3-1.js und service-worker.js
 - JSON: Manifest, Suchindex, Material- und Einheitendaten
-- XML: assets/pct-controls.svg
+- SVG/XML: assets/pct-controls.svg
 
-2. STRUKTUR-, REFERENZ- UND INTEGRITÄTSPRÜFUNG
+2. STRUKTUR, REFERENZEN UND INTEGRITÄT
 Befehl: python3 tests/validate_project.py
 Ergebnis: PASS
-- 79 Dateien einschließlich SHA256SUMS.txt
+- 81 Dateien einschließlich SHA256SUMS.txt
 - 10 Apps, 6 Rechner, 14 interne Unterseiten
 - 16 HTML-Dokumente mit Manifest-, Favicon- und Apple-Touch-Verweis
 - genau eine zentrale CSS- und eine zentrale App-JS-Datei
-- 22 aktive Navigationsicons
-- Version 2.6.3.0-Beta konsistent
-- keine operativen Altversionsreferenzen
+- 24 aktive Header-/Navigationsgrafiken
+- Version 2.6.3.1-Beta konsistent
 - lokale Referenzen, Manifest, Suchindex und Service Worker vollständig
 - SHA256SUMS.txt vollständig und korrekt
 
-3. GESCHÜTZTE FREIGABEBESTÄNDE
+3. BILDBESTÄNDE
 PASS
-- 7 von 7 Logo-/Browser-/Apple-/PWA-PNGs binär identisch zur V2.6.2.1-Beta
-- 22 von 22 App-/Wissens-/Hersteller-/Navigations-PNGs binär identisch
-- insgesamt 29 von 29 geschützten Bilddateien unverändert
-- nur Präfix und Referenzen der 22 Navigations-PNGs auf v2-6-3-0- aktualisiert
-- PNG-Signatur, 512 × 512 px, Transparenz und Alpha-Grenzen korrekt
-- alle Bilddateien vollständig im aktiven Offline-Kerncache
+- 22 bestehende App-/Wissens-/Hersteller-/Home-/Zurück-PNGs gegen die
+  V2.6.3.0-Beta verglichen: 22 von 22 binär unverändert
+- 2 neue eigenständige 512 × 512 RGBA-PNGs: Suche und Favoriten
+- 7 Logo-/Browser-/Apple-/PWA-PNGs neu erzeugt und per SHA-256 geschützt
+- Herkunftstext aus der Markenfamilie entfernt
+- vergrößertes Zahnrad im Generator exakt auf 256/256 zentriert
+- PNG-Signaturen, Größen, Alpha/Opazität, Safe-Zone und sichtbare Grenzen korrekt
+- alle aktiven Bilddateien im Offline-Kerncache
 
-4. VERSIONS- UND HERKUNFTSSCHILD
+4. HEADER UND VERSIONSFELD
 PASS
-- Startseite und alle 14 internen Seiten zeigen V2.6.3.0-Beta
-- exakter sichtbarer Text „Tool by S.K.“ vorhanden
-- 3-px-Schwarzrahmen, Stahlverlauf und Cyan-/Blau-/Grün-Kanten aktiv
-- flexible Schildbreite ohne horizontalen oder vertikalen Überlauf
-- responsive Darstellung bei 320, 390, 820 und 1440 CSS-Pixeln
-- Schild besitzt in allen geprüften Zuständen transform: none
-
-5. HEADER- UND NAVIGATIONSBUTTONS
-PASS
-- Startseite: Suche und Favoritenübersicht im gemeinsamen Design
-- Unterseiten: Favoritenübersicht, Zurück und Home im gemeinsamen Design
-- Smartphone/Tablet mindestens 44 × 44 px; Desktop 48 × 48 px
-- schwarze Konturen, Stahlflächen, räumliche Schatten und dreifarbige Akzentkanten
-- touch-action: manipulation und sichtbare Fokuszustände
+- Startseite und alle 14 internen Seiten zeigen V2.6.3.1-Beta
+- „Tool by S.K.“ ausschließlich im Versionsschild sichtbar
+- Logo, Versionsschild und Aktionen teilen eine vertikale Mittellinie
+- Home, Zurück, Suche und Favoriten besitzen border: 0, transparenten Hintergrund,
+  keinen Box-Schatten und jeweils genau ein eigenständiges 512-px-PNG
+- keine zusätzliche schwarze CSS-Außenkachel
+- Smartphone mindestens 44 × 44 px; Tablet/Desktop 52 × 52 px
+- touch-action: manipulation und sichtbarer Fokus
 - Ruhe, Hover, Fokus, Press und Aktivzustand geometrisch identisch
-- Suche öffnet/schließt ohne Positionsänderung
-- Favoritenübersicht öffnet vollständig, zeigt Zähler/Einträge und schließt korrekt
+- Suche und Favoritenübersicht öffnen/schließen ohne Positionsänderung
 
-6. FAVORITENKOPPLUNG UND GEOMETRIE
+5. APP-FAVORITENKOPPLUNG
 PASS
 - alle 10 Startseiten- und 5 Wissens-Favoritenbuttons direkt im jeweiligen
   .sk-app-icon-wrapper
 - sichtbarer Kreis 22 × 22 px; Touchfläche 44 × 44 px
 - Kreismittelpunkt auf der oberen rechten tatsächlichen Icon-/Wrapperkante
 - aktive und inaktive Favoriten geometrisch identisch
-- App-Kachel, Wrapper und PNG in Ruhe, Hover, Fokus, Press und Aktivzustand stabil
+- App-Kachel, Wrapper und PNG in allen Interaktionszuständen stabil
 
-7. BROWSER-REGRESSION
+6. BROWSERREGRESSION
 Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS · 1166 Browserprüfungen
+Ergebnis: PASS · 1257 Browserprüfungen
 - 15 Seiten × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
-- Headerzustände und unveränderte Buttonpositionen
 - 320-px-Reflow ohne horizontale Überläufe oder Touchziele unter 44 px
-- Startseitensuche und Favoritenübersicht
+- Header-Mittellinie, Außenkachelfreiheit und PNG-Bestand geprüft
+- Startseitensuche, Favoritenübersicht, Zähler und Navigation
 - 6 Rechnerreferenzen und Grenzwertprüfungen
 - reale Touchprüfung für Smartphone und Tablet
-- Header, Footer, Rahmen, interne Scrollbereiche und lokale Navigation
-- Start-, Wissens-, Hersteller- und Navigationsicons vollständig geladen
-- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-3-0-core-r1
+- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-3-1-core-r1
 
-8. VISUELLE BROWSERABNAHME
+7. VISUELLE BROWSERABNAHME
 PASS
-- Startseite bei 320 × 900, 390 × 844, 820 × 1180 und 1440 × 1000 gerendert
-- Unterseiten auf Smartphone, Tablet und Desktop gerendert
-- Favoritenübersicht geöffnet und vollständig im Smartphone-Viewport geprüft
-- Version und „Tool by S.K.“ gut lesbar
-- Logo, Versionsschild, App-Icons und Navigation bilden eine geschlossene Familie
+- Start- und Unterseite auf 390, 820 und 1440 CSS-Pixeln gerendert
+- Headerobjekte optisch mittig und mit konsistenten Abständen
+- keine zusätzliche schwarze Außenkachel um Home, Zurück, Suche oder Favoriten
+- neues Logo ohne Herkunftstext; PCT-Zahnrad deutlich vergrößert und zentriert
 - keine abgeschnittenen Headerteile, defekten Bilder oder horizontalen Überläufe
-- Logo-, App-Icon- und Favoritenanker optisch unverändert
+- App-Icons und feste Favoritenanker optisch unverändert
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.3.0-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.3.1-Beta.zip freigegeben.

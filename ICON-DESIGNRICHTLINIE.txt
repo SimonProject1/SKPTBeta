@@ -1,61 +1,56 @@
 SK PCT TOOLS – VERBINDLICHE ICON- UND MARKENRICHTLINIE
-Stand: V2.6.3.0-Beta · 16.10.2026
+Stand: V2.6.3.1-Beta · 16.10.2026
 
 1. GEMEINSAME DESIGNSPRACHE
-- Technisch-industrieller Charakter mit großen, sofort erkennbaren Formen.
-- Kräftige schwarze Motivkonturen und Tiefenschatten innerhalb des eigentlichen Logos.
-- Grün links/unten, Türkis/Cyan im Signalbereich und Blau rechts/oben.
-- Weiße Hauptmotive mit klaren schwarzen Innenkonturen.
-- Technische Rails, Knoten und Befestigungspunkte als gemeinsame Familiensignatur.
+- Technisch-industrieller Charakter mit großen, sofort erkennbaren weißen Formen.
+- Kräftige schwarze Motivkonturen und Tiefenwirkung innerhalb der Grafik.
+- Grün links/unten, Cyan im Signalbereich und Blau rechts/oben.
+- Technische Rails, Knoten und Befestigungspunkte als Familiensignatur.
+- Keine zusätzliche CSS-Außenkachel um eine bereits vollständig gestaltete PNG-Grafik.
 
-2. MARKENFAMILIE V2.6.3.0 (BILDDATEN UNVERÄNDERT ZUR FREIGEGEBENEN BASIS)
-- Pflichtbestandteile: dominantes PCT, großes Zahnrad-/Technikmotiv und das vergrößerte
-  Herkunftsfeld „TOOL'S BY S.K.“.
-- Der frühere kleine obere Textblock „SK“ ist ausdrücklich nicht mehr Bestandteil der
-  Marke, weil die Herkunft bereits vollständig im unteren Feld enthalten ist.
-- PCT bleibt bei 64 px primär erkennbar; der sekundäre Herkunftstext wirkt vollständig
-  ab regulärer App-Icon-Größe.
-- Standardmaster: assets/logo-sk-pct-tools.png, 512 × 512 px, RGBA, transparent.
+2. MARKENFAMILIE V2.6.3.1
+- Pflichtbestandteile: dominantes PCT und ein deutlich vergrößertes Zahnrad.
+- Das Zahnrad ist exakt auf der Bildmitte 256/256 zentriert.
+- „TOOL'S BY S.K.“, „Tool by SK“ und andere Herkunftstexte sind kein Bestandteil
+  des Logos. „Tool by S.K.“ steht ausschließlich im Versionsschild.
+- Standardmaster: assets/logo-sk-pct-tools.png, 512 × 512 px, transparentes RGBA.
 - Reproduzierbare Quelle: tools/generate_brand_assets.py.
 
 3. SICHTBARE LOGO-EINBINDUNG
 - Startseiten- und Headerlogo zeigen nur das eigentliche PNG.
-- Der HTML/CSS-Host bleibt transparent, rahmenlos, schattenfrei und ohne Logokachel.
-- Das PNG füllt das definierte Header-Logo-Außenmaß vollständig aus.
-- Keine zusätzliche schwarze Umrandung, kein Kachelhintergrund und kein Host-Schatten.
+- Der HTML/CSS-Host bleibt transparent, rahmenlos und schattenfrei.
+- Keine zusätzliche Umrandung, Logokachel oder Host-Tiefenwirkung.
 
 4. MARKEN-/PWA-VARIANTEN
-- favicon.png: 64 × 64, transparent, Browser-Tab.
-- apple-touch-icon.png: 180 × 180, vollständig opak, iPhone/iPad.
+- favicon.png: 64 × 64, transparent.
+- apple-touch-icon.png: 180 × 180, vollständig opak.
 - icon-192.png und icon-512.png: transparente Standard-PWA-Icons.
-- icon-maskable-192.png und icon-maskable-512.png: vollständig opake Full-Bleed-PNGs.
-- Maskable: komplette zentrale Markeninformation innerhalb des normierten 80-%-
-  Safe-Zone-Kreises; nur dekorative Außenrails dürfen abgeschnitten werden.
-- Manifest-Purpose: `any` für Standard, `maskable` für Maskable.
+- icon-maskable-192.png und icon-maskable-512.png: opake Full-Bleed-PNGs.
+- Zentrale Motivmasse bleibt innerhalb des Maskable-Safe-Zone-Kreises.
 
-5. FREIGEGEBENE APP-/NAVIGATIONSICONS – NICHT VERÄNDERN
-- Der vollständige Bestand umfasst unverändert genau 22 PNGs:
-  10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
-- Pfad: assets/navigation-icons/
-- Dateipräfix: v2-6-3-0-
-- Reproduzierbare Quelle: tools/generate_png_icons.py
-- Bilddaten, Hauptsymbole, Konturen, Farben, Rails, Schatten, Alpha-Grenzen und
-  industrielle Tiefe bleiben gegenüber V2.6.2.0-Beta unverändert.
-- Keine SVG-Duplikate und keine alten Versionsvarianten im Release.
+5. APP- UND NAVIGATIONSGRAFIKEN
+- 22 bestehende Grafiken bleiben binär unverändert: 10 App-, 5 Wissens-,
+  5 Hersteller- sowie Home- und Zurück-Grafik.
+- Neu in V2.6.3.1: eigenständige Suche- und Favoriten-Grafik im identischen Rahmen.
+- Aktiver Bestand: 24 PNGs mit Präfix v2-6-3-1- unter assets/navigation-icons/.
+- Reproduzierbare Quelle: tools/generate_png_icons.py.
 
-6. FAVORITEN UND BEDIENELEMENTE – NICHT VERÄNDERN
-- Favoritensterne bleiben separate HTML-/SVG-Bedienelemente.
-- Jeder Favoritenbutton ist direkt im festen `.sk-app-icon-wrapper` abzulegen.
-- PNG und Button verwenden ausschließlich diesen Wrapper als gemeinsamen Bezug.
-- Mittelpunkt des sichtbaren 22-px-Kreises exakt auf der oberen rechten tatsächlichen
-  Icon-/Wrapperkante; Touchfläche mindestens 44 × 44 px.
+6. HEADER-EINBINDUNG
+- Home, Zurück, Suche und Favoriten verwenden je eine vollständige PNG-Grafik.
+- Die Button-Touchfläche ist transparent, border: 0, background: transparent und
+  box-shadow: none; sie erzeugt kein zweites schwarzes Gehäuse.
+- Sichtbarer Fokus darf außerhalb liegen, die Geometrie aber nicht verändern.
+- Logo, Versionsfeld und Buttons teilen eine vertikale Mittellinie.
+
+7. APP-FAVORITEN – NICHT VERÄNDERN
+- App-Favoritensterne bleiben separate HTML-/SVG-Bedienelemente.
+- Jeder Favoritenbutton ist direkt im festen .sk-app-icon-wrapper verankert.
+- Sichtbarer Kreis 22 px, Touchfläche mindestens 44 × 44 px.
+- Mittelpunkt exakt auf der oberen rechten tatsächlichen Iconkante.
 - Aktive und inaktive Zustände besitzen dieselbe Geometrie.
-- App-Kachel und PNG dürfen sich bei Hover, Fokus, Antippen, Press oder Aktivzustand
-  nicht bewegen. Die bewusste App-Sortierung bleibt davon unberührt.
 
-7. OFFLINE UND ABNAHME
-- Alle 22 Navigationsicons und alle 7 Marken-/PWA-PNGs gehören in den Kerncache
-  v2-6-3-0-core-r1.
-- Browser-Tab, iPhone/iPad, Smartphone, Tablet, Desktop und installierte PWA prüfen.
-- PNG-Signatur, Größe, Alpha, Safe-Zone, Referenzhash und lokale Referenzen werden
-  automatisiert geprüft.
+8. OFFLINE UND ABNAHME
+- Alle 24 Header-/Navigationsgrafiken und 7 Marken-/PWA-PNGs gehören in den
+  Kerncache v2-6-3-1-core-r1.
+- PNG-Signatur, Größe, Alpha, Safe-Zone, Referenzhash, lokale Referenzen und
+  Browserdarstellung werden automatisiert geprüft.
