@@ -1,57 +1,57 @@
-# Testplan – SK PCT Tools 2.6.1.4-Beta
+# Testplan – SK PCT Tools V2.6.1.5-Beta
 
-## Automatisierte Strukturprüfung
+Stand: 16.10.2026
+
+## 1. Statische Struktur- und Integritätsprüfung
+
+Befehl:
 
 ```bash
 python3 tests/validate_project.py
 ```
 
-Prüft Version, Manifest, Suchindex, alle lokalen Verweise, zentrale CSS-/JS-Dateien,
-Header-/Footer-Platzhalter, 10 App-Ziele, 10 Navigations-PNGs, Icon-Geometrie,
-Service-Worker-Cache, Generator, Dokumentation und interne SHA-256-Prüfsummen.
+Prüfumfang:
+- 16 HTML-Dokumente, davon 14 gerahmte interne Seiten
+- genau eine zentrale CSS- und eine zentrale App-JS-Datei
+- Version 2.6.1.5-Beta in HTML, Manifest, Suchindex und Laufzeit
+- keine operativen Verweise auf V2.6.1.0 bis V2.6.1.4
+- lokale Referenzen, H1, Referrer-Schutz, Header und Footer
+- vollständige SHA256SUMS.txt
+- Service-Worker-Kerncache v2-6-1-5-core-r1
+- vollständiger, rekonstruierter Control-Sprite
 
-## Automatisierte Browserprüfung
+## 2. Icon-Abnahme
 
-Lokalen Server im Projektstamm starten:
+- genau 22 aktive PNGs mit Präfix `v2-6-1-5-`
+- 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons
+- PNG-Signatur, 512 × 512 px, RGBA und echte Transparenz
+- gemeinsamer Außenmaster und technisch-industrielle Cyan-/Grün-Akzentrails
+- ausreichende weiße Motivmasse und schwarze Kontur
+- 22 unterschiedliche Dateihashes
+- 10 unterschiedliche App-Icons auf der Startseite
+- 5 unterschiedliche Wissensicons und 5 Herstellericons im Wissensbereich
+- vollständige Aufnahme in den Offline-Kerncache
+
+## 3. Browser-Regression
+
+Befehl:
 
 ```bash
-python3 -m http.server 8080
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
+python3 tests/browser_regression.py
 ```
 
-Abdeckung:
-- 15 aktive Seiten
-- Smartphone 390 × 844
-- Tablet 820 × 1180
-- Desktop 1440 × 1000
-- Reflow bei 320 CSS-Pixeln
-- Header, Footer, App-Rahmen und horizontale Überläufe
-- Home-/Zurück-Navigation und Favoriten
-- Suche, Hersteller-Hub, Einheiten- und Werkstoffdatenbank
-- sechs Rechnerreferenzen und ±-Touchbedienung
-- internes Scrollen des Siemens-Rechners
-- PWA-Installation, Cache-Upgrade und Offline-Navigation
+Prüfumfang:
+- 15 Routen × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
+- Header, Footer, Rahmen, Scrollverhalten und horizontaler Überlauf
+- Icon-Darstellung, natürliche 512-px-Größe und Favoritenposition
+- 320-px-Reflow-Sanity
+- 44 × 44-px-Touchziele und reale Touch-Auslösung
+- sechs Rechnerreferenzen einschließlich Grenzwerte und Reset
+- Wissensnavigation, Kompaktansicht und Quellenbündel
+- Offline-Start und Offline-Unterseiten
+- Upgrade-Test: Altcache wird entfernt, nur `v2-6-1-5-core-r1` bleibt
 
-## Visueller Vorher-/Nachher-Vergleich
+## 4. Dokumentation
 
-Für dieselben 15 Seiten je einen Screenshot in drei Viewports erzeugen.
-Dynamische Fokuszustände vor der Aufnahme neutralisieren und den internen
-Scrollbereich auf Position 0 setzen. Zusätzlich die berechneten Rechtecke und
-Kernstile von Body, Rahmen, Header, Inhalt und Footer vergleichen.
-
-Abnahmekriterien:
-- keine DOM-Geometrieabweichung
-- kein horizontaler Überlauf
-- identischer App-Rahmen und internes Scrollverhalten
-- unveränderte Icon-Außenform, Farben, Symbolmasse und Favoritenposition
-- Pixelabweichungen nur durch die neue Versionszeichenfolge oder technisch
-  unvermeidbare Antialiasing-/Zustandsrasterung
-
-## Manuelle PWA-Kontrolle
-
-1. Online öffnen und Installation prüfen.
-2. Anwendung vollständig schließen.
-3. Netzwerk deaktivieren.
-4. Startseite, einen Rechner, Hersteller-Hub und Wissensbeitrag öffnen.
-5. Netzwerk aktivieren und Upgrade von einem alten sk-pct-tools-Cache prüfen.
-6. Sicherstellen, dass nur sk-pct-tools-v2-6-1-4-core-r1 bestehen bleibt.
+Die real ausgeführten Ergebnisse werden nach Abschluss in `TEST-RESULTS.txt`
+festgehalten. Erst danach werden `SHA256SUMS.txt` und das ZIP-Paket erstellt.

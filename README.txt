@@ -1,54 +1,40 @@
-SK PCT Tools 2.6.1.4-Beta
+SK PCT Tools 2.6.1.5-Beta
+Stand: 16.10.2026
+Projektinhaber: Simon Kiesler
 
-Vollständige optimierte statische PWA für Rechner, Wissensdatenbank,
-Hersteller-Hub, Einheitendatenbank und Werkstoffdatenbank.
-Ausgangsbasis: SK-PCT-Tools-V2.6.1.3-Beta.
+ÜBERBLICK
+SK PCT Tools ist eine offlinefähige PWA für Rechner, Einheiten-, Werkstoff- und
+Wissensdaten sowie technische Praxishinweise der Prozessleittechnik.
+V2.6.1.5-Beta basiert vollständig auf V2.6.1.4-Beta und ersetzt das komplette
+Navigationsicon-System durch den freigegebenen technisch-industriellen Standard.
 
-Zentrale Architektur
-- assets/app-v2-6-1-4.css ist der einzige operative CSS-Bestand.
-- assets/app-v2-6-1-4.js bündelt App-Rahmen, Versionsanzeige, Header, Footer,
-  Navigation, Buttons, Icons, Favoriten, Startseitensuche, Sortierung und PWA-Registrierung.
-- Wiederkehrende Header- und Footer-Inhalte werden aus leeren, semantischen
-  Platzhaltern erzeugt. Der Seiteninhalt bleibt statisch und offline verfügbar.
-- Seitenspezifische Rechner- und Datenbanklogik bleibt getrennt, damit Fachlogik
-  übersichtlich testbar ist.
-- Gemeinsame JSON-, Such-, Sortier- und Escape-Hilfen werden zentral wiederverwendet.
+ZENTRALE ARCHITEKTUR
+- Zentraler Stil: assets/app-v2-6-1-5.css
+- Zentrale Laufzeit: assets/app-v2-6-1-5.js
+- Control-Sprite: assets/pct-controls.svg
+- Manifest: manifest-v2-6-1-5.webmanifest
+- Suchindex: assets/search-index-v2-6-1-5.json
+- Service-Worker-Cache: sk-pct-tools-v2-6-1-5-core-r1
+- Reproduzierbarer Icon-Generator: tools/generate_png_icons.py
 
-Icon-Standard V2.6.1.4
-- 10 aktive vollständige Navigations-PNGs, jeweils 512 × 512 px mit Transparenz.
-- Der unveränderte Grün-Türkis-Blau-Hintergrund, weiße Symbole und schwarze
-  Comic-Konturen der V2.6.1.3-Beta bleiben erhalten.
-- Sechs pixelidentische Rechnerbilder verwenden einen gemeinsamen Rechner-Master.
-- Drei pixelidentische Datenbankbilder verwenden einen gemeinsamen Buch-Master.
-- E+H, fünf Herstellermarken, Home und Zurück bleiben eigenständige Motive.
-- Favoritensterne liegen weiterhin unabhängig vom PNG oben rechts; sichtbarer
-  Kreis rund 22 px, Touchziel mindestens 44 × 44 px.
+ICON-SYSTEM V2.6.1.5
+- 22 vollständig neu erzeugte, eigenständige 512 × 512-RGBA-PNGs.
+- 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
+- Große weiße Hauptsymbole mit schwarzer Kontur.
+- Gemeinsamer Grün-/Türkis-/Blau-Kachelmaster.
+- Cyan-/Grün-Akzentrails, Knoten und industrielle Tiefenwirkung.
+- Startseite und Wissensdatenbank verwenden keine identischen Platzhalter mehr.
 
-PWA und Offline
-- Manifest: manifest-v2-6-1-4.webmanifest
-- Suchindex: assets/search-index-v2-6-1-4.json
-- Service Worker: service-worker.js
-- Ein einzelner Release-Cache: sk-pct-tools-v2-6-1-4-core-r1
-- Der Cache enthält nur aktive Laufzeitressourcen und alle internen Seiten.
-- Alte sk-pct-tools-Caches werden beim Aktivieren entfernt.
-- Navigation arbeitet online network-first und offline aus dem Release-Cache.
+BEDIENUNG UND SICHERHEIT
+- Favoritensteuerung separat vom PNG, Touchziel mindestens 44 × 44 px.
+- App-Rahmen mit festem Header/Footer und internem Scrollbereich.
+- iOS-Safe-Areas, 320-px-Reflow und Schutz vor horizontalem Überlauf.
+- Externe Verweise mit no-referrer und sicheren rel-Attributen.
+- Offline-Upgrade entfernt ältere sk-pct-tools-Caches.
 
-Erhaltene Funktionen
-- 10 Startseiten-Apps und eigene App-Reihenfolge
-- sechs Rechner einschließlich Vorzeichen-Taster, Kopieren und Einheitenfavoriten
-- Wissensdatenbank, Hersteller-Hub, Suche und fünf Wissensbeiträge
-- Werkstoff- und Einheitendatenbank mit Suche, Filter, Vergleich und Favoriten
-- internes Scrollen, iOS-Safe-Areas, Smartphone, Tablet, Desktop und 320-px-Reflow
-- installierbare PWA und vollständiger Offline-Start
+PRÜFUNG
+1. python3 tests/validate_project.py
+2. python3 tests/browser_regression.py
 
-Prüfung
-- Statisch: python3 tests/validate_project.py
-- Browser, Responsive und Offline: python3 tests/browser_regression.py
-- Manueller Abnahmeumfang: TESTPLAN.md
-- Ergebnisse: TEST-RESULTS.txt
-
-Deployment
-1. Den vollständigen Ordnerinhalt unverändert auf einen HTTPS-Webserver kopieren.
-2. service-worker.js im Projektstamm und alle relativen Pfade beibehalten.
-3. Nach dem ersten Online-Aufruf die Service-Worker-Aktualisierung abwarten.
-4. SECURITY-DEPLOYMENT.md für serverseitige Sicherheitsheader beachten.
+Die ausgeführten Ergebnisse stehen in TEST-RESULTS.txt. Alle Dateien außer
+SHA256SUMS.txt selbst sind in SHA256SUMS.txt mit SHA-256 erfasst.

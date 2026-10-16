@@ -1,45 +1,40 @@
-SK PCT Tools V2.6.1.4-Beta – Release Notes
-Stand: 15.10.2026
+SK PCT Tools V2.6.1.5-Beta – Release Notes
+Stand: 16.10.2026
+Basis: vollständige V2.6.1.4-Beta
 
-Ziel
-Technische Konsolidierung der vollständigen V2.6.1.3-Beta ohne beabsichtigte
-visuelle oder funktionale Änderung.
+ZIEL
+Vollständige grafische Neufassung des Icon-Systems nach der freigegebenen
+Kombination aus V2.6.1.4-Klarheit und V2.6.0.3-Techniktiefe, ohne beabsichtigte
+Änderung an Rechnerlogik, Wissensinhalten oder Datenbeständen.
 
-Optimierungen
-- 13 operative CSS-Dateien zu assets/app-v2-6-1-4.css zusammengeführt.
-- Seitenspezifische Regeln im Zentralstil gekapselt; doppelte Kaskadenebenen entfernt.
-- !important von 895 auf 1 reduziert. Die verbleibende Regel setzt das standardisierte
-  HTML-hidden-Verhalten gegen komponentenspezifische display-Regeln durch.
-- Drei gemeinsame Laufzeitdateien zu assets/app-v2-6-1-4.js zusammengeführt.
-- Header, Footer, Versionsanzeige, Navigation, Buttons, SVG-Steuerelemente,
-  Favoritenlogik, Suche, Sortierung und gemeinsame Hilfsfunktionen zentralisiert.
-- Veraltete Favoriten-Key-Migration entfernt; der aktuelle Speicher-Key bleibt erhalten.
-- 17 Navigations-PNGs auf 10 aktive PNGs reduziert, indem pixelidentische Rechner-
-  und Buchmotive als gemeinsame Master verwendet werden.
-- Alte CSS-/JavaScript-Dateivarianten, alte Icon-Namen und tote Versionsverweise entfernt.
-- Service Worker auf einen einzigen Release-Cache mit ausschließlich aktiven
-  Laufzeitressourcen umgestellt; Dokumentations- und Altdateien werden nicht vorgecached.
+NEUES ICON-SYSTEM
+- 22 Icons reproduzierbar neu erzeugt.
+- 10 eigenständige App-Icons statt drei gemeinsam wiederverwendeter App-Master.
+- 5 eigenständige Wissensicons statt eines gemeinsamen Buch-Platzhalters.
+- 5 technisch vereinheitlichte Herstellericons.
+- 2 neue Navigationsicons für Startseite und Zurück.
+- Große weiße Hauptsymbole mit schwarzer Kontur beibehalten.
+- Technische Cyan-/Grün-Akzentrails, Signalknoten und industrielle Tiefe ergänzt.
+- Transparente RGBA-PNGs, 512 × 512 px, ohne alte Versionsduplikate.
 
-Unverändert erhalten
-- Grün-Türkis-Blau-Verlauf, weiße Symbole und schwarze Comic-Konturen der Icons
-- 10 Apps, sechs Rechner, Hersteller-Hub, fünf Wissensbeiträge
-- Suche, Filter, Sortierung, Favoriten und eigene Startseitenreihenfolge
-- internes Scrollen, iOS-Safe-Areas, PWA-Installation und Offline-Betrieb
+REKONSTRUKTION UND EINBINDUNG
+- assets/pct-controls.svg passend zur bestehenden Laufzeit vollständig rekonstruiert.
+- Startseite, Wissensdatenbank, Manifest, Laufzeit und Service Worker auf die
+  neue Icon-Serie v2-6-1-5 umgestellt.
+- Alle 22 Icon-Dateien in den Offline-Kerncache aufgenommen.
+- tools/generate_png_icons.py als deterministische Quelle aktualisiert.
 
-Qualitätssicherung
-- 691 automatisierte Browserprüfungen bestanden.
-- 15 Seiten in Smartphone-, Tablet- und Desktop-Viewport geprüft.
-- 320-px-Reflow, Touchbedienung, alle sechs Rechnerreferenzen und Offline-Upgrade geprüft.
-- 45 Vorher-/Nachher-Screenshotpaare und DOM-Geometrie verglichen.
-- Keine DOM-Geometrieabweichung in den geprüften Ansichten.
-- Verbleibende Pixelunterschiede beschränken sich auf die aktualisierte Versionsanzeige
-  und minimale zustands-/rasterungsbedingte Antialiasing-Differenzen.
+VERSIONIERUNG
+- Version: 2.6.1.5-Beta
+- Zentraler Stil: assets/app-v2-6-1-5.css
+- Zentrale Laufzeit: assets/app-v2-6-1-5.js
+- Manifest: manifest-v2-6-1-5.webmanifest
+- Suchindex: assets/search-index-v2-6-1-5.json
+- Cache-Epoch: v2-6-1-5-core-r1
+- Übergabe: UEBERGABE-V2.6.1.5-Beta.txt
 
-Gemessene Reduktion
-- Dateianzahl: 85 → 65 (20 Dateien beziehungsweise 23,5 % weniger)
-- Summe der Dateigrößen im Projektordner: 1.809.186 → 1.509.849 Byte
-- Die exakte ZIP-Größe und Paket-Prüfsumme werden in der begleitenden Prüfsummendatei ausgewiesen.
-
-Integrität
-- Interne Einzeldatei-Prüfsummen: SHA256SUMS.txt
-- Paket-Prüfsumme: wird zusammen mit SK-PCT-Tools-V2.6.1.4-Beta.zip ausgeliefert.
+QUALITÄTSSICHERUNG
+- Struktur-, Referenz-, Versions-, Icon-, Offline- und Prüfsummenprüfung.
+- Browserprüfung für 15 Seiten auf Smartphone, Tablet und Desktop.
+- Zusätzliche 320-px-Reflow-, Touch-, Rechner-, Wissens- und Offline-Tests.
+- Tatsächliche Ergebnisse und eventuelle Korrekturen: TEST-RESULTS.txt.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.1.4-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.1.5-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,21 +8,27 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.1.4-Beta'
-VERSION_SLUG='v2-6-1-4'
+VERSION='2.6.1.5-Beta'
+VERSION_SLUG='v2-6-1-5'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
 SHARED_JS=f'assets/app-{VERSION_SLUG}.js'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
-NAV_ICONS={
- f'{VERSION_SLUG}-app-calculator.png',f'{VERSION_SLUG}-app-database.png',f'{VERSION_SLUG}-app-eh-viewer.png',
- f'{VERSION_SLUG}-manufacturer-air-torque.png',f'{VERSION_SLUG}-manufacturer-endress-hauser.png',
- f'{VERSION_SLUG}-manufacturer-siemens.png',f'{VERSION_SLUG}-manufacturer-sonstiges.png',f'{VERSION_SLUG}-manufacturer-vacon.png',
- f'{VERSION_SLUG}-nav-back.png',f'{VERSION_SLUG}-nav-home.png'
+APP_ICON_MAP={
+ 'analogsignal':'app-analogsignal','pf-rechner':'app-pf-rechner','pt-rechner':'app-pt-rechner',
+ 'einheitenrechner':'app-einheitenrechner','einheitendatenbank':'app-einheitendatenbank',
+ 'werkstoffdatenbank':'app-werkstoffdatenbank','wissensdatenbank':'app-wissensdatenbank',
+ 'spannungsfall-rechner':'app-spannungsfall','siemens-rohwert':'app-siemens-rohwert','eh-device-viewer':'app-eh-viewer'
 }
-BACKGROUND_PERIMETER_SHA256='63f387a45785714c19b416ffbabe702908b9b873e4918f4cd846a3bd638aad10'
+KNOWLEDGE_ICON_MAP={slug:f'knowledge-{slug}' for slug in KNOWLEDGE_ARTICLES}
+ICON_STEMS=set(APP_ICON_MAP.values())|set(KNOWLEDGE_ICON_MAP.values())|{
+ 'manufacturer-air-torque','manufacturer-endress-hauser','manufacturer-siemens',
+ 'manufacturer-sonstiges','manufacturer-vacon','nav-back','nav-home'
+}
+NAV_ICONS={f'{VERSION_SLUG}-{stem}.png' for stem in ICON_STEMS}
+BACKGROUND_PERIMETER_SHA256='58a873d04834f9ecbc7c831803d9183dcb5c21c0cb034955642c6dc829a28773'
 EXPERIENCE_SOURCE='Erfahrungsberichte aus der Instandhaltungs- und PLT-Praxis (anonymisiert)'
 
 class Parser(HTMLParser):
@@ -61,7 +67,7 @@ def main()->int:
     manifest=json.loads((ROOT/MANIFEST).read_text())
     check(manifest.get('version')==VERSION,'Manifest-Version stimmt nicht.',errors)
     check(VERSION in manifest.get('description',''),'Manifest-Beschreibung enthält die Version nicht.',errors)
-    check(not list(ROOT.glob('manifest-v2-6-1-[0-3].webmanifest')),'Altes Manifest vorhanden.',errors)
+    check(not list(ROOT.glob('manifest-v2-6-1-[0-4].webmanifest')),'Altes Manifest vorhanden.',errors)
     index=json.loads((ROOT/SEARCH_INDEX).read_text())
     check(index and all(item.get('release')==VERSION for item in index),'Suchindex besitzt falsche Release-Markierungen.',errors)
 
@@ -88,14 +94,14 @@ def main()->int:
     start=(ROOT/'index.html').read_text();p=Parser();p.feed(start)
     ids=[a.get('data-app-id') for a in p.apps]
     check(len(ids)==10 and set(ids)==APPS and len(ids)==len(set(ids)),f'App-Inventar fehlerhaft: {ids}',errors)
-    check(start.count(f'{VERSION_SLUG}-app-calculator.png')==6,'Sechs Rechner verwenden nicht den gemeinsamen Rechner-Master.',errors)
-    check(start.count(f'{VERSION_SLUG}-app-database.png')==3,'Drei Datenbanken verwenden nicht den gemeinsamen Buch-Master.',errors)
+    for app_id,stem in APP_ICON_MAP.items():
+        check(start.count(f'{VERSION_SLUG}-{stem}.png')==1,f'Eindeutiges App-Icon fehlt oder ist doppelt: {app_id}',errors)
     external=[a for a in p.apps if a.get('data-app-id')=='eh-device-viewer']
     check(len(external)==1 and external[0].get('href')=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Viewer-Ziel fehlerhaft.',errors)
 
     operational='\n'.join(p.read_text(encoding='utf-8') for suffix in ('*.html','*.css','*.js','*.json','*.webmanifest') for p in ROOT.rglob(suffix))
-    check(not re.search(r'2\.6\.1\.[0-3](?:-Beta)?|v2-6-1-[0-3]',operational),'Operative Altversionsverweise vorhanden.',errors)
-    for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-4.css','pct-home-v2-6-1-4.css','app-v2-6-1-4.js.js'):
+    check(not re.search(r'2\.6\.1\.[0-4](?:-Beta)?|v2-6-1-[0-4]',operational),'Operative Altversionsverweise vorhanden.',errors)
+    for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-5.css','pct-home-v2-6-1-5.css','app-v2-6-1-5.js.js'):
         check(not (ROOT/'assets'/removed).exists(),f'Ersetzte Datei noch vorhanden: {removed}',errors)
     check(len(list((ROOT/'assets').glob('*.css')))==1,'Mehr als ein CSS-Bestand vorhanden.',errors)
     check((ROOT/SHARED_CSS).is_file() and (ROOT/SHARED_JS).is_file(),'Zentrale CSS-/JS-Datei fehlt.',errors)
@@ -104,7 +110,7 @@ def main()->int:
     check(css.count('!important')<=5,f'Zu viele !important: {css.count("!important")}',errors)
     for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','Finale Kaskaden-Normalisierung'):
         check(token in css,f'Zentrale CSS-Regel fehlt: {token}',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-1-4.json','v2-6-1-4-nav-home.png'):
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-1-5.json','v2-6-1-5-nav-home.png'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     check('Object.keys(localStorage).find' not in js,'Veraltete Favoriten-Key-Migration noch vorhanden.',errors)
 
@@ -117,7 +123,7 @@ def main()->int:
         with Image.open(icon) as image:
             rgba=image.convert('RGBA');pixels=list(rgba.get_flattened_data());check(rgba.getchannel('A').getextrema()==(0,255),f'Transparenz fehlerhaft: {icon.name}',errors)
             colored=sum(1 for r,g,b,a in pixels if a and not (r==g==b));black=sum(1 for r,g,b,a in pixels if a>240 and r<18 and g<18 and b<18);white=sum(1 for r,g,b,a in pixels if a>240 and r>245 and g>245 and b>245)
-            check(colored>60000 and black>12000 and 20000<=white<=55000,f'Verlauf/Kontur/Symbolmasse fehlerhaft: {icon.name}',errors)
+            check(colored>80000 and black>35000 and 10000<=white<=60000,f'Verlauf/Kontur/Symbolmasse fehlerhaft: {icon.name}',errors)
             perimeter=bytearray()
             for i,pixel in enumerate(pixels):
                 x=i%512;y=i//512
@@ -127,13 +133,14 @@ def main()->int:
             check(rgba.getpixel((400,90))[2]>rgba.getpixel((400,90))[1],f'Blauseite fehlt: {icon.name}',errors)
 
     knowledge=(ROOT/'wissensdatenbank/index.html').read_text()
-    check(knowledge.count(f'{VERSION_SLUG}-app-database.png')==5,'Wissensbeiträge verwenden nicht den gemeinsamen Buch-Master.',errors)
+    for slug,stem in KNOWLEDGE_ICON_MAP.items():
+        check(knowledge.count(f'{VERSION_SLUG}-{stem}.png')==1,f'Eindeutiges Wissensicon fehlt oder ist doppelt: {slug}',errors)
     for slug in KNOWLEDGE_ARTICLES:
         article=(ROOT/'wissensdatenbank'/slug/'index.html').read_text()
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-1-4-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-1-5-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -142,9 +149,13 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-1-4-"','save("app-calculator", calculator())','save("app-database", book())','save("app-eh-viewer", globe())'):
+    for token in ('PREFIX = "v2-6-1-5-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.1.4-Beta.txt'):
+    check(len({hashlib.sha256(p.read_bytes()).hexdigest() for p in icons})==22,'Icons sind nicht vollständig eigenständig.',errors)
+    sprite=(ROOT/'assets/pct-controls.svg').read_text()
+    for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
+        check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.1.5-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'
@@ -161,7 +172,7 @@ def main()->int:
     if errors:
         print('FAIL');[print(f'- {e}') for e in errors];return 1
     files=sum(1 for p in ROOT.rglob('*') if p.is_file())
-    print(f'PASS · {files} Dateien · 10 Apps · 6 Rechner · 14 interne Unterseiten · 10 Navigationsicons · {css.count("!important")} !important · Version {VERSION}')
+    print(f'PASS · {files} Dateien · 10 Apps · 6 Rechner · 14 interne Unterseiten · 22 Navigationsicons · {css.count("!important")} !important · Version {VERSION}')
     return 0
 
 if __name__=='__main__':sys.exit(main())
