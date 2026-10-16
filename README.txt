@@ -1,54 +1,63 @@
-SK PCT Tools 2.6.1.9-Beta
+SK PCT Tools 2.6.2.0-Beta
 Stand: 16.10.2026
 Projektinhaber: Simon Kiesler
 
 ÜBERBLICK
-SK PCT Tools ist eine offlinefähige PWA für Rechner, Einheiten-, Werkstoff- und
-Wissensdaten sowie technische Praxishinweise der Prozessleittechnik.
-V2.6.1.9-Beta basiert vollständig auf V2.6.1.8-Beta.
+SK PCT Tools ist eine offlinefähige PWA für technische Rechner, Einheiten-,
+Werkstoff- und Wissensdaten sowie Praxishinweise der Prozessleittechnik.
+V2.6.2.0-Beta basiert vollständig auf V2.6.1.9-Beta.
 
 ÄNDERUNG DIESER VERSION
-- Jeder Favoritenbutton der zehn Startseiten-App-Kacheln ist strukturell direkter
-  Bestandteil des zugehörigen festen Icon-Wrappers `.sk-app-icon-wrapper`.
-- Derselbe Aufbau gilt für die fünf favoritenfähigen Wissens-App-Icons.
-- PNG und Favoritenbutton verwenden damit denselben lokalen Positionierungsbezug;
-  Kachel, Grid, Beschriftungsbereich und Viewportabstände sind keine Positionsbasis.
-- Der Wrapper entspricht den tatsächlichen sichtbaren Alpha-Grenzen des unveränderten
-  512-px-Icons: links 13 px, oben 9 px, rechts 489 px, unten 491 px.
-- Der sichtbare Favoritenkreis ist 22 × 22 px groß. Sein Mittelpunkt sitzt fest auf
-  der oberen rechten sichtbaren Icon-/Wrapperkante.
-- Die unabhängige Touchfläche bleibt 44 × 44 px groß.
-- Aktive und inaktive Favoriten verwenden exakt dieselbe Geometrie.
-- App-Kachel, Icon-Wrapper und PNG bleiben bei Hover, Fokus, Antippen, Drücken und
-  Aktivzustand positionsfest.
-- Icon-Design, Rechnerlogik, Wissensinhalte und Datenbestände wurden nicht verändert.
+- Das bisherige SK-PCT-Tools-Logo wurde vollständig durch eine neue Markenfamilie
+  im freigegebenen technisch-industriellen Icon-Design ersetzt.
+- Die neue Bildmarke verbindet große PCT-Schrift, SK-Typenschild, Zahnradform und
+  "TOOL'S BY S.K." mit kräftigen schwarzen Konturen, Cyan-/Blau-/Grün-Akzenten,
+  Tiefenstaffelung und dem identischen Außenmaster der App-Icons.
+- Das Logo bleibt bei 64 px als PCT-Marke erkennbar und besitzt für 180/192/512 px
+  zusätzliche Marken- und Herkunftsdetails.
+- Das sichtbare Startseiten- und Headerlogo verwendet assets/logo-sk-pct-tools.png.
+- favicon.png, apple-touch-icon.png, icon-192.png, icon-512.png,
+  icon-maskable-192.png und icon-maskable-512.png wurden aus derselben Quelle neu
+  erzeugt.
+- Maskable- und Apple-Varianten sind vollflächig und opak. Die komplette zentrale
+  Bild-/Wortmarke liegt in der normierten Maskable-Safe-Zone; nur dekorative Rails
+  dürfen durch Gerätemasken beschnitten werden.
+- Alle 16 HTML-Dokumente enthalten Manifest-, Favicon- und Apple-Touch-Verweise.
+- Manifest, Offline-Kerncache und sichtbare Laufzeitverweise verwenden ausschließlich
+  die neue Markenfamilie.
+
+GESCHÜTZTER APP-ICON- UND FAVORITENSTAND
+- Die 22 freigegebenen App-, Wissens-, Hersteller- und Navigationsicons wurden nicht
+  grafisch verändert oder neu gerendert.
+- Ihre Bilddaten sind bitidentisch zur vollständigen V2.6.1.9-Beta; nur der
+  Dateipräfix wurde versionsgerecht auf v2-6-2-0- umgestellt.
+- Die zehn Startseiten- und fünf Wissens-Favoritenbuttons bleiben direkte Kinder des
+  jeweiligen festen `.sk-app-icon-wrapper`.
+- Touchfläche, 22-px-Kreis, Mittelpunkt auf der oberen rechten tatsächlichen
+  Iconkante sowie stabile Hover-/Fokus-/Press-/Aktivzustände bleiben unverändert.
 
 ZENTRALE ARCHITEKTUR
-- Zentraler Stil: assets/app-v2-6-1-9.css
-- Zentrale Laufzeit: assets/app-v2-6-1-9.js
+- Zentraler Stil: assets/app-v2-6-2-0.css
+- Zentrale Laufzeit: assets/app-v2-6-2-0.js
+- Manifest: manifest-v2-6-2-0.webmanifest
+- Suchindex: assets/search-index-v2-6-2-0.json
+- Service-Worker-Cache: sk-pct-tools-v2-6-2-0-core-r1
 - Control-Sprite: assets/pct-controls.svg
-- Manifest: manifest-v2-6-1-9.webmanifest
-- Suchindex: assets/search-index-v2-6-1-9.json
-- Service-Worker-Cache: sk-pct-tools-v2-6-1-9-core-r1
-- Reproduzierbarer Icon-Generator: tools/generate_png_icons.py
+- App-Icon-Generator: tools/generate_png_icons.py
+- Markenlogo-Generator: tools/generate_brand_assets.py
+- Markenmaster: assets/logo-sk-pct-tools.png
 
-ICON-SYSTEM
-- 22 eigenständige 512 × 512-RGBA-PNGs.
-- 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
-- Alle PNG-Bilddaten sind gegenüber V2.6.1.8-Beta bitidentisch; nur Präfixe und
-  Referenzen wurden auf v2-6-1-9 aktualisiert.
-- Große weiße Hauptsymbole mit schwarzer Kontur, gemeinsamer
-  Grün-/Türkis-/Blau-Kachelmaster und Cyan-/Grün-Akzentrails bleiben erhalten.
-
-BEDIENUNG UND SICHERHEIT
-- App-Rahmen mit festem Header/Footer und internem Scrollbereich.
-- iOS-Safe-Areas, 320-px-Reflow und Schutz vor horizontalem Überlauf.
-- Externe Verweise mit no-referrer und sicheren rel-Attributen.
-- Offline-Upgrade entfernt ältere sk-pct-tools-Caches.
+MARKEN-/PWA-DATEIEN
+- assets/logo-sk-pct-tools.png: 512 × 512, RGBA, transparente Außenkanten
+- assets/favicon.png: 64 × 64, RGBA, für Browser-Tabs optimiert
+- assets/apple-touch-icon.png: 180 × 180, RGBA/opak, iPhone/iPad
+- assets/icon-192.png und icon-512.png: transparente Standard-PWA-Icons
+- assets/icon-maskable-192.png und icon-maskable-512.png: opake Full-Bleed-Icons
 
 PRÜFUNG
-1. python3 tests/validate_project.py
-2. python3 tests/browser_regression.py
+1. python3 tools/generate_brand_assets.py
+2. python3 tests/validate_project.py
+3. python3 tests/browser_regression.py
 
-Die ausgeführten Ergebnisse stehen in TEST-RESULTS.txt. Alle Projektdateien außer
+Die real ausgeführten Ergebnisse stehen in TEST-RESULTS.txt. Alle Projektdateien außer
 SHA256SUMS.txt selbst sind in SHA256SUMS.txt mit SHA-256 erfasst.

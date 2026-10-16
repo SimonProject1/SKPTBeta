@@ -1,71 +1,56 @@
-SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.1.9-Beta · 16.10.2026
+SK PCT TOOLS – VERBINDLICHE ICON- UND MARKENRICHTLINIE
+Stand: V2.6.2.0-Beta · 16.10.2026
 
-FREIGEGEBENER VISUELLER STANDARD
-V2.6.1.9 übernimmt den in V2.6.1.8-Beta verwendeten, ausdrücklich freigegebenen
-Icon-Satz ohne grafische oder binäre Änderung.
-Hauptsymbole, Konturen, Farben, Rails, Schatten und industrielle Tiefe bleiben
-unverändert.
+1. GEMEINSAME DESIGNSPRACHE
+- Technisch-industrieller Charakter mit großen, sofort erkennbaren Formen.
+- Kräftige schwarze Außenkonturen und Tiefenschatten.
+- Grün links/unten, Türkis/Cyan im Signalbereich und Blau rechts/oben.
+- Weiße Hauptmotive mit klaren schwarzen Innenkonturen.
+- Technische Rails, Knoten und Befestigungspunkte als gemeinsame Familiensignatur.
 
-GEMEINSAMER AUSSENMASTER
-- Transparentes PNG, 512 × 512 px, RGBA.
-- Abgerundete Kachel mit kräftigem schwarzem Außenrand und Tiefenschatten.
-- Verlauf von Grün links unten über Türkis zu Blau rechts oben.
-- Technische Innenrails: Cyan oben/links, Grün unten/rechts.
-- Kleine Knoten und Befestigungspunkte erzeugen industrielle Tiefe.
-- Außenform, Schatten, Rails und Grundverlauf sind über alle 22 Icons identisch.
+2. NEUE MARKENFAMILIE
+- Die SK-PCT-Tools-Marke ist ab V2.6.2.0 vollständig neu gezeichnet.
+- Pflichtbestandteile: dominantes PCT, SK-Typenschild, Zahnrad-/Technikbezug und
+  "TOOL'S BY S.K.".
+- PCT bleibt bei 64 px primär und lesbar; sekundäre Herkunftstexte dürfen erst ab
+  regulärer App-Icon-Größe voll wirken.
+- Standardmaster: assets/logo-sk-pct-tools.png, 512 × 512 px, RGBA, transparent.
+- Reproduzierbare Quelle: tools/generate_brand_assets.py.
 
-HAUPTSYMBOLE
-- Große weiße Motivflächen mit schwarzer Comic-/Industriekontur.
-- Außenkontur 15 px im 512-px-Master; Innendetails 9 px.
-- Cyan und Grün dienen nur als Funktions- und Signalkanten.
-- Keine zusätzlichen Kategorieplaketten wie RECHNER, WISSEN, MATERIAL oder PCT.
-- Semantik bleibt in HTML, Beschriftung und zugänglichen Namen.
+3. MARKEN-/PWA-VARIANTEN
+- favicon.png: 64 × 64, transparent, Browser-Tab.
+- apple-touch-icon.png: 180 × 180, vollständig opak, iPhone/iPad.
+- icon-192.png und icon-512.png: transparente Standard-PWA-Icons.
+- icon-maskable-192.png und icon-maskable-512.png: vollständig opake Full-Bleed-PNGs.
+- Maskable: komplette zentrale Markeninformation innerhalb des normierten 80-%-
+  Safe-Zone-Kreises; nur dekorative Außenrails dürfen abgeschnitten werden.
+- Manifest-Purpose: `any` für Standard, `maskable` für Maskable.
 
-VOLLSTÄNDIGER AKTIVER BESTAND
-- 10 eigenständige App-Icons:
-  Analogsignal, P+F, Pt, Einheitenrechner, Einheitendatenbank,
-  Werkstoffdatenbank, Wissensdatenbank, Spannungsfall, Siemens Rohwert,
-  E+H Device Viewer.
-- 5 eigenständige Wissensicons:
-  Air Torque Drehrichtung, Promass Einbaulage, P320 SIL,
-  Siemens SPS Rohwert, Vacon Ist-/Sollwert-Abweichung.
-- 5 Herstellericons: Air Torque, Endress+Hauser, Siemens, Vacon, Sonstiges.
-- 2 Navigationsicons: Zurück und Startseite.
-- Insgesamt genau 22 aktive Navigations-PNGs.
-
-DATEIFORMAT UND QUELLE
+4. FREIGEGEBENE APP-/NAVIGATIONSICONS
+- Der vollständige Bestand umfasst unverändert genau 22 PNGs:
+  10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
 - Pfad: assets/navigation-icons/
-- Dateipräfix: v2-6-1-9-
+- Dateipräfix: v2-6-2-0-
 - Reproduzierbare Quelle: tools/generate_png_icons.py
+- Bilddaten, Hauptsymbole, Konturen, Farben, Rails, Schatten und industrielle Tiefe
+  sind gegenüber V2.6.1.9-Beta bitidentisch.
 - Keine SVG-Duplikate und keine alten Versionsvarianten im Release.
-- Alle 22 PNG-Dateien besitzen unterschiedliche SHA-256-Prüfsummen.
-- Jeder Dateihash muss dem korrespondierenden freigegebenen Referenz-PNG entsprechen.
+- Alle 22 PNGs bleiben 512 × 512 px, RGBA, transparent und besitzen unterschiedliche
+  SHA-256-Prüfsummen.
 
-STARTSEITEN-INTERAKTION
-- App-Kachel und PNG-Icon dürfen sich bei Hover, Antippen, Drücken, Fokus oder
-  Aktivzustand nicht bewegen, anheben, absenken oder zurückfedern.
-- `transform` und `translate` bleiben für diese Zustände neutral.
-- Die Funktion zum bewussten Anordnen der Apps bleibt davon unberührt.
-
-FAVORITEN UND BEDIENELEMENTE
+5. FAVORITEN UND BEDIENELEMENTE – NICHT VERÄNDERN
 - Favoritensterne bleiben separate HTML-/SVG-Bedienelemente.
-- Touchfläche mindestens 44 × 44 px; sichtbarer Kreis rund 22 px.
 - Jeder Favoritenbutton ist direkt im festen `.sk-app-icon-wrapper` abzulegen.
 - PNG und Button verwenden ausschließlich diesen Wrapper als gemeinsamen Bezug.
-- Mittelpunkt des sichtbaren Kreises exakt auf die obere rechte tatsächliche
-  Icon-/Wrapperkante setzen; maßgeblich ist das ::after-Pseudoelement.
-- Sollmaße bei 22 px Kreisdurchmesser: oben und rechts je 11 px innen und außen.
-- Die größere unsichtbare Touchfläche darf den optischen Anker nicht verschieben.
-- Keine Positionsberechnung aus Kachel, Grid, Titel oder Viewport verwenden.
-- Die Position ist an allen zehn Startseiten- und fünf Wissens-App-Icons exakt
-  einheitlich und für aktive sowie inaktive Favoriten identisch.
-- Zustandswechsel des Favoritensterns dürfen seine Position nicht verändern.
-- assets/pct-controls.svg ist der zentrale Control-Sprite.
+- Mittelpunkt des sichtbaren 22-px-Kreises exakt auf der oberen rechten tatsächlichen
+  Icon-/Wrapperkante; Touchfläche mindestens 44 × 44 px.
+- Aktive und inaktive Zustände besitzen dieselbe Geometrie.
+- App-Kachel und PNG dürfen sich bei Hover, Fokus, Antippen, Press oder Aktivzustand
+  nicht bewegen. Die bewusste App-Sortierung bleibt davon unberührt.
 
-OFFLINE UND ABNAHME
-- Alle 22 PNGs gehören in den Kerncache v2-6-1-9-core-r1.
-- PNG-Signatur, 512 × 512, RGBA, Transparenz und Referenzhash automatisiert prüfen.
-- Startseite: 10 unterschiedliche App-Icons.
-- Wissensdatenbank: 5 Hersteller- und 5 unterschiedliche Wissensicons.
-- Smartphone, Tablet, Desktop, 320-px-Reflow und Offline-Upgrade prüfen.
+6. OFFLINE UND ABNAHME
+- Alle 22 Navigationsicons und alle 7 Marken-/PWA-PNGs gehören in den Kerncache
+  v2-6-2-0-core-r1.
+- Browser-Tab, iPhone/iPad, Smartphone, Tablet, Desktop und installierte PWA prüfen.
+- PNG-Signatur, Größe, Alpha, Safe-Zone, Referenzhash und lokale Referenzen werden
+  automatisiert geprüft.

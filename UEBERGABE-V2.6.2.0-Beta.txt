@@ -1,0 +1,54 @@
+ÜBERGABE – SK PCT Tools V2.6.2.0-Beta
+Stand: 16.10.2026
+Basis: vollständige V2.6.1.9-Beta
+
+STATUS
+- vollständige neue Version, kein Patchpaket
+- neues SK-PCT-Tools-Markenlogo im freigegebenen App-Icon-Design
+- alle sichtbaren Logo-, Browser-, Apple- und PWA-Varianten ersetzt
+- Versionierung, Manifest, Service Worker, Suchindex, Dokumentation und Tests auf
+  V2.6.2.0-Beta angehoben
+- Prüfsummen und Testergebnisse Bestandteil des Pakets
+
+NEUE LOGOFAMILIE
+- assets/logo-sk-pct-tools.png: sichtbarer 512-px-Markenmaster
+- assets/favicon.png: 64 px
+- assets/apple-touch-icon.png: 180 px, opak
+- assets/icon-192.png und icon-512.png: Standard-PWA
+- assets/icon-maskable-192.png und icon-maskable-512.png: opak/full-bleed
+- tools/generate_brand_assets.py: reproduzierbare Quelle
+
+DESIGN
+- dominantes PCT für kleine Größen
+- SK-Typenschild und Zahnrad als technische Markenstruktur
+- TOOL'S BY S.K. als Herkunftszeile
+- schwarze Konturen, Stahlflächen, Cyan-/Blau-/Grün-Akzente, Rails und Tiefenschatten
+- zentrale Markeninformation innerhalb der Maskable-Safe-Zone
+
+WICHTIGER SCHUTZSTAND
+- Die 22 freigegebenen App-/Wissens-/Hersteller-/Navigationsicons sind gegenüber
+  V2.6.1.9-Beta binär identisch; nur ihre Versionspräfixe wurden aktualisiert.
+- Die feste Favoritenkopplung an `.sk-app-icon-wrapper`, 44-px-Touchfläche,
+  22-px-Kreis und exakte obere rechte Ankerposition wurden nicht verändert.
+- Bei künftigen Versionen darf das neue Markenlogo separat weiterentwickelt werden;
+  App-Icons und Favoritengeometrie nur nach ausdrücklicher Freigabe ändern.
+
+ZENTRALE DATEIEN
+- assets/app-v2-6-2-0.css
+- assets/app-v2-6-2-0.js
+- assets/search-index-v2-6-2-0.json
+- manifest-v2-6-2-0.webmanifest
+- service-worker.js · Cache-Epoch v2-6-2-0-core-r1
+- tests/validate_project.py
+- tests/browser_regression.py
+- TESTPLAN.md und TEST-RESULTS.txt
+- SHA256SUMS.txt
+
+PRÜFUNG
+- python3 tools/generate_brand_assets.py
+- python3 tests/validate_project.py
+- python3 tests/browser_regression.py
+
+AUSLIEFERUNG
+Vollständiger Projektordner: SK-PCT-Tools-V2.6.2.0-Beta
+Vollständiges ZIP: SK-PCT-Tools-V2.6.2.0-Beta.zip

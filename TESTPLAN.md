@@ -1,4 +1,4 @@
-# Testplan – SK PCT Tools V2.6.1.9-Beta
+# Testplan – SK PCT Tools V2.6.2.0-Beta
 
 Stand: 16.10.2026
 
@@ -11,46 +11,48 @@ python3 tests/validate_project.py
 Prüfumfang:
 - 16 HTML-Dokumente, davon 14 gerahmte interne Seiten
 - genau eine zentrale CSS- und eine zentrale App-JS-Datei
-- Version 2.6.1.9-Beta in HTML, Manifest, Suchindex und Laufzeit
-- keine operativen Verweise auf V2.6.1.0 bis V2.6.1.8
-- lokale Referenzen, H1, Referrer-Schutz, Header und Footer
+- Version 2.6.2.0-Beta in HTML, Manifest, Suchindex und Laufzeit
+- keine operativen Referenzen auf V2.6.1.x
+- lokale Ziele, H1, Referrer-Schutz, Header und Footer
+- Manifest-, Favicon- und Apple-Touch-Verweis in allen 16 HTML-Dokumenten
 - vollständige SHA256SUMS.txt
-- Service-Worker-Kerncache `v2-6-1-9-core-r1`
-- vollständiger Control-Sprite
+- Service-Worker-Kerncache `v2-6-2-0-core-r1`
 
-## 2. Unveränderte Icon-Dateien
+## 2. Neue Marken-/PWA-Familie
 
-- genau 22 aktive PNGs mit Präfix `v2-6-1-9-`
+- reproduzierbare Erzeugung mit `python3 tools/generate_brand_assets.py`
+- logo-sk-pct-tools.png und icon-512.png: 512 × 512, RGBA, transparent
+- icon-192.png: 192 × 192, RGBA, transparent
+- favicon.png: 64 × 64, RGBA, transparent
+- apple-touch-icon.png: 180 × 180, vollständig opak
+- icon-maskable-192.png und icon-maskable-512.png: vollständig opak
+- ausreichende schwarze Kontur-, weiße Motiv-, Cyan- und Grünmasse
+- zentrale kontrastreiche Markeninformation innerhalb des 80-%-Safe-Zone-Kreises
+- `any`/`maskable`-Purpose im Manifest korrekt
+- sichtbares Startseiten-, Header- und Seitenkopf-Logo verweist auf den Markenmaster
+- alle sieben Dateien im Offline-Kerncache
+
+## 3. Unveränderte freigegebene Navigationsicons
+
+- genau 22 aktive PNGs mit Präfix `v2-6-2-0-`
 - 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons
 - PNG-Signatur, 512 × 512 px, RGBA und echte Transparenz
 - SHA-256 jedes PNGs entspricht dem freigegebenen Referenzwert
-- 22 unterschiedliche Dateihashes
-- vollständige Aufnahme in den Offline-Kerncache
+- Bilddaten gegenüber V2.6.1.9-Beta bitidentisch
 - sichtbare Alpha-Grenze jedes Icons exakt `(13, 9, 489, 491)`
-- Bilddaten gegenüber V2.6.1.8-Beta unverändert
+- vollständige Aufnahme in den Offline-Kerncache
 
-## 3. Strukturelle Wrapperprüfung
+## 4. Strukturelle Favoritenkopplung
 
 Für zehn Startseiten- und fünf Wissens-App-Icons:
-- `.sk-app-icon-wrapper` ist der feste gemeinsame Bezug für PNG und Button
-- `.sk-favorite-button` ist direktes Kind des jeweiligen Wrappers
-- der Wrapper stimmt mit der aus dem PNG skalierten sichtbaren Alpha-Grenze überein
-- Kachel, Grid, Titelbereich und Viewportabstände sind keine Positionsbasis
-- finale Favoritenposition enthält keine 50-%-/Kachelmittenberechnung
-- keine breakpointabhängige Positionsregel für den Favoritenbutton
-
-## 4. App-Icon- und Favoritengeometrie
-
-Für Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000:
+- `.sk-app-icon-wrapper` bleibt fester gemeinsamer Bezug für PNG und Button
+- `.sk-favorite-button` bleibt direktes Kind des Wrappers
 - sichtbarer Favoritenkreis 21 bis 23 px, Sollmaß 22 px
 - Touchfläche mindestens 44 × 44 px
-- Kreismittelpunkt höchstens 0,25 CSS-Pixel von der tatsächlichen oberen rechten
+- Kreismittelpunkt maximal 0,25 CSS-Pixel von der tatsächlichen oberen rechten
   sichtbaren PNG-/Wrapperkante entfernt
-- je 48 bis 52 % sichtbare Überdeckung und Außenanteil
-- aktive und inaktive Favoriten besitzen dieselbe Geometrie
-- App-Kachel, Wrapper und PNG werden bei Hover, Fokus, Press und Aktivzustand
-  je Kante mit höchstens 0,25 CSS-Pixel Abweichung geprüft
-- dieselbe Prüfung gilt für alle fünf Wissens-App-Icons
+- aktive und inaktive Zustände geometrisch identisch
+- keine Verschiebung in Ruhe, Hover, Fokus, Press oder Aktivzustand
 
 ## 5. Browser-Regression
 
@@ -58,23 +60,26 @@ Für Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000:
 python3 tests/browser_regression.py
 ```
 
-Weiterer Prüfumfang:
-- 15 Routen × Smartphone, Tablet und Desktop
+Prüfumfang:
+- 15 aktive Routen × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
+- neues Startseiten- und Headerlogo vollständig geladen, natürliche Größe 512 × 512
+- Manifest-Version und PWA-Icon-Purpose im echten Browser
 - Header, Footer, Rahmen, Scrollverhalten und horizontaler Überlauf
 - 320-px-Reflow-Sanity
 - reale Touch-Auslösung auf Smartphone und Tablet
 - sechs Rechnerreferenzen einschließlich Grenzwerte und Reset
 - Wissensnavigation, Kompaktansicht und Quellenbündel
-- Offline-Start und Offline-Unterseiten
-- Upgrade-Test: Altcache wird entfernt, nur `v2-6-1-9-core-r1` bleibt
+- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-2-0-core-r1`
 
 ## 6. Visuelle Abnahme
 
-- Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 rendern
-- aktive und inaktive Sterne zusammen prüfen
-- keine Kollision mit Hauptsymbol, Titel oder Nachbarkachel
-- keine abgeschnittenen Icons, defekten Bilder oder horizontalen Überläufe
-- unverändertes Icon-Design gegenüber V2.6.1.8-Beta
+- Startseite und interne Seite bei Smartphone, Tablet und Desktop rendern
+- PCT bei kleinen Header-/Favicon-Abmessungen eindeutig erkennbar
+- SK und TOOL'S BY S.K. bei regulären App-/PWA-Größen lesbar
+- keine abgeschnittenen Markenbestandteile in Standardvarianten
+- Maskable-Vorschau für Kreis-/Squircle-Beschnitt ohne Verlust zentraler Information
+- App-Icons, Favoritenposition und Favoritenzustände optisch unverändert
+- keine defekten Bilder oder horizontalen Überläufe
 
-Die real ausgeführten Ergebnisse werden in `TEST-RESULTS.txt` festgehalten. Danach
-werden `SHA256SUMS.txt` und das ZIP-Paket erstellt und abschließend validiert.
+Die tatsächlich ausgeführten Ergebnisse werden in `TEST-RESULTS.txt` festgehalten.
+Danach werden `SHA256SUMS.txt` und das vollständige ZIP-Paket erstellt und geprüft.

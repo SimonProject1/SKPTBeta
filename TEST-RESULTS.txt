@@ -1,34 +1,43 @@
-SK PCT Tools 2.6.1.9-Beta – Testergebnisse
+SK PCT Tools 2.6.2.0-Beta – Testergebnisse
 Ausgeführt: 16.10.2026
-Ziel: vollständiges Release-Paket V2.6.1.9-Beta
+Ziel: vollständiges Release-Paket V2.6.2.0-Beta
 
 1. SYNTAX- UND FORMATPRÜFUNG
 PASS
-- Python-Syntax: Icon-Generator und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-1-9.js und service-worker.js
+- Python-Syntax: App-Icon-Generator, Markenlogo-Generator und beide Tests
+- JavaScript-Syntax: assets/app-v2-6-2-0.js und service-worker.js
 - JSON: Manifest und Suchindex
 - XML: assets/pct-controls.svg
 
 2. STRUKTUR-, REFERENZ- UND INTEGRITÄTSPRÜFUNG
 Befehl: python3 tests/validate_project.py
 Ergebnis: PASS
-- 77 Dateien einschließlich SHA256SUMS.txt
+- 79 Dateien einschließlich SHA256SUMS.txt
 - 10 Apps, 6 Rechner, 14 interne Unterseiten
+- 16 HTML-Dokumente mit Manifest-, Favicon- und Apple-Touch-Verweis
 - 22 aktive Navigationsicons
+- 7 Marken-/PWA-PNGs
 - 1 Vorkommen von !important im zentralen CSS
-- Version 2.6.1.9-Beta konsistent
+- Version 2.6.2.0-Beta konsistent
 - lokale Referenzen, Manifest, Suchindex und Service Worker vollständig
 - SHA256SUMS.txt vollständig und korrekt
 
-3. STRUKTURELLE ICON-WRAPPER
+3. NEUE MARKEN-/PWA-FAMILIE
 PASS
-- alle 10 Startseiten-Favoritenbuttons direkt im jeweiligen `.sk-app-icon-wrapper`
-- alle 5 Wissens-App-Favoritenbuttons direkt im jeweiligen `.sk-app-icon-wrapper`
-- PNG und Button besitzen denselben lokalen Positionierungsbezug
-- finale Buttonposition unabhängig von Kachelmitte, Grid, Beschriftung und Viewport
-- keine breakpointabhängige finale Favoritenposition
+- logo-sk-pct-tools.png und icon-512.png: 512 × 512, RGBA, transparent
+- icon-192.png: 192 × 192, RGBA, transparent
+- favicon.png: 64 × 64, RGBA, transparente Außenkanten
+- apple-touch-icon.png: 180 × 180, vollständig opak
+- icon-maskable-192.png und icon-maskable-512.png: vollständig opak/full-bleed
+- PCT bleibt in der 64-px-Favicon-Prüfung eindeutig erkennbar
+- schwarze Konturen, weiße Motivflächen sowie Cyan-/Blau-/Grün-Akzente vorhanden
+- 11.198 kontrastreiche weiße Markenpixel innerhalb und nur 120 dekorative weiße
+  Rail-/Knotenpixel außerhalb des 80-%-Safe-Zone-Kreises der 512-px-Maskable-Datei
+- Manifest-Purpose `any` und `maskable` korrekt
+- sichtbares Startseiten-, Header- und Seitenkopf-Logo auf neuen Markenmaster umgestellt
+- alle 7 Marken-/PWA-Dateien im Offline-Kerncache
 
-4. UNVERÄNDERTER ICON-STANDARD
+4. UNVERÄNDERTER APP-ICON-STANDARD
 PASS
 - 22 von 22 PNGs vorhanden
 - 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons
@@ -36,45 +45,42 @@ PASS
 - tatsächliche Alpha-Grenze aller Icons: (13, 9, 489, 491)
 - 22 unterschiedliche SHA-256-Dateihashes
 - jeder PNG-Dateihash entspricht dem freigegebenen Referenzsatz
-- Bilddaten gegenüber V2.6.1.8-Beta unverändert; kein Icon neu gerendert
+- Bilddaten gegenüber V2.6.1.9-Beta bitidentisch; kein App-Icon neu gerendert
 - alle 22 Icons im Offline-Kerncache
 
-5. FAVORITENGEOMETRIE UND ZUSTÄNDE
+5. FAVORITENKOPPLUNG UND GEOMETRIE
 PASS
-- 10 Startseiten- und 5 Wissens-App-Icons auf Smartphone, Tablet und Desktop vermessen
+- alle 10 Startseiten- und 5 Wissens-Favoritenbuttons direkt im jeweiligen
+  `.sk-app-icon-wrapper`
+- PNG und Button besitzen denselben lokalen Positionierungsbezug
 - sichtbarer Kreis 22 × 22 px; Touchfläche 44 × 44 px
-- maximale Abweichung Wrapper zu skalierter sichtbarer PNG-Grenze:
-  Smartphone 390 × 844: 0,0195 CSS-Pixel
-  Tablet 820 × 1180: 0 CSS-Pixel
-  Desktop 1440 × 1000: 0,0195 CSS-Pixel
-- maximale Abweichung der sichtbaren Kreismitte von der oberen rechten tatsächlichen
-  Icon-Grenze:
-  Smartphone 390 × 844: 0,0117 CSS-Pixel je Achse
-  Tablet 820 × 1180: 0 CSS-Pixel
-  Desktop 1440 × 1000: 0,0117 CSS-Pixel je Achse
+- Kreismittelpunkt auf der oberen rechten tatsächlichen Icon-/Wrapperkante
 - aktive und inaktive Favoriten geometrisch identisch
 - App-Kachel, Wrapper und PNG in Ruhe, Hover, Fokus, Press und Aktivzustand stabil
 
 6. BROWSER-REGRESSION
 Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS · 913 Browserprüfungen
-- 15 Seiten × Smartphone, Tablet und Desktop
+Ergebnis: PASS · 958 Browserprüfungen
+- 15 Seiten × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
+- neues 512-px-Startseiten- und Headerlogo vollständig geladen
+- Manifest-Version und PWA-Icon-Purpose im Browser geprüft
 - 320-px-Reflow
 - 6 Rechnerreferenzen und Grenzwertprüfungen
 - Touchprüfung für Smartphone und Tablet
 - Header, Footer, Rahmen, interne Scrollbereiche und horizontaler Überlauf
 - Start-, Wissens-, Hersteller- und Navigationsicons vollständig geladen
-- Offline-Start, Offline-Unterseiten und Cache-Upgrade erfolgreich
+- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-2-0-core-r1
 
 7. VISUELLE BROWSERABNAHME
 PASS
 - Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert
-- aktive und inaktive Favoriten gemeinsam geprüft
-- Sternkreise liegen an allen App-Icons einheitlich oben rechts
-- keine Kollision mit Hauptsymbolen, App-Titeln oder Nachbarkacheln
-- keine abgeschnittenen Symbole, defekten Bilder oder horizontalen Überläufe
-- bestätigtes Icon-Design optisch unverändert
+- interne Rechnerseite bei 390 × 844 gerendert
+- neues Logo in Startseiten- und internem Header ohne Beschnitt oder Defekt
+- PCT in kleiner Darstellung erkennbar; reguläre 192/512-px-Markenvarianten lesbar
+- keine Kollision mit Suche, Favoriten, Navigation, Titel oder Nachbarkacheln
+- keine abgeschnittenen App-Symbole, defekten Bilder oder horizontalen Überläufe
+- App-Icon-Design und Favoritenposition optisch unverändert
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.1.9-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.2.0-Beta.zip freigegeben.

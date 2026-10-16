@@ -1,63 +1,68 @@
-SK PCT Tools V2.6.1.9-Beta – Release Notes
+SK PCT Tools V2.6.2.0-Beta – Release Notes
 Stand: 16.10.2026
-Basis: vollständige V2.6.1.8-Beta
+Basis: vollständige V2.6.1.9-Beta
 
 ZIEL
-Die Favoritenbuttons werden nicht mehr über Kachelmitte, Grid, Beschriftungsbereich
-oder geräteabhängige Abstände positioniert. Iconbild und Favoritenbutton besitzen pro
-App-Kachel einen gemeinsamen festen Icon-Wrapper als einzigen Positionierungsbezug.
+SK PCT Tools erhält eine vollständig neue Marken-/PWA-Logo-Familie, die gestalterisch
+mit den freigegebenen App-Icons geschlossen zusammenarbeitet, ohne deren Design oder
+die feste Favoritenkopplung zu verändern.
 
-STRUKTURELLE ÄNDERUNG
-- Die zentrale Favoritenlaufzeit verschiebt beziehungsweise erzeugt jeden App-
-  Favoritenbutton direkt im zugehörigen `.sk-app-icon-wrapper`.
-- Auf der Startseite ist der Wrapper das vorhandene `.sk-home-icon`.
-- Bei favoritenfähigen Wissenseinträgen ist der Wrapper das vorhandene
-  `.knowledge-home-icon`.
-- Der Button ist im gerenderten DOM jeweils direktes Kind dieses Wrappers.
-- Andere Karten ohne Icon-Wrapper behalten ihre bisherige allgemeine Favoritenlogik.
+NEUES MARKENLOGO
+- Neuer industrieller Außenmaster mit kräftigem schwarzem Tiefenrahmen und dem
+  identischen Grün-Türkis-Blau-Verlauf der App-Icons.
+- Großes weißes PCT-Hauptzeichen mit schwarzer Kontur für sichere Erkennung bei
+  kleinen Größen.
+- Technisches Zahnrad, cyanfarbener und grüner Signalring sowie SK-Typenschild.
+- Herkunftszeile "TOOL'S BY S.K." als konturiertes Maschinenschild.
+- Räumliche Tiefe durch Schatten, gestaffelte Konturen, Stahlflächen und Rails.
+- Reproduzierbare Quelle: tools/generate_brand_assets.py.
 
-GEOMETRIE
-- Unverändertes Quell-PNG: 512 × 512 px.
-- Einheitliche sichtbare Alpha-Grenze aller 22 Navigationsicons:
-  links 13 px, oben 9 px, rechts 489 px, unten 491 px.
-- Der Wrapper wird auf diese reale sichtbare Iconfläche gelegt; das PNG bleibt in
-  seiner bisherigen Darstellungsgröße und wird nicht neu gerendert.
-- Sichtbarer Favoritenkreis: 22 × 22 px.
-- Unsichtbare Touchfläche: 44 × 44 px.
-- Der sichtbare Kreis sitzt mit seiner Mitte auf der oberen rechten Wrapperkante und
-  überlappt die sichtbare Iconkante je 11 px innen und außen.
-- `inset-block-start: -22px` und `inset-inline-end: -22px` gelten identisch für alle
-  Bildschirmgrößen und Zustände.
-- Keine finale Favoritenposition wird aus 50 %, Kartenbreite, Grid, Titelbereich oder
-  Viewport-Breakpoint berechnet.
+ERSETZTE LOGO- UND PWA-VARIANTEN
+- sichtbares Startseitenlogo
+- gemeinsames Headerlogo aller internen Seiten
+- dezentes Seitenkopf-Wasserzeichen
+- assets/logo-sk-pct-tools.png
+- assets/favicon.png
+- assets/apple-touch-icon.png
+- assets/icon-192.png und assets/icon-512.png
+- assets/icon-maskable-192.png und assets/icon-maskable-512.png
+- Manifest-Icons und PWA-Shortcuts
+- Service-Worker-/Offline-Cache-Referenzen
+- Browser-/Apple-/Manifest-Metadaten aller 16 HTML-Dokumente
+- Dokumentation, Tests und Prüfsummen
 
-ZUSTÄNDE UND STABILITÄT
-- Aktive und inaktive Sterne besitzen dieselbe Position und Größe.
-- App-Kachel, Wrapper und PNG bleiben in Ruhe, bei Mouse-Hover, Tastaturfokus,
-  Antippen, gedrücktem Pointer und Aktivzustand geometrisch fest.
-- Transformations- und Translationsbewegungen sind für diese Zustände neutralisiert.
-- Die optisch größere Touchfläche beeinflusst den sichtbaren Kreis nicht.
+TRANSPARENZ UND MASKABLE
+- Standardlogo, Favicon sowie icon-192/icon-512 besitzen echte transparente
+  Außenkanten und eine kontrollierte sichtbare Alpha-Grenze.
+- Apple-Touch- und Maskable-Dateien sind vollständig opak und full-bleed.
+- Die zentrale SK/PCT/Tool's-by-S.K.-Bildmarke liegt innerhalb des 80-%-Safe-Zone-
+  Kreises; ausschließlich dekorative Außenrails dürfen maskenabhängig beschnitten
+  werden.
+- Manifest-Purpose ist für Standardvarianten `any` und für beide Maskable-Dateien
+  ausschließlich `maskable`.
 
-ICON-SCHUTZ
-- Alle 22 PNG-Dateien wurden aus V2.6.1.8-Beta ohne Neurendering übernommen.
-- Jeder PNG-Dateihash entspricht weiterhin dem freigegebenen Referenzsatz.
-- Nur Dateipräfixe und Referenzen wurden auf `v2-6-1-9-` aktualisiert.
-- Hauptsymbole, Konturen, Farben, Rails, Schatten und Tiefe bleiben unverändert.
+UNVERÄNDERTE FREIGEGEBENE APP-ICONS
+- Alle 22 Navigations-PNGs sind gegenüber V2.6.1.9-Beta binär identisch.
+- Nur Dateinamen und operative Referenzen wechselten von v2-6-1-9- auf v2-6-2-0-.
+- Hauptsymbole, Rahmen, Konturen, Verläufe, Rails, Schatten und Alpha-Grenzen wurden
+  nicht verändert.
+- Die strukturelle Favoritenkopplung im `.sk-app-icon-wrapper`, 44-px-Touchfläche,
+  22-px-Kreis und die exakte obere rechte Ankerposition bleiben unverändert.
 
 VERSIONIERUNG
-- Version: 2.6.1.9-Beta
-- Zentraler Stil: assets/app-v2-6-1-9.css
-- Zentrale Laufzeit: assets/app-v2-6-1-9.js
-- Manifest: manifest-v2-6-1-9.webmanifest
-- Suchindex: assets/search-index-v2-6-1-9.json
-- Cache-Epoch: v2-6-1-9-core-r1
-- Übergabe: UEBERGABE-V2.6.1.9-Beta.txt
+- Version: 2.6.2.0-Beta
+- Zentraler Stil: assets/app-v2-6-2-0.css
+- Zentrale Laufzeit: assets/app-v2-6-2-0.js
+- Manifest: manifest-v2-6-2-0.webmanifest
+- Suchindex: assets/search-index-v2-6-2-0.json
+- Cache-Epoch: v2-6-2-0-core-r1
+- Übergabe: UEBERGABE-V2.6.2.0-Beta.txt
 
 QUALITÄTSSICHERUNG
-- Statische Struktur-, Referenz-, Versions-, Icon-, Offline- und Prüfsummenprüfung.
-- Browserprüfung für 15 Seiten auf Smartphone, Tablet und Desktop.
-- Zusätzliche 320-px-Reflow-, Touch-, Rechner-, Wissens- und Offline-Tests.
-- Geometrische Prüfung aller zehn Startseiten- und fünf Wissens-Favoriten gegen die
-  tatsächlichen sichtbaren PNG-Grenzen.
-- Zustandsvergleich inaktiv/aktiv sowie Ruhe/Hover/Fokus/Press/Aktiv.
+- Statische Struktur-, Referenz-, Versions-, Logo-, Icon-, Offline- und
+  Prüfsummenprüfung.
+- Bildprüfung für PNG-Signatur, Abmessungen, Alpha, Farb-/Konturmasse und Safe-Zone.
+- Browserprüfung aller 15 aktiven Routen auf Smartphone, Tablet und Desktop.
+- Zusätzliche 320-px-Reflow-, Touch-, Rechner-, Wissens-, Manifest- und Offline-Tests.
+- Geometrische Regression aller zehn Startseiten- und fünf Wissens-Favoriten.
 - Tatsächliche Ergebnisse: TEST-RESULTS.txt.
