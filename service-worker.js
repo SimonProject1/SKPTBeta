@@ -1,6 +1,6 @@
-const RELEASE='2.6.1.8-Beta';
+const RELEASE='2.6.1.9-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
-const CACHE_EPOCH='v2-6-1-8-core-r1';
+const CACHE_EPOCH='v2-6-1-9-core-r1';
 const CACHE_NAME=`${CACHE_PREFIX}${CACHE_EPOCH}`;
 
 // Ausschließlich aktive Laufzeitressourcen. Dokumentation, Tests, Generatoren und
@@ -22,9 +22,9 @@ const CORE=[
   './wissensdatenbank/siemens-sps-rohwert/',
   './wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/',
   './wissensdatenbank/werkstoff-nachschlagewerk/',
-  './manifest-v2-6-1-8.webmanifest',
-  './assets/app-v2-6-1-8.css',
-  './assets/app-v2-6-1-8.js',
+  './manifest-v2-6-1-9.webmanifest',
+  './assets/app-v2-6-1-9.css',
+  './assets/app-v2-6-1-9.js',
   './assets/analogsignal-rechner.js',
   './assets/einheitenrechner.js',
   './assets/knowledge-compact.js',
@@ -38,7 +38,7 @@ const CORE=[
   './spannungsfall-rechner/calculator.js',
   './assets/materials.json',
   './assets/units.json',
-  './assets/search-index-v2-6-1-8.json',
+  './assets/search-index-v2-6-1-9.json',
   './assets/pct-controls.svg',
   './assets/favicon.png',
   './assets/apple-touch-icon.png',
@@ -46,28 +46,28 @@ const CORE=[
   './assets/icon-512.png',
   './assets/icon-maskable-192.png',
   './assets/icon-maskable-512.png',
-  './assets/navigation-icons/v2-6-1-8-app-analogsignal.png',
-  './assets/navigation-icons/v2-6-1-8-app-eh-viewer.png',
-  './assets/navigation-icons/v2-6-1-8-app-einheitendatenbank.png',
-  './assets/navigation-icons/v2-6-1-8-app-einheitenrechner.png',
-  './assets/navigation-icons/v2-6-1-8-app-pf-rechner.png',
-  './assets/navigation-icons/v2-6-1-8-app-pt-rechner.png',
-  './assets/navigation-icons/v2-6-1-8-app-siemens-rohwert.png',
-  './assets/navigation-icons/v2-6-1-8-app-spannungsfall.png',
-  './assets/navigation-icons/v2-6-1-8-app-werkstoffdatenbank.png',
-  './assets/navigation-icons/v2-6-1-8-app-wissensdatenbank.png',
-  './assets/navigation-icons/v2-6-1-8-knowledge-air-torque-antrieb-drehrichtung.png',
-  './assets/navigation-icons/v2-6-1-8-knowledge-endress-hauser-promass-einbaulage.png',
-  './assets/navigation-icons/v2-6-1-8-knowledge-siemens-sitrans-p320-sil-verriegelung.png',
-  './assets/navigation-icons/v2-6-1-8-knowledge-siemens-sps-rohwert.png',
-  './assets/navigation-icons/v2-6-1-8-knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung.png',
-  './assets/navigation-icons/v2-6-1-8-manufacturer-air-torque.png',
-  './assets/navigation-icons/v2-6-1-8-manufacturer-endress-hauser.png',
-  './assets/navigation-icons/v2-6-1-8-manufacturer-siemens.png',
-  './assets/navigation-icons/v2-6-1-8-manufacturer-sonstiges.png',
-  './assets/navigation-icons/v2-6-1-8-manufacturer-vacon.png',
-  './assets/navigation-icons/v2-6-1-8-nav-back.png',
-  './assets/navigation-icons/v2-6-1-8-nav-home.png'
+  './assets/navigation-icons/v2-6-1-9-app-analogsignal.png',
+  './assets/navigation-icons/v2-6-1-9-app-eh-viewer.png',
+  './assets/navigation-icons/v2-6-1-9-app-einheitendatenbank.png',
+  './assets/navigation-icons/v2-6-1-9-app-einheitenrechner.png',
+  './assets/navigation-icons/v2-6-1-9-app-pf-rechner.png',
+  './assets/navigation-icons/v2-6-1-9-app-pt-rechner.png',
+  './assets/navigation-icons/v2-6-1-9-app-siemens-rohwert.png',
+  './assets/navigation-icons/v2-6-1-9-app-spannungsfall.png',
+  './assets/navigation-icons/v2-6-1-9-app-werkstoffdatenbank.png',
+  './assets/navigation-icons/v2-6-1-9-app-wissensdatenbank.png',
+  './assets/navigation-icons/v2-6-1-9-knowledge-air-torque-antrieb-drehrichtung.png',
+  './assets/navigation-icons/v2-6-1-9-knowledge-endress-hauser-promass-einbaulage.png',
+  './assets/navigation-icons/v2-6-1-9-knowledge-siemens-sitrans-p320-sil-verriegelung.png',
+  './assets/navigation-icons/v2-6-1-9-knowledge-siemens-sps-rohwert.png',
+  './assets/navigation-icons/v2-6-1-9-knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung.png',
+  './assets/navigation-icons/v2-6-1-9-manufacturer-air-torque.png',
+  './assets/navigation-icons/v2-6-1-9-manufacturer-endress-hauser.png',
+  './assets/navigation-icons/v2-6-1-9-manufacturer-siemens.png',
+  './assets/navigation-icons/v2-6-1-9-manufacturer-sonstiges.png',
+  './assets/navigation-icons/v2-6-1-9-manufacturer-vacon.png',
+  './assets/navigation-icons/v2-6-1-9-nav-back.png',
+  './assets/navigation-icons/v2-6-1-9-nav-home.png'
 ];
 
 const canonicalRequest=request=>{

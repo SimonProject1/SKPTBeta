@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.1.8-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.1.9-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.1.8-Beta'
-VERSION_SLUG='v2-6-1-8'
+VERSION='2.6.1.9-Beta'
+VERSION_SLUG='v2-6-1-9'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -124,21 +124,22 @@ def main()->int:
     check(len(external)==1 and external[0].get('href')=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Viewer-Ziel fehlerhaft.',errors)
 
     operational='\n'.join(p.read_text(encoding='utf-8') for suffix in ('*.html','*.css','*.js','*.json','*.webmanifest') for p in ROOT.rglob(suffix))
-    check(not re.search(r'2\.6\.1\.[0-7](?:-Beta)?|v2-6-1-[0-7]',operational),'Operative Altversionsverweise vorhanden.',errors)
-    for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-5.css','pct-home-v2-6-1-5.css','app-v2-6-1-5.css','app-v2-6-1-5.js','app-v2-6-1-6.css','app-v2-6-1-6.js','app-v2-6-1-7.css','app-v2-6-1-7.js','app-v2-6-1-8.js.js'):
+    check(not re.search(r'2\.6\.1\.[0-8](?:-Beta)?|v2-6-1-[0-8]',operational),'Operative Altversionsverweise vorhanden.',errors)
+    for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-5.css','pct-home-v2-6-1-5.css','app-v2-6-1-5.css','app-v2-6-1-5.js','app-v2-6-1-6.css','app-v2-6-1-6.js','app-v2-6-1-7.css','app-v2-6-1-7.js','app-v2-6-1-8.css','app-v2-6-1-8.js'):
         check(not (ROOT/'assets'/removed).exists(),f'Ersetzte Datei noch vorhanden: {removed}',errors)
     check(len(list((ROOT/'assets').glob('*.css')))==1,'Mehr als ein CSS-Bestand vorhanden.',errors)
     check((ROOT/SHARED_CSS).is_file() and (ROOT/SHARED_JS).is_file(),'Zentrale CSS-/JS-Datei fehlt.',errors)
 
     css=(ROOT/SHARED_CSS).read_text();js=(ROOT/SHARED_JS).read_text()
     check(css.count('!important')<=5,f'Zu viele !important: {css.count("!important")}',errors)
-    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','Finale Kaskaden-Normalisierung','sichtbarer Favoritenkreis exakt auf der Icon-Ecke','--sk-home-icon-top:6px','--sk-knowledge-icon-top:5px','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-visible-radius:calc(var(--sk-favorite-visible-size) / 2)','--sk-favorite-ring-inset:calc((var(--sk-favorite-touch-size) - var(--sk-favorite-visible-size)) / 2)','translate:none'):
+    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','strukturell icongebundene Favoriten','sk-app-icon-wrapper','tatsächlichen sichtbaren','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-ring-inset:11px','inset-block-start:-22px','inset-inline-end:-22px','translate:none'):
         check(token in css,f'Zentrale CSS-Regel fehlt: {token}',errors)
     check('sk-home-app.card:hover{transform:translateY' not in css,'Startseiten-Hover verschiebt App-Icons noch.',errors)
     check('--sk-favorite-circle-outset' not in css,'Alte 25/75-Favoritenposition ist noch aktiv.',errors)
-    check('inset-block-start:calc(var(--sk-home-icon-top) - var(--sk-favorite-ring-inset) - var(--sk-favorite-visible-radius))' in css,'Sichtbarer Startseiten-Favoritenkreis ist nicht an seiner Mitte verankert.',errors)
-    check('inset-block-start:calc(var(--sk-knowledge-icon-top) - var(--sk-favorite-ring-inset) - var(--sk-favorite-visible-radius))' in css,'Sichtbarer Wissens-Favoritenkreis ist nicht an seiner Mitte verankert.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-1-8.json','v2-6-1-8-nav-home.png'):
+    final_css=css.split('/* === V2.6.1.9-Beta: strukturell icongebundene Favoriten',1)[-1]
+    check(final_css.count('>.sk-app-icon-wrapper>.sk-favorite-button.pct-control')>=10,'Direkte Wrapper-Verankerung des Favoritenbuttons fehlt.',errors)
+    check('calc(50%' not in final_css and '--sk-home-icon-top' not in final_css and '--sk-knowledge-icon-top' not in final_css,'Finale Favoritenposition hängt noch von Kachelmitte oder Geräteabständen ab.',errors)
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-1-9.json','v2-6-1-9-nav-home.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'"):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     check('Object.keys(localStorage).find' not in js,'Veraltete Favoriten-Key-Migration noch vorhanden.',errors)
 
@@ -152,6 +153,7 @@ def main()->int:
             width,height=struct.unpack('>II',raw[16:24]);check((width,height)==(512,512),f'Icon-Größe falsch: {icon.name}',errors)
         with Image.open(icon) as image:
             rgba=image.convert('RGBA');pixels=list(rgba.get_flattened_data());check(rgba.getchannel('A').getextrema()==(0,255),f'Transparenz fehlerhaft: {icon.name}',errors)
+            check(rgba.getchannel('A').getbbox()==(13,9,489,491),f'Sichtbare Icon-Grenze verändert: {icon.name}',errors)
             colored=sum(1 for r,g,b,a in pixels if a and not (r==g==b));black=sum(1 for r,g,b,a in pixels if a>240 and r<18 and g<18 and b<18);white=sum(1 for r,g,b,a in pixels if a>240 and r>245 and g>245 and b>245)
             check(colored>80000 and black>35000 and 10000<=white<=60000,f'Verlauf/Kontur/Symbolmasse fehlerhaft: {icon.name}',errors)
             perimeter=bytearray()
@@ -170,7 +172,7 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-1-8-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-1-9-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -179,13 +181,13 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-1-8-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
+    for token in ('PREFIX = "v2-6-1-9-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     check(len({hashlib.sha256(p.read_bytes()).hexdigest() for p in icons})==22,'Icons sind nicht vollständig eigenständig.',errors)
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.1.8-Beta.txt'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.1.9-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'

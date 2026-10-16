@@ -1,11 +1,11 @@
-SK PCT Tools 2.6.1.8-Beta – Testergebnisse
+SK PCT Tools 2.6.1.9-Beta – Testergebnisse
 Ausgeführt: 16.10.2026
-Ziel: vollständiges Release-Paket V2.6.1.8-Beta
+Ziel: vollständiges Release-Paket V2.6.1.9-Beta
 
 1. SYNTAX- UND FORMATPRÜFUNG
 PASS
 - Python-Syntax: Icon-Generator und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-1-8.js und service-worker.js
+- JavaScript-Syntax: assets/app-v2-6-1-9.js und service-worker.js
 - JSON: Manifest und Suchindex
 - XML: assets/pct-controls.svg
 
@@ -16,47 +16,48 @@ Ergebnis: PASS
 - 10 Apps, 6 Rechner, 14 interne Unterseiten
 - 22 aktive Navigationsicons
 - 1 Vorkommen von !important im zentralen CSS
-- Version 2.6.1.8-Beta konsistent
+- Version 2.6.1.9-Beta konsistent
 - lokale Referenzen, Manifest, Suchindex und Service Worker vollständig
 - SHA256SUMS.txt vollständig und korrekt
 
-3. UNVERÄNDERTER ICON-STANDARD
+3. STRUKTURELLE ICON-WRAPPER
+PASS
+- alle 10 Startseiten-Favoritenbuttons direkt im jeweiligen `.sk-app-icon-wrapper`
+- alle 5 Wissens-App-Favoritenbuttons direkt im jeweiligen `.sk-app-icon-wrapper`
+- PNG und Button besitzen denselben lokalen Positionierungsbezug
+- finale Buttonposition unabhängig von Kachelmitte, Grid, Beschriftung und Viewport
+- keine breakpointabhängige finale Favoritenposition
+
+4. UNVERÄNDERTER ICON-STANDARD
 PASS
 - 22 von 22 PNGs vorhanden
 - 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons
 - alle 512 × 512 px, RGBA, PNG-Signatur und Transparenz korrekt
+- tatsächliche Alpha-Grenze aller Icons: (13, 9, 489, 491)
 - 22 unterschiedliche SHA-256-Dateihashes
 - jeder PNG-Dateihash entspricht dem freigegebenen Referenzsatz
-- Bilddaten gegenüber V2.6.1.7-Beta unverändert; kein Icon neu gerendert
+- Bilddaten gegenüber V2.6.1.8-Beta unverändert; kein Icon neu gerendert
 - alle 22 Icons im Offline-Kerncache
 
-4. STARTSEITEN-ZUSTÄNDE UND FAVORITENGEOMETRIE
+5. FAVORITENGEOMETRIE UND ZUSTÄNDE
 PASS
-- jedes der 10 App-Icons auf Smartphone, Tablet und Desktop in Ruhe, Hover,
-  Fokus, gedrücktem Pointer-Zustand und Aktivzustand vermessen
-- keine Positionsänderung; zulässige Testtoleranz 0,25 CSS-Pixel
-- transform und translate für App-Kachel und Icon in den geprüften Zuständen neutral
-- sichtbarer Favoritenkreis 22 px, Touchfläche 44 × 44 px
-- Mittelpunkt des sichtbaren ::after-Kreises gegen die obere rechte Ecke der
-  sichtbaren Iconfläche gemessen:
-  Smartphone 390 × 844: ΔX 0 px, ΔY 0 px bei allen 10 App-Icons
-  Tablet 820 × 1180: ΔX 0 px, ΔY 0 px bei allen 10 App-Icons
-  Desktop 1440 × 1000: ΔX 0 bis 0,015625 px, ΔY 0 px
-- damit 11 px Innen- und 11 px Außenanteil je Achse
-- aktive und inaktive Favoriten besitzen identische sichtbare Kreisgeometrie
-- sichtbarer Kreis ist unabhängig von der äußeren Touchfläche positioniert
-
-5. WISSENS-APP-ICONS
-PASS
-- alle 5 favoritenfähigen Wissens-App-Icons auf Smartphone, Tablet und Desktop
-  vermessen
-- sichtbare Kreismitte liegt jeweils höchstens 0,015625 px von der oberen rechten
-  sichtbaren Iconecke entfernt
-- aktive und inaktive Favoriten bleiben relativ zur Iconecke geometrisch identisch
+- 10 Startseiten- und 5 Wissens-App-Icons auf Smartphone, Tablet und Desktop vermessen
+- sichtbarer Kreis 22 × 22 px; Touchfläche 44 × 44 px
+- maximale Abweichung Wrapper zu skalierter sichtbarer PNG-Grenze:
+  Smartphone 390 × 844: 0,0195 CSS-Pixel
+  Tablet 820 × 1180: 0 CSS-Pixel
+  Desktop 1440 × 1000: 0,0195 CSS-Pixel
+- maximale Abweichung der sichtbaren Kreismitte von der oberen rechten tatsächlichen
+  Icon-Grenze:
+  Smartphone 390 × 844: 0,0117 CSS-Pixel je Achse
+  Tablet 820 × 1180: 0 CSS-Pixel
+  Desktop 1440 × 1000: 0,0117 CSS-Pixel je Achse
+- aktive und inaktive Favoriten geometrisch identisch
+- App-Kachel, Wrapper und PNG in Ruhe, Hover, Fokus, Press und Aktivzustand stabil
 
 6. BROWSER-REGRESSION
 Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS · 907 Browserprüfungen
+Ergebnis: PASS · 913 Browserprüfungen
 - 15 Seiten × Smartphone, Tablet und Desktop
 - 320-px-Reflow
 - 6 Rechnerreferenzen und Grenzwertprüfungen
@@ -67,13 +68,13 @@ Ergebnis: PASS · 907 Browserprüfungen
 
 7. VISUELLE BROWSERABNAHME
 PASS
-- Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert und geprüft
-- aktive und inaktive Favoritenkreise überlappen die obere rechte Iconkante sichtbar
-- Kreismitte liegt optisch auf der sichtbaren Iconecke
+- Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert
+- aktive und inaktive Favoriten gemeinsam geprüft
+- Sternkreise liegen an allen App-Icons einheitlich oben rechts
+- keine Kollision mit Hauptsymbolen, App-Titeln oder Nachbarkacheln
 - keine abgeschnittenen Symbole, defekten Bilder oder horizontalen Überläufe
-- keine Kollision mit Hauptsymbolen oder App-Titeln
 - bestätigtes Icon-Design optisch unverändert
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.1.8-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.1.9-Beta.zip freigegeben.

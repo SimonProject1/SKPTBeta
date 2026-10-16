@@ -1,45 +1,63 @@
-SK PCT Tools V2.6.1.8-Beta – Release Notes
+SK PCT Tools V2.6.1.9-Beta – Release Notes
 Stand: 16.10.2026
-Basis: vollständige V2.6.1.7-Beta
+Basis: vollständige V2.6.1.8-Beta
 
 ZIEL
-Die Favoritensterne aller zehn Startseiten-App-Icons liegen deutlich näher am
-jeweiligen Icon. Der Mittelpunkt des sichtbaren Favoritenkreises sitzt exakt auf
-der oberen rechten Ecke der sichtbaren Iconfläche. Die größere unsichtbare
-44-x-44-Pixel-Touchfläche beeinflusst diese optische Position nicht.
+Die Favoritenbuttons werden nicht mehr über Kachelmitte, Grid, Beschriftungsbereich
+oder geräteabhängige Abstände positioniert. Iconbild und Favoritenbutton besitzen pro
+App-Kachel einen gemeinsamen festen Icon-Wrapper als einzigen Positionierungsbezug.
 
-FAVORITENGEOMETRIE
-- Sichtbarer Favoritenkreis: 22 px.
-- Exakte Überdeckung an oberer und rechter Iconkante: je 11 px innen und außen.
-- Optischer Anker: Mittelpunkt des sichtbaren ::after-Pseudoelements.
-- Unsichtbare Touchfläche: weiterhin mindestens 44 × 44 px.
-- Einheitliche Position für alle zehn Startseiten-App-Icons sowie die
-  favoritenfähigen Wissens-App-Icons.
-- Identische Geometrie bei aktiven und inaktiven Favoriten.
-- App-Kachel und PNG bleiben bei Ruhe, Mouse-Hover, Tastaturfokus, Antippen,
-  gedrücktem Pointer-Zustand und Aktivzustand positionsfest.
+STRUKTURELLE ÄNDERUNG
+- Die zentrale Favoritenlaufzeit verschiebt beziehungsweise erzeugt jeden App-
+  Favoritenbutton direkt im zugehörigen `.sk-app-icon-wrapper`.
+- Auf der Startseite ist der Wrapper das vorhandene `.sk-home-icon`.
+- Bei favoritenfähigen Wissenseinträgen ist der Wrapper das vorhandene
+  `.knowledge-home-icon`.
+- Der Button ist im gerenderten DOM jeweils direktes Kind dieses Wrappers.
+- Andere Karten ohne Icon-Wrapper behalten ihre bisherige allgemeine Favoritenlogik.
+
+GEOMETRIE
+- Unverändertes Quell-PNG: 512 × 512 px.
+- Einheitliche sichtbare Alpha-Grenze aller 22 Navigationsicons:
+  links 13 px, oben 9 px, rechts 489 px, unten 491 px.
+- Der Wrapper wird auf diese reale sichtbare Iconfläche gelegt; das PNG bleibt in
+  seiner bisherigen Darstellungsgröße und wird nicht neu gerendert.
+- Sichtbarer Favoritenkreis: 22 × 22 px.
+- Unsichtbare Touchfläche: 44 × 44 px.
+- Der sichtbare Kreis sitzt mit seiner Mitte auf der oberen rechten Wrapperkante und
+  überlappt die sichtbare Iconkante je 11 px innen und außen.
+- `inset-block-start: -22px` und `inset-inline-end: -22px` gelten identisch für alle
+  Bildschirmgrößen und Zustände.
+- Keine finale Favoritenposition wird aus 50 %, Kartenbreite, Grid, Titelbereich oder
+  Viewport-Breakpoint berechnet.
+
+ZUSTÄNDE UND STABILITÄT
+- Aktive und inaktive Sterne besitzen dieselbe Position und Größe.
+- App-Kachel, Wrapper und PNG bleiben in Ruhe, bei Mouse-Hover, Tastaturfokus,
+  Antippen, gedrücktem Pointer und Aktivzustand geometrisch fest.
+- Transformations- und Translationsbewegungen sind für diese Zustände neutralisiert.
+- Die optisch größere Touchfläche beeinflusst den sichtbaren Kreis nicht.
 
 ICON-SCHUTZ
-- Alle 22 PNG-Dateien aus V2.6.1.7-Beta ohne Neurendering übernommen.
-- Jeder Icon-Dateihash entspricht weiterhin dem freigegebenen Referenzsatz.
-- Nur Dateipräfixe und Referenzen wurden auf v2-6-1-8 aktualisiert.
-- Keine Änderung an Hauptsymbolen, Konturen, Farben, Rails, Schatten oder Tiefe.
+- Alle 22 PNG-Dateien wurden aus V2.6.1.8-Beta ohne Neurendering übernommen.
+- Jeder PNG-Dateihash entspricht weiterhin dem freigegebenen Referenzsatz.
+- Nur Dateipräfixe und Referenzen wurden auf `v2-6-1-9-` aktualisiert.
+- Hauptsymbole, Konturen, Farben, Rails, Schatten und Tiefe bleiben unverändert.
 
 VERSIONIERUNG
-- Version: 2.6.1.8-Beta
-- Zentraler Stil: assets/app-v2-6-1-8.css
-- Zentrale Laufzeit: assets/app-v2-6-1-8.js
-- Manifest: manifest-v2-6-1-8.webmanifest
-- Suchindex: assets/search-index-v2-6-1-8.json
-- Cache-Epoch: v2-6-1-8-core-r1
-- Übergabe: UEBERGABE-V2.6.1.8-Beta.txt
+- Version: 2.6.1.9-Beta
+- Zentraler Stil: assets/app-v2-6-1-9.css
+- Zentrale Laufzeit: assets/app-v2-6-1-9.js
+- Manifest: manifest-v2-6-1-9.webmanifest
+- Suchindex: assets/search-index-v2-6-1-9.json
+- Cache-Epoch: v2-6-1-9-core-r1
+- Übergabe: UEBERGABE-V2.6.1.9-Beta.txt
 
 QUALITÄTSSICHERUNG
-- Struktur-, Referenz-, Versions-, Icon-, Offline- und Prüfsummenprüfung.
-- Geometrische Vermessung aller zehn Favoritensterne bei 390 × 844,
-  820 × 1180 und 1440 × 1000.
-- Zustandsvergleich inaktiv/aktiv anhand des sichtbaren Pseudoelement-Kreises.
-- Positionsvergleich jedes App-Icons in Ruhe, Hover, Fokus, Press und Aktivzustand.
+- Statische Struktur-, Referenz-, Versions-, Icon-, Offline- und Prüfsummenprüfung.
 - Browserprüfung für 15 Seiten auf Smartphone, Tablet und Desktop.
 - Zusätzliche 320-px-Reflow-, Touch-, Rechner-, Wissens- und Offline-Tests.
+- Geometrische Prüfung aller zehn Startseiten- und fünf Wissens-Favoriten gegen die
+  tatsächlichen sichtbaren PNG-Grenzen.
+- Zustandsvergleich inaktiv/aktiv sowie Ruhe/Hover/Fokus/Press/Aktiv.
 - Tatsächliche Ergebnisse: TEST-RESULTS.txt.

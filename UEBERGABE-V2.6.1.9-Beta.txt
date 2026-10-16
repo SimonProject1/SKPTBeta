@@ -1,0 +1,76 @@
+SK PCT TOOLS – ÜBERGABE V2.6.1.9-Beta
+Erstellt: 16.10.2026
+Projektinhaber: Simon Kiesler
+
+VERBINDLICHER STAND
+- Vollständiges Paket: SK-PCT-Tools-V2.6.1.9-Beta.zip
+- Version: 2.6.1.9-Beta
+- Basis: vollständige V2.6.1.8-Beta
+- Zentraler Stil: assets/app-v2-6-1-9.css
+- Zentrale Laufzeit: assets/app-v2-6-1-9.js
+- Control-Sprite: assets/pct-controls.svg
+- Manifest: manifest-v2-6-1-9.webmanifest
+- Suchindex: assets/search-index-v2-6-1-9.json
+- Cache-Epoch: v2-6-1-9-core-r1
+
+ÄNDERUNG V2.6.1.9
+- Favoritenbutton strukturell direkt in den festen Icon-Wrapper jeder der zehn
+  Startseiten-App-Kacheln verschoben.
+- Derselbe direkte Wrapperaufbau an den fünf favoritenfähigen Wissens-App-Icons.
+- PNG und Button verwenden denselben lokalen Positionierungsbezug.
+- Keine Positionsableitung mehr aus Kachelmitte, Grid, Titelbereich oder
+  gerätespezifischen Abständen.
+- Wrapper an die tatsächliche sichtbare PNG-Alpha-Grenze (13, 9, 489, 491)
+  angepasst, ohne die PNG-Bilddaten oder die visuelle Icongröße zu verändern.
+- Sichtbarer Favoritenkreis 22 px; unabhängige Touchfläche 44 × 44 px.
+- Sichtbare Kreismitte fest auf der oberen rechten Icon-/Wrapperkante.
+- Identische Geometrie für aktive und inaktive Favoriten.
+- App-Kachel, Wrapper und PNG bei Hover, Fokus, Antippen, Drücken und Aktivzustand
+  positionsfest.
+- Keine Änderung an Rechnerlogik, Wissensinhalten oder Datenbeständen.
+
+VERBINDLICHER ICON-STANDARD
+- Der freigegebene Icon-Satz aus V2.6.1.8-Beta bleibt grafisch und binär unverändert.
+- 22 aktive, eigenständige Navigations-PNGs in assets/navigation-icons.
+- Präfix der aktiven Dateien: v2-6-1-9-
+- 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
+- Große weiße Hauptsymbole, schwarze Konturen, Grün-/Türkis-/Blau-Master und
+  Cyan-/Grün-Akzentrails unverändert beibehalten.
+- Reproduzierbare Quelle: tools/generate_png_icons.py
+
+ARCHITEKTURREGELN FÜR FOLGESTÄNDE
+1. Favoritenbutton bei App-/Wissensicons immer direkt im `.sk-app-icon-wrapper`
+   belassen.
+2. Favoritenposition ausschließlich relativ zum Wrapper definieren; keine
+   Kachel-, Grid-, Titel- oder Viewportberechnung verwenden.
+3. Sichtbaren Kreis und Touchbereich getrennt behandeln.
+4. Wiederkehrende Layout-, Header-, Footer-, Navigations-, Button- und
+   Favoritenänderungen zuerst in den zentralen App-Dateien umsetzen.
+5. Rechnerfachlogik nur in der jeweiligen Rechnerdatei ändern.
+6. Keine zusätzliche globale CSS-Datei anlegen.
+7. Semantik und zugängliche Namen in HTML belassen, nicht ins PNG einbrennen.
+8. Neue operative Dateien in Manifest/HTML und bei Offlinebedarf im
+   Service-Worker-Kernbestand ergänzen.
+9. Version, Manifest, Service Worker, Suchindex, Dokumentation, Tests,
+   Prüfsummen und Übergabeprotokoll immer gemeinsam aktualisieren.
+10. Vor Freigabe Struktur- und Browserprüfung vollständig ausführen.
+
+ERHALTUNGSREGELN
+- Startseiten-Icons in Hover-, Fokus-, Press- und Aktivzuständen positionsfest halten.
+- Sichtbare Kreismitte auf der oberen rechten tatsächlichen Icon-/Wrapperkante halten.
+- Sichtbaren Kreis 22 px und Touchfläche mindestens 44 × 44 px halten.
+- Keine breakpointabhängige Favoritenposition einführen.
+- Gemeinsamen Icon-Außenmaster und Cyan-/Grün-Rails nicht verändern.
+- App-Rahmen, internes Scrollen und iOS-Safe-Areas beibehalten.
+- Keine Seite darf horizontal überlaufen.
+- Offline-Upgrade muss alte sk-pct-tools-Caches entfernen.
+
+ABNAHMEBEFEHLE
+python3 tests/validate_project.py
+python3 tests/browser_regression.py
+
+ERGEBNISSE
+- Statische Prüfung: PASS
+- Browserregression: PASS · 913 Prüfungen
+- Prüfsummen: SHA256SUMS.txt
+- Details: TEST-RESULTS.txt

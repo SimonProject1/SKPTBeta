@@ -1,40 +1,42 @@
-SK PCT Tools 2.6.1.8-Beta
+SK PCT Tools 2.6.1.9-Beta
 Stand: 16.10.2026
 Projektinhaber: Simon Kiesler
 
 ÜBERBLICK
 SK PCT Tools ist eine offlinefähige PWA für Rechner, Einheiten-, Werkstoff- und
 Wissensdaten sowie technische Praxishinweise der Prozessleittechnik.
-V2.6.1.8-Beta basiert vollständig auf V2.6.1.7-Beta. Das freigegebene
-technisch-industrielle PNG-Icon-Design wurde ohne grafische Änderung übernommen.
+V2.6.1.9-Beta basiert vollständig auf V2.6.1.8-Beta.
 
 ÄNDERUNG DIESER VERSION
-- Bei allen zehn Startseiten-App-Icons liegt der Mittelpunkt des sichtbaren
-  Favoritenkreises exakt auf der oberen rechten Ecke der sichtbaren Iconfläche.
-- Der sichtbare Kreis überlappt die Iconkante damit horizontal und vertikal je zur
-  Hälfte: bei 22 px Kreisdurchmesser 11 px innen und 11 px außen.
-- Ausschließlich das sichtbare ::after-Pseudoelement bestimmt den optischen Anker.
-  Die unsichtbare Favoriten-Touchfläche bleibt unabhängig davon 44 × 44 px groß.
-- Dieselbe sichtbare Eckverankerung gilt für die favoritenfähigen Wissens-App-Icons.
-- Aktive und inaktive Favoriten verwenden dieselbe Geometrie.
-- App-Kachel und PNG-Icon bleiben bei Mouse-Hover, Fokus, Antippen, Drücken und
-  aktivem Zustand geometrisch unverändert.
+- Jeder Favoritenbutton der zehn Startseiten-App-Kacheln ist strukturell direkter
+  Bestandteil des zugehörigen festen Icon-Wrappers `.sk-app-icon-wrapper`.
+- Derselbe Aufbau gilt für die fünf favoritenfähigen Wissens-App-Icons.
+- PNG und Favoritenbutton verwenden damit denselben lokalen Positionierungsbezug;
+  Kachel, Grid, Beschriftungsbereich und Viewportabstände sind keine Positionsbasis.
+- Der Wrapper entspricht den tatsächlichen sichtbaren Alpha-Grenzen des unveränderten
+  512-px-Icons: links 13 px, oben 9 px, rechts 489 px, unten 491 px.
+- Der sichtbare Favoritenkreis ist 22 × 22 px groß. Sein Mittelpunkt sitzt fest auf
+  der oberen rechten sichtbaren Icon-/Wrapperkante.
+- Die unabhängige Touchfläche bleibt 44 × 44 px groß.
+- Aktive und inaktive Favoriten verwenden exakt dieselbe Geometrie.
+- App-Kachel, Icon-Wrapper und PNG bleiben bei Hover, Fokus, Antippen, Drücken und
+  Aktivzustand positionsfest.
 - Icon-Design, Rechnerlogik, Wissensinhalte und Datenbestände wurden nicht verändert.
 
 ZENTRALE ARCHITEKTUR
-- Zentraler Stil: assets/app-v2-6-1-8.css
-- Zentrale Laufzeit: assets/app-v2-6-1-8.js
+- Zentraler Stil: assets/app-v2-6-1-9.css
+- Zentrale Laufzeit: assets/app-v2-6-1-9.js
 - Control-Sprite: assets/pct-controls.svg
-- Manifest: manifest-v2-6-1-8.webmanifest
-- Suchindex: assets/search-index-v2-6-1-8.json
-- Service-Worker-Cache: sk-pct-tools-v2-6-1-8-core-r1
+- Manifest: manifest-v2-6-1-9.webmanifest
+- Suchindex: assets/search-index-v2-6-1-9.json
+- Service-Worker-Cache: sk-pct-tools-v2-6-1-9-core-r1
 - Reproduzierbarer Icon-Generator: tools/generate_png_icons.py
 
 ICON-SYSTEM
 - 22 eigenständige 512 × 512-RGBA-PNGs.
 - 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
-- Alle PNG-Bilddaten sind gegenüber V2.6.1.7-Beta bitidentisch; nur Präfixe
-  und Referenzen wurden auf V2.6.1.8 aktualisiert.
+- Alle PNG-Bilddaten sind gegenüber V2.6.1.8-Beta bitidentisch; nur Präfixe und
+  Referenzen wurden auf v2-6-1-9 aktualisiert.
 - Große weiße Hauptsymbole mit schwarzer Kontur, gemeinsamer
   Grün-/Türkis-/Blau-Kachelmaster und Cyan-/Grün-Akzentrails bleiben erhalten.
 

@@ -1,9 +1,9 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.1.8-Beta · 16.10.2026
+Stand: V2.6.1.9-Beta · 16.10.2026
 
 FREIGEGEBENER VISUELLER STANDARD
-V2.6.1.8 übernimmt den in V2.6.1.5-Beta ausdrücklich freigegebenen und in
-V2.6.1.6-Beta unverändert fortgeführten Icon-Satz ohne grafische Änderung.
+V2.6.1.9 übernimmt den in V2.6.1.8-Beta verwendeten, ausdrücklich freigegebenen
+Icon-Satz ohne grafische oder binäre Änderung.
 Hauptsymbole, Konturen, Farben, Rails, Schatten und industrielle Tiefe bleiben
 unverändert.
 
@@ -36,11 +36,11 @@ VOLLSTÄNDIGER AKTIVER BESTAND
 
 DATEIFORMAT UND QUELLE
 - Pfad: assets/navigation-icons/
-- Dateipräfix: v2-6-1-8-
+- Dateipräfix: v2-6-1-9-
 - Reproduzierbare Quelle: tools/generate_png_icons.py
 - Keine SVG-Duplikate und keine alten Versionsvarianten im Release.
 - Alle 22 PNG-Dateien besitzen unterschiedliche SHA-256-Prüfsummen.
-- Jeder Dateihash muss dem korrespondierenden PNG aus V2.6.1.5-Beta entsprechen.
+- Jeder Dateihash muss dem korrespondierenden freigegebenen Referenz-PNG entsprechen.
 
 STARTSEITEN-INTERAKTION
 - App-Kachel und PNG-Icon dürfen sich bei Hover, Antippen, Drücken, Fokus oder
@@ -51,17 +51,20 @@ STARTSEITEN-INTERAKTION
 FAVORITEN UND BEDIENELEMENTE
 - Favoritensterne bleiben separate HTML-/SVG-Bedienelemente.
 - Touchfläche mindestens 44 × 44 px; sichtbarer Kreis rund 22 px.
-- Mittelpunkt des sichtbaren Kreises exakt auf die obere rechte Ecke der
-  sichtbaren Iconfläche setzen; maßgeblich ist das ::after-Pseudoelement.
+- Jeder Favoritenbutton ist direkt im festen `.sk-app-icon-wrapper` abzulegen.
+- PNG und Button verwenden ausschließlich diesen Wrapper als gemeinsamen Bezug.
+- Mittelpunkt des sichtbaren Kreises exakt auf die obere rechte tatsächliche
+  Icon-/Wrapperkante setzen; maßgeblich ist das ::after-Pseudoelement.
 - Sollmaße bei 22 px Kreisdurchmesser: oben und rechts je 11 px innen und außen.
 - Die größere unsichtbare Touchfläche darf den optischen Anker nicht verschieben.
+- Keine Positionsberechnung aus Kachel, Grid, Titel oder Viewport verwenden.
 - Die Position ist an allen zehn Startseiten- und fünf Wissens-App-Icons exakt
   einheitlich und für aktive sowie inaktive Favoriten identisch.
 - Zustandswechsel des Favoritensterns dürfen seine Position nicht verändern.
 - assets/pct-controls.svg ist der zentrale Control-Sprite.
 
 OFFLINE UND ABNAHME
-- Alle 22 PNGs gehören in den Kerncache v2-6-1-8-core-r1.
+- Alle 22 PNGs gehören in den Kerncache v2-6-1-9-core-r1.
 - PNG-Signatur, 512 × 512, RGBA, Transparenz und Referenzhash automatisiert prüfen.
 - Startseite: 10 unterschiedliche App-Icons.
 - Wissensdatenbank: 5 Hersteller- und 5 unterschiedliche Wissensicons.
