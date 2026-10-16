@@ -1,11 +1,11 @@
-SK PCT Tools 2.6.1.6-Beta – Testergebnisse
+SK PCT Tools 2.6.1.7-Beta – Testergebnisse
 Ausgeführt: 16.10.2026
-Ziel: vollständiges Release-Paket V2.6.1.6-Beta
+Ziel: vollständiges Release-Paket V2.6.1.7-Beta
 
 1. SYNTAX- UND FORMATPRÜFUNG
 PASS
 - Python-Kompilierung: Icon-Generator und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-1-6.js und service-worker.js
+- JavaScript-Syntax: assets/app-v2-6-1-7.js und service-worker.js
 - JSON: Manifest und Suchindex
 - XML: assets/pct-controls.svg
 
@@ -16,7 +16,7 @@ Ergebnis: PASS
 - 10 Apps, 6 Rechner, 14 interne Unterseiten
 - 22 aktive Navigationsicons
 - 1 Vorkommen von !important im zentralen CSS
-- Version 2.6.1.6-Beta konsistent
+- Version 2.6.1.7-Beta konsistent
 - lokale Referenzen, Manifest, Suchindex und Service Worker vollständig
 - SHA256SUMS.txt vollständig und korrekt
 
@@ -26,8 +26,8 @@ PASS
 - 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons
 - alle 512 × 512 px, RGBA, PNG-Signatur und Transparenz korrekt
 - 22 unterschiedliche SHA-256-Dateihashes
-- jeder PNG-Dateihash exakt identisch zum korrespondierenden Original aus
-  V2.6.1.5-Beta; keine Bilddatei wurde neu gerendert oder grafisch verändert
+- jeder PNG-Dateihash entspricht dem freigegebenen Referenzsatz
+- Bilddaten gegenüber V2.6.1.6-Beta unverändert; kein Icon neu gerendert
 - alle 22 Icons im Offline-Kerncache
 
 4. STARTSEITEN-ZUSTÄNDE UND FAVORITENGEOMETRIE
@@ -36,12 +36,16 @@ PASS
   Fokus, gedrücktem Pointer-Zustand und Aktivzustand vermessen
 - keine Positionsänderung; zulässige Testtoleranz 0,25 CSS-Pixel
 - transform für App-Kachel und Icon in den geprüften Zuständen neutral
-- sichtbarer Favoritenkreis rund 22 px, Touchfläche 44 × 44 px
-- Kreismittelpunkt bei allen 10 Apps exakt auf oberer und rechter Icon-Außenkante
-- maximale gemessene Abweichung der Sternmitte:
-  Smartphone 390 × 844: x 0 px, y 0 px
-  Tablet 820 × 1180: x 0 px, y 0 px
-  Desktop 1440 × 1000: x 0,015625 px, y 0 px
+- sichtbarer Favoritenkreis 22 px, Touchfläche 44 × 44 px
+- gemessene Überdeckung oben/rechts:
+  Smartphone 390 × 844: 5,5 / 5,5 px
+  Tablet 820 × 1180: 5,5 / 5,5 px
+  Desktop 1440 × 1000: 5,484375 bis 5,5 / 5,5 px
+- gemessener Außenanteil oben/rechts:
+  Smartphone 390 × 844: 16,5 / 16,5 px
+  Tablet 820 × 1180: 16,5 / 16,5 px
+  Desktop 1440 × 1000: 16,5 bis 16,515625 / 16,5 px
+- damit rund 25 % innen und 75 % außerhalb; alle 10 Kacheln einheitlich
 
 5. BROWSER-REGRESSION
 Befehl: python3 tests/browser_regression.py
@@ -58,10 +62,10 @@ Ergebnis: PASS · 814 Browserprüfungen
 PASS
 - Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert und geprüft
 - keine abgeschnittenen Symbole, defekten Bilder oder horizontalen Überläufe
-- Favoritenkreise liegen gleichmäßig über den oberen rechten Icon-Ecken
+- Favoritenkreise liegen gleichmäßig mit 1/4 Innen- und 3/4 Außenanteil
 - keine Kollision mit Hauptsymbolen oder App-Titeln
 - bestätigtes Icon-Design optisch unverändert
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.1.6-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.1.7-Beta.zip freigegeben.

@@ -1,10 +1,11 @@
 SK PCT TOOLS – VERBINDLICHE ICON-DESIGNRICHTLINIE
-Stand: V2.6.1.6-Beta · 16.10.2026
+Stand: V2.6.1.7-Beta · 16.10.2026
 
 FREIGEGEBENER VISUELLER STANDARD
-V2.6.1.6 übernimmt den vom Benutzer ausdrücklich freigegebenen Icon-Satz der
-V2.6.1.5-Beta ohne grafische Änderung. Hauptsymbole, Konturen, Farben, Rails,
-Schatten und industrielle Tiefe bleiben unverändert.
+V2.6.1.7 übernimmt den in V2.6.1.5-Beta ausdrücklich freigegebenen und in
+V2.6.1.6-Beta unverändert fortgeführten Icon-Satz ohne grafische Änderung.
+Hauptsymbole, Konturen, Farben, Rails, Schatten und industrielle Tiefe bleiben
+unverändert.
 
 GEMEINSAMER AUSSENMASTER
 - Transparentes PNG, 512 × 512 px, RGBA.
@@ -35,7 +36,7 @@ VOLLSTÄNDIGER AKTIVER BESTAND
 
 DATEIFORMAT UND QUELLE
 - Pfad: assets/navigation-icons/
-- Dateipräfix: v2-6-1-6-
+- Dateipräfix: v2-6-1-7-
 - Reproduzierbare Quelle: tools/generate_png_icons.py
 - Keine SVG-Duplikate und keine alten Versionsvarianten im Release.
 - Alle 22 PNG-Dateien besitzen unterschiedliche SHA-256-Prüfsummen.
@@ -50,14 +51,15 @@ STARTSEITEN-INTERAKTION
 FAVORITEN UND BEDIENELEMENTE
 - Favoritensterne bleiben separate HTML-/SVG-Bedienelemente.
 - Touchfläche mindestens 44 × 44 px; sichtbarer Kreis rund 22 px.
-- Auf der Startseite liegt der Mittelpunkt des sichtbaren Favoritenkreises exakt
-  auf der oberen rechten Außenkante des jeweiligen App-Icons.
-- Der sichtbare Kreis überlappt die obere und rechte Kante gleichmäßig.
+- Auf der Startseite ragen vom sichtbaren Favoritenkreis oben und rechts jeweils
+  rund 25 % in die Iconfläche; rund 75 % liegen außerhalb.
+- Sollmaße bei 22 px Kreisdurchmesser: 5,5 px innen und 16,5 px außen.
+- Die Position ist an allen zehn App-Kacheln exakt einheitlich.
 - Zustandswechsel des Favoritensterns dürfen seine Position nicht verändern.
 - assets/pct-controls.svg ist der zentrale Control-Sprite.
 
 OFFLINE UND ABNAHME
-- Alle 22 PNGs gehören in den Kerncache v2-6-1-6-core-r1.
+- Alle 22 PNGs gehören in den Kerncache v2-6-1-7-core-r1.
 - PNG-Signatur, 512 × 512, RGBA, Transparenz und Referenzhash automatisiert prüfen.
 - Startseite: 10 unterschiedliche App-Icons.
 - Wissensdatenbank: 5 Hersteller- und 5 unterschiedliche Wissensicons.

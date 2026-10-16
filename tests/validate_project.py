@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.1.6-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.1.7-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.1.6-Beta'
-VERSION_SLUG='v2-6-1-6'
+VERSION='2.6.1.7-Beta'
+VERSION_SLUG='v2-6-1-7'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -91,7 +91,7 @@ def main()->int:
     manifest=json.loads((ROOT/MANIFEST).read_text())
     check(manifest.get('version')==VERSION,'Manifest-Version stimmt nicht.',errors)
     check(VERSION in manifest.get('description',''),'Manifest-Beschreibung enthält die Version nicht.',errors)
-    check(not list(ROOT.glob('manifest-v2-6-1-[0-5].webmanifest')),'Altes Manifest vorhanden.',errors)
+    check(not list(ROOT.glob('manifest-v2-6-1-[0-6].webmanifest')),'Altes Manifest vorhanden.',errors)
     index=json.loads((ROOT/SEARCH_INDEX).read_text())
     check(index and all(item.get('release')==VERSION for item in index),'Suchindex besitzt falsche Release-Markierungen.',errors)
 
@@ -124,18 +124,19 @@ def main()->int:
     check(len(external)==1 and external[0].get('href')=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Viewer-Ziel fehlerhaft.',errors)
 
     operational='\n'.join(p.read_text(encoding='utf-8') for suffix in ('*.html','*.css','*.js','*.json','*.webmanifest') for p in ROOT.rglob(suffix))
-    check(not re.search(r'2\.6\.1\.[0-5](?:-Beta)?|v2-6-1-[0-5]',operational),'Operative Altversionsverweise vorhanden.',errors)
-    for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-5.css','pct-home-v2-6-1-5.css','app-v2-6-1-5.css','app-v2-6-1-5.js','app-v2-6-1-6.js.js'):
+    check(not re.search(r'2\.6\.1\.[0-6](?:-Beta)?|v2-6-1-[0-6]',operational),'Operative Altversionsverweise vorhanden.',errors)
+    for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-5.css','pct-home-v2-6-1-5.css','app-v2-6-1-5.css','app-v2-6-1-5.js','app-v2-6-1-6.css','app-v2-6-1-6.js','app-v2-6-1-7.js.js'):
         check(not (ROOT/'assets'/removed).exists(),f'Ersetzte Datei noch vorhanden: {removed}',errors)
     check(len(list((ROOT/'assets').glob('*.css')))==1,'Mehr als ein CSS-Bestand vorhanden.',errors)
     check((ROOT/SHARED_CSS).is_file() and (ROOT/SHARED_JS).is_file(),'Zentrale CSS-/JS-Datei fehlt.',errors)
 
     css=(ROOT/SHARED_CSS).read_text();js=(ROOT/SHARED_JS).read_text()
     check(css.count('!important')<=5,f'Zu viele !important: {css.count("!important")}',errors)
-    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','Finale Kaskaden-Normalisierung','positionsfeste Startseiten-Icons','--sk-home-icon-top:6px','translate:none'):
+    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','Finale Kaskaden-Normalisierung','positionsfeste Startseiten-Icons','1/4-Badge-Überdeckung','--sk-home-icon-top:6px','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-circle-outset:27.5px','translate:none'):
         check(token in css,f'Zentrale CSS-Regel fehlt: {token}',errors)
     check('sk-home-app.card:hover{transform:translateY' not in css,'Startseiten-Hover verschiebt App-Icons noch.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-1-6.json','v2-6-1-6-nav-home.png'):
+    check('inset-block-start:calc(var(--sk-home-icon-top) - 22px)' not in css,'Alte 50/50-Favoritenposition ist noch aktiv.',errors)
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-1-7.json','v2-6-1-7-nav-home.png'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     check('Object.keys(localStorage).find' not in js,'Veraltete Favoriten-Key-Migration noch vorhanden.',errors)
 
@@ -167,7 +168,7 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-1-6-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-1-7-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -176,13 +177,13 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-1-6-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
+    for token in ('PREFIX = "v2-6-1-7-"','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     check(len({hashlib.sha256(p.read_bytes()).hexdigest() for p in icons})==22,'Icons sind nicht vollständig eigenständig.',errors)
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.1.6-Beta.txt'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.1.7-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'
