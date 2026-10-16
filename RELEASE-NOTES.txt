@@ -1,42 +1,44 @@
-SK PCT Tools V2.6.1.7-Beta – Release Notes
+SK PCT Tools V2.6.1.8-Beta – Release Notes
 Stand: 16.10.2026
-Basis: vollständige V2.6.1.6-Beta
+Basis: vollständige V2.6.1.7-Beta
 
 ZIEL
-Die Favoritensterne aller zehn Startseiten-App-Icons liegen als einheitliche
-Eck-Badges oben rechts an der Iconkante. Rund ein Viertel des sichtbaren Kreises
-ragt in die Iconfläche und rund drei Viertel liegen außerhalb. Das freigegebene
-Icon-Design bleibt inhaltlich und grafisch unverändert.
+Die Favoritensterne aller zehn Startseiten-App-Icons liegen deutlich näher am
+jeweiligen Icon. Der Mittelpunkt des sichtbaren Favoritenkreises sitzt exakt auf
+der oberen rechten Ecke der sichtbaren Iconfläche. Die größere unsichtbare
+44-x-44-Pixel-Touchfläche beeinflusst diese optische Position nicht.
 
-STARTSEITE
+FAVORITENGEOMETRIE
 - Sichtbarer Favoritenkreis: 22 px.
-- Überdeckung an oberer und rechter Iconkante: je 5,5 px = 25 %.
-- Außenanteil an beiden Achsen: je 16,5 px = 75 %.
-- Unsichtbare Touchfläche weiterhin 44 × 44 px.
-- Position bei allen zehn Kacheln und in allen geprüften Viewports einheitlich.
+- Exakte Überdeckung an oberer und rechter Iconkante: je 11 px innen und außen.
+- Optischer Anker: Mittelpunkt des sichtbaren ::after-Pseudoelements.
+- Unsichtbare Touchfläche: weiterhin mindestens 44 × 44 px.
+- Einheitliche Position für alle zehn Startseiten-App-Icons sowie die
+  favoritenfähigen Wissens-App-Icons.
+- Identische Geometrie bei aktiven und inaktiven Favoriten.
 - App-Kachel und PNG bleiben bei Ruhe, Mouse-Hover, Tastaturfokus, Antippen,
   gedrücktem Pointer-Zustand und Aktivzustand positionsfest.
-- Transformationsübergänge der Startseiten-Iconkomponente bleiben neutralisiert.
 
 ICON-SCHUTZ
-- Alle 22 PNG-Dateien aus V2.6.1.6-Beta ohne Neurendering übernommen.
+- Alle 22 PNG-Dateien aus V2.6.1.7-Beta ohne Neurendering übernommen.
 - Jeder Icon-Dateihash entspricht weiterhin dem freigegebenen Referenzsatz.
-- Nur Dateipräfixe und Referenzen wurden auf v2-6-1-7 aktualisiert.
+- Nur Dateipräfixe und Referenzen wurden auf v2-6-1-8 aktualisiert.
 - Keine Änderung an Hauptsymbolen, Konturen, Farben, Rails, Schatten oder Tiefe.
 
 VERSIONIERUNG
-- Version: 2.6.1.7-Beta
-- Zentraler Stil: assets/app-v2-6-1-7.css
-- Zentrale Laufzeit: assets/app-v2-6-1-7.js
-- Manifest: manifest-v2-6-1-7.webmanifest
-- Suchindex: assets/search-index-v2-6-1-7.json
-- Cache-Epoch: v2-6-1-7-core-r1
-- Übergabe: UEBERGABE-V2.6.1.7-Beta.txt
+- Version: 2.6.1.8-Beta
+- Zentraler Stil: assets/app-v2-6-1-8.css
+- Zentrale Laufzeit: assets/app-v2-6-1-8.js
+- Manifest: manifest-v2-6-1-8.webmanifest
+- Suchindex: assets/search-index-v2-6-1-8.json
+- Cache-Epoch: v2-6-1-8-core-r1
+- Übergabe: UEBERGABE-V2.6.1.8-Beta.txt
 
 QUALITÄTSSICHERUNG
 - Struktur-, Referenz-, Versions-, Icon-, Offline- und Prüfsummenprüfung.
 - Geometrische Vermessung aller zehn Favoritensterne bei 390 × 844,
   820 × 1180 und 1440 × 1000.
+- Zustandsvergleich inaktiv/aktiv anhand des sichtbaren Pseudoelement-Kreises.
 - Positionsvergleich jedes App-Icons in Ruhe, Hover, Fokus, Press und Aktivzustand.
 - Browserprüfung für 15 Seiten auf Smartphone, Tablet und Desktop.
 - Zusätzliche 320-px-Reflow-, Touch-, Rechner-, Wissens- und Offline-Tests.

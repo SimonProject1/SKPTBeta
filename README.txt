@@ -1,38 +1,40 @@
-SK PCT Tools 2.6.1.7-Beta
+SK PCT Tools 2.6.1.8-Beta
 Stand: 16.10.2026
 Projektinhaber: Simon Kiesler
 
 ÜBERBLICK
 SK PCT Tools ist eine offlinefähige PWA für Rechner, Einheiten-, Werkstoff- und
 Wissensdaten sowie technische Praxishinweise der Prozessleittechnik.
-V2.6.1.7-Beta basiert vollständig auf V2.6.1.6-Beta. Das freigegebene
+V2.6.1.8-Beta basiert vollständig auf V2.6.1.7-Beta. Das freigegebene
 technisch-industrielle PNG-Icon-Design wurde ohne grafische Änderung übernommen.
 
 ÄNDERUNG DIESER VERSION
-- Die sichtbaren Favoritenkreise aller zehn Startseiten-App-Icons sitzen exakt
-  einheitlich oben rechts an der Iconkante.
-- Vom sichtbaren 22-px-Kreis ragen horizontal und vertikal jeweils 5,5 px
-  (ein Viertel) in die Iconfläche; 16,5 px (drei Viertel) liegen außerhalb.
-- Die unsichtbare Favoriten-Touchfläche bleibt 44 × 44 px groß.
+- Bei allen zehn Startseiten-App-Icons liegt der Mittelpunkt des sichtbaren
+  Favoritenkreises exakt auf der oberen rechten Ecke der sichtbaren Iconfläche.
+- Der sichtbare Kreis überlappt die Iconkante damit horizontal und vertikal je zur
+  Hälfte: bei 22 px Kreisdurchmesser 11 px innen und 11 px außen.
+- Ausschließlich das sichtbare ::after-Pseudoelement bestimmt den optischen Anker.
+  Die unsichtbare Favoriten-Touchfläche bleibt unabhängig davon 44 × 44 px groß.
+- Dieselbe sichtbare Eckverankerung gilt für die favoritenfähigen Wissens-App-Icons.
+- Aktive und inaktive Favoriten verwenden dieselbe Geometrie.
 - App-Kachel und PNG-Icon bleiben bei Mouse-Hover, Fokus, Antippen, Drücken und
   aktivem Zustand geometrisch unverändert.
-- Das Icon-Design, die Rechnerlogik, Wissensinhalte und Datenbestände wurden
-  nicht verändert.
+- Icon-Design, Rechnerlogik, Wissensinhalte und Datenbestände wurden nicht verändert.
 
 ZENTRALE ARCHITEKTUR
-- Zentraler Stil: assets/app-v2-6-1-7.css
-- Zentrale Laufzeit: assets/app-v2-6-1-7.js
+- Zentraler Stil: assets/app-v2-6-1-8.css
+- Zentrale Laufzeit: assets/app-v2-6-1-8.js
 - Control-Sprite: assets/pct-controls.svg
-- Manifest: manifest-v2-6-1-7.webmanifest
-- Suchindex: assets/search-index-v2-6-1-7.json
-- Service-Worker-Cache: sk-pct-tools-v2-6-1-7-core-r1
+- Manifest: manifest-v2-6-1-8.webmanifest
+- Suchindex: assets/search-index-v2-6-1-8.json
+- Service-Worker-Cache: sk-pct-tools-v2-6-1-8-core-r1
 - Reproduzierbarer Icon-Generator: tools/generate_png_icons.py
 
 ICON-SYSTEM
 - 22 eigenständige 512 × 512-RGBA-PNGs.
 - 10 App-, 5 Wissens-, 5 Hersteller- und 2 Navigationsicons.
-- Alle PNG-Bilddaten sind gegenüber V2.6.1.6-Beta bitidentisch; nur Präfixe
-  und Referenzen wurden auf V2.6.1.7 aktualisiert.
+- Alle PNG-Bilddaten sind gegenüber V2.6.1.7-Beta bitidentisch; nur Präfixe
+  und Referenzen wurden auf V2.6.1.8 aktualisiert.
 - Große weiße Hauptsymbole mit schwarzer Kontur, gemeinsamer
   Grün-/Türkis-/Blau-Kachelmaster und Cyan-/Grün-Akzentrails bleiben erhalten.
 

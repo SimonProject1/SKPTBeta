@@ -1,11 +1,11 @@
-SK PCT Tools 2.6.1.7-Beta – Testergebnisse
+SK PCT Tools 2.6.1.8-Beta – Testergebnisse
 Ausgeführt: 16.10.2026
-Ziel: vollständiges Release-Paket V2.6.1.7-Beta
+Ziel: vollständiges Release-Paket V2.6.1.8-Beta
 
 1. SYNTAX- UND FORMATPRÜFUNG
 PASS
-- Python-Kompilierung: Icon-Generator und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-1-7.js und service-worker.js
+- Python-Syntax: Icon-Generator und beide Tests
+- JavaScript-Syntax: assets/app-v2-6-1-8.js und service-worker.js
 - JSON: Manifest und Suchindex
 - XML: assets/pct-controls.svg
 
@@ -16,7 +16,7 @@ Ergebnis: PASS
 - 10 Apps, 6 Rechner, 14 interne Unterseiten
 - 22 aktive Navigationsicons
 - 1 Vorkommen von !important im zentralen CSS
-- Version 2.6.1.7-Beta konsistent
+- Version 2.6.1.8-Beta konsistent
 - lokale Referenzen, Manifest, Suchindex und Service Worker vollständig
 - SHA256SUMS.txt vollständig und korrekt
 
@@ -27,7 +27,7 @@ PASS
 - alle 512 × 512 px, RGBA, PNG-Signatur und Transparenz korrekt
 - 22 unterschiedliche SHA-256-Dateihashes
 - jeder PNG-Dateihash entspricht dem freigegebenen Referenzsatz
-- Bilddaten gegenüber V2.6.1.6-Beta unverändert; kein Icon neu gerendert
+- Bilddaten gegenüber V2.6.1.7-Beta unverändert; kein Icon neu gerendert
 - alle 22 Icons im Offline-Kerncache
 
 4. STARTSEITEN-ZUSTÄNDE UND FAVORITENGEOMETRIE
@@ -35,21 +35,28 @@ PASS
 - jedes der 10 App-Icons auf Smartphone, Tablet und Desktop in Ruhe, Hover,
   Fokus, gedrücktem Pointer-Zustand und Aktivzustand vermessen
 - keine Positionsänderung; zulässige Testtoleranz 0,25 CSS-Pixel
-- transform für App-Kachel und Icon in den geprüften Zuständen neutral
+- transform und translate für App-Kachel und Icon in den geprüften Zuständen neutral
 - sichtbarer Favoritenkreis 22 px, Touchfläche 44 × 44 px
-- gemessene Überdeckung oben/rechts:
-  Smartphone 390 × 844: 5,5 / 5,5 px
-  Tablet 820 × 1180: 5,5 / 5,5 px
-  Desktop 1440 × 1000: 5,484375 bis 5,5 / 5,5 px
-- gemessener Außenanteil oben/rechts:
-  Smartphone 390 × 844: 16,5 / 16,5 px
-  Tablet 820 × 1180: 16,5 / 16,5 px
-  Desktop 1440 × 1000: 16,5 bis 16,515625 / 16,5 px
-- damit rund 25 % innen und 75 % außerhalb; alle 10 Kacheln einheitlich
+- Mittelpunkt des sichtbaren ::after-Kreises gegen die obere rechte Ecke der
+  sichtbaren Iconfläche gemessen:
+  Smartphone 390 × 844: ΔX 0 px, ΔY 0 px bei allen 10 App-Icons
+  Tablet 820 × 1180: ΔX 0 px, ΔY 0 px bei allen 10 App-Icons
+  Desktop 1440 × 1000: ΔX 0 bis 0,015625 px, ΔY 0 px
+- damit 11 px Innen- und 11 px Außenanteil je Achse
+- aktive und inaktive Favoriten besitzen identische sichtbare Kreisgeometrie
+- sichtbarer Kreis ist unabhängig von der äußeren Touchfläche positioniert
 
-5. BROWSER-REGRESSION
+5. WISSENS-APP-ICONS
+PASS
+- alle 5 favoritenfähigen Wissens-App-Icons auf Smartphone, Tablet und Desktop
+  vermessen
+- sichtbare Kreismitte liegt jeweils höchstens 0,015625 px von der oberen rechten
+  sichtbaren Iconecke entfernt
+- aktive und inaktive Favoriten bleiben relativ zur Iconecke geometrisch identisch
+
+6. BROWSER-REGRESSION
 Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS · 814 Browserprüfungen
+Ergebnis: PASS · 907 Browserprüfungen
 - 15 Seiten × Smartphone, Tablet und Desktop
 - 320-px-Reflow
 - 6 Rechnerreferenzen und Grenzwertprüfungen
@@ -58,14 +65,15 @@ Ergebnis: PASS · 814 Browserprüfungen
 - Start-, Wissens-, Hersteller- und Navigationsicons vollständig geladen
 - Offline-Start, Offline-Unterseiten und Cache-Upgrade erfolgreich
 
-6. VISUELLE BROWSERABNAHME
+7. VISUELLE BROWSERABNAHME
 PASS
 - Startseite bei 390 × 844, 820 × 1180 und 1440 × 1000 gerendert und geprüft
+- aktive und inaktive Favoritenkreise überlappen die obere rechte Iconkante sichtbar
+- Kreismitte liegt optisch auf der sichtbaren Iconecke
 - keine abgeschnittenen Symbole, defekten Bilder oder horizontalen Überläufe
-- Favoritenkreise liegen gleichmäßig mit 1/4 Innen- und 3/4 Außenanteil
 - keine Kollision mit Hauptsymbolen oder App-Titeln
 - bestätigtes Icon-Design optisch unverändert
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.1.7-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.1.8-Beta.zip freigegeben.
