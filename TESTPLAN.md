@@ -1,65 +1,58 @@
-# Testplan – SK PCT Tools V2.6.5.0-Beta
+# Testplan – SK PCT Tools V2.6.5.1-Beta
 
 Stand: 17.10.2026  
-Basis: vollständige V2.6.4.0-Beta
+Basis: vollständige V2.6.5.0-Beta
 
 ## 1. Struktur, Syntax, Referenzen und Integrität
 
 ```bash
+node --check assets/app-v2-6-5-1.js
+python3 -m py_compile tests/*.py tools/*.py
 python3 tests/validate_project.py
 ```
 
-Prüft unter anderem:
+Prüft `VERSION`, Manifest, Suchindex, Service Worker, Cache-Epoch, 16 HTML-Seiten,
+zentrale CSS-/JS-Referenzen, lokale Ziele, H1-Struktur, 10 Apps, 24 versionierte
+Navigations-/Fachicons, geschützte PNG-Hashes, Offline-Precache und SHA256SUMS.txt.
 
-- `VERSION`, Manifest, Suchindex, Service Worker und Cache-Epoch
-- 16 HTML-Dokumente, 14 gerahmte Unterseiten, genau ein H1 je Seite
-- zentrale CSS-/JS-Dateien und alle lokalen Referenzen
-- zehn eindeutige Startseiten-Apps
-- App-, Hersteller-, Wissens-, PWA-, Maskable-, Favicon- und Markenassets
-- feste Referenz-Hashes der geschützten PNG-Dateien
-- 24 versionierte Navigations-/Fachicons inklusive Maße und Alpha-Grenzen
-- vollständiges Offline-Precache-Inventar
-- vollständige `SHA256SUMS.txt`
-- Python- und JavaScript-Syntax
-
-## 2. Design-Audit-Abnahme V2.6.5.0
+## 2. Zielregression V2.6.5.1
 
 ```bash
 python3 -m http.server 8080
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2650.py
-```
-
-Prüft:
-
-- alle 16 Seiten auf Desktop
-- Seite/Version/H1/Bilder/Überlauf/Footer
-- Seitenidentität auf allen aktiven Unterseiten
-- 5-mal-2-Desktop-Raster und responsive Smartphone-/Tablet-Raster
-- transparente Iconhosts ohne zusätzliche Rahmen, Schatten oder Pseudokacheln
-- Kartenlabels ab 12 px
-- Suche/Filter mit Siemens-Trefferliste auf Desktop und Mobil
-- Suchsymbol-/Platzhalterabstände
-- Favoritenicon links, Text mittig, Entfernen rechts sowie Speicherung/Reload
-- ortsfesten Header und 44-px-Controls im Sortiermodus
-- 44-px-Kopier- und Rechnercontrols
-- mobile Zurück-Chips
-- Chevron unten/oben in Einheiten- und Werkstoffdatenbank
-- vollständigen Offlineaufruf einer internen Unterseite
-
-## 3. Clean-Design-, Touch- und Favoritenregression
-
-```bash
 SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_regression.py
 ```
 
-Prüft 345 Zustände in iPhone-PWA-, Tablet-Touch- und Desktopprofilen:
+103 Prüfungen in fünf Profilen:
 
-- fünf Herstellerkacheln und fünf Wissensbeiträge
-- Ruhe, Hover, Fokus, Drücken und aktiv
-- ortsfeste Kachel-/Icon-/Textgeometrie
-- transparente Hosts und unveränderte PNG-Darstellung
-- Favoritendialog, Safe Area, Touchziele, Tastatur und Fokusfalle
-- Reload, Einzellöschen, „Alle leeren“, leerer Zustand und Zähler
+- Desktop 1440 × 1000
+- Tablet 820 × 1180
+- iPhone/iOS-PWA-Hochformat 390 × 844
+- Smartphone-Hochformat 412 × 915
+- Smartphone-Querformat 844 × 390
+
+Geprüft werden:
+
+- identische Spaltenzahl von Startseiten-Apps und Hersteller-Hub je Profil
+- fünf Herstellerkacheln, sichtbare Iconbreite/-höhe und Beschriftungsmaß
+- ausgewogene Nutzung des Raums zwischen Suche, Kacheln und Footer
+- Suche, Ergebniszähler und Hersteller-Navigation
+- keine Kachelbewegung bei Hover, Fokus, Drücken und Aktivzustand
+- Favoritenansicht als direktes Kind des vorhandenen App-Rahmens
+- unveränderte Geometrie von Außenrahmen, Header und Footer
+- kein Backdrop, kein Vollbilddrawer und keine zweite Außenkontur
+- kurze Liste, 14-zeilige lange Liste, inneres Scrollen und leerer Zustand
+- gespeicherte Favoriten, Alt-Icon-Migration, Einzellöschen und Alle leeren
+- Escape, Fokusfalle, Fokusrückgabe, Zielöffnung und Touchbedienung
+
+## 3. Design-Audit-Abnahme
+
+```bash
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2651.py
+```
+
+162 Prüfungen über alle 16 Seiten, Desktop, Smartphone/iOS-PWA und Tablet:
+Seitenidentität, Footer, Bilder, Überlauf, Suche, Favoriten, Sortierung, 44-px-
+Touchziele, Breadcrumbs, Chevron-Zustände und Offlineaufruf.
 
 ## 4. Vollständige Browser-/Funktionsregression
 
@@ -67,59 +60,49 @@ Prüft 345 Zustände in iPhone-PWA-, Tablet-Touch- und Desktopprofilen:
 SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
 ```
 
-Prüft alle aktiven Routen und Kernfunktionen in mehreren Viewports:
+1.347 Prüfungen:
 
-- Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000
-- Reflow 320 × 700 und Smartphone-Landscape 844 × 390
-- Header, Footer, Release-Modul, Navigation und Safe Area
+- 15 aktive Seiten × 3 Haupt-Viewports
+- Reflow 320 px und Smartphone-Querformat 844 × 390
+- Header, Footer, Release-Modul, Safe Area und Navigation
 - Suche, Filter, Favoriten und externe Navigation
 - freie Drag-and-Drop-Sortierung, Long-Press, Pointer-Abbruch, Undo/Redo,
-  Standardreihenfolge, Speicherung, Reload und sofortige Navigation
+  Standard, Speicherung, Reload und sofortige Navigation
 - sechs Rechner mit Referenz-, Grenzwert-, Reset- und Vorzeichentests
-- Einheiten- und Werkstoffdaten
+- Einheiten- und Werkstoffdatenbank
 - Wissens-Hub, Herstelleransichten und Beiträge
 - Service-Worker-Installation, Cache-Upgrade und Offline-Navigation
 
 ## 5. Accessibility und Touch
 
-Automatisierte Kriterien:
+Automatisiert:
 
-- genau ein H1, semantische Dialog-/Tab-/Detailszustände
-- ARIA-Labels/-Expanded/-Pressed und Live-Status
-- sichtbare Tastaturfokusringe
+- genau ein H1 je Seite
+- ARIA-Labels, `aria-expanded`, `aria-pressed`, Dialog- und Live-Status
+- sichtbare Tastaturfokusringe und Fokusfalle
+- Escape und Fokusrückgabe
 - Touchziele mindestens 44 × 44 px
-- keine fachliche Aussage nur über Farbe
 - `prefers-reduced-motion`
-- kein horizontaler Überlauf
-
-Manuelle Sichtkontrolle:
-
-- Fokusreihenfolge und Lesbarkeit bei 200 % Zoom
-- Screenreader-Bezeichnungen für Header, Favoriten, Suche und Aufklappbereiche
-- Kontrast der Haupttexte, Controls und Zustandsmeldungen
+- kein horizontaler Dokumentüberlauf
 
 ## 6. Visuelle QA
 
-Vollseiten-Renderings für Startseite, Suche, Favoriten, Sortiermodus, Rechner,
-Einheitendatenbank, Werkstoffdatenbank, Wissens-Hub und Wissensbeitrag auf
-Desktop, Smartphone/iOS-PWA und Tablet.
+Sichtprüfung auf iPhone/Smartphone und Desktop:
 
-Abnahmekriterien:
-
-- keine abgeschnittenen Texte oder ungewollten Überläufe
-- keine doppelten Iconrahmen, Cyan-Ringe oder Versatzschatten
-- eine klare Ebenenstruktur
-- sichtbare Ergebnisse direkt unter Suche/Filter
-- mobile Breadcrumb-Chips und Safe-Area-Abstände
-- geöffnete/geschlossene Chevrons eindeutig
-- Ergebnis, Warnung, Fehler, Erfolg, Fokus und Aktivzustand konsistent
+- Hersteller-Hub im Hoch- und Querformat
+- drei/fünf/sechs Spalten entsprechend dem Startseitenprofil
+- identische sichtbare Hersteller-/App-Iconmaße
+- kurze Favoritenliste
+- 14-zeilige lange Favoritenliste mit innerem Scrollbereich
+- leerer Zustand
+- Header, runde Außenbegrenzung, Safe Area und Footer jederzeit im selben Rahmen
+- keine abgeschnittenen Titel, keine zweite Hauptfläche und keine Lageänderung
 
 ## 7. Abschluss
-
-Nach erfolgreicher Abnahme:
 
 1. `TEST-RESULTS.txt` finalisieren.
 2. `SHA256SUMS.txt` über alle Projektdateien außer sich selbst erzeugen.
 3. Strukturprüfung erneut ausführen.
 4. vollständiges ZIP erzeugen.
-5. ZIP-SHA-256 separat berechnen und verifizieren.
+5. ZIP entpacken und Strukturprüfung erneut ausführen.
+6. ZIP-SHA-256 separat berechnen und verifizieren.

@@ -1,4 +1,4 @@
-# Sicherheit und Deployment – SK PCT Tools V2.6.5.0-Beta
+# Sicherheit und Deployment – SK PCT Tools V2.6.5.1-Beta
 
 Stand: 17.10.2026
 
@@ -10,7 +10,7 @@ Stand: 17.10.2026
 - MIME-Typen für `.webmanifest`, `.js`, `.css`, `.json`, `.svg` und `.png` korrekt setzen;
 - `service-worker.js` ohne langfristigen HTTP-Cache beziehungsweise mit sofortiger
   Revalidierung ausliefern;
-- `assets/app-v2-6-5-0.css`, `assets/app-v2-6-5-0.js` und versionierte Assets dürfen
+- `assets/app-v2-6-5-1.css`, `assets/app-v2-6-5-1.js` und versionierte Assets dürfen
   langfristig gecacht werden, da ihre Dateinamen releasegebunden sind.
 
 ## 2. Empfohlene HTTP-Sicherheitsheader
@@ -33,8 +33,8 @@ vergleichbarem Hosting ist die Konfiguration serverseitig zu übernehmen.
 
 ## 3. PWA-/Service-Worker-Strategie
 
-- Release: `2.6.5.0-Beta`
-- Cache-Epoch: `v2-6-5-0-core-r1`
+- Release: `2.6.5.1-Beta`
+- Cache-Epoch: `v2-6-5-1-core-r1`
 - Scope und Start-URL: `./`
 - Precache enthält alle aktiven Seiten, Daten, Laufzeitdateien, SVG-Controls und
   freigegebenen PNG-Assets.

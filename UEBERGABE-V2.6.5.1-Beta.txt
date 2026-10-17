@@ -1,0 +1,67 @@
+ÜBERGABEPROTOKOLL – SK PCT Tools V2.6.5.1-Beta
+Stand: 17.10.2026
+Projektinhaber: Simon Kiesler
+Basis: vollständige V2.6.5.0-Beta
+
+STATUS
+Vollständige V2.6.5.1-Beta als eigenständiges Projekt erstellt. Der Hersteller-Hub
+ist an das Startseitenraster angeglichen. Die Favoritenübersicht ist als reguläre
+Unteransicht vollständig in den vorhandenen App-Rahmen integriert. Alle übrigen
+Funktionen der V2.6.5.0-Beta bleiben erhalten.
+
+WICHTIGE DATEIEN
+- VERSION: 2.6.5.1-Beta
+- assets/app-v2-6-5-1.css
+- assets/app-v2-6-5-1.js
+- assets/search-index-v2-6-5-1.json
+- manifest-v2-6-5-1.webmanifest
+- service-worker.js / v2-6-5-1-core-r1
+- DESIGN-AUDIT-V2.6.5.1-Beta.md
+- TESTPLAN.md / TEST-RESULTS.txt
+- SHA256SUMS.txt
+
+UMGESETZT
+- fünf Hersteller mit derselben responsiven Rasterlogik wie Startseiten-Apps
+- gleiche sichtbare Icongeometrie und Beschriftungsmaße
+- Smartphone-Hochformat ohne zweispaltige Sonderaufteilung
+- konsistente Tablet-, Desktop- und Querformat-Raster
+- kompakte, ortsfeste Herstellerkacheln ohne Anhebung oder Bewegung
+- Suche, Filterung, Navigation, Touchflächen und Wissensfunktionen erhalten
+- Favoritenansicht als direktes Kind des vorhandenen App-Rahmens
+- regulärer Header und Footer bleiben sichtbar
+- kein Vollbilddrawer, kein Backdrop und kein zweiter Außenrahmen
+- inneres Scrollen für lange Listen
+- kurze Liste, lange Liste und leerer Zustand geprüft
+- passendes Icon links, Titel/Beschreibung mittig, Entfernen rechts
+- Zähler, Öffnen, Einzellöschen, Alle leeren, Tastatur und Fokus erhalten
+- Alt-Favoriten aus V2.6.5.0 einschließlich veralteter Icon-URL kompatibel
+
+FUNKTIONAL ERHALTEN
+- zehn Startseiten-Apps und alle Ziele
+- freie Drag-and-Drop-Sortierung pointer-overlay-v3
+- Appreihenfolge skPctHomeOrderV1
+- Favoriten skPctToolsFavoritesV2
+- sechs Rechner und fachliche Berechnungslogik
+- Einheiten- und Werkstoffdatenbestände
+- Such-/Filterumfang, Werkstoffvergleich und Wissensnavigation
+- PWA-Installation, Safe Area und Offlinebetrieb
+
+BYTEGENAU UNVERÄNDERT
+Alle freigegebenen App-, Navigations-, Hersteller-, Wissens-, Header-, Homescreen-,
+PWA-, Maskable-, Favicon- und Marken-PNG-Inhalte sowie der Inhalt des
+Release-Modul-PNG. Versionsgebundene Dateien wurden nur auf v2-6-5-1 umbenannt.
+
+TESTSTATUS
+- design_regression.py: PASS · 103 Prüfungen · 5 Profile
+- design_audit_v2651.py: PASS · 162 Prüfungen
+- browser_regression.py: PASS · 1.347 Prüfungen
+- Struktur-/Integritätsprüfung: nach finaler SHA256SUMS-Erzeugung erneut ausführen
+
+DEPLOYMENT
+Nur den vollständigen Ordner beziehungsweise das vollständige ZIP deployen. Keine
+alten Versionsdateien in derselben Zielwurzel belassen. Nach Deployment online und
+offline prüfen. Sicherheitsheader gemäß SECURITY-DEPLOYMENT.md setzen.
+
+PAKET
+Das finale ZIP enthält das komplette Projekt. Die separate ZIP-SHA-256-Datei muss
+vor Installation beziehungsweise Deployment geprüft werden.

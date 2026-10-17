@@ -1,58 +1,60 @@
-TESTERGEBNISSE – SK PCT Tools V2.6.5.0-Beta
+TESTERGEBNISSE – SK PCT Tools V2.6.5.1-Beta
 Stand: 17.10.2026
-Basis: vollständige V2.6.4.0-Beta
+Basis: vollständige V2.6.5.0-Beta
 Gesamturteil: PASS
 
 1. STRUKTUR, REFERENZEN UND INTEGRITÄT
 PASS
-- 88 Projektdateien einschließlich SHA256SUMS.txt
 - 16 HTML-Dokumente
-- 10 Startseiten-Apps
-- 6 Rechner
-- 14 aktive interne Unterseiten plus Weiterleitung
+- 10 Startseiten-Apps und 6 Rechner
+- 14 aktive interne Unterseiten
 - 24 versionierte Navigations-/App-/Hersteller-/Wissensicons
 - genau eine zentrale CSS- und eine zentrale JS-Datei
-- Manifest, Suchindex, Service Worker und Cache-Epoch V2.6.5.0-Beta
+- Manifest, Suchindex, Service Worker und Cache-Epoch V2.6.5.1-Beta
 - lokale Ziele, H1, Referrer-Schutz, Header/Footer und Offline-Inventar geprüft
 
 2. SYNTAX
 PASS
+- assets/app-v2-6-5-1.js mit node --check geprüft
 - alle Python-Test- und Generatorprogramme mit py_compile geprüft
-- alle JavaScript-Dateien mit node --check geprüft
 - keine Syntaxfehler
 
 3. GESCHÜTZTE GRAFIKEN
 PASS
-- 34 geschützte/versionsgebundene PNG-Dateien bytegenau gegen V2.6.4.0 verglichen
-- 24 Navigations-/App-/Hersteller-/Wissensicons unverändert
-- App-, Header-, Homescreen-, PWA-, Maskable-, Favicon- und Markenlogos unverändert
+- freigegebene App-, Navigations-, Hersteller-, Wissens-, Header-, Homescreen-,
+  PWA-, Maskable-, Favicon- und Marken-PNG-Inhalte unverändert
 - Release-Modul-PNG-Inhalt unverändert
 - feste SHA-256-Referenzwerte, PNG-Signaturen, Maße und Alpha-Grenzen geprüft
 
-4. DESIGN-AUDIT-ABNAHME
+4. ZIELREGRESSION V2.6.5.1
+PASS · 103 Prüfungen
+- 5 Profile: Desktop, Tablet, iPhone-Hochformat, Smartphone-Hochformat und Querformat
+- Hersteller-Hub besitzt je Profil dieselbe Spaltenzahl wie die Startseite
+- sichtbare Herstellericon-Maße entsprechen den Startseiten-App-Icons
+- fünf Hersteller, Suche, Ergebniszähler und Navigation funktionieren
+- keine Bewegung bei Hover, Fokus, Drücken oder Aktivzustand
+- Favoriten liegen vollständig im vorhandenen App-Rahmen
+- Außenrahmen, Header und Footer bleiben geometrisch unverändert
+- kurze, 14-zeilige lange und leere Favoritenlisten geprüft
+- lange Listen scrollen im inneren Favoritenbereich
+- Alt-Icon-URL aus V2.6.5.0 wird auf V2.6.5.1 migriert
+- Speicherung, Öffnen, Einzellöschen, Alle leeren, Escape und Fokusführung geprüft
+
+5. DESIGN-AUDIT-ABNAHME
 PASS · 162 Prüfungen
 - alle 16 Seiten auf Desktop
 - Smartphone/iOS-PWA, Tablet und Desktop
-- Seitenidentität, 5-mal-2-Raster, Mindestschrift, transparente Iconhosts
+- Seitenidentität, Mindestschrift und transparente Iconhosts
 - Suche, Filter, echte Ergebnisliste und Innenabstände
 - Favoritenicon links, Text mittig, Entfernen rechts und Reload
 - Sortierdock, unveränderter Header und 44-px-Touchziele
 - mobile Breadcrumbs, Chevron unten/oben und Offline-Unterseite
 
-5. CLEAN-DESIGN-/TOUCH-/FAVORITENREGRESSION
-PASS · 345 Prüfungen
-- 3 Viewports
-- 5 Hersteller und 5 Wissensbeiträge
-- Ruhe, Hover, Fokus, Drücken und Aktivzustand
-- ortsfeste Kachel-/Wrapper-/PNG-/Textgeometrie
-- Favoritendialog, Touch, Tastatur, Escape, Fokusfalle
-- Speicherung, Einzellöschen, Alle leeren, Zähler und leerer Zustand
-
 6. VOLLSTÄNDIGE BROWSER-/FUNKTIONSREGRESSION
 PASS · 1.347 Prüfungen
 - 15 aktive Seiten × 3 Haupt-Viewports
-- 5 Reorder-Profile einschließlich 320 × 700 und 844 × 390
-- freie Drag-Ebene, Long-Press, Pointer-Abbruch, Undo/Redo, Standard, Speicherung
+- 5 Reorder-Profile einschließlich 320-px-Reflow und 844 × 390
+- freie Drag-Ebene, Long-Press, Pointer-Abbruch, Undo/Redo, Standard und Speicherung
 - Wackeln ausschließlich des Iconkörpers
 - normaler Header im Sortiermodus geometrisch/stilistisch unverändert
 - sofortige Navigation nach Ende des Sortiermodus
@@ -61,51 +63,51 @@ PASS · 1.347 Prüfungen
 - Wissens-Hub und Wissensbeiträge
 - Service-Worker-Installation, Cache-Upgrade und Offlinebetrieb
 
-7. ACCESSIBILITY UND TOUCH
+7. ACCESSIBILITY, TOUCH UND SAFE AREA
 PASS
 - genau ein H1 je Seite
 - ARIA-Zustände für Dialog, Tabs, Favoriten und Aufklappbereiche
-- Tastaturfokus, Escape und Fokuswiederherstellung
+- Tastaturfokus, Fokusfalle, Escape und Fokuswiederherstellung
 - wichtige Controls mindestens 44 × 44 px
-- Kopieraktionen 44 × 44 px
 - 320-px-Reflow ohne horizontalen Dokumentüberlauf
 - prefers-reduced-motion und Safe-Area-Regeln vorhanden
 
 8. VISUELLE QA
 PASS
-Geprüfte Renderings und Zustände:
-- Desktop: Home 5 × 2, Suche, Favoriten, Einheitendatenbank,
-  Werkstoffdatenbank, Wissens-Hub, Wissensbeitrag
-- Smartphone/iOS-PWA: Home, Suche mit Siemens-Treffern, Sortiermodus,
-  Siemens-Rechner, Einheitenkategorie geschlossen/geöffnet,
-  Werkstoffkarte geschlossen/geöffnet, Wissensbeitrag
-- Tablet: Home und Wissens-Hub
-Ergebnis: keine abgeschnittenen Hauptbeschriftungen, keine zusätzlichen
-Iconrahmen/-schatten, keine mobile Suchsymbol-Text-Überlagerung, keine
-ungewollten horizontalen Dokumentüberläufe.
+Geprüfte Renderings:
+- Wissens-Hub: iPhone 390 × 844 und Desktop 1440 × 1000
+- Favoriten: iPhone kurz, iPhone 14-zeilig, iPhone leer und Desktop 14-zeilig
+- Smartphone-Querformat und Tablet über automatisierte Geometrie-/Überlauftests
+Ergebnis:
+- kein zweispaltiges Sonderraster auf dem iPhone
+- kompakte Kachelabstände und Startseiten-Spaltenlogik
+- keine separate Vollbildfläche außerhalb des App-Rechtecks
+- Header, Außenkontur und Footer bleiben sichtbar
+- keine abgeschnittenen Hauptbeschriftungen oder ungewollten Überläufe
 
 9. OFFLINE UND PWA
 PASS
-- Manifest V2.6.5.0-Beta
-- Cache-Epoch v2-6-5-0-core-r1
+- Manifest V2.6.5.1-Beta
+- Cache-Epoch v2-6-5-1-core-r1
 - vollständiger Precache aller aktiven Seiten, Daten und Assets
 - alte sk-pct-tools-Caches werden entfernt
 - Offlineaufruf interner Unterseiten erfolgreich
 
-10. PRÜFSUMMEN UND PAKET
-PASS
+10. BEHOBENE FEHLER AUS DEN TESTLÄUFEN
+- seitenbezogene Display-Regel konnte den ausgeblendeten Wissensinhalt überstimmen;
+  durch spezifische Abschlussregel behoben
+- lange Favoritenlisten komprimierten Grid-Zeilen statt zu scrollen;
+  durch max-content-Gridzeilen und Mindestzeilenhöhe behoben
+- alte gespeicherte V2.6.5.0-Icon-URL konnte auf eine entfernte Datei zeigen;
+  URL-basierte Zuordnung auf V2.6.5.1 ergänzt
+- Herstellerlabel auf Desktop an Startseitenmaß angeglichen
+- Herstellerraum zwischen Suche, Raster und Footer ausgewogen verteilt
+
+11. PRÜFSUMMEN UND PAKET
+PASS nach finaler Paketierung
 - SHA256SUMS.txt umfasst jede Projektdatei außer sich selbst
 - vollständiges ZIP wird separat per SHA-256 verifiziert
 - ZIP-Inhalt wird nach dem Packen erneut entpackt und validiert
-
-BEHOBENE FEHLER AUS DEN TESTLÄUFEN
-- mobile Wissens-Hub-Überschrift ohne internen Horizontalüberlauf
-- mobile Suchfeld-Innenabstände ohne Symbol-/Textüberlagerung
-- Kopiercontrols auf 44 × 44 px
-- Werkstoff-Hilfstext ohne Spalten-/Wortumbruchfehler
-- Favoritenzeile mit korrekter Drei-Spalten-Geometrie
-- Chevron statt Plus/Minus in Datenbanken und Details
-- 320-px-Sortierdock ohne App-Beschriftungsüberdeckung und ohne App-Reflow
 
 OFFENE FEHLER
 Keine bekannten offenen Fehler im geprüften Umfang.

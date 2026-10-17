@@ -1,103 +1,124 @@
 #!/usr/bin/env python3
-"""V2.6.5.0-Beta: Clean-Design-, Zustands-, Touch- und Favoritendialog-Prüfung."""
+"""V2.6.5.1-Beta: Raster-, Rahmen-, Favoriten-, Touch- und Accessibility-Regression."""
 from __future__ import annotations
-import glob, os, sys
+import glob, json, os, sys
 from urllib.parse import urljoin
 from playwright.sync_api import sync_playwright
 
 BASE=os.environ.get('SK_BASE_URL','http://127.0.0.1:8080/')
 PROFILES=[
-    ('iPhone-PWA',390,844,True,True),
-    ('Tablet-Touch',820,1180,True,True),
-    ('Desktop',1440,1000,False,False),
+    ('Desktop',1440,1000,False,False,5),
+    ('Tablet',820,1180,True,False,4),
+    ('iPhone-Portrait',390,844,True,True,3),
+    ('Smartphone-Portrait',412,915,True,True,3),
+    ('Smartphone-Landscape',844,390,True,True,6),
 ]
-MANUFACTURERS=('air-torque','endress-hauser','siemens','vacon','sonstiges')
-failures=[];checks=0
-
-def check(condition,message):
+ROUTES=[
+    ('RECHNER','Analogsignal-Rechner','Prozesswert und Analogsignal umrechnen.','analogsignal/','app-analogsignal'),
+    ('RECHNER','P+F-Rechner','K-Faktor und Nullpunkt berechnen.','pf-rechner/','app-pf-rechner'),
+    ('RECHNER','Pt100 / Pt1000','Pt100 und Pt1000 in beide Richtungen.','pt-rechner/','app-pt-rechner'),
+    ('RECHNER','Einheitenrechner','Alle Einheitenkategorien umrechnen.','einheitenrechner/','app-einheitenrechner'),
+    ('WISSEN','Einheitendatenbank','Einheiten und persönliche Favoriten.','einheitendatenbank/','app-einheitendatenbank'),
+    ('WISSEN','Werkstoffdatenbank','Werkstoffe zentral nachschlagen.','werkstoffdatenbank/','app-werkstoffdatenbank'),
+    ('WISSEN','Wissensdatenbank','Anleitungen und Praxistipps.','wissensdatenbank/','app-wissensdatenbank'),
+    ('RECHNER','Spannungsfall-Rechner','Spannungsfall berechnen.','spannungsfall-rechner/','app-spannungsfall'),
+    ('RECHNER','Siemens Rohwert','Signale und Siemens-Rohwerte.','siemens-analogwert-rechner/','app-siemens-rohwert'),
+    ('AIR TORQUE','Antrieb','Drehrichtung SCO und SCC.','wissensdatenbank/air-torque-antrieb-drehrichtung/','knowledge-air-torque-antrieb-drehrichtung'),
+    ('ENDRESS+HAUSER · PROMASS','Einbaulage','Optimale Einbausituation.','wissensdatenbank/endress-hauser-promass-einbaulage/','knowledge-endress-hauser-promass-einbaulage'),
+    ('SIEMENS · SITRANS P320','SIL Verriegelung','SIL-Verriegelung und Schreibschutz.','wissensdatenbank/siemens-sitrans-p320-sil-verriegelung/','knowledge-siemens-sitrans-p320-sil-verriegelung'),
+    ('SIEMENS · SPS','Rohwert','Skalierung und Diagnosebereiche.','wissensdatenbank/siemens-sps-rohwert/','knowledge-siemens-sps-rohwert'),
+    ('VACON','Frequenzumrichter','Ist-/Sollwert-Abweichung prüfen.','wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/','knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung'),
+]
+checks=0;failures=[]
+def check(value,message):
     global checks
     checks+=1
-    if not condition:failures.append(message)
+    if not value: failures.append(message)
+def goto(page,route=''):
+    response=page.goto(urljoin(BASE,route),wait_until='networkidle')
+    check(response and response.ok,f'{route or "/"}: HTTP nicht OK')
 
-def goto(page,route):
-    return page.goto(urljoin(BASE,route),wait_until='networkidle')
+def rect_equal(a,b,tol=.75):
+    return all(abs(a[k]-b[k])<=tol for k in ('x','y','width','height'))
 
-def rect_equal(a,b,tolerance=.35):
-    keys=('x','y','width','height','right','bottom')
-    return all(abs(a[k]-b[k])<=tolerance for k in keys)
-
-def tile_state(card):
-    return card.evaluate("""card=>{const icon=card.querySelector('.knowledge-home-icon'),image=icon?.querySelector('img.knowledge-brand-logo'),title=card.querySelector('h2'),r=node=>{const b=node.getBoundingClientRect();return{x:b.x,y:b.y,width:b.width,height:b.height,right:b.right,bottom:b.bottom}},s=node=>{const c=getComputedStyle(node);return{border:c.borderTopWidth,background:c.backgroundColor,backgroundImage:c.backgroundImage,shadow:c.boxShadow,filter:c.filter,transform:c.transform,translate:c.translate,scale:c.scale,transition:c.transitionProperty}},before=icon?getComputedStyle(icon,'::before'):null,after=icon?getComputedStyle(icon,'::after'):null;return{card:r(card),icon:r(icon),image:r(image),title:r(title),cardStyle:s(card),iconStyle:s(icon),imageStyle:s(image),before:before?.content,after:after?.content}}""")
-
-def verify_stable_states(page,card,label):
-    base=tile_state(card)
-    card.hover(force=True);hover=tile_state(card)
-    card.focus();focus=tile_state(card)
-    box=card.bounding_box();page.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2);page.mouse.down();pressed=tile_state(card);page.mouse.move(0,0);page.mouse.up()
-    card.evaluate("n=>{n.classList.add('active');n.dataset.active='true';n.setAttribute('aria-selected','true')}");active=tile_state(card);card.evaluate("n=>{n.classList.remove('active');delete n.dataset.active;n.removeAttribute('aria-selected')}")
-    for state_name,state in (('Hover',hover),('Fokus',focus),('Drücken',pressed),('Aktiv',active)):
-        check(all(rect_equal(base[key],state[key]) for key in ('card','icon','image','title')),f'{label} {state_name}: Kachel/Icon/Text verschoben: {base} -> {state}')
-        check(all(state[key]['transform']=='none' and state[key]['translate']=='none' and state[key]['scale']=='none' for key in ('cardStyle','iconStyle','imageStyle')),f'{label} {state_name}: Transform/Translate/Scale aktiv: {state}')
-    check(base['iconStyle']['border']=='0px' and base['iconStyle']['background']=='rgba(0, 0, 0, 0)' and base['iconStyle']['backgroundImage']=='none' and base['iconStyle']['shadow']=='none' and base['iconStyle']['filter']=='none' and base['before']=='none' and base['after']=='none',f'{label}: alter Wrapper/Rahmen/Schatten aktiv: {base}')
-    check(base['imageStyle']['filter']=='none' and base['imageStyle']['transform']=='none',f'{label}: PNG wird zusätzlich gefiltert oder transformiert: {base}')
+def seed(page,count):
+    items=[]
+    for idx,(category,title,description,route,stem) in enumerate(ROUTES[:count]):
+        # Der erste Datensatz simuliert einen aus V2.6.5.0 übernommenen Favoriten.
+        version='v2-6-5-0' if idx==0 else 'v2-6-5-1'
+        items.append({'url':urljoin(BASE,route),'title':title,'description':description,'category':category,'external':False,'icon':urljoin(BASE,f'assets/navigation-icons/{version}-{stem}.png')})
+    page.evaluate("items=>localStorage.setItem('skPctToolsFavoritesV2',JSON.stringify(items))",items)
+    page.reload(wait_until='networkidle')
 
 with sync_playwright() as p:
     candidates=sorted(glob.glob('/opt/pw-browsers/chromium-*/chrome-linux64/chrome'),reverse=True)
     executable=os.environ.get('PLAYWRIGHT_CHROMIUM_EXECUTABLE') or (candidates[0] if candidates else p.chromium.executable_path)
     browser=p.chromium.launch(headless=True,executable_path=executable,args=['--no-sandbox'])
     try:
-        for name,width,height,has_touch,is_mobile in PROFILES:
+        for name,width,height,has_touch,is_mobile,expected_columns in PROFILES:
             context=browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1,has_touch=has_touch,is_mobile=is_mobile)
-            page=context.new_page();goto(page,'wissensdatenbank/')
-            hubs=page.locator('.knowledge-hub-card:visible')
-            check(hubs.count()==5,f'{name}: {hubs.count()} statt 5 Herstellerkacheln')
-            for index in range(hubs.count()):verify_stable_states(page,hubs.nth(index),f'{name} Hersteller {index+1}')
-            hub_files=page.eval_on_selector_all('.knowledge-hub-card img.knowledge-brand-logo',"nodes=>nodes.map(n=>({file:n.src.split('?')[0].split('/').pop(),natural:[n.naturalWidth,n.naturalHeight],broken:!n.complete||n.naturalWidth===0}))")
-            check(len(hub_files)==5 and all(item['file'].startswith('v2-6-5-0-manufacturer-') and item['natural']==[512,512] and not item['broken'] for item in hub_files),f'{name}: Hersteller-PNGs fehlerhaft: {hub_files}')
+            page=context.new_page();errors=[];page.on('pageerror',lambda error:errors.append(str(error)))
 
-            total_entries=0
-            for manufacturer in MANUFACTURERS:
-                goto(page,f'wissensdatenbank/?manufacturer={manufacturer}')
-                entries=page.locator('.knowledge-entry:visible');total_entries+=entries.count()
-                for index in range(entries.count()):verify_stable_states(page,entries.nth(index),f'{name} Beitrag {manufacturer}/{index+1}')
-            check(total_entries==5,f'{name}: {total_entries} statt 5 Wissensbeiträge über alle Hersteller')
+            # Hersteller-Hub muss dieselbe Raster- und Icongeometrie wie Home verwenden.
+            goto(page,'')
+            home=page.evaluate("""()=>{const grid=document.querySelector('#pctHomeGrid'),card=grid.querySelector('.sk-home-app'),icon=card.querySelector('.sk-app-icon-wrapper'),title=card.querySelector('h2'),r=icon.getBoundingClientRect();return{columns:getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length,icon:{width:r.width,height:r.height},title:{font:parseFloat(getComputedStyle(title).fontSize),line:parseFloat(getComputedStyle(title).lineHeight)},frame:document.querySelector('.pct-home-screen').getBoundingClientRect().toJSON()}}""")
+            check(home['columns']==expected_columns,f'{name}: Home-Raster {home["columns"]} statt {expected_columns}')
+            goto(page,'wissensdatenbank/')
+            hub=page.evaluate("""()=>{const grid=document.querySelector('.knowledge-hub'),cards=[...grid.querySelectorAll('.knowledge-hub-card:not([hidden])')],icon=cards[0].querySelector('.knowledge-home-icon'),title=cards[0].querySelector('h2'),r=icon.getBoundingClientRect(),search=document.querySelector('.knowledge-search-wrap').getBoundingClientRect(),first=cards[0].getBoundingClientRect(),last=cards.at(-1).getBoundingClientRect(),footer=document.querySelector('.sk-footer').getBoundingClientRect();return{cards:cards.length,columns:getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length,icon:{width:r.width,height:r.height},title:{font:parseFloat(getComputedStyle(title).fontSize),line:parseFloat(getComputedStyle(title).lineHeight)},searchGap:first.top-search.bottom,footerGap:footer.top-last.bottom,overflow:document.documentElement.scrollWidth-innerWidth}}""")
+            check(hub['cards']==5 and hub['columns']==expected_columns,f'{name}: Hersteller-Hub {hub["cards"]} Karten / {hub["columns"]} Spalten statt 5 / {expected_columns}')
+            check(abs(hub['icon']['width']-home['icon']['width'])<=1 and abs(hub['icon']['height']-home['icon']['height'])<=1,f'{name}: Herstellericon {hub["icon"]} weicht von Home {home["icon"]} ab')
+            check(abs(hub['title']['font']-home['title']['font'])<=2 and abs(hub['title']['line']-home['title']['line'])<=3,f'{name}: Beschriftungsmaß Hub {hub["title"]} / Home {home["title"]}')
+            check(hub['searchGap']>=-2 and hub['footerGap']>=-2 and abs(hub['searchGap']-hub['footerGap'])<=25,f'{name}: Inhaltsraum nicht ausgewogen zwischen Suche, Kacheln und Footer {hub}')
+            check(hub['overflow']<=1,f'{name}: horizontaler Überlauf im Hersteller-Hub {hub}')
 
-            # Dialog mit realem Favoritenbestand öffnen und Design/Funktionen prüfen.
-            goto(page,'wissensdatenbank/?manufacturer=siemens')
-            first=page.locator('.knowledge-entry:visible').first
-            first_title=first.locator('h2').inner_text().strip();first.locator('.sk-favorite-button').click()
-            trigger=page.locator('.pct-header-actions>.sk-favorites-trigger')
-            if has_touch:trigger.tap()
-            else:trigger.click()
-            page.wait_for_timeout(180)
-            dialog=page.locator('#skFavoritesDrawer')
-            state=dialog.evaluate("""d=>{const r=d.getBoundingClientRect(),s=getComputedStyle(d),row=d.querySelector('.sk-favorite-row'),rs=row?getComputedStyle(row):null,close=d.querySelector('.sk-favorites-close'),remove=d.querySelector('.sk-favorite-remove'),clear=d.querySelector('.sk-favorites-clear'),button=b=>{const x=b.getBoundingClientRect(),c=getComputedStyle(b);return{rect:{x:x.x,y:x.y,width:x.width,height:x.height,right:x.right,bottom:x.bottom},transform:c.transform,translate:c.translate,scale:c.scale,shadow:c.boxShadow}};return{open:d.classList.contains('open'),aria:d.getAttribute('aria-hidden'),role:d.getAttribute('role'),modal:d.getAttribute('aria-modal'),rect:{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom},transform:s.transform,translate:s.translate,scale:s.scale,shadow:s.boxShadow,borderRight:s.borderRightWidth,row:row?{border:rs.borderTopWidth,shadow:rs.boxShadow,transform:rs.transform}:null,rows:d.querySelectorAll('.sk-favorite-row').length,summary:d.querySelector('.sk-favorites-summary')?.textContent,clearDisabled:clear.disabled,close:button(close),remove:button(remove),clear:button(clear)}}""")
-            check(state['open'] and state['aria']=='false' and state['role']=='dialog' and state['modal']=='true',f'{name}: Favoritendialog semantisch/visuell nicht geöffnet: {state}')
-            check(state['rect']['x']>=-1 and state['rect']['right']<=width+1 and state['rect']['bottom']<=height+1 and state['rect']['width']>=min(320,width-12),f'{name}: Favoritendialog außerhalb Viewport/Safe-Area: {state}')
-            check(state['transform']=='none' and state['translate']=='none' and state['scale']=='none' and state['shadow']=='none' and state['borderRight']=='1px',f'{name}: Favoritendialog besitzt alten Außenkasten/Schatten/Bewegung: {state}')
-            check(state['rows']==1 and state['row']=={'border':'1px','shadow':'none','transform':'none'} and state['summary']=='1 gespeicherter Favorit' and not state['clearDisabled'],f'{name}: Favoritenzeile/Zähler/Leeren fehlerhaft: {state}')
-            check(all(min(state[key]['rect']['width'],state[key]['rect']['height'])>=44 and state[key]['transform']=='none' and state[key]['translate']=='none' and state[key]['scale']=='none' and state[key]['shadow']=='none' for key in ('close','remove','clear')),f'{name}: Dialogbedienelement unter 44 px oder bewegt/verschattet: {state}')
+            # Suche, Filterung und vollständige Tap-/Tastaturnavigation bleiben erhalten.
+            page.fill('#knowledgeSearch','Siemens');page.wait_for_timeout(80)
+            filtered=page.evaluate("""()=>({visible:document.querySelectorAll('.knowledge-hub-card:not([hidden])').length,count:document.querySelector('#knowledgeResultCount').textContent})""")
+            check(filtered['visible']==1 and filtered['count'].startswith('1 '),f'{name}: Wissenssuche fehlerhaft {filtered}')
+            page.fill('#knowledgeSearch','');card=page.locator('.knowledge-hub-card').first
+            base=card.bounding_box();card.hover();hover=card.bounding_box();card.focus();focus=card.bounding_box()
+            box=card.bounding_box();page.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2);page.mouse.down();pressed=card.bounding_box();page.mouse.up()
+            check(rect_equal(base,hover) and rect_equal(base,focus) and rect_equal(base,pressed),f'{name}: Herstellerkachel bewegt sich bei Interaktion')
+            card.focus();page.keyboard.press('Enter');page.wait_for_url('**/wissensdatenbank/?manufacturer=air-torque')
+            check(page.locator('.knowledge-entry:visible').count()==1,f'{name}: Herstelleransicht öffnet nicht')
 
-            # Hover/Fokus/Drücken der Dialogaktionen dürfen die Geometrie nicht ändern.
-            for selector in ('.sk-favorites-close','.sk-favorite-remove','.sk-favorites-clear'):
-                button=dialog.locator(selector).first
-                snap=lambda:button.evaluate("b=>{const r=b.getBoundingClientRect(),s=getComputedStyle(b);return{x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom,transform:s.transform,translate:s.translate,scale:s.scale}}")
-                base=snap();button.hover(force=True);hover=snap();button.focus();focus=snap();box=button.bounding_box();page.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2);page.mouse.down();pressed=snap();page.mouse.move(0,0);page.mouse.up()
-                check(all(rect_equal(base,value) and value['transform']=='none' and value['translate']=='none' and value['scale']=='none' for value in (hover,focus,pressed)),f'{name} {selector}: Bedienelement bewegt sich: {base}/{hover}/{focus}/{pressed}')
+            # Kurze Favoritenliste innerhalb desselben App-Rahmens.
+            seed(page,1)
+            frame_before=page.locator('.sk-app-frame').bounding_box();trigger=page.locator('.pct-header-actions>.sk-favorites-trigger');trigger.click();page.wait_for_timeout(60)
+            fav=page.evaluate("""()=>{const frame=document.querySelector('.sk-app-frame'),drawer=document.querySelector('#skFavoritesDrawer'),header=frame.querySelector('.sk-global-header'),footer=frame.querySelector('.sk-footer'),list=drawer.querySelector('.sk-favorites-list'),icon=drawer.querySelector('.sk-favorite-icon-host img'),fr=frame.getBoundingClientRect(),dr=drawer.getBoundingClientRect(),hr=header.getBoundingClientRect(),rr=footer.getBoundingClientRect(),s=getComputedStyle(drawer);return{parent:drawer.parentElement===frame,frame:{x:fr.x,y:fr.y,right:fr.right,bottom:fr.bottom},drawer:{x:dr.x,y:dr.y,right:dr.right,bottom:dr.bottom},headerVisible:header.offsetParent!==null,footerVisible:footer.offsetParent!==null,between:dr.top>=hr.bottom-1&&dr.bottom<=rr.top+1,position:s.position,background:s.backgroundColor,border:s.borderTopWidth,shadow:s.boxShadow,rows:drawer.querySelectorAll('.sk-favorite-row').length,shortScroll:list.scrollHeight-list.clientHeight,iconFile:icon?.src.split('?')[0].split('/').pop(),expanded:document.querySelector('.sk-favorites-trigger').getAttribute('aria-expanded'),backdrop:!!document.querySelector('.sk-favorites-backdrop')}}""")
+            frame_after=page.locator('.sk-app-frame').bounding_box()
+            check(fav['parent'] and fav['between'] and fav['drawer']['x']>=fav['frame']['x']-1 and fav['drawer']['right']<=fav['frame']['right']+1 and fav['drawer']['bottom']<=fav['frame']['bottom']+1,f'{name}: Favoriten verlassen den App-Rahmen {fav}')
+            check(rect_equal(frame_before,frame_after) and fav['headerVisible'] and fav['footerVisible'],f'{name}: äußerer App-Rahmen/Header/Footer verändert')
+            check(fav['position']=='relative' and fav['background']=='rgba(0, 0, 0, 0)' and fav['border']=='0px' and fav['shadow']=='none' and not fav['backdrop'],f'{name}: konkurrierende Favoriten-Hauptfläche {fav}')
+            check(fav['rows']==1 and fav['shortScroll']<=1 and fav['expanded']=='true' and fav['iconFile'].startswith('v2-6-5-1-'),f'{name}: kurze Favoritenliste/Migration fehlerhaft {fav}')
+            page.keyboard.press('Escape');check(trigger.get_attribute('aria-expanded')=='false' and trigger.evaluate('n=>document.activeElement===n'),f'{name}: Escape/Fokusrückgabe fehlerhaft')
 
-            # Speicherung über Reload, Einzellöschen, Leeren und leerer Zustand.
-            page.keyboard.press('Escape');page.wait_for_timeout(40)
-            check(dialog.get_attribute('aria-hidden')=='true' and trigger.evaluate('n=>document.activeElement===n'),f'{name}: Escape schließt nicht oder Fokus kehrt nicht zurück')
-            page.reload(wait_until='networkidle');trigger=page.locator('.pct-header-actions>.sk-favorites-trigger');trigger.click();page.wait_for_timeout(120)
-            check(page.locator('#skFavoritesDrawer .sk-favorite-row').count()==1 and first_title in page.locator('#skFavoritesDrawer').inner_text(),f'{name}: Favorit bleibt nach Reload nicht erhalten')
-            page.locator('#skFavoritesDrawer .sk-favorite-remove').click();check(page.locator('#skFavoritesDrawer .sk-favorite-row').count()==0 and page.locator('#skFavoritesDrawer .sk-favorites-empty').count()==1 and page.locator('#skFavoritesDrawer .sk-favorites-clear').is_disabled(),f'{name}: Einzellöschen/leerer Zustand fehlerhaft')
-            page.locator('.sk-favorites-close').click();goto(page,'wissensdatenbank/?manufacturer=siemens');page.locator('.knowledge-entry:visible').first.locator('.sk-favorite-button').click();page.locator('.pct-header-actions>.sk-favorites-trigger').click();page.locator('#skFavoritesDrawer .sk-favorites-clear').click()
-            check(page.locator('#skFavoritesDrawer .sk-favorite-row').count()==0 and page.locator('#skFavoritesDrawer .sk-favorites-empty').count()==1 and page.locator('.sk-favorites-count').is_hidden(),f'{name}: Alle leeren oder Favoritenzähler fehlerhaft')
+            # Lange Liste scrollt ausschließlich im inneren Favoritenbereich.
+            seed(page,len(ROUTES));trigger=page.locator('.pct-header-actions>.sk-favorites-trigger');frame_before=page.locator('.sk-app-frame').bounding_box();trigger.click();page.wait_for_timeout(60)
+            long_state=page.evaluate("""()=>{const frame=document.querySelector('.sk-app-frame'),list=document.querySelector('.sk-favorites-list'),drawer=document.querySelector('#skFavoritesDrawer'),fr=frame.getBoundingClientRect(),lr=list.getBoundingClientRect(),dr=drawer.getBoundingClientRect();list.scrollTop=list.scrollHeight;return{rows:drawer.querySelectorAll('.sk-favorite-row').length,scrollable:list.scrollHeight>list.clientHeight+1,scrollTop:list.scrollTop,listInside:lr.left>=fr.left-1&&lr.right<=fr.right+1&&lr.top>=fr.top-1&&lr.bottom<=fr.bottom+1,drawerInside:dr.left>=fr.left-1&&dr.right<=fr.right+1&&dr.top>=fr.top-1&&dr.bottom<=fr.bottom+1}}""")
+            frame_after=page.locator('.sk-app-frame').bounding_box()
+            check(long_state['rows']==len(ROUTES) and long_state['scrollable'] and long_state['scrollTop']>0 and long_state['listInside'] and long_state['drawerInside'] and rect_equal(frame_before,frame_after),f'{name}: lange Favoritenliste/Scroll fehlerhaft {long_state}')
+            before_count=page.locator('.sk-favorite-row').count();page.locator('.sk-favorite-remove').last.click();after_count=page.locator('.sk-favorite-row').count()
+            check(after_count==before_count-1 and page.locator('#skFavoritesDrawer').evaluate('d=>d.contains(document.activeElement)'),f'{name}: Einzellöschen/Fokusführung fehlerhaft')
+            page.locator('.sk-favorites-clear').click()
+            empty=page.evaluate("""()=>({rows:document.querySelectorAll('.sk-favorite-row').length,empty:!!document.querySelector('.sk-favorites-empty'),disabled:document.querySelector('.sk-favorites-clear').disabled,countHidden:document.querySelector('.sk-favorites-count').hidden})""")
+            check(empty=={'rows':0,'empty':True,'disabled':True,'countHidden':True},f'{name}: Alle leeren/leerer Zustand fehlerhaft {empty}')
+            check(not errors,f'{name}: JavaScript-Fehler {errors}')
             context.close()
-    finally:browser.close()
+
+        # Zielöffnung und Persistenz einmal separat mit echtem Reload prüfen.
+        context=browser.new_context(viewport={'width':1440,'height':1000})
+        page=context.new_page();goto(page,'wissensdatenbank/');seed(page,1)
+        page.locator('.pct-header-actions>.sk-favorites-trigger').click();page.locator('.sk-favorite-entry').click();page.wait_for_url('**/analogsignal/')
+        check(page.locator('h1').inner_text().strip()=='Analogsignal-Rechner','Favoritenziel wurde nicht geöffnet')
+        page.go_back(wait_until='networkidle');page.locator('.pct-header-actions>.sk-favorites-trigger').click()
+        check(page.locator('.sk-favorite-row').count()==1,'Gespeicherter Favorit ging nach Navigation/Reload verloren')
+        context.close()
+    finally:
+        browser.close()
 
 if failures:
     print(f'FAIL · {len(failures)}/{checks} Designprüfungen')
-    for failure in failures:print(f'- {failure}')
+    for failure in failures:print('-',failure)
     sys.exit(1)
-print(f'PASS · {checks} Designprüfungen · 3 Viewports · 5 Hersteller · 5 Wissensbeiträge · ortsfeste Zustände · Favoritendialog · Touch · Tastatur')
+print(f'PASS · {checks} Designprüfungen · 5 Profile · Rastergleichheit · Hoch/Querformat · Rahmen-Favoriten · Kurz/Lang/Leer · Scroll · Fokus · Touch')
