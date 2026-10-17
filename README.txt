@@ -1,68 +1,60 @@
-SK PCT Tools 2.6.3.6-Beta
+SK PCT Tools 2.6.3.7-Beta
 Stand: 17.10.2026
 Projektinhaber: Simon Kiesler
-Basis: vollständige V2.6.3.5-Beta
+Basis: vollständige V2.6.3.6-Beta
 
 ÜBERBLICK
 SK PCT Tools ist eine offlinefähige PWA für technische Rechner, Einheiten-,
 Werkstoff- und Wissensdaten sowie Praxishinweise der Prozessleittechnik.
-V2.6.3.6-Beta ist eine vollständige neue Version und kein Patchpaket.
+V2.6.3.7-Beta ist eine vollständige neue Version und kein Patchpaket.
 
-SORTIERMODUS V2.6.3.6
-- Der normale Home-Header bleibt beim Aktivieren, Verschieben und Beenden des Sortiermodus
-  strukturell, geometrisch, stilistisch und sichtbar unverändert.
-- Logo, Versionsfeld, Versionsnummer, Zusatztext, Suche, Favoritenbutton, Favoritenzähler,
-  Größen, Positionen, Abstände, Ausrichtung, Hintergrund und Rahmen bleiben identisch.
-- Die ersetzende kompakte Sortierleiste aus V2.6.3.5-Beta wurde vollständig entfernt.
-- Rückgängig, Wiederholen, Standardreihenfolge und Fertig befinden sich in einem getrennten,
-  viewportfesten Sortier-Dock außerhalb des Headers und außerhalb des Dokumentflusses.
-- Das Dock berücksichtigt iOS-Safe-Areas und kleine Viewports. Es verursacht keinen Layoutsprung
-  und überdeckt weder Header noch erste App-Reihe oder App-Beschriftungen.
-- Nur das sichtbare PNG des Iconkörpers wackelt dezent. Kachel, Wrapper, Titel,
-  Favoritenbutton und Rastermaße bleiben geometrisch stabil.
-- Ein Long-Press nimmt die App auf. Die Originalkachel wird durch einen maßgleichen,
-  klar markierten Rasterplatzhalter ersetzt.
-- Das gezogene Icon liegt in einer eigenen, viewportfesten Ebene direkt unter body. Diese Ebene
-  ist unabhängig von Grid, overflow, transform, containment, Parentgrenzen und Stacking-Kontexten.
-- Das Drag-Icon bleibt zwischen unverändertem Header und Sortier-Dock sowie innerhalb der
-  sichtbaren Viewportränder.
-- Zielpositionen werden mit elementsFromPoint und einer abstandsbezogenen Rückfallebene erkannt.
-- Auto-Scroll aktualisiert die Zielposition nur nach einer tatsächlich erfolgten Scrollbewegung;
-  eine bereits erkannte Ablageposition wird dadurch nicht mehr unbeabsichtigt überschrieben.
-- Nach Drop oder Abbruch werden Overlay, Platzhalter, Pointer-Capture und Sortierzustand vollständig
-  entfernt. Danach sind normales Design, Favoriten und App-Navigation sofort wieder aktiv.
-- pointercancel, lostpointercapture, Escape, blur, pagehide, visibilitychange und Hintergrundwechsel
-  besitzen definierte Cleanup- beziehungsweise Rollback-Pfade.
-- Mehrfachsortierung, Tastaturverschiebung, Rückgängig/Wiederholen, Standardreihenfolge,
-  Speicherung und Wiederherstellung nach Reload sind abgesichert.
-- Speicherung bleibt kompatibel unter skPctHomeOrderV1.
+NEUES RELEASE-MODUL IM HEADER
+- Die bisherige Versionsfeld-/Textpanel-Implementierung wird im DOM nicht mehr verwendet.
+- Das breite flache Panel mit seitlichen Cyan-/Grünstreifen wurde entfernt.
+- Das neue Release-Modul verwendet assets/release-module-v2-6-3-7.png als einzigen
+  sichtbaren Cyan-/Blau-/Grün-Grundkörper.
+- Die PNG-Haut stammt aus demselben Generator und derselben Materiallogik wie Home,
+  Zurück, Suche und Favoriten: ein schwarzer Außenkonturzug, identische Rundung,
+  Lichtkante, Verlauf und räumliche Wirkung.
+- Der HTML/CSS-Host ist transparent, rahmenlos und schattenfrei. Es gibt keine
+  zusätzliche Kachel, keinen Panelrahmen und keine isolierten farbigen Seitenlinien.
+- Die Texte „V2.6.3.7-Beta“ und „Tool by S.K.“ bleiben zugänglicher HTML-Text.
+- Eine Laufzeit-Anpassung verkleinert ausschließlich die Versionsschrift bei längeren
+  Versionsständen, ohne Modulgröße, Position oder Headergeometrie zu verändern.
+- Sichtbare Höhe und vertikale Mittellinie entsprechen Logo, Suche und Favoriten:
+  52 px auf Desktop/Tablet, 44 px auf Smartphone und kleinen Querformaten.
 
-BEDIENUNG
+UNVERÄNDERTE FUNKTIONEN
+- Drag-and-Drop-Sortierung, Pointer-Overlay, Platzhalter und skPctHomeOrderV1
+- normaler Header im Sortiermodus und separates viewportfestes Sortier-Dock
+- alle 24 Navigations-/App-/Wissens-/Hersteller-PNGs bytegenau unverändert
+- Logo- und PWA-Grafiken bytegenau unverändert
+- Suche, Favoriten, Favoritenzähler, Navigation und Touchflächen
+- Rechner, Datenbanken, Wissensbeiträge, Barrierefreiheit und Offlinebetrieb
+- Keine Größen- oder Positionsänderung bei Hover, Fokus, Antippen, Drücken,
+  aktivem Zustand oder Sortiermodus.
+
+BEDIENUNG DER APP-SORTIERUNG
 1. App kurz antippen: App öffnen.
 2. App gedrückt halten: Sortiermodus und freie Drag-Ebene starten.
-3. Icon über Reihen und Spalten ziehen und loslassen: Reihenfolge speichern, Normalmodus aktivieren.
-4. Ohne Änderung abbrechen: Escape, Pointer-Abbruch oder Fertig.
-5. Rückgängig/Wiederholen: im getrennt gestarteten Sortiermodus über das Dock oder Strg/Cmd+Z.
-6. Standardreihenfolge: im Sortier-Dock ↺ wählen.
-
-UNVERÄNDERTES DESIGN
-- Grafik, Farben, Logo, normaler Header, Versionsfeld, App-Icons, Favoritenpositionen und
-  Home-Raster entsprechen der vollständigen V2.6.3.5-Beta.
-- Alle 24 Navigations-PNGs sowie Logo-, PWA-, Apple- und Browserbilder sind bytegenau unverändert;
-  ausschließlich ihre versionierten Dateinamen tragen v2-6-3-6-.
-- Suche, Filter, Sortierauswahl, Rechner, Wissensdatenbank, Datenbanken und Offlinebetrieb bleiben erhalten.
+3. Icon ziehen und loslassen: Reihenfolge speichern, Normalmodus aktivieren.
+4. Rückgängig, Wiederholen, Standard und Fertig: separates Dock verwenden.
+5. Escape/Pointer-Abbruch: laufenden Vorgang vollständig zurückrollen.
 
 ZENTRALE ARCHITEKTUR
-- Zentraler Stil: assets/app-v2-6-3-6.css
-- Zentrale Laufzeit: assets/app-v2-6-3-6.js
-- Manifest: manifest-v2-6-3-6.webmanifest
-- Suchindex: assets/search-index-v2-6-3-6.json
-- Service-Worker-Cache: sk-pct-tools-v2-6-3-6-core-r1
+- Zentraler Stil: assets/app-v2-6-3-7.css
+- Zentrale Laufzeit: assets/app-v2-6-3-7.js
+- Release-Modul-Haut: assets/release-module-v2-6-3-7.png
+- PNG-Generator: tools/generate_png_icons.py
+- Manifest: manifest-v2-6-3-7.webmanifest
+- Suchindex: assets/search-index-v2-6-3-7.json
+- Service-Worker-Cache: sk-pct-tools-v2-6-3-7-core-r1
 - Control-Sprite: assets/pct-controls.svg
 
 PRÜFUNG
 1. python3 tests/validate_project.py
-2. python3 tests/browser_regression.py
+2. python3 -m http.server 8080
+3. SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
 
 Die ausgeführten Ergebnisse stehen in TEST-RESULTS.txt. SHA256SUMS.txt erfasst alle
 Projektdateien außer der Prüfsummendatei selbst.

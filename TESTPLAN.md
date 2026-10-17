@@ -1,7 +1,7 @@
-# Testplan – SK PCT Tools V2.6.3.6-Beta
+# Testplan – SK PCT Tools V2.6.3.7-Beta
 
 Stand: 17.10.2026  
-Basis: vollständige V2.6.3.5-Beta
+Basis: vollständige V2.6.3.6-Beta
 
 ## 1. Syntax, Struktur und Integrität
 
@@ -10,85 +10,71 @@ python3 tests/validate_project.py
 ```
 
 Prüfumfang:
-- 82 Projektdateien einschließlich `SHA256SUMS.txt`
-- 16 HTML-Dokumente, davon 14 gerahmte interne Seiten
+- 83 Projektdateien einschließlich `SHA256SUMS.txt`
+- 16 HTML-Dokumente, 14 gerahmte interne Seiten und 15 aktive Browserrouten
 - genau eine zentrale CSS- und App-JS-Datei
-- Version 2.6.3.6-Beta in HTML, Manifest, Suchindex und Laufzeit
+- Version 2.6.3.7-Beta in HTML, Manifest, Suchindex und Laufzeit
 - keine operativen Altversionsreferenzen
-- lokale Ziele, H1, Referrer-Schutz, Header und Footer
-- Service-Worker-Kerncache `v2-6-3-6-core-r1`
-- vollständige `SHA256SUMS.txt`
-- feste Referenzhashes für alle geschützten Grafiken
-- separates Sortier-Dock, Overlay-, Platzhalter-, History- und Cleanup-Struktur
-- keine modusspezifische CSS-Regel, die den normalen Header verändert
+- vollständige lokale Ziele, H1, Referrer-Schutz, Header und Footer
+- Service-Worker-Kerncache `v2-6-3-7-core-r1`
+- vollständige Prüfsummen und feste Referenzhashes
 
-## 2. Headeridentität und Dock-Sicherheit
+## 2. Neues Release-Modul
 
-Zu prüfen auf 320 × 700, 390 × 844, 844 × 390, 820 × 1180 und 1440 × 1000:
-- Header-DOM bleibt vor, während und nach dem Sortiermodus identisch
-- Geometrie und berechnete Styles von Header, Marke, Logo, Versionsfeld, Versionsnummer,
-  Zusatztext, Utility-Bereich, Suche, Favoritenbutton und Zähler bleiben identisch
-- Header-Screenshot ist im Normal- und Sortierzustand bytegenau gleich
-- alle normalen Headerbestandteile bleiben sichtbar
-- das Sortier-Dock ist fixed, außerhalb des Headers und außerhalb des Dokumentflusses
-- Dock überdeckt weder Header noch erste App-Reihe oder App-Beschriftungen
-- Undo, Redo, Standard und Fertig besitzen mindestens 44 × 44 px Touchflächen
-- Dock berücksichtigt Safe-Area und bleibt vollständig im Viewport
-- nach Drop, Abbruch und Fertig ist das Dock ausgeblendet und Navigation sofort aktiv
+- keine operative Nutzung der alten Versionsfeld-/Textpanel-Klassen
+- `release-module-v2-6-3-7.png`: 1536 × 512 px, RGBA, feste Alpha-Grenzen und SHA-256
+- Cyan-/Blau-/Grün-Materialität und schwarze Außenkontur
+- Host ohne Border, Hintergrund, Schatten, äußere Kachel oder Pseudoelemente
+- exakt `V2.6.3.7-Beta` und `Tool by S.K.`
+- Grafik vollständig geladen; Text ohne horizontalen/vertikalen Überlauf
+- gleiche sichtbare Höhe und Mittellinie wie Logo und Headerbuttons
+- 320-px-Test mit längerem Stand `V2.6.3.7-RC.12-Beta`
 
-## 3. Wackelanimation und Rasterstabilität
+## 3. Header- und Zustandsstabilität
 
-- Kachel, Wrapper, Titel und Favoritenbutton haben `animation-name: none`
-- ausschließlich das direkte Icon-PNG verwendet `pct-home-icon-wiggle`
-- Außenmaße und Positionen von Kachel, Wrapper, Titel und Favorit bleiben bis 0,5 px stabil
-- Platzhalter übernimmt Breite und Höhe der aufgenommenen Kachel ohne Mindesthöhen-Sprung
-- keine Skalierung, Verschiebung oder Layoutänderung durch die Animation
-- `prefers-reduced-motion` deaktiviert Wackeln und Drag-Rotation
+Auf 320 × 700, 390 × 844, 844 × 390, 820 × 1180 und 1440 × 1000:
+- Hover, Fokus, Drücken und aktiv verändern keine Position oder Größe
+- Header-DOM, Geometrie und berechnete Styles vor/während/nach Sortierung identisch
+- Header-Screenshot Normal/Sortieren: 0 geänderte Pixel
+- Logo, Release-Modul, Suche, Favoritenbutton und Zähler bleiben sichtbar
+- Sortier-Dock liegt fixed außerhalb des Headers und überdeckt keine Apps/Titel
 
-## 4. Drag-Overlay und Rasterplatzhalter
+## 4. Drag-and-Drop und Sortierregression
 
-- Long-Press erzeugt genau eine body-direkte Drag-Ebene und genau einen Platzhalter
-- während des Drags sind neun reale Apps plus ein maßgleicher Platzhalter im Raster
-- Overlay bewegt sich frei über mehrere Reihen und Spalten
-- Overlay bleibt innerhalb der Viewportränder, unterhalb des Headers und außerhalb des Docks
-- Zielposition wird am überfahrenen Rasterplatz erkannt und klar markiert
-- Drop übernimmt die Platzhalterposition und entfernt Overlay/Platzhalter vollständig
-- pointercancel, lostpointercapture, Escape und Hintergrundwechsel rollen zurück
-- Rand-Autoscroll aktualisiert die Zielerkennung nur bei tatsächlicher Scrollbewegung
-- Resize aktualisiert die sichere Overlay-Position
+- Wackeln ausschließlich auf dem direkten Icon-PNG
+- maßgleicher Platzhalter und body-direkte viewportfeste Drag-Ebene
+- Ziehen über Reihen/Spalten, Zielerkennung, Randbegrenzung und Auto-Scroll
+- Drop, pointercancel, lostpointercapture, Escape, blur und pagehide
+- Rückgängig/Wiederholen, Tastaturverschiebung und Standardreihenfolge
+- Speicherung in `skPctHomeOrderV1` und Reload-Wiederherstellung
+- normaler Header bleibt im Sortiermodus unverändert
 
-## 5. Interaktion, History und Speicherung
-
-- kurzer Tap öffnet im Normalmodus
-- Bewegung vor Long-Press bleibt Scrollgeste
-- Sortiermodus blockiert App-Navigation kontrolliert
-- Drag-Abschlussklick wird einmal kartenbezogen unterdrückt
-- erster echter Folgetap ist sofort frei
-- zweiter und weiterer Sortiervorgang funktioniert ohne Reload
-- Tastaturpfeile verschieben Apps
-- Rückgängig stellt die vorige Reihenfolge her; Wiederholen stellt die Änderung wieder her
-- Fertig und Standardreihenfolge aktivieren den Normalmodus
-- DOM-Reihenfolge und `skPctHomeOrderV1` stimmen überein
-- Reload stellt die gespeicherte Reihenfolge wieder her
-
-## 6. Browser-, Touch- und Funktionsregression
+## 5. Browser-, Touch- und Funktionsregression
 
 ```bash
-python3 tests/browser_regression.py
+python3 -m http.server 8080
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
 ```
 
 Prüfumfang:
+- 1.430 Browserprüfungen
 - 15 aktive Routen × Smartphone, Tablet und Desktop
-- 1.422 Browserprüfungen
-- fünf zusätzliche Reorder-Profile: 320 × 700, 390 × 844, 844 × 390,
-  820 × 1180 und 1440 × 1000
+- fünf Reorder-Profile einschließlich iPhone-Portrait/-Landscape
 - 320-px-Reflow und Safe-Area-Geometrie
-- Suche, Favoritenübersicht, Zähler, Home- und Zurücknavigation
-- sechs Rechnerreferenzen einschließlich Grenzwerte, Reset und Vorzeichen-Touchziele
-- Wissensnavigation und Quellenbündel
-- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-3-6-core-r1`
+- Suche, Favoritenübersicht, Zähler, Home-/Zurücknavigation
+- sechs Rechnerreferenzen einschließlich Grenzwerte, Reset und Vorzeichen
+- Wissensnavigation, lokale Referenzen und externe Zielabsicherung
+- Offline-Start, Offline-Unterseiten und Cache-Upgrade
+
+## 6. Visuelle QA
+
+Screenshots für Normal- und Sortierzustand auf allen fünf Reorder-Profilen:
+- keine Headeränderung oder Header-/Dock-/App-Kollision
+- kein horizontaler Überlauf und keine abgeschnittenen Texte
+- Release-Modul wirkt als Teil derselben Icon-Familie
+- ausgewogene Proportionen auf Phone, iPhone-PWA, Querformat, Tablet und Desktop
 
 ## 7. Abschluss
 
-Nach erfolgreicher Prüfung werden `TEST-RESULTS.txt`, `SHA256SUMS.txt`, das
-Übergabeprotokoll und das vollständige ZIP-Paket aktualisiert und erneut verifiziert.
+Nach erfolgreicher Prüfung werden `TEST-RESULTS.txt`, `SHA256SUMS.txt`,
+`UEBERGABE-V2.6.3.7-Beta.txt` und das vollständige ZIP-Paket finalisiert.

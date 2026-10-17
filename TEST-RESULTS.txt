@@ -1,94 +1,81 @@
-SK PCT Tools V2.6.3.6-Beta – Testergebnisse
+SK PCT Tools V2.6.3.7-Beta – Testergebnisse
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.5-Beta
+Basis: vollständige V2.6.3.6-Beta
 
 GESAMTERGEBNIS: PASS
 
 1. STRUKTUR UND INTEGRITÄT
-PASS · 82 Dateien · 10 Apps · 6 Rechner · 14 interne Unterseiten ·
-24 Navigationsicons · Version 2.6.3.6-Beta
+PASS · 83 Projektdateien · 10 Apps · 6 Rechner · 14 interne Unterseiten ·
+24 Navigationsicons · 1 Release-Modul-Haut · Version 2.6.3.7-Beta
 
 Geprüft:
 - HTML-, CSS-, JavaScript- und Python-Syntax
-- vollständige lokale Referenzen und Versionsangaben
-- Manifest, Suchindex, Service Worker und Cache-Epoch v2-6-3-6-core-r1
-- geschützte Logo-, PWA-, Apple-, Browser- und Navigationsgrafiken gegen feste Hashes
-- vollständiger Prüfsummenbestand
-- keine modusspezifischen CSS-Eingriffe in den normalen Header
+- lokale Referenzen, Manifest, Suchindex, Service Worker und Cache-Epoch
+- SHA-256 aller Projektdateien sowie feste Grafik-Referenzhashes
+- 24 umbenannte Navigations-/App-PNGs sind bytegenau zur Basis unverändert
+- keine operative alte Versionsfeld-/Textpanel-Struktur
 
-2. BROWSER-, TOUCH- UND REGRESSIONSTEST
-PASS · 1.422 Browserprüfungen · 15 Seiten × 3 Haupt-Viewports · Drag/Touch/Pointer ·
-Headeridentität · Reflow 320 px · 6 Rechnerreferenzen · Offline
-
-Reorder-Profile:
-- kleines Smartphone: 320 × 700, Touch/Mobile
-- iPhone-PWA-Emulation: 390 × 844, Touch/Mobile
-- iPhone-Landscape: 844 × 390, Touch/Mobile
-- Tablet-Touch: 820 × 1180
-- Desktop-Pointer: 1440 × 1000
-
-3. UNVERÄNDERTER HEADER UND SEPARATES SORTIER-DOCK
+2. RELEASE-MODUL
 PASS
-- Header-DOM, Geometrie und berechnete Styles sind vor, während und nach Sortierung identisch
-- Header-Screenshots sind in allen fünf Reorder-Profilen pixelidentisch
-- Logo, Versionsfeld, Versionsnummer, Zusatztext, Suche, Favoritenbutton und Zähler bleiben sichtbar
-- das Dock ist strukturell außerhalb des Headers und viewportfest
-- Dock, Header, erste App-Reihe und App-Beschriftungen überdecken sich nicht
-- Undo, Redo, Standard und Fertig besitzen vollständige Touchflächen
-- Safe-Area und kleine Viewports werden berücksichtigt
-- nach Drop, Abbruch oder Fertig ist Navigation sofort wieder aktiv
+- PNG-Haut 1536 × 512 px, RGBA, definierte Alpha-Grenze
+- transparenter, rahmen- und schattenfreier Host ohne Außenkachel
+- Cyan-/Blau-/Grün-Grundkörper mit schwarzer Kontur und Lichtkante
+- V2.6.3.7-Beta und Tool by S.K. vollständig lesbar
+- längerer Teststand V2.6.3.7-RC.12-Beta bei 320 px ohne Abschneiden
+- 52/44-px-Höhe und gemeinsame vertikale Mittellinie bestätigt
 
-Gemessene Dock-Positionen, jeweils ohne Kollision:
-- 320 × 700: x 41, y 639, 238 × 54 px
-- 390 × 844: x 76, y 783, 238 × 54 px
-- 844 × 390: x 229,77, y 329, 384,45 × 54 px
-- 820 × 1180: x 217,77, y 1119, 384,45 × 54 px
-- 1440 × 1000: x 520,27, y 939, 384,45 × 54 px
+3. BROWSER-, TOUCH- UND REGRESSIONSTEST
+PASS · 1.430 Browserprüfungen · 15 Seiten × 3 Haupt-Viewports ·
+5 Reorder-Profile · Drag/Touch/Pointer · Reflow 320 px · 6 Rechnerreferenzen · Offline
 
-4. WACKELANIMATION UND RASTERSTABILITÄT
+Haupt-Viewports:
+- Smartphone 390 × 844
+- Tablet 820 × 1180
+- Desktop 1440 × 1000
+
+Reorder-/Visual-Profile:
+- kleines Smartphone 320 × 700
+- iPhone-PWA 390 × 844
+- iPhone-Landscape 844 × 390
+- Tablet-Touch 820 × 1180
+- Desktop-Pointer 1440 × 1000
+
+4. HEADERIDENTITÄT UND ZUSTÄNDE
 PASS
-- Animation wirkt ausschließlich auf das direkte Icon-PNG
-- Kachel, Icon-Wrapper, Titel und Favoritenbutton bleiben ohne Animation/Transformation
-- Position und Außenmaß bleiben im Sortiermodus innerhalb 0,5 px stabil
-- Platzhalter übernimmt auch in kurzem Landscape exakt die vorhandene Kachelhöhe
-- Favoritenposition und Rasterabstände werden nicht verändert
+- Hover, Fokus, Drücken, aktiv und geöffnet ändern keine Headergeometrie
+- Header-DOM, Style und Außenmaße vor/während/nach Sortierung identisch
+- normaler Header gegenüber Sortiermodus: 0 geänderte Pixel in allen 5 Profilen
+  Desktop: 1061 × 76; iPhone: 366 × 66; Landscape: 816 × 58;
+  320-px-Phone: 296 × 66; Tablet: 760 × 77
+- separates Sortier-Dock ohne Header-/App-/Titelkollision
 
-5. DRAG-OVERLAY UND PLATZHALTER
+5. FUNKTIONSREGRESSION
 PASS
-- genau eine body-direkte, viewportfeste Drag-Ebene
-- genau ein maßgleicher Rasterplatzhalter
-- freies Ziehen über mehrere Zeilen und Spalten
-- eindeutige Zielposition und korrekte DOM-Übernahme beim Drop
-- Drag-Icon bleibt innerhalb des Viewports, unter dem Header und außerhalb des Docks
-- Auto-Scroll überschreibt Ziele nur nach tatsächlicher Scrollbewegung
-- vollständiges Cleanup von Overlay, Platzhalter und Pointer-Capture
+- Suche, Filter, Favoriten, Zähler, Home und Zurück
+- App-Favoritengeometrie aktiv/inaktiv unverändert
+- Long-Press, Drag, Drop, Abbruch, Mehrfachsortierung und Keyboard
+- History, Standardreihenfolge, Speicherung und Reload
+- Rechnerreferenzen, Grenzwerte, Reset und Vorzeichen-Touchziele
+- Wissensnavigation und externe Zielabsicherung
 
-6. INTERAKTIONS- UND ABBRUCHPFADE
+6. VISUELLE QA
 PASS
-- kurzer Tap und Scrollabgrenzung
-- Long-Press, Drop und direkter Folgetap
-- mehrfaches Sortieren ohne Reload
-- pointercancel und pagehide mit Rollback
-- Escape, lostpointercapture, blur und visibilitychange als Cleanup-Pfade vorhanden
-- Rückgängig/Wiederholen und Tastaturverschiebung
-- Standardreihenfolge, Speicherung und Reload-Wiederherstellung
-- Favoriten und echte App-Navigation nach mehreren Sortierungen
+- neues Modul wirkt als Teil der freigegebenen Icon-Familie
+- keine alten Seitenstreifen, Panelrahmen oder zusätzliche schwarze Kachel
+- keine abgeschnittenen Texte, verschobenen Headerobjekte oder Überläufe
+- Normal-/Sortier-Screenshots für alle fünf Profile kontrolliert
 
-7. VISUELLE QA
+7. OFFLINE UND UPGRADE
 PASS
-Visuell kontrollierte Normal-/Sortierzustände:
-- 320 × 700 kleines Smartphone
-- 390 × 844 iPhone-Portrait
-- 844 × 390 iPhone-Landscape
-- 820 × 1180 Tablet
-- 1440 × 1000 Desktop
-
-Keine Headeränderung, keine Header-/Dock-/App-Kollision, kein horizontaler Überlauf,
-keine abgeschnittene Steuerung, keine verschobene Beschriftung und kein durch Parentgrenzen
-beschnittenes Drag-Icon festgestellt.
-
-8. OFFLINE UND UPGRADE
-PASS
+- Release-Modul-Haut und alle aktiven Assets im Kerncache
 - Offline-Startseite und geprüfte Unterseiten verfügbar
-- alter Testcache wird beim Upgrade entfernt
-- ausschließlich Cache-Epoch v2-6-3-6-core-r1 bleibt aktiv
+- alter Testcache wird entfernt
+- ausschließlich Cache-Epoch v2-6-3-7-core-r1 bleibt aktiv
+
+BEHOBENER TESTFUND
+Der erste Browserlauf zeigte im iPhone-Landscape eine verzögerte Schriftanpassung des
+Release-Moduls zwischen Normal- und Sortieraufnahme. Die Anpassung wurde beim Start
+synchronisiert. Der vollständige Wiederholungslauf bestand alle 1.430 Prüfungen.
+
+OFFENE FEHLER
+Keine im finalen Prüfprogramm festgestellten Fehler.

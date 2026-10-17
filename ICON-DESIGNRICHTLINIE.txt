@@ -1,58 +1,59 @@
-SK PCT TOOLS – VERBINDLICHE ICON- UND MARKENRICHTLINIE
-Stand: V2.6.3.6-Beta · 16.10.2026
+SK PCT TOOLS – VERBINDLICHE ICON-, HEADER- UND MARKENRICHTLINIE
+Stand: V2.6.3.7-Beta · 17.10.2026
 
 1. APP-/HOMESCREEN-MARKE – NICHT VERÄNDERN
-- Die als App-/Homescreen-Icon freigegebene Marke bleibt bytegenau unverändert.
+- Die freigegebene App-/Homescreen-Marke bleibt bytegenau unverändert.
 - Geschützte Dateien: logo-sk-pct-tools.png, favicon.png, apple-touch-icon.png,
   icon-192.png, icon-512.png, icon-maskable-192.png und icon-maskable-512.png.
-- PWA-Manifest und Browser-/Apple-Verweise verwenden ausschließlich diese Familie.
 - Reproduzierbare Quelle: tools/generate_brand_assets.py.
 
 2. SICHTBARE HEADERLOGO-VARIANTE
 - Ausschließlich assets/logo-sk-pct-tools-header.png verwenden.
-- Gleiches Grundgehäuse wie die App-Marke, aber kleineres PCT-Zahnrad.
-- Zahnradmitte exakt 256/256; root_radius 112, tooth_radius 138.
-- Außenkante, Leiterbahnen und Zahnrad dürfen sich optisch nicht bedrängen.
 - Der HTML/CSS-Host bleibt transparent, rahmenlos und schattenfrei.
 - Headerlogo niemals als Favicon, Apple-Touch-, Maskable- oder App-Icon verwenden.
 
 3. HEADERBUTTONS
 - Home, Zurück, Suche und Favoriten verwenden je eine vollständige PNG-Grafik.
-- Ein einzelner abgerundeter Cyan-/Blau-/Grün-Grundkörper mit schlanker Kontur.
-- Keine dekorativen Rails, Knoten, Farbstreifen, schwarzen Innenkacheln oder Schattenkachel.
-- Symbole groß, weiß und mit genau einer klaren schwarzen Kontur.
-- Bei der Lupe bleibt die Mitte offen und zeigt den farbigen Grundkörper.
+- Ein einzelner abgerundeter Cyan-/Blau-/Grün-Grundkörper mit schwarzer Kontur.
+- Keine zweite Kachel, dekorativen Rails, Farbstreifen oder schwarzen Innenpanels.
 - Die CSS-Touchfläche ist transparent, border: 0 und box-shadow: none.
-- Sichtbarer Fokus darf außerhalb liegen, die Geometrie aber nicht verändern.
+- Hover, Fokus, Antippen, Drücken und aktiv dürfen Größe/Position nicht verändern.
 
-4. VERSIONSFELD
-- Gleiche Bauhöhe wie Headerlogo und Headerbuttons.
-- Kompakte Fläche ohne breite Paneloptik, schwarze Doppelkontur, inneren Rahmen oder
-  dekorative Akzentlinie am unteren Rand.
-- Cyan links, Grün rechts und ein zurückhaltender Blauanteil in der Fläche genügen.
-- Text exakt: V2.6.3.6-Beta und „Tool by S.K.“.
+4. RELEASE-MODUL
+- Die alte Versionsfeld-/Textpanel-Implementierung wird nicht weiterverwendet.
+- Sichtbarer Grundkörper: assets/release-module-v2-6-3-7.png.
+- Die breite PNG-Haut verwendet exakt dieselbe Gradient-, Kontur-, Rundungs- und
+  Lichtkantenlogik wie navigation_frame() im gemeinsamen PNG-Generator.
+- Der Host pct-release-module ist transparent, border: 0, background: transparent
+  und box-shadow: none; die PNG-Haut ist der einzige sichtbare Körper.
+- Keine separate schwarze Außenkachel, kein Panelrahmen, keine Doppelkontur,
+  keine isolierten Cyan-/Grün-Seitenlinien.
+- Text exakt: „V2.6.3.7-Beta“ und darunter „Tool by S.K.“.
+- Text bleibt HTML für Lesbarkeit, Barrierefreiheit und längere Versionsstände.
+- Desktop/Tablet: 52 px Höhe; Smartphone/kleine Querformate: 44 px Höhe.
+- Das Modul darf breiter als ein quadratischer Button sein, teilt aber sichtbare
+  Bauhöhe, Mittellinie, Rundung und Materiallogik der Headerbutton-Familie.
 
 5. APP-, WISSENS- UND HERSTELLERGRAFIKEN
-- 20 bestehende Grafiken bleiben inhaltlich/binär unverändert.
-- Aktiver Bestand insgesamt: 24 PNGs mit Präfix v2-6-3-6- unter
-  assets/navigation-icons/ (20 Bestandsgrafiken plus vier bereinigte Headergrafiken).
+- 20 bestehende Fachgrafiken bleiben inhaltlich und binär unverändert.
+- Gesamtbestand: 24 PNGs mit Präfix v2-6-3-7- unter assets/navigation-icons/
+  (20 Fachgrafiken plus Home, Zurück, Suche und Favoriten).
 - Reproduzierbare Quelle: tools/generate_png_icons.py.
 
 6. GEMEINSAME HEADERGEOMETRIE
-- Logo, Versionsfeld und Buttons teilen exakt eine vertikale Mittellinie.
-- Desktop/Tablet: 52 × 52 px; Smartphone und kleine Querformate: 44 × 44 px.
-- Keine zusätzliche schwarze umgebende CSS-Kachel.
-- Außenabstände und Lücken bleiben innerhalb eines Viewports konsistent.
+- Logo, Release-Modul und Headerbuttons teilen exakt eine vertikale Mittellinie.
+- Sortiermodus verändert den Header nicht; die Steuerung bleibt separat.
+- Keine Zustandsregel darf width, height, margin, transform oder translate ändern.
+- Touchflächen bleiben mindestens 44 × 44 px.
 
 7. APP-FAVORITEN – NICHT VERÄNDERN
-- App-Favoritensterne bleiben separate HTML-/SVG-Bedienelemente.
-- Jeder Favoritenbutton ist direkt im festen .sk-app-icon-wrapper verankert.
+- Jeder Favoritenbutton bleibt direkt im festen .sk-app-icon-wrapper verankert.
 - Sichtbarer Kreis 22 px, Touchfläche mindestens 44 × 44 px.
 - Mittelpunkt exakt auf der oberen rechten tatsächlichen Iconkante.
 - Aktive und inaktive Zustände besitzen dieselbe Geometrie.
 
 8. OFFLINE UND ABNAHME
-- Alle 24 Navigation-/Appgrafiken, sieben geschützten Marken-/PWA-PNGs und die separate
-  Headerlogo-Datei gehören in den Kerncache v2-6-3-6-core-r1.
-- PNG-Signatur, Größe, Alpha, Referenzhash, geschützte Hashes, lokale Referenzen und
-  Browserdarstellung werden automatisiert geprüft.
+- Alle 24 Navigation-/Appgrafiken, sieben geschützten Marken-/PWA-PNGs,
+  Headerlogo und Release-Modul-Haut gehören in v2-6-3-7-core-r1.
+- PNG-Signatur, Maße, Alpha, feste Hashes, lokale Referenzen, Browserdarstellung,
+  längere Versionsstände und pixelidentische Sortierheader werden automatisiert geprüft.

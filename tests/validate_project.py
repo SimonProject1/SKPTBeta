@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.6-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.7-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.3.6-Beta'
-VERSION_SLUG='v2-6-3-6'
+VERSION='2.6.3.7-Beta'
+VERSION_SLUG='v2-6-3-7'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -31,6 +31,8 @@ BRAND_SHA256={
 }
 HEADER_LOGO='logo-sk-pct-tools-header.png'
 HEADER_LOGO_SHA256='5128cff1bf2864d8821ac25f363c14a7ff52bd5a130cf2db023a80f9b0cf1aed'
+RELEASE_MODULE='release-module-v2-6-3-7.png'
+RELEASE_MODULE_SHA256='4d7fd9a089525219f0488045f2b8c98f4ac6f7b3921479ab0bb99718cc5c5289'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
 APP_ICON_MAP={
@@ -158,7 +160,7 @@ def main()->int:
 
     css=(ROOT/SHARED_CSS).read_text();js=(ROOT/SHARED_JS).read_text()
     check(css.count('!important')<=5,f'Zu viele !important: {css.count("!important")}',errors)
-    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','strukturell icongebundene Favoriten','sk-app-icon-wrapper','tatsächlichen sichtbaren','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-ring-inset:11px','inset-block-start:-22px','inset-inline-end:-22px','translate:none','konsolidierte Header-, Logo- und Navigationsfamilie','--sk-industrial-cyan:#00e6f1','--sk-industrial-blue:#008cff','--sk-industrial-green:#78ff32','--sk-industrial-control-size:52px','.pct-version-plate .sk-version-value','.pct-version-plate .sk-version-byline','overflow-wrap:anywhere','border-left:4px solid var(--sk-industrial-cyan)','border-right:4px solid var(--sk-industrial-green)','content:none','Ein zweites schwarzes CSS-Gehäuse existiert bewusst nicht'):
+    for token in ('--sk-touch-min:44px','--sk-header-size:76px','--sk-footer-size:38px','viewport','strukturell icongebundene Favoriten','sk-app-icon-wrapper','tatsächlichen sichtbaren','--sk-favorite-touch-size:44px','--sk-favorite-visible-size:22px','--sk-favorite-ring-inset:11px','inset-block-start:-22px','inset-inline-end:-22px','translate:none','konsolidierte Header-, Logo- und Navigationsfamilie','--sk-industrial-cyan:#00e6f1','--sk-industrial-blue:#008cff','--sk-industrial-green:#78ff32','--sk-industrial-control-size:52px','eigenständiges Release-Modul der Icon-Familie','.sk-header-release-module.pct-release-module','.pct-home-release-module.pct-release-module','.pct-release-module>.pct-release-module-skin','.pct-release-module-copy','.sk-release-number','.sk-release-credit','container-type:inline-size','background:transparent;','box-shadow:none;','object-fit:fill'):
         check(token in css,f'Zentrale CSS-Regel fehlt: {token}',errors)
     check(css.count('transform:none')>=15 and css.count('translate:none')>=15,'Bewegungsfreie Interaktionszustände sind nicht ausreichend abgesichert.',errors)
     check('sk-home-app.card:hover{transform:translateY' not in css,'Startseiten-Hover verschiebt App-Icons noch.',errors)
@@ -168,14 +170,14 @@ def main()->int:
     check('animation:none!important' in css and '.sk-home-app:not(.is-dragging){animation:pct-home-wiggle' in css,'Historische Kachel-Wackelregel wird nicht sicher neutralisiert.',errors)
     for token in ('headerneutraler, layoutstabiler Sortiermodus','pct-home-edit-actions','pct-home-history-button','pct-home-drop-placeholder','pct-home-placeholder-icon','pct-home-drag-layer','pct-home-drag-overlay','position:fixed','z-index:110','z-index:90','contain:none','safe-area-inset-bottom','scroll-padding-block-end'):
         check(token in css,f'Neue Sortiermodus-CSS-Struktur fehlt: {token}',errors)
-    sort_css=css.split('/* === V2.6.3.6-Beta: headerneutraler, layoutstabiler Sortiermodus',1)[-1]
+    sort_css=css.split('/* === V2.6.3.7-Beta: headerneutraler, layoutstabiler Sortiermodus',1)[-1]
     for forbidden in ('.pct-home-editing .pct-home-head','.pct-home-editing .pct-home-brand','.pct-home-editing .pct-home-quick-actions','.pct-home-editing .pct-home-utility','.pct-home-editing .pct-home-search-panel'):
         check(forbidden not in sort_css,f'Sortiermodus verändert weiterhin den normalen Header: {forbidden}',errors)
     check('aria-hidden="true" class="pct-home-edit-actions" hidden="" role="toolbar"' in start,'Separates, initial ausgeblendetes Sortier-Dock fehlt.',errors)
-    final_css=css.split('/* === V2.6.3.6-Beta: strukturell icongebundene Favoriten',1)[-1]
+    final_css=css.split('/* === V2.6.3.7-Beta: strukturell icongebundene Favoriten',1)[-1]
     check(final_css.count('>.sk-app-icon-wrapper>.sk-favorite-button.pct-control')>=10,'Direkte Wrapper-Verankerung des Favoritenbuttons fehlt.',errors)
     check('calc(50%' not in final_css and '--sk-home-icon-top' not in final_css and '--sk-knowledge-icon-top' not in final_css,'Finale Favoritenposition hängt noch von Kachelmitte oder Geräteabständen ab.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-6.json','logo-sk-pct-tools-header.png','v2-6-3-6-nav-home.png','v2-6-3-6-nav-search.png','v2-6-3-6-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-version-plate','sk-version-value','sk-version-byline','Tool by S.K.'):
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-7.json','logo-sk-pct-tools-header.png','release-module-v2-6-3-7.png','v2-6-3-7-nav-home.png','v2-6-3-7-nav-search.png','v2-6-3-7-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-release-module','sk-release-number','sk-release-credit','fitReleaseModules','Tool by S.K.'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     for token in (
         "mode:'navigate'","phase:'idle'","grid.dataset.reorderEngine='pointer-overlay-v3'",
@@ -191,7 +193,8 @@ def main()->int:
         check(token in js,f'Neue Reorder-Zustandsmaschine unvollständig: {token}',errors)
     for obsolete in ('suppressedClick','until:now()+700','clearClickSuppression','editing?360:480','suppressClick=false'):
         check(obsolete not in js,f'Alte Sortier-/Klicklogik noch vorhanden: {obsolete}',errors)
-    check(start.count('Tool by S.K.')==2 and 'class="pct-home-version pct-version-plate"' in start,'Startseiten-Versionsschild oder exakter Herkunftstext fehlt.',errors)
+    check(start.count('Tool by S.K.')==2 and 'class="pct-home-release-module pct-release-module"' in start,'Startseiten-Release-Modul oder exakter Herkunftstext fehlt.',errors)
+    check(not any(token in start+js for token in ('pct-version-plate','pct-home-version','sk-header-version','sk-version-value','sk-version-byline')),'Alte Versionsfeld-/Textpanel-Implementierung ist noch operativ.',errors)
     check('Object.keys(localStorage).find' not in js,'Veraltete Favoriten-Key-Migration noch vorhanden.',errors)
 
     nav_dir=ROOT/'assets/navigation-icons';icons=sorted(nav_dir.glob('*.png'))
@@ -259,6 +262,14 @@ def main()->int:
         with Image.open(header_logo) as image:
             rgba=image.convert('RGBA');check(rgba.size==(512,512) and rgba.getchannel('A').getbbox()==(13,9,489,491),'Header-Logo-Geometrie fehlerhaft.',errors)
     check('logo-sk-pct-tools-header.png' in start and 'alt="SK PCT Tools"' in start and "Tool's by S.K." not in start,'Separate textfreie Startseiten-Headerlogo-Variante fehlt.',errors)
+    release_module=ROOT/'assets'/RELEASE_MODULE
+    check(release_module.is_file() and hashlib.sha256(release_module.read_bytes()).hexdigest()==RELEASE_MODULE_SHA256,'Release-Modul-Haut fehlt oder wurde verändert.',errors)
+    if release_module.is_file():
+        with Image.open(release_module) as image:
+            rgba=image.convert('RGBA')
+            check(rgba.size==(1536,512) and rgba.getchannel('A').getbbox()==(25,25,1511,487),'Release-Modul-Geometrie fehlerhaft.',errors)
+            left,center,right=rgba.getpixel((52,256)),rgba.getpixel((768,256)),rgba.getpixel((1484,256))
+            check(left[1]>left[2] and center[1]>100 and center[2]>100 and right[2]>right[1],'Cyan-/Blau-/Grün-Materialität des Release-Moduls fehlt.',errors)
     for token in ('border:0;','background:transparent;','box-shadow:none;','overflow:visible;','width:var(--sk-header-logo-size);','height:var(--sk-header-logo-size);'):
         check(token in css,f'Rahmenloser Header-/Startseitenlogo-Standard fehlt: {token}',errors)
 
@@ -270,18 +281,19 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-3-6-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-3-7-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
     for icon in NAV_ICONS:check(f"'./assets/navigation-icons/{icon}'" in worker,f'Icon fehlt im Offline-Cache: {icon}',errors)
     for brand in BRAND_ASSETS:check(f"'./assets/{brand}'" in worker,f'Marken-/PWA-Datei fehlt im Offline-Cache: {brand}',errors)
     check(f"'./assets/{HEADER_LOGO}'" in worker,'Separate Headerlogo-Variante fehlt im Offline-Cache.',errors)
+    check(f"'./assets/{RELEASE_MODULE}'" in worker,'Release-Modul-Haut fehlt im Offline-Cache.',errors)
     for stale in ('core.css','design-system.css','pct-frame.css','knowledge-cartoon.css','ICON-DESIGNRICHTLINIE.txt'):
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-3-6-"','def navigation_frame()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
+    for token in ('PREFIX = "v2-6-3-7-"','RELEASE_MODULE_OUT','def navigation_frame()','def release_module_skin()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     brand_generator=(ROOT/'tools/generate_brand_assets.py').read_text()
     for token in ('def standard_master()','def header_master()','def maskable_master()','gear_points(256, 256)','root_radius: float = 145','tooth_radius: float = 176','root_radius=112','tooth_radius=138','"PCT", 108','result.putalpha(255)'):
@@ -291,7 +303,7 @@ def main()->int:
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.6-Beta.txt'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.7-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'

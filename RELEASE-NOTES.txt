@@ -1,72 +1,58 @@
-SK PCT Tools V2.6.3.6-Beta – Release Notes
+SK PCT Tools V2.6.3.7-Beta – Release Notes
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.5-Beta
+Basis: vollständige V2.6.3.6-Beta
 
 ZIEL
-Der normale Header soll im Sortiermodus exakt so bleiben wie im Normalmodus. Die freie
-Drag-and-Drop-Neuordnung aus V2.6.3.5-Beta bleibt erhalten, während die dort ersetzende
-kompakte Header-Sortierleiste entfällt.
+Die Versionsanzeige wurde vollständig neu aufgebaut. Sie ist kein flaches Textpanel
+mehr, sondern ein eigenständiges kompaktes Modul derselben freigegebenen technisch-
+industriellen Designfamilie wie Suche, Favoriten und die App-Icons.
 
-HEADERNEUTRALER SORTIERMODUS
-- Alle historischen Sortierregeln, die Header, Marke, Schnellzugriffe, Suche oder Favoriten
-  ausblenden, neu positionieren oder umstrukturieren konnten, wurden entfernt.
-- Das Sortier-Dock ist im DOM ein Geschwisterelement des Headers und kein Headerbestandteil.
-- Der Header wird beim Moduswechsel nicht ausgeblendet, ersetzt, verkleinert, sticky gesetzt,
-  umsortiert oder mit modusspezifischen Stilen überschrieben.
-- Logo, Versionsfeld, Versionsnummer, Tool-by-S.K.-Text, Suche, Favoritenbutton und Zähler
-  bleiben während Aktivierung, Drag und Beenden vollständig sichtbar und geometrisch identisch.
-- Pixelvergleiche der Headeraufnahme sind für 320 × 700, 390 × 844, 844 × 390,
-  820 × 1180 und 1440 × 1000 identisch.
+NEUES RELEASE-MODUL
+- Alte operative Klassen/Struktur pct-version-plate, pct-home-version,
+  sk-header-version, sk-version-value und sk-version-byline entfernt.
+- Neue gemeinsame Struktur: pct-release-module mit separater PNG-Haut und
+  zugänglichem HTML-Text.
+- Neue Grafik: assets/release-module-v2-6-3-7.png, 1536 × 512 px, RGBA.
+- Reproduzierbare Quelle: tools/generate_png_icons.py / release_module_skin().
+- Ein einzelner Cyan-/Blau-/Grün-Grundkörper mit schwarzer Kontur, abgerundeter
+  Form, Lichtkante und derselben Materialwirkung wie die Headerbuttons.
+- Kein äußerer schwarzer CSS-Kasten, keine umgebende Kachel, kein alter Panelrahmen,
+  keine seitlichen Farbstreifen und kein zusätzlicher CSS-Schatten.
+- Vollständige Anzeige „V2.6.3.7-Beta“; darunter „Tool by S.K.“.
+- Responsive Breite bei unveränderter sichtbarer Höhe von 52 beziehungsweise 44 px.
+- Längere Versionsstände werden innerhalb des vorhandenen Moduls angepasst, ohne
+  Abschneiden, Umbruch des Credits oder Veränderung der Headerposition.
 
-SEPARATES SORTIER-DOCK
-- Rückgängig, Wiederholen, Standard und Fertig liegen in einem kompakten, viewportfesten Dock.
-- Das Dock liegt außerhalb des Dokumentflusses und verursacht keinen Layoutsprung.
-- iOS-Safe-Areas, kleine Viewports und Scrollabstände werden berücksichtigt.
-- Das Dock überdeckt in allen geprüften Profilen weder Header noch erste App-Reihe oder Beschriftungen.
-- Alle vier Bedienfunktionen besitzen mindestens 44 × 44 px Touchfläche.
-- Beim Beenden wird das Dock semantisch und visuell ausgeblendet; Apps öffnen sofort wieder normal.
+HEADER- UND INTERAKTIONSSTABILITÄT
+- Logo, Release-Modul, Suche, Favoriten und Favoritenzähler teilen eine vertikale
+  Mittellinie im normalen Header und im Sortiermodus.
+- Hover, Fokus, Drücken, aktiv und aria-expanded verändern keine Position,
+  Außenmaße oder Transformation der Headerobjekte.
+- Der Header bleibt im Sortiermodus DOM-, Stil-, Geometrie- und pixelidentisch.
+- Das Sortier-Dock bleibt getrennt, fixed und außerhalb von Header/Dokumentfluss.
 
-WACKELANIMATION
-- Die frühere Kachel-Wackelregel wird im aktiven Sortiermodus sicher neutralisiert.
-- Die Animation wirkt ausschließlich auf das direkte PNG im gemeinsamen Icon-Wrapper.
-- Kachel, Wrapper, Beschriftung und Favoritenbutton behalten Position, Außenmaß und Transformation.
-- prefers-reduced-motion deaktiviert die Animation vollständig.
-
-DRAG-OVERLAY UND PLATZHALTER
-- Beim Aufnehmen wird das Originalelement aus dem Raster gelöst und durch einen maßgleichen
-  Platzhalter ersetzt.
-- Die feste Mindesthöhe des Platzhalters wurde entfernt, damit auch kurze Landscape-Rasterzeilen
-  beim Aufnehmen exakt unverändert bleiben.
-- Das gezogene Icon wird als separate, viewportfeste body-Ebene dargestellt.
-- Die Drag-Ebene ist nicht von Grid-Zellen, overflow, transform, containment oder Parentgrenzen abhängig.
-- elementsFromPoint erkennt direkte Zielkacheln; eine Distanzsuche sichert Rand- und Zwischenbereiche ab.
-- Drag-Grenzen berücksichtigen den unveränderten Header und das separate Sortier-Dock.
-- Auto-Scroll bewertet die Zielposition nur erneut, wenn der gewählte Scrollhost seine Position
-  tatsächlich verändert hat. Dadurch bleibt die erkannte Zielzelle zuverlässig stabil.
-
-INTERAKTION UND ZUSTAND
-- Kurzer Tap im Normalmodus öffnet die App; eine frühe Bewegung bleibt Scrollgeste.
-- Long-Press startet die Sortierung. Drop speichert und kehrt direkt zum Normalmodus zurück.
-- Ein möglicher synthetischer Abschlussklick wird genau für die gezogene App abgefangen; der nächste
-  echte Pointerdown gibt die App sofort wieder frei.
-- pointercancel, lostpointercapture, blur, pagehide, visibilitychange, Escape und Fertig bereinigen
-  Overlay, Platzhalter, Capture und Modus vollständig.
-- Abbruch stellt die Reihenfolge vor dem Drag wieder her.
-- Rückgängig/Wiederholen, Tastatursteuerung, Mehrfachsortierung, Standardreihenfolge,
-  Storage-Synchronisierung und Reload-Wiederherstellung sind abgesichert.
+BEWUSST UNVERÄNDERT
+- 24 versionierte Navigations-/App-/Wissens-/Hersteller-PNGs: identische SHA-256-Werte
+- Logo-, Favicon-, Apple-Touch- und Maskable-Grafiken
+- Drag-and-Drop-Reorder-Engine pointer-overlay-v3
+- Rasterplatzhalter, freie Drag-Ebene, History und skPctHomeOrderV1
+- Suche, Favoriten, Zähler, Navigation, Touchziele und Barrierefreiheit
+- alle Rechner, Datenbanken, Wissensbeiträge und externen Ziele
+- Offline-Start, Offline-Unterseiten und Service-Worker-Upgrade
 
 VERSIONIERUNG
-- assets/app-v2-6-3-6.css
-- assets/app-v2-6-3-6.js
-- assets/search-index-v2-6-3-6.json
-- manifest-v2-6-3-6.webmanifest
-- service-worker.js · Cache-Epoch v2-6-3-6-core-r1
-- UEBERGABE-V2.6.3.6-Beta.txt
+- assets/app-v2-6-3-7.css
+- assets/app-v2-6-3-7.js
+- assets/search-index-v2-6-3-7.json
+- assets/release-module-v2-6-3-7.png
+- assets/navigation-icons/v2-6-3-7-*.png
+- manifest-v2-6-3-7.webmanifest
+- service-worker.js · Cache-Epoch v2-6-3-7-core-r1
+- UEBERGABE-V2.6.3.7-Beta.txt
 
 QUALITÄTSSICHERUNG
-PASS: 82 Dateien, Struktur, Referenzen, Prüfsummen, 15 Routen × 3 Haupt-Viewports,
-320-px-Reflow, fünf Reorder-Profile, pixelidentische Headerzustände, Dock-Kollisionen,
-Icon-only-Wackeln, freie Drag-Ebene, Rasterplatzhalter, Ziehen über Reihen/Spalten, Drop,
-pointercancel, pagehide, Rückgängig/Wiederholen, Mehrfachsortierung, Speicherung, Reload,
-Favoriten, echte Navigation, sechs Rechnerreferenzen, Offlinebetrieb und Cache-Upgrade.
-Details: TEST-RESULTS.txt.
+PASS: 83 Projektdateien, vollständige Prüfsummen, 15 aktive Routen × Smartphone,
+Tablet und Desktop, 320-px-Reflow, längerer Versionsstand, 5 Reorder-Profile,
+1.430 Browserprüfungen, Headerzustände mit 0 geänderten Pixeln, Hover/Fokus/Press,
+Touch/Pointer, Drag-and-Drop, Favoriten, Suche, 6 Rechnerreferenzen, Offlinebetrieb
+und Cache-Upgrade. Details: TEST-RESULTS.txt.

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Generate the complete SK PCT Tools V2.6.3.6-Beta icon system.
+"""Generate the complete SK PCT Tools V2.6.3.7-Beta icon system.
 
 Design goal: retain the approved application/knowledge icon family while giving
 the four header/navigation controls a deliberately calmer body: one compact
 cyan/blue/green surface, no second black tile, no decorative circuit rails and
-large white symbols with one clean black contour.
+large white symbols with one clean black contour.  The release module skin uses
+the very same navigation body, light edge and material treatment in a wide form.
 """
 from __future__ import annotations
 
@@ -17,7 +18,8 @@ SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-3-6-"
+PREFIX = "v2-6-3-7-"
+RELEASE_MODULE_OUT = ROOT / "assets" / "release-module-v2-6-3-7.png"
 WHITE = (255, 255, 255, 255)
 BLACK = (0, 0, 0, 255)
 DARK = (3, 15, 24, 255)
@@ -163,6 +165,32 @@ def navigation_frame() -> Image.Image:
     sheen.putalpha(Image.composite(sheen.getchannel("A"), Image.new("L", (CANVAS, CANVAS), 0), mask))
     image.alpha_composite(sheen)
     return image
+
+
+def release_module_skin() -> Image.Image:
+    """Wide, text-free companion to the approved navigation control body.
+
+    Text intentionally remains accessible HTML so longer release identifiers can
+    be fitted without baking a specific version into the graphic.
+    """
+    wide_size = 1536
+    image = Image.new("RGBA", (sc(wide_size), CANVAS), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
+    outer = box((28, 28, wide_size - 28, 484))
+    inner = box((40, 40, wide_size - 40, 472))
+    draw.rounded_rectangle(outer, radius=sc(116), fill=BLACK)
+    mask = Image.new("L", image.size, 0)
+    ImageDraw.Draw(mask).rounded_rectangle(inner, radius=sc(104), fill=255)
+    gradient = area_gradient().resize((inner[2] - inner[0], inner[3] - inner[1]), Image.Resampling.BICUBIC)
+    layer = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    layer.paste(gradient, (inner[0], inner[1]))
+    image.alpha_composite(Image.composite(layer, Image.new("RGBA", image.size, (0, 0, 0, 0)), mask))
+    sheen = Image.new("RGBA", image.size, (0, 0, 0, 0))
+    sd = ImageDraw.Draw(sheen)
+    sd.ellipse(box((44, -92, 1290, 252)), fill=(255, 255, 255, 22))
+    sheen.putalpha(Image.composite(sheen.getchannel("A"), Image.new("L", image.size, 0), mask))
+    image.alpha_composite(sheen)
+    return image.resize((wide_size, SIZE), Image.Resampling.LANCZOS)
 
 
 def rr(draw, rect, radius=18, fill=WHITE, contour=MOTIF_CONTOUR):
@@ -464,7 +492,8 @@ def main():
         "nav-favorite": nav_favorite,
     }
     for name, factory in icons.items(): save(name, factory())
-    print(f"Generated {len(icons)} V2.6.3.6 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
+    release_module_skin().save(RELEASE_MODULE_OUT, format="PNG", optimize=True)
+    print(f"Generated {len(icons)} V2.6.3.7 icons and release-module skin in {OUT.parent} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
 
 
 if __name__ == "__main__":
