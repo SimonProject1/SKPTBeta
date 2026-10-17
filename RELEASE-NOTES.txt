@@ -1,64 +1,118 @@
-SK PCT Tools V2.6.4.0-Beta – Release Notes
+SK PCT Tools V2.6.5.0-Beta – Release Notes
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.9-Beta
+Basis: vollständige V2.6.4.0-Beta
+Releaseart: vollständiges Projektpaket
 
 ZIEL
-Die Wissensdatenbank und die Favoritenübersicht wurden in einem gemeinsamen,
-zentralen Designschritt auf die freigegebene technisch-industrielle Designfamilie
-der V2.6.3.9-Beta gebracht. Funktionen und freigegebene Grafikdateien bleiben erhalten.
+Sämtliche Empfehlungen des vollständigen Design-Audits der V2.6.4.0-Beta
+wurden als gemeinsamer, responsiver Standard für Startseite, Rechner,
+Datenbanken, Wissensseiten, Dialoge, Zustände und PWA-Betrieb umgesetzt.
+Fachfunktionen, Ziele, gespeicherte Daten und freigegebene Grafikwerte bleiben
+erhalten.
 
-WISSENSDATENBANK
-- Hersteller-Hub für Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges bereinigt.
-- Beitragskacheln für sämtliche fünf vorhandenen Wissensbeiträge konsistent bereinigt.
-- Ein gemeinsamer transparenter Geometriehost ersetzt alte CSS-Iconkacheln.
-- Zusätzliche Cyan-/Blau-/Grün-/Schwarz-Rahmen, gestapelte Konturen, Hintergrundwrapper,
-  Drop-Shadows und zusätzliche Filter um die freigegebenen PNGs entfernt.
-- Icongröße, sichtbare Alpha-Grenze, Position, Abstand und Textachse vereinheitlicht.
-- Hover, Fokus, Fokus-innen, Antippen, Drücken, Auswahl und Aktivzustand sind vollständig
-  transform-, translate- und scale-frei; PNG, Wrapper, Text und Kachel bleiben ortsfest.
-- Fokus/Touch-Rückmeldung erfolgt nur über dezente transparente Flächen und Outlines,
-  ohne Reflow oder Lageänderung.
-- Wissensbeitragskarten sind ebenfalls gegen bewegende Interaktionsregeln abgesichert.
+STARTSEITE
+- zusätzliche CSS-Rahmen, doppelte Cyan-Ringe, Versatzschatten und sichtbare
+  Wrapperflächen um App-PNGs entfernt
+- Wrapper auf Größe, Position, Touchfläche und feste Favoritenkopplung reduziert
+- Bezeichnungen ausgeschrieben und auf mindestens 12 px angehoben
+- Desktop ab 1100 px als gleichmäßiges 5-mal-2-Raster ausgeführt
+- Favoritenring beruhigt; Position, 44-px-Touchfläche und Kopplung unverändert
+- freie Drag-and-Drop-Sortierung, Icon-Wackeln, Speicherung, direkte Rückkehr zur
+  Navigation und normaler Header vollständig erhalten
 
-FAVORITENÜBERSICHT
-- Dialog, Kopf, Zählerzusammenfassung, Liste, Einträge, Symbole und leerer Zustand neu gestaltet.
-- Einfache Einzelkontur pro Listenzeile; alte schwarze Außenkästen, Mehrfachschatten,
-  Zierleisten und bewegende Control-Zustände entfernt.
-- „Alle leeren“ ergänzt; Einzellöschen, Navigation und Favoritenzähler bleiben erhalten.
-- Bestehender Local-Storage-Schlüssel skPctToolsFavoritesV2 bleibt unverändert.
-- role=dialog, aria-modal, beschrifteter Titel, Live-Status, Escape, Fokuswiederherstellung
-  und Fokusfalle für Tastaturbedienung umgesetzt.
-- Touchziele mindestens 44 px; iPhone-/PWA-Safe-Areas, 100dvh, Overscroll und Scrollverhalten
-  für Smartphone, Tablet und Desktop berücksichtigt.
+SEITENIDENTITÄT UND TYPOGRAFIE
+- alle Rechner, Datenbanken, Wissens- und Unterseiten zeigen ihr vorhandenes
+  App-, Modul-, Hersteller- oder Beitragsicon im Titelbereich
+- generisches großes PCT-Wasserzeichen aus Titelbereichen entfernt
+- transparente, ruhige Hosts ohne zusätzliche Kachel
+- zentrale Typografiestufen für Mikrotext, Kicker, Labels, Hilfstext,
+  Fließtext, Eingabewerte und Kartenbezeichnungen
+- kompakte mobile Zurück-Chips; vollständige Breadcrumbs auf Tablet/Desktop
+- kompakter Footer: „SK PCT Tools · Simon Kiesler · Offline verfügbar“
 
-BYTEGENAU UNVERÄNDERTE GRAFIKINHALTE
-- alle 24 Navigations-/App-/Wissens-/Hersteller-PNGs; nur Dateipräfix v2-6-4-0-
-- header-logo-simple.png
-- logo-sk-pct-tools.png und logo-sk-pct-tools-header.png
-- favicon.png, apple-touch-icon.png
-- icon-192.png, icon-512.png, icon-maskable-192.png, icon-maskable-512.png
-- Release-Modul-PNG; nur Dateiname release-module-v2-6-4-0.png
+BEDIENICON-FAMILIE UND TOUCH
+- wartbarer SVG-Sprite für Berechnen, Zurücksetzen, Kopieren, Datenbank,
+  Schließen, Entfernen, Alle leeren, Rückgängig, Wiederholen, Standard,
+  Fertig, Chevron unten/oben, Vorzeichen, Information, Warnung, Erfolg, Fehler
+- konsistente dunkle Kontur, weiße Hauptflächen und sparsame Cyan-/Grün-Akzente
+- ± ausschließlich für Vorzeichenwechsel
+- Chevron unten/oben für Kategorien, Details und Karten; Plus/Minus-Pseudoicons
+  als Aufklappsteuerung entfernt
+- wichtige Buttons, Selects, Links und Kopieraktionen mindestens 44 px hoch,
+  Primäraktionen bevorzugt 46–48 px
+- Hover, Fokus, Touch und Aktivzustand ohne Layout- oder Lageänderung
 
-UNVERÄNDERTE FUNKTIONEN
-- Drag-and-Drop-Reorder-Engine pointer-overlay-v3, Platzhalter und freie Drag-Ebene
-- unveränderter normaler Header im Sortiermodus und separates Sortier-Dock
-- Undo/Redo/Standard/Fertig, Suche, Headernavigation und Startseiten-App-Icons
-- feste App-Favoritenkopplung, Rechner, Datenbanken, externe Ziele und Offlinebetrieb
+SUCHE, FILTER UND SORTIERUNG
+- kollisionsfreie Suchsymbol-/Platzhalterabstände
+- Desktop: kompaktes Popover; Mobil: ausfahrendes, safe-area-fähiges Panel
+- Trefferliste direkt unter Filter/Sortierung; Suchumfang und Navigation erhalten
+- Sortiersteuerung mit eigener Iconfamilie, mobilen Iconbuttons und Desktoplabels
+- abgeschnittene Beschriftungen, unnötige Leerflächen und übergroße Panels reduziert
 
-VERSIONIERUNG
-- assets/app-v2-6-4-0.css und assets/app-v2-6-4-0.js
-- assets/search-index-v2-6-4-0.json
-- assets/release-module-v2-6-4-0.png
-- assets/navigation-icons/v2-6-4-0-*.png
-- manifest-v2-6-4-0.webmanifest
-- service-worker.js · Cache-Epoch v2-6-4-0-core-r1
-- UEBERGABE-V2.6.4.0-Beta.txt
+FAVORITEN
+- jede Favoritenzeile besitzt links das passende App-/Wissensicon
+- Titel und Beschreibung stehen mittig; Entfernen bleibt rechts
+- Local-Storage-Key skPctToolsFavoritesV2, Zähler, Navigation, leerer Zustand,
+  Einzellöschen und „Alle leeren“ bleiben kompatibel
+- vorhandene Favoriten ohne gespeichertes Icon werden anhand ihrer URL auf das
+  passende bestehende Icon abgebildet
+
+RECHNER
+- Feldbezeichnungen und Eingabewerte angehoben
+- Feldkarten und Einzelrahmen reduziert
+- Ergebnisflächen semantisch grün; neutrale Controls cyan/dunkel
+- Kopieraktionen mindestens 44 px, Vorzeichen eindeutig und ortsfest
+- Einheitendatenbank-Aktion mit kleinem Datenbank-Vektoricon
+- Siemens-Quellenlink als definierter cyanfarbener PCT-Link
+
+EINHEITENDATENBANK
+- flache Kategoriezeilen und Chevron-Steuerung
+- kompakter Favoriten-Leerzustand
+- Kategoriehinweise ausschließlich aus vorhandenen Beschreibungen
+- Suche, Filter, Favoriten, Formeln und Detaildaten unverändert
+
+WERKSTOFFDATENBANK
+- Gruppenfilter als ruhige, horizontal scanbare Controls
+- weniger gleichzeitig dominante Rahmen, Farblinien und Innenpanels
+- internationale Bezeichnungen kompakt scrollbar
+- Vergleich auf Mobil als Schlüssel-Wert-Darstellung
+- Such-, Filter-, Vergleichs- und Materiallogik unverändert
+
+WISSENSDATENBANK UND BEITRÄGE
+- vorhandenes Wissens-App-Icon im Hubtitel
+- fünf Hersteller auf Desktop gleichmäßig verteilt
+- Herstellerbezeichnungen vergrößert; Überschrift und Suche enger gekoppelt
+- Artikel mit Beitragsicon, kompaktem mobilem Breadcrumb und einer Metadatenebene
+- Abschnittsrahmen auf ruhige Trenner reduziert
+- Diagramm-/Prozessgrafiken auf schwarze Kontur, Weiß, Cyan und Grün vereinheitlicht
+- Fachinhalte, Quellen, Warnungen, Links und einklappbare Bereiche vollständig erhalten
+
+DESIGN-UNTERBAU
+- verbindliche CSS-Tokens für Farben, Oberflächen, Linien, Cyan, Grün, Warnung,
+  Gefahr, Radien, Typografiestufen, Schatten und Abstandsraster
+- gemeinsames Ebenenmodell App-Rahmen / Funktionspanel / Control
+- versionsgebundene zentrale CSS-/JS-Dateien und Assetreferenzen
+- dokumentierte Audit-Abnahme in DESIGN-AUDIT-V2.6.5.0-Beta.md
+
+BYTEGENAU UNVERÄNDERT
+- alle 24 freigegebenen App-, Navigations-, Hersteller- und Wissens-PNGs
+- App-, Header-, Homescreen-, PWA-, Maskable-, Favicon- und Markenlogos
+- Release-Modul-Grafikinhalt
+Die umbenannten v2-6-5-0-Dateien besitzen dieselben SHA-256-Inhalte wie die
+entsprechenden freigegebenen V2.6.4.0-Dateien.
+
+VERSIONIERUNG UND PWA
+- VERSION: 2.6.5.0-Beta
+- CSS/JS: assets/app-v2-6-5-0.css und assets/app-v2-6-5-0.js
+- Manifest: manifest-v2-6-5-0.webmanifest
+- Suchindex: assets/search-index-v2-6-5-0.json
+- Service Worker: Cache-Epoch v2-6-5-0-core-r1
+- Übergabe: UEBERGABE-V2.6.5.0-Beta.txt
 
 QUALITÄTSSICHERUNG
-- 86 Projektdateien einschließlich SHA256SUMS.txt
-- 1.431 vollständige Browser-/Touch-/Offline-/Reorder-Prüfungen
-- 345 zusätzliche Clean-Design-/Zustands-/Favoritendialog-Prüfungen
-- visuelle QA-Aufnahmen für Hersteller-Hub, Siemens-Ebene und Favoritendialog auf
-  iPhone/Smartphone, Tablet und Desktop
-- Struktur, Syntax, Integrität, lokale Referenzen und vollständige SHA-256-Prüfsummen
-Details: TEST-RESULTS.txt.
+Struktur, Referenzen, Hashschutz, Browser, Smartphone/iOS-PWA, Tablet, Desktop,
+Touch, Tastatur, Accessibility, Offline, Safe Area, Suche, Favoriten, Sortierung,
+Rechner, Datenbanken, Wissensbereiche, leere/geöffnete/Ergebnis-/Warn-/Fehler-
+und Interaktionszustände werden durch drei automatisierte Browserprogramme,
+Integritätsprüfung und visuelle QA abgedeckt. Details: TESTPLAN.md und
+TEST-RESULTS.txt.

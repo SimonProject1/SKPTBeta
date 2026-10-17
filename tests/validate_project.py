@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.4.0-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.5.0-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.4.0-Beta'
-VERSION_SLUG='v2-6-4-0'
+VERSION='2.6.5.0-Beta'
+VERSION_SLUG='v2-6-5-0'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -33,7 +33,7 @@ HEADER_LOGO='header-logo-simple.png'
 HEADER_LOGO_SHA256='6d5f179fb992998d5f9aee70a7c327f03796d06733ea27bc6562cefd5cb6fbd7'
 LEGACY_HEADER_LOGO='logo-sk-pct-tools-header.png'
 LEGACY_HEADER_LOGO_SHA256='5128cff1bf2864d8821ac25f363c14a7ff52bd5a130cf2db023a80f9b0cf1aed'
-RELEASE_MODULE='release-module-v2-6-4-0.png'
+RELEASE_MODULE='release-module-v2-6-5-0.png'
 RELEASE_MODULE_SHA256='4d7fd9a089525219f0488045f2b8c98f4ac6f7b3921479ab0bb99718cc5c5289'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
@@ -166,7 +166,7 @@ def main()->int:
         check(token in css,f'Zentrale CSS-Regel fehlt: {token}',errors)
     check(css.count('transform:none')>=15 and css.count('translate:none')>=15,'Bewegungsfreie Interaktionszustände sind nicht ausreichend abgesichert.',errors)
     check('sk-home-app.card:hover{transform:translateY' not in css,'Startseiten-Hover verschiebt App-Icons noch.',errors)
-    clean_css=css.split('/* === V2.6.4.0-Beta: gemeinsamer Clean-Designblock Wissenskacheln + Favoriten ===',1)[-1]
+    clean_css=css.split('/* === V2.6.5.0-Beta: gemeinsamer Clean-Designblock Wissenskacheln + Favoriten ===',1)[-1]
     check('translateY(' not in clean_css and 'scale(' not in clean_css,'Clean-Designblock enthält bewegende Kachel-/Control-Zustände.',errors)
     for token in ('>.knowledge-home-icon{','content:none;','background:transparent;','box-shadow:none;','transform:none;','translate:none;','scale:none;','.sk-favorites-clear.pct-control','safe-area-inset-top','overscroll-behavior:contain'):
         check(token in clean_css,f'Clean-Design-/Favoritenregel fehlt: {token}',errors)
@@ -176,14 +176,14 @@ def main()->int:
     check('animation:none!important' in css and '.sk-home-app:not(.is-dragging){animation:pct-home-wiggle' in css,'Historische Kachel-Wackelregel wird nicht sicher neutralisiert.',errors)
     for token in ('headerneutraler, layoutstabiler Sortiermodus','pct-home-edit-actions','pct-home-history-button','pct-home-drop-placeholder','pct-home-placeholder-icon','pct-home-drag-layer','pct-home-drag-overlay','position:fixed','z-index:110','z-index:90','contain:none','safe-area-inset-bottom','scroll-padding-block-end'):
         check(token in css,f'Neue Sortiermodus-CSS-Struktur fehlt: {token}',errors)
-    sort_css=css.split('/* === V2.6.4.0-Beta: headerneutraler, layoutstabiler Sortiermodus',1)[-1]
+    sort_css=css.split('/* === V2.6.5.0-Beta: headerneutraler, layoutstabiler Sortiermodus',1)[-1]
     for forbidden in ('.pct-home-editing .pct-home-head','.pct-home-editing .pct-home-brand','.pct-home-editing .pct-home-quick-actions','.pct-home-editing .pct-home-utility','.pct-home-editing .pct-home-search-panel'):
         check(forbidden not in sort_css,f'Sortiermodus verändert weiterhin den normalen Header: {forbidden}',errors)
-    check('aria-hidden="true" class="pct-home-edit-actions" hidden="" role="toolbar"' in start,'Separates, initial ausgeblendetes Sortier-Dock fehlt.',errors)
-    final_css=css.split('/* === V2.6.4.0-Beta: strukturell icongebundene Favoriten',1)[-1]
+    check('class="pct-home-edit-actions"' in start and 'role="toolbar"' in start and 'id="pctHomeDone"' in start,'Separates Sortier-Dock fehlt.',errors)
+    final_css=css.split('/* === V2.6.5.0-Beta: strukturell icongebundene Favoriten',1)[-1]
     check(final_css.count('>.sk-app-icon-wrapper>.sk-favorite-button.pct-control')>=10,'Direkte Wrapper-Verankerung des Favoritenbuttons fehlt.',errors)
     check('calc(50%' not in final_css and '--sk-home-icon-top' not in final_css and '--sk-knowledge-icon-top' not in final_css,'Finale Favoritenposition hängt noch von Kachelmitte oder Geräteabständen ab.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-4-0.json','header-logo-simple.png','release-module-v2-6-4-0.png','v2-6-4-0-nav-home.png','v2-6-4-0-nav-search.png','v2-6-4-0-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-release-module','sk-release-number','sk-release-credit','fitReleaseModules','Tool by S.K.','sk-favorites-clear','sk-favorites-summary',"setAttribute('aria-modal','true')",'focusable=','removeFavorite','Alle leeren'):
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-5-0.json','header-logo-simple.png','release-module-v2-6-5-0.png','v2-6-5-0-nav-home.png','v2-6-5-0-nav-search.png','v2-6-5-0-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-release-module','sk-release-number','sk-release-credit','fitReleaseModules','Tool by S.K.','sk-favorites-clear','sk-favorites-summary',"setAttribute('aria-modal','true')",'focusable=','removeFavorite','Alle leeren'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     for token in (
         "mode:'navigate'","phase:'idle'","grid.dataset.reorderEngine='pointer-overlay-v3'",
@@ -298,7 +298,7 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-4-0-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-5-0-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -310,7 +310,7 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-4-0-"','RELEASE_MODULE_OUT','def navigation_frame()','def release_module_skin()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
+    for token in ('PREFIX = "v2-6-5-0-"','RELEASE_MODULE_OUT','def navigation_frame()','def release_module_skin()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     brand_generator=(ROOT/'tools/generate_brand_assets.py').read_text()
     for token in ('def standard_master()','def header_master()','def maskable_master()','gear_points(256, 256)','root_radius: float = 145','tooth_radius: float = 176','root_radius=112','tooth_radius=138','"PCT", 108','result.putalpha(255)'):
@@ -325,7 +325,7 @@ def main()->int:
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.4.0-Beta.txt','tests/design_regression.py'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.5.0-Beta.txt','tests/design_regression.py','tests/design_audit_v2650.py'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'
@@ -342,7 +342,7 @@ def main()->int:
     if errors:
         print('FAIL');[print(f'- {e}') for e in errors];return 1
     files=sum(1 for p in ROOT.rglob('*') if p.is_file())
-    print(f'PASS · {files} Dateien · 10 Apps · 6 Rechner · 14 interne Unterseiten · 24 Navigationsicons · 2 Browser-Testprogramme · {css.count("!important")} !important · Version {VERSION}')
+    print(f'PASS · {files} Dateien · 10 Apps · 6 Rechner · 14 interne Unterseiten · 24 Navigationsicons · 3 Browser-Testprogramme · {css.count("!important")} !important · Version {VERSION}')
     return 0
 
 if __name__=='__main__':sys.exit(main())

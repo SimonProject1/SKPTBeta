@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate only the simplified visible header logo for SK PCT Tools V2.6.4.0-Beta.
+"""Generate only the simplified visible header logo for SK PCT Tools V2.6.5.0-Beta.
 
 This standalone generator deliberately writes only assets/header-logo-simple.png.
 It must never overwrite the approved PWA, favicon, Apple touch, maskable or

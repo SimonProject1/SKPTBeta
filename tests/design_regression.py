@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V2.6.4.0-Beta: Clean-Design-, Zustands-, Touch- und Favoritendialog-Prüfung."""
+"""V2.6.5.0-Beta: Clean-Design-, Zustands-, Touch- und Favoritendialog-Prüfung."""
 from __future__ import annotations
 import glob, os, sys
 from urllib.parse import urljoin
@@ -53,7 +53,7 @@ with sync_playwright() as p:
             check(hubs.count()==5,f'{name}: {hubs.count()} statt 5 Herstellerkacheln')
             for index in range(hubs.count()):verify_stable_states(page,hubs.nth(index),f'{name} Hersteller {index+1}')
             hub_files=page.eval_on_selector_all('.knowledge-hub-card img.knowledge-brand-logo',"nodes=>nodes.map(n=>({file:n.src.split('?')[0].split('/').pop(),natural:[n.naturalWidth,n.naturalHeight],broken:!n.complete||n.naturalWidth===0}))")
-            check(len(hub_files)==5 and all(item['file'].startswith('v2-6-4-0-manufacturer-') and item['natural']==[512,512] and not item['broken'] for item in hub_files),f'{name}: Hersteller-PNGs fehlerhaft: {hub_files}')
+            check(len(hub_files)==5 and all(item['file'].startswith('v2-6-5-0-manufacturer-') and item['natural']==[512,512] and not item['broken'] for item in hub_files),f'{name}: Hersteller-PNGs fehlerhaft: {hub_files}')
 
             total_entries=0
             for manufacturer in MANUFACTURERS:

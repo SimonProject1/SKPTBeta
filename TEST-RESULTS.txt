@@ -1,103 +1,111 @@
-SK PCT Tools V2.6.4.0-Beta – Testergebnisse
+TESTERGEBNISSE – SK PCT Tools V2.6.5.0-Beta
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.9-Beta
+Basis: vollständige V2.6.4.0-Beta
+Gesamturteil: PASS
 
-GESAMTERGEBNIS: PASS
-
-1. STRUKTUR, SYNTAX UND INTEGRITÄT
-PASS · 86 Projektdateien einschließlich SHA256SUMS.txt · 10 Apps · 6 Rechner ·
-14 interne Unterseiten · 24 Navigationsicons · 2 Browser-Testprogramme ·
-2 !important · Version 2.6.4.0-Beta
-
-Geprüft:
-- HTML-, CSS-, JavaScript- und Python-Syntax
-- lokale Referenzen, Manifest, Suchindex, Service Worker und Cache-Epoch
-- vollständiger Dateibestand in SHA256SUMS.txt
-- keine operative Referenz auf V2.6.3.9-Beta oder alte versionierte Laufzeitdateien
-- zentrale Clean-Design-, Bewegungsfreiheits- und Favoritendialog-Regeln
-
-2. GRAFIKINTEGRITÄT
-PASS · 34 binäre Grafikvergleiche gegen die vollständige V2.6.3.9-Beta
-
-Bytegenau unverändert bestätigt:
-- sämtliche 24 Navigations-/App-/Wissens-/Hersteller-PNG-Inhalte
-- header-logo-simple.png und Release-Modul-PNG-Inhalt
-- logo-sk-pct-tools.png und logo-sk-pct-tools-header.png
-- favicon.png und apple-touch-icon.png
-- icon-192.png, icon-512.png, icon-maskable-192.png und icon-maskable-512.png
-
-Zusätzlich bestanden:
-- versionierte Dateipräfixe v2-6-4-0- und aktualisierte Referenzen
-- PNG-Signatur, 512 × 512 px, Alpha-Grenzen und feste SHA-256-Werte
-- Manifest-Pfade, Größen und Purpose unverändert korrekt
-- keine neue CSS-Dekorfläche oder Filterung um Wissens-/Hersteller-PNGs
-
-3. VOLLSTÄNDIGE BROWSER-, TOUCH-, REORDER- UND OFFLINEREGRESSION
-PASS · 1.431 Browserprüfungen · 15 Seiten × 3 Haupt-Viewports ·
-5 Reorder-Profile · Drag/Touch/Pointer · Reflow 320 px · 6 Rechnerreferenzen · Offline
-
-Haupt-Viewports:
-- Smartphone/iPhone 390 × 844
-- Tablet 820 × 1180
-- Desktop 1440 × 1000
-
-Reorder-/Sonderprofile:
-- kleines Smartphone 320 × 700
-- iPhone-PWA 390 × 844
-- iPhone-Landscape 844 × 390
-- Tablet-Touch 820 × 1180
-- Desktop-Pointer 1440 × 1000
-
-Bestanden:
-- normaler Header vor, während und nach Sortierung pixelidentisch
-- separates Sortier-Dock, Long-Press, Drag/Drop, Abbruch, Undo/Redo, Reset und Reload
-- Suche, Headernavigation, Favoritenzähler und feste App-Favoritenkopplung
-- Rechnerreferenzen, Grenzwerte, Reset und Vorzeichen-Touchziele
-- 320-px-Reflow, Safe-Area und horizontale Überläufe
-- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-4-0-core-r1
-
-4. CLEAN-DESIGN- UND ZUSTANDSREGRESSION
-PASS · 345 zusätzliche Designprüfungen · 3 Viewports · 5 Hersteller ·
-5 Wissensbeiträge · Touch · Tastatur
-
-Bestanden:
-- Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges vollständig vermessen
-- alle fünf Wissensbeitragskacheln vollständig vermessen
-- transparente Iconhosts: border 0, transparenter Hintergrund, kein Shadow, kein Filter
-- keine Wrapper-Pseudorahmen über ::before oder ::after
-- identische 512-px-PNG-Geometrie und gemeinsame Textachsen
-- Kachel, Wrapper, PNG und Text in Ruhe, Hover, Fokus, Drücken und aktiv ortsfest
-- transform, translate und scale in allen geprüften Zuständen jeweils none
-- dezente layoutneutrale Fokus-/Auswahlrückmeldung
-
-5. FAVORITENDIALOG
+1. STRUKTUR, REFERENZEN UND INTEGRITÄT
 PASS
+- 88 Projektdateien einschließlich SHA256SUMS.txt
+- 16 HTML-Dokumente
+- 10 Startseiten-Apps
+- 6 Rechner
+- 14 aktive interne Unterseiten plus Weiterleitung
+- 24 versionierte Navigations-/App-/Hersteller-/Wissensicons
+- genau eine zentrale CSS- und eine zentrale JS-Datei
+- Manifest, Suchindex, Service Worker und Cache-Epoch V2.6.5.0-Beta
+- lokale Ziele, H1, Referrer-Schutz, Header/Footer und Offline-Inventar geprüft
 
-Bestanden:
-- role=dialog, aria-modal, beschrifteter Titel und Live-Status
-- Viewport-/Safe-Area-Grenzen auf iPhone, Tablet und Desktop
-- keine alte Transformbewegung, kein Außenkastenschatten, nur eine rechte Dialogkontur
-- einfache Favoritenzeilen mit einer Kontur und ohne Schatten
-- Schließen, Entfernen und Alle leeren mindestens 44 px und geometrisch stabil
-- gespeicherter Favorit bleibt nach Reload erhalten
-- Einzellöschen, Alle leeren, leerer Zustand und Favoritenzähler
-- Escape, Fokuswiederherstellung und Tastatur-Fokusführung
-- Navigation zum gespeicherten Ziel und kompatibler Schlüssel skPctToolsFavoritesV2
+2. SYNTAX
+PASS
+- alle Python-Test- und Generatorprogramme mit py_compile geprüft
+- alle JavaScript-Dateien mit node --check geprüft
+- keine Syntaxfehler
 
-6. VISUELLE QA
-PASS · 9 finale Renderings
+3. GESCHÜTZTE GRAFIKEN
+PASS
+- 34 geschützte/versionsgebundene PNG-Dateien bytegenau gegen V2.6.4.0 verglichen
+- 24 Navigations-/App-/Hersteller-/Wissensicons unverändert
+- App-, Header-, Homescreen-, PWA-, Maskable-, Favicon- und Markenlogos unverändert
+- Release-Modul-PNG-Inhalt unverändert
+- feste SHA-256-Referenzwerte, PNG-Signaturen, Maße und Alpha-Grenzen geprüft
 
-Gerendert und kontrolliert:
-- Hersteller-Hub auf iPhone, Tablet und Desktop
-- Siemens-Herstelleransicht auf iPhone, Tablet und Desktop
-- geöffnete Favoritenübersicht auf iPhone, Tablet und Desktop
+4. DESIGN-AUDIT-ABNAHME
+PASS · 162 Prüfungen
+- alle 16 Seiten auf Desktop
+- Smartphone/iOS-PWA, Tablet und Desktop
+- Seitenidentität, 5-mal-2-Raster, Mindestschrift, transparente Iconhosts
+- Suche, Filter, echte Ergebnisliste und Innenabstände
+- Favoritenicon links, Text mittig, Entfernen rechts und Reload
+- Sortierdock, unveränderter Header und 44-px-Touchziele
+- mobile Breadcrumbs, Chevron unten/oben und Offline-Unterseite
 
-Visuelles Ergebnis:
-- freigegebene Icongrafiken unverändert und ohne zusätzliche CSS-Außenkachel
-- keine mehrfachen Cyan-/Blau-/Grün-/Schwarz-Konturen oder übermäßigen Iconschatten
-- einheitliche Größen, Abstände, Beschriftungen und optische Ausrichtung
-- Favoritenübersicht ohne alte schwarze Außenkästen und ohne Control-Zierleisten
-- keine abgeschnittenen Texte, ungewollten Überläufe oder verschobenen Bedienelemente
+5. CLEAN-DESIGN-/TOUCH-/FAVORITENREGRESSION
+PASS · 345 Prüfungen
+- 3 Viewports
+- 5 Hersteller und 5 Wissensbeiträge
+- Ruhe, Hover, Fokus, Drücken und Aktivzustand
+- ortsfeste Kachel-/Wrapper-/PNG-/Textgeometrie
+- Favoritendialog, Touch, Tastatur, Escape, Fokusfalle
+- Speicherung, Einzellöschen, Alle leeren, Zähler und leerer Zustand
 
-7. OFFENE FEHLER
-Keine im finalen Prüfprogramm festgestellten Fehler.
+6. VOLLSTÄNDIGE BROWSER-/FUNKTIONSREGRESSION
+PASS · 1.347 Prüfungen
+- 15 aktive Seiten × 3 Haupt-Viewports
+- 5 Reorder-Profile einschließlich 320 × 700 und 844 × 390
+- freie Drag-Ebene, Long-Press, Pointer-Abbruch, Undo/Redo, Standard, Speicherung
+- Wackeln ausschließlich des Iconkörpers
+- normaler Header im Sortiermodus geometrisch/stilistisch unverändert
+- sofortige Navigation nach Ende des Sortiermodus
+- 6 Rechnerreferenzen und Vorzeichen-Touchtests
+- Einheiten- und Werkstoffdatenbank
+- Wissens-Hub und Wissensbeiträge
+- Service-Worker-Installation, Cache-Upgrade und Offlinebetrieb
+
+7. ACCESSIBILITY UND TOUCH
+PASS
+- genau ein H1 je Seite
+- ARIA-Zustände für Dialog, Tabs, Favoriten und Aufklappbereiche
+- Tastaturfokus, Escape und Fokuswiederherstellung
+- wichtige Controls mindestens 44 × 44 px
+- Kopieraktionen 44 × 44 px
+- 320-px-Reflow ohne horizontalen Dokumentüberlauf
+- prefers-reduced-motion und Safe-Area-Regeln vorhanden
+
+8. VISUELLE QA
+PASS
+Geprüfte Renderings und Zustände:
+- Desktop: Home 5 × 2, Suche, Favoriten, Einheitendatenbank,
+  Werkstoffdatenbank, Wissens-Hub, Wissensbeitrag
+- Smartphone/iOS-PWA: Home, Suche mit Siemens-Treffern, Sortiermodus,
+  Siemens-Rechner, Einheitenkategorie geschlossen/geöffnet,
+  Werkstoffkarte geschlossen/geöffnet, Wissensbeitrag
+- Tablet: Home und Wissens-Hub
+Ergebnis: keine abgeschnittenen Hauptbeschriftungen, keine zusätzlichen
+Iconrahmen/-schatten, keine mobile Suchsymbol-Text-Überlagerung, keine
+ungewollten horizontalen Dokumentüberläufe.
+
+9. OFFLINE UND PWA
+PASS
+- Manifest V2.6.5.0-Beta
+- Cache-Epoch v2-6-5-0-core-r1
+- vollständiger Precache aller aktiven Seiten, Daten und Assets
+- alte sk-pct-tools-Caches werden entfernt
+- Offlineaufruf interner Unterseiten erfolgreich
+
+10. PRÜFSUMMEN UND PAKET
+PASS
+- SHA256SUMS.txt umfasst jede Projektdatei außer sich selbst
+- vollständiges ZIP wird separat per SHA-256 verifiziert
+- ZIP-Inhalt wird nach dem Packen erneut entpackt und validiert
+
+BEHOBENE FEHLER AUS DEN TESTLÄUFEN
+- mobile Wissens-Hub-Überschrift ohne internen Horizontalüberlauf
+- mobile Suchfeld-Innenabstände ohne Symbol-/Textüberlagerung
+- Kopiercontrols auf 44 × 44 px
+- Werkstoff-Hilfstext ohne Spalten-/Wortumbruchfehler
+- Favoritenzeile mit korrekter Drei-Spalten-Geometrie
+- Chevron statt Plus/Minus in Datenbanken und Details
+- 320-px-Sortierdock ohne App-Beschriftungsüberdeckung und ohne App-Reflow
+
+OFFENE FEHLER
+Keine bekannten offenen Fehler im geprüften Umfang.

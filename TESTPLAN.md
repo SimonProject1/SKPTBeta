@@ -1,86 +1,125 @@
-# Testplan – SK PCT Tools V2.6.4.0-Beta
+# Testplan – SK PCT Tools V2.6.5.0-Beta
 
 Stand: 17.10.2026  
-Basis: vollständige V2.6.3.9-Beta
+Basis: vollständige V2.6.4.0-Beta
 
-## 1. Syntax, Struktur und Integrität
+## 1. Struktur, Syntax, Referenzen und Integrität
 
 ```bash
 python3 tests/validate_project.py
 ```
 
-Prüfumfang:
-- 86 Projektdateien einschließlich `SHA256SUMS.txt`
-- 16 HTML-Dokumente, 14 gerahmte Unterseiten und 15 aktive Browserrouten
-- zentrale CSS-/JS-Datei, Manifest, Suchindex, Service Worker und Cache-Epoch
-- Version `2.6.4.0-Beta` und sämtliche versionierten Dateinamen/Referenzen
-- lokale Ziele, H1, Referrer-Schutz, Header, Footer und Offline-Cache-Inventar
-- feste SHA-256-Referenzwerte für alle geschützten Marken-/PWA-/Icondateien
-- vollständiger SHA-256-Bestand aller Projektdateien
+Prüft unter anderem:
+
+- `VERSION`, Manifest, Suchindex, Service Worker und Cache-Epoch
+- 16 HTML-Dokumente, 14 gerahmte Unterseiten, genau ein H1 je Seite
+- zentrale CSS-/JS-Dateien und alle lokalen Referenzen
+- zehn eindeutige Startseiten-Apps
+- App-, Hersteller-, Wissens-, PWA-, Maskable-, Favicon- und Markenassets
+- feste Referenz-Hashes der geschützten PNG-Dateien
+- 24 versionierte Navigations-/Fachicons inklusive Maße und Alpha-Grenzen
+- vollständiges Offline-Precache-Inventar
+- vollständige `SHA256SUMS.txt`
 - Python- und JavaScript-Syntax
-- zentrale Clean-Design- und Favoritendialog-Tokens
 
-## 2. Unveränderte Grafikdateien
-
-Bytevergleich und feste SHA-256 für:
-- alle 24 Navigations-/App-/Wissens-/Hersteller-PNG-Inhalte gegen V2.6.3.9-Beta
-- `header-logo-simple.png` und Release-Modul-PNG
-- `logo-sk-pct-tools.png`, `logo-sk-pct-tools-header.png`
-- `favicon.png`, `apple-touch-icon.png`
-- `icon-192.png`, `icon-512.png`, `icon-maskable-192.png`, `icon-maskable-512.png`
-
-Zusätzlich: PNG-Signatur, 512 × 512 px, Alpha-Grenzen, Manifest-Pfade und Purpose.
-
-## 3. Browser-, Touch-, Reorder- und Offline-Regressionslauf
+## 2. Design-Audit-Abnahme V2.6.5.0
 
 ```bash
 python3 -m http.server 8080
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2650.py
 ```
 
-Prüfumfang:
-- 1.431 Browserprüfungen
-- 15 aktive Routen × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
-- fünf Reorder-Profile einschließlich 320 × 700 und iPhone-Landscape 844 × 390
-- 320-px-Reflow, Safe-Area und horizontale Überläufe
-- pixelidentischer normaler Header vor, während und nach Sortierung
-- Drag/Drop, Long-Press, Pointer-Abbruch, History, Speicherung und Reload
-- Suche, Favoritenzähler, Headernavigation und feste App-Favoritenkopplung
-- sechs Rechnerreferenzen einschließlich Reset, Grenzwerte und Vorzeichen-Touch
-- Wissensnavigation, Offline-Start, Offline-Unterseiten und Cache-Upgrade
+Prüft:
 
-## 4. Spezifische Clean-Design- und Favoritenregression
+- alle 16 Seiten auf Desktop
+- Seite/Version/H1/Bilder/Überlauf/Footer
+- Seitenidentität auf allen aktiven Unterseiten
+- 5-mal-2-Desktop-Raster und responsive Smartphone-/Tablet-Raster
+- transparente Iconhosts ohne zusätzliche Rahmen, Schatten oder Pseudokacheln
+- Kartenlabels ab 12 px
+- Suche/Filter mit Siemens-Trefferliste auf Desktop und Mobil
+- Suchsymbol-/Platzhalterabstände
+- Favoritenicon links, Text mittig, Entfernen rechts sowie Speicherung/Reload
+- ortsfesten Header und 44-px-Controls im Sortiermodus
+- 44-px-Kopier- und Rechnercontrols
+- mobile Zurück-Chips
+- Chevron unten/oben in Einheiten- und Werkstoffdatenbank
+- vollständigen Offlineaufruf einer internen Unterseite
+
+## 3. Clean-Design-, Touch- und Favoritenregression
 
 ```bash
 SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_regression.py
 ```
 
-Prüfumfang:
-- 345 Designprüfungen auf iPhone-PWA, Tablet-Touch und Desktop
-- alle fünf Herstellerkacheln und fünf Wissensbeiträge
-- Kachel-, Wrapper-, PNG- und Textgeometrie in Ruhe, Hover, Fokus, Drücken und aktiv
-- `transform: none`, `translate: none`, `scale: none` in allen geprüften Zuständen
-- transparente Wrapper ohne Border, Hintergrund, Shadow, Filter oder Pseudorahmen
-- korrekte 512-px-PNG-Dateien mit Präfix `v2-6-4-0-`
-- Favoritendialog: Semantik, Viewportgrenzen, Safe-Area, Einzelkontur und 44-px-Touchziele
-- gespeicherte Favoriten nach Reload, Einzellöschen, „Alle leeren“, leerer Zustand und Zähler
-- Escape, Fokuswiederherstellung und Tastaturbedienung
+Prüft 345 Zustände in iPhone-PWA-, Tablet-Touch- und Desktopprofilen:
 
-## 5. Visuelle QA
+- fünf Herstellerkacheln und fünf Wissensbeiträge
+- Ruhe, Hover, Fokus, Drücken und aktiv
+- ortsfeste Kachel-/Icon-/Textgeometrie
+- transparente Hosts und unveränderte PNG-Darstellung
+- Favoritendialog, Safe Area, Touchziele, Tastatur und Fokusfalle
+- Reload, Einzellöschen, „Alle leeren“, leerer Zustand und Zähler
 
-Je drei Renderings für iPhone/Smartphone, Tablet und Desktop:
-- Hersteller-Hub mit Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges
-- Siemens-Herstelleransicht mit beiden Wissensbeiträgen
-- geöffnete Favoritenübersicht mit gespeichertem Eintrag
+## 4. Vollständige Browser-/Funktionsregression
+
+```bash
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
+```
+
+Prüft alle aktiven Routen und Kernfunktionen in mehreren Viewports:
+
+- Smartphone 390 × 844, Tablet 820 × 1180, Desktop 1440 × 1000
+- Reflow 320 × 700 und Smartphone-Landscape 844 × 390
+- Header, Footer, Release-Modul, Navigation und Safe Area
+- Suche, Filter, Favoriten und externe Navigation
+- freie Drag-and-Drop-Sortierung, Long-Press, Pointer-Abbruch, Undo/Redo,
+  Standardreihenfolge, Speicherung, Reload und sofortige Navigation
+- sechs Rechner mit Referenz-, Grenzwert-, Reset- und Vorzeichentests
+- Einheiten- und Werkstoffdaten
+- Wissens-Hub, Herstelleransichten und Beiträge
+- Service-Worker-Installation, Cache-Upgrade und Offline-Navigation
+
+## 5. Accessibility und Touch
+
+Automatisierte Kriterien:
+
+- genau ein H1, semantische Dialog-/Tab-/Detailszustände
+- ARIA-Labels/-Expanded/-Pressed und Live-Status
+- sichtbare Tastaturfokusringe
+- Touchziele mindestens 44 × 44 px
+- keine fachliche Aussage nur über Farbe
+- `prefers-reduced-motion`
+- kein horizontaler Überlauf
+
+Manuelle Sichtkontrolle:
+
+- Fokusreihenfolge und Lesbarkeit bei 200 % Zoom
+- Screenreader-Bezeichnungen für Header, Favoriten, Suche und Aufklappbereiche
+- Kontrast der Haupttexte, Controls und Zustandsmeldungen
+
+## 6. Visuelle QA
+
+Vollseiten-Renderings für Startseite, Suche, Favoriten, Sortiermodus, Rechner,
+Einheitendatenbank, Werkstoffdatenbank, Wissens-Hub und Wissensbeitrag auf
+Desktop, Smartphone/iOS-PWA und Tablet.
 
 Abnahmekriterien:
-- keine zusätzliche CSS-Iconkachel, Mehrfachkontur oder übermäßiger Schatten
-- identische Icongrößen, Abstände, Textachsen und unveränderte PNG-Grafiken
-- keine Lageänderung bei Interaktion
-- sauberer Favoritendialog ohne alte schwarze Außenkästen oder Zierleisten
-- lesbare Beschriftungen, keine Überläufe, stimmige Cyan-Blau-Grün-Familie
 
-## 6. Abschluss
+- keine abgeschnittenen Texte oder ungewollten Überläufe
+- keine doppelten Iconrahmen, Cyan-Ringe oder Versatzschatten
+- eine klare Ebenenstruktur
+- sichtbare Ergebnisse direkt unter Suche/Filter
+- mobile Breadcrumb-Chips und Safe-Area-Abstände
+- geöffnete/geschlossene Chevrons eindeutig
+- Ergebnis, Warnung, Fehler, Erfolg, Fokus und Aktivzustand konsistent
 
-Nach erfolgreicher Prüfung werden `TEST-RESULTS.txt`, `SHA256SUMS.txt`,
-`UEBERGABE-V2.6.4.0-Beta.txt` und das vollständige ZIP-Paket finalisiert.
+## 7. Abschluss
+
+Nach erfolgreicher Abnahme:
+
+1. `TEST-RESULTS.txt` finalisieren.
+2. `SHA256SUMS.txt` über alle Projektdateien außer sich selbst erzeugen.
+3. Strukturprüfung erneut ausführen.
+4. vollständiges ZIP erzeugen.
+5. ZIP-SHA-256 separat berechnen und verifizieren.
