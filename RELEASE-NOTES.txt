@@ -1,40 +1,52 @@
-SK PCT Tools V2.6.3.3-Beta – Release Notes
+SK PCT Tools V2.6.3.4-Beta – Release Notes
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.2-Beta
+Basis: vollständige V2.6.3.3-Beta
 
 ZIEL
-Behebung des iPhone-/iOS-PWA-Navigationsfehlers nach dem Neuordnen der App-Icons,
-ohne Änderungen an Grafik, Design oder bestehender Funktionalität.
+Vollständiger Neuaufbau der App-Icon-Neuordnung für iPhone/iOS-PWA, Smartphone,
+Tablet und Desktop bei unverändertem Grafik- und Headerdesign.
 
-DRAG-/TOUCH-/POINTER-KORREKTUR
-- Die bisherige globale Variable suppressClick und die pauschale Klickunterdrückung im
-  Bearbeitungsmodus wurden durch eine begrenzte, kartenbezogene Einmal-Sperre ersetzt.
-- Der synthetische Klick direkt nach einem Drag wird sicher unterdrückt.
-- Jeder neue pointerdown entfernt eine eventuell verbliebene Drag-Klicksperre sofort.
-- Kurzes Antippen bleibt Navigation; Long-Press startet den ersten Drag.
-- Im aktiven Bearbeitungsmodus startet eine deutliche Bewegung den nächsten Drag,
-  während ein kurzer ruhiger Tap das Icon direkt öffnet.
-- pointerup, pointercancel und lostpointercapture beenden und bereinigen die Interaktion.
-- blur, pagehide und visibilitychange sichern zusätzlich gegen hängende iOS-PWA-Zustände.
-- Ghost, is-dragging, Pointer-Capture und Pending-Timer werden in allen Endpfaden entfernt.
+VOLLSTÄNDIG NEUE REORDER-ARCHITEKTUR
+- Die bisherige Sortierimplementierung wurde vollständig entfernt und durch eine unabhängige
+  Pointer-Zustandsmaschine mit den Modi „navigate“ und „sort“ ersetzt.
+- Kurzer Tap im Navigationsmodus öffnet immer die App.
+- Bewegung vor Ablauf des Long-Press wird als Scrollgeste behandelt und startet keine Sortierung.
+- Long-Press startet den Sortiermodus, nimmt das Icon auf und aktiviert das sichtbare Wackeln.
+- Im Sortiermodus ist Navigation vollständig blockiert; Drag beginnt leichtgängig und ohne
+  zusätzliche Verzögerung.
+- Ghost, Pointer-Capture, Zielermittlung, Einfügeposition und Rand-Autoscroll werden zentral geführt.
+- Drop speichert die Reihenfolge und wechselt sofort zurück in den Navigationsmodus.
+- Ein möglicher synthetischer Drag-Abschlussklick wird genau kartenbezogen abgefangen. Es gibt
+  keine zeitbasierte globale Klicksperre; der nächste echte Tap ist sofort freigegeben.
+- pointercancel, lostpointercapture, blur, pagehide, visibilitychange, Escape und „Fertig“ besitzen
+  definierte Abschluss- beziehungsweise Rollback-Pfade.
+- Bei Abbruch wird die vor dem Drag vorhandene Reihenfolge wiederhergestellt.
+- Mehrfaches Sortieren, Tastatursteuerung, Zurücksetzen, Storage-Synchronisierung und Wiederherstellung
+  nach Neustart sind abgesichert.
 
-UNVERÄNDERT
-- Kein versehentliches Öffnen während oder unmittelbar nach dem Ziehen.
-- Gespeicherte eigene Reihenfolge und Sortierauswahl bleiben kompatibel.
-- Favoritenbuttons, Scrollen, Touchflächen, Icon-Verankerung und Tastatursortierung bleiben
-  unverändert funktionsfähig.
-- CSS-Design, PNG-Grafiken, Logo-/PWA-Assets und feste Icon-Geometrie wurden nicht verändert.
+ERHALTENE FUNKTIONEN
+- Favoritenbuttons bleiben strukturell an ihren Icons gekoppelt und danach sofort bedienbar.
+- Suche, Filter, alternative Sortierauswahl, Touchflächen, Rechner, Datenbanken, Wissensseiten,
+  externe Links, PWA-Installation und Offlinebetrieb bleiben erhalten.
+- Speicherung bleibt kompatibel unter skPctHomeOrderV1.
+
+DESIGN- UND GRAFIKSCHUTZ
+- Vollständiges Grafik-, Icon-, Header-, Logo- und Farbsystem der V2.6.3.3-Beta unverändert.
+- 24 Navigations-PNGs und sieben geschützte Marken-/PWA-Dateien bytegenau unverändert.
+- CSS nur auf V2.6.3.4-Beta umgestellt und die bisher nicht wirksamen Sortiermodus-Selektoren
+  funktional korrigiert; dadurch werden Wackeln, Sortierleiste und touch-action:none jetzt zuverlässig aktiv.
 
 VERSIONIERUNG
-- assets/app-v2-6-3-3.css
-- assets/app-v2-6-3-3.js
-- assets/search-index-v2-6-3-3.json
-- manifest-v2-6-3-3.webmanifest
-- Cache-Epoch v2-6-3-3-core-r1
-- UEBERGABE-V2.6.3.3-Beta.txt
+- assets/app-v2-6-3-4.css
+- assets/app-v2-6-3-4.js
+- assets/search-index-v2-6-3-4.json
+- manifest-v2-6-3-4.webmanifest
+- service-worker.js · Cache-Epoch v2-6-3-4-core-r1
+- UEBERGABE-V2.6.3.4-Beta.txt
 
 QUALITÄTSSICHERUNG
-Geprüft wurden Struktur, Referenzen, Prüfsummen, 15 Routen, Smartphone/Tablet/Desktop,
-320-px-Reflow, kurzer Tap, Long-Press, Drag/Drop, pointercancel, direkter Tap nach dem
-Sortieren, mehrfaches Sortieren, Favoriten, Speicherung, echte Navigation, Rechner,
+PASS: Syntax, Struktur, Referenzen, Prüfsummen, 15 Routen, Smartphone/Tablet/Desktop,
+320-px-Reflow, Long-Press, Wackeln, Scrollabgrenzung, Drop, pointercancel, pagehide,
+Modustrennung, direkter Folgetap, Mehrfachsortierung, Zurücksetzen, Speicherung,
+Neustart-Wiederherstellung, Favoriten, echte Navigation, sechs Rechnerreferenzen,
 Offlinebetrieb und Cache-Upgrade. Details: TEST-RESULTS.txt.

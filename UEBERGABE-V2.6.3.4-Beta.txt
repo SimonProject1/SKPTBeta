@@ -1,0 +1,60 @@
+ÜBERGABE – SK PCT Tools V2.6.3.4-Beta
+Stand: 17.10.2026
+Basis: vollständige V2.6.3.3-Beta
+
+STATUS
+- vollständige neue Version, kein Patchpaket
+- bisherige Icon-Sortierimplementierung vollständig ersetzt
+- klare Trennung von Navigations- und Sortiermodus
+- sichtbares Wackeln im Sortiermodus funktionsfähig
+- zuverlässiges Aufnehmen, Ziehen, Umordnen und Ablegen auf Touch und Pointer
+- direkter echter Tap nach Drop, Abbruch oder „Fertig“ ohne Wartezeit möglich
+- mehrfaches Sortieren und sofortige Navigation ohne PWA-Neustart möglich
+- Reihenfolge dauerhaft gespeichert und nach Reload wiederhergestellt
+- Favoriten strukturell am Icon gekoppelt und vollständig erhalten
+- vollständiges Grafik- und Headerdesign der V2.6.3.3-Beta unverändert
+
+TECHNISCHE UMSETZUNG
+- neue Reorder-Engine: pointer-state-v2
+- Zustände: navigate, sort, idle, pressing und dragging
+- Long-Press: 420 ms Touch beziehungsweise 300 ms Maus
+- Scrollabgrenzung: 12 px Touch beziehungsweise 6 px Maus vor Long-Press
+- zentrale Behandlung von Pointer-Capture, Ghost, Rasterziel und Rand-Autoscroll
+- Drop: speichern, vollständig bereinigen, automatisch in Navigationsmodus wechseln
+- Abbruch: Reihenfolge vor Drag wiederherstellen und vollständig bereinigen
+- keine globale oder zeitabhängige Klicksperre
+- nur der zum Drag gehörende kartenbezogene Abschlussklick wird abgefangen
+- nächster echter pointerdown entfernt die Einmal-Sperre sofort
+- Cleanup über pointercancel, lostpointercapture, blur, pagehide und visibilitychange
+- storage-Ereignis synchronisiert die Reihenfolge zwischen Fenstern
+- kompatibler Persistenzschlüssel: skPctHomeOrderV1
+
+DESIGNSCHUTZ
+- 24 Navigations-PNGs binär identisch zur V2.6.3.3-Beta
+- Logo-, Headerlogo-, PWA-, Apple- und Browserbilder binär identisch
+- Header, Rahmen, Farben, Icon-Geometrie und Favoritenposition unverändert
+- nur funktionale Sortiermodus-CSS-Selektoren korrigiert, damit Wackeln, Sortierleiste
+  und touch-action:none tatsächlich aktiv werden
+
+ZENTRALE DATEIEN
+- assets/app-v2-6-3-4.css
+- assets/app-v2-6-3-4.js
+- assets/search-index-v2-6-3-4.json
+- manifest-v2-6-3-4.webmanifest
+- service-worker.js · Cache-Epoch v2-6-3-4-core-r1
+- tests/validate_project.py
+- tests/browser_regression.py
+- TESTPLAN.md, TEST-RESULTS.txt und SHA256SUMS.txt
+
+PRÜFSTAND
+- Syntax/JSON/XML: PASS
+- Struktur/Integrität: PASS · 82 Dateien einschließlich Prüfsummendatei
+- Browser: PASS · 1326 Prüfungen · 15 Routen × Smartphone/Tablet/Desktop
+- Reorder: PASS · Tap, Scroll, Long-Press, Wackeln, Drop, Cancel, pagehide,
+  Modustrennung, Direkttap, Mehrfachsortierung, Reset und Reload
+- Regression: PASS · Favoriten, echte Navigation, Reflow, Rechner und Offline
+- Grafik/Header: PASS · geschützte Assets unverändert
+
+AUSLIEFERUNG
+Vollständiger Projektordner: SK-PCT-Tools-V2.6.3.4-Beta
+Vollständiges ZIP: SK-PCT-Tools-V2.6.3.4-Beta.zip

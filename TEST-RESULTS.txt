@@ -1,58 +1,61 @@
-SK PCT Tools 2.6.3.3-Beta – Testergebnisse
+SK PCT Tools 2.6.3.4-Beta – Testergebnisse
 Ausgeführt: 17.10.2026
-Ziel: vollständiges Release-Paket V2.6.3.3-Beta
-Basis: vollständige V2.6.3.2-Beta
+Ziel: vollständiges Release-Paket V2.6.3.4-Beta
+Basis: vollständige V2.6.3.3-Beta
 
 1. SYNTAX UND FORMAT
 PASS
 - Python-Syntax: beide Generatoren und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-3-3.js und service-worker.js
+- JavaScript-Syntax: assets/app-v2-6-3-4.js und service-worker.js
 - JSON: Manifest, Suchindex, Material- und Einheitendaten
 - SVG/XML: assets/pct-controls.svg
 
 2. STRUKTUR, REFERENZEN UND INTEGRITÄT
-Befehl: python3 tests/validate_project.py
-Ergebnis: PASS
+PASS
 - 82 Dateien einschließlich SHA256SUMS.txt
 - 10 Apps, 6 Rechner, 14 interne Unterseiten
 - 16 HTML-Dokumente mit Manifest-, Favicon- und Apple-Touch-Verweis
 - genau eine zentrale CSS- und eine zentrale App-JS-Datei
-- 24 aktive App-/Wissens-/Hersteller-/Headergrafiken
-- Version 2.6.3.3-Beta, Manifest, Suchindex und Cache-Epoch konsistent
+- 24 aktive App-/Wissens-/Hersteller-/Navigationsgrafiken
+- Version 2.6.3.4-Beta, Suchindex und Cache-Epoch konsistent
 - lokale Referenzen, Offline-Kerncache und SHA256SUMS.txt vollständig
 
-3. DRAG-/TOUCH-/POINTER-FEHLERBEHEBUNG
+3. NEUE REORDER-/TOUCH-/POINTER-ZUSTANDSMASCHINE
 PASS
-- kurzer Tap ohne Drag passiert die Navigation
-- Long-Press startet den Drag
+- kurzer Tap im Navigationsmodus passiert die Navigation
+- Scrollbewegung vor Long-Press startet keine Sortierung
+- Long-Press startet Sortiermodus, Ghost und sichtbares Icon-Wackeln
+- Sortiermodus setzt touch-action:none und blockiert App-Navigation eindeutig
 - Drag/Drop ändert und speichert die Reihenfolge
-- Drag-Ghost-Klick wird einmalig unterdrückt
-- neuer Tap direkt nach Sortierung wird sofort freigegeben
+- Drop kehrt sofort in den Navigationsmodus zurück
+- Drag-Abschlussklick wird einmal kartenbezogen unterdrückt
+- erster echter Tap nach Drop ist ohne Wartezeit freigegeben
 - mehrfaches Sortieren in derselben Sitzung funktioniert
-- pointercancel bereinigt Zustand und blockiert den Folgetap nicht
-- lostpointercapture, blur, pagehide und visibilitychange besitzen Cleanup-Pfade
-- Ghost- und is-dragging-Elemente bleiben nicht zurück
-- DOM-Reihenfolge entspricht skPctHomeOrderV1
+- pointercancel rollt zurück und bereinigt Ghost, Capture und Klassen
+- pagehide/Hintergrundunterbrechung bereinigt den Zustand
+- lostpointercapture, blur und visibilitychange besitzen Cleanup-Pfade
+- Tastatur-Sortiermodus bleibt bis „Fertig“ von Navigation getrennt
+- Zurücksetzen stellt Standardreihenfolge und Navigation wieder her
+- localStorage-Reihenfolge wird nach Reload wiederhergestellt
+- Favoritenbutton bleibt fest am Icon und danach sofort bedienbar
 
-4. BROWSERREGRESSION
-Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS · 1296 Browserprüfungen
+4. BROWSER-, TOUCH- UND REGRESSIONSTESTS
+PASS · 1326 Browserprüfungen
 - 15 Seiten × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
 - drei zusätzliche Reorder-Profile: iPhone-PWA-Emulation, Tablet-Touch und Desktop
-- 320-px-Reflow ohne horizontale Überläufe oder relevante Touchziele unter 44 px
-- Favoriten nach Sortierung weiterhin bedienbar
-- echte Navigation nach mehrfacher Sortierung ohne Reload erfolgreich
-- 6 Rechnerreferenzen und Grenzwertprüfungen
-- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-3-3-core-r1
+- 320-px-Reflow ohne horizontalen Überlauf oder relevante Touchziele unter 44 px
+- echte Navigation nach mehreren Sortierungen und Reload ohne PWA-Neustart
+- sechs Rechnerreferenzen und Grenzwertprüfungen
+- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-3-4-core-r1
 
-5. GRAFIK-/DESIGN-REGRESSION
+5. GRAFIK-/HEADER-/DESIGNREGRESSION
 PASS
 - alle geschützten Logo-/PWA-/Apple-/Browserdateien bytegenau unverändert
-- alle 24 Navigations-PNGs bytegenau unverändert; nur v2-6-3-3-Dateinamen
-- CSS-Regelbestand gegenüber V2.6.3.2 abgesehen von Versionsreferenzen unverändert
-- App-Icon-, Wrapper-, Favoriten- und Headergeometrie in drei Viewports geprüft
+- alle 24 Navigations-PNGs bytegenau unverändert; nur v2-6-3-4-Dateinamen
+- Header-, Logo-, App-Icon-, Favoriten- und Rahmengeometrie unverändert
+- funktionale Sortiermodus-Selektoren korrigiert; Grafikdesign selbst unverändert
 - keine defekten Bilder oder horizontalen Überläufe
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.3.3-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.3.4-Beta.zip freigegeben.

@@ -1,9 +1,9 @@
-# Testplan – SK PCT Tools V2.6.3.3-Beta
+# Testplan – SK PCT Tools V2.6.3.4-Beta
 
 Stand: 17.10.2026  
-Basis: vollständige V2.6.3.2-Beta
+Basis: vollständige V2.6.3.3-Beta
 
-## 1. Statische Struktur und Integrität
+## 1. Syntax, Struktur und Integrität
 
 ```bash
 python3 tests/validate_project.py
@@ -13,36 +13,49 @@ Prüfumfang:
 - 82 Projektdateien einschließlich `SHA256SUMS.txt`
 - 16 HTML-Dokumente, davon 14 gerahmte interne Seiten
 - genau eine zentrale CSS- und App-JS-Datei
-- Version 2.6.3.3-Beta in HTML, Manifest, Suchindex und Laufzeit
+- Version 2.6.3.4-Beta in HTML, Manifest, Suchindex und Laufzeit
 - keine operativen Altversionsreferenzen
 - lokale Ziele, H1, Referrer-Schutz, Header und Footer
-- Service-Worker-Kerncache `v2-6-3-3-core-r1`
+- Service-Worker-Kerncache `v2-6-3-4-core-r1`
 - vollständige `SHA256SUMS.txt`
+- feste Referenzhashes für alle geschützten Grafiken
 
-## 2. Drag-/Touch-/Pointer-Zustandsmaschine
+## 2. Reorder-Zustandsmaschine
 
-Zu prüfen auf Smartphone-Touch, Tablet-Touch und Desktop-Pointer:
-- kurzer Tap ohne Drag wird nicht unterdrückt
-- Long-Press startet Drag und zeigt einen einzelnen Ghost
-- Ziehen und Ablegen speichert die neue Reihenfolge
-- der durch Drag erzeugte Klick öffnet keine App versehentlich
-- ein neuer Tap direkt nach dem Ablegen öffnet die App sofort
-- zweites Sortieren ohne Neustart funktioniert
-- `pointercancel` bereinigt Drag, Ghost, Timer und Capture
-- Tap nach abgebrochenem Drag funktioniert sofort
+Zu prüfen auf iPhone-PWA-Emulation, Tablet-Touch und Desktop-Pointer:
+- Ausgangszustand ist eindeutig `navigate`
+- kurzer Tap öffnet im Navigationsmodus
+- Bewegung vor Long-Press bleibt Scrollgeste
+- Long-Press schaltet auf `sort`, erzeugt genau einen Ghost und aktiviert sichtbares Wackeln
+- im Sortiermodus gilt `touch-action:none` und Navigation ist gesperrt
+- Ziehen über mehrere Rasterpositionen ordnet zuverlässig um
+- Drop speichert, entfernt Ghost/Capture/Drag-Klasse und kehrt zu `navigate` zurück
+- synthetischer Abschlussklick wird blockiert, erster echter Folgetap ist sofort frei
+- zweiter und weiterer Sortiervorgang funktioniert ohne Reload
+- `pointercancel` rollt auf die Reihenfolge vor dem Drag zurück
+- `pagehide` beziehungsweise Hintergrundunterbrechung bereinigt vollständig
+- `lostpointercapture`, `blur` und `visibilitychange` besitzen geprüfte Cleanup-Pfade
+- Tastatur-Sortiermodus blockiert Navigation bis „Fertig“
+- Escape, „Fertig“ und Zurücksetzen stellen den Navigationsmodus her
 - DOM-Reihenfolge und `skPctHomeOrderV1` stimmen überein
-- `lostpointercapture`, `blur`, `pagehide` und `visibilitychange` besitzen Cleanup-Pfade
+- Reload stellt die gespeicherte Reihenfolge wieder her
 
-## 3. Geschützte Grafik und Design
+## 3. Favoriten und Modustrennung
 
-- sieben freigegebene Marken-/Browser-/Apple-/PWA-Dateien gegen feste Hashes
+- Favoritenbutton bleibt direkt im `sk-app-icon-wrapper`
+- Favoriten sind im Sortiermodus gegen Fehlbedienung geschützt
+- Favorit lässt sich nach Drop, Abbruch, „Fertig“ und Reload sofort bedienen
+- echter App-Wechsel funktioniert nach mehreren Sortierungen ohne PWA-Neustart
+
+## 4. Grafik- und Designregression
+
+- sieben Marken-/Browser-/Apple-/PWA-Dateien gegen feste Hashes
 - 24 Navigations-PNGs gegen feste Hashes, Geometrie und Alpha-Grenzen
-- CSS gegenüber V2.6.3.2 nur auf Versionsreferenzen umgestellt
-- 44-px-Favoriten-Touchfläche und 22-px sichtbarer Kreis
-- feste obere rechte Icon-Verankerung
-- unveränderte Geometrie in Ruhe, Hover, Fokus, Press und Aktivzustand
+- unveränderte Header-, Logo-, Icon-, Favoriten- und Rahmengeometrie
+- Sortierleiste und Wackeln nur im aktiven Sortiermodus
+- keine defekten Bilder oder horizontalen Überläufe
 
-## 4. Browserregression
+## 5. Browser-, Touch- und Funktionsregression
 
 ```bash
 python3 tests/browser_regression.py
@@ -50,14 +63,14 @@ python3 tests/browser_regression.py
 
 Prüfumfang:
 - 15 aktive Routen × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
-- iPhone-PWA-nahe Touch-/Pointer-Sequenzen im mobilen Browserkontext
-- 320-px-Reflow-Sanity und Safe-Area-Geometrie
+- drei zusätzliche Reorder-Profile mit realistischen Pointerfolgen
+- 320-px-Reflow und Safe-Area-Geometrie
 - Suche, Favoritenübersicht, Zähler, Home- und Zurücknavigation
-- sechs Rechnerreferenzen einschließlich Grenzwerte und Reset
+- sechs Rechnerreferenzen einschließlich Grenzwerte, Reset und Vorzeichen-Touchziele
 - Wissensnavigation und Quellenbündel
-- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-3-3-core-r1`
+- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-3-4-core-r1`
 
-## 5. Abschluss
+## 6. Abschluss
 
 Nach erfolgreicher Prüfung werden `TEST-RESULTS.txt`, `SHA256SUMS.txt`, das
 Übergabeprotokoll und das vollständige ZIP-Paket aktualisiert und erneut geprüft.
