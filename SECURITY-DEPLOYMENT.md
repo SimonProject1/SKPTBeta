@@ -1,77 +1,59 @@
-# Sicherheit und Deployment – SK PCT Tools V2.6.5.1-Beta
+# Security- und Deployment-Hinweise – V2.6.5.2-Beta
 
 Stand: 17.10.2026
 
-## 1. Deploymentvoraussetzungen
+## Sicherheitsmodell
 
-- ausschließlich über HTTPS veröffentlichen;
-- Projektwurzel vollständig und unverändert deployen;
-- keine alte V2.6.x-Datei parallel in derselben PWA-Scope belassen;
-- MIME-Typen für `.webmanifest`, `.js`, `.css`, `.json`, `.svg` und `.png` korrekt setzen;
-- `service-worker.js` ohne langfristigen HTTP-Cache beziehungsweise mit sofortiger
-  Revalidierung ausliefern;
-- `assets/app-v2-6-5-1.css`, `assets/app-v2-6-5-1.js` und versionierte Assets dürfen
-  langfristig gecacht werden, da ihre Dateinamen releasegebunden sind.
+- Statische, clientseitige PWA ohne serverseitige Datenspeicherung.
+- `referrer=no-referrer` auf allen HTML-Seiten.
+- Externe Ziele werden nur mit `noopener noreferrer` geöffnet.
+- Favoriten und App-Reihenfolge verbleiben lokal im Browser (`localStorage`).
+- Der Analogsignal-Rechner speichert weder Messwerte noch physikalische Einheiten.
+- MA, ME, Signalart und Eingabewert werden ausschließlich im aktuellen DOM-Zustand
+  verarbeitet.
+- Keine Änderung am zentralen Einheitensystem anderer Rechner oder Datenbanken.
+- Service Worker verarbeitet nur GET-Anfragen derselben Origin.
+- Alte `sk-pct-tools-`-Caches werden bei Aktivierung entfernt.
 
-## 2. Empfohlene HTTP-Sicherheitsheader
+## Releasebestand
 
-Jede HTML-Seite enthält bereits `Referrer-Policy: no-referrer` als Meta-Element.
-Die folgenden Header müssen serverseitig gesetzt werden:
+- Version: `2.6.5.2-Beta`
+- Manifest: `manifest-v2-6-5-2.webmanifest`
+- CSS: `assets/app-v2-6-5-2.css`
+- Laufzeit: `assets/app-v2-6-5-2.js`
+- Suchindex: `assets/search-index-v2-6-5-2.json`
+- Cache-Epoch: `v2-6-5-2-core-r1`
+- Navigationsassets: `assets/navigation-icons/v2-6-5-2-*.png`
+- Release-Modul: `assets/release-module-v2-6-5-2.png`
 
-```text
-Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
-Strict-Transport-Security: max-age=31536000; includeSubDomains
-Referrer-Policy: no-referrer
-X-Content-Type-Options: nosniff
-Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-Cross-Origin-Opener-Policy: same-origin
+## Deployment
+
+1. Zielverzeichnis leeren oder den vollständigen Inhalt von
+   `SK-PCT-Tools-V2.6.5.2-Beta` gemeinsam veröffentlichen.
+2. Keine CSS-, JS-, Manifest-, Suchindex- oder Icon-Dateien aus V2.6.5.1 beimischen.
+3. MIME-Typen für `.webmanifest`, `.js`, `.css`, `.json`, `.svg` und `.png` korrekt
+   ausliefern.
+4. HTTPS verwenden; localhost ist nur für lokale Tests vorgesehen.
+5. Startseite einmal online öffnen und auf Aktivierung des neuen Service Workers warten.
+6. Manifest, alle internen Routen und den vollständigen Precache online prüfen.
+7. Netzwerk deaktivieren und mindestens Startseite, Analogsignal-Rechner,
+   Einheitendatenbank und einen Wissensbeitrag offline aufrufen.
+8. Bei bestehender iOS-PWA die App nach dem Online-Update vollständig schließen und
+   erneut öffnen, damit der neue Worker die Kontrolle übernimmt.
+
+## Integritätsprüfung
+
+```bash
+python3 tests/validate_project.py
+sha256sum -c SHA256SUMS.txt
 ```
 
-Hinweis: GitHub Pages verwaltet Header selbst und unterstützt keine
-projektbezogene Headerdatei. Bei eigenem Webserver, Netlify, Cloudflare Pages oder
-vergleichbarem Hosting ist die Konfiguration serverseitig zu übernehmen.
+`SHA256SUMS.txt` umfasst jede Projektdatei außer sich selbst. Das ZIP wird nach der
+Erstellung separat gehasht, erneut entpackt und in der entpackten Kopie validiert.
 
-## 3. PWA-/Service-Worker-Strategie
+## Content Security Policy
 
-- Release: `2.6.5.1-Beta`
-- Cache-Epoch: `v2-6-5-1-core-r1`
-- Scope und Start-URL: `./`
-- Precache enthält alle aktiven Seiten, Daten, Laufzeitdateien, SVG-Controls und
-  freigegebenen PNG-Assets.
-- Aktivierung entfernt ältere `sk-pct-tools-*`-Caches.
-- Navigation verwendet Network-first mit Cachefallback.
-- statische Assets verwenden Cache-first und werden bei Bedarf ergänzt.
-- Suchparameter und Hash werden für Cachekeys normalisiert.
-
-## 4. Update-/Rollback-Ablauf
-
-Deployment:
-
-1. ZIP-SHA-256 gegen die separat gelieferte Prüfsumme prüfen.
-2. ZIP in eine leere Zielwurzel entpacken.
-3. `VERSION`, Manifest, zentrale CSS-/JS-Dateien und Service Worker stichprobenartig prüfen.
-4. vollständige Zielwurzel atomar veröffentlichen.
-5. online Startseite, interne Unterseite und Offlineaufruf testen.
-6. installierte PWA einmal vollständig schließen und neu öffnen.
-
-Rollback:
-
-1. vollständiges vorheriges Release wiederherstellen;
-2. dessen Service Worker und Cache-Epoch mit veröffentlichen;
-3. Browser/PWA online öffnen, damit der vorherige Worker übernehmen kann;
-4. Funktions- und Offlineprüfung wiederholen.
-
-## 5. Integrität
-
-- `SHA256SUMS.txt` enthält jede Projektdatei außer sich selbst.
-- geschützte PNGs werden zusätzlich gegen feste Referenz-Hashes geprüft.
-- das vollständige ZIP erhält eine separate SHA-256-Datei.
-- geänderte oder fehlende Dateien führen in `tests/validate_project.py` zu FAIL.
-
-## 6. Daten- und Datenschutz
-
-- Favoriten, Appreihenfolge und Einheitenfavoriten bleiben lokal im Browser.
-- der E+H Device Viewer ist als externer Dienst gekennzeichnet und wird mit
-  `noopener`, `noreferrer` und `no-referrer` geöffnet.
-- SK PCT Tools überträgt keine lokalen Eingaben an einen eigenen Server.
-- vertrauliche Anlagendaten dürfen nicht in statische Projektdateien aufgenommen werden.
+Die App ist statisch und vermeidet Inline-Skripte. Für produktives Hosting kann eine
+CSP auf Basis von `default-src 'self'` eingesetzt werden. Vor einer Erzwingung sind
+PWA-Manifest, Bilder, Service Worker und der bewusst externe E+H-Link in der Zielumgebung
+zu testen.

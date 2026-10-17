@@ -1,71 +1,63 @@
-SK PCT Tools V2.6.5.1-Beta – Release Notes
+SK PCT Tools V2.6.5.2-Beta – Release Notes
 Stand: 17.10.2026
-Basis: vollständige V2.6.5.0-Beta
+Basis: vollständige V2.6.5.1-Beta
 Releaseart: vollständiges Projektpaket
 
 ZIEL
-Vereinheitlichung des Hersteller-Hubs mit dem Startseitenraster sowie vollständige
-Integration der Favoritenübersicht in den verbindlichen großen App-Rahmen. Alle
-übrigen Funktionen und freigegebenen Grafikbestände der V2.6.5.0-Beta bleiben erhalten.
+Vereinfachung des Analogsignal-Rechners für schnelle TÜV-Abnahmen und vollständiger
+grafischer Positionsabgleich aller aktiven App-Seiten, ohne die freigegebenen Icons,
+Rasterlogik, Favoriten, Sortierung, übrigen Rechner, Datenbanken, Wissensinhalte oder
+PWA-Funktionen fachlich zu verändern.
 
-WISSENSDATENBANK
-- Die fünf Herstellerbereiche Air Torque, Endress+Hauser, Siemens, Vacon und
-  Sonstiges verwenden jetzt dieselben responsiven Spaltenwechsel wie die Startseite.
-- Desktop, Tablet, Smartphone-Hochformat und Smartphone-Querformat nutzen
-  konsistente, ausgewogene Raster ohne zweispaltige Sonderaufteilung.
-- Sichtbare Herstellericon-Maße entsprechen der Startseiten-App-Icon-Geometrie.
-- Beschriftungsgröße, Zeilenabstand, Zentrierung und Kachel-Mindesthöhe wurden an
-  die Startseitenkacheln gekoppelt.
-- Der verfügbare Raum zwischen Suche, Kacheln und Footer wird ausgewogen genutzt;
-  die Kacheln selbst bleiben kompakt und besitzen keine übergroßen Zwischenabstände.
-- Hover, Fokus, Touch und Aktivzustand verändern weder Position noch Größe.
-- Vorhandene Icons, Herstellerbezeichnungen, Suche, Filterung, Navigation,
-  Touchflächen, Herstelleransichten und Wissensbeiträge bleiben vollständig erhalten.
+ANALOGSIGNAL-RECHNER
+- Prozesskategorie, Prozesseinheit und separate Signaleinheit vollständig aus der
+  sichtbaren Oberfläche, der Laufzeitlogik und den Seitenskripten entfernt.
+- Keine Abhängigkeit des Analogsignal-Rechners von assets/unit-system.js.
+- Keine gespeicherten Einheitenzustände und kein ausschließlich dafür benötigter CTA.
+- MA und ME werden als einheitenlose physikalische Skalierungswerte behandelt.
+- Signalarten unverändert aus dem vorhandenen Signalbestand übernommen:
+  4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
+- Beide Richtungen bleiben erhalten: Skalierungswert → Signal sowie Signal →
+  Skalierungswert.
+- Lineare Formel, Prozentwert, Umkehrrechnung und Extrapolation außerhalb des
+  Nennbereichs bleiben erhalten.
+- Direkte Liveberechnung plus explizite Schaltfläche „Berechnen“.
+- „Zurücksetzen“ stellt MA 0, ME 100, 4–20 mA, Vorwärtsrichtung und Eingabewert 50
+  wieder her und erlaubt sofortige Folgeeingabe.
+- Kopierbuttons für Ergebnis und Messbereichsanteil, klare Live-/Fehlermeldungen,
+  Enter-Bedienung, ±-Taster und mobile Touchbedienung geprüft.
+- Hilfetext und ANALOGSIGNAL-TUEV-HINWEIS.md erklären die einheitenlose Skalierung.
 
-FAVORITENÜBERSICHT
-- Der bisherige Vollbild-/Seitendrawer wurde durch eine reguläre Unteransicht im
-  vorhandenen .pct-home-screen- beziehungsweise .sk-app-frame-Rahmen ersetzt.
-- Es entsteht keine zweite äußere Hauptfläche und kein konkurrierender Außenrahmen.
-- Header, runde Außenbegrenzung und Footer bleiben sichtbar und unverändert.
-- Nur der mittlere Seiteninhalt wird während der Favoritenansicht ausgeblendet.
-- Favoritenkopf, Zusammenfassung, Alle leeren, Liste und leerer Zustand liegen
-  vollständig zwischen Header und Footer.
-- Lange Listen besitzen einen eigenen touchfähigen Scrollbereich; die äußere
-  App-Begrenzung bleibt fest erhalten.
-- Kurze Listen und der leere Zustand füllen den verfügbaren Bereich ruhig aus.
-- Jede Zeile behält passendes App-/Wissensicon, Kategorie, Titel, Beschreibung und
-  Entfernen rechts.
-- Favoritenzähler, gespeicherte Daten, Öffnen, Einzellöschen, Alle leeren,
-  Tastaturbedienung, Escape, Fokusfalle, Fokusrückgabe und Touchziele bleiben erhalten.
-- V2.6.5.0-Favoriten mit alten versionierten Icon-URLs werden auf aktuelle
-  V2.6.5.1-Assets aufgelöst.
-
-UNVERÄNDERT
-- alle zehn Startseiten-Apps und sämtliche Ziele
-- Suche, Filter, Sortiermodus und freie Drag-and-Drop-Sortierung
-- Rechner, Datenbanken, Wissensbeiträge und fachliche Logik
-- CSS-Designtokens und Bedienicon-Familie
-- Header, Release-Modul, Logos und freigegebene PNG-Inhalte
-- PWA-Installation, Safe Area und Offlinebetrieb
-- Local-Storage-Keys skPctToolsFavoritesV2 und skPctHomeOrderV1
+GLOBALER POSITIONSSTANDARD
+- Startseite und Unterseiten besitzen identische äußere Rahmengeometrie je Viewport.
+- Headerhöhe: 76 px Standard, 66 px Smartphone, 58 px niedriges Querformat.
+- Gemeinsame Innenabstände und vertikale Mittellinie für Logo, Release-Modul,
+  Headerbuttons, Favoritenzähler, Zurück und Home.
+- Hover, Fokus, Drücken, Aktivzustand und Sortiermodus verändern die Geometrie nicht.
+- Einheitliche Header-Trennlinie und konsistenter Inhaltsbeginn.
+- Footer ist Teil des Standardrahmens, berücksichtigt Safe Areas und überdeckt keinen
+  Inhalt. Lange Inhalte scrollen im vorgesehenen Inhaltsbereich.
+- Favoritenunteransicht, Suche, leere Zustände und Offlineaufrufe bleiben im Rahmen.
+- Kein horizontaler Dokument- oder Inhaltsüberlauf in den geprüften Profilen.
 
 VERSIONIERUNG UND PWA
-- VERSION: 2.6.5.1-Beta
-- CSS: assets/app-v2-6-5-1.css
-- JavaScript: assets/app-v2-6-5-1.js
-- Manifest: manifest-v2-6-5-1.webmanifest
-- Suchindex: assets/search-index-v2-6-5-1.json
-- Navigations-/Hersteller-/Wissensassets: Präfix v2-6-5-1-
-- Release-Modul: assets/release-module-v2-6-5-1.png
-- Service Worker: Cache-Epoch v2-6-5-1-core-r1
-- Übergabe: UEBERGABE-V2.6.5.1-Beta.txt
+- VERSION: 2.6.5.2-Beta
+- CSS: assets/app-v2-6-5-2.css
+- JavaScript: assets/app-v2-6-5-2.js
+- Manifest: manifest-v2-6-5-2.webmanifest
+- Suchindex: assets/search-index-v2-6-5-2.json
+- Navigations-/Hersteller-/Wissensassets: Präfix v2-6-5-2-
+- Release-Modul: assets/release-module-v2-6-5-2.png
+- Service Worker: Cache-Epoch v2-6-5-2-core-r1
+- Übergabe: UEBERGABE-V2.6.5.2-Beta.txt
 
 QUALITÄTSSICHERUNG
-- 1.347 vollständige Browser-/Funktionsprüfungen
-- 162 Design-Audit-Prüfungen
-- 103 gezielte Raster-/Favoriten-/Touch-/Accessibility-Prüfungen
-- Profile: 390 × 844, 412 × 915, 844 × 390, 820 × 1180 und 1440 × 1000
-- zusätzlich 320-px-Reflow, Service-Worker-Upgrade und Offline-Navigation
-- visuelle Kontrolle des Hersteller-Hubs sowie kurzer, langer und leerer
-  Favoritenlisten auf iPhone/Smartphone und Desktop
-- Details: TESTPLAN.md und TEST-RESULTS.txt
+- 1.366 Browser-/Funktionsprüfungen
+- 1.440 vollständige Positionsprüfungen über 16 Routen und 5 Geräteprofile
+- 162 Design-/Touch-/Accessibility-/Offline-Auditprüfungen
+- 103 Raster-/Favoriten-/Responsive-Prüfungen
+- Gesamt: 3.071 automatisierte Browserprüfungen, zusätzlich Struktur-, Syntax-,
+  Integritäts-, Prüfsummen- und visuelle Screenshotkontrolle
+- Profile: iPhone/iOS-PWA 390 × 844, Smartphone 412 × 915, Querformat 844 × 390,
+  Tablet 820 × 1180, Desktop 1440 × 1000 und zusätzlich 320-px-Reflow
+- Ergebnis: PASS; keine bekannten offenen Fehler im geprüften Umfang

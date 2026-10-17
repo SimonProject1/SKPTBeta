@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <!-- SK PCT Tools V2.6.5.1-Beta · kleine, wartbare Bedienicon-Familie. -->
+  <!-- SK PCT Tools V2.6.5.2-Beta · kleine, wartbare Bedienicon-Familie. -->
   <symbol id="icon-calculate" viewBox="0 0 24 24"><rect x="4" y="2.8" width="16" height="18.4" rx="2.4" fill="#fff" stroke="#07121a" stroke-width="2"/><path d="M7.5 6.5h9v3h-9z" fill="#c9f7fb" stroke="#07121a" stroke-width="1.5"/><path d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01" stroke="#07121a" stroke-width="2.7" stroke-linecap="round"/><path d="M16 16v2M15 17h2" stroke="#74d63b" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="icon-reset" viewBox="0 0 24 24"><path d="M6 8V3m0 0h5M6 3l2.7 2.7A8 8 0 1 1 4 13" fill="none" stroke="#07121a" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 8V3m0 0h5M6 3l2.7 2.7A8 8 0 1 1 4 13" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 13a8 8 0 0 0 .7 3.3" fill="none" stroke="#00cfe8" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="1.8" fill="#fff" stroke="#07121a" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="#c9f7fb" stroke="#07121a" stroke-width="2" stroke-linecap="round"/></symbol>
