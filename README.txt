@@ -1,26 +1,25 @@
-SK PCT Tools 2.6.3.8-Beta
+SK PCT Tools 2.6.3.9-Beta
 Stand: 17.10.2026
 Projektinhaber: Simon Kiesler
-Basis: vollständige V2.6.3.7-Beta
+Basis: vollständige V2.6.3.8-Beta
 
 ÜBERBLICK
 SK PCT Tools ist eine offlinefähige PWA für technische Rechner, Einheiten-,
 Werkstoff- und Wissensdaten sowie Praxishinweise der Prozessleittechnik.
-V2.6.3.8-Beta ist eine vollständige neue Version und kein Patchpaket.
+V2.6.3.9-Beta ist eine vollständige neue Version und kein Patchpaket.
 
-NEUES VEREINFACHTES HEADER-LOGO
-- Neue eigenständige Datei: assets/header-logo-simple.png, 512 × 512 px, RGBA.
+ÜBERARBEITETES VEREINFACHTES HEADER-LOGO
+- Ausschließlich assets/header-logo-simple.png wurde gestalterisch überarbeitet.
 - Reproduzierbare Quelle: tools/generate_header_logo_simple.py.
-- Das sichtbare Logo auf Startseite und Unterseiten verwendet ausschließlich diese Datei.
-- Der Cyan-/Blau-/Grün-Grundkörper, die schwarze Kontur, Rundung, Lichtkante und
-  räumliche Materialwirkung stammen aus derselben navigation_frame()-Familie wie
-  Versionsmodul, Suche und Favoriten.
-- Das große PCT-Zahnrad besitzt nur zehn klare Zähne, eine ruhige dunkle Mitte,
-  einen zurückhaltenden Cyan-Lichtbogen und gut lesbaren PCT-Schriftzug.
-- Leiterbahn-, Punkt-, Rahmen-, Schatten- und Dekordetails wurden nur in dieser neuen
-  sichtbaren Header-Variante reduziert.
-- Logo, Versionsmodul und Headerbuttons teilen weiterhin dieselbe vertikale Mittellinie
-  und sichtbare Höhe: 52 px auf Desktop/Tablet, 44 px auf Smartphone/Querformat.
+- Die große dunkle Innenfläche des PCT-Zahnrads wurde durch eine helle, ruhige
+  Cyan-Stahl-Innenfläche mit schmaler schwarzer Kontur und dezenter Cyan-Lichtkante ersetzt.
+- Der gemessene dunkle Flächenanteil im zentralen Prüfradius sank von 84,9 % auf 37,1 %;
+  die mittlere Innenhelligkeit stieg von 41,1 auf 138,6 von 255.
+- Der PCT-Schriftzug bleibt in dunkler, kontrastreicher Ausführung bei 44 und 52 px klar lesbar.
+- Zahnradform, zehn klare Zähne, schwarze Außenkontur, Cyan-Blau-Grün-Grundkörper,
+  Rundung, Lichtkante, räumliche Tiefe und visuelle Identität bleiben erhalten.
+- Das Logo wird weiterhin ausschließlich als sichtbares Header-Logo auf Startseite und
+  Unterseiten verwendet.
 
 AUSDRÜCKLICH UNVERÄNDERT
 - assets/logo-sk-pct-tools.png und assets/logo-sk-pct-tools-header.png
@@ -29,19 +28,20 @@ AUSDRÜCKLICH UNVERÄNDERT
 - assets/icon-maskable-192.png und assets/icon-maskable-512.png
 - Manifest-Iconzuordnung, PWA-/Homescreen-/installierte App-Icons
 - alle 24 Navigations-/App-/Wissens-/Hersteller-PNGs inhaltlich und binär
-- Drag-and-Drop-Sortierung, pointer-overlay-v3, skPctHomeOrderV1
+- Release-Modul-Grafik inhaltlich und binär
+- Drag-and-Drop-Sortierung, pointer-overlay-v3 und skPctHomeOrderV1
 - normaler Header im Sortiermodus und separates viewportfestes Sortier-Dock
 - Suche, Favoriten, Favoritenzähler, Navigation, Touchflächen und Barrierefreiheit
 - Rechner, Datenbanken, Wissensbeiträge und Offlinefunktion
 
 ZENTRALE ARCHITEKTUR
-- Zentraler Stil: assets/app-v2-6-3-8.css
-- Zentrale Laufzeit: assets/app-v2-6-3-8.js
+- Zentraler Stil: assets/app-v2-6-3-9.css
+- Zentrale Laufzeit: assets/app-v2-6-3-9.js
 - Sichtbares Header-Logo: assets/header-logo-simple.png
-- Release-Modul-Haut: assets/release-module-v2-6-3-8.png
-- Manifest: manifest-v2-6-3-8.webmanifest
-- Suchindex: assets/search-index-v2-6-3-8.json
-- Service-Worker-Cache: sk-pct-tools-v2-6-3-8-core-r1
+- Release-Modul-Haut: assets/release-module-v2-6-3-9.png
+- Manifest: manifest-v2-6-3-9.webmanifest
+- Suchindex: assets/search-index-v2-6-3-9.json
+- Service-Worker-Cache: sk-pct-tools-v2-6-3-9-core-r1
 - Control-Sprite: assets/pct-controls.svg
 
 PRÜFUNG

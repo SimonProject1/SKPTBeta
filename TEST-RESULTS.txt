@@ -1,37 +1,48 @@
-SK PCT Tools V2.6.3.8-Beta – Testergebnisse
+SK PCT Tools V2.6.3.9-Beta – Testergebnisse
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.7-Beta
+Basis: vollständige V2.6.3.8-Beta
 
 GESAMTERGEBNIS: PASS
 
-1. STRUKTUR UND INTEGRITÄT
+1. STRUKTUR, SYNTAX UND INTEGRITÄT
 PASS · 85 Projektdateien einschließlich SHA256SUMS.txt · 10 Apps · 6 Rechner ·
-14 interne Unterseiten · 24 Navigationsicons · Version 2.6.3.8-Beta
+14 interne Unterseiten · 24 Navigationsicons · Version 2.6.3.9-Beta
 
 Geprüft:
 - HTML-, CSS-, JavaScript- und Python-Syntax
 - lokale Referenzen, Manifest, Suchindex, Service Worker und Cache-Epoch
 - SHA-256 aller Projektdateien sowie feste Grafik-Referenzhashes
-- 24 umbenannte Navigations-/App-PNGs bytegenau zur Basis unverändert
+- 24 umbenannte Navigations-/App-PNGs bytegenau zur V2.6.3.8-Beta unverändert
+- Release-Modul-PNG bytegenau zur V2.6.3.8-Beta unverändert
 - keine operative Altversions- oder alte Headerlogo-Referenz
+- normalisierter Basisvergleich: 73 nicht beabsichtigt geänderte Dateien ohne Abweichung
 
-2. VEREINFACHTES SICHTBARES HEADER-LOGO
+2. ÜBERARBEITETES SICHTBARES HEADER-LOGO
 PASS
 - assets/header-logo-simple.png: 512 × 512 px, RGBA
-- feste SHA-256: aa1cfc4a49e8c566c8ae17581d7b2e7a26db1afe9f4c516fb414204f6e3c9b71
-- Grundkörper aus derselben navigation_frame()-Materialfamilie wie Suche/Favoriten
-- großes zehnzahniges PCT-Zahnrad, klare schwarze Kontur, reduzierte Innenzeichnung
-- 44-/52-px-Darstellung auf gemeinsamer Mittellinie ohne äußere CSS-Kachel
-- Startseite und alle Unterseiten laden ausschließlich die neue Simple-Datei
+- SHA-256: 6d5f179fb992998d5f9aee70a7c327f03796d06733ea27bc6562cefd5cb6fbd7
+- Alpha-Grenze: (25, 25) bis (487, 487), vollständiger 0/255-Alphaumfang
+- dunkler Anteil im zentralen Prüfradius: 37,1 % statt 84,9 % in V2.6.3.8-Beta
+- mittlere Innenhelligkeit: 138,6 statt 41,1 von 255
+- helle Cyan-Stahl-Innenfläche, schmale schwarze Kontur und dezente Cyan-Lichtkante
+- PCT bei 44 und 52 px auf iPhone, Tablet und Desktop klar lesbar
+- Startseite und alle Unterseiten laden ausschließlich die Simple-Datei
 - eigenständiger Generator schreibt keine geschützte Logo-/PWA-Datei
 
 3. PWA-, HOMESCREEN- UND APP-ICON-INTEGRITÄT
 PASS
-- apple-touch-icon.png, favicon.png, icon-192.png und icon-512.png unverändert
-- icon-maskable-192.png und icon-maskable-512.png unverändert
-- logo-sk-pct-tools.png und logo-sk-pct-tools-header.png unverändert
+Bytegenau unverändert bestätigt:
+- apple-touch-icon.png und favicon.png
+- icon-192.png und icon-512.png
+- icon-maskable-192.png und icon-maskable-512.png
+- logo-sk-pct-tools.png und logo-sk-pct-tools-header.png
+- sämtliche 24 Navigations-/App-/Wissens-/Hersteller-PNG-Inhalte
+- Release-Modul-PNG-Inhalt
+
+Zusätzlich bestanden:
 - Manifest-Pfade, Größen und Purpose unverändert
-- feste SHA-256 sowohl statisch als auch über reale Browserauslieferung bestätigt
+- feste SHA-256 statisch und über reale Browserauslieferung bestätigt
+- keine Verwendung des neuen Header-Logos als Manifest-, Homescreen- oder PWA-Icon
 
 4. BROWSER-, TOUCH- UND REGRESSIONSTEST
 PASS · 1.431 Browserprüfungen · 15 Seiten × 3 Haupt-Viewports ·
@@ -61,10 +72,11 @@ PASS
 
 6. VISUELLE QA
 PASS
-- iPhone-/Smartphone-, Tablet- und Desktop-Header gerendert und kontrolliert
-- PCT bleibt in tatsächlicher kleiner Anzeigegröße klar lesbar
+- Start- und Unterseitenheader auf iPhone, Tablet und Desktop gerendert und kontrolliert
+- Zentrum sichtbar heller, klarer und ruhiger als in V2.6.3.8-Beta
+- PCT in tatsächlicher kleiner Anzeigegröße klar lesbar
+- Zahnradform, schwarze Kontur, Cyan-Blau-Grün-Körper und räumliche Tiefe erhalten
 - Materialität stimmt mit Versionsmodul, Such- und Favoritenbutton überein
-- keine kleinteiligen Leiterbahn-, Punkt-, Rahmen- oder Dekorschienendetails
 - keine abgeschnittenen Texte, verschobenen Headerobjekte oder Überläufe
 
 7. OFFLINE UND UPGRADE
@@ -72,10 +84,10 @@ PASS
 - header-logo-simple.png und alle aktiven Assets im Kerncache
 - Offline-Startseite und geprüfte Unterseiten verfügbar
 - alter Testcache wird entfernt
-- ausschließlich Cache-Epoch v2-6-3-8-core-r1 bleibt aktiv
+- ausschließlich Cache-Epoch v2-6-3-9-core-r1 bleibt aktiv
 
 BEHOBENE TESTFUNDE
-Keine Funktions- oder Layoutfehler im V2.6.3.8-Beta-Lauf festgestellt.
+Keine Funktions- oder Layoutfehler im V2.6.3.9-Beta-Lauf festgestellt.
 
 OFFENE FEHLER
 Keine im finalen Prüfprogramm festgestellten Fehler.

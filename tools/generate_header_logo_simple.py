@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate only the simplified visible header logo for SK PCT Tools V2.6.3.8-Beta.
+"""Generate only the simplified visible header logo for SK PCT Tools V2.6.3.9-Beta.
 
 This standalone generator deliberately writes only assets/header-logo-simple.png.
 It must never overwrite the approved PWA, favicon, Apple touch, maskable or
@@ -41,13 +41,14 @@ def build():
     draw.polygon(gear, fill=(222, 232, 239, 255))
     draw.line(gear + [gear[0]], fill=nav.BLACK, width=nav.sc(17), joint="curve")
 
-    # Strong central disc and one restrained cyan light edge preserve PCT identity.
-    draw.ellipse(nav.box((151, 151, 361, 361)), fill=nav.BLACK)
-    draw.ellipse(nav.box((171, 171, 341, 341)), fill=(5, 23, 36, 255))
-    draw.arc(nav.box((171, 171, 341, 341)), 202, 322, fill=nav.CYAN, width=nav.sc(7))
+    # A narrow black contour surrounds a calm, light cyan-steel center. This keeps
+    # the gear crisp at 44/52 px while replacing the former heavy dark inner disc.
+    draw.ellipse(nav.box((160, 160, 352, 352)), fill=nav.BLACK)
+    draw.ellipse(nav.box((175, 175, 337, 337)), fill=(209, 231, 235, 255))
+    draw.arc(nav.box((177, 177, 335, 335)), 200, 322, fill=nav.CYAN, width=nav.sc(6))
 
-    # Large high-contrast lettering remains readable at the real 44/52 px header size.
-    nav.text_center(draw, (256, 257), "PCT", 74, fill=nav.WHITE, stroke=4, stroke_fill=nav.BLACK)
+    # Dark PCT lettering on the light center remains readable at the real header size.
+    nav.text_center(draw, (256, 257), "PCT", 76, fill=nav.BLACK, stroke=1, stroke_fill=nav.WHITE)
     return nav.finalize(image)
 
 

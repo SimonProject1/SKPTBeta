@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.8-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.9-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.3.8-Beta'
-VERSION_SLUG='v2-6-3-8'
+VERSION='2.6.3.9-Beta'
+VERSION_SLUG='v2-6-3-9'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -30,10 +30,10 @@ BRAND_SHA256={
  'icon-maskable-512.png':'b6e7fd947838c2be5852f9ec909aa41895710fa753dffa4c3846e11ffdb7af4f',
 }
 HEADER_LOGO='header-logo-simple.png'
-HEADER_LOGO_SHA256='aa1cfc4a49e8c566c8ae17581d7b2e7a26db1afe9f4c516fb414204f6e3c9b71'
+HEADER_LOGO_SHA256='6d5f179fb992998d5f9aee70a7c327f03796d06733ea27bc6562cefd5cb6fbd7'
 LEGACY_HEADER_LOGO='logo-sk-pct-tools-header.png'
 LEGACY_HEADER_LOGO_SHA256='5128cff1bf2864d8821ac25f363c14a7ff52bd5a130cf2db023a80f9b0cf1aed'
-RELEASE_MODULE='release-module-v2-6-3-8.png'
+RELEASE_MODULE='release-module-v2-6-3-9.png'
 RELEASE_MODULE_SHA256='4d7fd9a089525219f0488045f2b8c98f4ac6f7b3921479ab0bb99718cc5c5289'
 APPS={'analogsignal','pf-rechner','pt-rechner','einheitenrechner','einheitendatenbank','werkstoffdatenbank','wissensdatenbank','spannungsfall-rechner','siemens-rohwert','eh-device-viewer'}
 KNOWLEDGE_ARTICLES={'air-torque-antrieb-drehrichtung','endress-hauser-promass-einbaulage','siemens-sitrans-p320-sil-verriegelung','siemens-sps-rohwert','vacon-frequenzumrichter-ist-sollwert-abweichung'}
@@ -154,7 +154,7 @@ def main()->int:
     check(len(external)==1 and external[0].get('href')=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Viewer-Ziel fehlerhaft.',errors)
 
     operational='\n'.join(p.read_text(encoding='utf-8') for suffix in ('*.html','*.css','*.js','*.json','*.webmanifest') for p in ROOT.rglob(suffix))
-    check(not re.search(r'2\.6\.[12]\.[0-9](?:-Beta)?|v2-6-[12]-[0-9]|2\.6\.3\.[127]|v2-6-3-[127]',operational),'Operative Altversionsverweise vorhanden.',errors)
+    check(not re.search(r'2\.6\.[12]\.[0-9](?:-Beta)?|v2-6-[12]-[0-9]|2\.6\.3\.[1278]|v2-6-3-[1278]',operational),'Operative Altversionsverweise vorhanden.',errors)
     for removed in ('core.css','responsive.css','design-system.css','pct-frame.css','pct-controls-v2-6-1-5.css','pct-home-v2-6-1-5.css','app-v2-6-1-5.css','app-v2-6-1-5.js','app-v2-6-1-6.css','app-v2-6-1-6.js','app-v2-6-1-7.css','app-v2-6-1-7.js','app-v2-6-1-8.css','app-v2-6-1-8.js'):
         check(not (ROOT/'assets'/removed).exists(),f'Ersetzte Datei noch vorhanden: {removed}',errors)
     check(len(list((ROOT/'assets').glob('*.css')))==1,'Mehr als ein CSS-Bestand vorhanden.',errors)
@@ -172,14 +172,14 @@ def main()->int:
     check('animation:none!important' in css and '.sk-home-app:not(.is-dragging){animation:pct-home-wiggle' in css,'Historische Kachel-Wackelregel wird nicht sicher neutralisiert.',errors)
     for token in ('headerneutraler, layoutstabiler Sortiermodus','pct-home-edit-actions','pct-home-history-button','pct-home-drop-placeholder','pct-home-placeholder-icon','pct-home-drag-layer','pct-home-drag-overlay','position:fixed','z-index:110','z-index:90','contain:none','safe-area-inset-bottom','scroll-padding-block-end'):
         check(token in css,f'Neue Sortiermodus-CSS-Struktur fehlt: {token}',errors)
-    sort_css=css.split('/* === V2.6.3.8-Beta: headerneutraler, layoutstabiler Sortiermodus',1)[-1]
+    sort_css=css.split('/* === V2.6.3.9-Beta: headerneutraler, layoutstabiler Sortiermodus',1)[-1]
     for forbidden in ('.pct-home-editing .pct-home-head','.pct-home-editing .pct-home-brand','.pct-home-editing .pct-home-quick-actions','.pct-home-editing .pct-home-utility','.pct-home-editing .pct-home-search-panel'):
         check(forbidden not in sort_css,f'Sortiermodus verändert weiterhin den normalen Header: {forbidden}',errors)
     check('aria-hidden="true" class="pct-home-edit-actions" hidden="" role="toolbar"' in start,'Separates, initial ausgeblendetes Sortier-Dock fehlt.',errors)
-    final_css=css.split('/* === V2.6.3.8-Beta: strukturell icongebundene Favoriten',1)[-1]
+    final_css=css.split('/* === V2.6.3.9-Beta: strukturell icongebundene Favoriten',1)[-1]
     check(final_css.count('>.sk-app-icon-wrapper>.sk-favorite-button.pct-control')>=10,'Direkte Wrapper-Verankerung des Favoritenbuttons fehlt.',errors)
     check('calc(50%' not in final_css and '--sk-home-icon-top' not in final_css and '--sk-knowledge-icon-top' not in final_css,'Finale Favoritenposition hängt noch von Kachelmitte oder Geräteabständen ab.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-8.json','header-logo-simple.png','release-module-v2-6-3-8.png','v2-6-3-8-nav-home.png','v2-6-3-8-nav-search.png','v2-6-3-8-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-release-module','sk-release-number','sk-release-credit','fitReleaseModules','Tool by S.K.'):
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-9.json','header-logo-simple.png','release-module-v2-6-3-9.png','v2-6-3-9-nav-home.png','v2-6-3-9-nav-search.png','v2-6-3-9-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-release-module','sk-release-number','sk-release-credit','fitReleaseModules','Tool by S.K.'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     for token in (
         "mode:'navigate'","phase:'idle'","grid.dataset.reorderEngine='pointer-overlay-v3'",
@@ -267,8 +267,12 @@ def main()->int:
             rgba=image.convert('RGBA');alpha=rgba.getchannel('A');pixels=list(rgba.get_flattened_data())
             check(rgba.size==(512,512) and alpha.getbbox()==(25,25,487,487) and alpha.getextrema()==(0,255),'Simple-Header-Logo-Geometrie fehlerhaft.',errors)
             black=sum(1 for r,g,b,a in pixels if a>240 and r<18 and g<18 and b<18)
-            white=sum(1 for r,g,b,a in pixels if a>240 and r>245 and g>245 and b>245)
-            check(black>30000 and white>2500,'PCT-Zahnrad besitzt zu wenig klare Kontur-/Schriftmasse.',errors)
+            inner=[rgba.getpixel((x,y)) for y in range(512) for x in range(512) if (x-256)**2+(y-256)**2<=105**2]
+            inner_dark=sum(1 for r,g,b,a in inner if a>240 and max(r,g,b)<45)
+            inner_luminance=sum(.2126*r+.7152*g+.0722*b for r,g,b,a in inner)/len(inner)
+            check(black>30000,'PCT-Zahnrad besitzt zu wenig klare Kontur-/Schriftmasse.',errors)
+            check(9000<=inner_dark<=15000 and inner_luminance>=130,f'PCT-Zentrum ist nicht deutlich heller und ruhiger: dunkel={inner_dark}, Helligkeit={inner_luminance:.1f}.',errors)
+            check(min(rgba.getpixel((256,190))[:3])>180,'Helle Cyan-Stahl-Innenfläche des PCT-Zahnrads fehlt.',errors)
     check('header-logo-simple.png' in start and 'alt="SK PCT Tools"' in start and "Tool's by S.K." not in start,'Separate textfreie Startseiten-Simple-Logo-Variante fehlt.',errors)
     check(LEGACY_HEADER_LOGO not in start+js+(ROOT/'service-worker.js').read_text(),'Alte Headerlogo-Datei ist weiterhin operativ referenziert.',errors)
     release_module=ROOT/'assets'/RELEASE_MODULE
@@ -290,7 +294,7 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-3-8-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-3-9-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -302,14 +306,14 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-3-8-"','RELEASE_MODULE_OUT','def navigation_frame()','def release_module_skin()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
+    for token in ('PREFIX = "v2-6-3-9-"','RELEASE_MODULE_OUT','def navigation_frame()','def release_module_skin()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     brand_generator=(ROOT/'tools/generate_brand_assets.py').read_text()
     for token in ('def standard_master()','def header_master()','def maskable_master()','gear_points(256, 256)','root_radius: float = 145','tooth_radius: float = 176','root_radius=112','tooth_radius=138','"PCT", 108','result.putalpha(255)'):
         check(token in brand_generator,f'Markenlogo-Generator unvollständig: {token}',errors)
     check("TOOL'S BY S.K." not in brand_generator and 'Tool by SK' not in brand_generator,'Entfernter Herkunftstext ist noch im Markenlogo-Generator vorhanden.',errors)
     simple_generator=(ROOT/'tools/generate_header_logo_simple.py').read_text()
-    for token in ('OUT = ROOT / "assets" / "header-logo-simple.png"','nav.navigation_frame()','teeth: int = 10','"PCT", 74','Generated {OUT.relative_to(ROOT)} only'):
+    for token in ('OUT = ROOT / "assets" / "header-logo-simple.png"','nav.navigation_frame()','teeth: int = 10','(209, 231, 235, 255)','"PCT", 76','Generated {OUT.relative_to(ROOT)} only'):
         check(token in simple_generator,f'Standalone-Simple-Headerlogo-Generator unvollständig: {token}',errors)
     for protected in BRAND_ASSETS:
         check(protected not in simple_generator,f'Simple-Headerlogo-Generator darf geschützte Datei nicht benennen: {protected}',errors)
@@ -317,7 +321,7 @@ def main()->int:
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.8-Beta.txt'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.9-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'

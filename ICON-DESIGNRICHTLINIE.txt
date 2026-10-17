@@ -1,11 +1,12 @@
 SK PCT TOOLS – VERBINDLICHE ICON-, HEADER- UND MARKENRICHTLINIE
-Stand: V2.6.3.8-Beta · 17.10.2026
+Stand: V2.6.3.9-Beta · 17.10.2026
 
 1. APP-/HOMESCREEN-MARKE – NICHT VERÄNDERN
 - Die freigegebene App-/Homescreen-Marke bleibt bytegenau unverändert.
 - Geschützte Dateien: logo-sk-pct-tools.png, favicon.png, apple-touch-icon.png,
   icon-192.png, icon-512.png, icon-maskable-192.png und icon-maskable-512.png.
-- Manifest und installierte PWA verwenden ausschließlich diese freigegebenen Varianten.
+- Auch logo-sk-pct-tools-header.png bleibt bytegenau als historische Variante erhalten.
+- Manifest und installierte PWA verwenden ausschließlich die freigegebenen Varianten.
 - Reproduzierbare Quelle der geschützten Familie: tools/generate_brand_assets.py.
 
 2. SICHTBARES HEADER-LOGO
@@ -14,20 +15,24 @@ Stand: V2.6.3.8-Beta · 17.10.2026
 - Der Generator darf ausschließlich header-logo-simple.png schreiben.
 - Der Grundkörper verwendet navigation_frame(): Cyan-/Blau-/Grün-Verlauf, schwarze
   Kontur, Rundung, Lichtkante und Materialtiefe wie Suche, Favoriten und Versionsmodul.
-- Das PCT-Zahnrad bleibt groß und eindeutig, besitzt aber nur zehn klare Zähne sowie
-  eine stark reduzierte Innenzeichnung ohne Leiterbahnen, Knoten oder Befestiger.
+- Das PCT-Zahnrad besitzt zehn klare Zähne und eine saubere schwarze Außenkontur.
+- Das Zentrum ist helles, ruhiges Cyan-Stahl mit schmaler schwarzer Innenkontur und
+  dezenter Cyan-Lichtkante; großflächige schwarze oder dunkelblaue Innenflächen sind
+  ausdrücklich zu vermeiden.
+- PCT bleibt als dunkler, kontrastreicher Schriftzug bei 44 und 52 px klar lesbar.
+- Keine Leiterbahnen, Knoten, Befestiger oder zusätzliche Dekorrahmen.
 - Der HTML/CSS-Host bleibt transparent, rahmenlos und schattenfrei.
 - Niemals als Favicon, Apple-Touch-, Maskable-, Manifest- oder App-Icon verwenden.
-- assets/logo-sk-pct-tools-header.png bleibt als unveränderte historische Variante im
-  Projekt, darf aber operativ nicht mehr als sichtbares Header-Logo referenziert werden.
+- assets/logo-sk-pct-tools-header.png darf operativ nicht als sichtbares Header-Logo
+  referenziert werden.
 
 3. HEADERBUTTONS UND RELEASE-MODUL
 - Home, Zurück, Suche und Favoriten verwenden eigenständige PNG-Grafiken.
-- Sichtbarer Release-Grundkörper: assets/release-module-v2-6-3-8.png.
+- Sichtbarer Release-Grundkörper: assets/release-module-v2-6-3-9.png.
 - Ein einzelner abgerundeter Cyan-/Blau-/Grün-Grundkörper mit schwarzer Kontur.
 - Keine zweite Kachel, dekorativen Rails, Farbstreifen oder schwarzen Innenpanels.
 - Hosts bleiben transparent, border: 0 und box-shadow: none.
-- Text exakt: „V2.6.3.8-Beta“ und darunter „Tool by S.K.“.
+- Text exakt: „V2.6.3.9-Beta“ und darunter „Tool by S.K.“.
 
 4. GEMEINSAME HEADERGEOMETRIE
 - Logo, Release-Modul und Headerbuttons teilen exakt eine vertikale Mittellinie.
@@ -38,8 +43,9 @@ Stand: V2.6.3.8-Beta · 17.10.2026
 
 5. APP-, WISSENS- UND HERSTELLERGRAFIKEN
 - 20 bestehende Fachgrafiken bleiben inhaltlich und binär unverändert.
-- Gesamtbestand: 24 PNGs mit Präfix v2-6-3-8- unter assets/navigation-icons/
+- Gesamtbestand: 24 PNGs mit Präfix v2-6-3-9- unter assets/navigation-icons/
   (20 Fachgrafiken plus Home, Zurück, Suche und Favoriten).
+- Die Inhalte sind bytegleich mit der V2.6.3.8-Beta; nur die Dateinamen wurden versioniert.
 - Reproduzierbare Quelle: tools/generate_png_icons.py.
 
 6. APP-FAVORITEN – NICHT VERÄNDERN
@@ -49,7 +55,9 @@ Stand: V2.6.3.8-Beta · 17.10.2026
 - Aktive und inaktive Zustände besitzen dieselbe Geometrie.
 
 7. OFFLINE UND ABNAHME
-- Alle aktiven Navigation-/Appgrafiken, sieben geschützten Marken-/PWA-PNGs,
-  header-logo-simple.png und die Release-Modul-Haut gehören in v2-6-3-8-core-r1.
+- Alle aktiven Navigation-/Appgrafiken, sieben operativen Marken-/PWA-PNGs,
+  header-logo-simple.png und die Release-Modul-Haut gehören in v2-6-3-9-core-r1.
 - PNG-Signatur, Maße, Alpha, feste Hashes, lokale Referenzen, Browserdarstellung,
   Manifest-Icons, 44-/52-px-Geometrie und pixelidentische Sortierheader werden geprüft.
+- Für das Header-Logo werden zusätzlich ein zentraler Dunkelanteil von höchstens 43,3 %
+  und eine mittlere Innenhelligkeit von mindestens 130/255 geprüft.
