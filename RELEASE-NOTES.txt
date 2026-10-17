@@ -1,58 +1,55 @@
-SK PCT Tools V2.6.3.7-Beta – Release Notes
+SK PCT Tools V2.6.3.8-Beta – Release Notes
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.6-Beta
+Basis: vollständige V2.6.3.7-Beta
 
 ZIEL
-Die Versionsanzeige wurde vollständig neu aufgebaut. Sie ist kein flaches Textpanel
-mehr, sondern ein eigenständiges kompaktes Modul derselben freigegebenen technisch-
-industriellen Designfamilie wie Suche, Favoriten und die App-Icons.
+Ausschließlich das tatsächlich sichtbare Header-Logo wurde vereinfacht und an die klare
+Designsprache von Versionsmodul, Such- und Favoritenbutton angeglichen. Alle App-,
+PWA-, Homescreen- und installierten Iconvarianten bleiben bytegenau unverändert.
 
-NEUES RELEASE-MODUL
-- Alte operative Klassen/Struktur pct-version-plate, pct-home-version,
-  sk-header-version, sk-version-value und sk-version-byline entfernt.
-- Neue gemeinsame Struktur: pct-release-module mit separater PNG-Haut und
-  zugänglichem HTML-Text.
-- Neue Grafik: assets/release-module-v2-6-3-7.png, 1536 × 512 px, RGBA.
-- Reproduzierbare Quelle: tools/generate_png_icons.py / release_module_skin().
-- Ein einzelner Cyan-/Blau-/Grün-Grundkörper mit schwarzer Kontur, abgerundeter
-  Form, Lichtkante und derselben Materialwirkung wie die Headerbuttons.
-- Kein äußerer schwarzer CSS-Kasten, keine umgebende Kachel, kein alter Panelrahmen,
-  keine seitlichen Farbstreifen und kein zusätzlicher CSS-Schatten.
-- Vollständige Anzeige „V2.6.3.7-Beta“; darunter „Tool by S.K.“.
-- Responsive Breite bei unveränderter sichtbarer Höhe von 52 beziehungsweise 44 px.
-- Längere Versionsstände werden innerhalb des vorhandenen Moduls angepasst, ohne
-  Abschneiden, Umbruch des Credits oder Veränderung der Headerposition.
+UMSETZUNG
+- Neue separate Grafik assets/header-logo-simple.png, 512 × 512 px, RGBA.
+- Neuer eigenständiger Generator tools/generate_header_logo_simple.py; er schreibt
+  ausschließlich header-logo-simple.png und keine geschützte Logo-/PWA-Datei.
+- Exakt derselbe Cyan-/Blau-/Grün-Grundkörper wie navigation_frame(), einschließlich
+  schwarzer Kontur, Rundung, Lichtkante und Materialtiefe der Headerbutton-Familie.
+- Ruhiges, großes PCT-Zahnrad mit zehn klaren Zähnen, reduzierter Innenzeichnung und
+  hohem Schriftkontrast für die reale Anzeigegröße von 44 bzw. 52 px.
+- Startseite und alle 14 gerahmten Unterseiten referenzieren ausschließlich die neue
+  Simple-Datei als sichtbares Header-Logo.
+- Service Worker und Offline-Kerncache enthalten header-logo-simple.png.
+- Die bisherige Datei logo-sk-pct-tools-header.png bleibt unverändert erhalten, ist aber
+  nicht mehr operativ in HTML, CSS, JavaScript oder Service Worker referenziert.
 
-HEADER- UND INTERAKTIONSSTABILITÄT
-- Logo, Release-Modul, Suche, Favoriten und Favoritenzähler teilen eine vertikale
-  Mittellinie im normalen Header und im Sortiermodus.
-- Hover, Fokus, Drücken, aktiv und aria-expanded verändern keine Position,
-  Außenmaße oder Transformation der Headerobjekte.
-- Der Header bleibt im Sortiermodus DOM-, Stil-, Geometrie- und pixelidentisch.
-- Das Sortier-Dock bleibt getrennt, fixed und außerhalb von Header/Dokumentfluss.
+GESCHÜTZTE DATEIEN – BYTEGENAU UNVERÄNDERT
+- logo-sk-pct-tools.png
+- logo-sk-pct-tools-header.png
+- favicon.png
+- apple-touch-icon.png
+- icon-192.png, icon-512.png
+- icon-maskable-192.png, icon-maskable-512.png
 
-BEWUSST UNVERÄNDERT
-- 24 versionierte Navigations-/App-/Wissens-/Hersteller-PNGs: identische SHA-256-Werte
-- Logo-, Favicon-, Apple-Touch- und Maskable-Grafiken
-- Drag-and-Drop-Reorder-Engine pointer-overlay-v3
-- Rasterplatzhalter, freie Drag-Ebene, History und skPctHomeOrderV1
-- Suche, Favoriten, Zähler, Navigation, Touchziele und Barrierefreiheit
-- alle Rechner, Datenbanken, Wissensbeiträge und externen Ziele
-- Offline-Start, Offline-Unterseiten und Service-Worker-Upgrade
+UNVERÄNDERTE FUNKTIONEN
+- Drag-and-Drop-Reorder-Engine pointer-overlay-v3, Rasterplatzhalter und Drag-Ebene
+- normaler Header im Sortiermodus, separates Sortier-Dock, Undo/Redo/Standard/Fertig
+- Suche, Favoriten, Favoritenzähler, Navigation und Touchziele
+- App-Favoritengeometrie, Barrierefreiheit, alle Rechner und Datenbanken
+- Wissensbeiträge, externe Ziele, Offline-Start und Cache-Upgrade
+- 24 Navigations-/App-/Wissens-/Hersteller-PNGs inhaltlich bytegleich zur Basis
 
 VERSIONIERUNG
-- assets/app-v2-6-3-7.css
-- assets/app-v2-6-3-7.js
-- assets/search-index-v2-6-3-7.json
-- assets/release-module-v2-6-3-7.png
-- assets/navigation-icons/v2-6-3-7-*.png
-- manifest-v2-6-3-7.webmanifest
-- service-worker.js · Cache-Epoch v2-6-3-7-core-r1
-- UEBERGABE-V2.6.3.7-Beta.txt
+- assets/app-v2-6-3-8.css
+- assets/app-v2-6-3-8.js
+- assets/search-index-v2-6-3-8.json
+- assets/release-module-v2-6-3-8.png
+- assets/navigation-icons/v2-6-3-8-*.png
+- manifest-v2-6-3-8.webmanifest
+- service-worker.js · Cache-Epoch v2-6-3-8-core-r1
+- UEBERGABE-V2.6.3.8-Beta.txt
 
 QUALITÄTSSICHERUNG
-PASS: 83 Projektdateien, vollständige Prüfsummen, 15 aktive Routen × Smartphone,
-Tablet und Desktop, 320-px-Reflow, längerer Versionsstand, 5 Reorder-Profile,
-1.430 Browserprüfungen, Headerzustände mit 0 geänderten Pixeln, Hover/Fokus/Press,
-Touch/Pointer, Drag-and-Drop, Favoriten, Suche, 6 Rechnerreferenzen, Offlinebetrieb
-und Cache-Upgrade. Details: TEST-RESULTS.txt.
+PASS: 85 Projektdateien einschließlich SHA256SUMS.txt, 15 aktive Routen × Smartphone,
+Tablet und Desktop, 320-px-Reflow, fünf Reorder-/Visual-Profile, 1.431 Browserprüfungen,
+pixelidentische Headerzustände, Touch/Pointer/Drag-and-Drop, sechs Rechnerreferenzen,
+Offlinebetrieb, Cache-Upgrade und Browser-SHA-256-Prüfung aller geschützten Logo-/PWA-
+Dateien. Details: TEST-RESULTS.txt.

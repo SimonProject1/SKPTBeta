@@ -1,7 +1,7 @@
-# Testplan – SK PCT Tools V2.6.3.7-Beta
+# Testplan – SK PCT Tools V2.6.3.8-Beta
 
 Stand: 17.10.2026  
-Basis: vollständige V2.6.3.6-Beta
+Basis: vollständige V2.6.3.7-Beta
 
 ## 1. Syntax, Struktur und Integrität
 
@@ -10,44 +10,42 @@ python3 tests/validate_project.py
 ```
 
 Prüfumfang:
-- 83 Projektdateien einschließlich `SHA256SUMS.txt`
-- 16 HTML-Dokumente, 14 gerahmte interne Seiten und 15 aktive Browserrouten
-- genau eine zentrale CSS- und App-JS-Datei
-- Version 2.6.3.7-Beta in HTML, Manifest, Suchindex und Laufzeit
-- keine operativen Altversionsreferenzen
+- 85 Projektdateien einschließlich `SHA256SUMS.txt`
+- 16 HTML-Dokumente, 14 gerahmte Unterseiten und 15 aktive Browserrouten
+- zentrale CSS-/JS-Datei, Manifest, Suchindex, Service Worker und Cache-Epoch
+- Version `2.6.3.8-Beta` und versionierte Dateinamen/Referenzen
 - vollständige lokale Ziele, H1, Referrer-Schutz, Header und Footer
-- Service-Worker-Kerncache `v2-6-3-7-core-r1`
-- vollständige Prüfsummen und feste Referenzhashes
+- feste SHA-256-Referenzwerte für geschützte Marken-/PWA-Dateien
+- vollständiger SHA-256-Bestand aller Projektdateien
 
-## 2. Neues Release-Modul
+## 2. Vereinfachtes sichtbares Header-Logo
 
-- keine operative Nutzung der alten Versionsfeld-/Textpanel-Klassen
-- `release-module-v2-6-3-7.png`: 1536 × 512 px, RGBA, feste Alpha-Grenzen und SHA-256
-- Cyan-/Blau-/Grün-Materialität und schwarze Außenkontur
-- Host ohne Border, Hintergrund, Schatten, äußere Kachel oder Pseudoelemente
-- exakt `V2.6.3.7-Beta` und `Tool by S.K.`
-- Grafik vollständig geladen; Text ohne horizontalen/vertikalen Überlauf
-- gleiche sichtbare Höhe und Mittellinie wie Logo und Headerbuttons
-- 320-px-Test mit längerem Stand `V2.6.3.7-RC.12-Beta`
+- `assets/header-logo-simple.png`: 512 × 512 px, RGBA, feste SHA-256 und Alpha-Grenze
+- eigenständiger Generator schreibt ausschließlich diese neue Datei
+- großer zehnzahniger PCT-Körper, klare schwarze Kontur und hohe Schriftmasse
+- Grundkörper und Materialität entsprechen `navigation_frame()`
+- operative Referenz auf Startseite und allen gerahmten Unterseiten
+- alte `logo-sk-pct-tools-header.png` bleibt unverändert und operativ unreferenziert
+- Simple-Datei ist im Service-Worker-Kerncache enthalten
 
-## 3. Header- und Zustandsstabilität
+## 3. Unveränderte PWA-/Homescreen-/App-Icons
+
+Statisch und im Browser werden die fest hinterlegten SHA-256-Werte geprüft für:
+- `logo-sk-pct-tools.png`, `logo-sk-pct-tools-header.png`
+- `favicon.png`, `apple-touch-icon.png`
+- `icon-192.png`, `icon-512.png`
+- `icon-maskable-192.png`, `icon-maskable-512.png`
+
+Zusätzlich werden Manifest-Pfade, Größen und `purpose` (`any`/`maskable`) geprüft.
+
+## 4. Header-, Touch- und Zustandsstabilität
 
 Auf 320 × 700, 390 × 844, 844 × 390, 820 × 1180 und 1440 × 1000:
-- Hover, Fokus, Drücken und aktiv verändern keine Position oder Größe
-- Header-DOM, Geometrie und berechnete Styles vor/während/nach Sortierung identisch
-- Header-Screenshot Normal/Sortieren: 0 geänderte Pixel
-- Logo, Release-Modul, Suche, Favoritenbutton und Zähler bleiben sichtbar
-- Sortier-Dock liegt fixed außerhalb des Headers und überdeckt keine Apps/Titel
-
-## 4. Drag-and-Drop und Sortierregression
-
-- Wackeln ausschließlich auf dem direkten Icon-PNG
-- maßgleicher Platzhalter und body-direkte viewportfeste Drag-Ebene
-- Ziehen über Reihen/Spalten, Zielerkennung, Randbegrenzung und Auto-Scroll
-- Drop, pointercancel, lostpointercapture, Escape, blur und pagehide
-- Rückgängig/Wiederholen, Tastaturverschiebung und Standardreihenfolge
-- Speicherung in `skPctHomeOrderV1` und Reload-Wiederherstellung
-- normaler Header bleibt im Sortiermodus unverändert
+- Logo, Versionsmodul und Headerbuttons auf gemeinsamer vertikaler Mittellinie
+- 44-/52-px-Darstellung ohne Überlauf oder Abschneiden
+- Hover, Fokus, Drücken, aktiv und geöffnet ohne Positions-/Größenänderung
+- Header-DOM, Geometrie, Styles und Screenshot vor/während/nach Sortierung identisch
+- separates Sortier-Dock ohne Kollision mit Header, Apps oder Titeln
 
 ## 5. Browser-, Touch- und Funktionsregression
 
@@ -57,24 +55,26 @@ SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
 ```
 
 Prüfumfang:
-- 1.430 Browserprüfungen
+- 1.431 Browserprüfungen
 - 15 aktive Routen × Smartphone, Tablet und Desktop
 - fünf Reorder-Profile einschließlich iPhone-Portrait/-Landscape
 - 320-px-Reflow und Safe-Area-Geometrie
 - Suche, Favoritenübersicht, Zähler, Home-/Zurücknavigation
-- sechs Rechnerreferenzen einschließlich Grenzwerte, Reset und Vorzeichen
+- Drag/Drop, Long-Press, Pointer-Abbruch, History, Speicherung und Reload
+- sechs Rechnerreferenzen einschließlich Grenzwerte, Reset und Vorzeichen-Touch
 - Wissensnavigation, lokale Referenzen und externe Zielabsicherung
 - Offline-Start, Offline-Unterseiten und Cache-Upgrade
 
 ## 6. Visuelle QA
 
-Screenshots für Normal- und Sortierzustand auf allen fünf Reorder-Profilen:
-- keine Headeränderung oder Header-/Dock-/App-Kollision
-- kein horizontaler Überlauf und keine abgeschnittenen Texte
-- Release-Modul wirkt als Teil derselben Icon-Familie
-- ausgewogene Proportionen auf Phone, iPhone-PWA, Querformat, Tablet und Desktop
+Gerenderte Startseiten- und Unterseitenheader auf iPhone/Smartphone, Tablet und Desktop:
+- ruhiges, in kleiner Größe lesbares PCT-Zahnrad
+- identischer Cyan-/Blau-/Grün-Grundkörper wie Versionsmodul und Headerbuttons
+- keine Leiterbahnen, Punktknoten, Zusatzrahmen oder Dekorschienen im Simple-Logo
+- keine Verschiebung der optischen Höhe oder vertikalen Mittellinie
+- normaler Header im Sortiermodus pixelidentisch
 
 ## 7. Abschluss
 
 Nach erfolgreicher Prüfung werden `TEST-RESULTS.txt`, `SHA256SUMS.txt`,
-`UEBERGABE-V2.6.3.7-Beta.txt` und das vollständige ZIP-Paket finalisiert.
+`UEBERGABE-V2.6.3.8-Beta.txt` und das vollständige ZIP-Paket finalisiert.
