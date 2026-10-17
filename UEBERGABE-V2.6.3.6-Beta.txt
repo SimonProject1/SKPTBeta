@@ -1,0 +1,69 @@
+ÜBERGABEPROTOKOLL – SK PCT Tools V2.6.3.6-Beta
+Stand: 17.10.2026
+Projektinhaber: Simon Kiesler
+Basis: vollständige V2.6.3.5-Beta
+
+STATUS
+Vollständige V2.6.3.6-Beta erstellt und geprüft. Die freie Drag-and-Drop-Neuordnung der
+V2.6.3.5-Beta bleibt erhalten. Der normale Header wird im Sortiermodus nicht mehr ersetzt,
+ausgeblendet, verkleinert, umsortiert oder modusspezifisch positioniert.
+
+UMGESETZT
+- ersetzende kompakte Sortierleiste aus dem Header vollständig entfernt
+- alle historischen Sortier-CSS-Regeln für Header, Marke, Utility, Suche und Favoriten entfernt
+- normaler Header im Normal-, Sortier-, Drag- und Abschlusszustand identisch
+- separates viewportfestes Sortier-Dock außerhalb von Header und Dokumentfluss
+- Rückgängig, Wiederholen, Standardreihenfolge und Fertig mit mindestens 44 × 44 px Touchfläche
+- Safe-Area-Unterstützung, kleine Viewports und Scrollabstände
+- keine Überdeckung von Header, erster App-Reihe oder App-Beschriftungen
+- dezentes Wackeln ausschließlich auf dem sichtbaren Icon-PNG
+- keine Animation oder Transformation von Kachel, Wrapper, Titel oder Favoritenbutton
+- body-direkte, viewportfeste Drag-Ebene ohne Grid-/Overflow-/Containment-Abhängigkeit
+- maßgleicher Rasterplatzhalter ohne Mindesthöhen-Sprung im Landscape-Modus
+- Zielerkennung über elementsFromPoint plus Distanz-Rückfall
+- Drag-Grenzen zwischen unverändertem Header, Viewport und Sortier-Dock
+- Auto-Scroll-Zielaktualisierung nur nach realer Scrollbewegung
+- Drag über mehrere Reihen/Spalten, Rand-Autoscroll und Resize-Aktualisierung
+- vollständige Drop-, Cancel-, Pointer-, Escape-, Blur-, Pagehide- und Hintergrund-Cleanup-Pfade
+- Mehrfachsortierung, Tastaturverschiebung, History, Speicherung und Reload-Wiederherstellung
+
+ZENTRALE DATEIEN
+- assets/app-v2-6-3-6.js
+  Reorder-Engine: pointer-overlay-v3
+  Storage: skPctHomeOrderV1
+  Header-/Dock-Synchronisierung und sichere Drag-Grenzen
+- assets/app-v2-6-3-6.css
+  headerneutraler Sortiermodus, getrenntes fixed Dock, unverändertes Normaldesign
+- index.html
+  Sortier-Dock als Geschwisterelement außerhalb von .pct-home-head
+- service-worker.js
+  Cache-Epoch: v2-6-3-6-core-r1
+- manifest-v2-6-3-6.webmanifest
+- assets/search-index-v2-6-3-6.json
+
+WICHTIGE ZUSTANDSREGELN
+- navigate: Apps öffnen normal; Scrollgeste bleibt Scrollgeste; Dock ist hidden
+- sort/dragging: Navigation gesperrt; Dock, Overlay und Platzhalter aktiv; Header unverändert
+- Drop: Karte an Platzhalter einsetzen, speichern, Overlay/Dock entfernen, navigate aktivieren
+- Abbruch: Karte einsetzen, Reihenfolge vor Drag wiederherstellen, vollständig bereinigen
+- keine globale oder zeitabhängige Klicksperre
+- der synthetische Abschlussklick wird nur für die betroffene Karte einmal abgefangen
+
+QUALITÄTSSTATUS
+PASS · 82 Dateien
+PASS · 1.422 Browserprüfungen
+PASS · 15 Seiten × Smartphone/Tablet/Desktop
+PASS · fünf Reorder-Profile einschließlich iPhone-Portrait und iPhone-Landscape
+PASS · pixelidentische Headeraufnahme in allen Reorder-Profilen
+PASS · 320-px-Reflow
+PASS · visuelle QA für 320 × 700, 390 × 844, 844 × 390, 820 × 1180 und 1440 × 1000
+PASS · Offlinebetrieb und Cache-Upgrade
+PASS · vollständige SHA256SUMS.txt
+
+OFFENE FEHLER
+Keine im ausgeführten Prüfprogramm festgestellten Fehler.
+
+STARTBEFEHLE
+python3 tests/validate_project.py
+python3 -m http.server 8080
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py

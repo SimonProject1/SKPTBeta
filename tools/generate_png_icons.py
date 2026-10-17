@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the complete SK PCT Tools V2.6.3.5-Beta icon system.
+"""Generate the complete SK PCT Tools V2.6.3.6-Beta icon system.
 
 Design goal: retain the approved application/knowledge icon family while giving
 the four header/navigation controls a deliberately calmer body: one compact
@@ -17,7 +17,7 @@ SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-3-5-"
+PREFIX = "v2-6-3-6-"
 WHITE = (255, 255, 255, 255)
 BLACK = (0, 0, 0, 255)
 DARK = (3, 15, 24, 255)
@@ -464,7 +464,7 @@ def main():
         "nav-favorite": nav_favorite,
     }
     for name, factory in icons.items(): save(name, factory())
-    print(f"Generated {len(icons)} V2.6.3.5 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
+    print(f"Generated {len(icons)} V2.6.3.6 icons in {OUT} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
 
 
 if __name__ == "__main__":

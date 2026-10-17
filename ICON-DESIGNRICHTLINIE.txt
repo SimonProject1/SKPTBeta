@@ -1,5 +1,5 @@
 SK PCT TOOLS – VERBINDLICHE ICON- UND MARKENRICHTLINIE
-Stand: V2.6.3.5-Beta · 16.10.2026
+Stand: V2.6.3.6-Beta · 16.10.2026
 
 1. APP-/HOMESCREEN-MARKE – NICHT VERÄNDERN
 - Die als App-/Homescreen-Icon freigegebene Marke bleibt bytegenau unverändert.
@@ -30,11 +30,11 @@ Stand: V2.6.3.5-Beta · 16.10.2026
 - Kompakte Fläche ohne breite Paneloptik, schwarze Doppelkontur, inneren Rahmen oder
   dekorative Akzentlinie am unteren Rand.
 - Cyan links, Grün rechts und ein zurückhaltender Blauanteil in der Fläche genügen.
-- Text exakt: V2.6.3.5-Beta und „Tool by S.K.“.
+- Text exakt: V2.6.3.6-Beta und „Tool by S.K.“.
 
 5. APP-, WISSENS- UND HERSTELLERGRAFIKEN
 - 20 bestehende Grafiken bleiben inhaltlich/binär unverändert.
-- Aktiver Bestand insgesamt: 24 PNGs mit Präfix v2-6-3-5- unter
+- Aktiver Bestand insgesamt: 24 PNGs mit Präfix v2-6-3-6- unter
   assets/navigation-icons/ (20 Bestandsgrafiken plus vier bereinigte Headergrafiken).
 - Reproduzierbare Quelle: tools/generate_png_icons.py.
 
@@ -53,6 +53,6 @@ Stand: V2.6.3.5-Beta · 16.10.2026
 
 8. OFFLINE UND ABNAHME
 - Alle 24 Navigation-/Appgrafiken, sieben geschützten Marken-/PWA-PNGs und die separate
-  Headerlogo-Datei gehören in den Kerncache v2-6-3-5-core-r1.
+  Headerlogo-Datei gehören in den Kerncache v2-6-3-6-core-r1.
 - PNG-Signatur, Größe, Alpha, Referenzhash, geschützte Hashes, lokale Referenzen und
   Browserdarstellung werden automatisiert geprüft.
