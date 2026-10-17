@@ -1,24 +1,16 @@
-SK PCT Tools 2.6.3.2-Beta – Testergebnisse
-Ausgeführt: 16.10.2026
-Ziel: vollständiges Release-Paket V2.6.3.2-Beta
-Basis: vollständige V2.6.3.1-Beta
+SK PCT Tools 2.6.3.3-Beta – Testergebnisse
+Ausgeführt: 17.10.2026
+Ziel: vollständiges Release-Paket V2.6.3.3-Beta
+Basis: vollständige V2.6.3.2-Beta
 
 1. SYNTAX UND FORMAT
 PASS
 - Python-Syntax: beide Generatoren und beide Tests
-- JavaScript-Syntax: assets/app-v2-6-3-2.js und service-worker.js
+- JavaScript-Syntax: assets/app-v2-6-3-3.js und service-worker.js
 - JSON: Manifest, Suchindex, Material- und Einheitendaten
 - SVG/XML: assets/pct-controls.svg
 
-2. GESCHÜTZTE APP-/PWA-ICONFAMILIE
-PASS
-- 7 von 7 geschützten Dateien bytegenau identisch zur V2.6.3.1-Beta
-- logo-sk-pct-tools.png, favicon.png, apple-touch-icon.png, icon-192.png,
-  icon-512.png, icon-maskable-192.png und icon-maskable-512.png unverändert
-- Manifest-Purpose any/maskable und Maskable-Safe-Zone korrekt
-- separate sichtbare Headerlogo-Datei wird nicht als PWA-/App-Icon verwendet
-
-3. STRUKTUR, REFERENZEN UND INTEGRITÄT
+2. STRUKTUR, REFERENZEN UND INTEGRITÄT
 Befehl: python3 tests/validate_project.py
 Ergebnis: PASS
 - 82 Dateien einschließlich SHA256SUMS.txt
@@ -26,49 +18,41 @@ Ergebnis: PASS
 - 16 HTML-Dokumente mit Manifest-, Favicon- und Apple-Touch-Verweis
 - genau eine zentrale CSS- und eine zentrale App-JS-Datei
 - 24 aktive App-/Wissens-/Hersteller-/Headergrafiken
-- Version 2.6.3.2-Beta, Manifest, Suchindex und Cache-Epoch konsistent
+- Version 2.6.3.3-Beta, Manifest, Suchindex und Cache-Epoch konsistent
 - lokale Referenzen, Offline-Kerncache und SHA256SUMS.txt vollständig
 
-4. HEADERLOGO, VERSIONSFELD UND HEADERBUTTONS
+3. DRAG-/TOUCH-/POINTER-FEHLERBEHEBUNG
 PASS
-- separate Headerlogo-Variante 512 × 512 px, Zahnradmitte exakt 256/256
-- kleineres Zahnrad root/tooth 112/138 mit gleichmäßigem Freiraum
-- Versionsfeld ohne alte Paneloptik, schwarze Doppelkontur, inneren Rahmen oder
-  dekorative untere Farblinie
-- Home, Zurück, Suche und Favoriten auf einem einzelnen Cyan-/Blau-/Grün-Grundkörper
-- keine zusätzliche schwarze CSS-Außenkachel und keine dekorativen Leiterbahnlinien
-- Lupe ohne schwarze Innenfläche; Such- und Sternsymbole groß, weiß und konturiert
-- Favoritenzähler, Fokus, Touch, Aktivzustände und Navigation erhalten
-- Logo, Versionsfeld und Aktionen auf gemeinsamer vertikaler Mittellinie
+- kurzer Tap ohne Drag passiert die Navigation
+- Long-Press startet den Drag
+- Drag/Drop ändert und speichert die Reihenfolge
+- Drag-Ghost-Klick wird einmalig unterdrückt
+- neuer Tap direkt nach Sortierung wird sofort freigegeben
+- mehrfaches Sortieren in derselben Sitzung funktioniert
+- pointercancel bereinigt Zustand und blockiert den Folgetap nicht
+- lostpointercapture, blur, pagehide und visibilitychange besitzen Cleanup-Pfade
+- Ghost- und is-dragging-Elemente bleiben nicht zurück
+- DOM-Reihenfolge entspricht skPctHomeOrderV1
 
-5. APP-FAVORITENKOPPLUNG
-PASS
-- alle 10 Startseiten- und 5 Wissens-Favoritenbuttons direkt im jeweiligen
-  .sk-app-icon-wrapper
-- sichtbarer Kreis 22 × 22 px; Touchfläche 44 × 44 px
-- Kreismittelpunkt auf der oberen rechten tatsächlichen Icon-/Wrapperkante
-- aktive und inaktive Favoriten geometrisch identisch
-- App-Kachel, Wrapper und PNG in allen Interaktionszuständen stabil
-
-6. BROWSERREGRESSION
+4. BROWSERREGRESSION
 Befehl: python3 tests/browser_regression.py
-Ergebnis: PASS · 1257 Browserprüfungen
+Ergebnis: PASS · 1296 Browserprüfungen
 - 15 Seiten × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
-- 320-px-Reflow ohne horizontale Überläufe oder Touchziele unter 44 px
-- Header-Mittellinie, Außenkachelfreiheit und PNG-Bestand geprüft
-- Startseitensuche, Favoritenübersicht, Zähler, Home-/Zurücknavigation
+- drei zusätzliche Reorder-Profile: iPhone-PWA-Emulation, Tablet-Touch und Desktop
+- 320-px-Reflow ohne horizontale Überläufe oder relevante Touchziele unter 44 px
+- Favoriten nach Sortierung weiterhin bedienbar
+- echte Navigation nach mehrfacher Sortierung ohne Reload erfolgreich
 - 6 Rechnerreferenzen und Grenzwertprüfungen
-- reale Touchprüfung für Smartphone und Tablet
-- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-3-2-core-r1
+- Offline-Start, Offline-Unterseiten und Cache-Upgrade auf v2-6-3-3-core-r1
 
-7. VISUELLE BROWSERABNAHME
+5. GRAFIK-/DESIGN-REGRESSION
 PASS
-- Start- und Unterseite auf 390 × 844, 820 × 1180 und 1440 × 1000 gerendert
-- Headerlogo, Versionsfeld und Buttons optisch mittig und gleich hoch
-- keine schwarze Lupeninnenfläche, dekorativen Farbstreifen oder Leiterbahnlinien
-- keine zusätzliche Außenkachel, abgeschnittenen Headerteile oder defekten Bilder
-- App-Icons, PWA-Icons und feste Favoritenanker optisch/funktional unverändert
+- alle geschützten Logo-/PWA-/Apple-/Browserdateien bytegenau unverändert
+- alle 24 Navigations-PNGs bytegenau unverändert; nur v2-6-3-3-Dateinamen
+- CSS-Regelbestand gegenüber V2.6.3.2 abgesehen von Versionsreferenzen unverändert
+- App-Icon-, Wrapper-, Favoriten- und Headergeometrie in drei Viewports geprüft
+- keine defekten Bilder oder horizontalen Überläufe
 
 GESAMTERGEBNIS
 PASS – keine offenen Fehler. Das vollständige Projekt ist für die Auslieferung als
-SK-PCT-Tools-V2.6.3.2-Beta.zip freigegeben.
+SK-PCT-Tools-V2.6.3.3-Beta.zip freigegeben.

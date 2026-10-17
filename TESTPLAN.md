@@ -1,7 +1,7 @@
-# Testplan – SK PCT Tools V2.6.3.2-Beta
+# Testplan – SK PCT Tools V2.6.3.3-Beta
 
-Stand: 16.10.2026  
-Basis: vollständige V2.6.3.1-Beta
+Stand: 17.10.2026  
+Basis: vollständige V2.6.3.2-Beta
 
 ## 1. Statische Struktur und Integrität
 
@@ -10,57 +10,39 @@ python3 tests/validate_project.py
 ```
 
 Prüfumfang:
+- 82 Projektdateien einschließlich `SHA256SUMS.txt`
 - 16 HTML-Dokumente, davon 14 gerahmte interne Seiten
 - genau eine zentrale CSS- und App-JS-Datei
-- Version 2.6.3.2-Beta in HTML, Manifest, Suchindex und Laufzeit
+- Version 2.6.3.3-Beta in HTML, Manifest, Suchindex und Laufzeit
 - keine operativen Altversionsreferenzen
 - lokale Ziele, H1, Referrer-Schutz, Header und Footer
-- Manifest-, Favicon- und Apple-Touch-Verweise
-- Service-Worker-Kerncache `v2-6-3-2-core-r1`
+- Service-Worker-Kerncache `v2-6-3-3-core-r1`
 - vollständige `SHA256SUMS.txt`
 
-## 2. Geschützte App-/PWA-Icons und separates Headerlogo
+## 2. Drag-/Touch-/Pointer-Zustandsmaschine
 
-- sieben freigegebene Marken-/Browser-/Apple-/PWA-Dateien gegen feste V2.6.3.1-Hashes
-- PWA-, Apple-Touch-, Maskable-, Favicon- und App-Icons bytegenau unverändert
-- separate Datei `logo-sk-pct-tools-header.png` mit eigenem Referenzhash
-- Headerzahnrad exakt bei 256/256 sowie root/tooth 112/138 im Generator
-- Headerlogo nur im sichtbaren Header, nicht in Manifest/PWA-Iconslots
-- vollständige Aufnahme beider Familien in den Offline-Kerncache
+Zu prüfen auf Smartphone-Touch, Tablet-Touch und Desktop-Pointer:
+- kurzer Tap ohne Drag wird nicht unterdrückt
+- Long-Press startet Drag und zeigt einen einzelnen Ghost
+- Ziehen und Ablegen speichert die neue Reihenfolge
+- der durch Drag erzeugte Klick öffnet keine App versehentlich
+- ein neuer Tap direkt nach dem Ablegen öffnet die App sofort
+- zweites Sortieren ohne Neustart funktioniert
+- `pointercancel` bereinigt Drag, Ghost, Timer und Capture
+- Tap nach abgebrochenem Drag funktioniert sofort
+- DOM-Reihenfolge und `skPctHomeOrderV1` stimmen überein
+- `lostpointercapture`, `blur`, `pagehide` und `visibilitychange` besitzen Cleanup-Pfade
 
-## 3. Navigationsgrafiken
+## 3. Geschützte Grafik und Design
 
-- 20 bestehende App-/Wissens-/Hersteller-PNGs binär unverändert
-- vier bereinigte Header-PNGs: Home, Zurück, Suche und Favoriten
-- genau 24 aktive Dateien mit Präfix `v2-6-3-2-`
-- PNG-Signatur, 512 × 512 px, RGBA, Alpha-Grenze und Referenzhash
-- ein einzelner farbiger Grundkörper ohne CSS-Außenkachel
-- Lupenmitte nicht schwarz; Favoritenzentrum klar weiß
+- sieben freigegebene Marken-/Browser-/Apple-/PWA-Dateien gegen feste Hashes
+- 24 Navigations-PNGs gegen feste Hashes, Geometrie und Alpha-Grenzen
+- CSS gegenüber V2.6.3.2 nur auf Versionsreferenzen umgestellt
+- 44-px-Favoriten-Touchfläche und 22-px sichtbarer Kreis
+- feste obere rechte Icon-Verankerung
+- unveränderte Geometrie in Ruhe, Hover, Fokus, Press und Aktivzustand
 
-## 4. Header und Versionsfeld
-
-Auf Startseite und internen Seiten:
-- `V2.6.3.2-Beta` und `Tool by S.K.` sichtbar
-- Logo, Versionsfeld und Aktionen auf gemeinsamer vertikaler Mittellinie
-- Versionsfeld: 1-px-Grundkontur, 4-px-Cyan-/Grün-Seitenakzente, keine Pseudoelement-Zierlinien
-- transparente Button-Touchflächen ohne CSS-Außenkachel
-- je Button genau ein geladenes 512 × 512 PNG
-- Desktop/Tablet 52 px, Smartphone mindestens 44 px
-- sichtbarer Fokus und `touch-action: manipulation`
-- identische Geometrie in Ruhe, Hover, Fokus, Press und Aktivzustand
-- 320-px-Reflow und Querformat ohne Überlauf
-
-## 5. App-Favoritenkopplung
-
-Für zehn Startseiten- und fünf Wissens-App-Icons:
-- `.sk-favorite-button` bleibt direktes Kind von `.sk-app-icon-wrapper`
-- sichtbarer Kreis 21 bis 23 px, Sollmaß 22 px
-- Touchfläche mindestens 44 × 44 px
-- Mittelpunkt auf der oberen rechten sichtbaren PNG-/Wrapperkante
-- aktive und inaktive Zustände geometrisch identisch
-- App-Kachel, Wrapper und PNG in allen Interaktionszuständen pixelstabil
-
-## 6. Browserregression
+## 4. Browserregression
 
 ```bash
 python3 tests/browser_regression.py
@@ -68,21 +50,14 @@ python3 tests/browser_regression.py
 
 Prüfumfang:
 - 15 aktive Routen × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
+- iPhone-PWA-nahe Touch-/Pointer-Sequenzen im mobilen Browserkontext
 - 320-px-Reflow-Sanity und Safe-Area-Geometrie
-- Suche, Favoritenübersicht, Zähler, Fokus, Home- und Zurücknavigation
-- reale Touch-Auslösung auf Smartphone und Tablet
+- Suche, Favoritenübersicht, Zähler, Home- und Zurücknavigation
 - sechs Rechnerreferenzen einschließlich Grenzwerte und Reset
 - Wissensnavigation und Quellenbündel
-- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-3-2-core-r1`
+- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-3-3-core-r1`
 
-## 7. Visuelle Abnahme
+## 5. Abschluss
 
-- Startseite und Unterseite bei 390 × 844, 820 × 1180 und 1440 × 1000 rendern
-- PCT-Zahnrad kleiner als in V2.6.3.1, mittig und mit gleichmäßigem Freiraum
-- kompaktes Versionsfeld ohne alte Paneloptik oder untere Farblinie
-- Lupe ohne schwarzen Innenkreis; keine dekorativen Leiterbahnen in Headerbuttons
-- keine zusätzlichen schwarzen Außenkacheln oder horizontalen Überläufe
-- App-Icons und feste Favoritenanker optisch unverändert
-
-Nach der Abnahme werden `TEST-RESULTS.txt`, `SHA256SUMS.txt` und das vollständige
-ZIP-Paket aktualisiert und erneut geprüft.
+Nach erfolgreicher Prüfung werden `TEST-RESULTS.txt`, `SHA256SUMS.txt`, das
+Übergabeprotokoll und das vollständige ZIP-Paket aktualisiert und erneut geprüft.

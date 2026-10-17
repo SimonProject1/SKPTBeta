@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.6.3.2-Beta — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
+/* SK PCT Tools 2.6.3.3-Beta — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
 (()=>{'use strict';
-const RELEASE='2.6.3.2-Beta';
+const RELEASE='2.6.3.3-Beta';
 const STORAGE_KEY='skPctUnitFavoritesV1';
 const source=document.currentScript?.src||'';
 const root=source?new URL('../',source):(window.SK_PCT?.root||new URL('./',location.href));

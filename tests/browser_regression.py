@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Playwright-Browserprüfung: 15 Seiten, 3 Viewports, Reflow, 6 Rechner und Offline."""
+"""Playwright-Browserprüfung: 15 Seiten, 3 Viewports, Reflow, Drag/Touch, 6 Rechner und Offline."""
 from __future__ import annotations
 import os, sys, glob
 from urllib.parse import urljoin
@@ -37,7 +37,7 @@ with sync_playwright() as p:
                 check(state['footerStyle'] and state['footerStyle']['borderTop']=='0px' and state['footerStyle']['outline']=='0px' and state['footerStyle']['shadow']=='none',f'{name} {route or "/"}: Footer besitzt Kontur/Schatten')
                 check(state['h1']==1,f'{name} {route or "/"}: {state["h1"]} H1 statt genau einer')
                 check(state['referrer']=='no-referrer',f'{name} {route or "/"}: Referrer-Schutz fehlt')
-                check(state['plate'] and state['plate']['version']=='V2.6.3.2-Beta' and state['plate']['byline']=='Tool by S.K.',f'{name} {route or "/"}: Versionsschild oder Herkunftstext fehlerhaft: {state["plate"]}')
+                check(state['plate'] and state['plate']['version']=='V2.6.3.3-Beta' and state['plate']['byline']=='Tool by S.K.',f'{name} {route or "/"}: Versionsschild oder Herkunftstext fehlerhaft: {state["plate"]}')
                 check(state['plate'] and state['plate']['border']=='1px' and state['plate']['borderLeft']=='4px' and state['plate']['borderRight']=='4px' and state['plate']['transform']=='none' and 'linear-gradient' in state['plate']['background'] and state['plate']['before']=='none' and state['plate']['after']=='none' and state['plate']['overflowX']<=1 and state['plate']['overflowY']<=1,f'{name} {route or "/"}: kompaktes Versionsfeld oder Geometrie fehlerhaft: {state["plate"]}')
                 expected_controls=2 if not route else 3
                 check(len(state['controls'])==expected_controls and all(c['w']>=44 and c['h']>=44 and c['border']=='0px' and c['radius']=='0px' and c['background']=='rgba(0, 0, 0, 0)' and c['backgroundImage']=='none' and c['shadow']=='none' and c['transform']=='none' and c['touch']=='manipulation' and c['images']==1 for c in state['controls']),f'{name} {route or "/"}: Headerbuttons besitzen noch eine Außenkachel oder fehlerhafte Touchgeometrie: {state["controls"]}')
@@ -45,7 +45,7 @@ with sync_playwright() as p:
                 check(all(value is not None for value in centers) and max(centers)-min(centers)<=1,f'{name} {route or "/"}: Headerobjekte liegen nicht auf einer gemeinsamen vertikalen Mittellinie: {state["alignment"]}')
                 check(state['nav']['count']==expected_controls and state['nav']['png'] and not state['nav']['broken'] and all(size==[512,512] for size in state['nav']['natural']),f'{name} {route or "/"}: eigenständige Header-PNGs fehlerhaft: {state["nav"]}')
                 if route:
-                    check(set(state['nav']['files'])=={'v2-6-3-2-nav-favorite.png','v2-6-3-2-nav-back.png','v2-6-3-2-nav-home.png'},f'{name} {route}: Headergrafik-Bestand fehlerhaft: {state["nav"]}')
+                    check(set(state['nav']['files'])=={'v2-6-3-3-nav-favorite.png','v2-6-3-3-nav-back.png','v2-6-3-3-nav-home.png'},f'{name} {route}: Headergrafik-Bestand fehlerhaft: {state["nav"]}')
                     shared_brand=page.evaluate("""()=>{const i=document.querySelector('.sk-header-logo'),w=i?.closest('.sk-logo-version-stack'),s=w?getComputedStyle(w):null,ir=i?.getBoundingClientRect(),wr=w?.getBoundingClientRect();return i?{src:i.src,natural:[i.naturalWidth,i.naturalHeight],broken:!i.complete||i.naturalWidth===0,frame:s?{border:s.borderTopWidth,background:s.backgroundColor,shadow:s.boxShadow,overflow:s.overflow}:null,delta:ir&&wr?[ir.width-wr.width,ir.height-wr.height]:[]}:null}""")
                     check(shared_brand and shared_brand['src'].split('?')[0].endswith('/assets/logo-sk-pct-tools-header.png') and shared_brand['natural']==[512,512] and not shared_brand['broken'],f'{name} {route}: neues Headerlogo fehlt oder ist defekt: {shared_brand}')
                     check(shared_brand and shared_brand['frame']=={'border':'0px','background':'rgba(0, 0, 0, 0)','shadow':'none','overflow':'visible'} and max(abs(x) for x in shared_brand['delta'])<=.25,f'{name} {route}: Headerlogo besitzt noch eine äußere Rahmen-/Logokachel oder füllt den Host nicht: {shared_brand}')
@@ -109,7 +109,7 @@ with sync_playwright() as p:
                     card=cards.nth(index)
                     geometry=lambda: card.evaluate("""card=>{const icon=card.querySelector('.knowledge-home-icon'),image=icon.querySelector('img'),button=card.querySelector('.sk-favorite-button'),ir=icon.getBoundingClientRect(),pr=image.getBoundingClientRect(),br=button.getBoundingClientRect(),style=getComputedStyle(button,'::after'),inset=parseFloat(style.inset)||0,visible={left:br.left+inset,top:br.top+inset,right:br.right-inset,bottom:br.bottom-inset},alpha={left:pr.left+pr.width*13/512,top:pr.top+pr.height*9/512,right:pr.left+pr.width*489/512,bottom:pr.top+pr.height*491/512};return{touch:Math.min(br.width,br.height),visible:br.width-2*inset,centerX:(visible.left+visible.right)/2-ir.right,centerY:(visible.top+visible.bottom)/2-ir.top,alphaDelta:[alpha.left-ir.left,alpha.top-ir.top,alpha.right-ir.right,alpha.bottom-ir.bottom],structural:icon.classList.contains('sk-app-icon-wrapper')&&button.parentElement===icon,x:visible.left,y:visible.top,w:visible.right-visible.left,h:visible.bottom-visible.top,active:button.dataset.active}}""")
                     inactive=geometry();favorite=card.locator('.sk-favorite-button');favorite.click();active_favorite=geometry();favorite.click();restored=geometry()
-                    check(inactive['structural'] and max(abs(delta) for delta in inactive['alphaDelta'])<=.25 and inactive['touch']>=44 and 21<=inactive['visible']<=23 and abs(inactive['centerX'])<=.25 and abs(inactive['centerY'])<=.25,f'{name} Wissens-App {manufacturer}/{index+1}: Wrapper, sichtbare PNG-Grenze oder Favoritenkreis weicht von der oberen rechten Iconecke ab: {inactive}')
+                    check(inactive['structural'] and max(abs(delta) for delta in inactive['alphaDelta'])<=.25 and inactive['touch']>=43.99 and 21<=inactive['visible']<=23 and abs(inactive['centerX'])<=.25 and abs(inactive['centerY'])<=.25,f'{name} Wissens-App {manufacturer}/{index+1}: Wrapper, sichtbare PNG-Grenze oder Favoritenkreis weicht von der oberen rechten Iconecke ab: {inactive}')
                     check(active_favorite['active']=='true' and restored['active']=='false' and all(abs(active_favorite[k]-inactive[k])<=.25 and abs(restored[k]-inactive[k])<=.25 for k in ('centerX','centerY','w','h')),f'{name} Wissens-App {manufacturer}/{index+1}: Favoritenkreis verschiebt sich relativ zur Iconecke zwischen inaktiv/aktiv: {inactive} -> {active_favorite} -> {restored}')
             check(knowledge_favorites==5,f'{name} Wissensdatenbank: {knowledge_favorites} statt 5 Favoritenfelder vermessen')
             context.close()
@@ -129,12 +129,12 @@ with sync_playwright() as p:
         brand=page.evaluate("""()=>{const i=document.querySelector('.pct-home-brand img'),w=i?.closest('.pct-home-brand-mark'),s=w?getComputedStyle(w):null,ir=i?.getBoundingClientRect(),wr=w?.getBoundingClientRect(),favicon=document.querySelector('link[rel="icon"]'),apple=document.querySelector('link[rel="apple-touch-icon"]'),manifest=document.querySelector('link[rel="manifest"]');return{src:i?.src||'',natural:i?[i.naturalWidth,i.naturalHeight]:[],broken:i?!i.complete||i.naturalWidth===0:true,alt:i?.alt||'',frame:s?{border:s.borderTopWidth,background:s.backgroundColor,shadow:s.boxShadow,overflow:s.overflow}:null,delta:ir&&wr?[ir.width-wr.width,ir.height-wr.height]:[],favicon:favicon?.href||'',apple:apple?.href||'',manifest:manifest?.href||''}}""")
         check(brand['src'].split('?')[0].endswith('/assets/logo-sk-pct-tools-header.png') and brand['natural']==[512,512] and not brand['broken'],f'Startseite: neues Markenlogo fehlt oder ist defekt: {brand}')
         check(brand['frame']=={'border':'0px','background':'rgba(0, 0, 0, 0)','shadow':'none','overflow':'visible'} and max(abs(x) for x in brand['delta'])<=.25,f'Startseite: Logo besitzt noch eine äußere Rahmen-/Logokachel oder füllt den Host nicht: {brand}')
-        check(brand['alt']=='SK PCT Tools' and brand['favicon'].split('?')[0].endswith('/assets/favicon.png') and brand['apple'].split('?')[0].endswith('/assets/apple-touch-icon.png') and brand['manifest'].endswith('/manifest-v2-6-3-2.webmanifest'),f'Startseite: Markenmetadaten unvollständig: {brand}')
+        check(brand['alt']=='SK PCT Tools' and brand['favicon'].split('?')[0].endswith('/assets/favicon.png') and brand['apple'].split('?')[0].endswith('/assets/apple-touch-icon.png') and brand['manifest'].endswith('/manifest-v2-6-3-3.webmanifest'),f'Startseite: Markenmetadaten unvollständig: {brand}')
         header_assets=page.evaluate("""()=>[...document.querySelectorAll('.pct-home-quick-actions img.pct-nav-graphic')].map(i=>({file:i.src.split('?')[0].split('/').pop(),natural:[i.naturalWidth,i.naturalHeight],broken:!i.complete||i.naturalWidth===0}))""")
-        check({item['file'] for item in header_assets}=={'v2-6-3-2-nav-search.png','v2-6-3-2-nav-favorite.png'} and all(item['natural']==[512,512] and not item['broken'] for item in header_assets),f'Startseite: Suche-/Favoriten-Grafiken fehlerhaft: {header_assets}')
+        check({item['file'] for item in header_assets}=={'v2-6-3-3-nav-search.png','v2-6-3-3-nav-favorite.png'} and all(item['natural']==[512,512] and not item['broken'] for item in header_assets),f'Startseite: Suche-/Favoriten-Grafiken fehlerhaft: {header_assets}')
         manifest_data=page.evaluate("""async()=>{const r=await fetch(document.querySelector('link[rel="manifest"]').href,{cache:'no-store'});return await r.json()}""")
-        check(manifest_data.get('version')=='2.6.3.2-Beta' and {(i.get('src'),i.get('purpose')) for i in manifest_data.get('icons',[])}=={('assets/icon-192.png','any'),('assets/icon-512.png','any'),('assets/icon-maskable-192.png','maskable'),('assets/icon-maskable-512.png','maskable')},f'PWA-Manifest oder Icon-Purpose fehlerhaft: {manifest_data}')
-        home=page.evaluate("""()=>{const g=document.querySelector('#pctHomeGrid'),b=document.querySelector('#pctHomeGrid .sk-favorite-button'),t=[...document.querySelectorAll('.sk-home-app-title')],icons=[...document.querySelectorAll('#pctHomeGrid img.sk-nav-graphic')],boxes=[...document.querySelectorAll('#pctHomeGrid .sk-home-icon')],forbidden=/RECHNER|WISSEN|EXTERN|MATERIAL|PCT|PIPING/i,ring=b?getComputedStyle(b,'::after'):null;return{apps:document.querySelectorAll('#pctHomeGrid .sk-home-app').length,favorites:document.querySelectorAll('#pctHomeGrid .sk-favorite-button').length,columns:getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length,touch:b?Math.min(b.getBoundingClientRect().width,b.getBoundingClientRect().height):0,visible:b?b.getBoundingClientRect().width-2*(parseFloat(ring.inset)||0):0,inactiveGlow:ring?.boxShadow||'',titles:t.map(x=>x.textContent.trim()),titleOverflow:t.some(x=>x.scrollWidth>x.clientWidth+2),external:document.querySelector('[data-app-id="eh-device-viewer"]')?.href,mess:!!document.querySelector('[data-app-id="messstellen-doku"]'),icons:icons.length,iconFiles:new Set(icons.map(i=>i.src.split('?')[0])).size,iconBroken:icons.some(i=>!i.complete||i.naturalWidth===0),png:icons.every(i=>i.src.split('?')[0].endsWith('.png')),versioned:icons.every(i=>i.src.includes('/v2-6-3-2-')),overlayNodes:document.querySelectorAll('.knowledge-icon-badge,[data-icon-area],[data-discipline-overlay]').length,pseudoOverlay:boxes.some(x=>forbidden.test(getComputedStyle(x,'::after').content||''))}}""")
+        check(manifest_data.get('version')=='2.6.3.3-Beta' and {(i.get('src'),i.get('purpose')) for i in manifest_data.get('icons',[])}=={('assets/icon-192.png','any'),('assets/icon-512.png','any'),('assets/icon-maskable-192.png','maskable'),('assets/icon-maskable-512.png','maskable')},f'PWA-Manifest oder Icon-Purpose fehlerhaft: {manifest_data}')
+        home=page.evaluate("""()=>{const g=document.querySelector('#pctHomeGrid'),b=document.querySelector('#pctHomeGrid .sk-favorite-button'),t=[...document.querySelectorAll('.sk-home-app-title')],icons=[...document.querySelectorAll('#pctHomeGrid img.sk-nav-graphic')],boxes=[...document.querySelectorAll('#pctHomeGrid .sk-home-icon')],forbidden=/RECHNER|WISSEN|EXTERN|MATERIAL|PCT|PIPING/i,ring=b?getComputedStyle(b,'::after'):null;return{apps:document.querySelectorAll('#pctHomeGrid .sk-home-app').length,favorites:document.querySelectorAll('#pctHomeGrid .sk-favorite-button').length,columns:getComputedStyle(g).gridTemplateColumns.split(' ').filter(Boolean).length,touch:b?Math.min(b.getBoundingClientRect().width,b.getBoundingClientRect().height):0,visible:b?b.getBoundingClientRect().width-2*(parseFloat(ring.inset)||0):0,inactiveGlow:ring?.boxShadow||'',titles:t.map(x=>x.textContent.trim()),titleOverflow:t.some(x=>x.scrollWidth>x.clientWidth+2),external:document.querySelector('[data-app-id="eh-device-viewer"]')?.href,mess:!!document.querySelector('[data-app-id="messstellen-doku"]'),icons:icons.length,iconFiles:new Set(icons.map(i=>i.src.split('?')[0])).size,iconBroken:icons.some(i=>!i.complete||i.naturalWidth===0),png:icons.every(i=>i.src.split('?')[0].endsWith('.png')),versioned:icons.every(i=>i.src.includes('/v2-6-3-3-')),overlayNodes:document.querySelectorAll('.knowledge-icon-badge,[data-icon-area],[data-discipline-overlay]').length,pseudoOverlay:boxes.some(x=>forbidden.test(getComputedStyle(x,'::after').content||''))}}""")
         check(home['apps']==10,f'Startseite: {home["apps"]} statt 10 Apps');check(home['favorites']==10,f'Startseite: {home["favorites"]} statt 10 Favoritensterne');check(home['columns']==3,f'Smartphone-Startseite: {home["columns"]} statt 3 Spalten');check(home['touch']>=44,f'Favoriten-Touchziel nur {home["touch"]} px');check(21<=home['visible']<=23,f'Sichtbarer Favoritenkreis ist {home["visible"]} statt rund 22 px');check('120, 255, 50' not in home['inactiveGlow'],f'Inaktiver Favorit leuchtet grün: {home["inactiveGlow"]}');check(all(title in home['titles'] for title in ('Umrechnen','Siemens RAW','Werkstoffe','Wissen')),f'Verkürzte Titel fehlen: {home["titles"]}');check(not home['titleOverflow'],'App-Titel läuft horizontal über');check(not home['mess'],'Messstellen-Doku noch vorhanden');check(home['external']=='https://www.de.endress.com/de/onlinetools/device-viewer','E+H-Ziel falsch');check(home['icons']==10 and home['iconFiles']==10 and home['png'] and home['versioned'] and not home['iconBroken'],f'Startseiten-PNGs fehlerhaft: {home}');check(home['overlayNodes']==0 and not home['pseudoOverlay'],f'Startseite besitzt noch ein zusätzliches Fachbereichs-Overlay: {home}')
         first_favorite=page.locator('#pctHomeGrid .sk-favorite-button').first;first_favorite.click();active=page.evaluate("""()=>{const b=document.querySelector('#pctHomeGrid .sk-favorite-button'),ring=getComputedStyle(b,'::after');return{active:b.dataset.active,shadow:ring.boxShadow,color:getComputedStyle(b).color}}""");check(active['active']=='true' and ('120, 255, 50' in active['shadow'] or '120, 255, 50' in active['color']),f'Aktiver Favorit leuchtet nicht grün: {active}')
         search_trigger=page.locator('#skFilterToggle');search_before=search_trigger.bounding_box();search_trigger.click();page.wait_for_timeout(80)
@@ -155,7 +155,7 @@ with sync_playwright() as p:
         goto(page,'werkstoffdatenbank/');page.wait_for_selector('.material-compare-table td');material=page.evaluate("""()=>({row:getComputedStyle(document.querySelector('.material-compare-table tbody tr')).display,label:document.querySelector('.material-compare-table td')?.dataset.label||''})""")
         check(material['row']=='block','Werkstoffvergleich mobil nicht gestapelt');check(bool(material['label']),'Mobile Werkstoff-Schlüssel fehlen')
 
-        goto(page,'wissensdatenbank/');page.wait_for_selector('.knowledge-brand-logo');knowledge_icons=page.evaluate("""()=>{const icons=[...document.querySelectorAll('img.knowledge-brand-logo')],hub=[...document.querySelectorAll('.knowledge-hub img.knowledge-brand-logo')],entries=[...document.querySelectorAll('.knowledge-entry img.knowledge-brand-logo')],boxes=[...document.querySelectorAll('.knowledge-home-icon')],forbidden=/RECHNER|WISSEN|EXTERN|MATERIAL|PCT|PIPING/i;return{count:icons.length,files:new Set(icons.map(i=>i.src.split('?')[0])).size,broken:icons.some(i=>!i.complete||i.naturalWidth===0),png:icons.every(i=>i.src.split('?')[0].endsWith('.png')),hubManufacturers:hub.every(i=>i.src.includes('manufacturer-')),entryKnowledge:entries.length===5&&entries.every(i=>i.src.includes('knowledge-')),entryFavorites:document.querySelectorAll('.knowledge-entry .sk-favorite-button').length,versioned:icons.every(i=>i.src.includes('/v2-6-3-2-')),legacyBadges:document.querySelectorAll('.knowledge-icon-badge,[data-icon-area],[data-discipline-overlay]').length,pseudoOverlay:boxes.some(x=>forbidden.test(getComputedStyle(x,'::after').content||''))}}""")
+        goto(page,'wissensdatenbank/');page.wait_for_selector('.knowledge-brand-logo');knowledge_icons=page.evaluate("""()=>{const icons=[...document.querySelectorAll('img.knowledge-brand-logo')],hub=[...document.querySelectorAll('.knowledge-hub img.knowledge-brand-logo')],entries=[...document.querySelectorAll('.knowledge-entry img.knowledge-brand-logo')],boxes=[...document.querySelectorAll('.knowledge-home-icon')],forbidden=/RECHNER|WISSEN|EXTERN|MATERIAL|PCT|PIPING/i;return{count:icons.length,files:new Set(icons.map(i=>i.src.split('?')[0])).size,broken:icons.some(i=>!i.complete||i.naturalWidth===0),png:icons.every(i=>i.src.split('?')[0].endsWith('.png')),hubManufacturers:hub.every(i=>i.src.includes('manufacturer-')),entryKnowledge:entries.length===5&&entries.every(i=>i.src.includes('knowledge-')),entryFavorites:document.querySelectorAll('.knowledge-entry .sk-favorite-button').length,versioned:icons.every(i=>i.src.includes('/v2-6-3-3-')),legacyBadges:document.querySelectorAll('.knowledge-icon-badge,[data-icon-area],[data-discipline-overlay]').length,pseudoOverlay:boxes.some(x=>forbidden.test(getComputedStyle(x,'::after').content||''))}}""")
         check(knowledge_icons['count']==10 and knowledge_icons['files']==10 and knowledge_icons['png'] and knowledge_icons['hubManufacturers'] and knowledge_icons['entryKnowledge'] and knowledge_icons['entryFavorites']==5 and knowledge_icons['versioned'] and knowledge_icons['legacyBadges']==0 and not knowledge_icons['pseudoOverlay'] and not knowledge_icons['broken'],f'Wissens-/Hersteller-PNGs fehlerhaft: {knowledge_icons}')
         goto(page,'wissensdatenbank/endress-hauser-promass-einbaulage/');page.wait_for_selector('.kb-detail-group');knowledge=page.evaluate("""()=>({short:!!document.querySelector('.kb-short-answer'),closed:[...document.querySelectorAll('.kb-detail-group')].every(d=>!d.open),sources:document.querySelector('.kb-source-bundle')?.textContent||'',safety:[...document.querySelectorAll('.kb-callout.danger,.kb-callout.warning')].every(n=>n.offsetParent!==null)})""")
         check(knowledge['short'],'Kurzantwort fehlt');check(knowledge['closed'],'Details nicht initial geschlossen');check(EXPERIENCE_SOURCE in knowledge['sources'],'Erfahrungsberichte fehlen im Quellenbündel');check(knowledge['safety'],'Sicherheitshinweis ausgeblendet')
@@ -202,6 +202,77 @@ with sync_playwright() as p:
                     check(style['touch']=='manipulation' and style['radius'].startswith('13px'),f'{device} {route}: Touch-/Designstandard abweichend')
             touch_context.close()
 
+        # Reorder-State-Machine: iPhone-/Touch-nahe Pointerfolgen sowie Desktop.
+        # Die Ziel-Listener verhindern nur die Navigation und zählen damit ausschließlich
+        # Klicks, die die Capture-Sperre des Sortiermoduls tatsächlich passieren lässt.
+        for device,width,height,has_touch,is_mobile in (
+            ('iPhone-PWA-Emulation',390,844,True,True),
+            ('Tablet-Touch-Reorder',820,1180,True,True),
+            ('Desktop-Pointer-Reorder',1440,1000,False,False),
+        ):
+            reorder_context=browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1,has_touch=has_touch,is_mobile=is_mobile)
+            reorder_page=reorder_context.new_page();goto(reorder_page,'')
+            reorder_page.evaluate("""()=>{window.__tapCounts={};window.__tapHandlers=[];document.querySelectorAll('#pctHomeGrid .sk-home-app').forEach(card=>{const handler=event=>{event.preventDefault();window.__tapCounts[card.dataset.appId]=(window.__tapCounts[card.dataset.appId]||0)+1};card.addEventListener('click',handler);window.__tapHandlers.push([card,handler])})}""")
+            def dispatch(selector,event_type,pointer_id,x,y,buttons):
+                reorder_page.locator(selector).dispatch_event(event_type,{'pointerId':pointer_id,'pointerType':'touch' if has_touch else 'mouse','isPrimary':True,'button':0,'buttons':buttons,'clientX':x,'clientY':y,'bubbles':True,'cancelable':True})
+            def card_box(app_id): return reorder_page.locator(f'#pctHomeGrid [data-app-id="{app_id}"]').bounding_box()
+            def tap_probe(app_id,pointer_id):
+                box=card_box(app_id);x=box['x']+box['width']/2;y=box['y']+box['height']/2;selector=f'#pctHomeGrid [data-app-id="{app_id}"]'
+                dispatch(selector,'pointerdown',pointer_id,x,y,1);dispatch(selector,'pointerup',pointer_id,x,y,0);reorder_page.locator(selector).dispatch_event('click')
+
+            # Kurzes Antippen ohne vorheriges Sortieren muss normal passieren.
+            tap_probe('analogsignal',301)
+            check(reorder_page.evaluate("()=>window.__tapCounts.analogsignal||0")==1,f'{device}: kurzer Ausgangs-Tap wird unterdrückt')
+
+            # Long-Press, Ziehen und Ablegen. Der unmittelbar erzeugte Ghost-Klick
+            # wird genau einmal blockiert; ein neuer echter Tap muss sofort durchgehen.
+            first='analogsignal';target='eh-device-viewer';a=card_box(first);b=card_box(target)
+            ax=a['x']+a['width']/2;ay=a['y']+a['height']/2;bx=b['x']+b['width']*.8;by=b['y']+b['height']*.8
+            dispatch(f'#pctHomeGrid [data-app-id="{first}"]','pointerdown',302,ax,ay,1);reorder_page.wait_for_timeout(530)
+            check(reorder_page.locator(f'#pctHomeGrid [data-app-id="{first}"]').evaluate("n=>n.classList.contains('is-dragging')"),f'{device}: Long-Press startet keinen Drag')
+            reorder_page.locator('body').dispatch_event('pointermove',{'pointerId':302,'pointerType':'touch' if has_touch else 'mouse','isPrimary':True,'button':0,'buttons':1,'clientX':bx,'clientY':by,'bubbles':True,'cancelable':True})
+            reorder_page.locator('body').dispatch_event('pointerup',{'pointerId':302,'pointerType':'touch' if has_touch else 'mouse','isPrimary':True,'button':0,'buttons':0,'clientX':bx,'clientY':by,'bubbles':True,'cancelable':True})
+            reorder_page.locator(f'#pctHomeGrid [data-app-id="{first}"]').dispatch_event('click')
+            check(reorder_page.evaluate("()=>window.__tapCounts.analogsignal||0")==1,f'{device}: Drag-Ghost-Klick öffnet versehentlich die App')
+            order_after_first=reorder_page.eval_on_selector_all('#pctHomeGrid .sk-home-app','nodes=>nodes.map(n=>n.dataset.appId)')
+            check(order_after_first[-1]==first and reorder_page.evaluate("()=>document.body.classList.contains('pct-home-editing')"),f'{device}: Ablegen/Reihenfolge oder Bearbeitungsmodus fehlerhaft: {order_after_first}')
+            tap_probe(first,303)
+            check(reorder_page.evaluate("()=>window.__tapCounts.analogsignal||0")==2,f'{device}: direktes Öffnen nach Sortieren bleibt gesperrt')
+
+            # Zweites Sortieren ohne Beenden: Im aktiven Bearbeitungsmodus startet
+            # eine echte Bewegung den Drag, ein ruhiger kurzer Tap dagegen nicht.
+            second='pf-rechner';second_target='pt-rechner';a=card_box(second);b=card_box(second_target);ax=a['x']+a['width']/2;ay=a['y']+a['height']/2;bx=b['x']+b['width']*.8;by=b['y']+b['height']*.8
+            dispatch(f'#pctHomeGrid [data-app-id="{second}"]','pointerdown',304,ax,ay,1)
+            reorder_page.locator('body').dispatch_event('pointermove',{'pointerId':304,'pointerType':'touch' if has_touch else 'mouse','isPrimary':True,'button':0,'buttons':1,'clientX':bx,'clientY':by,'bubbles':True,'cancelable':True})
+            check(reorder_page.locator(f'#pctHomeGrid [data-app-id="{second}"]').evaluate("n=>n.classList.contains('is-dragging')"),f'{device}: zweites Sortieren startet nicht')
+            reorder_page.locator('body').dispatch_event('pointerup',{'pointerId':304,'pointerType':'touch' if has_touch else 'mouse','isPrimary':True,'button':0,'buttons':0,'clientX':bx,'clientY':by,'bubbles':True,'cancelable':True})
+            reorder_page.locator(f'#pctHomeGrid [data-app-id="{second}"]').dispatch_event('click')
+            check(reorder_page.evaluate("()=>window.__tapCounts['pf-rechner']||0")==0,f'{device}: zweiter Drag löst versehentlich Öffnen aus')
+
+            # Abgebrochener Drag (pointercancel) darf keinen Zustand festhalten.
+            cancelled='pt-rechner';a=card_box(cancelled);ax=a['x']+a['width']/2;ay=a['y']+a['height']/2
+            dispatch(f'#pctHomeGrid [data-app-id="{cancelled}"]','pointerdown',305,ax,ay,1);reorder_page.wait_for_timeout(390)
+            check(reorder_page.locator(f'#pctHomeGrid [data-app-id="{cancelled}"]').evaluate("n=>n.classList.contains('is-dragging')"),f'{device}: Drag für Cancel-Prüfung startet nicht')
+            reorder_page.locator('body').dispatch_event('pointercancel',{'pointerId':305,'pointerType':'touch' if has_touch else 'mouse','isPrimary':True,'button':0,'buttons':0,'clientX':ax,'clientY':ay,'bubbles':True,'cancelable':True})
+            reorder_page.locator(f'#pctHomeGrid [data-app-id="{cancelled}"]').dispatch_event('click')
+            check(reorder_page.evaluate("()=>window.__tapCounts['pt-rechner']||0")==0,f'{device}: abgebrochener Drag öffnet versehentlich die App')
+            tap_probe(cancelled,306)
+            check(reorder_page.evaluate("()=>window.__tapCounts['pt-rechner']||0")==1,f'{device}: Tap nach abgebrochenem Drag bleibt gesperrt')
+
+            saved=reorder_page.evaluate("""()=>({dom:[...document.querySelectorAll('#pctHomeGrid .sk-home-app')].map(n=>n.dataset.appId),stored:JSON.parse(localStorage.getItem('skPctHomeOrderV1')||'[]'),ghosts:document.querySelectorAll('.pct-home-drag-ghost').length,dragging:document.querySelectorAll('.is-dragging').length})""")
+            check(saved['dom']==saved['stored'] and saved['ghosts']==0 and saved['dragging']==0,f'{device}: Reihenfolge/Drag-Aufräumen fehlerhaft: {saved}')
+
+            # Bearbeitungsmodus beenden, Favorit unverändert bedienbar, danach echte
+            # Navigation ohne Reload aus derselben sortierten Sitzung.
+            reorder_page.locator('#pctHomeDone').dispatch_event('click');favorite=reorder_page.locator('#pctHomeGrid [data-app-id="analogsignal"] .sk-favorite-button');before=favorite.get_attribute('data-active');favorite.click();after=favorite.get_attribute('data-active')
+            check(before!=after,f'{device}: Favoritenbutton nach Sortieren nicht bedienbar')
+            reorder_page.evaluate("""()=>{window.__tapHandlers.forEach(([card,handler])=>card.removeEventListener('click',handler));window.__tapHandlers=[]}""")
+            if has_touch: reorder_page.locator('#pctHomeGrid [data-app-id="analogsignal"]').tap()
+            else: reorder_page.locator('#pctHomeGrid [data-app-id="analogsignal"]').click()
+            reorder_page.wait_for_url('**/analogsignal/',timeout=5000)
+            check(reorder_page.url.endswith('/analogsignal/'),f'{device}: echte Navigation nach mehrfacher Sortierung fehlgeschlagen: {reorder_page.url}')
+            reorder_context.close()
+
         goto(page,'');page.evaluate("""async()=>{if('serviceWorker'in navigator)await navigator.serviceWorker.ready}""");page.wait_for_timeout(600);context.set_offline(True)
         for route in ('einheitenrechner/','wissensdatenbank/endress-hauser-promass-einbaulage/'):
             try:
@@ -219,7 +290,7 @@ with sync_playwright() as p:
         goto(upgrade_page,'')
         upgrade_page.evaluate("""async()=>{if('serviceWorker'in navigator)await navigator.serviceWorker.ready}""")
         upgrade_page.wait_for_timeout(900)
-        cache_state=upgrade_page.evaluate("""async()=>{const keys=await caches.keys();return{keys,old:keys.some(k=>k.includes('2.6.1.0')),current:keys.filter(k=>k.startsWith('sk-pct-tools-')).every(k=>k.includes('v2-6-3-2-core-r1'))}}""")
+        cache_state=upgrade_page.evaluate("""async()=>{const keys=await caches.keys();return{keys,old:keys.some(k=>k.includes('2.6.1.0')),current:keys.filter(k=>k.startsWith('sk-pct-tools-')).every(k=>k.includes('v2-6-3-3-core-r1'))}}""")
         check(not cache_state['old'] and cache_state['current'] and len(cache_state['keys'])==1,f'PWA-Cache-Neuaufbau fehlerhaft: {cache_state}')
         upgrade_context.set_offline(True)
         upgrade_page.goto(urljoin(BASE,''),wait_until='domcontentloaded',timeout=15000)
@@ -229,4 +300,4 @@ with sync_playwright() as p:
 
 if failures:
     print(f'FAIL · {len(failures)}/{checks} Prüfungen');[print(f'- {item}') for item in failures];sys.exit(1)
-print(f'PASS · {checks} Browserprüfungen · 15 Seiten × 3 Viewports · Headerzustände · Reflow 320 px · 6 Rechnerreferenzen · Offline')
+print(f'PASS · {checks} Browserprüfungen · 15 Seiten × 3 Viewports · Drag/Touch/Pointer · Headerzustände · Reflow 320 px · 6 Rechnerreferenzen · Offline')

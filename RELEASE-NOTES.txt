@@ -1,48 +1,40 @@
-SK PCT Tools V2.6.3.2-Beta – Release Notes
-Stand: 16.10.2026
-Basis: vollständige V2.6.3.1-Beta
+SK PCT Tools V2.6.3.3-Beta – Release Notes
+Stand: 17.10.2026
+Basis: vollständige V2.6.3.2-Beta
 
 ZIEL
-Startseite und Unterseiten erhalten eine ruhigere, konsistente Headerfamilie. Die
-freigegebenen App-/Homescreen-Icons und alle Funktionen bleiben erhalten.
+Behebung des iPhone-/iOS-PWA-Navigationsfehlers nach dem Neuordnen der App-Icons,
+ohne Änderungen an Grafik, Design oder bestehender Funktionalität.
 
-SICHTBARES HEADERLOGO
-- Neue, ausschließlich im Header verwendete Datei: logo-sk-pct-tools-header.png.
-- PCT-Zahnrad von root/tooth 145/176 auf 112/138 verkleinert.
-- Mathematische Mitte unverändert bei 256/256.
-- Gleichmäßiger Freiraum zu Außenkante und Leiterbahndetails.
-- Keine Änderung an PWA-, Apple-Touch-, Maskable-, Favicon- oder App-Icon-Dateien.
+DRAG-/TOUCH-/POINTER-KORREKTUR
+- Die bisherige globale Variable suppressClick und die pauschale Klickunterdrückung im
+  Bearbeitungsmodus wurden durch eine begrenzte, kartenbezogene Einmal-Sperre ersetzt.
+- Der synthetische Klick direkt nach einem Drag wird sicher unterdrückt.
+- Jeder neue pointerdown entfernt eine eventuell verbliebene Drag-Klicksperre sofort.
+- Kurzes Antippen bleibt Navigation; Long-Press startet den ersten Drag.
+- Im aktiven Bearbeitungsmodus startet eine deutliche Bewegung den nächsten Drag,
+  während ein kurzer ruhiger Tap das Icon direkt öffnet.
+- pointerup, pointercancel und lostpointercapture beenden und bereinigen die Interaktion.
+- blur, pagehide und visibilitychange sichern zusätzlich gegen hängende iOS-PWA-Zustände.
+- Ghost, is-dragging, Pointer-Capture und Pending-Timer werden in allen Endpfaden entfernt.
 
-VERSIONSFELD
-- Sichtbarer Wert: V2.6.3.2-Beta; Herkunftstext: „Tool by S.K.“.
-- Vollständig neue kompakte Fläche auf derselben Bauhöhe wie Logo und Buttons.
-- Keine alte breite Paneloptik, keine schwarze Doppelkontur, kein innerer Rahmen und
-  keine dekorative Farblinie am unteren Rand.
-- Zurückhaltende Cyan-/Blau-/Grün-Akzente über linke/rechte Akzentkante und Fläche.
-
-HEADERBUTTONS
-- Home, Zurück, Suche und Favoriten neu als bereinigte 512 × 512 RGBA-PNGs.
-- Ein einzelner Cyan-/Blau-/Grün-Grundkörper, keine zusätzliche CSS-Außenkachel.
-- Keine dekorativen Leiterbahnen oder Farbstreifen in den vier Headergrafiken.
-- Große weiße Symbole mit klarer schwarzer Kontur.
-- Lupe ohne schwarze Innenfläche; Favoritenstern ohne unnötige Innenfläche.
-- Favoritenzähler, Fokus, Touch, Aktivzustände und Navigation bleiben erhalten.
-
-GESCHÜTZTE BESTÄNDE
-- Sieben freigegebene Logo-/Browser-/Apple-/PWA-Dateien bytegenau unverändert.
-- 20 App-, Wissens- und Hersteller-PNGs bytegenau unverändert; nur Dateipräfix und
-  Referenzen wurden auf v2-6-3-2 aktualisiert.
-- Feste App-Favoritenkopplung an .sk-app-icon-wrapper unverändert.
+UNVERÄNDERT
+- Kein versehentliches Öffnen während oder unmittelbar nach dem Ziehen.
+- Gespeicherte eigene Reihenfolge und Sortierauswahl bleiben kompatibel.
+- Favoritenbuttons, Scrollen, Touchflächen, Icon-Verankerung und Tastatursortierung bleiben
+  unverändert funktionsfähig.
+- CSS-Design, PNG-Grafiken, Logo-/PWA-Assets und feste Icon-Geometrie wurden nicht verändert.
 
 VERSIONIERUNG
-- assets/app-v2-6-3-2.css
-- assets/app-v2-6-3-2.js
-- assets/search-index-v2-6-3-2.json
-- manifest-v2-6-3-2.webmanifest
-- Cache-Epoch v2-6-3-2-core-r1
-- UEBERGABE-V2.6.3.2-Beta.txt
+- assets/app-v2-6-3-3.css
+- assets/app-v2-6-3-3.js
+- assets/search-index-v2-6-3-3.json
+- manifest-v2-6-3-3.webmanifest
+- Cache-Epoch v2-6-3-3-core-r1
+- UEBERGABE-V2.6.3.3-Beta.txt
 
 QUALITÄTSSICHERUNG
-Struktur, Referenzen, Hashes, geschützte App-Icons, Bildgeometrie, 15 Routen, drei
-Viewports, 320-px-Reflow, Zustände, sechs Rechner, reale Touch-Auslösung, Navigation,
-Offlinebetrieb und Cache-Upgrade wurden geprüft. Details: TEST-RESULTS.txt.
+Geprüft wurden Struktur, Referenzen, Prüfsummen, 15 Routen, Smartphone/Tablet/Desktop,
+320-px-Reflow, kurzer Tap, Long-Press, Drag/Drop, pointercancel, direkter Tap nach dem
+Sortieren, mehrfaches Sortieren, Favoriten, Speicherung, echte Navigation, Rechner,
+Offlinebetrieb und Cache-Upgrade. Details: TEST-RESULTS.txt.
