@@ -1,56 +1,64 @@
-SK PCT Tools V2.6.3.9-Beta – Release Notes
+SK PCT Tools V2.6.4.0-Beta – Release Notes
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.8-Beta
+Basis: vollständige V2.6.3.9-Beta
 
 ZIEL
-Ausschließlich das tatsächlich sichtbare vereinfachte Header-Logo wurde weiter beruhigt.
-Die zuvor zu schwere dunkle Mitte des PCT-Zahnrads ist deutlich heller und klarer, ohne
-Zahnradform, PCT-Lesbarkeit, Materialität oder die visuelle Identität zu verlieren.
+Die Wissensdatenbank und die Favoritenübersicht wurden in einem gemeinsamen,
+zentralen Designschritt auf die freigegebene technisch-industrielle Designfamilie
+der V2.6.3.9-Beta gebracht. Funktionen und freigegebene Grafikdateien bleiben erhalten.
 
-UMSETZUNG
-- Geändert: assets/header-logo-simple.png, 512 × 512 px, RGBA.
-- Angepasst: tools/generate_header_logo_simple.py; das Werkzeug schreibt weiterhin
-  ausschließlich header-logo-simple.png und keine geschützte Logo-/PWA-Datei.
-- Helle Cyan-Stahl-Innenfläche statt der früheren großflächigen dunkelblau-schwarzen Scheibe.
-- Schmale saubere schwarze Innenkontur und dezente Cyan-Lichtkante erhalten räumliche Tiefe.
-- Dunkler PCT-Schriftzug auf hellem Grund bleibt bei realen 44/52 px sehr gut lesbar.
-- Gemessener dunkler Anteil im zentralen Prüfradius: 84,9 % → 37,1 %.
-- Mittlere Helligkeit des Zahnradzentrums: 41,1 → 138,6 von 255.
-- Startseite und alle 14 gerahmten Unterseiten referenzieren weiterhin ausschließlich
-  header-logo-simple.png als sichtbares Header-Logo.
+WISSENSDATENBANK
+- Hersteller-Hub für Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges bereinigt.
+- Beitragskacheln für sämtliche fünf vorhandenen Wissensbeiträge konsistent bereinigt.
+- Ein gemeinsamer transparenter Geometriehost ersetzt alte CSS-Iconkacheln.
+- Zusätzliche Cyan-/Blau-/Grün-/Schwarz-Rahmen, gestapelte Konturen, Hintergrundwrapper,
+  Drop-Shadows und zusätzliche Filter um die freigegebenen PNGs entfernt.
+- Icongröße, sichtbare Alpha-Grenze, Position, Abstand und Textachse vereinheitlicht.
+- Hover, Fokus, Fokus-innen, Antippen, Drücken, Auswahl und Aktivzustand sind vollständig
+  transform-, translate- und scale-frei; PNG, Wrapper, Text und Kachel bleiben ortsfest.
+- Fokus/Touch-Rückmeldung erfolgt nur über dezente transparente Flächen und Outlines,
+  ohne Reflow oder Lageänderung.
+- Wissensbeitragskarten sind ebenfalls gegen bewegende Interaktionsregeln abgesichert.
 
-GESCHÜTZTE DATEIEN – BYTEGENAU UNVERÄNDERT
-- logo-sk-pct-tools.png
-- logo-sk-pct-tools-header.png
-- favicon.png
-- apple-touch-icon.png
-- icon-192.png, icon-512.png
-- icon-maskable-192.png, icon-maskable-512.png
+FAVORITENÜBERSICHT
+- Dialog, Kopf, Zählerzusammenfassung, Liste, Einträge, Symbole und leerer Zustand neu gestaltet.
+- Einfache Einzelkontur pro Listenzeile; alte schwarze Außenkästen, Mehrfachschatten,
+  Zierleisten und bewegende Control-Zustände entfernt.
+- „Alle leeren“ ergänzt; Einzellöschen, Navigation und Favoritenzähler bleiben erhalten.
+- Bestehender Local-Storage-Schlüssel skPctToolsFavoritesV2 bleibt unverändert.
+- role=dialog, aria-modal, beschrifteter Titel, Live-Status, Escape, Fokuswiederherstellung
+  und Fokusfalle für Tastaturbedienung umgesetzt.
+- Touchziele mindestens 44 px; iPhone-/PWA-Safe-Areas, 100dvh, Overscroll und Scrollverhalten
+  für Smartphone, Tablet und Desktop berücksichtigt.
 
-WEITERE UNVERÄNDERTE GRAFIKEN UND FUNKTIONEN
-- alle 24 Navigations-/App-/Wissens-/Hersteller-PNG-Inhalte; nur Dateipräfix auf
-  v2-6-3-9- aktualisiert
-- Release-Modul-PNG-Inhalt; nur Dateiname auf release-module-v2-6-3-9.png aktualisiert
-- Drag-and-Drop-Reorder-Engine pointer-overlay-v3, Rasterplatzhalter und Drag-Ebene
-- normaler Header im Sortiermodus, separates Sortier-Dock, Undo/Redo/Standard/Fertig
-- Suche, Favoriten, Favoritenzähler, Navigation und Touchziele
-- App-Favoritengeometrie, Barrierefreiheit, Rechner, Datenbanken und Wissensbeiträge
-- externe Ziele, Offline-Start, Cache-Upgrade und Safe-Area-Verhalten
+BYTEGENAU UNVERÄNDERTE GRAFIKINHALTE
+- alle 24 Navigations-/App-/Wissens-/Hersteller-PNGs; nur Dateipräfix v2-6-4-0-
+- header-logo-simple.png
+- logo-sk-pct-tools.png und logo-sk-pct-tools-header.png
+- favicon.png, apple-touch-icon.png
+- icon-192.png, icon-512.png, icon-maskable-192.png, icon-maskable-512.png
+- Release-Modul-PNG; nur Dateiname release-module-v2-6-4-0.png
+
+UNVERÄNDERTE FUNKTIONEN
+- Drag-and-Drop-Reorder-Engine pointer-overlay-v3, Platzhalter und freie Drag-Ebene
+- unveränderter normaler Header im Sortiermodus und separates Sortier-Dock
+- Undo/Redo/Standard/Fertig, Suche, Headernavigation und Startseiten-App-Icons
+- feste App-Favoritenkopplung, Rechner, Datenbanken, externe Ziele und Offlinebetrieb
 
 VERSIONIERUNG
-- assets/app-v2-6-3-9.css
-- assets/app-v2-6-3-9.js
-- assets/search-index-v2-6-3-9.json
-- assets/release-module-v2-6-3-9.png
-- assets/navigation-icons/v2-6-3-9-*.png
-- manifest-v2-6-3-9.webmanifest
-- service-worker.js · Cache-Epoch v2-6-3-9-core-r1
-- UEBERGABE-V2.6.3.9-Beta.txt
+- assets/app-v2-6-4-0.css und assets/app-v2-6-4-0.js
+- assets/search-index-v2-6-4-0.json
+- assets/release-module-v2-6-4-0.png
+- assets/navigation-icons/v2-6-4-0-*.png
+- manifest-v2-6-4-0.webmanifest
+- service-worker.js · Cache-Epoch v2-6-4-0-core-r1
+- UEBERGABE-V2.6.4.0-Beta.txt
 
 QUALITÄTSSICHERUNG
-PASS: 85 Projektdateien einschließlich SHA256SUMS.txt, 15 aktive Routen × Smartphone,
-Tablet und Desktop, 320-px-Reflow, fünf Reorder-/Visual-Profile, 1.431 Browserprüfungen,
-pixelidentische Headerzustände, Touch/Pointer/Drag-and-Drop, sechs Rechnerreferenzen,
-Offlinebetrieb, Cache-Upgrade und Browser-SHA-256-Prüfung aller geschützten Logo-/PWA-
-Dateien. Visuelle Headerprüfung auf iPhone, Tablet und Desktop bestanden.
+- 86 Projektdateien einschließlich SHA256SUMS.txt
+- 1.431 vollständige Browser-/Touch-/Offline-/Reorder-Prüfungen
+- 345 zusätzliche Clean-Design-/Zustands-/Favoritendialog-Prüfungen
+- visuelle QA-Aufnahmen für Hersteller-Hub, Siemens-Ebene und Favoritendialog auf
+  iPhone/Smartphone, Tablet und Desktop
+- Struktur, Syntax, Integrität, lokale Referenzen und vollständige SHA-256-Prüfsummen
 Details: TEST-RESULTS.txt.

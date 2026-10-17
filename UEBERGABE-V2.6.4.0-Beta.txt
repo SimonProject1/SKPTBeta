@@ -1,0 +1,75 @@
+ÜBERGABEPROTOKOLL – SK PCT Tools V2.6.4.0-Beta
+Stand: 17.10.2026
+Projektinhaber: Simon Kiesler
+Basis: vollständige V2.6.3.9-Beta
+
+STATUS
+Vollständige V2.6.4.0-Beta erstellt. Wissensdatenbank und Favoritenübersicht wurden
+in einem gemeinsamen zentralen Clean-Designblock bereinigt. Freigegebene PNG-Inhalte,
+Startseitenlayout, Sortierheader, PWA-Logos und Kernfunktionen bleiben erhalten.
+
+UMGESETZT – WISSENSDATENBANK
+- alle Herstellerkacheln Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges bereinigt
+- alle fünf vorhandenen Wissensbeitragskacheln bereinigt
+- transparente einheitliche Iconhosts statt zusätzlicher CSS-Außenkacheln
+- alte Mehrfachrahmen, Hintergrundwrapper, Schatten und Iconfilter entfernt
+- identische Icongröße, sichtbare Alpha-Grenze, Position, Abstand und Textausrichtung
+- Hover, Fokus, Touch, Drücken, Auswahl und aktiv ohne Transform/Translate/Scale
+- dezente layoutneutrale Fokus-/Auswahlrückmeldung
+- Wissensbeitragskarten gegen bewegende Interaktionsregeln abgesichert
+
+UMGESETZT – FAVORITEN
+- Favoritendialog vollständig in aktuellem Cyan-Blau-Grün-Design neu aufgebaut
+- klare Überschrift, gespeicherte Anzahl, Liste, Einträge und leerer Zustand
+- Einzellöschen, Navigation, Zähler und Local-Storage-Key unverändert funktionsfähig
+- „Alle leeren“ ergänzt
+- alte schwarze Außenkästen, gestapelte Rahmen, Zierleisten und bewegte Control-Zustände entfernt
+- Touchflächen mindestens 44 px; Safe-Area, 100dvh, Overscroll und internes Scrollen
+- Dialogsemantik, ARIA, Escape, Fokusfalle, Fokuswiederherstellung und Live-Status
+
+BYTEGENAU UNVERÄNDERT BESTÄTIGT
+- sämtliche 24 Navigations-/App-/Wissens-/Hersteller-PNG-Inhalte
+- assets/header-logo-simple.png
+- assets/logo-sk-pct-tools.png und assets/logo-sk-pct-tools-header.png
+- assets/favicon.png und assets/apple-touch-icon.png
+- assets/icon-192.png, icon-512.png, icon-maskable-192.png, icon-maskable-512.png
+- Release-Modul-PNG-Inhalt
+
+UNVERÄNDERT ÜBERNOMMEN
+- Drag-and-Drop-Sortierung pointer-overlay-v3 und skPctHomeOrderV1
+- normaler Header im Sortiermodus und separates Sortier-Dock
+- vereinfachtes Header-Logo und sämtliche Homescreen-/PWA-Logos
+- Versionsmodul, Suche, Header-Favoritenzähler und Startseiten-App-Icons
+- feste App-Favoritenkopplung, Rechner, Datenbanken, externe Ziele und Offlinebetrieb
+
+ZENTRALE DATEIEN
+- assets/app-v2-6-4-0.css: gemeinsamer Clean-Designblock
+- assets/app-v2-6-4-0.js: Favoritendialog, Leeren, Fokus- und ARIA-Steuerung
+- assets/knowledge-overview.js: unveränderte Hersteller-/Beitragsnavigation
+- manifest-v2-6-4-0.webmanifest
+- assets/search-index-v2-6-4-0.json
+- service-worker.js: Cache-Epoch v2-6-4-0-core-r1
+- tests/browser_regression.py und tests/design_regression.py
+- SHA256SUMS.txt: vollständiger Dateibestand
+
+QUALITÄTSSTATUS
+PASS · 86 Projektdateien einschließlich SHA256SUMS.txt
+PASS · Struktur, Syntax, Integrität und lokale Referenzen
+PASS · 1.431 Browser-/Touch-/Offline-/Reorder-Prüfungen
+PASS · 345 zusätzliche Clean-Design-/Zustands-/Favoritendialog-Prüfungen
+PASS · 15 Seiten × Smartphone/Tablet/Desktop
+PASS · fünf Reorder-Profile und 320-px-Reflow
+PASS · unveränderter normaler Header im Sortiermodus
+PASS · bytegleiche freigegebene PNG-, Logo-, Homescreen- und PWA-Inhalte
+PASS · Favoriten speichern, Reload, Navigation, Einzellöschen, Alle leeren und leerer Zustand
+PASS · visuelle Kontrolle von Hub, Siemens-Ebene und Favoritendialog auf drei Viewports
+PASS · Offlinebetrieb und Cache-Upgrade
+
+OFFENE FEHLER
+Keine im finalen Prüfprogramm festgestellten Fehler.
+
+STARTBEFEHLE
+python3 tests/validate_project.py
+python3 -m http.server 8080
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_regression.py

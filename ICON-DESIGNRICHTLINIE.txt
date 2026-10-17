@@ -1,5 +1,5 @@
 SK PCT TOOLS – VERBINDLICHE ICON-, HEADER- UND MARKENRICHTLINIE
-Stand: V2.6.3.9-Beta · 17.10.2026
+Stand: V2.6.4.0-Beta · 17.10.2026
 
 1. APP-/HOMESCREEN-MARKE – NICHT VERÄNDERN
 - Die freigegebene App-/Homescreen-Marke bleibt bytegenau unverändert.
@@ -15,49 +15,46 @@ Stand: V2.6.3.9-Beta · 17.10.2026
 - Der Generator darf ausschließlich header-logo-simple.png schreiben.
 - Der Grundkörper verwendet navigation_frame(): Cyan-/Blau-/Grün-Verlauf, schwarze
   Kontur, Rundung, Lichtkante und Materialtiefe wie Suche, Favoriten und Versionsmodul.
-- Das PCT-Zahnrad besitzt zehn klare Zähne und eine saubere schwarze Außenkontur.
-- Das Zentrum ist helles, ruhiges Cyan-Stahl mit schmaler schwarzer Innenkontur und
-  dezenter Cyan-Lichtkante; großflächige schwarze oder dunkelblaue Innenflächen sind
-  ausdrücklich zu vermeiden.
-- PCT bleibt als dunkler, kontrastreicher Schriftzug bei 44 und 52 px klar lesbar.
-- Keine Leiterbahnen, Knoten, Befestiger oder zusätzliche Dekorrahmen.
-- Der HTML/CSS-Host bleibt transparent, rahmenlos und schattenfrei.
+- Keine zusätzlichen HTML-/CSS-Rahmen, Schatten, Wrapperkacheln oder Dekorschienen.
+- Der Host bleibt transparent, rahmenlos und schattenfrei.
 - Niemals als Favicon, Apple-Touch-, Maskable-, Manifest- oder App-Icon verwenden.
-- assets/logo-sk-pct-tools-header.png darf operativ nicht als sichtbares Header-Logo
-  referenziert werden.
 
 3. HEADERBUTTONS UND RELEASE-MODUL
 - Home, Zurück, Suche und Favoriten verwenden eigenständige PNG-Grafiken.
-- Sichtbarer Release-Grundkörper: assets/release-module-v2-6-3-9.png.
-- Ein einzelner abgerundeter Cyan-/Blau-/Grün-Grundkörper mit schwarzer Kontur.
+- Sichtbarer Release-Grundkörper: assets/release-module-v2-6-4-0.png.
 - Keine zweite Kachel, dekorativen Rails, Farbstreifen oder schwarzen Innenpanels.
 - Hosts bleiben transparent, border: 0 und box-shadow: none.
-- Text exakt: „V2.6.3.9-Beta“ und darunter „Tool by S.K.“.
+- Text exakt: „V2.6.4.0-Beta“ und darunter „Tool by S.K.“.
+- Hover, Fokus, Antippen, Drücken, aktiv und geöffnet verändern keine Geometrie.
 
-4. GEMEINSAME HEADERGEOMETRIE
-- Logo, Release-Modul und Headerbuttons teilen exakt eine vertikale Mittellinie.
-- Desktop/Tablet: 52 px; Smartphone/kleine Querformate: 44 px.
-- Sortiermodus verändert den normalen Header nicht; die Steuerung bleibt separat.
-- Hover, Fokus, Antippen, Drücken, aktiv und geöffnet dürfen Außenmaß oder Position
-  nicht verändern. Touchflächen bleiben mindestens 44 × 44 px.
-
-5. APP-, WISSENS- UND HERSTELLERGRAFIKEN
+4. APP-, WISSENS- UND HERSTELLERGRAFIKEN
 - 20 bestehende Fachgrafiken bleiben inhaltlich und binär unverändert.
-- Gesamtbestand: 24 PNGs mit Präfix v2-6-3-9- unter assets/navigation-icons/
+- Gesamtbestand: 24 PNGs mit Präfix v2-6-4-0- unter assets/navigation-icons/
   (20 Fachgrafiken plus Home, Zurück, Suche und Favoriten).
-- Die Inhalte sind bytegleich mit der V2.6.3.8-Beta; nur die Dateinamen wurden versioniert.
+- Die Inhalte sind bytegleich mit der vollständigen V2.6.3.9-Beta; ausschließlich die
+  versionsgebundenen Dateinamen und Referenzen wurden auf V2.6.4.0-Beta aktualisiert.
 - Reproduzierbare Quelle: tools/generate_png_icons.py.
 
-6. APP-FAVORITEN – NICHT VERÄNDERN
-- Jeder Favoritenbutton bleibt direkt im festen .sk-app-icon-wrapper verankert.
-- Sichtbarer Kreis 22 px, Touchfläche mindestens 44 × 44 px.
-- Mittelpunkt exakt auf der oberen rechten tatsächlichen Iconkante.
-- Aktive und inaktive Zustände besitzen dieselbe Geometrie.
+5. WISSENSDATENBANK-HOSTS
+- Hersteller- und Wissens-PNGs erhalten genau einen transparenten Geometriehost.
+- Der Host folgt der tatsächlichen sichtbaren Alpha-Grenze der 512-px-Grafik.
+- border: 0, background: transparent, box-shadow: none, filter: none.
+- ::before und ::after erzeugen keine Rahmen, Platten oder Dekorelemente.
+- Icon, Wrapper, Text und Kachel bleiben bei Hover, Fokus, Touch, Drücken, Auswahl
+  und aktiv ortsfest: transform/translate/scale jeweils none.
+- Rückmeldungen dürfen nur layoutneutral über Farbe, transparente Fläche oder Outline erfolgen.
+
+6. FAVORITENKOPPLUNG UND FAVORITENDIALOG
+- App- und Wissensfavoriten bleiben direkt am festen .sk-app-icon-wrapper verankert.
+- Sichtbarer Kreis 22 px, Touchfläche mindestens 44 × 44 px; aktive und inaktive
+  Zustände besitzen dieselbe Geometrie.
+- Der Favoritendialog verwendet nur einfache Einzelkonturen, keine schwarzen Außenkästen,
+  gestapelten Schatten oder Zierleisten.
+- Schließen, Entfernen und Alle leeren bleiben mindestens 44 px groß und ortsfest.
+- Local-Storage-Key skPctToolsFavoritesV2 bleibt kompatibel.
 
 7. OFFLINE UND ABNAHME
-- Alle aktiven Navigation-/Appgrafiken, sieben operativen Marken-/PWA-PNGs,
-  header-logo-simple.png und die Release-Modul-Haut gehören in v2-6-3-9-core-r1.
+- Alle aktiven Navigation-/Appgrafiken, Marken-/PWA-PNGs, header-logo-simple.png und
+  Release-Modul-Haut gehören in v2-6-4-0-core-r1.
 - PNG-Signatur, Maße, Alpha, feste Hashes, lokale Referenzen, Browserdarstellung,
-  Manifest-Icons, 44-/52-px-Geometrie und pixelidentische Sortierheader werden geprüft.
-- Für das Header-Logo werden zusätzlich ein zentraler Dunkelanteil von höchstens 43,3 %
-  und eine mittlere Innenhelligkeit von mindestens 130/255 geprüft.
+  Manifest-Icons, Safe-Area, Touchziele und bewegungsfreie Zustände werden geprüft.
