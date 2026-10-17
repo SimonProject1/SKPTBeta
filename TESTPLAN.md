@@ -1,7 +1,7 @@
-# Testplan – SK PCT Tools V2.6.3.4-Beta
+# Testplan – SK PCT Tools V2.6.3.5-Beta
 
 Stand: 17.10.2026  
-Basis: vollständige V2.6.3.3-Beta
+Basis: vollständige V2.6.3.4-Beta
 
 ## 1. Syntax, Struktur und Integrität
 
@@ -13,64 +13,75 @@ Prüfumfang:
 - 82 Projektdateien einschließlich `SHA256SUMS.txt`
 - 16 HTML-Dokumente, davon 14 gerahmte interne Seiten
 - genau eine zentrale CSS- und App-JS-Datei
-- Version 2.6.3.4-Beta in HTML, Manifest, Suchindex und Laufzeit
+- Version 2.6.3.5-Beta in HTML, Manifest, Suchindex und Laufzeit
 - keine operativen Altversionsreferenzen
 - lokale Ziele, H1, Referrer-Schutz, Header und Footer
-- Service-Worker-Kerncache `v2-6-3-4-core-r1`
+- Service-Worker-Kerncache `v2-6-3-5-core-r1`
 - vollständige `SHA256SUMS.txt`
 - feste Referenzhashes für alle geschützten Grafiken
+- neue Toolbar-, Overlay-, Platzhalter-, History- und Cleanup-Struktur
 
-## 2. Reorder-Zustandsmaschine
+## 2. Sortier-Header und visuelle Stabilität
 
-Zu prüfen auf iPhone-PWA-Emulation, Tablet-Touch und Desktop-Pointer:
-- Ausgangszustand ist eindeutig `navigate`
-- kurzer Tap öffnet im Navigationsmodus
+Zu prüfen auf 320 px, iPhone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000:
+- normale Headerbestandteile bleiben außerhalb des Sortiermodus unverändert
+- im Sortiermodus sind Logo, Version, Suche und Favorit kontrolliert ausgeblendet
+- kompakte Toolbar enthält Rückgängig, Wiederholen, Standard und Fertig
+- Toolbar liegt vollständig innerhalb des Headerrechtecks
+- Headerunterkante liegt vor der ersten Rasterreihe; keine Überdeckung
+- Drag-Ebene besitzt niedrigeren Z-Index als der Sortier-Header
+- nach Drop ist der normale Header sofort wieder aktiv
+
+## 3. Wackelanimation
+
+- Kachel, Wrapper, Titel und Favoritenbutton haben `animation-name: none`
+- ausschließlich das direkte Icon-PNG verwendet `pct-home-icon-wiggle`
+- Außenmaße und Positionen von Kachel, Wrapper, Titel und Favorit bleiben bis 0,5 px stabil
+- keine Skalierung, Verschiebung oder Layoutänderung durch die Animation
+- `prefers-reduced-motion` deaktiviert Wackeln und Drag-Rotation
+
+## 4. Drag-Overlay und Rasterplatzhalter
+
+- Long-Press erzeugt genau eine body-direkte Drag-Ebene und genau einen Platzhalter
+- während des Drags sind neun reale Apps plus ein maßgleicher Platzhalter im Raster
+- Overlay bewegt sich frei über mehrere Reihen und Spalten
+- Overlay bleibt innerhalb der Viewportränder und unterhalb des Headers
+- Zielposition wird am überfahrenen Rasterplatz erkannt
+- Drop übernimmt die Platzhalterposition und entfernt Overlay/Platzhalter vollständig
+- pointercancel, lostpointercapture, Escape und Hintergrundwechsel rollen zurück
+- Rand-Autoscroll und Resize aktualisieren Overlay und Zielerkennung
+
+## 5. Interaktion, History und Speicherung
+
+- kurzer Tap öffnet im Normalmodus
 - Bewegung vor Long-Press bleibt Scrollgeste
-- Long-Press schaltet auf `sort`, erzeugt genau einen Ghost und aktiviert sichtbares Wackeln
-- im Sortiermodus gilt `touch-action:none` und Navigation ist gesperrt
-- Ziehen über mehrere Rasterpositionen ordnet zuverlässig um
-- Drop speichert, entfernt Ghost/Capture/Drag-Klasse und kehrt zu `navigate` zurück
-- synthetischer Abschlussklick wird blockiert, erster echter Folgetap ist sofort frei
+- Sortiermodus blockiert Navigation kontrolliert
+- Drag-Abschlussklick wird einmal kartenbezogen unterdrückt
+- erster echter Folgetap ist sofort frei
 - zweiter und weiterer Sortiervorgang funktioniert ohne Reload
-- `pointercancel` rollt auf die Reihenfolge vor dem Drag zurück
-- `pagehide` beziehungsweise Hintergrundunterbrechung bereinigt vollständig
-- `lostpointercapture`, `blur` und `visibilitychange` besitzen geprüfte Cleanup-Pfade
-- Tastatur-Sortiermodus blockiert Navigation bis „Fertig“
-- Escape, „Fertig“ und Zurücksetzen stellen den Navigationsmodus her
+- Tastaturpfeile verschieben Apps
+- Rückgängig stellt die vorige Reihenfolge her; Wiederholen stellt die Änderung wieder her
+- Fertig und Standardreihenfolge aktivieren den Normalmodus
 - DOM-Reihenfolge und `skPctHomeOrderV1` stimmen überein
 - Reload stellt die gespeicherte Reihenfolge wieder her
 
-## 3. Favoriten und Modustrennung
-
-- Favoritenbutton bleibt direkt im `sk-app-icon-wrapper`
-- Favoriten sind im Sortiermodus gegen Fehlbedienung geschützt
-- Favorit lässt sich nach Drop, Abbruch, „Fertig“ und Reload sofort bedienen
-- echter App-Wechsel funktioniert nach mehreren Sortierungen ohne PWA-Neustart
-
-## 4. Grafik- und Designregression
-
-- sieben Marken-/Browser-/Apple-/PWA-Dateien gegen feste Hashes
-- 24 Navigations-PNGs gegen feste Hashes, Geometrie und Alpha-Grenzen
-- unveränderte Header-, Logo-, Icon-, Favoriten- und Rahmengeometrie
-- Sortierleiste und Wackeln nur im aktiven Sortiermodus
-- keine defekten Bilder oder horizontalen Überläufe
-
-## 5. Browser-, Touch- und Funktionsregression
+## 6. Browser-, Touch- und Funktionsregression
 
 ```bash
 python3 tests/browser_regression.py
 ```
 
 Prüfumfang:
-- 15 aktive Routen × Smartphone 390 × 844, Tablet 820 × 1180 und Desktop 1440 × 1000
-- drei zusätzliche Reorder-Profile mit realistischen Pointerfolgen
+- 15 aktive Routen × Smartphone, Tablet und Desktop
+- 1.353 Browserprüfungen
+- zusätzliche Reorder-Profile für iPhone-PWA, Tablet-Touch und Desktop-Pointer
 - 320-px-Reflow und Safe-Area-Geometrie
 - Suche, Favoritenübersicht, Zähler, Home- und Zurücknavigation
 - sechs Rechnerreferenzen einschließlich Grenzwerte, Reset und Vorzeichen-Touchziele
 - Wissensnavigation und Quellenbündel
-- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-3-4-core-r1`
+- Offline-Start, Offline-Unterseiten und Upgrade auf `v2-6-3-5-core-r1`
 
-## 6. Abschluss
+## 7. Abschluss
 
 Nach erfolgreicher Prüfung werden `TEST-RESULTS.txt`, `SHA256SUMS.txt`, das
-Übergabeprotokoll und das vollständige ZIP-Paket aktualisiert und erneut geprüft.
+Übergabeprotokoll und das vollständige ZIP-Paket aktualisiert und erneut verifiziert.

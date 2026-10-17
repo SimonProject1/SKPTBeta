@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.4-Beta."""
+"""Struktur-, Referenz-, Design- und Integritätsprüfung für SK PCT Tools 2.6.3.5-Beta."""
 from __future__ import annotations
 import hashlib, json, re, struct, sys
 from html.parser import HTMLParser
@@ -8,8 +8,8 @@ from urllib.parse import urlsplit
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-VERSION='2.6.3.4-Beta'
-VERSION_SLUG='v2-6-3-4'
+VERSION='2.6.3.5-Beta'
+VERSION_SLUG='v2-6-3-5'
 MANIFEST=f'manifest-{VERSION_SLUG}.webmanifest'
 SEARCH_INDEX=f'assets/search-index-{VERSION_SLUG}.json'
 SHARED_CSS=f'assets/app-{VERSION_SLUG}.css'
@@ -163,18 +163,23 @@ def main()->int:
     check(css.count('transform:none')>=15 and css.count('translate:none')>=15,'Bewegungsfreie Interaktionszustände sind nicht ausreichend abgesichert.',errors)
     check('sk-home-app.card:hover{transform:translateY' not in css,'Startseiten-Hover verschiebt App-Icons noch.',errors)
     check('--sk-favorite-circle-outset' not in css,'Alte 25/75-Favoritenposition ist noch aktiv.',errors)
-    check(':where(body[data-sk-style~="home"].pct-home-editing) .pct-home-grid .sk-home-app.card{cursor:grab;touch-action:none}' in css,'Aktiver Sortiermodus besitzt keinen eindeutigen Touch-/Drag-Zustand.',errors)
-    check(':where(body[data-sk-style~="home"].pct-home-editing) .sk-home-app:not(.is-dragging){animation:pct-home-wiggle' in css,'Sichtbares Icon-Wackeln im Sortiermodus fehlt.',errors)
-    check(':where(body[data-sk-style~="home"]) .pct-home-editing' not in css,'Fehlerhafter alter Sortiermodus-Selektor ist noch vorhanden.',errors)
-    final_css=css.split('/* === V2.6.3.4-Beta: strukturell icongebundene Favoriten',1)[-1]
+    check('body[data-sk-home="ios"].pct-home-editing .pct-home-grid .sk-home-app.card{' in css and 'touch-action:none' in css,'Aktiver Sortiermodus besitzt keinen eindeutigen Touch-/Drag-Zustand.',errors)
+    check('animation:pct-home-icon-wiggle' in css and '@keyframes pct-home-icon-wiggle' in css,'Dezentes Wackeln ausschließlich auf dem sichtbaren Iconkörper fehlt.',errors)
+    check('animation:none!important' in css and '.sk-home-app:not(.is-dragging){animation:pct-home-wiggle' in css,'Historische Kachel-Wackelregel wird nicht sicher neutralisiert.',errors)
+    for token in ('isolierter, layoutstabiler Sortiermodus','pct-home-edit-actions','pct-home-history-button','pct-home-drop-placeholder','pct-home-placeholder-icon','pct-home-drag-layer','pct-home-drag-overlay','z-index:100','z-index:90','contain:none'):
+        check(token in css,f'Neue Sortiermodus-CSS-Struktur fehlt: {token}',errors)
+    final_css=css.split('/* === V2.6.3.5-Beta: strukturell icongebundene Favoriten',1)[-1]
     check(final_css.count('>.sk-app-icon-wrapper>.sk-favorite-button.pct-control')>=10,'Direkte Wrapper-Verankerung des Favoritenbuttons fehlt.',errors)
     check('calc(50%' not in final_css and '--sk-home-icon-top' not in final_css and '--sk-knowledge-icon-top' not in final_css,'Finale Favoritenposition hängt noch von Kachelmitte oder Geräteabständen ab.',errors)
-    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-4.json','logo-sk-pct-tools-header.png','v2-6-3-4-nav-home.png','v2-6-3-4-nav-search.png','v2-6-3-4-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-version-plate','sk-version-value','sk-version-byline','Tool by S.K.'):
+    for token in ('SK_PCT_SHARED','buildSharedLayout','data-sk-shared-header','data-sk-shared-footer','skPctToolsFavoritesV2','search-index-v2-6-3-5.json','logo-sk-pct-tools-header.png','v2-6-3-5-nav-home.png','v2-6-3-5-nav-search.png','v2-6-3-5-nav-favorite.png','const iconWrapper=card.querySelector',"iconWrapper.classList.add('sk-app-icon-wrapper')",'const host=iconWrapper||card','host.append(button)',"setAttribute('aria-pressed'",'pct-version-plate','sk-version-value','sk-version-byline','Tool by S.K.'):
         check(token in js,f'Zentrale Laufzeit unvollständig: {token}',errors)
     for token in (
-        "mode:'navigate'","phase:'idle'","grid.dataset.reorderEngine='pointer-state-v2'",
+        "mode:'navigate'","phase:'idle'","grid.dataset.reorderEngine='pointer-overlay-v3'",
         'LONG_PRESS_TOUCH=420','MOVE_TOLERANCE_TOUCH=12','enterSort','exitSort',
         'beginDrag','commitDrag','cancelDrag','swallowClickCard','stopAutoScroll',
+        'makePlaceholder','makeOverlay','moveOverlay','targetCardAt','document.elementsFromPoint',
+        'pct-home-drop-placeholder','pct-home-drag-layer','pct-home-drag-overlay',
+        'pushHistory','historyStep','pctHomeUndo','pctHomeRedo','sameOrder',
         'updateAutoScroll','pointercancel','lostpointercapture','visibilitychange','pagehide',
         "window.addEventListener('blur'","window.addEventListener('storage'",
         'stopImmediatePropagation',"state.mode==='sort'"
@@ -261,7 +266,7 @@ def main()->int:
         check('knowledge-compact.js' in article and EXPERIENCE_SOURCE in article,f'Wissensbeitrag unvollständig: {slug}',errors)
 
     worker=(ROOT/'service-worker.js').read_text()
-    check("CACHE_EPOCH='v2-6-3-4-core-r1'" in worker,'Cache-Epoch falsch.',errors)
+    check("CACHE_EPOCH='v2-6-3-5-core-r1'" in worker,'Cache-Epoch falsch.',errors)
     check('DOCUMENT_CACHE' not in worker and 'OPTIONAL_DOCUMENTS' not in worker,'Nicht benötigter Dokumentcache noch vorhanden.',errors)
     cached=re.findall(r"'\./([^']+)'",worker)
     for ref in cached:check(target_exists(ROOT/'index.html',ref),f'Offline-Ziel fehlt: {ref}',errors)
@@ -272,7 +277,7 @@ def main()->int:
         check(stale not in worker,f'Unnötiger Cache-Eintrag: {stale}',errors)
 
     generator=(ROOT/'tools/generate_png_icons.py').read_text()
-    for token in ('PREFIX = "v2-6-3-4-"','def navigation_frame()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
+    for token in ('PREFIX = "v2-6-3-5-"','def navigation_frame()','"app-analogsignal": app_analogsignal','"app-wissensdatenbank": app_knowledge_database','"knowledge-siemens-sps-rohwert": knowledge_sps_raw','"nav-search": nav_search','"nav-favorite": nav_favorite'):
         check(token in generator,f'Icon-Generator unvollständig: {token}',errors)
     brand_generator=(ROOT/'tools/generate_brand_assets.py').read_text()
     for token in ('def standard_master()','def header_master()','def maskable_master()','gear_points(256, 256)','root_radius: float = 145','tooth_radius: float = 176','root_radius=112','tooth_radius=138','"PCT", 108','result.putalpha(255)'):
@@ -282,7 +287,7 @@ def main()->int:
     sprite=(ROOT/'assets/pct-controls.svg').read_text()
     for symbol in ('search','star','close','reset','chevron','copy','check','warning','info','print','trash','download','calculate','done'):
         check(f'id="icon-{symbol}"' in sprite,f'Control-Sprite unvollständig: icon-{symbol}',errors)
-    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.4-Beta.txt'):
+    for required in ('README.txt','RELEASE-NOTES.txt','ICON-DESIGNRICHTLINIE.txt','WISSENSBEITRAGS-STANDARD.md','TESTPLAN.md','TEST-RESULTS.txt','SECURITY-DEPLOYMENT.md','UEBERGABE-V2.6.3.5-Beta.txt'):
         check((ROOT/required).is_file(),f'Dokument fehlt: {required}',errors)
 
     sums=ROOT/'SHA256SUMS.txt'

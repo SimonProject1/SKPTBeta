@@ -1,52 +1,59 @@
-SK PCT Tools V2.6.3.4-Beta – Release Notes
+SK PCT Tools V2.6.3.5-Beta – Release Notes
 Stand: 17.10.2026
-Basis: vollständige V2.6.3.3-Beta
+Basis: vollständige V2.6.3.4-Beta
 
 ZIEL
-Vollständiger Neuaufbau der App-Icon-Neuordnung für iPhone/iOS-PWA, Smartphone,
-Tablet und Desktop bei unverändertem Grafik- und Headerdesign.
+Korrektur des auf dem aktuellen iPhone-Screenshot erkennbaren Header-Überlaufs und grundlegender
+Neuaufbau der App-Icon-Neuordnung für iPhone/iOS-PWA, Smartphone, Tablet und Desktop – bei
+unverändertem Normaldesign.
 
-VOLLSTÄNDIG NEUE REORDER-ARCHITEKTUR
-- Die bisherige Sortierimplementierung wurde vollständig entfernt und durch eine unabhängige
-  Pointer-Zustandsmaschine mit den Modi „navigate“ und „sort“ ersetzt.
-- Kurzer Tap im Navigationsmodus öffnet immer die App.
-- Bewegung vor Ablauf des Long-Press wird als Scrollgeste behandelt und startet keine Sortierung.
-- Long-Press startet den Sortiermodus, nimmt das Icon auf und aktiviert das sichtbare Wackeln.
-- Im Sortiermodus ist Navigation vollständig blockiert; Drag beginnt leichtgängig und ohne
-  zusätzliche Verzögerung.
-- Ghost, Pointer-Capture, Zielermittlung, Einfügeposition und Rand-Autoscroll werden zentral geführt.
-- Drop speichert die Reihenfolge und wechselt sofort zurück in den Navigationsmodus.
-- Ein möglicher synthetischer Drag-Abschlussklick wird genau kartenbezogen abgefangen. Es gibt
-  keine zeitbasierte globale Klicksperre; der nächste echte Tap ist sofort freigegeben.
-- pointercancel, lostpointercapture, blur, pagehide, visibilitychange, Escape und „Fertig“ besitzen
-  definierte Abschluss- beziehungsweise Rollback-Pfade.
-- Bei Abbruch wird die vor dem Drag vorhandene Reihenfolge wiederhergestellt.
-- Mehrfaches Sortieren, Tastatursteuerung, Zurücksetzen, Storage-Synchronisierung und Wiederherstellung
-  nach Neustart sind abgesichert.
+SORTIER-HEADER
+- Normale Headerbestandteile werden während der Sortierung kontrolliert ausgeblendet, nicht entfernt.
+- Eine kompakte Toolbar nutzt ausschließlich die bereits reservierte Headerhöhe.
+- Rückgängig, Wiederholen, Standard und Fertig bleiben auf 320 px, iPhone, Tablet und Desktop
+  vollständig innerhalb des Headerbereichs.
+- Header, Toolbar und erste Rasterreihe besitzen getrennte, kollisionsfreie Flächen.
+- Die Drag-Ebene liegt unterhalb des Sortier-Headers; der Header bleibt im höheren Stacking-Layer.
 
-ERHALTENE FUNKTIONEN
-- Favoritenbuttons bleiben strukturell an ihren Icons gekoppelt und danach sofort bedienbar.
-- Suche, Filter, alternative Sortierauswahl, Touchflächen, Rechner, Datenbanken, Wissensseiten,
-  externe Links, PWA-Installation und Offlinebetrieb bleiben erhalten.
-- Speicherung bleibt kompatibel unter skPctHomeOrderV1.
+WACKELANIMATION
+- Die frühere Kachel-Wackelregel wird im aktiven Sortiermodus sicher neutralisiert.
+- Die neue Animation wirkt ausschließlich auf das direkte PNG im gemeinsamen Icon-Wrapper.
+- Kachel, Wrapper, Beschriftung und Favoritenbutton behalten Position, Außenmaß und Transformation.
+- prefers-reduced-motion deaktiviert die Animation vollständig.
 
-DESIGN- UND GRAFIKSCHUTZ
-- Vollständiges Grafik-, Icon-, Header-, Logo- und Farbsystem der V2.6.3.3-Beta unverändert.
-- 24 Navigations-PNGs und sieben geschützte Marken-/PWA-Dateien bytegenau unverändert.
-- CSS nur auf V2.6.3.4-Beta umgestellt und die bisher nicht wirksamen Sortiermodus-Selektoren
-  funktional korrigiert; dadurch werden Wackeln, Sortierleiste und touch-action:none jetzt zuverlässig aktiv.
+DRAG-OVERLAY UND PLATZHALTER
+- Beim Aufnehmen wird das Originalelement aus dem Raster gelöst und durch einen maßgleichen
+  Platzhalter ersetzt.
+- Das gezogene Icon wird als separate, viewportfeste body-Ebene dargestellt.
+- Die Drag-Ebene ist nicht von Grid-Zellen, overflow, transform, containment oder Parentgrenzen abhängig.
+- elementsFromPoint erkennt direkte Zielkacheln; eine Distanzsuche sichert Rand- und Zwischenbereiche ab.
+- Der Platzhalter wird entlang der Zielposition verschoben und zeigt die wirksame Ablageposition an.
+- Das Drag-Icon wird horizontal am Viewport und vertikal unterhalb des Sortier-Headers begrenzt.
+- Rand-Autoscroll berücksichtigt Grid, Home-Screen, Shell und Dokument als mögliche Scrollhosts.
+
+INTERAKTION UND ZUSTAND
+- Kurzer Tap im Normalmodus öffnet die App; eine frühe Bewegung bleibt Scrollgeste.
+- Long-Press startet die Sortierung. Drop speichert und kehrt direkt zum Normalmodus zurück.
+- Ein möglicher synthetischer Abschlussklick wird genau für die gezogene App abgefangen; der nächste
+  echte Pointerdown gibt die App sofort wieder frei.
+- pointercancel, lostpointercapture, blur, pagehide, visibilitychange, Escape und Fertig bereinigen
+  Overlay, Platzhalter, Capture und Modus vollständig.
+- Abbruch stellt die Reihenfolge vor dem Drag wieder her.
+- Rückgängig/Wiederholen, Tastatursteuerung, Mehrfachsortierung, Standardreihenfolge,
+  Storage-Synchronisierung und Reload-Wiederherstellung sind abgesichert.
 
 VERSIONIERUNG
-- assets/app-v2-6-3-4.css
-- assets/app-v2-6-3-4.js
-- assets/search-index-v2-6-3-4.json
-- manifest-v2-6-3-4.webmanifest
-- service-worker.js · Cache-Epoch v2-6-3-4-core-r1
-- UEBERGABE-V2.6.3.4-Beta.txt
+- assets/app-v2-6-3-5.css
+- assets/app-v2-6-3-5.js
+- assets/search-index-v2-6-3-5.json
+- manifest-v2-6-3-5.webmanifest
+- service-worker.js · Cache-Epoch v2-6-3-5-core-r1
+- UEBERGABE-V2.6.3.5-Beta.txt
 
 QUALITÄTSSICHERUNG
-PASS: Syntax, Struktur, Referenzen, Prüfsummen, 15 Routen, Smartphone/Tablet/Desktop,
-320-px-Reflow, Long-Press, Wackeln, Scrollabgrenzung, Drop, pointercancel, pagehide,
-Modustrennung, direkter Folgetap, Mehrfachsortierung, Zurücksetzen, Speicherung,
-Neustart-Wiederherstellung, Favoriten, echte Navigation, sechs Rechnerreferenzen,
-Offlinebetrieb und Cache-Upgrade. Details: TEST-RESULTS.txt.
+PASS: 82 Dateien, Struktur, Referenzen, Prüfsummen, 15 Routen × 3 Viewports,
+320-px-Reflow, iPhone-/Tablet-/Desktop-Reorder, Headerkollisionen, Icon-only-Wackeln,
+freie Drag-Ebene, Rasterplatzhalter, Ziehen über mehrere Reihen/Spalten, Drop,
+pointercancel, pagehide, Rückgängig/Wiederholen, Mehrfachsortierung, Speicherung,
+Reload, Favoriten, echte Navigation, sechs Rechnerreferenzen, Offlinebetrieb und Cache-Upgrade.
+Details: TEST-RESULTS.txt.
