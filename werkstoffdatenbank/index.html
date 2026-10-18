@@ -1,49 +1,44 @@
 <!DOCTYPE html>
-
 <html class="sk-framed-document" lang="de">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="yes" name="mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="Hersteller- und geräteunabhängige Werkstoffdatenbank mit Suche, Filtern und Vergleichen" name="description"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/><meta content="yes" name="mobile-web-app-capable"/><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="Werkstoffdatenbank mit direkter App-Kachel-Navigation zu Werkstoffdetails, Suche, Filtern und Vergleichen" name="description"/>
 <title>Werkstoffdatenbank | SK PCT Tools</title>
-<link href="../manifest-v2-6-5-5.webmanifest" rel="manifest"/>
-<link href="../assets/favicon.png?v=2.6.5.5-Beta" rel="icon" sizes="64x64" type="image/png"/>
-<link href="../assets/apple-touch-icon.png?v=2.6.5.5-Beta" rel="apple-touch-icon" sizes="180x180"/>
-<link href="../assets/app-v2-6-5-5.css?v=2.6.5.5-Beta" rel="stylesheet"/>
-<meta content="no-referrer" name="referrer"/></head>
-<body data-sk-layout="framed" data-sk-module="Werkstoffdatenbank" data-sk-page="module" data-sk-style="materials" data-sk-version="2.6.5.5-Beta">
-<!-- sk:header:start --><div class="shell sk-app-frame"><header class="topbar sk-global-header sk-header-normalized" data-sk-shared-header=""></header><main class="material-page sk-app-scroll" id="materialLookup">
-<nav aria-label="Brotkrümelnavigation" class="knowledge-breadcrumb">
-<a href="../">Startseite</a><span>›</span>
-<span>Werkstoffdatenbank</span>
-</nav>
-<section class="material-hero sk-page-heading"><span aria-hidden="true" class="sk-page-identity"><img alt="" decoding="async" src="../assets/navigation-icons/v2-6-5-5-app-werkstoffdatenbank.png?v=2.6.5.5-Beta"/></span>
-<div class="material-kicker">WERKSTOFFE · DATENBANK</div>
-<h1 class="sk-controlled-title">Werkstoff<wbr/>datenbank</h1>
-<p>Werkstoffe suchen, einordnen und direkt vergleichen.</p>
-</section>
+<link href="../manifest-v2-6-6-0.webmanifest" rel="manifest"/>
+<link href="../assets/favicon.png?v=2.6.6.0-Beta" rel="icon" sizes="64x64" type="image/png"/>
+<link href="../assets/apple-touch-icon.png?v=2.6.6.0-Beta" rel="apple-touch-icon" sizes="180x180"/>
+<link href="../assets/app-v2-6-6-0.css?v=2.6.6.0-Beta" rel="stylesheet"/>
+<meta content="no-referrer" name="referrer"/>
+</head>
+<body data-sk-layout="framed" data-sk-module="Werkstoffdatenbank" data-sk-page="module" data-sk-style="materials material-tile-navigation" data-sk-version="2.6.6.0-Beta">
+<div class="shell sk-app-frame">
+<header class="topbar sk-global-header sk-header-normalized" data-sk-shared-header=""></header>
+<main class="material-page sk-app-scroll" id="materialLookup">
+<nav aria-label="Brotkrümelnavigation" class="material-breadcrumb" id="materialBreadcrumb"><a href="../">Startseite</a><span>›</span><span>Werkstoffdatenbank</span></nav>
+<a class="material-context-back" hidden href="./" id="materialBack"><span aria-hidden="true">‹</span><span>Werkstoffdatenbank</span></a>
+<section class="material-hero sk-page-heading"><span aria-hidden="true" class="sk-page-identity"><img alt="" decoding="async" id="materialHeroIcon" src="../assets/navigation-icons/v2-6-6-0-app-werkstoffdatenbank.png?v=2.6.6.0-Beta"/></span><div class="material-kicker" id="materialKicker">WERKSTOFFE · DIREKTAUSWAHL</div><h1 class="sk-controlled-title" id="materialTitle">Werkstoff<wbr/>datenbank</h1><p id="materialDescription">Werkstoffnummer suchen oder einen Werkstoff direkt als App-Kachel öffnen.</p></section>
+<section aria-label="Werkstoffdetails" class="material-detail-view" hidden id="materialDetail"></section>
+<div id="materialCatalog">
+<nav aria-label="Schnellzugriffe der Werkstoffdatenbank" class="material-quick-actions"><a href="#materialSearch">Suche</a><a href="#materialCompareHeading">Direktvergleich</a></nav>
 <section aria-labelledby="materialSearchHeading" class="material-panel">
-<div class="material-search-row">
-<label class="material-search-label" for="materialSearch"><span id="materialSearchHeading">Werkstoffnummer oder Bezeichnung suchen</span><input autocomplete="off" autofocus="" class="material-search" id="materialSearch" inputmode="search" placeholder="z. B. 1.4404, 14404, 316L, CF8M oder N06022" type="search"/></label>
-<button class="material-reset" id="materialReset" type="button">Zurücksetzen</button>
-</div>
+<div class="material-search-row"><label class="material-search-label" for="materialSearch"><span id="materialSearchHeading">Werkstoffnummer oder Bezeichnung suchen</span><input autocomplete="off" autofocus class="material-search" id="materialSearch" inputmode="search" placeholder="z. B. 1.4404, 14404, 316L, CF8M oder N06022" type="search"/></label><button class="material-reset" id="materialReset" type="button">Zurücksetzen</button></div>
 <p class="material-search-help">Punkte, Bindestriche, Leerzeichen und Groß-/Kleinschreibung sind für die Suche nicht erforderlich. Mehrdeutige Bezeichnungen wie 316L liefern bewusst mehrere Treffer.</p>
-<div aria-label="Nach Werkstoffgruppe filtern" class="material-filters" id="materialGroupFilters" role="group"></div>
+<div aria-label="Werkstoffliste filtern" class="material-filters" id="materialGroupFilters" role="group"></div>
 <output aria-live="polite" class="material-result-count" id="materialResultCount"></output>
 <p class="material-global-safety" role="note">Orientierung, keine Freigabe: Maßgeblich sind immer gültige Norm, Werkstoffzeugnis, Erzeugnisform, Zustand und der konkrete Einsatzfall.</p>
-<div class="material-load-error" hidden="" id="materialLoadError"><strong>Werkstoffdaten konnten nicht geladen werden.</strong><br/>Bitte die Seite mit Netzwerkverbindung neu laden oder die Paketinstallation prüfen.</div>
-<div class="material-results" id="materialResults"></div>
-<div class="material-empty" hidden="" id="materialEmpty"><strong>Kein passender Werkstoff gefunden.</strong><br/>Bezeichnung verkürzen, Schreibweise ohne Punkt versuchen oder Filter zurücksetzen.</div>
+<div aria-label="Werkstoffe" class="material-results material-tile-grid" id="materialResults"></div>
+<div class="material-empty" hidden id="materialEmpty"><strong>Kein passender Werkstoff gefunden.</strong><br/>Bezeichnung verkürzen, Schreibweise ohne Punkt versuchen oder Filter zurücksetzen.</div>
+<div class="material-load-error" hidden id="materialLoadError"><strong>Werkstoffdaten konnten nicht geladen werden.</strong><br/>Bitte die Seite mit Netzwerkverbindung neu laden oder die Paketinstallation prüfen.</div>
 </section>
-<section aria-labelledby="materialCompareHeading" class="material-compare-panel">
-<div class="material-compare-head"><div><div class="material-kicker">DIREKTVERGLEICH</div><h2 id="materialCompareHeading">Werkstoffe unterscheiden</h2></div><label class="material-compare-control" for="materialCompareSelect"><span>Vergleich auswählen</span><select id="materialCompareSelect"></select></label></div>
-<div class="material-comparison" id="materialComparison"></div>
-</section>
+<section aria-labelledby="materialCompareHeading" class="material-compare-panel" id="materialCompare"><div class="material-compare-head"><div><div class="material-kicker">DIREKTVERGLEICH</div><h2 id="materialCompareHeading">Werkstoffe unterscheiden</h2></div><label class="material-compare-control" for="materialCompareSelect"><span>Vergleich auswählen</span><select id="materialCompareSelect"></select></label></div><div class="material-comparison" id="materialComparison"></div></section>
 <p class="material-data-note">Datenstand: 27.09.2026. Die zentrale Datendatei <code>assets/materials.json</code> enthält Datensätze, Filtergruppen, Quellen und Vergleiche und kann für spätere Ergänzungen erweitert werden.</p>
-</main><footer class="footer sk-footer" data-sk-shared-footer=""></footer></div><!-- sk:header:end -->
-<!-- sk:footer:start --><!-- sk:footer:end -->
-<script src="../assets/app-v2-6-5-5.js?v=2.6.5.5-Beta"></script>
-<!-- sk:controls:start --><!-- sk:controls:end -->
-<script defer="" src="../assets/materials.js?v=2.6.5.5-Beta"></script>
+</div>
+</main>
+<footer class="footer sk-footer" data-sk-shared-footer=""></footer>
+</div>
+<script src="../assets/app-v2-6-6-0.js?v=2.6.6.0-Beta"></script>
+<script defer src="../assets/materials.js?v=2.6.6.0-Beta"></script>
 </body>
 </html>
