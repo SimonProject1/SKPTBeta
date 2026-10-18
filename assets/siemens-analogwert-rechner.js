@@ -33,9 +33,11 @@ function normalizePhysicalRange(range=DEFAULT_PHYSICAL_RANGE){
  return Object.freeze({min,max,unit});
 }
 function toggleSignValue(value){
- const normalized=String(value??'').trim().replace(',','.');
- const number=Number(normalized);
- if(!normalized||!Number.isFinite(number))throw new Error('Bitte zuerst einen gültigen Zahlenwert eingeben.');
+  const raw=String(value??''),shared=globalThis.SK_NUMERIC?.analyze?.(raw);
+  const normalized=raw.trim();
+  const fallback=/^[+-]?(?:\d+(?:[.,]\d+)?|[.,]\d+)$/.test(normalized)&&!(normalized.includes(',')&&normalized.includes('.'))?Number(normalized.replace(',','.')):NaN;
+  const number=shared?.state==='valid'?shared.value:fallback;
+  if(!Number.isFinite(number))throw new Error('Bitte zuerst einen gültigen Zahlenwert eingeben.');
  return number===0?0:-number;
 }
 function limitsFor(profileId='et200sp_st',typeId='4-20mA'){
@@ -92,7 +94,7 @@ const $=id=>document.getElementById(id);
 const elements={profile:$('cardProfile'),signalType:$('signalType'),tabs:[...document.querySelectorAll('.analog-tab[data-input-kind]')],panel:$('primaryInputPanel'),inputValue:$('inputValue'),inputLabel:$('inputValueLabel'),inputShell:$('primaryInputShell'),inputSign:$('inputSignToggle'),inputSuffix:$('inputSuffix'),inputState:$('rawInputState'),physicalMin:$('physicalMin'),physicalMax:$('physicalMax'),physicalUnit:$('physicalUnit'),signButtons:[...document.querySelectorAll('.analog-sign-button[data-sign-target]')],outputCards:[...document.querySelectorAll('.analog-value-card[data-output-kind]')],rawCard:$('rawOutputCard'),rawResult:$('rawResult'),rawStatus:$('rawStatus'),signalResult:$('signalResult'),physicalResult:$('physicalResult'),diagnostic:$('diagnosticSummary'),rangeStatus:$('rangeStatus'),statusDetail:$('statusDetail'),sourceLink:$('profileSourceLink'),error:$('calculationError')};
 if(Object.values(elements).some(value=>!value||(Array.isArray(value)&&value.length===0)))return;
 let activeMode='signal',currentRaw=13824;
-const parse=value=>Number.parseFloat(String(value).replace(',','.'));
+const parse=value=>globalThis.SK_NUMERIC?SK_NUMERIC.parse(value):Number(value);
 const format=(value,digits=3)=>Number.isFinite(value)?value.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:digits,useGrouping:true}):'–';
 const formatRaw=value=>Number.isFinite(value)?Math.round(value).toLocaleString('de-DE'):'–';
 const inputNumber=value=>Number.isFinite(value)?String(Number(value.toFixed(9))):'';
@@ -116,14 +118,22 @@ function paintState(state){
  elements.rawCard.dataset.state=state;elements.diagnostic.dataset.state=state;elements.rangeStatus.textContent=STATES[state].label;elements.rawStatus.textContent=STATES[state].label;
  const rawActive=activeMode==='raw';elements.inputShell.dataset.state=rawActive?state:'neutral';elements.inputState.hidden=!rawActive;elements.inputState.dataset.state=state;elements.inputState.textContent=STATES[state].label;
 }
+function clearError(){SK_NUMERIC.clear([elements.inputValue,elements.physicalMin,elements.physicalMax],elements.error)}
+function validateInputs(strict=false){
+ const fields=[elements.inputValue,elements.physicalMin,elements.physicalMax],names=new Map([[elements.inputValue,'Eingabewert'],[elements.physicalMin,'Messbereich Minimum'],[elements.physicalMax,'Messbereich Maximum']]),issues=[];let pending=false;
+ fields.forEach(input=>{const result=SK_NUMERIC.analyze(input.value);if(result.state==='intermediate'){pending=true;if(strict)issues.push({input,message:`${names.get(input)}: Zahl bitte vollständig eingeben.`})}else if(result.state==='invalid')issues.push({input,message:`${names.get(input)}: ${result.reason}`})});
+ if(pending&&!strict&&!issues.length){clearError();return false}
+ if(!issues.length){const min=parse(elements.physicalMin.value),max=parse(elements.physicalMax.value);if(Number.isFinite(min)&&Number.isFinite(max)&&max<=min)issues.push({input:elements.physicalMax,message:'Messbereich Maximum muss größer als Minimum sein.'})}
+ return !SK_NUMERIC.report(fields,elements.error,issues);
+}
 function renderFromRaw(){
  const p=profile(elements.profile.value),t=type(elements.signalType.value),range=physicalRange(),result=calculate(elements.signalType.value,'raw',currentRaw,p,range);
- elements.error.hidden=true;elements.rawResult.textContent=formatRaw(result.raw);elements.signalResult.textContent=`${format(result.signal,3)} ${t.unit}`;elements.physicalResult.textContent=`${format(result.physical,3)} ${range.unit}`;
+  clearError();elements.rawResult.textContent=formatRaw(result.raw);elements.signalResult.textContent=`${format(result.signal,3)} ${t.unit}`;elements.physicalResult.textContent=`${format(result.physical,3)} ${range.unit}`;
  paintState(result.status);elements.statusDetail.textContent=`${p.label} (${p.partNumber}): ${p.note}`;elements.sourceLink.href='../SIEMENS-QUELLEN-UND-GRENZWERTE.md';
 }
-function showError(error){elements.error.textContent=error.message;elements.error.hidden=false;elements.diagnostic.dataset.state='error';elements.rangeStatus.textContent='Eingabe prüfen'}
-function renderFromInput(){try{const result=calculate(elements.signalType.value,activeMode,parse(elements.inputValue.value),elements.profile.value,physicalRange());currentRaw=result.raw;renderFromRaw()}catch(error){showError(error)}}
-function commitInput(){renderFromInput();if(elements.error.hidden)syncPrimaryInput()}
+function showError(error,input=elements.inputValue){SK_NUMERIC.report([elements.inputValue,elements.physicalMin,elements.physicalMax],elements.error,[{input,message:error.message}]);elements.diagnostic.dataset.state='error';elements.rangeStatus.textContent='Eingabe prüfen'}
+function renderFromInput(strict=false){if(!validateInputs(strict))return;try{const result=calculate(elements.signalType.value,activeMode,parse(elements.inputValue.value),elements.profile.value,physicalRange());currentRaw=result.raw;renderFromRaw()}catch(error){showError(error)}}
+function commitInput(){renderFromInput(true);if(elements.error.hidden)syncPrimaryInput()}
 function dismissInputFocus(){
  const active=document.activeElement;
  if(active&&active.matches&&active.matches('input,textarea,select,[contenteditable="true"]'))active.blur();
@@ -133,7 +143,7 @@ function toggleInputSign(input){
   input.value=inputNumber(toggleSignValue(input.value));
   input.dispatchEvent(new Event('input',{bubbles:true}));
   input.dispatchEvent(new Event('change',{bubbles:true}));
- }catch(error){showError(error)}
+  }catch(error){showError(error,input)}
 }
 function bindSignButtons(){
  elements.signButtons.forEach(button=>{
@@ -153,15 +163,16 @@ function setMode(mode,dismissKeyboard=false){
  syncTabs();
  try{syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}
 }
-function resyncAndRender(){try{syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}}
+function resyncAndRender(){if(!validateInputs(true))return;try{syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}}
 
 elements.tabs.forEach((tab,index)=>{tab.addEventListener('click',event=>{event.preventDefault();setMode(tab.dataset.inputKind,true)});tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();let next=index;if(event.key==='ArrowLeft')next=(index-1+elements.tabs.length)%elements.tabs.length;if(event.key==='ArrowRight')next=(index+1)%elements.tabs.length;if(event.key==='Home')next=0;if(event.key==='End')next=elements.tabs.length-1;setMode(elements.tabs[next].dataset.inputKind);elements.tabs[next].focus({preventScroll:true})})});
-elements.inputValue.addEventListener('input',renderFromInput);elements.inputValue.addEventListener('change',commitInput);elements.inputValue.addEventListener('focus',event=>event.currentTarget.select());
+elements.inputValue.addEventListener('input',()=>renderFromInput(false));elements.inputValue.addEventListener('change',commitInput);elements.inputValue.addEventListener('focus',event=>event.currentTarget.select());
 elements.signalType.addEventListener('change',resyncAndRender);
 elements.profile.addEventListener('change',()=>{try{syncSupportedTypes();const p=profile(elements.profile.value),{min,max}=bounds(p);currentRaw=clamp(currentRaw,min,max);syncPrimaryInput();renderFromRaw()}catch(error){showError(error)}});
-[elements.physicalMin,elements.physicalMax,elements.physicalUnit].forEach(element=>{element.addEventListener('input',resyncAndRender);element.addEventListener('change',resyncAndRender);element.addEventListener('focus',event=>event.currentTarget.select())});
+[elements.physicalMin,elements.physicalMax].forEach(element=>{element.addEventListener('input',()=>renderFromInput(false));element.addEventListener('change',()=>renderFromInput(true));element.addEventListener('focus',event=>event.currentTarget.select())});
+elements.physicalUnit.addEventListener('input',resyncAndRender);elements.physicalUnit.addEventListener('change',resyncAndRender);
 bindSignButtons();syncSupportedTypes();setMode('signal');
 })();
 
-/* Physikalische Einheiten im Siemens-Rohwert-Rechner · 2.6.9.0-Beta */
+/* Physikalische Einheiten im Siemens-Rohwert-Rechner · 3.0.0.0 */
 (()=>{'use strict';const $=id=>document.getElementById(id);function options(){return SK_UNITS.model.categories.map(category=>`<option value="${category.id}">${SK_UNITS.escape(category.name)}</option>`).join('')}function syncHidden(){const unit=SK_UNITS.unit($('physicalCategory').value,$('physicalUnitSelect').value);$('physicalUnit').value=unit.symbol;$('physicalUnit').dispatchEvent(new Event('input',{bubbles:true}));$('physicalUnit').dispatchEvent(new Event('change',{bubbles:true}))}function convertRange(category,oldUnit,newUnit){['physicalMin','physicalMax'].forEach(id=>{const input=$(id),value=window.num(input.value);if(Number.isFinite(value))input.value=SK_UNITS.inputValue(SK_UNITS.convert(value,category,oldUnit,newUnit))})}async function init(){await SK_UNITS.ready;$('physicalCategory').innerHTML=options();$('physicalCategory').value='temperature';SK_UNITS.populateSelect($('physicalUnitSelect'),'temperature','celsius',{includeAll:true});$('physicalCategory').addEventListener('change',()=>{const category=SK_UNITS.category($('physicalCategory').value);SK_UNITS.populateSelect($('physicalUnitSelect'),category.id,category.defaultUnit,{includeAll:true});syncHidden()});$('physicalUnitSelect').addEventListener('sk:unit-change',event=>{convertRange(event.detail.categoryId,event.detail.oldUnit,event.detail.newUnit);syncHidden()});syncHidden()}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init,{once:true}):init()})();

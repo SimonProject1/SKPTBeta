@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.6.9.0-Beta — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
+/* SK PCT Tools 3.0.0.0 — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
 (()=>{'use strict';
-const RELEASE='2.6.9.0-Beta';
+const RELEASE='3.0.0.0';
 const STORAGE_KEY='skPctUnitFavoritesV1';
 const source=document.currentScript?.src||'';
 const root=source?new URL('../',source):(window.SK_PCT?.root||new URL('./',location.href));
@@ -8,7 +8,7 @@ let model=null;
 const selects=new Set();
 const listeners=new Set();
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
-const number=value=>Number.parseFloat(String(value).replace(',','.'));
+const number=value=>globalThis.SK_NUMERIC?SK_NUMERIC.parse(value):Number(value);
 const favoriteKey=(categoryId,unitId)=>`${categoryId}:${unitId}`;
 function storedFavorites(){const direct=localStorage.getItem(STORAGE_KEY);if(direct!==null)return direct;const previous=Object.keys(localStorage).find(item=>item!==STORAGE_KEY&&item.startsWith('sk')&&item.endsWith('UnitFavoritesV1'));const value=previous?localStorage.getItem(previous):null;if(value!==null)localStorage.setItem(STORAGE_KEY,value);return value}
 function loadFavorites(){try{const value=JSON.parse(storedFavorites()||'[]');return Array.isArray(value)?[...new Set(value.filter(item=>typeof item==='string'))]:[]}catch{return []}}

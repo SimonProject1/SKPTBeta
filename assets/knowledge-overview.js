@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.6.9.0-Beta — kompakte Hersteller → Gerät/Familie/Thema → Beitrag-Navigation. */
+/* SK PCT Tools 3.0.0.0 — kompakte Hersteller → Gerät/Familie/Thema → Beitrag-Navigation. */
 (()=>{'use strict';
-const RELEASE='2.6.9.0-Beta';
+const RELEASE='3.0.0.0';
 const ROOT=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
 const KNOWLEDGE_ROOT=new URL('wissensdatenbank/',ROOT);
 const ICON_ROOT=new URL('assets/navigation-icons/',ROOT);
@@ -64,7 +64,7 @@ const DATA=[
  {slug:'sonstiges',name:'Sonstiges',description:'Herstellerunabhängige Beiträge – aktuell ohne vorhandene Inhalte.',icon:'manufacturer-sonstiges',search:'Sonstiges herstellerunabhängig allgemein',families:[]}
 ];
 const byId=id=>document.getElementById(id);
-const iconUrl=stem=>new URL(`v2-6-9-0-${stem}.png?v=${RELEASE}`,ICON_ROOT).href;
+const iconUrl=stem=>new URL(`v3-0-0-0-${stem}.png?v=${RELEASE}`,ICON_ROOT).href;
 const params=()=>new URL(location.href).searchParams;
 const manufacturer=()=>DATA.find(x=>x.slug===params().get('manufacturer'))||null;
 const family=m=>m?.families.find(x=>x.slug===params().get('family'))||null;
@@ -75,11 +75,12 @@ function controlledLabel(node,item){
  item.label.forEach((part,index)=>{const span=document.createElement('span');span.className='sk-label-segment';span.textContent=part;node.append(span);if(index<item.label.length-1)node.append(document.createElement('wbr'),document.createTextNode(' '))});
 }
 function card(item,meta,href){
- const link=document.createElement('a');link.className='knowledge-tile tool-card';link.href=href;link.dataset.search=meta.search;link.dataset.level=meta.level;link.dataset.category=meta.category;link.setAttribute('aria-label',`${item.name} öffnen`);
+  const container=document.createElement('div');container.className='knowledge-tile tool-card sk-favorite-card';container.dataset.search=meta.search;container.dataset.level=meta.level;container.dataset.category=meta.category;
+  const link=document.createElement('a');link.className='sk-tile-link';link.href=href;link.setAttribute('aria-label',`${item.name} öffnen`);container.append(link);
  const icon=document.createElement('span');icon.className='sk-home-icon knowledge-home-icon';const image=document.createElement('img');image.alt='';image.decoding='sync';image.src=iconUrl(item.icon);icon.append(image);
- const title=document.createElement('h2');controlledLabel(title,item);link.append(icon,title);
- if(meta.path){const path=document.createElement('div');path.className='knowledge-tile-path';path.textContent=meta.path;link.append(path)}
- return link;
+  const title=document.createElement('h2');controlledLabel(title,item);container.append(icon,title);
+  if(meta.path){const path=document.createElement('div');path.className='knowledge-tile-path';path.textContent=meta.path;container.append(path)}
+  return container;
 }
 function allSearchItems(){const out=[];DATA.forEach(m=>{out.push({item:m,level:'manufacturer',category:'HERSTELLER',path:'Hersteller',href:hrefFor(m),search:`${m.name} ${m.description} ${m.search}`});m.families.forEach(f=>{out.push({item:f,level:'family',category:'GERÄT / FAMILIE / THEMA',path:m.name,href:hrefFor(m,f),search:`${m.name} ${f.name} ${f.description} ${f.search}`});f.articles.forEach(a=>out.push({item:a,level:'article',category:'WISSENSBEITRAG',path:`${m.name} › ${f.name}`,href:new URL(a.slug+'/',KNOWLEDGE_ROOT).href,search:`${m.name} ${m.search} ${f.name} ${f.search} ${a.name} ${a.description} ${a.search}`}))})});return out}
 function setTitle(node,text){node.replaceChildren();const parts=text==='Wissensdatenbank'?['Wissens','datenbank']:text==='Endress+Hauser'?['Endress+Hauser']:[text];parts.forEach((part,i)=>{if(i)node.append(document.createElement('wbr'));node.append(document.createTextNode(part))})}
@@ -95,6 +96,6 @@ function render(){const m=manufacturer(),f=family(m),q=norm(byId('knowledgeSearc
  if(searching||!m){back.hidden=true}else{back.hidden=false;back.href=f?hrefFor(m):KNOWLEDGE_ROOT.href;backLabel.textContent=f?m.name:'Wissensdatenbank'}
  document.title=`${f?f.name:m?m.name:'Wissensdatenbank'} | SK PCT Tools`;document.dispatchEvent(new CustomEvent('sk:cards-updated',{detail:{source:'knowledge-navigation',version:RELEASE}}))}
 function navigate(url){history.pushState({},'',url);byId('knowledgeSearch').value='';render();document.querySelector('.knowledge-app-scroll')?.scrollTo({top:0,behavior:'auto'})}
-function init(){if(!byId('knowledgeGrid'))return;byId('knowledgeSearch').addEventListener('input',render);byId('knowledgeSearchReset').addEventListener('click',()=>{byId('knowledgeSearch').value='';render();byId('knowledgeSearch').focus()});byId('knowledgeGrid').addEventListener('click',e=>{if(e.target.closest('.sk-favorite-button'))return;const link=e.target.closest('a.knowledge-tile');if(!link||!isPlain(e))return;const target=new URL(link.href);if(target.pathname.replace(/index\.html$/,'')===KNOWLEDGE_ROOT.pathname&&target.search){e.preventDefault();navigate(link.href)}});byId('knowledgeViewBack').addEventListener('click',e=>{if(!isPlain(e))return;e.preventDefault();navigate(e.currentTarget.href)});addEventListener('popstate',render);render()}
+function init(){if(!byId('knowledgeGrid'))return;byId('knowledgeSearch').addEventListener('input',render);byId('knowledgeSearchReset').addEventListener('click',()=>{byId('knowledgeSearch').value='';render();byId('knowledgeSearch').focus()});byId('knowledgeGrid').addEventListener('click',e=>{if(e.target.closest('.sk-favorite-button'))return;const card=e.target.closest('.knowledge-tile'),link=card?.querySelector(':scope > .sk-tile-link');if(!link||!isPlain(e))return;const target=new URL(link.href);if(target.pathname.replace(/index\.html$/,'')===KNOWLEDGE_ROOT.pathname&&target.search){e.preventDefault();navigate(link.href)}});byId('knowledgeViewBack').addEventListener('click',e=>{if(!isPlain(e))return;e.preventDefault();navigate(e.currentTarget.href)});addEventListener('popstate',render);render()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
