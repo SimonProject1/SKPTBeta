@@ -1,6 +1,6 @@
-/* SK PCT Tools 3.0.0.0 — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
+/* SK PCT Tools 3.0.0.1 — zentrale Einheitendatenbank und Umrechnungslaufzeit. */
 (()=>{'use strict';
-const RELEASE='3.0.0.0';
+const RELEASE='3.0.0.1';
 const STORAGE_KEY='skPctUnitFavoritesV1';
 const source=document.currentScript?.src||'';
 const root=source?new URL('../',source):(window.SK_PCT?.root||new URL('./',location.href));
