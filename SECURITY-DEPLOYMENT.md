@@ -1,4 +1,4 @@
-# Security- und Deployment-Hinweise – V2.6.5.4-Beta
+# Security- und Deployment-Hinweise – V2.6.5.5-Beta
 
 Stand: 18.10.2026
 
@@ -17,19 +17,19 @@ Stand: 18.10.2026
 
 ## Releasebestand
 
-- Version: `2.6.5.4-Beta`
-- Manifest: `manifest-v2-6-5-4.webmanifest`
-- CSS: `assets/app-v2-6-5-4.css`
-- Laufzeit: `assets/app-v2-6-5-4.js`
-- Suchindex: `assets/search-index-v2-6-5-4.json`
-- Cache-Epoch: `v2-6-5-4-core-r1`
-- Navigationsassets: `assets/navigation-icons/v2-6-5-4-*.png`
-- Release-Modul: `assets/release-module-v2-6-5-4.png`
+- Version: `2.6.5.5-Beta`
+- Manifest: `manifest-v2-6-5-5.webmanifest`
+- CSS: `assets/app-v2-6-5-5.css`
+- Laufzeit: `assets/app-v2-6-5-5.js`
+- Suchindex: `assets/search-index-v2-6-5-5.json`
+- Cache-Epoch: `v2-6-5-5-core-r1`
+- Navigationsassets: `assets/navigation-icons/v2-6-5-5-*.png`
+- Release-Modul: `assets/release-module-v2-6-5-5.png`
 
 ## Deployment
 
 1. Zielverzeichnis leeren oder den vollständigen Inhalt von
-   `SK-PCT-Tools-V2.6.5.4-Beta` gemeinsam veröffentlichen.
+   `SK-PCT-Tools-V2.6.5.5-Beta` gemeinsam veröffentlichen.
 2. Keine CSS-, JS-, Manifest-, Suchindex- oder Icon-Dateien aus V2.6.5.3 oder älteren Versionen beimischen.
 3. MIME-Typen für `.webmanifest`, `.js`, `.css`, `.json`, `.svg` und `.png` korrekt
    ausliefern.

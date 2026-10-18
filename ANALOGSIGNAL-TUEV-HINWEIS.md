@@ -1,4 +1,4 @@
-# Analogsignal-Rechner – Praxishinweis V2.6.5.4-Beta
+# Analogsignal-Rechner – Praxishinweis V2.6.5.5-Beta
 
 ## Zweck
 
@@ -30,7 +30,7 @@ Der Messbereichsanteil wird in Prozent ausgegeben. Werte außerhalb des Messbere
 werden entsprechend der bisherigen fachlichen Logik linear extrapoliert. MA und ME
 müssen unterschiedlich sein; unvollständige oder ungültige Zahlen werden gemeldet.
 
-## Bedienung ab V2.6.5.4-Beta
+## Bedienung ab V2.6.5.5-Beta
 
 - Jede Änderung an Eingaben oder Auswahlen aktualisiert das Ergebnis unmittelbar.
 - Ein separater Berechnen-Schritt ist nicht erforderlich.

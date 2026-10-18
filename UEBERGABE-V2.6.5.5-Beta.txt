@@ -1,0 +1,79 @@
+ÜBERGABEPROTOKOLL – SK PCT Tools V2.6.5.5-Beta
+Stand: 18.10.2026
+Basis: vollständige V2.6.5.4-Beta
+Status: vollständig, geprüft, paketbereit
+
+1. AUFTRAG
+
+Ausschließlich Punkt 1 des abgestimmten Fahrplans als kleinen, sicheren
+Korrekturblock umsetzen. Keine Neuordnung der Wissensdatenbank und keine
+sonstigen Design- oder Funktionsänderungen.
+
+2. UMGESETZT
+
+- automatische Silbentrennung bei App-, Hersteller-, Seiten- und
+  Wissensbeitragstiteln deaktiviert
+- kontrollierte Umbruchstellen für lange fachliche Bezeichnungen
+- Analogsignal-Umrechnungsrichtung bis 430 px volle Feldbreite
+- Spannungsfall-Stromart bis 430 px volle Feldbreite
+- vollständige Auswahlwerte ohne Auslassungspunkte
+- Endress+Hauser im Wissens-Hub kontrolliert umbrochen
+- Mikrotexte regulär etwa 10–11 px, Hilfstexte mindestens etwa 13 px
+- mobiler Werkstoff-Startseitenchip entfernt; Desktop-Breadcrumb erhalten
+- mobiler Wissensdatenbank-Chip in Wissensbeiträgen erhalten
+- leere Favoritenzustände kompakt horizontal; gefüllte Listen unverändert
+
+3. BEWUSST NICHT GEÄNDERT
+
+- visueller Stil und Fachinhalt der fünf Wissensbeiträge
+- Fachgrafiken
+- Binärinhalte großer PNG-Icons und Logos
+- Headergeometrie und Icongrößen
+- Ergebnisdarstellungen und Berechnungslogik
+- Drag-and-Drop-Sortierung, Undo/Redo und Speicherung
+- übrige Funktionen
+
+4. VERSIONIERUNG
+
+- Release: 2.6.5.5-Beta
+- CSS: assets/app-v2-6-5-5.css
+- JS: assets/app-v2-6-5-5.js
+- Manifest: manifest-v2-6-5-5.webmanifest
+- Suchindex: assets/search-index-v2-6-5-5.json
+- Cache-Epoche: v2-6-5-5-core-r1
+- VERSION, README, Release Notes, Testplan, Testergebnisse, Design-Audit,
+  Prüfsummen und Übergabeprotokoll aktualisiert
+
+5. PRÜFUNG
+
+PASS · 4.041 Browserprüfungen plus Syntax-, Struktur-, Referenz-, Bild-,
+Screenshot-, Prüfsummen- und Paketprüfung.
+
+Profile:
+- 320 × 800
+- 390 × 844
+- Smartphone 412 × 915
+- Smartphone-Querformat 844 × 390
+- Tablet 820 × 1180
+- Desktop 1440 × 1000
+
+Bedienung und Betrieb:
+- Touch, Pointer, Tastatur und Fokus
+- Reflow und Safe Area
+- Suche, Favoriten und vollständige Favoritenlisten
+- Drag-and-Drop, Long-Press, Undo/Redo und Speicherung
+- sechs Rechner, Datenbanken und Wissensbereiche
+- Service-Worker-Upgrade und Offline-Unterseiten
+
+6. INTEGRITÄT
+
+- SHA256SUMS.txt enthält jede Projektdatei außer sich selbst.
+- Versionierte PNG-Dateien wurden nur umbenannt; Binärinhalte sind
+  SHA-256-identisch zur V2.6.5.4-Basis.
+- Die separate ZIP-Prüfsumme liegt neben dem Downloadpaket.
+- Das ZIP wurde nach Erstellung erneut entpackt und in der Kopie validiert.
+
+7. FORTSETZUNG
+
+Die nächste Überarbeitung der Wissensdatenbank bleibt ein separater Schritt.
+V2.6.5.5-Beta enthält dafür bewusst keine Vorwegnahme und keinen Stilumbau.

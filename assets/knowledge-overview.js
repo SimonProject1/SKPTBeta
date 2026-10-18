@@ -1,9 +1,11 @@
-/* SK PCT Tools 2.6.5.4-Beta — robuster Hersteller-Hub, sichere Beitragsnavigation, Suche und Kompaktansicht. */
+/* SK PCT Tools 2.6.5.5-Beta — robuster Hersteller-Hub, sichere Beitragsnavigation, Suche und Kompaktansicht. */
 (()=>{'use strict';
-  const RELEASE='2.6.5.4-Beta';
+  const RELEASE='2.6.5.5-Beta';
   const COMPACT_KEY='skKnowledgeCompactCardsV1';
   const {readJSON:read,writeJSON:write,foldText:norm}=window.SK_PCT_SHARED;
   const isPlainActivation=event=>!event.defaultPrevented&&event.button<=0&&!event.metaKey&&!event.ctrlKey&&!event.shiftKey&&!event.altKey;
+  const CONTROLLED_TITLES=Object.freeze({'Wissensdatenbank':['Wissens','datenbank'],'Endress+Hauser':['Endress+','Hauser']});
+  const setControlledTitle=(node,value)=>{if(!node)return;const parts=CONTROLLED_TITLES[value]||[value];node.replaceChildren();parts.forEach((part,index)=>{if(index)node.append(document.createElement('wbr'));node.append(document.createTextNode(part))});node.classList.add('sk-controlled-title')};
 
   function init(){
     const input=document.getElementById('knowledgeSearch');
@@ -75,14 +77,14 @@
       input.value='';
       if(onHub){
         kicker.textContent='HERSTELLER-HUB';
-        title.textContent='Wissensdatenbank';
+        setControlledTitle(title,'Wissensdatenbank');
         description.textContent='Hersteller wählen und direkt zum passenden Know-how wechseln.';
         input.placeholder='Hersteller, Gerät oder Thema eingeben';
         document.title='Wissensdatenbank | SK PCT Tools';
       }else{
         const manufacturer=activeView.dataset.manufacturer;
         kicker.textContent='HERSTELLER-KNOW-HOW';
-        title.textContent=manufacturer;
+        setControlledTitle(title,manufacturer);
         description.textContent=activeView.dataset.description||`Wissensbeiträge von ${manufacturer}.`;
         input.placeholder=`${manufacturer}: Gerät oder Thema suchen`;
         document.title=`${manufacturer} · Wissensdatenbank | SK PCT Tools`;

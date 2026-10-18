@@ -1,57 +1,67 @@
-SK PCT Tools V2.6.5.4-Beta – Release Notes
+RELEASE NOTES – SK PCT Tools V2.6.5.5-Beta
 Stand: 18.10.2026
-Basis: vollständige V2.6.5.3-Beta
-Releaseart: vollständiges Projektpaket
+Basis: vollständige V2.6.5.4-Beta
 
-ZIEL
-Den Analogsignal-Rechner auf eine direkte, kompakte Livebedienung reduzieren,
-ohne seine fachliche Funktion und ohne andere Bereiche der App zu verändern.
+FREIGABEUMFANG
 
-ÄNDERUNGEN AM ANALOGSIGNAL-RECHNER
-- Titelkicker „SIGNALTECHNIK · TÜV-PRAXIS“ vollständig entfernt; kein leerer
-  Platzhalter und keine Restzeile verbleiben.
-- Aktionsbuttons „Berechnen“ und „Zurücksetzen“ vollständig entfernt.
-- Aktionswrapper und ausschließlich dafür vorhandene Analogsignal-CSS-Regeln entfernt.
-- Berechnung reagiert weiterhin direkt auf input/change und benötigt keinen
-  zusätzlichen manuellen Berechnungsschritt.
-- Kopierbuttons an Signalwert und Messbereichsanteil vollständig deaktiviert.
-- Keine Kopierhosts, Touchflächen, Tooltips oder reservierten Kopierabstände im
-  Analogsignal-Rechner.
-- Ergebniswerte und Ergebnisbeschriftungen bleiben vollständig sichtbar.
-- Kompakte, ausgewogene Anordnung auf Smartphone, Tablet und Desktop.
+Diese Version setzt ausschließlich Punkt 1 des abgestimmten Fahrplans um.
+Weitere gestalterische oder funktionale Überarbeitungen sind nicht Bestandteil
+dieser Beta.
 
-FACHLICHE FUNKTION UNVERÄNDERT
-- MA/ME und einheitenlose Skalierung
-- 4–20 mA, 0–20 mA, 0–10 V, 2–10 V
-- Vorwärts- und Umkehrrechnung
-- negative, positive und über null verlaufende Messbereiche
-- lineare Grenz-/Extrapolationsbehandlung
-- Validierung und Fehlermeldungen
-- ±-Bedienung, Tastatur, Touch, Fokus, aria-live und Offlinebetrieb
+ÄNDERUNGEN
 
-REGRESSIONSSCHUTZ
-Unverändert blieben alle anderen Rechner, Datenbanken, Wissensbereiche, Icons,
-Logos, Header, Footer, Favoriten, Raster, Suche und die Drag-and-Drop-Sortierung.
-Die Kopierfunktionen anderer Rechner bleiben aktiv.
+1. Kontrollierte Textumbrüche
+- automatische Silbentrennung bei App-, Hersteller-, Seiten- und
+  Wissensbeitragstiteln deaktiviert
+- explizite fachliche Umbruchstellen für Analogsignal-Rechner,
+  Wissensdatenbank, Einbausituation, E+H Device Viewer, Endress+Hauser,
+  Siemens Rohwert und weitere lange App-/Seitentitel
+- Textinhalt, Suchbarkeit und zugängliche Bezeichnungen bleiben erhalten
 
-VERSIONIERUNG UND PWA
-- VERSION: 2.6.5.4-Beta
-- CSS: assets/app-v2-6-5-4.css
-- JavaScript: assets/app-v2-6-5-4.js
-- Manifest: manifest-v2-6-5-4.webmanifest
-- Suchindex: assets/search-index-v2-6-5-4.json
-- Navigations-/Hersteller-/Wissensassets: Präfix v2-6-5-4-
-- Release-Modul: assets/release-module-v2-6-5-4.png
-- Service Worker: Cache-Epoch v2-6-5-4-core-r1
-- Übergabe: UEBERGABE-V2.6.5.4-Beta.txt
+2. Rechner-Reflow
+- Analogsignal-Rechner: Umrechnungsrichtung bis 430 px in voller Feldbreite;
+  vollständige Werte „Skalierungswert → Signal“ und
+  „Signal → Skalierungswert“ ohne Auslassungspunkte
+- Spannungsfall-Rechner: Stromart bis 430 px in voller Feldbreite;
+  vollständige Auswahlwerte für Drehstrom und Wechselstrom
+- Ergebnisdarstellung und Berechnungslogik unverändert
 
-QUALITÄTSSICHERUNG
-- 1.440 Layout-/Positionsprüfungen
-- 800 visuelle Shell-Prüfungen
-- 1.373 Browser-/Funktions-/Berechnungs-/Offlineprüfungen
-- 162 Design-/Touch-/Accessibility-/Offline-Auditprüfungen
-- 103 Raster-/Favoriten-/Responsive-Prüfungen
-- Gesamt: 3.878 automatisierte Browserprüfungen
-- zusätzlich Struktur-, Syntax-, Integritäts-, Prüfsummen-, Screenshot- und
-  Paketprüfung
-- Ergebnis: PASS; keine bekannten offenen Fehler im geprüften Umfang
+3. Mikro- und Hilfstexte
+- sichtbare Mikrotexte regulär auf etwa 10 bis 11 px angehoben
+- Hilfstexte auf mindestens etwa 13 px angehoben
+- aktuelle Versionsanzeige bei 320 px vollständig; längere zukünftige
+  Versionsstände besitzen weiterhin einen sicheren dynamischen Fallback
+- keine Änderung an Headerhöhe, Footerhöhe, Icongrößen oder Kartenraster
+
+4. Navigation und Favoriten
+- Werkstoffdatenbank: zusätzlicher mobiler „Startseite“-Chip entfernt;
+  Desktop-Breadcrumb bleibt bestehen
+- Wissensbeiträge: kontextueller mobiler „Wissensdatenbank“-Chip bleibt bestehen
+- Favoritenübersicht und Einheitendatenbank: leere Zustände als kompakte
+  horizontale Zeile mit Stern, Kurztext und Anzahl 0
+- gefüllte Favoritenlisten und sämtliche Favoritenfunktionen unverändert
+
+5. Versionierung und PWA
+- alle Versionsangaben, versionierten Dateinamen und Referenzen auf
+  V2.6.5.5-Beta aktualisiert
+- Manifest: manifest-v2-6-5-5.webmanifest
+- zentrale Assets: app-v2-6-5-5.css / app-v2-6-5-5.js
+- Suchindex: search-index-v2-6-5-5.json
+- Service-Worker-Cache-Epoche: v2-6-5-5-core-r1
+- versionierte PNG-Dateien nur umbenannt; Binärinhalte unverändert
+
+NICHT GEÄNDERT
+
+- visueller Stil der fünf Wissensbeiträge
+- Fachgrafiken, große PNG-Inhalte und Logo-Inhalte
+- Headergeometrie und vorhandene Icongrößen
+- Rechnerergebnisse und Ergebnisdarstellungen
+- Drag-and-Drop-Sortierung, Undo/Redo und Speicherung
+- übrige Funktionen
+
+PRÜFSTATUS
+
+PASS. 4.041 automatisierte Browserprüfungen in den kombinierten Haupt- und
+Korrektur-Suiten, zusätzlich Syntax-, Struktur-, Referenz-, Prüfsummen-,
+Screenshot- und Paketprüfung. Keine bekannten offenen Fehler im geprüften
+Umfang.
