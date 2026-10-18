@@ -1,6 +1,6 @@
-const RELEASE='2.6.7.0-Beta';
+const RELEASE='2.6.8.0-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
-const CACHE_EPOCH='v2-6-7-0-core-r1';
+const CACHE_EPOCH='v2-6-8-0-core-r1';
 const CACHE_NAME=`${CACHE_PREFIX}${CACHE_EPOCH}`;
 
 // Vollständiger Offline-Core: alle Laufzeitseiten, Daten, aktiven Icons und Markenassets.
@@ -21,9 +21,28 @@ const CORE=[
   './wissensdatenbank/siemens-sps-rohwert/',
   './wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/',
   './wissensdatenbank/werkstoff-nachschlagewerk/',
-  './manifest-v2-6-7-0.webmanifest',
-  './assets/app-v2-6-7-0.css',
-  './assets/app-v2-6-7-0.js',
+  './wissensdatenbank/endress-hauser-micropilot-grundlagen-radar-fuellstandmessung/',
+  './wissensdatenbank/endress-hauser-micropilot-reflexion-dk-wert/',
+  './wissensdatenbank/endress-hauser-micropilot-pulse-radar-time-of-flight/',
+  './wissensdatenbank/endress-hauser-micropilot-fmcw-radar-80-ghz/',
+  './wissensdatenbank/endress-hauser-micropilot-frequenz-abstrahlwinkel/',
+  './wissensdatenbank/endress-hauser-micropilot-produktuebersicht-geraeteauswahl/',
+  './wissensdatenbank/endress-hauser-micropilot-einbauposition-antennenausrichtung/',
+  './wissensdatenbank/endress-hauser-micropilot-stutzen-antenne-prozessanschluss/',
+  './wissensdatenbank/endress-hauser-micropilot-sonderfaelle-einbau/',
+  './wissensdatenbank/endress-hauser-micropilot-gehaeuse-anzeigemodul-ausrichten/',
+  './wissensdatenbank/endress-hauser-micropilot-elektrischer-anschluss-bedienzugaenge/',
+  './wissensdatenbank/endress-hauser-micropilot-grundabgleich-inbetriebnahme/',
+  './wissensdatenbank/endress-hauser-micropilot-huellkurve-verstehen-auswerten/',
+  './wissensdatenbank/endress-hauser-micropilot-fehler-falscher-hoher-fuellstand-stoerechoausblendung/',
+  './wissensdatenbank/endress-hauser-micropilot-fehler-null-prozent-fuellstandsignal-ausgeblendet/',
+  './wissensdatenbank/endress-hauser-micropilot-fehler-unplausible-distanz-stutzen-stoersignal/',
+  './wissensdatenbank/endress-hauser-micropilot-fehler-ueber-hundert-prozent-ansatz-antenne/',
+  './wissensdatenbank/endress-hauser-micropilot-fehler-kein-mediumsignal-medium-in-antenne/',
+  './wissensdatenbank/endress-hauser-micropilot-fehler-f941-echo-verloren-tankbodenbereich/',
+  './manifest-v2-6-8-0.webmanifest',
+  './assets/app-v2-6-8-0.css',
+  './assets/app-v2-6-8-0.js',
   './assets/analogsignal-rechner.js',
   './assets/einheitenrechner.js',
   './assets/knowledge-article.js',
@@ -37,12 +56,12 @@ const CORE=[
   './spannungsfall-rechner/calculator.js',
   './assets/materials.json',
   './assets/units.json',
-  './assets/search-index-v2-6-7-0.json',
+  './assets/search-index-v2-6-8-0.json',
   './assets/pct-controls.svg',
   './SIEMENS-QUELLEN-UND-GRENZWERTE.md',
   './assets/logo-sk-pct-tools.png',
   './assets/header-logo-simple.png',
-  './assets/release-module-v2-6-7-0.png',
+  './assets/release-module-v2-6-8-0.png',
   './assets/favicon.png',
   './assets/apple-touch-icon.png',
   './assets/icon-192.png',
@@ -52,11 +71,11 @@ const CORE=[
   ...[
     'app-analogsignal','app-eh-viewer','app-einheitendatenbank','app-einheitenrechner','app-pf-rechner','app-pt-rechner','app-siemens-rohwert','app-spannungsfall','app-werkstoffdatenbank','app-wissensdatenbank',
     'manufacturer-air-torque','manufacturer-endress-hauser','manufacturer-siemens','manufacturer-sonstiges','manufacturer-vacon',
-    'device-air-torque-pneumatic-actuator','device-endress-hauser-promass','device-siemens-sitrans-p320','device-siemens-sps-analogkarte','device-vacon-frequenzumrichter',
+    'device-air-torque-pneumatic-actuator','device-endress-hauser-promass','device-endress-hauser-micropilot','knowledge-eh-micropilot-radar-grundlagen','knowledge-eh-micropilot-dk-reflexion','knowledge-eh-micropilot-pulse-tof','knowledge-eh-micropilot-fmcw-80ghz','knowledge-eh-micropilot-frequency-beam','knowledge-eh-micropilot-product-selection','knowledge-eh-micropilot-install-alignment','knowledge-eh-micropilot-nozzle-antenna','knowledge-eh-micropilot-special-install','knowledge-eh-micropilot-housing-display','knowledge-eh-micropilot-electrical-access','knowledge-eh-micropilot-commissioning','knowledge-eh-micropilot-envelope-curve','knowledge-eh-micropilot-fault-high-level','knowledge-eh-micropilot-fault-zero-level','knowledge-eh-micropilot-fault-nozzle','knowledge-eh-micropilot-fault-buildup','knowledge-eh-micropilot-fault-medium-antenna','knowledge-eh-micropilot-fault-f941','device-siemens-sitrans-p320','device-siemens-sps-analogkarte','device-vacon-frequenzumrichter',
     'knowledge-air-torque-antrieb-drehrichtung','knowledge-endress-hauser-promass-einbaulage','knowledge-siemens-sitrans-p320-sil-verriegelung','knowledge-siemens-sps-rohwert','knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung',
     'material-1-4301','material-1-4401','material-1-4404','material-1-4408','material-1-4409','material-1-4435','material-1-4539','material-1-4571','material-2-4602','material-2-4605',
     'nav-back','nav-home','nav-search','nav-favorite'
-  ].map(name=>`./assets/navigation-icons/v2-6-7-0-${name}.png`)
+  ].map(name=>`./assets/navigation-icons/v2-6-8-0-${name}.png`)
 ];
 
 const canonicalRequest=request=>{
