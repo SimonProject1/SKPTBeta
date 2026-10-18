@@ -1,6 +1,6 @@
-const RELEASE='3.0.0.0';
+const RELEASE='3.0.0.1';
 const CACHE_PREFIX='sk-pct-tools-';
-const CACHE_EPOCH='v3-0-0-0-core-r1';
+const CACHE_EPOCH='v3-0-0-1-core-r1';
 const CACHE_NAME=`${CACHE_PREFIX}${CACHE_EPOCH}`;
 
 // Vollständiger Offline-Core: alle Laufzeitseiten, Daten, aktiven Icons und Markenassets.
@@ -59,9 +59,9 @@ const CORE=[
   './wissensdatenbank/endress-hauser-levelflex-fehler-oelfuellstand-nicht-erkannt-falscher-dk/',
   './wissensdatenbank/endress-hauser-levelflex-fehler-sondenbruch-falsche-sondenlaenge/',
   './wissensdatenbank/endress-hauser-levelflex-fehler-leerer-tank-75-prozent-kondensat-sondenanfang/',
-  './manifest-v3-0-0-0.webmanifest',
-  './assets/app-v3-0-0-0.css',
-  './assets/app-v3-0-0-0.js',
+  './manifest-v3-0-0-1.webmanifest',
+  './assets/app-v3-0-0-1.css',
+  './assets/app-v3-0-0-1.js',
   './assets/analogsignal-rechner.js',
   './assets/einheitenrechner.js',
   './assets/knowledge-article.js',
@@ -75,12 +75,12 @@ const CORE=[
   './spannungsfall-rechner/calculator.js',
   './assets/materials.json',
   './assets/units.json',
-  './assets/search-index-v3-0-0-0.json',
+  './assets/search-index-v3-0-0-1.json',
   './assets/pct-controls.svg',
   './SIEMENS-QUELLEN-UND-GRENZWERTE.md',
   './assets/logo-sk-pct-tools.png',
   './assets/header-logo-simple.png',
-  './assets/release-module-v3-0-0-0.png',
+  './assets/release-module-v3-0-0-1.png',
   './assets/favicon.png',
   './assets/apple-touch-icon.png',
   './assets/icon-192.png',
@@ -94,7 +94,7 @@ const CORE=[
     'knowledge-air-torque-antrieb-drehrichtung','knowledge-endress-hauser-promass-einbaulage','knowledge-siemens-sitrans-p320-sil-verriegelung','knowledge-siemens-sps-rohwert','knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung',
     'material-1-4301','material-1-4401','material-1-4404','material-1-4408','material-1-4409','material-1-4435','material-1-4539','material-1-4571','material-2-4602','material-2-4605',
     'nav-back','nav-home','nav-search','nav-favorite'
-  ].map(name=>`./assets/navigation-icons/v3-0-0-0-${name}.png`)
+  ].map(name=>`./assets/navigation-icons/v3-0-0-1-${name}.png`)
 ];
 
 const canonicalRequest=request=>{
