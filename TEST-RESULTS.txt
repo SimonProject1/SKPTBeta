@@ -1,98 +1,80 @@
-TESTERGEBNISSE – SK PCT Tools V2.6.5.5-Beta
-Stand: 18.10.2026
-Basis: vollständige V2.6.5.4-Beta
-Gesamturteil: PASS
+TESTERGEBNISSE · SK PCT Tools V2.6.6.0-Beta
+============================================
+Ausführung: 18.10.2026
+Ergebnis: PASS
 
-1. STRUKTUR, REFERENZEN UND INTEGRITÄT
-PASS
-- vollständiges Projekt mit 16 HTML-Dokumenten
-- 10 Startseiten-Apps, 6 Rechner und 14 aktive interne Unterseiten
-- eine zentrale versionierte CSS- und eine zentrale versionierte JS-Datei
-- Manifest, Suchindex, Service Worker und Cache-Epoche V2.6.5.5-Beta
-- lokale Ziele, H1, Referrer-Schutz, Header/Footer und Offline-Inventar geprüft
+STATISCHE PRÜFUNGEN
+-------------------
+PASS · tests/correction_block_v2660.py
+- keine operative Referenz auf 2.6.5.5;
+- zentrale V2.6.6.0-Dateien und Übergabe vorhanden.
 
-2. SYNTAX
-PASS
-- assets/app-v2-6-5-5.js mit node --check
-- assets/analogsignal-rechner.js mit node --check
-- assets/knowledge-overview.js mit node --check
-- alle Python-Test- und Generatorprogramme mit py_compile
+PASS · tests/design_regression.py
+- 39 eigenständige PNGs;
+- 512 × 512 px, transparente Außenränder, ausreichende Farb-/Konturmasse;
+- zehn variable Werkstofficons.
 
-3. GEZIELTER KORREKTURBLOCK
-PASS · 163 Prüfungen · 5 Profile
-- 320 px, 390 px, Smartphone, Tablet und Desktop
-- automatisches Silbentrennen in den Zielklassen deaktiviert
-- kontrollierte Umbruchstellen ohne Titelüberlauf
-- mobiles Dreispaltenraster und Icongrößen erhalten
-- Analogsignal-Richtung und Spannungsfall-Stromart bis 430 px volle Feldbreite
-- vollständige fachliche Optionswerte ohne Auslassungspunkte
-- Endress+Hauser im Wissens-Hub kontrolliert getrennt
-- Mikrotexte, Hilfstexte, mobile Breadcrumbs und leere Favoritenzustände geprüft
-- Screenshots visuell kontrolliert
+PASS · tests/design_audit_v2660.py
+- verbindliche Ebenen, Zurück-Chips, flaches Beitragsdesign;
+- ortsfeste Zustände und 320-px-Regeln.
 
-4. VOLLSTÄNDIGER POSITIONSABGLEICH
-PASS · 1.440 Prüfungen
-- 16 Routen × 5 Profile
-- Außenrahmen, Header, Inhalt, Footer, Safe Area und Reflow
-- keine Lageänderung bei Hover, Fokus, Pointerdown oder aktivem Zustand
+PASS · tests/validate_project.py
+- 16 HTML-Seiten;
+- fünf Wissensbeiträge;
+- zehn Werkstoffe;
+- 39 Icons;
+- 19 Suchindexeinträge;
+- lokale Referenzen, Manifest, Offline-Core und geschützte Assets korrekt.
 
-5. VISUELLE SHELL-REGRESSION
-PASS · 800 Prüfungen
-- 16 Routen × 5 Profile
-- durchgängiger App-Hintergrund
-- unveränderte Header-/Footer-Einbettung und Rahmenkontur
+RESPONSIVE UND VISUELL
+----------------------
+PASS · tests/layout_regression_v2660.py
+- kein horizontaler Überlauf;
+- 320×740, 390×844, 768×1024 und 1440×1000;
+- Wissenshub, Wissensbeitrag, Werkstoffübersicht und Werkstoffdetail.
 
-6. DESIGN-, TOUCH-, ACCESSIBILITY- UND OFFLINE-AUDIT
-PASS · 162 Prüfungen
-- 16 Seiten; Desktop, Smartphone/iOS-PWA und Tablet
-- Suche, Favoriten, Sortierung, Touch, Chevron, Dialoge und Offline-Unterseite
+PASS · tests/visual_shell_regression_v2660.py
+- Kacheln bleiben bei Fokus ortsfest;
+- große abgerundete Standard-App-Fläche bleibt erhalten;
+- mobile Zurück-Chips sichtbar;
+- Beitragsicons im Hero aktiv.
 
-7. RASTER-/FAVORITENREGRESSION
-PASS · 103 Prüfungen
-- 5 Profile einschließlich Hoch- und Querformat
-- Raster, Hersteller-Hub, kurze/lange/leere Favoritenlisten
-- Scroll, Fokus, Speicherung, Entfernen und Touch
+PASS · Sichtprüfung der PNG-Nachweise unter tests/screenshots-v2660/
+- Hersteller-, Zwischen-, Beitrags- und Werkstoffebenen klar unterscheidbar;
+- iPhone-Lesbarkeit der großen Motive und Werkstoffnummern bestätigt;
+- ruhiges flaches Beitragslayout bestätigt.
 
-8. VOLLSTÄNDIGE BROWSER-/FUNKTIONSREGRESSION
-PASS · 1.373 Prüfungen
-- 15 aktive Seiten × 3 Haupt-Viewports
-- 5 Reorder-Profile einschließlich 320-px-Reflow und 844 × 390
-- pixelidentische Headerzustände
-- Drag/Touch/Pointer, Long-Press, Undo/Redo, Standard und Speicherung
-- 6 Rechnerreferenzen, Datenbanken, Wissens-Hub und Wissensbeiträge
-- Service-Worker-Upgrade und Offlinebetrieb
-- längere zukünftige Versionsbezeichnung mit sicherem Fallback geprüft
+BROWSER-/FUNKTIONSREGRESSION
+----------------------------
+PASS · tests/browser_regression.py
+Browser: Chromium 143 (Playwright-kompatibler lokaler Build)
+Profile: Desktop, Tablet, Touch/Mobile und iPhone-/Safari-User-Agent-Emulation
 
-9. AUTOMATISIERTE GESAMTSUMME
-PASS · 4.041 Browserprüfungen
-- 163 gezielte Korrekturblockprüfungen
-- 1.440 Positionsprüfungen
-- 800 visuelle Shell-Prüfungen
-- 1.373 Browser-/Funktionsprüfungen
-- 162 Auditprüfungen
-- 103 Designregressionsprüfungen
-- zusätzlich Struktur-, Syntax-, Integritäts-, Bild-, Screenshot- und
-  Prüfsummenprüfung
+Geprüft:
+- alle 15 aktiven Laufzeitrouten laden ohne Konsolen-/Seitenfehler;
+- zehn Startseiten-Apps;
+- Header bleibt beim Eintritt in den Sortiermodus geometrisch unverändert;
+- fünf vollständige Pfade Hersteller → Familie/Thema → Beitrag;
+- Breadcrumb-Rückweg auf Desktop und Zurück-Chip auf Mobil;
+- Suche nach Promass findet Familie und Beitrag;
+- Favoriten leer und befüllt;
+- direkte Werkstofföffnung, Rückweg, Suche 316L/1.4404;
+- Direktvergleich 1.4404 gegen 1.4408;
+- Werkstofffavorit mit direkter Query-URL;
+- Service Worker, Offlineaufruf Promass-Beitrag und Werkstoffdetail;
+- ortsfeste Hoverzustände;
+- Touchziele, H1-Grundstruktur und Überbreite.
 
-10. PNG-/LOGO-/GRAFIKSCHUTZ
-PASS
-- sämtliche PNG-Binärinhalte SHA-256-identisch zur V2.6.5.4-Basis
-- versionierte PNG-Dateien ausschließlich umbenannt
-- große Icons, Logos und Fachgrafiken inhaltlich unverändert
+GRENZE DER AUTOMATISIERUNG
+--------------------------
+Die Containerprüfung verwendet Chromium mit iPhone-/Touchprofil und Safari-iPhone-User-Agent; ein physisches iPhone mit echtem Mobile Safari und installierter Home-Screen-PWA stand nicht zur Verfügung. Safe-Area-Metadaten, Standalone-Metadaten, Touch, Service Worker, Offlinepfade und 390-px-Darstellung wurden automatisiert geprüft.
 
-11. OFFLINE UND PWA
-PASS
-- Manifest V2.6.5.5-Beta
-- Cache-Epoche v2-6-5-5-core-r1
-- vollständiger Precache aller aktiven Seiten, Daten und Assets
-- alte sk-pct-tools-Caches werden entfernt
-- Offlineaufruf interner Unterseiten erfolgreich
+FEHLERBEHEBUNG WÄHREND DER PRÜFUNG
+-----------------------------------
+- Browser-Testnavigation auf Desktop an die sichtbaren Breadcrumbs angepasst; mobile Chips bleiben ausschließlich mobil.
+- Fokus-/Hover-Geometrieprüfung gegen viewportbedingtes Scrollen stabilisiert.
+- Werkstoffdetail-Rückweg für Desktop über Breadcrumb und mobil über Chip verifiziert.
 
-12. PRÜFSUMMEN UND PAKET
-PASS nach finaler Paketierung
-- SHA256SUMS.txt umfasst jede Projektdatei außer sich selbst
-- ZIP separat per SHA-256 verifiziert
-- ZIP erneut entpackt und in der Kopie validiert
-
-OFFENE FEHLER
-Keine bekannten offenen Fehler im geprüften Umfang.
+ABSCHLUSS
+---------
+Alle finalen Projektprüfungen bestanden. SHA256SUMS.txt und die separate ZIP-SHA-256 werden nach dem letzten Dokumentationsstand neu erzeugt und verifiziert.

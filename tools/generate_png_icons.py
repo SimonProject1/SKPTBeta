@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the complete SK PCT Tools V2.6.5.5-Beta icon system.
+"""Generate the complete SK PCT Tools V2.6.6.0-Beta icon system.
 
 Design goal: retain the approved application/knowledge icon family while giving
 the four header/navigation controls a deliberately calmer body: one compact
@@ -9,6 +9,7 @@ the very same navigation body, light edge and material treatment in a wide form.
 """
 from __future__ import annotations
 
+import json
 import math
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -18,8 +19,8 @@ SCALE = 4
 CANVAS = SIZE * SCALE
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "navigation-icons"
-PREFIX = "v2-6-5-5-"
-RELEASE_MODULE_OUT = ROOT / "assets" / "release-module-v2-6-5-5.png"
+PREFIX = "v2-6-6-0-"
+RELEASE_MODULE_OUT = ROOT / "assets" / "release-module-v2-6-6-0.png"
 WHITE = (255, 255, 255, 255)
 BLACK = (0, 0, 0, 255)
 DARK = (3, 15, 24, 255)
@@ -350,53 +351,104 @@ def app_eh_viewer():
     return image
 
 
-def knowledge_air_torque():
+def device_air_torque():
     image=frame(); d=ImageDraw.Draw(image)
-    rr(d,(124,176,388,322),48)
-    ellipse(d,(174,126,338,290)); text_center(d,(256,208),"90°",37)
-    thick_line(d,[(168,344),(118,306),(128,372)],CYAN,11,21)
-    thick_line(d,[(344,344),(394,306),(384,372)],GREEN,11,21)
-    text_center(d,(256,350),"ACT",28,fill=WHITE,stroke=3)
+    rr(d,(108,178,404,326),48)
+    ellipse(d,(178,126,334,282)); ellipse(d,(226,174,286,234),fill=DARK,contour=DETAIL_CONTOUR)
+    thick_line(d,[(152,348),(112,316),(122,374)],CYAN,10,19)
+    thick_line(d,[(360,348),(400,316),(390,374)],GREEN,10,19)
+    return image
+
+
+def device_promass():
+    image=frame(); d=ImageDraw.Draw(image)
+    thick_line(d,[(96,286),(172,286)],CYAN,18,32); thick_line(d,[(340,286),(416,286)],GREEN,18,32)
+    rr(d,(164,150,348,356),34); ellipse(d,(192,172,320,300),fill=WHITE,contour=DETAIL_CONTOUR)
+    thick_line(d,[(214,250),(256,210),(298,250)],CYAN,7,14)
+    rr(d,(216,318,296,384),14,fill=WHITE,contour=DETAIL_CONTOUR)
+    return image
+
+
+def device_p320():
+    image=frame(); d=ImageDraw.Draw(image)
+    ellipse(d,(132,96,380,344)); rr(d,(172,144,340,220),14,fill=DARK,contour=DETAIL_CONTOUR)
+    thick_line(d,[(256,344),(256,402)],GREEN,13,24)
+    for x,c in ((206,CYAN),(256,GREEN),(306,CYAN)): ellipse(d,(x-10,250,x+10,270),fill=c,contour=5)
+    return image
+
+
+def device_sps_analog():
+    image=frame(); d=ImageDraw.Draw(image)
+    rr(d,(108,112,404,382),30)
+    for x in (148,210,272,334):
+        rr(d,(x-22,146,x+22,330),7,fill=WHITE,contour=DETAIL_CONTOUR)
+        for y,c in ((178,CYAN),(218,GREEN),(258,CYAN)): d.ellipse(box((x-7,y-7,x+7,y+7)),fill=c,outline=BLACK,width=sc(4))
+    thick_line(d,[(132,354),(204,354),(226,334),(252,374),(280,326),(306,354),(380,354)],GREEN,6,12)
+    return image
+
+
+def device_vacon_drive():
+    image=frame(); d=ImageDraw.Draw(image)
+    rr(d,(132,98,380,394),34); rr(d,(162,132,350,214),12,fill=DARK,contour=DETAIL_CONTOUR)
+    thick_line(d,[(174,174),(198,152),(222,196),(246,152),(270,196),(294,152),(326,180)],CYAN,6,12)
+    ellipse(d,(188,252,324,388),fill=WHITE,contour=DETAIL_CONTOUR); text_center(d,(256,320),"M",54)
+    return image
+
+
+def knowledge_air_torque():
+    image=device_air_torque(); d=ImageDraw.Draw(image)
+    d.arc(box((132,104,380,352)),200,336,fill=BLACK,width=sc(26)); d.arc(box((132,104,380,352)),200,336,fill=CYAN,width=sc(11))
+    polygon(d,[(342,316),(394,302),(378,352)],fill=WHITE,contour=DETAIL_CONTOUR)
+    d.arc(box((144,118,368,340)),20,156,fill=BLACK,width=sc(26)); d.arc(box((144,118,368,340)),20,156,fill=GREEN,width=sc(11))
+    polygon(d,[(170,132),(118,146),(136,96)],fill=WHITE,contour=DETAIL_CONTOUR)
     return image
 
 
 def knowledge_promass():
     image=frame(); d=ImageDraw.Draw(image)
-    thick_line(d,[(102,286),(180,286)],CYAN,18,32); thick_line(d,[(332,286),(410,286)],GREEN,18,32)
-    rr(d,(166,152,346,358),34)
-    ellipse(d,(194,174,318,298),fill=WHITE,contour=DETAIL_CONTOUR)
-    thick_line(d,[(218,246),(256,212),(294,246)],CYAN,7,14)
-    rr(d,(214,318,298,382),14,fill=WHITE,contour=DETAIL_CONTOUR); text_center(d,(256,350),"ṁ",30)
+    thick_line(d,[(256,396),(256,108)],GREEN,20,36)
+    polygon(d,[(256,86),(214,146),(238,146),(238,194),(274,194),(274,146),(298,146)],fill=WHITE,contour=DETAIL_CONTOUR)
+    rr(d,(144,198,368,342),34); ellipse(d,(194,210,318,334),fill=WHITE,contour=DETAIL_CONTOUR)
+    thick_line(d,[(216,274),(256,236),(296,274)],CYAN,7,14)
     return image
 
 
 def knowledge_p320():
-    image=frame(); d=ImageDraw.Draw(image)
-    ellipse(d,(136,104,376,344)); text_center(d,(256,204),"P320",37)
-    thick_line(d,[(256,344),(256,392)],GREEN,12,23)
-    polygon(d,[(256,224),(326,248),(314,330),(256,374),(198,330),(186,248)],fill=WHITE,contour=DETAIL_CONTOUR)
-    thick_line(d,[(222,296),(248,322),(294,270)],GREEN,9,18)
+    image=device_p320(); d=ImageDraw.Draw(image)
+    polygon(d,[(256,214),(330,240),(318,326),(256,382),(194,326),(182,240)],fill=WHITE,contour=DETAIL_CONTOUR)
+    rr(d,(220,264,292,334),12,fill=DARK,contour=DETAIL_CONTOUR)
+    d.arc(box((226,226,286,292)),180,360,fill=BLACK,width=sc(15)); d.arc(box((226,226,286,292)),180,360,fill=GREEN,width=sc(7))
     return image
 
 
 def knowledge_sps_raw():
-    image=frame(); d=ImageDraw.Draw(image)
-    rr(d,(112,116,400,374),30)
-    for x in (154,214,274,334):
-        rr(d,(x-22,148,x+22,326),7,fill=WHITE,contour=DETAIL_CONTOUR)
-        for y,c in ((178,CYAN),(216,GREEN),(254,CYAN)):
-            d.ellipse(box((x-7,y-7,x+7,y+7)),fill=c,outline=BLACK,width=sc(4))
-    rr(d,(142,328,370,388),12,fill=DARK,contour=DETAIL_CONTOUR); text_center(d,(256,358),"0…27648",27,fill=GREEN)
+    image=device_sps_analog(); d=ImageDraw.Draw(image)
+    rr(d,(130,304,382,394),16,fill=DARK,contour=DETAIL_CONTOUR)
+    thick_line(d,[(156,360),(200,360),(226,328),(260,376),(296,322),(326,350),(360,350)],GREEN,8,15)
+    for x,y,c in ((156,360,CYAN),(226,328,CYAN),(296,322,GREEN),(360,350,GREEN)): node(d,x,y,c,6)
     return image
 
 
 def knowledge_vacon():
+    image=device_vacon_drive(); d=ImageDraw.Draw(image)
+    rr(d,(116,250,396,382),20,fill=WHITE,contour=DETAIL_CONTOUR)
+    thick_line(d,[(146,344),(194,306),(238,330)],CYAN,9,17)
+    thick_line(d,[(274,322),(318,288),(366,300)],GREEN,9,17)
+    thick_line(d,[(256,270),(256,350)],(255,196,38,255),10,18); ellipse(d,(244,360,268,384),fill=(255,196,38,255),contour=6)
+    return image
+
+
+def material_icon(material_number: str):
+    """Variable Werkstoffkachel: Nummer als Primärsignal, Materiallagen dezent."""
     image=frame(); d=ImageDraw.Draw(image)
-    rr(d,(136,102,376,390),34)
-    rr(d,(166,134,346,216),12,fill=DARK,contour=DETAIL_CONTOUR); text_center(d,(256,175),"50.0 Hz",29,fill=GREEN)
-    thick_line(d,[(172,276),(196,250),(220,302),(244,250),(268,302),(292,250),(316,276),(340,276)],CYAN,7,14)
-    polygon(d,[(188,342),(218,312),(248,342),(230,342),(230,374),(206,374),(206,342)],fill=WHITE,contour=DETAIL_CONTOUR)
-    polygon(d,[(324,312),(294,342),(264,312),(282,312),(282,280),(306,280),(306,312)],fill=WHITE,contour=DETAIL_CONTOUR)
+    for off,color in ((42,GREEN),(22,CYAN),(2,WHITE)):
+        polygon(d,[(126,126+off),(322,94+off),(390,132+off),(194,166+off)],fill=(228,240,242,255),contour=DETAIL_CONTOUR)
+        accent_bar(d,[(166,137+off),(296,114+off)],color,4)
+    rr(d,(104,238,408,360),24,fill=WHITE,contour=MOTIF_CONTOUR)
+    f=fit_font(material_number,250,58,38)
+    d.text((sc(256),sc(299)),material_number,font=f,fill=BLACK,anchor="mm")
+    polygon(d,[(256,370),(294,392),(294,434),(256,456),(218,434),(218,392)],fill=WHITE,contour=DETAIL_CONTOUR)
+    ellipse(d,(242,398,270,426),fill=DARK,contour=6)
     return image
 
 
@@ -476,6 +528,11 @@ def main():
         "app-spannungsfall": app_voltage_drop,
         "app-siemens-rohwert": app_siemens_raw,
         "app-eh-viewer": app_eh_viewer,
+        "device-air-torque-pneumatic-actuator": device_air_torque,
+        "device-endress-hauser-promass": device_promass,
+        "device-siemens-sitrans-p320": device_p320,
+        "device-siemens-sps-analogkarte": device_sps_analog,
+        "device-vacon-frequenzumrichter": device_vacon_drive,
         "knowledge-air-torque-antrieb-drehrichtung": knowledge_air_torque,
         "knowledge-endress-hauser-promass-einbaulage": knowledge_promass,
         "knowledge-siemens-sitrans-p320-sil-verriegelung": knowledge_p320,
@@ -491,9 +548,12 @@ def main():
         "nav-search": nav_search,
         "nav-favorite": nav_favorite,
     }
+    materials = json.loads((ROOT / "assets" / "materials.json").read_text(encoding="utf-8"))["materials"]
+    for material in materials:
+        icons[f"material-{material['id']}"] = lambda number=material["materialNumber"]: material_icon(number)
     for name, factory in icons.items(): save(name, factory())
     release_module_skin().save(RELEASE_MODULE_OUT, format="PNG", optimize=True)
-    print(f"Generated {len(icons)} V2.6.5.5 icons and release-module skin in {OUT.parent} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
+    print(f"Generated {len(icons)} V2.6.6.0 icons and release-module skin in {OUT.parent} · grid={SYMBOL_BOX} · contour={MOTIF_CONTOUR}px")
 
 
 if __name__ == "__main__":

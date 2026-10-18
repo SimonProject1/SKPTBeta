@@ -1,101 +1,101 @@
-# Testplan – SK PCT Tools V2.6.5.5-Beta
+# Testplan SK PCT Tools V2.6.6.0-Beta
 
-Stand: 18.10.2026  
-Basis: vollständige V2.6.5.4-Beta  
-Scope: ausschließlich Punkt 1 des abgestimmten Fahrplans
+Stand: 18.10.2026
 
-## 1. Struktur, Syntax, Referenzen und Integrität
+## 1. Testziele
 
-```bash
-node --check assets/app-v2-6-5-5.js
-node --check assets/analogsignal-rechner.js
-node --check assets/knowledge-overview.js
-python3 -m py_compile tests/*.py tools/*.py
-python3 tests/validate_project.py
-```
+Nachweis von Struktur, Integrität, Navigation, Suche, Favoriten, Direktvergleich, Touch, Accessibility-Basis, Offlinefähigkeit, visueller Konsistenz und Regression gegenüber der vollständigen V2.6.5.5-Beta.
 
-Prüfumfang: VERSION, 16 HTML-Dokumente, 14 aktive interne Unterseiten, zentrale
-CSS-/JS-Referenzen, Manifest, Suchindex, Service Worker, Cache-Epoche, lokale
-Ziele, H1, Header/Footer, Offline-Precache und SHA256SUMS.txt.
+## 2. Zielgrößen
 
-## 2. Gezielter Korrekturblock V2.6.5.5
+- 320 × 740 px
+- 390 × 844 px (iPhone-nahe Touch-/PWA-Emulation)
+- 768 × 1024 px (Tablet)
+- 1280/1440 px Desktop
+- Chromium mit Mobile-/Touchprofil und Safari-iPhone-User-Agent für iOS-nahe Prüfung
 
-```bash
-SK_BASE_URL=http://127.0.0.1:8080/ \
-python3 tests/correction_block_v2655.py
-```
+Ein physisches iPhone/iOS-Safari ist nicht Bestandteil der automatisierten Containerprüfung; Safe-Area, Touch, Standalone-Metadaten, Service Worker und Offlinepfade werden automatisiert geprüft.
 
-Geprüft werden:
+## 3. Struktur und Integrität
 
-- 320 × 800, 390 × 844, 412 × 915, 820 × 1180 und 1440 × 1000
-- mobiles Dreispaltenraster mit 10 Apps
-- deaktivierte automatische Silbentrennung und kontrollierte `<wbr>`-Stellen
-- vollständige Titel ohne horizontalen Überlauf
-- Analogsignal-Umrechnungsrichtung bis 430 px in voller Feldbreite
-- Spannungsfall-Stromart bis 430 px in voller Feldbreite
-- vollständige Optionswerte ohne Ellipsen oder fachliche Kürzung
-- mindestens etwa 10 px im aktuellen Versionsmodul und Footer
-- mindestens etwa 13 px für sichtbare Hilfstexte
-- Endress+Hauser mit kontrollierter Trennstelle im Wissens-Hub
-- mobiler Werkstoff-Breadcrumb verborgen, Desktop-Breadcrumb sichtbar
-- mobiler Wissensdatenbank-Chip im Wissensbeitrag sichtbar
-- kompakte leere Favoritenzeilen in beiden Zielansichten
-- Screenshots der Kernzustände je Profil
+- exakt 16 HTML-Seiten, ein H1 je Seite;
+- zentrale versionierte CSS-/JS-/Manifest-Referenzen;
+- alle lokalen Links/Assets vorhanden;
+- 39 aktive PNG-Icons, 512 × 512 px, Transparenz;
+- fünf Herstellericons byteidentisch;
+- zehn Werkstoffdatensätze und zehn Werkstofficons;
+- 19 Suchindexeinträge;
+- keine operative Altversion;
+- vollständige SHA256SUMS.txt.
 
-## 3. Layout und visuelle Shell
+## 4. Wissensnavigation
 
-```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/layout_regression_v2655.py
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/visual_shell_regression_v2655.py
-```
+Für jeden Pfad vollständig testen:
 
-- 16 Routen × 5 Profile
-- iPhone/iOS-PWA 390 × 844
-- Smartphone 412 × 915
-- Smartphone-Querformat 844 × 390
-- Tablet 820 × 1180
-- Desktop 1440 × 1000
-- Rahmenlage, Header, Inhalt, Footer, Safe Area, Reflow und
-  Interaktionsstabilität
+1. Startseite → Wissensdatenbank
+2. Hersteller öffnen
+3. Gerät/Familie/Themenbereich öffnen
+4. Wissensbeitrag öffnen
+5. auf Tablet/Desktop über Breadcrumb zurück
+6. mobil über kontextuellen Zurück-Chip zurück
+7. Browser-Zurück/-Vorwärts prüfen
 
-## 4. Design, Touch, Tastatur und Favoriten
+Pfade: Air Torque, Endress+Hauser, Siemens/SITRANS P320, Siemens/SPS-Analogkarte, Vacon. Sonstiges muss leer bleiben und darf keinen erfundenen Beitrag zeigen.
 
-```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2655.py
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_regression.py
-```
+## 5. Werkstoffdatenbank
 
-Geprüft werden Touchziele, Fokus, Fokusfalle, Escape, Fokusrückgabe, Suche,
-Filter, leere/kurze/lange Favoritenlisten, Hersteller-Hub, Breadcrumbs,
-Hoch-/Querformat und unveränderte Raster-/Icongeometrie.
+- zehn Werkstoffe direkt als Kacheln;
+- kein Gruppen-Zwischenschritt;
+- Kachel öffnet unmittelbare Detailansicht;
+- Werkstoffnummernsuche mit und ohne Punkt;
+- Mehrfachtreffer 316L;
+- Filterzustände;
+- Zurücknavigation;
+- Direktvergleich 1.4404 gegen 1.4408;
+- Quellen, Warnungen und Fachdaten vorhanden.
 
-## 5. Funktionen, Rechner, Sortierung und Offline
+## 6. Suche und Favoriten
 
-```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
-```
+- Wissenssuche findet Hersteller, Familie und Beitrag;
+- Startseitensuche nutzt den erweiterten Suchindex;
+- leerer Favoritenzustand;
+- Favorit für Wissenskachel;
+- Favorit für direkte Werkstoffdetail-URL;
+- Iconkopplung und Entfernen;
+- lokale Speicherung unter skPctToolsFavoritesV2.
 
-- 15 aktive Seiten × 3 Haupt-Viewports
-- 5 Reorder-Profile einschließlich 320-px-Reflow und 844 × 390
-- Drag-and-Drop, Touch, Pointer, Long-Press, Abbruch, Undo/Redo und Speicherung
-- sechs Rechnerreferenzen einschließlich Analogsignal und Spannungsfall
-- Datenbanken, Wissens-Hub und fünf Wissensbeiträge
-- Service-Worker-Upgrade, Cache-Löschung und Offline-Unterseiten
-- geschützte Logo-/PWA-Dateien per Browser-SHA-256
+## 7. Interaktion und Accessibility-Basis
 
-## 6. Unverändertheits- und Bildprüfung
+- Touchziele mindestens 44 px, testtolerant 39 px für native Rendering-Abweichungen;
+- sichtbarer Fokus;
+- keine Kachelbewegung bei Hover/Fokus/Aktiv;
+- keine horizontale Überbreite;
+- reduzierte Bewegung respektiert;
+- genau ein H1;
+- Breadcrumb/Zurück-Chip passend zum Viewport.
 
-- alle PNG-Dateien gegen die V2.6.5.4-Basis nach normalisierter
-  Versionspfadzuordnung vergleichen
-- keine Änderung der Binärinhalte großer PNG-Icons, Logos oder Fachgrafiken
-- keine Änderung der fünf Wissensbeitragsgrafiken und Ergebnisdarstellungen
-- keine Änderung der Drag-and-Drop-Funktionen
+## 8. Offline/PWA
 
-## 7. Abschluss und Paket
+- Service Worker installiert und übernimmt die Seite;
+- Cache-Epoch v2-6-6-0-core-r1;
+- Wissenshub, direkter Promass-Beitrag und direkte Werkstoffdetail-URL offline;
+- alle 39 Icons, Daten, Suchindex, CSS und JS im Core;
+- Manifest und PWA-Logos unverändert erreichbar.
 
-1. Dokumentation finalisieren.
-2. Temporäre QA-Dateien und `__pycache__` entfernen.
-3. `SHA256SUMS.txt` über jede Projektdatei außer sich selbst erzeugen.
-4. Struktur-, Syntax- und Prüfsummenprüfung erneut ausführen.
-5. vollständiges ZIP erzeugen und separat per SHA-256 prüfen.
-6. ZIP erneut entpacken und Validierung in der Kopie wiederholen.
+## 9. Regression
+
+- zehn Startseiten-Apps;
+- Header/Versionsmodul/Home/Zurück/Favoriten erhalten;
+- Header bleibt im Sortiermodus geometrisch unverändert;
+- fünf Fachbeiträge enthalten SCO/SCC, Promass-Grafiken, PIN 2457, Rohwertdaten und Parameter 2.2.3.7;
+- Rechner-, Einheiten- und externe App-Pfade laden ohne Konsolenfehler.
+
+## 10. Programme
+
+- `tests/validate_project.py`
+- `tests/correction_block_v2660.py`
+- `tests/design_regression.py`
+- `tests/design_audit_v2660.py`
+- `tests/layout_regression_v2660.py`
+- `tests/visual_shell_regression_v2660.py`
+- `tests/browser_regression.py`

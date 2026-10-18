@@ -1,67 +1,50 @@
-RELEASE NOTES – SK PCT Tools V2.6.5.5-Beta
-Stand: 18.10.2026
-Basis: vollständige V2.6.5.4-Beta
+SK PCT Tools · Release Notes V2.6.6.0-Beta
+==========================================
+Datum: 18.10.2026
+Basis: vollständige V2.6.5.5-Beta
 
-FREIGABEUMFANG
+NEU
+---
+- Verbindliche Wissensnavigation: Hersteller → Gerät/Familie/Themenbereich → Beitrag.
+- Einheitliche App-Kachel-Ansicht für alle drei Wissensebenen.
+- Fünf neue Geräte-/Familienicons und fünf neue funktionsbezogene Beitragsicons.
+- Zehn neue variable Werkstofficons mit großer Werkstoffnummer.
+- Direkte Werkstoffnavigation ohne Werkstoffgruppenebene.
+- Kontextueller mobiler Zurück-Chip; vollständige Breadcrumbs auf Tablet/Desktop.
+- Suchindex umfasst Hersteller, Zwischenebenen, Beiträge und Werkstoffkatalog.
 
-Diese Version setzt ausschließlich Punkt 1 des abgestimmten Fahrplans um.
-Weitere gestalterische oder funktionale Überarbeitungen sind nicht Bestandteil
-dieser Beta.
+FACHLICHE EINORDNUNG
+---------------------
+- Air Torque → Pneumatischer Antrieb → Drehrichtung SCO/SCC
+- Endress+Hauser → Promass → Einbaulage und Einbausituation
+- Siemens → SITRANS P320 → SIL-Verriegelung
+- Siemens → SPS / Analogkarte → Rohwert und Skalierung
+- Vacon → Frequenzumrichter → Ist-/Sollwert-Abweichung im PLS
+- Sonstiges: keine vorhandenen Beiträge; keine Ergänzung erfundener Inhalte.
 
-ÄNDERUNGEN
+WERKSTOFFDATENBANK
+------------------
+- Zehn vorhandene Werkstoffe direkt sichtbar und direkt öffnend.
+- Suche, Nummernsuche, Filter, Favoriten, Direktvergleich, Warnungen, Quellen und Datenlogik erhalten.
+- Detailansichten werden per ?material=<id> direkt adressiert und sind favoriten-/offlinefähig.
 
-1. Kontrollierte Textumbrüche
-- automatische Silbentrennung bei App-, Hersteller-, Seiten- und
-  Wissensbeitragstiteln deaktiviert
-- explizite fachliche Umbruchstellen für Analogsignal-Rechner,
-  Wissensdatenbank, Einbausituation, E+H Device Viewer, Endress+Hauser,
-  Siemens Rohwert und weitere lange App-/Seitentitel
-- Textinhalt, Suchbarkeit und zugängliche Bezeichnungen bleiben erhalten
+WISSENSBEITRÄGE
+----------------
+- Fünf Beiträge auf flachere, ruhigere Oberfläche umgestellt.
+- Starke Versatz-/Textschatten und übermäßige Rahmenwirkung entfernt.
+- Fachgrafiken, einklappbare Bereiche, Quellen, Warnungen und Links vollständig erhalten.
+- Promass-Darstellungen, Parameter 2.2.3.7, PIN 2457 sowie SCO/SCC unverändert vorhanden.
 
-2. Rechner-Reflow
-- Analogsignal-Rechner: Umrechnungsrichtung bis 430 px in voller Feldbreite;
-  vollständige Werte „Skalierungswert → Signal“ und
-  „Signal → Skalierungswert“ ohne Auslassungspunkte
-- Spannungsfall-Rechner: Stromart bis 430 px in voller Feldbreite;
-  vollständige Auswahlwerte für Drehstrom und Wechselstrom
-- Ergebnisdarstellung und Berechnungslogik unverändert
+UNVERÄNDERT GESCHÜTZT
+----------------------
+- Header, Header-Logo, Versionsmodul, Home-/Zurückbuttons, Footer.
+- Startseitenicons und freie Drag-and-Drop-Sortierung einschließlich unverändertem Header im Sortiermodus.
+- Homescreen-, PWA-, Maskable- und Favicon-Logos.
+- Freigegebene Herstellericons für Air Torque, Endress+Hauser, Siemens, Vacon und Sonstiges (byteidentisch).
 
-3. Mikro- und Hilfstexte
-- sichtbare Mikrotexte regulär auf etwa 10 bis 11 px angehoben
-- Hilfstexte auf mindestens etwa 13 px angehoben
-- aktuelle Versionsanzeige bei 320 px vollständig; längere zukünftige
-  Versionsstände besitzen weiterhin einen sicheren dynamischen Fallback
-- keine Änderung an Headerhöhe, Footerhöhe, Icongrößen oder Kartenraster
-
-4. Navigation und Favoriten
-- Werkstoffdatenbank: zusätzlicher mobiler „Startseite“-Chip entfernt;
-  Desktop-Breadcrumb bleibt bestehen
-- Wissensbeiträge: kontextueller mobiler „Wissensdatenbank“-Chip bleibt bestehen
-- Favoritenübersicht und Einheitendatenbank: leere Zustände als kompakte
-  horizontale Zeile mit Stern, Kurztext und Anzahl 0
-- gefüllte Favoritenlisten und sämtliche Favoritenfunktionen unverändert
-
-5. Versionierung und PWA
-- alle Versionsangaben, versionierten Dateinamen und Referenzen auf
-  V2.6.5.5-Beta aktualisiert
-- Manifest: manifest-v2-6-5-5.webmanifest
-- zentrale Assets: app-v2-6-5-5.css / app-v2-6-5-5.js
-- Suchindex: search-index-v2-6-5-5.json
-- Service-Worker-Cache-Epoche: v2-6-5-5-core-r1
-- versionierte PNG-Dateien nur umbenannt; Binärinhalte unverändert
-
-NICHT GEÄNDERT
-
-- visueller Stil der fünf Wissensbeiträge
-- Fachgrafiken, große PNG-Inhalte und Logo-Inhalte
-- Headergeometrie und vorhandene Icongrößen
-- Rechnerergebnisse und Ergebnisdarstellungen
-- Drag-and-Drop-Sortierung, Undo/Redo und Speicherung
-- übrige Funktionen
-
-PRÜFSTATUS
-
-PASS. 4.041 automatisierte Browserprüfungen in den kombinierten Haupt- und
-Korrektur-Suiten, zusätzlich Syntax-, Struktur-, Referenz-, Prüfsummen-,
-Screenshot- und Paketprüfung. Keine bekannten offenen Fehler im geprüften
-Umfang.
+TECHNIK
+-------
+- Versionierte Dateien auf v2-6-6-0 umgestellt.
+- Manifest, Suchindex, Service Worker und Offline-Core-Cache aktualisiert.
+- Iconquelle reproduzierbar in tools/generate_png_icons.py; 39 PNGs im aktiven Iconbestand.
+- Neue Tests und Prüfergebnisse für Struktur, Browser, Touch, Accessibility-Basis, Offline, Suche, Favoriten, Navigation, Vergleich und visuelle Regression.

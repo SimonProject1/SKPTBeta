@@ -1,70 +1,65 @@
 SK PCT TOOLS – VERBINDLICHE ICON-, CONTROL- UND MARKENRICHTLINIE
-Stand: V2.6.5.5-Beta · 18.10.2026
+Stand: V2.6.6.0-Beta · 18.10.2026
 
 1. GESCHÜTZTE APP-/HOMESCREEN-/PWA-MARKE
-- Bytegenau unverändert bleiben:
-  logo-sk-pct-tools.png, logo-sk-pct-tools-header.png, header-logo-simple.png,
-  favicon.png, apple-touch-icon.png, icon-192.png, icon-512.png,
-  icon-maskable-192.png und icon-maskable-512.png.
-- Manifest, Apple-Touch und PWA verwenden ausschließlich die freigegebenen Varianten.
+- Bytegenau unverändert: logo-sk-pct-tools.png, header-logo-simple.png, favicon.png,
+  apple-touch-icon.png, icon-192.png, icon-512.png, icon-maskable-192.png,
+  icon-maskable-512.png sowie die bestehende Legacy-Headerdatei.
 - Kein Nachzeichnen, Umfärben, Filtern, Beschneiden oder zusätzlicher CSS-Rahmen.
 
-2. NAVIGATIONS-, APP-, HERSTELLER- UND WISSENSGRAFIKEN
-- Gesamtbestand: 24 PNGs unter assets/navigation-icons/.
-- Inhalte sind bytegleich mit der vollständigen V2.6.5.0-Beta.
-- Nur das Versionspräfix lautet v2-6-5-5-.
-- Die PNGs übernehmen allein die sichtbare Gestaltung.
-- Hosts dürfen ausschließlich Größe, Position, Touchfläche und Favoritenkopplung steuern.
-- Host: border 0, background transparent, box-shadow none, filter none.
-- ::before/::after dürfen keine sichtbare Iconkachel, Kontur oder Schiene erzeugen.
-- Hover, Fokus, Touch und Aktivzustand verändern keine Position oder Skalierung.
+2. GEMEINSAME TECHNISCH-INDUSTRIELLE FAMILIE
+- Format: PNG, 512 × 512 px, transparente Außenränder.
+- Freigegebene Palette: Cyan, Blau, Grün, Weiß und kräftige schwarze Kontur.
+- Große zentrale Motive, räumliche Tiefe, iPhone-Erkennbarkeit und konsistente Ränder.
+- Hosts steuern nur Größe, Position, Touchfläche und Favoritenkopplung.
+- Keine Lage-/Größenänderung bei Hover, Fokus, Touch oder Aktivzustand.
+- Reproduzierbare Quelle: tools/generate_png_icons.py.
 
-3. SEITENIDENTITÄT
-- Rechner: vorhandenes App-Icon.
-- Datenbanken: vorhandenes Datenbank-App-Icon.
-- Wissens-Hub: Wissensdatenbank-App-Icon.
-- Wissensbeitrag: vorhandenes Beitragsicon.
-- Host transparent, ohne zusätzliche Kachel; responsive ca. 60–104 px.
-- Das generische große PCT-Wasserzeichen ist kein Ersatz für eine fachliche Identität.
+3. VISUELLE EBENEN
+- Herstellerebene: ausschließlich freigegebene Herstellericons.
+- Geräte-/Familien-/Themenebene: konkretes Gerätesilhouetten- oder Familienmotiv.
+- Wissensbeitrag: konkrete Funktion, Tätigkeit, Diagnose oder Fehlersituation.
+- Werkstoff: variables Materialmotiv mit dominant lesbarer Werkstoffnummer.
+- Vollständige Bezeichnung steht unter dem Icon; Icontext wird vermieden.
 
-4. HEADER UND RELEASE-MODUL
-- Sichtbares Headerlogo: assets/header-logo-simple.png.
-- Home, Zurück, Suche und Favoriten verwenden die freigegebenen PNG-Grafiken.
-- Release-Modul-Grafik: assets/release-module-v2-6-5-5.png; Inhalt bytegleich.
-- Hosts transparent, ohne zweite Platte oder Schatten.
-- Text: „V2.6.5.5-Beta“ und „Tool by S.K.“.
+4. GESCHÜTZTE HERSTELLERICONS
+Byteidentisch übernommen:
+- manufacturer-air-torque
+- manufacturer-endress-hauser
+- manufacturer-siemens
+- manufacturer-vacon
+- manufacturer-sonstiges
+
+5. NEUE ZWISCHENEBEN-ICONS
+- device-air-torque-pneumatic-actuator
+- device-endress-hauser-promass
+- device-siemens-sitrans-p320
+- device-siemens-sps-analogkarte
+- device-vacon-frequenzumrichter
+
+6. NEUE BEITRAGSICONS
+- knowledge-air-torque-antrieb-drehrichtung: gegenläufige Drehrichtungen am Antrieb
+- knowledge-endress-hauser-promass-einbaulage: vertikaler, aufwärts durchströmter Einbau
+- knowledge-siemens-sitrans-p320-sil-verriegelung: Schutz-/Verriegelungsmotiv
+- knowledge-siemens-sps-rohwert: Analogkarte mit Skalierungs-/Signalverlauf
+- knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung: abweichende Kurven und Warnmarke
+
+7. VARIABLE WERKSTOFFICONS
+- Zehn vorhandene Werkstoffe verwenden dasselbe Template.
+- Werkstoffnummer ist groß, kontrastreich und wichtigstes Erkennungsmerkmal.
+- Gestapelte Materiallagen und ein dezentes technisches Materialmotiv ergänzen die Nummer.
+- Dateischema: v2-6-6-0-material-<id>.png.
+- Keine erfundenen Werkstoffe oder Gruppenicons.
+
+8. NAVIGATION, HEADER UND CONTROLS
+- Home, Zurück, Suche, Favoriten, Headerlogo und Release-Modul bleiben im freigegebenen Design.
+- Release-Haut: assets/release-module-v2-6-6-0.png; Text bleibt zugängliches HTML.
+- Kleine Aktionen verwenden assets/pct-controls.svg.
+- Touchhost mindestens 44 × 44 px.
 - Header bleibt im Sortiermodus geometrisch unverändert.
 
-5. KLEINE BEDIENICON-FAMILIE
-- Quelle: assets/pct-controls.svg.
-- Vektoricons statt einzelner PNGs für kleine Aktionen.
-- Gemeinsame Merkmale: kräftige dunkle Kontur, weiße Hauptflächen,
-  sparsame Cyan-/Grün-Akzente, Warnung in Gelb, Fehler/Entfernen in Rot.
-- Verbindliche Funktionen:
-  Berechnen, Zurücksetzen, Kopieren, Datenbank, Schließen, Entfernen,
-  Alle leeren, Rückgängig, Wiederholen, Standard wiederherstellen, Fertig,
-  Chevron unten, Chevron oben, Vorzeichen, Information, Warnung, Erfolg, Fehler.
-- sichtbares Symbol ca. 20–24 px; Touchhost mindestens 44 × 44 px.
-- Keine Lageänderung bei Hover, Fokus, Antippen oder Aktivzustand.
-
-6. EINDUTIGE SYMBOLSEMANTIK
-- ± ausschließlich für Vorzeichenwechsel.
-- Chevron unten: Bereich geschlossen / kann geöffnet werden.
-- Chevron oben: Bereich geöffnet / kann geschlossen werden.
-- Plus und Minus sind keine Auf-/Zuklappsymbole.
-- Datenbankaktion verwendet das kleine Datenbank-Vektoricon.
-- Löschen/Entfernen verwendet den Papierkorb; Schließen verwendet X im Kreis.
-
-7. FAVORITEN
-- kleiner Stern bleibt fest am jeweiligen Iconhost gekoppelt.
-- Touchfläche mindestens 44 × 44 px; sichtbarer Kreis deutlich kleiner und ruhig.
-- Favoritenliste: passendes Fachicon links, Titel/Beschreibung daneben,
-  Entfernen rechts.
-- Bestehende Favoritendaten bleiben über skPctToolsFavoritesV2 kompatibel.
-
-8. ABNAHME
-- Referenz-Hashes geschützter PNGs: tests/validate_project.py.
-- Geometrie-/Zustandsprüfung: tests/design_regression.py.
-- Iconhost-, Favoriten-, Chevron-, Touch- und Offlineprüfung:
-  tests/design_audit_v2655.py.
-- Alle aktiven Grafiken müssen im Service-Worker-Precache enthalten sein.
+9. AKTIVER BESTAND UND OFFLINE
+- 39 aktive Navigations-/App-/Geräte-/Beitrags-/Werkstoff-/Control-PNGs.
+- Alle aktiven Icons sind im Service-Worker-Core enthalten.
+- Generatorlauf: python3 tools/generate_png_icons.py.
+- Abnahme: tests/design_regression.py, tests/design_audit_v2660.py und tests/validate_project.py.
