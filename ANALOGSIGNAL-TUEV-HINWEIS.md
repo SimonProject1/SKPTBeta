@@ -1,4 +1,4 @@
-# Analogsignal-Rechner – TÜV-Praxishinweis V2.6.5.2-Beta
+# Analogsignal-Rechner – TÜV-Praxishinweis V2.6.5.3-Beta
 
 ## Zweck
 

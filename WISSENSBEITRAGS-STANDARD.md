@@ -1,6 +1,6 @@
-# SK PCT Tools – Wissensbeitragsstandard V2.6.5.2-Beta
+# SK PCT Tools – Wissensbeitragsstandard V2.6.5.3-Beta
 
-Stand: 17.10.2026  
+Stand: 18.10.2026  
 Status: verbindlicher Standard für alle Wissensbeiträge
 
 ## 1. Pflichtstruktur
@@ -15,11 +15,11 @@ Jeder Wissensbeitrag enthält:
 6. fachlich gegliederte Abschnitte, Prozesse, Diagramme oder einklappbare Details;
 7. sichtbare Warn-/Sicherheitsinformationen;
 8. Quellenart und Gültigkeit am Beitragsende;
-9. `data-knowledge-standard="2.6.5.2-Beta"`.
+9. `data-knowledge-standard="2.6.5.3-Beta"`.
 
 ## 2. Gestaltung
 
-- Zentrale CSS-Datei: `assets/app-v2-6-5-2.css`.
+- Zentrale CSS-Datei: `assets/app-v2-6-5-3.css`.
 - Gemeinsame Klassen mit Präfix `kb-`.
 - Semantische Auszeichnung als `TechArticle`.
 - Beitragsicon statt generischem PCT-Wasserzeichen.

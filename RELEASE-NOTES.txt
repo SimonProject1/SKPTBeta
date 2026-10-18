@@ -1,63 +1,55 @@
-SK PCT Tools V2.6.5.2-Beta – Release Notes
-Stand: 17.10.2026
-Basis: vollständige V2.6.5.1-Beta
+SK PCT Tools V2.6.5.3-Beta – Release Notes
+Stand: 18.10.2026
+Basis: vollständige V2.6.5.2-Beta
 Releaseart: vollständiges Projektpaket
 
 ZIEL
-Vereinfachung des Analogsignal-Rechners für schnelle TÜV-Abnahmen und vollständiger
-grafischer Positionsabgleich aller aktiven App-Seiten, ohne die freigegebenen Icons,
-Rasterlogik, Favoriten, Sortierung, übrigen Rechner, Datenbanken, Wissensinhalte oder
-PWA-Funktionen fachlich zu verändern.
+Die in V2.6.5.2 erfolgreich vereinheitlichte Rahmen- und Positionsgeometrie wird
+beibehalten. Gleichzeitig wird die harmonische Einbettung von Header, Inhalt und
+Footer aus V2.6.5.1 wiederhergestellt, ohne eine funktionale Änderung aus
+V2.6.5.2 zurückzunehmen.
 
-ANALOGSIGNAL-RECHNER
-- Prozesskategorie, Prozesseinheit und separate Signaleinheit vollständig aus der
-  sichtbaren Oberfläche, der Laufzeitlogik und den Seitenskripten entfernt.
-- Keine Abhängigkeit des Analogsignal-Rechners von assets/unit-system.js.
-- Keine gespeicherten Einheitenzustände und kein ausschließlich dafür benötigter CTA.
-- MA und ME werden als einheitenlose physikalische Skalierungswerte behandelt.
-- Signalarten unverändert aus dem vorhandenen Signalbestand übernommen:
-  4–20 mA, 0–20 mA, 0–10 V und 2–10 V.
-- Beide Richtungen bleiben erhalten: Skalierungswert → Signal sowie Signal →
-  Skalierungswert.
-- Lineare Formel, Prozentwert, Umkehrrechnung und Extrapolation außerhalb des
-  Nennbereichs bleiben erhalten.
-- Direkte Liveberechnung plus explizite Schaltfläche „Berechnen“.
-- „Zurücksetzen“ stellt MA 0, ME 100, 4–20 mA, Vorwärtsrichtung und Eingabewert 50
-  wieder her und erlaubt sofortige Folgeeingabe.
-- Kopierbuttons für Ergebnis und Messbereichsanteil, klare Live-/Fehlermeldungen,
-  Enter-Bedienung, ±-Taster und mobile Touchbedienung geprüft.
-- Hilfetext und ANALOGSIGNAL-TUEV-HINWEIS.md erklären die einheitenlose Skalierung.
+GESTALTERISCHE KORREKTUR
+- Header und Footer besitzen keine stark abgedunkelte beziehungsweise schwarze
+  Eigenfläche mehr.
+- Der mehrlagige Cyan-Blau-App-Hintergrund des Standard-App-Rechtecks läuft sichtbar
+  durch Header, Hauptinhalt und Footer weiter.
+- Header-Unterkante: dezente transparente Cyanlinie mit 8 % Deckkraft.
+- Footer-Oberkante: dezente transparente Cyanlinie mit 6 % Deckkraft.
+- Keine zusätzliche Kontur, kein Balkenschatten und kein zweiter Außenrahmen.
+- Das große abgerundete Standard-App-Rechteck bleibt die einzige deutlich sichtbare
+  äußere Begrenzung.
+- Zentrale Selektoren übertragen die Korrektur auf Startseite, Favoritenansicht,
+  Suche, Sortiermodus, Rechner, Datenbanken, Wissensbereiche, Beiträge, Dialoge,
+  Leerzustände und Offlineansichten.
 
-GLOBALER POSITIONSSTANDARD
-- Startseite und Unterseiten besitzen identische äußere Rahmengeometrie je Viewport.
-- Headerhöhe: 76 px Standard, 66 px Smartphone, 58 px niedriges Querformat.
-- Gemeinsame Innenabstände und vertikale Mittellinie für Logo, Release-Modul,
-  Headerbuttons, Favoritenzähler, Zurück und Home.
-- Hover, Fokus, Drücken, Aktivzustand und Sortiermodus verändern die Geometrie nicht.
-- Einheitliche Header-Trennlinie und konsistenter Inhaltsbeginn.
-- Footer ist Teil des Standardrahmens, berücksichtigt Safe Areas und überdeckt keinen
-  Inhalt. Lange Inhalte scrollen im vorgesehenen Inhaltsbereich.
-- Favoritenunteransicht, Suche, leere Zustände und Offlineaufrufe bleiben im Rahmen.
-- Kein horizontaler Dokument- oder Inhaltsüberlauf in den geprüften Profilen.
+UNVERÄNDERTE FUNKTIONEN
+- vollständiger Positionsabgleich aus V2.6.5.2 einschließlich Referenzpositionen,
+  Rahmenlage, Headerhöhen, Inhaltsbeginn, Footerabschluss und Safe Areas
+- Analogsignal-Rechner ohne Einheitenauswahl; MA/ME, vier Signalarten und gesamte
+  Berechnungslogik unverändert
+- Icons, Logos, Raster, Favoriten, Drag-and-Drop, Sortiermodus-Header, Navigation,
+  Suche, CSS-Designtokens, Daten, Offline- und PWA-Verhalten unverändert
 
 VERSIONIERUNG UND PWA
-- VERSION: 2.6.5.2-Beta
-- CSS: assets/app-v2-6-5-2.css
-- JavaScript: assets/app-v2-6-5-2.js
-- Manifest: manifest-v2-6-5-2.webmanifest
-- Suchindex: assets/search-index-v2-6-5-2.json
-- Navigations-/Hersteller-/Wissensassets: Präfix v2-6-5-2-
-- Release-Modul: assets/release-module-v2-6-5-2.png
-- Service Worker: Cache-Epoch v2-6-5-2-core-r1
-- Übergabe: UEBERGABE-V2.6.5.2-Beta.txt
+- VERSION: 2.6.5.3-Beta
+- CSS: assets/app-v2-6-5-3.css
+- JavaScript: assets/app-v2-6-5-3.js
+- Manifest: manifest-v2-6-5-3.webmanifest
+- Suchindex: assets/search-index-v2-6-5-3.json
+- Navigations-, Hersteller- und Wissensassets: Präfix v2-6-5-3-
+- Release-Modul: assets/release-module-v2-6-5-3.png
+- Service Worker: Cache-Epoch v2-6-5-3-core-r1
+- Übergabe: UEBERGABE-V2.6.5.3-Beta.txt
 
 QUALITÄTSSICHERUNG
-- 1.366 Browser-/Funktionsprüfungen
-- 1.440 vollständige Positionsprüfungen über 16 Routen und 5 Geräteprofile
+- 1.440 Positionsprüfungen über 16 Routen und 5 Geräteprofile
+- 800 neue visuelle Shell-Prüfungen über 16 Routen und 5 Geräteprofile
+- 1.366 Browser-/Funktions-/Berechnungs-/Offlineprüfungen
 - 162 Design-/Touch-/Accessibility-/Offline-Auditprüfungen
 - 103 Raster-/Favoriten-/Responsive-Prüfungen
-- Gesamt: 3.071 automatisierte Browserprüfungen, zusätzlich Struktur-, Syntax-,
+- Gesamt: 3.871 automatisierte Browserprüfungen, zusätzlich Struktur-, Syntax-,
   Integritäts-, Prüfsummen- und visuelle Screenshotkontrolle
-- Profile: iPhone/iOS-PWA 390 × 844, Smartphone 412 × 915, Querformat 844 × 390,
-  Tablet 820 × 1180, Desktop 1440 × 1000 und zusätzlich 320-px-Reflow
+- visuelle Referenz: V2.6.5.1 harmonisch, V2.6.5.2 getrennte Balken,
+  V2.6.5.3 harmonisch bei unveränderter V2.6.5.2-Geometrie
 - Ergebnis: PASS; keine bekannten offenen Fehler im geprüften Umfang

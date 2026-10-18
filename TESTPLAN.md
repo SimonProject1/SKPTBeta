@@ -1,12 +1,12 @@
-# Testplan – SK PCT Tools V2.6.5.2-Beta
+# Testplan – SK PCT Tools V2.6.5.3-Beta
 
-Stand: 17.10.2026  
-Basis: vollständige V2.6.5.1-Beta
+Stand: 18.10.2026  
+Basis: vollständige V2.6.5.2-Beta
 
 ## 1. Struktur, Syntax, Referenzen und Integrität
 
 ```bash
-node --check assets/app-v2-6-5-2.js
+node --check assets/app-v2-6-5-3.js
 node --check assets/analogsignal-rechner.js
 python3 -m py_compile tests/*.py tools/*.py
 python3 tests/validate_project.py
@@ -14,31 +14,32 @@ python3 tests/validate_project.py
 
 Prüfumfang: VERSION, 16 HTML-Dokumente, 14 aktive interne Unterseiten, zentrale
 CSS-/JS-Referenzen, Manifest, Suchindex, Cache-Epoch, lokale Ziele, H1, Header/Footer,
-10 Apps, 24 versionierte Navigationsicons, geschützte PNG-Hashes, Offline-Precache,
+10 Apps, 24 versionierte Navigationsicons, geschützte PNG-Inhalte, Offline-Precache,
 Analogsignal-Einheitenbereinigung und SHA256SUMS.txt.
 
-## 2. Analogsignal-Rechner
+## 2. Visuelle Einbettung von Header und Footer
 
-Automatisiert im `browser_regression.py`:
+```bash
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/visual_shell_regression_v2653.py
+```
 
-- sichtbare und operative Entfernung von Prozesskategorie, Prozesseinheit,
-  Signaleinheit, s0/s1 und `unit-system.js`
-- Signalarten 4–20 mA, 0–20 mA, 0–10 V und 2–10 V
-- Vorwärtsrechnung bei 50 %: 12 mA, 10 mA, 5 V und 6 V
-- Umkehrrechnung aller vier Signalarten auf den einheitenlosen Skalierungswert
-- MA kleiner ME
-- negativer Messbereich −50…150
-- vollständig positiver Messbereich 10…110
-- leere/ungültige Eingabe und MA = ME
-- Zurücksetzen auf 0…100 / 4–20 mA / Vorwärts / 50
-- direkte Folgeeingabe nach Reset
-- Ergebnisprozent, Kopierstatus, Enter, ±-Touchziel und Liveberechnung
-- Hilfeaussage: Nur MA, ME und Signalart; Skalierungswerte einheitenlos
+800 Prüfungen über 16 Routen und fünf Profile:
+
+- Header und Footer ohne deckende Eigenfläche
+- kein eigener Hintergrundverlauf, Balkenschatten oder zweiter Rahmen
+- Strukturkanten höchstens 10 % Alpha; Sollwerte 8 % und 6 % Cyan
+- mehrlagiger App-Hintergrund ausschließlich am Standard-App-Rechteck
+- Header und Footer vollständig innerhalb dieses Rechtecks
+- Startseite, Unterseiten, kurze/lange Seiten und Wissensansichten
+
+Zusätzlich werden V2.6.5.1, V2.6.5.2 und V2.6.5.3 bei 390 × 844 gerendert.
+Der mittlere absolute RGB-Sprung an Header-/Footergrenze muss gegenüber V2.6.5.2
+deutlich sinken und die Größenordnung der harmonischen V2.6.5.1 erreichen.
 
 ## 3. Vollständiger Positionsabgleich
 
 ```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/layout_regression_v2652.py
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/layout_regression_v2653.py
 ```
 
 1.440 Prüfungen über 16 Routen und fünf Profile:
@@ -49,55 +50,48 @@ SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/layout_regression_v2652.py
 - Tablet 820 × 1180
 - Desktop 1440 × 1000
 
-Geprüft werden Rahmenlage, identische Headerhöhe je Profil, Logo-/Versions-/Button-
-Mittellinien, Interaktionsstabilität, Inhaltsbeginn, Footerabschluss, Safe Area,
-horizontaler Überlauf, defekte Bilder und die vollständige Einbettung von Header,
-Inhalt und Footer in denselben App-Rahmen.
+Rahmenlage, Headerhöhe, Logo-/Versions-/Button-Mittellinien, Inhaltsbeginn,
+Footerabschluss, Safe Area, Überlauf, Bildintegrität und Interaktionsstabilität müssen
+unverändert dem erfolgreichen V2.6.5.2-Positionsstandard entsprechen.
 
-## 4. Design-, Touch-, Accessibility- und Offline-Audit
+## 4. Berechnung und Analogsignal-Regression
+
+Automatisiert in `browser_regression.py`:
+
+- keine Prozesskategorie, Prozess-/Signaleinheit, s0/s1 oder `unit-system.js`
+- 4–20 mA, 0–20 mA, 0–10 V und 2–10 V
+- Vorwärts- und Umkehrrechnung; MA kleiner ME
+- Messbereiche 0…100, −50…150 und 10…110
+- leere/ungültige Eingabe und MA = ME
+- Reset, Folgeeingabe, Liveberechnung, Ergebnisprozent, Kopieren, Enter und ±
+- Referenz-, Grenz-, Reset-, Kopier- und Vorzeichentests aller sechs Rechner
+
+## 5. Design, Touch, Accessibility und Offline
 
 ```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2652.py
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2653.py
 SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_regression.py
-```
-
-- 162 Auditprüfungen über alle 16 Seiten
-- 103 Raster-/Favoritenprüfungen in fünf Profilen
-- Suche, Filter, Hersteller-Hub, Breadcrumbs, Chevron, Favoriten Kurz/Lang/Leer
-- Tastaturfokus, Fokusfalle, Escape, Fokusrückgabe und 44-px-Touchziele
-- unveränderter Header im Sortiermodus
-- Offlineaufruf einer Unterseite aus dem Precache
-
-## 5. Vollständige Browser-/Funktionsregression
-
-```bash
 SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
 ```
 
-1.366 Prüfungen:
-
-- 15 aktive Seiten × Smartphone, Tablet und Desktop
-- zusätzliche 320-px-Reflow- und 844 × 390-Profile
-- pixelidentische Headerzustände und identische Außenrahmen
-- Favoriten, Suche, Sortierung und Drag-and-Drop mit Pointer-/Touch-Abbruch
-- sechs Rechner mit Referenz-, Grenz-, Reset-, Kopier- und Vorzeichentests
-- Einheiten- und Werkstoffdatenbank
-- Wissens-Hub, Herstelleransichten und sämtliche Wissensbeiträge
-- Service-Worker-Installation, Upgrade und Offlinebetrieb
+Geprüft werden Favoriten kurz/lang/leer, Suche und Filter, Hersteller-Hub,
+Breadcrumbs, Chevron, Tastaturfokus, Fokusfalle, Escape, Fokusrückgabe,
+44-px-Touchziele, unveränderter Header im Sortiermodus, Drag-and-Drop mit
+Pointer-/Touch-Abbruch, 320-px-Reflow, Service-Worker-Upgrade und Offlineaufruf.
 
 ## 6. Visuelle QA
 
-Repräsentative Screenshots werden auf 390 × 844 und 1440 × 1000 kontrolliert:
-Startseite, Analogsignal-Rechner, Favoriten, Suche, Wissens-Hub, Wissensbeitrag,
-Einheitendatenbank und Werkstoffdatenbank. Kriterien: keine Überlagerung, keine
-abgeschnittenen Header-/Footer-Inhalte, keine Layoutsprünge, keine horizontalen
-Überläufe und konsistente Rahmen-/Achsenlage.
+13 Renderings: Drei-Versionen-Vergleich der Startseite sowie zehn repräsentative
+V2.6.5.3-Screenshots auf iPhone und Desktop für Analogsignal, Wissens-Hub,
+Wissensbeitrag, Einheitendatenbank und Werkstoffdatenbank. Kriterien: harmonischer
+Flächenübergang, keine Balkenwirkung, keine Überlagerung, kein Abschneiden, keine
+Layoutsprünge und kein horizontaler Überlauf.
 
 ## 7. Abschluss
 
 1. TEST-RESULTS.txt finalisieren.
-2. `__pycache__` und temporäre QA-Dateien aus dem Projekt entfernen.
+2. Temporäre QA-Dateien und `__pycache__` aus dem Projekt entfernen.
 3. SHA256SUMS.txt über alle Projektdateien außer sich selbst erzeugen.
-4. Strukturprüfung erneut ausführen.
-5. vollständiges ZIP erzeugen.
-6. ZIP separat hashen, erneut entpacken und Strukturprüfung in der Kopie ausführen.
+4. Struktur- und Prüfsummenprüfung erneut ausführen.
+5. vollständiges ZIP erzeugen und separat per SHA-256 prüfen.
+6. ZIP erneut entpacken und die Strukturprüfung in der Kopie wiederholen.

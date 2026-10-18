@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the SK PCT Tools V2.6.5.2-Beta brand and PWA logo family.
+"""Generate the SK PCT Tools V2.6.5.3-Beta brand and PWA logo family.
 
 The approved application/PWA family is reproduced byte-identically.  A separate
 header-only variant keeps the same frame but uses a smaller PCT gear, centered

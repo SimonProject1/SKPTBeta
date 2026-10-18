@@ -1,5 +1,5 @@
 SK PCT TOOLS – VERBINDLICHE ICON-, CONTROL- UND MARKENRICHTLINIE
-Stand: V2.6.5.2-Beta · 17.10.2026
+Stand: V2.6.5.3-Beta · 18.10.2026
 
 1. GESCHÜTZTE APP-/HOMESCREEN-/PWA-MARKE
 - Bytegenau unverändert bleiben:
@@ -12,7 +12,7 @@ Stand: V2.6.5.2-Beta · 17.10.2026
 2. NAVIGATIONS-, APP-, HERSTELLER- UND WISSENSGRAFIKEN
 - Gesamtbestand: 24 PNGs unter assets/navigation-icons/.
 - Inhalte sind bytegleich mit der vollständigen V2.6.5.0-Beta.
-- Nur das Versionspräfix lautet v2-6-5-2-.
+- Nur das Versionspräfix lautet v2-6-5-3-.
 - Die PNGs übernehmen allein die sichtbare Gestaltung.
 - Hosts dürfen ausschließlich Größe, Position, Touchfläche und Favoritenkopplung steuern.
 - Host: border 0, background transparent, box-shadow none, filter none.
@@ -30,9 +30,9 @@ Stand: V2.6.5.2-Beta · 17.10.2026
 4. HEADER UND RELEASE-MODUL
 - Sichtbares Headerlogo: assets/header-logo-simple.png.
 - Home, Zurück, Suche und Favoriten verwenden die freigegebenen PNG-Grafiken.
-- Release-Modul-Grafik: assets/release-module-v2-6-5-2.png; Inhalt bytegleich.
+- Release-Modul-Grafik: assets/release-module-v2-6-5-3.png; Inhalt bytegleich.
 - Hosts transparent, ohne zweite Platte oder Schatten.
-- Text: „V2.6.5.2-Beta“ und „Tool by S.K.“.
+- Text: „V2.6.5.3-Beta“ und „Tool by S.K.“.
 - Header bleibt im Sortiermodus geometrisch unverändert.
 
 5. KLEINE BEDIENICON-FAMILIE
@@ -66,5 +66,5 @@ Stand: V2.6.5.2-Beta · 17.10.2026
 - Referenz-Hashes geschützter PNGs: tests/validate_project.py.
 - Geometrie-/Zustandsprüfung: tests/design_regression.py.
 - Iconhost-, Favoriten-, Chevron-, Touch- und Offlineprüfung:
-  tests/design_audit_v2652.py.
+  tests/design_audit_v2653.py.
 - Alle aktiven Grafiken müssen im Service-Worker-Precache enthalten sein.
