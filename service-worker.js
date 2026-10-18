@@ -1,6 +1,6 @@
-const RELEASE='2.6.6.3-Beta';
+const RELEASE='2.6.7.0-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
-const CACHE_EPOCH='v2-6-6-3-core-r1';
+const CACHE_EPOCH='v2-6-7-0-core-r1';
 const CACHE_NAME=`${CACHE_PREFIX}${CACHE_EPOCH}`;
 
 // Vollständiger Offline-Core: alle Laufzeitseiten, Daten, aktiven Icons und Markenassets.
@@ -21,12 +21,12 @@ const CORE=[
   './wissensdatenbank/siemens-sps-rohwert/',
   './wissensdatenbank/vacon-frequenzumrichter-ist-sollwert-abweichung/',
   './wissensdatenbank/werkstoff-nachschlagewerk/',
-  './manifest-v2-6-6-3.webmanifest',
-  './assets/app-v2-6-6-3.css',
-  './assets/app-v2-6-6-3.js',
+  './manifest-v2-6-7-0.webmanifest',
+  './assets/app-v2-6-7-0.css',
+  './assets/app-v2-6-7-0.js',
   './assets/analogsignal-rechner.js',
   './assets/einheitenrechner.js',
-  './assets/knowledge-compact.js',
+  './assets/knowledge-article.js',
   './assets/knowledge-overview.js',
   './assets/materials.js',
   './assets/pf-rechner.js',
@@ -37,12 +37,12 @@ const CORE=[
   './spannungsfall-rechner/calculator.js',
   './assets/materials.json',
   './assets/units.json',
-  './assets/search-index-v2-6-6-3.json',
+  './assets/search-index-v2-6-7-0.json',
   './assets/pct-controls.svg',
   './SIEMENS-QUELLEN-UND-GRENZWERTE.md',
   './assets/logo-sk-pct-tools.png',
   './assets/header-logo-simple.png',
-  './assets/release-module-v2-6-6-3.png',
+  './assets/release-module-v2-6-7-0.png',
   './assets/favicon.png',
   './assets/apple-touch-icon.png',
   './assets/icon-192.png',
@@ -56,7 +56,7 @@ const CORE=[
     'knowledge-air-torque-antrieb-drehrichtung','knowledge-endress-hauser-promass-einbaulage','knowledge-siemens-sitrans-p320-sil-verriegelung','knowledge-siemens-sps-rohwert','knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung',
     'material-1-4301','material-1-4401','material-1-4404','material-1-4408','material-1-4409','material-1-4435','material-1-4539','material-1-4571','material-2-4602','material-2-4605',
     'nav-back','nav-home','nav-search','nav-favorite'
-  ].map(name=>`./assets/navigation-icons/v2-6-6-3-${name}.png`)
+  ].map(name=>`./assets/navigation-icons/v2-6-7-0-${name}.png`)
 ];
 
 const canonicalRequest=request=>{

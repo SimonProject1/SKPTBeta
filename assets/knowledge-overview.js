@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.6.6.3-Beta — kompakte Hersteller → Gerät/Familie/Thema → Beitrag-Navigation. */
+/* SK PCT Tools 2.6.7.0-Beta — kompakte Hersteller → Gerät/Familie/Thema → Beitrag-Navigation. */
 (()=>{'use strict';
-const RELEASE='2.6.6.3-Beta';
+const RELEASE='2.6.7.0-Beta';
 const ROOT=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
 const KNOWLEDGE_ROOT=new URL('wissensdatenbank/',ROOT);
 const ICON_ROOT=new URL('assets/navigation-icons/',ROOT);
@@ -24,7 +24,7 @@ const DATA=[
  {slug:'sonstiges',name:'Sonstiges',description:'Herstellerunabhängige Beiträge – aktuell ohne vorhandene Inhalte.',icon:'manufacturer-sonstiges',search:'Sonstiges herstellerunabhängig allgemein',families:[]}
 ];
 const byId=id=>document.getElementById(id);
-const iconUrl=stem=>new URL(`v2-6-6-3-${stem}.png?v=${RELEASE}`,ICON_ROOT).href;
+const iconUrl=stem=>new URL(`v2-6-7-0-${stem}.png?v=${RELEASE}`,ICON_ROOT).href;
 const params=()=>new URL(location.href).searchParams;
 const manufacturer=()=>DATA.find(x=>x.slug===params().get('manufacturer'))||null;
 const family=m=>m?.families.find(x=>x.slug===params().get('family'))||null;
