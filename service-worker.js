@@ -1,6 +1,6 @@
-const RELEASE='2.6.8.0-Beta';
+const RELEASE='2.6.9.0-Beta';
 const CACHE_PREFIX='sk-pct-tools-';
-const CACHE_EPOCH='v2-6-8-0-core-r1';
+const CACHE_EPOCH='v2-6-9-0-core-r2';
 const CACHE_NAME=`${CACHE_PREFIX}${CACHE_EPOCH}`;
 
 // Vollständiger Offline-Core: alle Laufzeitseiten, Daten, aktiven Icons und Markenassets.
@@ -40,9 +40,28 @@ const CORE=[
   './wissensdatenbank/endress-hauser-micropilot-fehler-ueber-hundert-prozent-ansatz-antenne/',
   './wissensdatenbank/endress-hauser-micropilot-fehler-kein-mediumsignal-medium-in-antenne/',
   './wissensdatenbank/endress-hauser-micropilot-fehler-f941-echo-verloren-tankbodenbereich/',
-  './manifest-v2-6-8-0.webmanifest',
-  './assets/app-v2-6-8-0.css',
-  './assets/app-v2-6-8-0.js',
+  './wissensdatenbank/endress-hauser-levelflex-grundlagen-gefuertes-radar-einsatz/',
+  './wissensdatenbank/endress-hauser-levelflex-mikrowellen-dk-time-of-flight/',
+  './wissensdatenbank/endress-hauser-levelflex-signalauswertung-huellkurve-ausblendung-differenzkurve/',
+  './wissensdatenbank/endress-hauser-levelflex-sondenendsignal-eop-positive-negative-signale/',
+  './wissensdatenbank/endress-hauser-levelflex-produktuebersicht-geraeteauswahl-fmp50-fmp57/',
+  './wissensdatenbank/endress-hauser-levelflex-montageabstaende-seil-stabsonden/',
+  './wissensdatenbank/endress-hauser-levelflex-fixierung-durchhang-abstuetzung-sonden/',
+  './wissensdatenbank/endress-hauser-levelflex-stutzenabmessungen-behaelterisolation/',
+  './wissensdatenbank/endress-hauser-levelflex-bypass-schwallrohr/',
+  './wissensdatenbank/endress-hauser-levelflex-nichtmetallische-kunststoff-glasbehaelter/',
+  './wissensdatenbank/endress-hauser-levelflex-gehaeuse-elektrischer-anschluss-bedienzugaenge/',
+  './wissensdatenbank/endress-hauser-levelflex-grundabgleich-sondenlaenge-leertank-ausblendung/',
+  './wissensdatenbank/endress-hauser-levelflex-mediumseigenschaft-dk-echoschwelle/',
+  './wissensdatenbank/endress-hauser-levelflex-sondeneinstellungen-eop-erdung-kunststoffring/',
+  './wissensdatenbank/endress-hauser-levelflex-prozesseigenschaften-echoverfolgung-blockdistanz-wartung-diagnose/',
+  './wissensdatenbank/endress-hauser-levelflex-fehler-leerer-tank-25-prozent-fehlende-ausblendung/',
+  './wissensdatenbank/endress-hauser-levelflex-fehler-oelfuellstand-nicht-erkannt-falscher-dk/',
+  './wissensdatenbank/endress-hauser-levelflex-fehler-sondenbruch-falsche-sondenlaenge/',
+  './wissensdatenbank/endress-hauser-levelflex-fehler-leerer-tank-75-prozent-kondensat-sondenanfang/',
+  './manifest-v2-6-9-0.webmanifest',
+  './assets/app-v2-6-9-0.css',
+  './assets/app-v2-6-9-0.js',
   './assets/analogsignal-rechner.js',
   './assets/einheitenrechner.js',
   './assets/knowledge-article.js',
@@ -56,12 +75,12 @@ const CORE=[
   './spannungsfall-rechner/calculator.js',
   './assets/materials.json',
   './assets/units.json',
-  './assets/search-index-v2-6-8-0.json',
+  './assets/search-index-v2-6-9-0.json',
   './assets/pct-controls.svg',
   './SIEMENS-QUELLEN-UND-GRENZWERTE.md',
   './assets/logo-sk-pct-tools.png',
   './assets/header-logo-simple.png',
-  './assets/release-module-v2-6-8-0.png',
+  './assets/release-module-v2-6-9-0.png',
   './assets/favicon.png',
   './assets/apple-touch-icon.png',
   './assets/icon-192.png',
@@ -71,11 +90,11 @@ const CORE=[
   ...[
     'app-analogsignal','app-eh-viewer','app-einheitendatenbank','app-einheitenrechner','app-pf-rechner','app-pt-rechner','app-siemens-rohwert','app-spannungsfall','app-werkstoffdatenbank','app-wissensdatenbank',
     'manufacturer-air-torque','manufacturer-endress-hauser','manufacturer-siemens','manufacturer-sonstiges','manufacturer-vacon',
-    'device-air-torque-pneumatic-actuator','device-endress-hauser-promass','device-endress-hauser-micropilot','knowledge-eh-micropilot-radar-grundlagen','knowledge-eh-micropilot-dk-reflexion','knowledge-eh-micropilot-pulse-tof','knowledge-eh-micropilot-fmcw-80ghz','knowledge-eh-micropilot-frequency-beam','knowledge-eh-micropilot-product-selection','knowledge-eh-micropilot-install-alignment','knowledge-eh-micropilot-nozzle-antenna','knowledge-eh-micropilot-special-install','knowledge-eh-micropilot-housing-display','knowledge-eh-micropilot-electrical-access','knowledge-eh-micropilot-commissioning','knowledge-eh-micropilot-envelope-curve','knowledge-eh-micropilot-fault-high-level','knowledge-eh-micropilot-fault-zero-level','knowledge-eh-micropilot-fault-nozzle','knowledge-eh-micropilot-fault-buildup','knowledge-eh-micropilot-fault-medium-antenna','knowledge-eh-micropilot-fault-f941','device-siemens-sitrans-p320','device-siemens-sps-analogkarte','device-vacon-frequenzumrichter',
+    'device-air-torque-pneumatic-actuator','device-endress-hauser-promass','device-endress-hauser-micropilot','device-endress-hauser-levelflex','knowledge-eh-levelflex-basic','knowledge-eh-levelflex-tof','knowledge-eh-levelflex-signal','knowledge-eh-levelflex-eop','knowledge-eh-levelflex-products','knowledge-eh-levelflex-distance','knowledge-eh-levelflex-fix','knowledge-eh-levelflex-nozzle','knowledge-eh-levelflex-bypass','knowledge-eh-levelflex-plastic','knowledge-eh-levelflex-access','knowledge-eh-levelflex-commission','knowledge-eh-levelflex-dk','knowledge-eh-levelflex-settings','knowledge-eh-levelflex-process','knowledge-eh-levelflex-fault-25','knowledge-eh-levelflex-fault-oil','knowledge-eh-levelflex-fault-break','knowledge-eh-levelflex-fault-75','knowledge-eh-micropilot-radar-grundlagen','knowledge-eh-micropilot-dk-reflexion','knowledge-eh-micropilot-pulse-tof','knowledge-eh-micropilot-fmcw-80ghz','knowledge-eh-micropilot-frequency-beam','knowledge-eh-micropilot-product-selection','knowledge-eh-micropilot-install-alignment','knowledge-eh-micropilot-nozzle-antenna','knowledge-eh-micropilot-special-install','knowledge-eh-micropilot-housing-display','knowledge-eh-micropilot-electrical-access','knowledge-eh-micropilot-commissioning','knowledge-eh-micropilot-envelope-curve','knowledge-eh-micropilot-fault-high-level','knowledge-eh-micropilot-fault-zero-level','knowledge-eh-micropilot-fault-nozzle','knowledge-eh-micropilot-fault-buildup','knowledge-eh-micropilot-fault-medium-antenna','knowledge-eh-micropilot-fault-f941','device-siemens-sitrans-p320','device-siemens-sps-analogkarte','device-vacon-frequenzumrichter',
     'knowledge-air-torque-antrieb-drehrichtung','knowledge-endress-hauser-promass-einbaulage','knowledge-siemens-sitrans-p320-sil-verriegelung','knowledge-siemens-sps-rohwert','knowledge-vacon-frequenzumrichter-ist-sollwert-abweichung',
     'material-1-4301','material-1-4401','material-1-4404','material-1-4408','material-1-4409','material-1-4435','material-1-4539','material-1-4571','material-2-4602','material-2-4605',
     'nav-back','nav-home','nav-search','nav-favorite'
-  ].map(name=>`./assets/navigation-icons/v2-6-8-0-${name}.png`)
+  ].map(name=>`./assets/navigation-icons/v2-6-9-0-${name}.png`)
 ];
 
 const canonicalRequest=request=>{
