@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "3.0.0.1",
+  "release": "3.1.0.0-Beta",
   "conversionModel": {
     "toBase": "base = value × factor + offset",
     "fromBase": "value = (base − offset) ÷ factor",

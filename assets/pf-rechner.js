@@ -1,4 +1,4 @@
-/* P+F Rechner mit Einheitenpaaren · 3.0.0.1 */
+/* P+F Rechner mit Einheitenpaaren · 3.1.0.0-Beta */
 (()=>{'use strict';
 const $=id=>document.getElementById(id),ids=['x1','y1','x2','y2'];
 const labels={x1:'X1',y1:'Y1',x2:'X2',y2:'Y2'};

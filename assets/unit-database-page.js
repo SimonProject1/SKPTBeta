@@ -1,4 +1,4 @@
-/* Einheitendatenbank · SK PCT Tools 3.0.0.1 — kompakte Kategorien und Favoriten. */
+/* Einheitendatenbank · SK PCT Tools 3.1.0.0-Beta — kompakte Kategorien und Favoriten. */
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 const norm=value=>String(value||'').toLocaleLowerCase('de-DE').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss');
