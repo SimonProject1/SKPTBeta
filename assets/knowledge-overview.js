@@ -1,6 +1,6 @@
-/* SK PCT Tools 2.6.6.2-Beta — kompakte Hersteller → Gerät/Familie/Thema → Beitrag-Navigation. */
+/* SK PCT Tools 2.6.6.3-Beta — kompakte Hersteller → Gerät/Familie/Thema → Beitrag-Navigation. */
 (()=>{'use strict';
-const RELEASE='2.6.6.2-Beta';
+const RELEASE='2.6.6.3-Beta';
 const ROOT=window.SK_PCT?.root||new URL('../',document.currentScript?.src||location.href);
 const KNOWLEDGE_ROOT=new URL('wissensdatenbank/',ROOT);
 const ICON_ROOT=new URL('assets/navigation-icons/',ROOT);
@@ -24,7 +24,7 @@ const DATA=[
  {slug:'sonstiges',name:'Sonstiges',description:'Herstellerunabhängige Beiträge – aktuell ohne vorhandene Inhalte.',icon:'manufacturer-sonstiges',search:'Sonstiges herstellerunabhängig allgemein',families:[]}
 ];
 const byId=id=>document.getElementById(id);
-const iconUrl=stem=>new URL(`v2-6-6-2-${stem}.png?v=${RELEASE}`,ICON_ROOT).href;
+const iconUrl=stem=>new URL(`v2-6-6-3-${stem}.png?v=${RELEASE}`,ICON_ROOT).href;
 const params=()=>new URL(location.href).searchParams;
 const manufacturer=()=>DATA.find(x=>x.slug===params().get('manufacturer'))||null;
 const family=m=>m?.families.find(x=>x.slug===params().get('family'))||null;
@@ -45,7 +45,7 @@ function allSearchItems(){const out=[];DATA.forEach(m=>{out.push({item:m,level:'
 function setTitle(node,text){node.replaceChildren();const parts=text==='Wissensdatenbank'?['Wissens','datenbank']:text==='Endress+Hauser'?['Endress+Hauser']:[text];parts.forEach((part,i)=>{if(i)node.append(document.createElement('wbr'));node.append(document.createTextNode(part))})}
 function breadcrumb(m,f){const nav=byId('knowledgeBreadcrumb');nav.replaceChildren();const add=(label,url)=>{if(nav.childElementCount){const sep=document.createElement('span');sep.textContent='›';nav.append(sep)}const n=url?document.createElement('a'):document.createElement('span');n.textContent=label;if(url)n.href=url;nav.append(n)};add('Startseite',new URL('./',ROOT));add('Wissensdatenbank',m?KNOWLEDGE_ROOT:null);if(m)add(m.name,f?hrefFor(m):null);if(f)add(f.name,null)}
 function modeItems(m,f){if(!m)return DATA.map(item=>({item,level:'manufacturer',category:'HERSTELLER',path:'',href:hrefFor(item),search:`${item.name} ${item.description} ${item.search}`}));if(!f)return m.families.map(item=>({item,level:'family',category:'GERÄT / FAMILIE / THEMA',path:'',href:hrefFor(m,item),search:`${m.name} ${item.name} ${item.description} ${item.search}`}));return f.articles.map(item=>({item,level:'article',category:'WISSENSBEITRAG',path:'',href:new URL(item.slug+'/',KNOWLEDGE_ROOT).href,search:`${m.name} ${f.name} ${item.name} ${item.description} ${item.search}`}))}
-function render(){const m=manufacturer(),f=family(m),q=norm(byId('knowledgeSearch').value),searching=Boolean(q);breadcrumb(m,f);const hero=byId('knowledgeHeroIcon'),title=byId('knowledgeTitle'),kicker=byId('knowledgeKicker'),desc=byId('knowledgeDescription'),back=byId('knowledgeViewBack'),backLabel=byId('knowledgeBackLabel');let items;
+function render(){const m=manufacturer(),f=family(m),q=norm(byId('knowledgeSearch').value),searching=Boolean(q);document.body.dataset.skParent=(!m?ROOT:!f?KNOWLEDGE_ROOT:new URL(hrefFor(m))).href;document.dispatchEvent(new CustomEvent('sk:route-updated',{detail:{source:'knowledge-hierarchy'}}));breadcrumb(m,f);const hero=byId('knowledgeHeroIcon'),title=byId('knowledgeTitle'),kicker=byId('knowledgeKicker'),desc=byId('knowledgeDescription'),back=byId('knowledgeViewBack'),backLabel=byId('knowledgeBackLabel');let items;
  if(searching){items=allSearchItems().filter(x=>q.split(/\s+/).every(term=>norm(x.search+' '+x.path).includes(term)));kicker.textContent='SUCHE';setTitle(title,'Wissensdatenbank');desc.textContent='Treffer aus allen Ebenen.';hero.src=iconUrl('app-wissensdatenbank')}
  else if(!m){items=modeItems(null,null);kicker.textContent='WISSEN';setTitle(title,'Wissensdatenbank');desc.textContent='Hersteller wählen und direkt zum Gerät oder Beitrag navigieren.';hero.src=iconUrl('app-wissensdatenbank')}
  else if(!f){items=modeItems(m,null);kicker.textContent='GERÄTE UND THEMEN';setTitle(title,m.name);desc.textContent='Gerät, Familie oder Themenbereich wählen.';hero.src=iconUrl(m.icon)}

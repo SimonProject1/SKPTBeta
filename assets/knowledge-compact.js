@@ -1,10 +1,9 @@
-/* SK PCT Tools 2.6.6.2-Beta — progressive Verdichtung langer Wissensbeiträge. */
+/* SK PCT Tools 2.6.6.3-Beta — progressive Verdichtung langer Wissensbeiträge. */
 (()=>{'use strict';
 function compact(){
   const article=document.querySelector('.knowledge-standard article');if(!article||article.dataset.compactReady==='true')return;article.dataset.compactReady='true';
   const sections=[...article.querySelectorAll(':scope > .kb-section')];if(!sections.length)return;
-  const meta=sections.find(section=>section.getAttribute('aria-label')==='Beitragsmetadaten');if(meta)meta.classList.add('kb-meta-section');
-  const contentSections=sections.filter(section=>section!==meta);
+  const contentSections=sections;
   const shortAnswer=contentSections[0];
   if(shortAnswer){shortAnswer.classList.add('kb-short-answer');const badge=document.createElement('div');badge.className='kb-short-answer-label';badge.textContent='Kurzantwort';shortAnswer.prepend(badge)}
 

@@ -1,4 +1,4 @@
-/* Analogsignal-Rechner · einheitenlose TÜV-Skalierung · 2.6.6.2-Beta */
+/* Analogsignal-Rechner · einheitenlose TÜV-Skalierung · 2.6.6.3-Beta */
 (()=>{'use strict';
 const SIGNALS=Object.freeze({
   '4-20mA':Object.freeze({min:4,max:20,unit:'mA',label:'4–20 mA'}),
