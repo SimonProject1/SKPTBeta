@@ -1,4 +1,4 @@
-/* Analogsignal-Rechner · einheitenlose TÜV-Skalierung · 2.6.5.3-Beta */
+/* Analogsignal-Rechner · einheitenlose TÜV-Skalierung · 2.6.5.4-Beta */
 (()=>{'use strict';
 const SIGNALS=Object.freeze({
   '4-20mA':Object.freeze({min:4,max:20,unit:'mA',label:'4–20 mA'}),
@@ -6,7 +6,6 @@ const SIGNALS=Object.freeze({
   '0-10V':Object.freeze({min:0,max:10,unit:'V',label:'0–10 V'}),
   '2-10V':Object.freeze({min:2,max:10,unit:'V',label:'2–10 V'})
 });
-const DEFAULTS=Object.freeze({p0:'0',p1:'100',signalType:'4-20mA',dir:'ps',x:'50'});
 const $=id=>document.getElementById(id);
 const number=id=>window.num($(id).value);
 const signal=()=>SIGNALS[$('signalType').value]||SIGNALS['4-20mA'];
@@ -47,19 +46,10 @@ function calculate(){
   $('pct').textContent=`${window.de(percent,1)} %`;
   return true;
 }
-function reset(){
-  for(const [id,value] of Object.entries(DEFAULTS))$(id).value=value;
-  setError();
-  syncLabels();
-  calculate();
-  $('p0').focus({preventScroll:true});
-  $('p0').select();
-}
 function init(){
   const form=$('analogForm');
   if(!form)return;
   form.addEventListener('submit',event=>{event.preventDefault();calculate()});
-  form.addEventListener('reset',event=>{event.preventDefault();reset()});
   for(const id of ['p0','p1','x']){
     $(id).addEventListener('input',calculate);
     $(id).addEventListener('change',calculate);

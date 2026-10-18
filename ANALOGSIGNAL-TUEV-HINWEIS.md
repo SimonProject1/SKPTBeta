@@ -1,48 +1,41 @@
-# Analogsignal-Rechner – TÜV-Praxishinweis V2.6.5.3-Beta
+# Analogsignal-Rechner – Praxishinweis V2.6.5.4-Beta
 
 ## Zweck
 
-Der Analogsignal-Rechner unterstützt die schnelle lineare Skalierungsprüfung bei
-TÜV-Abnahmen und Funktionskontrollen.
+Der Rechner bildet einen einheitenlosen Messbereich linear auf einen der
+unterstützten Standardsignalbereiche ab oder führt die Umkehrrechnung aus.
 
-## Benötigte Angaben
+## Eingaben
 
-1. **Messbereichsanfang (MA)**
-2. **Messbereichsende (ME)**
-3. **Signalart / Signalbereich**: 4–20 mA, 0–20 mA, 0–10 V oder 2–10 V
-4. **Umrechnungsrichtung** und der zu prüfende Eingabewert
+- Messbereichsanfang MA
+- Messbereichsende ME
+- Signalart: 4–20 mA, 0–20 mA, 0–10 V oder 2–10 V
+- Umrechnungsrichtung
+- Skalierungs- beziehungsweise Signalwert
 
-MA, ME und der daraus berechnete Skalierungswert werden im Rechner bewusst
-**einheitenlos** behandelt. Die fachliche Einheit – zum Beispiel bar, °C, l/h oder % –
-ergibt sich ausschließlich aus dem am Gerät, Prüfmittel oder Prüfprotokoll festgelegten
-Messbereich und wird nicht im Rechner ausgewählt oder gespeichert.
+MA, ME und der berechnete Skalierungswert sind bewusst einheitenlos. Die fachliche
+Einheit ergibt sich aus dem Messbereich des jeweiligen Geräts oder Prüfmittels.
 
 ## Berechnung
 
-Für Skalierungswert → Signal gilt unverändert die lineare Abbildung:
+Skalierungswert → Signal:
 
-`Signal = Signalmin + (Wert − MA) / (ME − MA) × (Signalmax − Signalmin)`
+`Signal = Signal_min + (Wert - MA) / (ME - MA) × (Signal_max - Signal_min)`
 
-Für Signal → Skalierungswert wird dieselbe Beziehung umgekehrt:
+Signal → Skalierungswert:
 
-`Wert = MA + (Signal − Signalmin) / (Signalmax − Signalmin) × (ME − MA)`
+`Wert = MA + (Signal - Signal_min) / (Signal_max - Signal_min) × (ME - MA)`
 
-Der Messbereichsanteil wird in Prozent ausgegeben. Werte außerhalb des Nennbereichs
-werden weiterhin linear extrapoliert; der Rechner begrenzt sie nicht künstlich.
+Der Messbereichsanteil wird in Prozent ausgegeben. Werte außerhalb des Messbereichs
+werden entsprechend der bisherigen fachlichen Logik linear extrapoliert. MA und ME
+müssen unterschiedlich sein; unvollständige oder ungültige Zahlen werden gemeldet.
 
-## Bedienhinweise
+## Bedienung ab V2.6.5.4-Beta
 
-- MA und ME müssen unterschiedlich sein.
-- Negative und über null liegende Messbereiche sind zulässig.
-- Dezimalwerte können über die Zahleneingabe erfasst werden; der ±-Taster wechselt
-  das Vorzeichen touchfreundlich.
-- „Zurücksetzen“ stellt 0…100 und 4–20 mA wieder her.
-- Ergebnis und Messbereichsanteil können über die Kopierbuttons übernommen werden.
+- Jede Änderung an Eingaben oder Auswahlen aktualisiert das Ergebnis unmittelbar.
+- Ein separater Berechnen-Schritt ist nicht erforderlich.
+- Es gibt im Analogsignal-Rechner keinen sichtbaren Zurücksetzen-Button.
+- Ergebniswerte besitzen bewusst keine Kopierbuttons oder versteckten Kopierflächen.
+- Die ±-Taster wechseln das Vorzeichen touch- und tastaturfreundlich.
+- Fehlermeldungen und Ergebnisse werden über Live-Regionen ausgegeben.
 - Die App funktioniert nach erfolgreichem Precache auch offline.
-
-## Abgrenzung
-
-Der Rechner ersetzt nicht die Festlegung oder Prüfung der fachlichen Einheit, der
-Geräteparametrierung, der zulässigen Toleranz, der Messunsicherheit oder der
-Anlagenfreigabe. Diese Angaben bleiben Bestandteil der jeweiligen TÜV-Unterlage,
-Messstellenbeschreibung und Arbeitsanweisung.

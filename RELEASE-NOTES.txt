@@ -1,55 +1,57 @@
-SK PCT Tools V2.6.5.3-Beta – Release Notes
+SK PCT Tools V2.6.5.4-Beta – Release Notes
 Stand: 18.10.2026
-Basis: vollständige V2.6.5.2-Beta
+Basis: vollständige V2.6.5.3-Beta
 Releaseart: vollständiges Projektpaket
 
 ZIEL
-Die in V2.6.5.2 erfolgreich vereinheitlichte Rahmen- und Positionsgeometrie wird
-beibehalten. Gleichzeitig wird die harmonische Einbettung von Header, Inhalt und
-Footer aus V2.6.5.1 wiederhergestellt, ohne eine funktionale Änderung aus
-V2.6.5.2 zurückzunehmen.
+Den Analogsignal-Rechner auf eine direkte, kompakte Livebedienung reduzieren,
+ohne seine fachliche Funktion und ohne andere Bereiche der App zu verändern.
 
-GESTALTERISCHE KORREKTUR
-- Header und Footer besitzen keine stark abgedunkelte beziehungsweise schwarze
-  Eigenfläche mehr.
-- Der mehrlagige Cyan-Blau-App-Hintergrund des Standard-App-Rechtecks läuft sichtbar
-  durch Header, Hauptinhalt und Footer weiter.
-- Header-Unterkante: dezente transparente Cyanlinie mit 8 % Deckkraft.
-- Footer-Oberkante: dezente transparente Cyanlinie mit 6 % Deckkraft.
-- Keine zusätzliche Kontur, kein Balkenschatten und kein zweiter Außenrahmen.
-- Das große abgerundete Standard-App-Rechteck bleibt die einzige deutlich sichtbare
-  äußere Begrenzung.
-- Zentrale Selektoren übertragen die Korrektur auf Startseite, Favoritenansicht,
-  Suche, Sortiermodus, Rechner, Datenbanken, Wissensbereiche, Beiträge, Dialoge,
-  Leerzustände und Offlineansichten.
+ÄNDERUNGEN AM ANALOGSIGNAL-RECHNER
+- Titelkicker „SIGNALTECHNIK · TÜV-PRAXIS“ vollständig entfernt; kein leerer
+  Platzhalter und keine Restzeile verbleiben.
+- Aktionsbuttons „Berechnen“ und „Zurücksetzen“ vollständig entfernt.
+- Aktionswrapper und ausschließlich dafür vorhandene Analogsignal-CSS-Regeln entfernt.
+- Berechnung reagiert weiterhin direkt auf input/change und benötigt keinen
+  zusätzlichen manuellen Berechnungsschritt.
+- Kopierbuttons an Signalwert und Messbereichsanteil vollständig deaktiviert.
+- Keine Kopierhosts, Touchflächen, Tooltips oder reservierten Kopierabstände im
+  Analogsignal-Rechner.
+- Ergebniswerte und Ergebnisbeschriftungen bleiben vollständig sichtbar.
+- Kompakte, ausgewogene Anordnung auf Smartphone, Tablet und Desktop.
 
-UNVERÄNDERTE FUNKTIONEN
-- vollständiger Positionsabgleich aus V2.6.5.2 einschließlich Referenzpositionen,
-  Rahmenlage, Headerhöhen, Inhaltsbeginn, Footerabschluss und Safe Areas
-- Analogsignal-Rechner ohne Einheitenauswahl; MA/ME, vier Signalarten und gesamte
-  Berechnungslogik unverändert
-- Icons, Logos, Raster, Favoriten, Drag-and-Drop, Sortiermodus-Header, Navigation,
-  Suche, CSS-Designtokens, Daten, Offline- und PWA-Verhalten unverändert
+FACHLICHE FUNKTION UNVERÄNDERT
+- MA/ME und einheitenlose Skalierung
+- 4–20 mA, 0–20 mA, 0–10 V, 2–10 V
+- Vorwärts- und Umkehrrechnung
+- negative, positive und über null verlaufende Messbereiche
+- lineare Grenz-/Extrapolationsbehandlung
+- Validierung und Fehlermeldungen
+- ±-Bedienung, Tastatur, Touch, Fokus, aria-live und Offlinebetrieb
+
+REGRESSIONSSCHUTZ
+Unverändert blieben alle anderen Rechner, Datenbanken, Wissensbereiche, Icons,
+Logos, Header, Footer, Favoriten, Raster, Suche und die Drag-and-Drop-Sortierung.
+Die Kopierfunktionen anderer Rechner bleiben aktiv.
 
 VERSIONIERUNG UND PWA
-- VERSION: 2.6.5.3-Beta
-- CSS: assets/app-v2-6-5-3.css
-- JavaScript: assets/app-v2-6-5-3.js
-- Manifest: manifest-v2-6-5-3.webmanifest
-- Suchindex: assets/search-index-v2-6-5-3.json
-- Navigations-, Hersteller- und Wissensassets: Präfix v2-6-5-3-
-- Release-Modul: assets/release-module-v2-6-5-3.png
-- Service Worker: Cache-Epoch v2-6-5-3-core-r1
-- Übergabe: UEBERGABE-V2.6.5.3-Beta.txt
+- VERSION: 2.6.5.4-Beta
+- CSS: assets/app-v2-6-5-4.css
+- JavaScript: assets/app-v2-6-5-4.js
+- Manifest: manifest-v2-6-5-4.webmanifest
+- Suchindex: assets/search-index-v2-6-5-4.json
+- Navigations-/Hersteller-/Wissensassets: Präfix v2-6-5-4-
+- Release-Modul: assets/release-module-v2-6-5-4.png
+- Service Worker: Cache-Epoch v2-6-5-4-core-r1
+- Übergabe: UEBERGABE-V2.6.5.4-Beta.txt
 
 QUALITÄTSSICHERUNG
-- 1.440 Positionsprüfungen über 16 Routen und 5 Geräteprofile
-- 800 neue visuelle Shell-Prüfungen über 16 Routen und 5 Geräteprofile
-- 1.366 Browser-/Funktions-/Berechnungs-/Offlineprüfungen
+- 1.440 Layout-/Positionsprüfungen
+- 800 visuelle Shell-Prüfungen
+- 1.373 Browser-/Funktions-/Berechnungs-/Offlineprüfungen
 - 162 Design-/Touch-/Accessibility-/Offline-Auditprüfungen
 - 103 Raster-/Favoriten-/Responsive-Prüfungen
-- Gesamt: 3.871 automatisierte Browserprüfungen, zusätzlich Struktur-, Syntax-,
-  Integritäts-, Prüfsummen- und visuelle Screenshotkontrolle
-- visuelle Referenz: V2.6.5.1 harmonisch, V2.6.5.2 getrennte Balken,
-  V2.6.5.3 harmonisch bei unveränderter V2.6.5.2-Geometrie
+- Gesamt: 3.878 automatisierte Browserprüfungen
+- zusätzlich Struktur-, Syntax-, Integritäts-, Prüfsummen-, Screenshot- und
+  Paketprüfung
 - Ergebnis: PASS; keine bekannten offenen Fehler im geprüften Umfang

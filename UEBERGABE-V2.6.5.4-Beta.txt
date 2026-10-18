@@ -1,0 +1,69 @@
+ÜBERGABEPROTOKOLL – SK PCT Tools V2.6.5.4-Beta
+Stand: 18.10.2026
+Basis: vollständige V2.6.5.3-Beta
+Status: vollständiges, geprüftes Releasepaket
+
+1. RELEASEZIEL
+- ausschließlich den Analogsignal-Rechner nach aktuellem Benutzerfeedback bereinigen
+- Liveberechnung ohne sichtbaren Berechnen-Button erhalten
+- Titel und Ergebnisbereich kompakter gestalten
+- alle anderen Bereiche unverändert übernehmen
+
+2. UMGESETZTE ÄNDERUNGEN
+- Kicker „SIGNALTECHNIK · TÜV-PRAXIS“ ohne Restzeile entfernt
+- Buttons „Berechnen“ und „Zurücksetzen“ vollständig entfernt
+- Aktionswrapper und Analogsignal-spezifische Aktions-CSS-Regeln entfernt
+- Eingaben und Auswahlen berechnen weiterhin unmittelbar über input/change
+- Kopierbuttons an beiden Ergebnissen samt Hosts, Touchflächen und Tooltips entfernt
+- Kopierfunktionen anderer Rechner bleiben aktiv
+- Ergebniswerte bleiben vollständig sichtbar und aria-live-fähig
+
+3. FACHLICH ERHALTEN
+- MA, ME und einheitenlose Skalierung
+- 4–20 mA, 0–20 mA, 0–10 V und 2–10 V
+- Skalierungswert → Signal und Signal → Skalierungswert
+- Formeln, Umkehrrechnung, lineare Extrapolation, Validierung und Fehlermeldungen
+- negative, positive und über null verlaufende Messbereiche
+- Tastatur-, Touch-, Fokus-, Accessibility- und Offlinebetrieb
+
+4. UNVERÄNDERT AUS V2.6.5.3 ÜBERNOMMEN
+- fünf weitere Rechner und sämtliche Daten-/Wissensbereiche
+- Icons, Logos, Raster, Header, Footer und Seitenschale
+- Favoriten und Local-Storage-Key skPctToolsFavoritesV2
+- Drag-and-Drop und skPctHomeOrderV1
+- Suche, Navigation und zentrale Designtokens
+
+5. VERSIONIERTE KERNDATEIEN
+- VERSION: 2.6.5.4-Beta
+- assets/app-v2-6-5-4.css
+- assets/app-v2-6-5-4.js
+- assets/search-index-v2-6-5-4.json
+- manifest-v2-6-5-4.webmanifest
+- assets/release-module-v2-6-5-4.png
+- assets/navigation-icons/v2-6-5-4-*.png
+- service-worker.js / Cache-Epoch v2-6-5-4-core-r1
+
+6. TESTSTATUS
+PASS
+- 1.440 Positionsprüfungen
+- 800 visuelle Shell-Prüfungen
+- 1.373 Browser-/Funktions-/Berechnungs-/Offlineprüfungen
+- 162 Design-/Touch-/Accessibility-/Offline-Auditprüfungen
+- 103 Raster-/Favoriten-/Responsive-Prüfungen
+- Gesamt: 3.878 automatisierte Browserprüfungen
+- zwei zusätzliche Analogsignal-Screenshots visuell geprüft
+- keine bekannten offenen Fehler im geprüften Umfang
+
+7. DEPLOYMENT
+- nur das vollständige V2.6.5.4-Beta-Paket gemeinsam veröffentlichen
+- keine Dateien aus V2.6.5.3 oder älteren Versionen beimischen
+- App einmal online starten und Service-Worker-Aktivierung abwarten
+- danach Startseite und Analogsignal-Rechner offline prüfen
+
+8. INTEGRITÄT
+- SHA256SUMS.txt enthält jede Projektdatei außer sich selbst
+- vollständiges ZIP besitzt eine separat verifizierte SHA-256-Prüfsumme
+- ZIP wurde nach Erstellung erneut entpackt und in der Kopie validiert
+
+9. NÄCHSTE BASIS
+Für weitere Änderungen ausschließlich die vollständige V2.6.5.4-Beta verwenden.

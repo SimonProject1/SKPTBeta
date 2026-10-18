@@ -1,91 +1,83 @@
-# Testplan – SK PCT Tools V2.6.5.3-Beta
+# Testplan – SK PCT Tools V2.6.5.4-Beta
 
 Stand: 18.10.2026  
-Basis: vollständige V2.6.5.2-Beta
+Basis: vollständige V2.6.5.3-Beta
 
 ## 1. Struktur, Syntax, Referenzen und Integrität
 
 ```bash
-node --check assets/app-v2-6-5-3.js
+node --check assets/app-v2-6-5-4.js
 node --check assets/analogsignal-rechner.js
 python3 -m py_compile tests/*.py tools/*.py
 python3 tests/validate_project.py
 ```
 
 Prüfumfang: VERSION, 16 HTML-Dokumente, 14 aktive interne Unterseiten, zentrale
-CSS-/JS-Referenzen, Manifest, Suchindex, Cache-Epoch, lokale Ziele, H1, Header/Footer,
-10 Apps, 24 versionierte Navigationsicons, geschützte PNG-Inhalte, Offline-Precache,
-Analogsignal-Einheitenbereinigung und SHA256SUMS.txt.
+CSS-/JS-Referenzen, Manifest, Suchindex, Cache-Epoch, lokale Ziele, H1,
+Header/Footer, 10 Apps, 24 versionierte Navigationsicons, geschützte PNG-Inhalte,
+Offline-Precache, gezielte Analogsignal-Bereinigung und SHA256SUMS.txt.
 
-## 2. Visuelle Einbettung von Header und Footer
+## 2. Analogsignal-Struktur und entfernte Oberflächenelemente
+
+- Kickertext und Kickerknoten fehlen vollständig.
+- `#calculate`, `#reset` und `.analog-signal-actions` fehlen vollständig.
+- keine verwaisten Analogsignal-Aktionsregeln im CSS.
+- keine `.pct-copy-button`, `.pct-copy-host`, Kopier-Tooltips oder Kopier-Touchflächen.
+- Ergebniswerte bleiben sichtbar und ohne horizontalen Überlauf.
+- Kopierfunktionen anderer Rechner bleiben unverändert vorhanden.
+
+## 3. Analogsignal-Berechnung
+
+Automatisiert in `browser_regression.py`:
+
+- alle vier Signalarten: 4–20 mA, 0–20 mA, 0–10 V und 2–10 V
+- beide Richtungen: Skalierungswert → Signal und Signal → Skalierungswert
+- Änderungen von MA, ME, Signalart, Richtung und Eingabewert
+- vollständig negativer Bereich −200…−100
+- über null verlaufender Bereich −50…150
+- positiver Bereich 10…110
+- ungültig/leere Eingabe und MA = ME
+- direkte Folgeeingaben 25, 75, 0, 100, −25 und 125 ohne Berechnen-Button
+- lineare Grenz-/Extrapolationswerte 0 mA und 24 mA bei −25 % / 125 %
+- Enter, ±-Touchbedienung, aria-live und sichtbare Ergebniswerte
+
+## 4. Layout und visuelle Regression
 
 ```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/visual_shell_regression_v2653.py
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/layout_regression_v2654.py
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/visual_shell_regression_v2654.py
 ```
 
-800 Prüfungen über 16 Routen und fünf Profile:
-
-- Header und Footer ohne deckende Eigenfläche
-- kein eigener Hintergrundverlauf, Balkenschatten oder zweiter Rahmen
-- Strukturkanten höchstens 10 % Alpha; Sollwerte 8 % und 6 % Cyan
-- mehrlagiger App-Hintergrund ausschließlich am Standard-App-Rechteck
-- Header und Footer vollständig innerhalb dieses Rechtecks
-- Startseite, Unterseiten, kurze/lange Seiten und Wissensansichten
-
-Zusätzlich werden V2.6.5.1, V2.6.5.2 und V2.6.5.3 bei 390 × 844 gerendert.
-Der mittlere absolute RGB-Sprung an Header-/Footergrenze muss gegenüber V2.6.5.2
-deutlich sinken und die Größenordnung der harmonischen V2.6.5.1 erreichen.
-
-## 3. Vollständiger Positionsabgleich
-
-```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/layout_regression_v2653.py
-```
-
-1.440 Prüfungen über 16 Routen und fünf Profile:
-
+- 16 Routen × 5 Profile
 - iPhone/iOS-PWA 390 × 844
 - Smartphone 412 × 915
 - Smartphone-Querformat 844 × 390
 - Tablet 820 × 1180
 - Desktop 1440 × 1000
+- Rahmenlage, Headerhöhe, Footer, Safe Area, Reflow, Überlauf, Bilder und
+  Interaktionsstabilität
+- zusätzliche Analogsignal-Screenshots auf iPhone und Desktop
 
-Rahmenlage, Headerhöhe, Logo-/Versions-/Button-Mittellinien, Inhaltsbeginn,
-Footerabschluss, Safe Area, Überlauf, Bildintegrität und Interaktionsstabilität müssen
-unverändert dem erfolgreichen V2.6.5.2-Positionsstandard entsprechen.
-
-## 4. Berechnung und Analogsignal-Regression
-
-Automatisiert in `browser_regression.py`:
-
-- keine Prozesskategorie, Prozess-/Signaleinheit, s0/s1 oder `unit-system.js`
-- 4–20 mA, 0–20 mA, 0–10 V und 2–10 V
-- Vorwärts- und Umkehrrechnung; MA kleiner ME
-- Messbereiche 0…100, −50…150 und 10…110
-- leere/ungültige Eingabe und MA = ME
-- Reset, Folgeeingabe, Liveberechnung, Ergebnisprozent, Kopieren, Enter und ±
-- Referenz-, Grenz-, Reset-, Kopier- und Vorzeichentests aller sechs Rechner
-
-## 5. Design, Touch, Accessibility und Offline
+## 5. Browser, Touch, Accessibility und Offline
 
 ```bash
-SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2653.py
+SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_audit_v2654.py
 SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/design_regression.py
 SK_BASE_URL=http://127.0.0.1:8080/ python3 tests/browser_regression.py
 ```
 
 Geprüft werden Favoriten kurz/lang/leer, Suche und Filter, Hersteller-Hub,
-Breadcrumbs, Chevron, Tastaturfokus, Fokusfalle, Escape, Fokusrückgabe,
-44-px-Touchziele, unveränderter Header im Sortiermodus, Drag-and-Drop mit
-Pointer-/Touch-Abbruch, 320-px-Reflow, Service-Worker-Upgrade und Offlineaufruf.
+Breadcrumbs, Tastaturfokus, Fokusfalle, Escape, Fokusrückgabe, 44-px-Touchziele,
+unveränderter Header im Sortiermodus, Drag-and-Drop mit Pointer-/Touch-Abbruch,
+320-px-Reflow, sechs Rechner, Service-Worker-Upgrade und Offlineaufruf.
 
-## 6. Visuelle QA
+## 6. Regression gegen V2.6.5.3
 
-13 Renderings: Drei-Versionen-Vergleich der Startseite sowie zehn repräsentative
-V2.6.5.3-Screenshots auf iPhone und Desktop für Analogsignal, Wissens-Hub,
-Wissensbeitrag, Einheitendatenbank und Werkstoffdatenbank. Kriterien: harmonischer
-Flächenübergang, keine Balkenwirkung, keine Überlagerung, kein Abschneiden, keine
-Layoutsprünge und kein horizontaler Überlauf.
+Operative Textdateien werden nach Normalisierung der Versionsnummern verglichen.
+Zulässige Abweichungen: Analogsignal-HTML/-JS, gezielte Kopierunterdrückung in der
+zentralen Laufzeit, Entfernung ausschließlich Analogsignal-spezifischer Aktions-CSS-
+Regeln sowie Manifest-/Suchindexbeschreibung. Versionierte PNG-Dateien müssen
+inhaltlich SHA-256-identisch zur V2.6.5.3-Basis bleiben.
 
 ## 7. Abschluss
 

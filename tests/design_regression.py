@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V2.6.5.3-Beta: Raster-, Rahmen-, Favoriten-, Touch- und Accessibility-Regression."""
+"""V2.6.5.4-Beta: Raster-, Rahmen-, Favoriten-, Touch- und Accessibility-Regression."""
 from __future__ import annotations
 import glob, json, os, sys
 from urllib.parse import urljoin
@@ -45,7 +45,7 @@ def seed(page,count):
     items=[]
     for idx,(category,title,description,route,stem) in enumerate(ROUTES[:count]):
         # Der erste Datensatz simuliert einen aus V2.6.5.0 übernommenen Favoriten.
-        version='v2-6-5-0' if idx==0 else 'v2-6-5-3'
+        version='v2-6-5-0' if idx==0 else 'v2-6-5-4'
         items.append({'url':urljoin(BASE,route),'title':title,'description':description,'category':category,'external':False,'icon':urljoin(BASE,f'assets/navigation-icons/{version}-{stem}.png')})
     page.evaluate("items=>localStorage.setItem('skPctToolsFavoritesV2',JSON.stringify(items))",items)
     page.reload(wait_until='networkidle')
@@ -90,7 +90,7 @@ with sync_playwright() as p:
             check(fav['parent'] and fav['between'] and fav['drawer']['x']>=fav['frame']['x']-1 and fav['drawer']['right']<=fav['frame']['right']+1 and fav['drawer']['bottom']<=fav['frame']['bottom']+1,f'{name}: Favoriten verlassen den App-Rahmen {fav}')
             check(rect_equal(frame_before,frame_after) and fav['headerVisible'] and fav['footerVisible'],f'{name}: äußerer App-Rahmen/Header/Footer verändert')
             check(fav['position']=='relative' and fav['background']=='rgba(0, 0, 0, 0)' and fav['border']=='0px' and fav['shadow']=='none' and not fav['backdrop'],f'{name}: konkurrierende Favoriten-Hauptfläche {fav}')
-            check(fav['rows']==1 and fav['shortScroll']<=1 and fav['expanded']=='true' and fav['iconFile'].startswith('v2-6-5-3-'),f'{name}: kurze Favoritenliste/Migration fehlerhaft {fav}')
+            check(fav['rows']==1 and fav['shortScroll']<=1 and fav['expanded']=='true' and fav['iconFile'].startswith('v2-6-5-4-'),f'{name}: kurze Favoritenliste/Migration fehlerhaft {fav}')
             page.keyboard.press('Escape');check(trigger.get_attribute('aria-expanded')=='false' and trigger.evaluate('n=>document.activeElement===n'),f'{name}: Escape/Fokusrückgabe fehlerhaft')
 
             # Lange Liste scrollt ausschließlich im inneren Favoritenbereich.
