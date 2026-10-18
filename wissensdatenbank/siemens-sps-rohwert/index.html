@@ -10,20 +10,20 @@
 <meta name="description" content="Grundlagen zu Siemens SPS Rohwerten, Analogwerten, Skalierung und Diagnosebereichen.">
 <meta name="author" content="Simon Kiesler">
 <title>Siemens SPS Rohwert | SK PCT Tools</title>
-<link rel="manifest" href="../../manifest-v2-6-9-0.webmanifest">
-<link rel="icon" href="../../assets/favicon.png?v=2.6.9.0-Beta" sizes="64x64" type="image/png">
-<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png?v=2.6.9.0-Beta" sizes="180x180">
-<link rel="stylesheet" href="../../assets/app-v2-6-9-0.css?v=2.6.9.0-Beta">
+<link rel="manifest" href="../../manifest-v3-0-0-0.webmanifest">
+<link rel="icon" href="../../assets/favicon.png?v=3.0.0.0" sizes="64x64" type="image/png">
+<link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png?v=3.0.0.0" sizes="180x180">
+<link rel="stylesheet" href="../../assets/app-v3-0-0-0.css?v=3.0.0.0">
 <meta name="referrer" content="no-referrer">
 </head>
-<body data-knowledge-standard="2.6.9.0-Beta" data-sk-layout="framed" data-sk-module="Rohwert" data-sk-page="module" data-sk-parent="../?manufacturer=siemens&amp;family=sps-analogkarte" data-sk-style="knowledge-article knowledge-flat" data-sk-version="2.6.9.0-Beta">
+<body data-knowledge-standard="3.0.0.0" data-sk-layout="framed" data-sk-module="Rohwert" data-sk-page="module" data-sk-parent="../?manufacturer=siemens&amp;family=sps-analogkarte" data-sk-style="knowledge-article knowledge-flat" data-sk-version="3.0.0.0">
 <div class="shell sk-app-frame">
 <header class="topbar sk-global-header sk-header-normalized" data-sk-shared-header></header>
 <main class="knowledge-standard sk-app-scroll">
 <nav class="kb-breadcrumb" aria-label="Brotkrümelnavigation"><a href="../../">Startseite</a><span>›</span><a href="../">Wissensdatenbank</a><span>›</span><a href="../?manufacturer=siemens">Siemens</a><span>›</span><a href="../?manufacturer=siemens&amp;family=sps-analogkarte">SPS / Analogkarte</a><span>›</span><span>Rohwert und Skalierung</span></nav>
 <div class="kb-context-line" aria-label="Fachliche Einordnung"><span class="kb-context-node">Siemens</span><span class="kb-context-node">SPS / Analogkarte</span><span class="kb-context-node">Rohwert und Skalierung</span></div>
 <article itemscope itemtype="https://schema.org/TechArticle"><section class="kb-hero sk-page-heading">
-<span class="sk-page-identity" aria-hidden="true"><img src="../../assets/navigation-icons/v2-6-9-0-knowledge-siemens-sps-rohwert.png?v=2.6.9.0-Beta" alt="" decoding="async"></span>
+<span class="sk-page-identity" aria-hidden="true"><img src="../../assets/navigation-icons/v3-0-0-0-knowledge-siemens-sps-rohwert.png?v=3.0.0.0" alt="" decoding="async"></span>
 <div class="kb-kicker">SIEMENS · SPS · ANALOGWERTE</div><h1 itemprop="headline">Rohwert</h1><p class="kb-lead" itemprop="description">Der Rohwert ist die interne Sprache der Analogkarte. Erst durch Skalierung wird daraus ein physikalischer Prozesswert.</p><a class="kb-cta" href="../../siemens-analogwert-rechner/">Siemens Rohwert-Rechner öffnen →</a>
 </section><section class="kb-summary" aria-labelledby="kb-summary-title"><span class="kb-summary-badge">Kurzantwort</span><h2 id="kb-summary-title">Was ist ein Rohwert?</h2><p>Eine SPS verarbeitet intern keine Ströme oder Spannungen; der Analog-Eingang wandelt das Eingangssignal über einen A/D-Wandler in einen Zahlenwert um. Dieser Rohwert wird erst durch Skalierung zu einem physikalischen Prozesswert.</p></section><div class="kb-callout success"><strong>Merksatz:</strong> Der Rohwert ist die Sprache der Analogkarte. Erst durch Skalierung wird daraus ein Prozesswert.</div><details class="kb-accordion"><summary><span class="kb-accordion-title"><small>SIGNALWEG</small><strong>Vom Messumformer zum Prozesswert</strong></span><span class="kb-accordion-chevron" aria-hidden="true"></span></summary><div class="kb-accordion-panel"><div class="kb-technical-module"><div class="kb-process" style="--kb-steps-count:3"><div class="kb-process-step"><strong>Messumformer</strong><span>0 ... 100 °C</span></div><div class="kb-process-step"><strong>Analogsignal</strong><span>4 ... 20 mA</span></div><div class="kb-process-step positive"><strong>SPS-Rohwert</strong><span>abhängig von Kanalparametrierung</span></div></div><div class="kb-facts"><div class="kb-fact-row"><span class="kb-fact-label">Wandlung</span><span class="kb-fact-copy">Der Analog-Eingang wandelt das Eingangssignal über einen A/D-Wandler in einen Zahlenwert um.</span></div><div class="kb-fact-row"><span class="kb-fact-label">Skalierung</span><span class="kb-fact-copy">Erst durch Skalierung wird daraus ein physikalischer Prozesswert.</span></div></div></div></div></details><details class="kb-accordion"><summary><span class="kb-accordion-title"><small>NENNSKALIERUNG</small><strong>Siemens-Bereich 0 ... 27648</strong></span><span class="kb-accordion-chevron" aria-hidden="true"></span></summary><div class="kb-accordion-panel"><p>Der Zahlenbereich 0 bis 27.648 bildet den jeweils parametrierten Nennmessbereich des Kanals ab. Entscheidend ist, ob der Eingang als 4-20 mA oder 0-20 mA konfiguriert ist.</p><div class="kb-technical-module"><div class="kb-comparison" style="--kb-columns:2"><section class="kb-comparison-item"><span class="kb-comparison-label">Kanal als 4 ... 20 mA parametriert</span><pre class="kb-code">4 mA  =     0
 8 mA  =  6912
@@ -40,7 +40,7 @@ Rohwert = 13824</pre><div class="kb-facts"><div class="kb-fact-row"><span class=
 </main>
 <footer class="footer sk-footer" data-sk-shared-footer></footer>
 </div>
-<script src="../../assets/app-v2-6-9-0.js?v=2.6.9.0-Beta"></script>
-<script src="../../assets/knowledge-article.js?v=2.6.9.0-Beta"></script>
+<script src="../../assets/app-v3-0-0-0.js?v=3.0.0.0"></script>
+<script src="../../assets/knowledge-article.js?v=3.0.0.0"></script>
 </body>
 </html>

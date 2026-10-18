@@ -9,16 +9,16 @@
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="SK PCT Tools" name="apple-mobile-web-app-title"/>
 <title>Siemens Rohwert · SK PCT Tools</title>
-<link href="../manifest-v2-6-9-0.webmanifest" rel="manifest"/>
-<link href="../assets/favicon.png?v=2.6.9.0-Beta" rel="icon" sizes="64x64" type="image/png"/>
-<link href="../assets/apple-touch-icon.png?v=2.6.9.0-Beta" rel="apple-touch-icon" sizes="180x180"/>
-<link href="../assets/app-v2-6-9-0.css?v=2.6.9.0-Beta" rel="stylesheet"/>
+<link href="../manifest-v3-0-0-0.webmanifest" rel="manifest"/>
+<link href="../assets/favicon.png?v=3.0.0.0" rel="icon" sizes="64x64" type="image/png"/>
+<link href="../assets/apple-touch-icon.png?v=3.0.0.0" rel="apple-touch-icon" sizes="180x180"/>
+<link href="../assets/app-v3-0-0-0.css?v=3.0.0.0" rel="stylesheet"/>
 <meta content="no-referrer" name="referrer"/></head>
-<body class="sk-calculator-page" data-sign-controls="false" data-sk-layout="framed" data-sk-page="module" data-sk-parent="../" data-sk-style="siemens" data-sk-version="2.6.9.0-Beta">
+<body class="sk-calculator-page" data-sign-controls="false" data-sk-layout="framed" data-sk-page="module" data-sk-parent="../" data-sk-style="siemens" data-sk-version="3.0.0.0">
 <div class="shell sk-app-frame">
 <!-- sk:header:start --><header class="topbar sk-global-header sk-header-normalized" data-sk-shared-header=""></header><!-- sk:header:end -->
 <main class="analog-compact sk-app-scroll">
-<section class="page-title analog-page-title sk-page-heading"><span aria-hidden="true" class="sk-page-identity"><img alt="" decoding="async" src="../assets/navigation-icons/v2-6-9-0-app-siemens-rohwert.png?v=2.6.9.0-Beta"/></span>
+<section class="page-title analog-page-title sk-page-heading"><span aria-hidden="true" class="sk-page-identity"><img alt="" decoding="async" src="../assets/navigation-icons/v3-0-0-0-app-siemens-rohwert.png?v=3.0.0.0"/></span>
 <div class="eyebrow">SIEMENS · ANALOGWERT</div>
 <h1 class="sk-controlled-title">Siemens <wbr/>Rohwert</h1>
 <p class="muted">Signal, Rohwert und Messwert synchron umrechnen.</p>
@@ -33,7 +33,7 @@
 <div aria-labelledby="inputTabSignal" class="analog-primary-panel" id="primaryInputPanel" role="tabpanel">
 <label for="inputValue" id="inputValueLabel">Signal</label>
 <div class="analog-input-shell" data-state="neutral" id="primaryInputShell">
-<input aria-label="Signalwert in mA eingeben" id="inputValue" inputmode="decimal" step="any" type="number" value="12"/>
+<input aria-label="Signalwert in mA eingeben" autocomplete="off" data-locale-number="true" id="inputValue" inputmode="decimal" type="text" value="12"/>
 <button aria-label="Vorzeichen für Signal wechseln" class="analog-sign-button" data-sign-target="inputValue" id="inputSignToggle" type="button">±</button>
 <b id="inputSuffix">mA</b>
 </div>
@@ -49,22 +49,22 @@
 <div class="analog-physical-grid">
 <div class="analog-physical-field"><label for="physicalCategory">Kategorie</label><select id="physicalCategory"></select></div>
 <div class="analog-physical-field"><label for="physicalUnitSelect">Einheit</label><select id="physicalUnitSelect"></select><input id="physicalUnit" type="hidden" value="°C"/></div>
-<div class="analog-physical-field"><label for="physicalMin">Minimum</label><div class="analog-range-input-shell"><input id="physicalMin" inputmode="decimal" step="any" type="number" value="-50"/><button aria-label="Vorzeichen für Minimum wechseln" class="analog-sign-button" data-sign-target="physicalMin" id="physicalMinSignToggle" type="button">±</button></div></div>
-<div class="analog-physical-field"><label for="physicalMax">Maximum</label><div class="analog-range-input-shell"><input id="physicalMax" inputmode="decimal" step="any" type="number" value="150"/><button aria-label="Vorzeichen für Maximum wechseln" class="analog-sign-button" data-sign-target="physicalMax" id="physicalMaxSignToggle" type="button">±</button></div></div>
+<div class="analog-physical-field"><label for="physicalMin">Minimum</label><div class="analog-range-input-shell"><input autocomplete="off" data-locale-number="true" id="physicalMin" inputmode="decimal" type="text" value="-50"/><button aria-label="Vorzeichen für Minimum wechseln" class="analog-sign-button" data-sign-target="physicalMin" id="physicalMinSignToggle" type="button">±</button></div></div>
+<div class="analog-physical-field"><label for="physicalMax">Maximum</label><div class="analog-range-input-shell"><input autocomplete="off" data-locale-number="true" id="physicalMax" inputmode="decimal" type="text" value="150"/><button aria-label="Vorzeichen für Maximum wechseln" class="analog-sign-button" data-sign-target="physicalMax" id="physicalMaxSignToggle" type="button">±</button></div></div>
 </div>
 </fieldset>
 <label class="analog-config-field" for="signalType"><span>Einheitssignal</span><select id="signalType"><option selected="" value="4-20mA">4–20 mA</option><option value="0-20mA">0–20 mA</option><option value="0-10V">0–10 V</option><option value="2-10V">2–10 V</option></select></label>
 <label class="analog-config-field" for="cardProfile"><span>SPS-Karte</span><select id="cardProfile"><option value="et200sp_st">ET 200SP · AI 4xI ST</option><option value="et200spha_off">ET 200SP HA · AI 16xI HART · NE43 aus</option><option value="et200spha_on">ET 200SP HA · AI 16xI HART · NE43 ein</option><option value="s71500_fai_scale">S7-1500/ET 200MP · F-AI 8xI · nur Skalierung</option><option value="generic_scale">Generische Umrechnung · ohne Kartenfreigabe</option></select></label>
 <div aria-live="polite" class="analog-diagnostic" data-state="nominal" id="diagnosticSummary"><span>Status des Rohwerts</span><strong id="rangeStatus">Nennbereich</strong></div>
 <details class="analog-card-info"><summary>Karteninformationen</summary><div class="analog-card-info-body"><p class="analog-detail" id="statusDetail">ET 200SP · AI 4xI ST: bestätigte S7-Grenzen.</p><p class="analog-detail"><a href="../SIEMENS-QUELLEN-UND-GRENZWERTE.md" id="profileSourceLink">Quellen und kartenspezifische Abweichungen</a></p></div></details>
-<p class="analog-error" hidden="" id="calculationError" role="alert"></p>
+<p aria-live="assertive" class="analog-error" hidden="" id="calculationError" role="alert"></p>
 </section>
 <section aria-label="Einheitenfavoriten verwalten" class="sk-unit-database-cta"><div><div class="eyebrow">EINHEITENFAVORITEN</div><p>Neue Einheit favorisieren oder Einheiten nachschlagen.</p></div><a class="sk-unit-database-button" href="../einheitendatenbank/">Einheitendatenbank öffnen</a></section></main>
 <!-- sk:footer:start --><footer class="footer sk-footer" data-sk-shared-footer=""></footer><!-- sk:footer:end -->
 </div>
-<script src="../assets/app-v2-6-9-0.js?v=2.6.9.0-Beta"></script>
-<script src="../assets/unit-system.js?v=2.6.9.0-Beta"></script>
-<script defer="" src="../assets/siemens-analogwert-rechner.js?v=2.6.9.0-Beta"></script>
+<script src="../assets/app-v3-0-0-0.js?v=3.0.0.0"></script>
+<script src="../assets/unit-system.js?v=3.0.0.0"></script>
+<script defer="" src="../assets/siemens-analogwert-rechner.js?v=3.0.0.0"></script>
 <!-- sk:controls:start --><!-- sk:controls:end -->
 </body>
 </html>
