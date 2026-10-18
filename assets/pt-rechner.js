@@ -1,4 +1,4 @@
-/* Pt100-/Pt1000-Rechner mit IEC-60751-Bereichsprüfung · 2.6.6.0-Beta */
+/* Pt100-/Pt1000-Rechner mit IEC-60751-Bereichsprüfung · 2.6.6.1-Beta */
 (()=>{
   'use strict';
   const $=id=>document.getElementById(id);
