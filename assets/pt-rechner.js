@@ -1,4 +1,4 @@
-/* Pt100-/Pt1000-Rechner mit IEC-60751-Bereichsprüfung · 3.1.0.3 */
+/* Pt100-/Pt1000-Rechner mit IEC-60751-Bereichsprüfung · 3.1.0.4 */
 (()=>{'use strict';
 const $=id=>document.getElementById(id),MIN_C=-200,MAX_C=850;
 function resistance(t,r0){const A=3.9083e-3,B=-5.775e-7,C=-4.183e-12;return t>=0?r0*(1+A*t+B*t*t):r0*(1+A*t+B*t*t+C*(t-100)*t*t*t)}

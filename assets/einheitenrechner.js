@@ -1,4 +1,4 @@
-/* Einheitenrechner · zentrale Datenbasis 3.1.0.3 */
+/* Einheitenrechner · zentrale Datenbasis 3.1.0.4 */
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
 function calculate(strict=false){const input=$('x'),state=SK_NUMERIC.analyze(input.value);if(state.state==='intermediate'&&!strict){SK_NUMERIC.clear([input],$('unitCalcError'));$('out').textContent='–';return false}if(state.state!=='valid'){const message=state.state==='intermediate'?'Wert: Zahl bitte vollständig eingeben.':`Wert: ${state.reason}`;SK_NUMERIC.report([input],$('unitCalcError'),[{input,message}]);$('out').textContent='–';return false}try{const category=$('cat').value,from=$('from').value,to=$('to').value,result=SK_UNITS.convert(state.value,category,from,to),target=SK_UNITS.unit(category,to);if(!Number.isFinite(result))throw new Error('Ergebnis liegt außerhalb des unterstützten Zahlenbereichs.');SK_NUMERIC.clear([input],$('unitCalcError'));$('out').textContent=`${window.de(result,Math.min(target.precision??3,6))} ${target.symbol}`;return true}catch(error){SK_NUMERIC.report([input],$('unitCalcError'),[{input,message:`Wert: ${error.message}`}]);$('out').textContent='–';return false}}
